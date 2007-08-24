@@ -1,5 +1,5 @@
 package timpgui;
-//ggggggggg
+//dddd
 import java.io.*;
 import java.awt.Frame;
 import java.awt.FileDialog;

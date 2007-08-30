@@ -1,5 +1,5 @@
 package timpgui;
-//dddd
+//test to see if SVN works directly with the netbeans source folder
 import java.io.*;
 import java.awt.Frame;
 import java.awt.FileDialog;

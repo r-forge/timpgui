@@ -93,7 +93,7 @@ public class NJFrame extends JFrame implements WindowListener {
     public void windowClosing(final WindowEvent event) {
         if (event.getWindow() == this) {
             dispose();
-            System.exit(0);
+            // System.exit(0);
         }
     }
     

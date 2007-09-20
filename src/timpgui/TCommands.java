@@ -1,5 +1,5 @@
 /*
- * TIMPCommand.java
+ * TCommands.java
  *
  * Created on May 30, 2007, 2:01 PM
  *
@@ -13,10 +13,12 @@ package timpgui;
  *
  * @author Joris
  */
-public class TIMPCommand {
+public class TCommands {
     
-    /** Creates a new instance of TIMPCommand */
-    public TIMPCommand() {
+    /**
+     * Creates a new instance of TCommands
+     */
+    public TCommands() {
     }
     
         public static class readData {

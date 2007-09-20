@@ -33,8 +33,8 @@ public class ConsoleSync {
 			try {
 				// wait();
 				wait(100);
-				if (TIMPgui.R != null)
-					TIMPgui.R.rniIdle();
+				if (TIMPGUI.R != null)
+					TIMPGUI.R.rniIdle();
 			} catch (InterruptedException e) {
 			}
 		String s = null;

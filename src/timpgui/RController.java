@@ -45,7 +45,7 @@ public class RController {
 	 * @return R_HOME path
 	 */
 	public static String getRHome() {
-		REXP x = TIMPgui.R.eval("R.home()");
+		REXP x = TIMPGUI.R.eval("R.home()");
 		if (x != null && x.asStringArray() != null)
 			return x.asStringArray()[0];
 		return "";
@@ -57,7 +57,7 @@ public class RController {
 	 * @return R_LIBS paths
 	 */
 	public static String[] getRLibs() {
-		REXP x = TIMPgui.R.eval(".libPaths()");
+		REXP x = TIMPGUI.R.eval(".libPaths()");
 		if (x != null && x.asStringArray() != null)
 			return x.asStringArray();
 		return null;
@@ -69,7 +69,7 @@ public class RController {
 	 * @return prompt
 	 */
 	public static String getRPrompt() {
-		REXP x = TIMPgui.R.eval("try(as.character(options('prompt')),silent=TRUE)");
+		REXP x = TIMPGUI.R.eval("try(as.character(options('prompt')),silent=TRUE)");
 		if (x != null && x.asStringArray() != null)
 			return x.asStringArray() == null ? "> " : x.asStringArray()[0];
 		return "> ";
@@ -81,7 +81,7 @@ public class RController {
 	 * @return continue
 	 */
 	public static String getRContinue() {
-		REXP x = TIMPgui.R
+		REXP x = TIMPGUI.R
 				.eval("try(as.character(options('continue')),silent=TRUE)");
 		if (x != null && x.asStringArray() != null)
 			return x.asStringArray() == null ? "> " : x.asStringArray()[0];
@@ -94,7 +94,7 @@ public class RController {
 	 * @return default packages
 	 */
 	public static String getCurrentPackages() {
-		REXP x = TIMPgui.R.eval(".packages(TRUE)"); //.allpkg <- (.packages(all=T));.p <- NULL;for (i in 1:length(.allpkg)) .p <- paste(.p,as.character(.allpkg[i]),sep=\",\");substring(.p,2)");
+		REXP x = TIMPGUI.R.eval(".packages(TRUE)"); //.allpkg <- (.packages(all=T));.p <- NULL;for (i in 1:length(.allpkg)) .p <- paste(.p,as.character(.allpkg[i]),sep=\",\");substring(.p,2)");
 		
 		if (x != null && x.asStringArray() != null) {
 			String p = "";
@@ -111,7 +111,7 @@ public class RController {
 	 * @return installed packages
 	 */
 	public static String[] getDefaultPackages() {
-		REXP x = TIMPgui.R.eval("getOption(\"defaultPackages\")");
+		REXP x = TIMPGUI.R.eval("getOption(\"defaultPackages\")");
 		if (x != null && x.asStringArray() != null)
 			return x.asStringArray();
 		return new String[] {};
@@ -125,7 +125,7 @@ public class RController {
 	 * @return possible completions
 	 */
 	public static String[] completeCommand(String partOfCmd) {
-		if (!TIMPgui.STARTED)
+		if (!TIMPGUI.STARTED)
 			return null;
 		int s = partOfCmd.length() - 1;
 		if (partOfCmd.trim().length() == 0)
@@ -133,7 +133,7 @@ public class RController {
 		partOfCmd = partOfCmd.replaceAll("\\.", "\\\\."); // replace real .
 															// with their
 															// equivalent regex
-		REXP cmds = TIMPgui.R.idleEval(".completeCommand(\"" + partOfCmd + "\")");
+		REXP cmds = TIMPGUI.R.idleEval(".completeCommand(\"" + partOfCmd + "\")");
 		String[] c = null;
 		if (cmds != null && (c = cmds.asStringArray()) != null)
 			return c;
@@ -220,7 +220,7 @@ public class RController {
 	 * @return keywords
 	 */
 	public static String[] getKeyWords() {
-		REXP x = TIMPgui.R.idleEval(".refreshKeyWords()");
+		REXP x = TIMPGUI.R.idleEval(".refreshKeyWords()");
 		String[] r = null;
 		if (x != null && (r = x.asStringArray()) != null)
 			return r;
@@ -233,7 +233,7 @@ public class RController {
 	 * @return objects
 	 */
 	public static String[] getObjects() {
-		REXP x = TIMPgui.R.idleEval(".refreshObjects()");
+		REXP x = TIMPGUI.R.idleEval(".refreshObjects()");
 		String[] r = null;
 		if (x != null && (r = x.asStringArray()) != null)
 			return r;
@@ -241,32 +241,32 @@ public class RController {
 	}
 
 	/**
-	 * Browse the workspace for objects and put them in TIMPgui.MODELS, TIMPgui.DATA,
-	 * TIMPgui.OTHER and TIMPgui.FUNCTIONS. currently only these things which are
-	 * provided by R-command: ls(pos=1).
-	 */
+     * Browse the workspace for objects and put them in TIMPGUI.MODELS, TIMPGUI.DATA,
+     * TIMPGUI.OTHER and TIMPGUI.FUNCTIONS. currently only these things which are
+     * provided by R-command: ls(pos=1).
+     */
 	public static void refreshObjects() {
-		TIMPgui.DATA.clear();
-		TIMPgui.OTHERS.clear();
-		TIMPgui.MODELS.clear();
-		TIMPgui.FUNCTIONS.clear();
+		TIMPGUI.DATA.clear();
+		TIMPGUI.OTHERS.clear();
+		TIMPGUI.MODELS.clear();
+		TIMPGUI.FUNCTIONS.clear();
 		String models[];
-		REXP x = TIMPgui.R.idleEval(".getModels()");
+		REXP x = TIMPGUI.R.idleEval(".getModels()");
 		if (x != null && (models = x.asStringArray()) != null)
 			for (int i = 0; i < models.length; i++)
-				TIMPgui.MODELS.add(createRModel(models[i], models[++i]));
-		x = TIMPgui.R.idleEval(".getDataObjects()");
+				TIMPGUI.MODELS.add(createRModel(models[i], models[++i]));
+		x = TIMPGUI.R.idleEval(".getDataObjects()");
 		String[] data;
 		if (x != null && (data = x.asStringArray()) != null) {
 			int a = 1;
 			for (int i = 0; i < data.length; i++) {
 				boolean b = (data[i].equals("null") || data[i].trim().length() == 0);
 				String name = b ? a + "" : data[i];
-				TIMPgui.DATA.add(createRObject(name, data[++i], null, (!b)));
+				TIMPGUI.DATA.add(createRObject(name, data[++i], null, (!b)));
 				a++;
 			}
 		}
-		x = TIMPgui.R.idleEval(".getOtherObjects()");
+		x = TIMPGUI.R.idleEval(".getOtherObjects()");
 		String[] other;
 		if (x != null && (other = x.asStringArray()) != null) {
 			int a = 1;
@@ -274,16 +274,16 @@ public class RController {
 				boolean b = (other[i].equals("null") || other[i].trim()
 						.length() == 0);
 				String name = b ? a + "" : other[i];
-				TIMPgui.OTHERS.add(createRObject(name, other[++i], null, (!b)));
+				TIMPGUI.OTHERS.add(createRObject(name, other[++i], null, (!b)));
 				a++;
 			}
 		}
-		x = TIMPgui.R.idleEval(".getFunctionsInWS()");
+		x = TIMPGUI.R.idleEval(".getFunctionsInWS()");
 		String[] functions;
 		if (x != null && (functions = x.asStringArray()) != null) {
 			int a = 1;
 			for (int i = 0; i < functions.length; i++) {
-				TIMPgui.FUNCTIONS.add(createRObject(functions[i], "function", null,
+				TIMPGUI.FUNCTIONS.add(createRObject(functions[i], "function", null,
 						true));
 				a++;
 			}
@@ -298,10 +298,10 @@ public class RController {
 	public static Object[][] refreshPackages() {
 		Object[][] pkg = null;
 		Hashtable loadedP = new Hashtable();
-		REXP x = TIMPgui.R.eval("sort(.packages(all.available=T))");
+		REXP x = TIMPGUI.R.eval("sort(.packages(all.available=T))");
 		String[] res;
 		if (x != null && x.asStringArray() != null) {
-			REXP y = TIMPgui.R.eval("(.packages())");
+			REXP y = TIMPGUI.R.eval("(.packages())");
 			if (y != null && (res = y.asStringArray()) != null)
 				for (int i = 0; i < res.length; i++)
 					loadedP.put(res[i], dummy);
@@ -310,7 +310,7 @@ public class RController {
 			for (int i = 0; i < res.length; i++) {
 				pkg[i][2] = new String(res[i]);
 				try {
-					pkg[i][3] = TIMPgui.R.eval(
+					pkg[i][3] = TIMPGUI.R.eval(
 							"packageDescription(\"" + res[i]
 									+ "\",fields=\"Title\")").asString();
 				} catch (Exception e) {
@@ -343,7 +343,7 @@ public class RController {
 		String p = "";
 		if (o.getParent() != null && o.getParent().getType().equals("table"))
 			p = "," + o.getParent().getRName();
-		REXP x = TIMPgui.R.eval("suppressWarnings(try(.getContent("
+		REXP x = TIMPGUI.R.eval("suppressWarnings(try(.getContent("
 				+ (o.getRName()) + p + "),silent=TRUE))");
 		String[] res;
 		if (x != null && (res = x.asStringArray()) != null
@@ -383,25 +383,25 @@ public class RController {
 		RObject ro = new RObject(sx, type, parent, b);
 		REXP y;
 		if (type.equals("data.frame")) {
-			y = TIMPgui.R.eval("dim(" + (ro.getRName()) + ")");
+			y = TIMPGUI.R.eval("dim(" + (ro.getRName()) + ")");
 			if (y != null && y.asIntArray() != null)
 				ro.setInfo("dim(" + y.asIntArray()[0] + ":" + y.asIntArray()[1]
 						+ ")");
 		} else if (type.equals("matrix")) {
-			y = TIMPgui.R.eval("dim(" + (ro.getRName()) + ")");
+			y = TIMPGUI.R.eval("dim(" + (ro.getRName()) + ")");
 			if (y != null && y.asIntArray() != null)
 				ro.setInfo("dim(" + y.asIntArray()[0] + ":" + y.asIntArray()[1]
 						+ ")");
 		} else if (type.equals("factor")) {
-			y = TIMPgui.R.eval("length(levels(" + (ro.getRName()) + "))");
+			y = TIMPGUI.R.eval("length(levels(" + (ro.getRName()) + "))");
 			if (y != null && y.asIntArray() != null)
 				ro.setInfo("levels: " + y.asIntArray()[0]);
 		} else if (type.equals("list")) {
-			y = TIMPgui.R.eval("length(" + (ro.getRName()) + ")");
+			y = TIMPGUI.R.eval("length(" + (ro.getRName()) + ")");
 			if (y != null && y.asIntArray() != null)
 				ro.setInfo("length: " + y.asIntArray()[0]);
 		} else if (type.equals("table")) {
-			y = TIMPgui.R.eval("length(dim(" + (ro.getRName()) + "))");
+			y = TIMPGUI.R.eval("length(dim(" + (ro.getRName()) + "))");
 			if (y != null && y.asIntArray() != null)
 				ro.setInfo("dim: " + y.asIntArray()[0]);
 		} else if (type.equals("function"))
@@ -409,7 +409,7 @@ public class RController {
 					+ getFunHelp(ro.getRName()).replaceFirst(ro.getRName(), "")
 							.replaceAll("<br>", ""));
 		else if (parent != null && parent.getType().equals("table")) {
-			y = TIMPgui.R.eval("length(dimnames(" + parent.getRName() + ")[[\""
+			y = TIMPGUI.R.eval("length(dimnames(" + parent.getRName() + ")[[\""
 					+ ro.getName() + "\"]])");
 			if (y != null && y.asIntArray() != null)
 				ro.setInfo("cats: " + y.asIntArray()[0]);
@@ -428,25 +428,25 @@ public class RController {
 	 */
 	public static RModel createRModel(String sx, String type) {
 		RModel m = new RModel(sx, type);
-		REXP y = TIMPgui.R.eval("summary(" + sx + ")[[\"r.squared\"]]");
+		REXP y = TIMPGUI.R.eval("summary(" + sx + ")[[\"r.squared\"]]");
 		double[] res;
 		if (y != null && (res = y.asDoubleArray()) != null)
 			m.setRsquared(res[0]);
-		y = TIMPgui.R.eval("AIC(" + sx + ")");
+		y = TIMPGUI.R.eval("AIC(" + sx + ")");
 		if (y != null && (res = y.asDoubleArray()) != null)
 			m.setAic(res[0]);
-		y = TIMPgui.R.eval("deviance(" + sx + ")");
+		y = TIMPGUI.R.eval("deviance(" + sx + ")");
 		if (y != null && (res = y.asDoubleArray()) != null)
 			m.setDeviance(res[0]);
 		int[] res1;
-		y = TIMPgui.R.eval("summary(" + sx + ")[[\"df\"]]");
+		y = TIMPGUI.R.eval("summary(" + sx + ")[[\"df\"]]");
 		if (y != null && (res1 = y.asIntArray()) != null)
 			m.setDf(res1[0]);
 		String[] res2;
-		y = TIMPgui.R.eval("family(" + sx + ")[[\"family\"]]");
+		y = TIMPGUI.R.eval("family(" + sx + ")[[\"family\"]]");
 		if (y != null && (res2 = y.asStringArray()) != null)
 			m.setFamily(res2[0]);
-		y = TIMPgui.R.eval("suppressWarnings(try(capture.output(" + sx
+		y = TIMPGUI.R.eval("suppressWarnings(try(capture.output(" + sx
 				+ "[[\"call\"]][[\"formula\"]])))"); // as.character((cm$call))
 		if (y != null && (res2 = y.asStringArray()) != null) {
 			String call = "";
@@ -454,7 +454,7 @@ public class RController {
 				call += res2[i];
 			m.setCall(call);
 		}
-		y = TIMPgui.R.eval("suppressWarnings(try(capture.output(" + sx
+		y = TIMPGUI.R.eval("suppressWarnings(try(capture.output(" + sx
 				+ "[[\"call\"]][[\"data\"]])))"); // as.character((cm$call))
 		if (y != null && (res2 = y.asStringArray()) != null) {
 			String data = "";
@@ -485,7 +485,7 @@ public class RController {
 		String res[] = null;
 		REXP x;
 		try {
-			x = TIMPgui.R.idleEval("try(deparse(args(" + s + ")),silent=T)");
+			x = TIMPGUI.R.idleEval("try(deparse(args(" + s + ")),silent=T)");
 		} catch (Exception e) {
 			return null;
 		}
@@ -519,7 +519,7 @@ public class RController {
 		String res[] = null;
 		REXP x;
 		try {
-			x = TIMPgui.R.idleEval("suppressWarnings(try(capture.output(summary("
+			x = TIMPGUI.R.idleEval("suppressWarnings(try(capture.output(summary("
 					+ (o.getRName()) + ")),silent=TRUE))");
 		} catch (Exception e) {
 			return null;
@@ -540,7 +540,7 @@ public class RController {
 	}
 
 	public static void newFunction(RObject o) {
-		REXP x = TIMPgui.R.eval("suppressWarnings(try(capture.output("
+		REXP x = TIMPGUI.R.eval("suppressWarnings(try(capture.output("
 				+ o.getRName() + "),silent=TRUE))");
 		String[] res;
 		if (x != null && (res = x.asStringArray()) != null) {
@@ -567,7 +567,7 @@ public class RController {
 		cvs.setName(o.getRName());
 		if (o.getType().equals("function")) {
 			// thats not really the best way to do this but the easiest
-			REXP x = TIMPgui.R.eval("suppressWarnings(try(capture.output("
+			REXP x = TIMPGUI.R.eval("suppressWarnings(try(capture.output("
 					+ o.getRName() + "),silent=TRUE))");
 			String[] res;
 			if (x != null && (res = x.asStringArray()) != null) {
@@ -582,7 +582,7 @@ public class RController {
 			}
 			return null;
 		} else {
-			REXP x = TIMPgui.R.eval("suppressWarnings(try(attributes("
+			REXP x = TIMPGUI.R.eval("suppressWarnings(try(attributes("
 					+ o.getRName() + ")[[\"row.names\"]],silent=TRUE))");
 			String[] res;
 			if (x != null && (res = x.asStringArray()) != null
@@ -613,7 +613,7 @@ public class RController {
 	 */
 	private static SVar createSVar(SVarSet cvs, RObject o) {
 
-		REXP x = TIMPgui.R.eval("suppressWarnings(try(" + o.getRName()
+		REXP x = TIMPGUI.R.eval("suppressWarnings(try(" + o.getRName()
 				+ ",silent=TRUE))");
 				
 								
@@ -624,9 +624,9 @@ public class RController {
 		SVar v = null;
 		if (o.getType().equals("factor")) {
 			
-			REXP y = TIMPgui.R.eval("suppressWarnings(try(levels(" + o.getRName()+ "),silent=TRUE))");
+			REXP y = TIMPGUI.R.eval("suppressWarnings(try(levels(" + o.getRName()+ "),silent=TRUE))");
 			
-			x = TIMPgui.R.eval("suppressWarnings(try(as.integer(" + o.getRName()
+			x = TIMPGUI.R.eval("suppressWarnings(try(as.integer(" + o.getRName()
 				+ "),silent=TRUE))");
 		
 			if (y != null && x != null && y.asStringArray() != null	&& x.asIntArray() != null) {
@@ -780,8 +780,8 @@ public class RController {
 
 	private static boolean setName(String name) {
 		try {
-			TIMPgui.R.eval(name + "<- jgrtemp");
-			TIMPgui.R.eval("rm(jgrtemp)");
+			TIMPGUI.R.eval(name + "<- jgrtemp");
+			TIMPGUI.R.eval("rm(jgrtemp)");
 			return true;
 		} catch (Exception e) {
 			new org.rosuda.JGR.util.ErrorMsg(e);
@@ -800,8 +800,8 @@ public class RController {
 		try {
 			if (vs.count() > 1)
 				return false;
-			long v = TIMPgui.R.rniPutDoubleArray(((SVarDouble) vs.at(0)).cont);
-			TIMPgui.R.rniAssign("jgrtemp", v, 0);
+			long v = TIMPGUI.R.rniPutDoubleArray(((SVarDouble) vs.at(0)).cont);
+			TIMPGUI.R.rniAssign("jgrtemp", v, 0);
 			return setName(vs.getName());
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -820,8 +820,8 @@ public class RController {
 		try {
 			if (vs.count() > 1)
 				return false;
-			long v = TIMPgui.R.rniPutIntArray(((SVarInt) vs.at(0)).cont);
-			TIMPgui.R.rniAssign("jgrtemp", v, 0);
+			long v = TIMPGUI.R.rniPutIntArray(((SVarInt) vs.at(0)).cont);
+			TIMPGUI.R.rniAssign("jgrtemp", v, 0);
 			return setName(vs.getName());
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -843,12 +843,12 @@ public class RController {
 			int[] ids = new int[((SVarFact) vs.at(0)).cont.length];
 			for (int z = 0; z < ids.length; z++)
 				ids[z] = ((SVarFact) vs.at(0)).cont[z] + 1;
-			long v = TIMPgui.R.rniPutIntArray(ids);
-			long c = TIMPgui.R.rniPutString("factor");
-			TIMPgui.R.rniSetAttr(v, "class", c);
-			long levels = TIMPgui.R.rniPutStringArray(((SVarFact) vs.at(0)).cats);
-			TIMPgui.R.rniSetAttr(v, "levels", levels);
-			TIMPgui.R.rniAssign("jgrtemp", v, 0);
+			long v = TIMPGUI.R.rniPutIntArray(ids);
+			long c = TIMPGUI.R.rniPutString("factor");
+			TIMPGUI.R.rniSetAttr(v, "class", c);
+			long levels = TIMPGUI.R.rniPutStringArray(((SVarFact) vs.at(0)).cats);
+			TIMPGUI.R.rniSetAttr(v, "levels", levels);
+			TIMPGUI.R.rniAssign("jgrtemp", v, 0);
 			return setName(vs.getName());
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -867,8 +867,8 @@ public class RController {
 		try {
 			if (vs.count() > 1)
 				return false;
-			long v = TIMPgui.R.rniPutStringArray(((SVarObj) vs.at(0)).getContent());
-			TIMPgui.R.rniAssign("jgrtemp", v, 0);
+			long v = TIMPGUI.R.rniPutStringArray(((SVarObj) vs.at(0)).getContent());
+			TIMPGUI.R.rniAssign("jgrtemp", v, 0);
 			return setName(vs.getName());
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -921,12 +921,12 @@ public class RController {
 				names[i] = vs.at(i).getName();
 				if (vs.at(i).getClass().getName().equals(
 						"org.rosuda.ibase.SVarDouble")) {
-					long v = TIMPgui.R
+					long v = TIMPGUI.R
 							.rniPutDoubleArray(((SVarDouble) vs.at(i)).cont);
 					contlist[i] = v;
 				} else if (vs.at(i).getClass().getName().equals(
 						"org.rosuda.ibase.SVarInt")) {
-					long v = TIMPgui.R.rniPutIntArray(((SVarInt) vs.at(i)).cont);
+					long v = TIMPGUI.R.rniPutIntArray(((SVarInt) vs.at(i)).cont);
 					contlist[i] = v;
 				} else if (vs.at(i).getClass().getName().equals(
 						"org.rosuda.ibase.SVarFact")) {
@@ -949,35 +949,35 @@ public class RController {
 						cats = newcats;
 						NAS = false;
 					}
-					long v = TIMPgui.R.rniPutIntArray(ids);
-					long c = TIMPgui.R.rniPutString("factor");
-					TIMPgui.R.rniSetAttr(v, "class", c);
-					long levels = TIMPgui.R.rniPutStringArray(cats);
+					long v = TIMPGUI.R.rniPutIntArray(ids);
+					long c = TIMPGUI.R.rniPutString("factor");
+					TIMPGUI.R.rniSetAttr(v, "class", c);
+					long levels = TIMPGUI.R.rniPutStringArray(cats);
 
-					TIMPgui.R.rniSetAttr(v, "levels", levels);
+					TIMPGUI.R.rniSetAttr(v, "levels", levels);
 					contlist[i] = v;
 				} else if (vs.at(i).getClass().getName().equals(
 						"org.rosuda.ibase.SVarObj")) {
-					long v = TIMPgui.R.rniPutStringArray(((SVarObj) vs.at(i))
+					long v = TIMPGUI.R.rniPutStringArray(((SVarObj) vs.at(i))
 							.getContent());
 					contlist[i] = v;
 				}
 			}
 
-			long xp1 = TIMPgui.R.rniPutVector(contlist);
-			long xp2 = TIMPgui.R.rniPutStringArray(names);
-			TIMPgui.R.rniSetAttr(xp1, "names", xp2);
+			long xp1 = TIMPGUI.R.rniPutVector(contlist);
+			long xp2 = TIMPGUI.R.rniPutStringArray(names);
+			TIMPGUI.R.rniSetAttr(xp1, "names", xp2);
 
 			if (!rnames)
 				for (int i = 1; i <= rownames.length; i++)
 					rownames[i - 1] = i + "";
-			long xp3 = TIMPgui.R.rniPutStringArray(rownames);
-			TIMPgui.R.rniSetAttr(xp1, "row.names", xp3);
+			long xp3 = TIMPGUI.R.rniPutStringArray(rownames);
+			TIMPGUI.R.rniSetAttr(xp1, "row.names", xp3);
 
-			long c = TIMPgui.R.rniPutString("data.frame");
-			TIMPgui.R.rniSetAttr(xp1, "class", c);
+			long c = TIMPGUI.R.rniPutString("data.frame");
+			TIMPGUI.R.rniSetAttr(xp1, "class", c);
 
-			TIMPgui.R.rniAssign("jgrtemp", xp1, 0);
+			TIMPGUI.R.rniAssign("jgrtemp", xp1, 0);
 
 			if (rnames)
 				vs.insert(rnn, rn);
@@ -1023,34 +1023,34 @@ public class RController {
 
 			long xp1;
 			if (isInt)
-				xp1 = TIMPgui.R.rniPutIntArray((int[]) mcont);
+				xp1 = TIMPGUI.R.rniPutIntArray((int[]) mcont);
 			else
-				xp1 = TIMPgui.R.rniPutDoubleArray((double[]) mcont);
+				xp1 = TIMPGUI.R.rniPutDoubleArray((double[]) mcont);
 
 			long[] dimnames = new long[2];
 
-			long xp2 = TIMPgui.R.rniPutStringArray(names);
+			long xp2 = TIMPGUI.R.rniPutStringArray(names);
 
 			String[] rownames = new String[vs.length()];
 			for (int i = 1; i <= rownames.length; i++)
 				rownames[i - 1] = i + "";
-			long xp3 = TIMPgui.R.rniPutStringArray(rownames);
+			long xp3 = TIMPGUI.R.rniPutStringArray(rownames);
 
 			dimnames[0] = xp3;
 			dimnames[1] = xp2;
 
-			long xp4 = TIMPgui.R.rniPutVector(dimnames);
+			long xp4 = TIMPGUI.R.rniPutVector(dimnames);
 
 			double[] dim = new double[] { vlength, vs.count() };
-			long xp5 = TIMPgui.R.rniPutDoubleArray(dim);
-			TIMPgui.R.rniSetAttr(xp1, "dim", xp5);
+			long xp5 = TIMPGUI.R.rniPutDoubleArray(dim);
+			TIMPGUI.R.rniSetAttr(xp1, "dim", xp5);
 
-			TIMPgui.R.rniSetAttr(xp1, "dimnames", xp4);
+			TIMPGUI.R.rniSetAttr(xp1, "dimnames", xp4);
 
-			long c = TIMPgui.R.rniPutString("matrix");
-			TIMPgui.R.rniSetAttr(xp1, "class", c);
+			long c = TIMPGUI.R.rniPutString("matrix");
+			TIMPGUI.R.rniSetAttr(xp1, "class", c);
 
-			TIMPgui.R.rniAssign("jgrtemp", xp1, 0);
+			TIMPGUI.R.rniAssign("jgrtemp", xp1, 0);
 			return setName(vs.getName());
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -1073,39 +1073,39 @@ public class RController {
 				names[i] = vs.at(i).getName();
 				if (vs.at(i).getClass().getName().equals(
 						"org.rosuda.ibase.SVarDouble")) {
-					long v = TIMPgui.R
+					long v = TIMPGUI.R
 							.rniPutDoubleArray(((SVarDouble) vs.at(i)).cont);
 					contlist[i] = v;
 				} else if (vs.at(i).getClass().getName().equals(
 						"org.rosuda.ibase.SVarInt")) {
-					long v = TIMPgui.R.rniPutIntArray(((SVarInt) vs.at(i)).cont);
+					long v = TIMPGUI.R.rniPutIntArray(((SVarInt) vs.at(i)).cont);
 					contlist[i] = v;
 				} else if (vs.at(i).getClass().getName().equals(
 						"org.rosuda.ibase.SVarFact")) {
 					int[] ids = new int[((SVarFact) vs.at(i)).cont.length];
 					for (int z = 0; z < ids.length; z++)
 						ids[z] = ((SVarFact) vs.at(i)).cont[z] + 1;
-					long v = TIMPgui.R.rniPutIntArray(ids);
-					long c = TIMPgui.R.rniPutString("factor");
-					TIMPgui.R.rniSetAttr(v, "class", c);
-					long levels = TIMPgui.R
+					long v = TIMPGUI.R.rniPutIntArray(ids);
+					long c = TIMPGUI.R.rniPutString("factor");
+					TIMPGUI.R.rniSetAttr(v, "class", c);
+					long levels = TIMPGUI.R
 							.rniPutStringArray(((SVarFact) vs.at(i)).cats);
 
-					TIMPgui.R.rniSetAttr(v, "levels", levels);
+					TIMPGUI.R.rniSetAttr(v, "levels", levels);
 					contlist[i] = v;
 				} else if (vs.at(i).getClass().getName().equals(
 						"org.rosuda.ibase.SVarObj")) {
-					long v = TIMPgui.R.rniPutStringArray(((SVarObj) vs.at(i))
+					long v = TIMPGUI.R.rniPutStringArray(((SVarObj) vs.at(i))
 							.getContent());
 					contlist[i] = v;
 				}
 			}
 
-			long xp1 = TIMPgui.R.rniPutVector(contlist);
-			long xp2 = TIMPgui.R.rniPutStringArray(names);
-			TIMPgui.R.rniSetAttr(xp1, "names", xp2);
+			long xp1 = TIMPGUI.R.rniPutVector(contlist);
+			long xp2 = TIMPGUI.R.rniPutStringArray(names);
+			TIMPGUI.R.rniSetAttr(xp1, "names", xp2);
 
-			TIMPgui.R.rniAssign("jgrtemp", xp1, 0);
+			TIMPGUI.R.rniAssign("jgrtemp", xp1, 0);
 			return setName(vs.getName());
 		} catch (Exception e) {
 			e.printStackTrace();

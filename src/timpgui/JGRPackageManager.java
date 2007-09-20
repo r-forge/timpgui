@@ -30,7 +30,7 @@ import javax.swing.table.DefaultTableColumnModel;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 import timpgui.JGRPrefs;
-import timpgui.TIMPgui;
+import timpgui.TIMPGUI;
 import timpgui.TableSorter;
 
 /**
@@ -168,7 +168,7 @@ public class JGRPackageManager extends JFrame implements ActionListener {
 
 		this.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 		this.getRootPane().setDefaultButton(instnow);
-		this.setLocation((TIMPgui.TIMPInterface.getSize().width - (JGRPrefs.isMac ? 450: 350)) / 2, (TIMPgui.TIMPInterface.getSize().height - 250) / 2);
+		this.setLocation((TIMPGUI.TIMPInterface.getSize().width - (JGRPrefs.isMac ? 450: 350)) / 2, (TIMPGUI.TIMPInterface.getSize().height - 250) / 2);
 		this.setSize(450, 250);
 		this.setResizable(false);
 		this.setVisible(true);
@@ -200,7 +200,7 @@ public class JGRPackageManager extends JFrame implements ActionListener {
 			refresh.setActionCommand("refresh");
 			refresh.addActionListener(this);
 
-			while (!TIMPgui.STARTED)
+			while (!TIMPGUI.STARTED)
 				;
 
 			Packages = RController.refreshPackages();
@@ -274,9 +274,9 @@ public class JGRPackageManager extends JFrame implements ActionListener {
 
 	private void setPKGStatus(String pkg, String load) {
 		if (load.equals("true"))
-			TIMPgui.TIMPInterface.execute("library(" + pkg + ")", true);
+			TIMPGUI.TIMPInterface.execute("library(" + pkg + ")", true);
 		else
-			TIMPgui.TIMPInterface.execute("detach(\"package:" + pkg + "\")", true);
+			TIMPGUI.TIMPInterface.execute("detach(\"package:" + pkg + "\")", true);
 	}
 
 	private void setDefaultPackages() {
@@ -314,7 +314,7 @@ public class JGRPackageManager extends JFrame implements ActionListener {
 		} else if (cmd == "instnow") {
 			dispose();
 			remindPackages = null;
-			TIMPgui.TIMPInterface.execute("install.packages(c("
+			TIMPGUI.TIMPInterface.execute("install.packages(c("
 					+ getSelectedPackages() + "))", true);
 		} else if (cmd == "refresh")
 			refresh();

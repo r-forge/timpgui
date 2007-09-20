@@ -1,5 +1,5 @@
 /*
- * TIMPguiFrame.java
+ * TIMPGUIFrame.java
  *
  * Created on April 5, 2007, 3:45 PM
  */
@@ -32,26 +32,29 @@ import javax.swing.undo.CannotUndoException;
 
 import org.rosuda.JRI.RMainLoopCallbacks;
 import org.rosuda.JRI.Rengine;
-import timpgui.TIMPgui;
+import timpgui.TIMPGUI;
+import timpgui.TPlots;
 
 
 /**
- * The TIMPguiFrame class is the graphical user interface of TIMPgui. This class provides the functionality to interact with the R package "TIMP" in an easy and user friendly way.
+ * The TIMPGUIFrame class is the graphical user interface of TIMPGUI. This class provides the functionality to interact with the R package "TIMP" in an easy and user friendly way.
+ * 
+ * 
  * @author Joris Snellenburg
  * @version 0.1, May 2007
  */
-public class TIMPguiFrame extends javax.swing.JFrame implements RMainLoopCallbacks {
+public class TIMPGUIFrame extends javax.swing.JFrame implements RMainLoopCallbacks {
 
     private	Vector<String>          dataPathVector = new Vector<String>();
     private	Vector<String>		modelNameVector = new Vector<String>();
     private DefaultListModel dataNameListModel = new DefaultListModel();
     private DefaultListModel modelViewListModel = new DefaultListModel();
     private DefaultListModel modelEditListModel = new DefaultListModel();
-    private TIMPCommand.readData readData = new TIMPCommand.readData();
-    private TIMPCommand.preProcess preProcess = new TIMPCommand.preProcess();
-    private TIMPCommand.initModel initModel = new TIMPCommand.initModel();
-    private TIMPCommand.fitModel fitModel = new TIMPCommand.fitModel();
-    private TIMPCommand.examineFit examineFit = new TIMPCommand.examineFit();
+    private TCommands.readData readData = new TCommands.readData();
+    private TCommands.preProcess preProcess = new TCommands.preProcess();
+    private TCommands.initModel initModel = new TCommands.initModel();
+    private TCommands.fitModel fitModel = new TCommands.fitModel();
+    private TCommands.examineFit examineFit = new TCommands.examineFit();
     
     private String wspace = null;
     private int currentHistPosition = 0;
@@ -65,17 +68,17 @@ public class TIMPguiFrame extends javax.swing.JFrame implements RMainLoopCallbac
     private Document outputDoc = null;
         
     /**
-     * Initializes TIMPguiFrame. Any custom initialization code can be added to this method.
+     * Initializes TIMPGUIFrame. Any custom initialization code can be added to this method.
      */
-    public TIMPguiFrame() {
+    public TIMPGUIFrame() {
         initComponents();
         Document inputDoc = input.getDocument();
         Document outputDoc = output.getDocument();
         JGRPrefs.workingDirectory = System.getProperty("user.home");
         // Add History if we didn't found one in the user's home directory
-	if (TIMPgui.RHISTORY == null)
-		TIMPgui.RHISTORY = new Vector();
-	currentHistPosition = TIMPgui.RHISTORY.size();
+	if (TIMPGUI.RHISTORY == null)
+		TIMPGUI.RHISTORY = new Vector();
+	currentHistPosition = TIMPGUI.RHISTORY.size();
 
         // Here you can add any custom initialization code.
         dataNameListModel.addListDataListener(new MyListDataListener());
@@ -115,7 +118,6 @@ public class TIMPguiFrame extends javax.swing.JFrame implements RMainLoopCallbac
         jPanel5 = new javax.swing.JPanel();
         jPanel6 = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
-        jTimeSeriesChart1 = new org.jfree.beans.JTimeSeriesChart();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jButton9 = new javax.swing.JButton();
@@ -132,6 +134,7 @@ public class TIMPguiFrame extends javax.swing.JFrame implements RMainLoopCallbac
         jSlider1 = new javax.swing.JSlider();
         jPanel7 = new javax.swing.JPanel();
         jSlider2 = new javax.swing.JSlider();
+        jLineChart1 = new org.jfree.beans.JLineChart();
         jMenuBar1 = new javax.swing.JMenuBar();
         FileMenu = new javax.swing.JMenu();
         OpenProjectFileMenu = new javax.swing.JMenuItem();
@@ -147,8 +150,9 @@ public class TIMPguiFrame extends javax.swing.JFrame implements RMainLoopCallbac
         jSeparator2 = new javax.swing.JSeparator();
         NewModelMenu = new javax.swing.JMenuItem();
         PlotMenu = new javax.swing.JMenu();
-        FitModelPlotMenu = new javax.swing.JMenuItem();
+        PieChart = new javax.swing.JMenuItem();
         jMenuItem1 = new javax.swing.JMenuItem();
+        jMenuItem2 = new javax.swing.JMenuItem();
         HelpMenu = new javax.swing.JMenu();
         AboutHelpMenu = new javax.swing.JMenuItem();
 
@@ -358,19 +362,6 @@ public class TIMPguiFrame extends javax.swing.JFrame implements RMainLoopCallbac
         );
         jTabbedPane1.addTab("examineFit", jPanel6);
 
-        jTimeSeriesChart1.setXAxisLabel("Time");
-        jTimeSeriesChart1.setYAxisLabel("AMplitude");
-        org.jdesktop.layout.GroupLayout jTimeSeriesChart1Layout = new org.jdesktop.layout.GroupLayout(jTimeSeriesChart1);
-        jTimeSeriesChart1.setLayout(jTimeSeriesChart1Layout);
-        jTimeSeriesChart1Layout.setHorizontalGroup(
-            jTimeSeriesChart1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(0, 560, Short.MAX_VALUE)
-        );
-        jTimeSeriesChart1Layout.setVerticalGroup(
-            jTimeSeriesChart1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(0, 357, Short.MAX_VALUE)
-        );
-
         jButton1.setText("jButton1");
 
         jButton2.setText("jButton2");
@@ -457,13 +448,24 @@ public class TIMPguiFrame extends javax.swing.JFrame implements RMainLoopCallbac
         );
         jTabbedPane2.addTab("tab1", jPanel7);
 
+        org.jdesktop.layout.GroupLayout jLineChart1Layout = new org.jdesktop.layout.GroupLayout(jLineChart1);
+        jLineChart1.setLayout(jLineChart1Layout);
+        jLineChart1Layout.setHorizontalGroup(
+            jLineChart1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(0, 470, Short.MAX_VALUE)
+        );
+        jLineChart1Layout.setVerticalGroup(
+            jLineChart1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(0, 391, Short.MAX_VALUE)
+        );
+
         org.jdesktop.layout.GroupLayout jPanel3Layout = new org.jdesktop.layout.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
-                .add(jPanel3Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING, false)
+                .add(jPanel3Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                     .add(jPanel3Layout.createSequentialGroup()
                         .add(jPanel3Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                             .add(jButton1)
@@ -472,8 +474,8 @@ public class TIMPguiFrame extends javax.swing.JFrame implements RMainLoopCallbac
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                         .add(jScrollPane4, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 236, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                        .add(jScrollPane6, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .add(jTimeSeriesChart1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 560, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                        .add(jScrollPane6, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 141, Short.MAX_VALUE))
+                    .add(jLineChart1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 470, Short.MAX_VALUE))
                 .add(jPanel3Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                     .add(jPanel3Layout.createSequentialGroup()
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
@@ -483,7 +485,7 @@ public class TIMPguiFrame extends javax.swing.JFrame implements RMainLoopCallbac
                             .add(jToggleButton1)))
                     .add(jPanel3Layout.createSequentialGroup()
                         .add(15, 15, 15)
-                        .add(jScrollPane7, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 148, Short.MAX_VALUE)))
+                        .add(jScrollPane7, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 238, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel3Layout.setVerticalGroup(
@@ -494,9 +496,11 @@ public class TIMPguiFrame extends javax.swing.JFrame implements RMainLoopCallbac
                     .add(jPanel3Layout.createSequentialGroup()
                         .add(jTabbedPane2, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 200, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 57, Short.MAX_VALUE)
-                        .add(jScrollPane7, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-                    .add(org.jdesktop.layout.GroupLayout.TRAILING, jTimeSeriesChart1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 357, Short.MAX_VALUE))
-                .add(57, 57, 57)
+                        .add(jScrollPane7, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                        .add(57, 57, 57))
+                    .add(jPanel3Layout.createSequentialGroup()
+                        .add(jLineChart1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 391, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)))
                 .add(jPanel3Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                     .add(org.jdesktop.layout.GroupLayout.TRAILING, jPanel3Layout.createSequentialGroup()
                         .add(jToggleButton1)
@@ -566,14 +570,14 @@ public class TIMPguiFrame extends javax.swing.JFrame implements RMainLoopCallbac
         jMenuBar1.add(ModelMenu);
 
         PlotMenu.setText("Plot");
-        FitModelPlotMenu.setText("Test Plot");
-        FitModelPlotMenu.addActionListener(new java.awt.event.ActionListener() {
+        PieChart.setText("Test Plot");
+        PieChart.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                FitModelPlotMenuActionPerformed(evt);
+                PieChartActionPerformed(evt);
             }
         });
 
-        PlotMenu.add(FitModelPlotMenu);
+        PlotMenu.add(PieChart);
 
         jMenuItem1.setText("Test Plot 2");
         jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
@@ -583,6 +587,15 @@ public class TIMPguiFrame extends javax.swing.JFrame implements RMainLoopCallbac
         });
 
         PlotMenu.add(jMenuItem1);
+
+        jMenuItem2.setText("Item");
+        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem2ActionPerformed(evt);
+            }
+        });
+
+        PlotMenu.add(jMenuItem2);
 
         jMenuBar1.add(PlotMenu);
 
@@ -612,13 +625,18 @@ public class TIMPguiFrame extends javax.swing.JFrame implements RMainLoopCallbac
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
+// TODO add your handling code here:
+   TPlots.outputGraphics3();
+    }//GEN-LAST:event_jMenuItem2ActionPerformed
+
     private void dataListFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_dataListFocusLost
 // TODO add your handling code here:
     }//GEN-LAST:event_dataListFocusLost
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
 // TODO add your handling code here:
-            TIMPgui.outputGraphics2();
+    TPlots.outputGraphics2();
        
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
@@ -841,10 +859,10 @@ public class TIMPguiFrame extends javax.swing.JFrame implements RMainLoopCallbac
     
     }//GEN-LAST:event_addDataFileActionPerformed
 
-    private void FitModelPlotMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_FitModelPlotMenuActionPerformed
+    private void PieChartActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PieChartActionPerformed
 // TODO add your handling code here:
-    TIMPgui.outputGraphics();
-    }//GEN-LAST:event_FitModelPlotMenuActionPerformed
+    TPlots.outputGraphics();
+    }//GEN-LAST:event_PieChartActionPerformed
 
     private void inputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_inputActionPerformed
 // TODO add your handling code here:
@@ -852,7 +870,7 @@ public class TIMPguiFrame extends javax.swing.JFrame implements RMainLoopCallbac
 //        String[] rOutput = new String[1];
 //        rInput[0] = input.getText();
 //        rOutputWindow.append(">" + rInput + newline);
-//        // rOutput = TIMPgui.interactWithR(rInput);
+//        // rOutput = TIMPGUI.interactWithR(rInput);
 //        System.out.println(rOutput[0]);
 //  //      rOutputWindow.append("  " + rOutput + newline);
 //        input.selectAll();
@@ -883,13 +901,13 @@ public class TIMPguiFrame extends javax.swing.JFrame implements RMainLoopCallbac
     private javax.swing.JMenuItem DataImportMenu;
     private javax.swing.JMenuItem ExitFileMenu;
     private javax.swing.JMenu FileMenu;
-    private javax.swing.JMenuItem FitModelPlotMenu;
     private javax.swing.JMenu HelpMenu;
     private javax.swing.JMenu ImportMenu;
     private javax.swing.JMenu ModelMenu;
     private javax.swing.JMenuItem NewModelMenu;
     private javax.swing.JMenuItem OpenModelMenu;
     private javax.swing.JMenuItem OpenProjectFileMenu;
+    private javax.swing.JMenuItem PieChart;
     private javax.swing.JMenu PlotMenu;
     private javax.swing.JMenuItem SaveModelMenu;
     private javax.swing.JMenuItem SaveProjectFileMenu;
@@ -906,11 +924,13 @@ public class TIMPguiFrame extends javax.swing.JFrame implements RMainLoopCallbac
     private javax.swing.JButton jButton7;
     private javax.swing.JButton jButton8;
     private javax.swing.JButton jButton9;
+    private org.jfree.beans.JLineChart jLineChart1;
     private javax.swing.JList jList1;
     private javax.swing.JList jList2;
     private javax.swing.JList jList3;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
@@ -935,7 +955,6 @@ public class TIMPguiFrame extends javax.swing.JFrame implements RMainLoopCallbac
     private javax.swing.JTable jTable1;
     private javax.swing.JTable jTable2;
     private javax.swing.JTextArea jTextArea1;
-    private org.jfree.beans.JTimeSeriesChart jTimeSeriesChart1;
     private javax.swing.JToggleButton jToggleButton1;
     public javax.swing.JTextArea output;
     private javax.swing.JButton removeDataFile;
@@ -1005,15 +1024,15 @@ class MyListDataListener implements ListDataListener {
 	 *            indicates wether the command should be added to history or not
 	 */
 	public void execute(String cmd, boolean addToHist) {
-		if (!TIMPgui.STARTED)
+		if (!TIMPGUI.STARTED)
 			return;
-		if (addToHist && TIMPgui.RHISTORY.size() == 0)
-			TIMPgui.RHISTORY.add(cmd);
+		if (addToHist && TIMPGUI.RHISTORY.size() == 0)
+			TIMPGUI.RHISTORY.add(cmd);
 		else if (addToHist && cmd.trim().length() > 0
-				&& TIMPgui.RHISTORY.size() > 0
-				&& !TIMPgui.RHISTORY.lastElement().equals(cmd.trim()))
-			TIMPgui.RHISTORY.add(cmd);
-		currentHistPosition = TIMPgui.RHISTORY.size();
+				&& TIMPGUI.RHISTORY.size() > 0
+				&& !TIMPGUI.RHISTORY.lastElement().equals(cmd.trim()))
+			TIMPGUI.RHISTORY.add(cmd);
+		currentHistPosition = TIMPGUI.RHISTORY.size();
 
 		String[] cmdArray = cmd.split("\n");
 
@@ -1027,7 +1046,7 @@ class MyListDataListener implements ListDataListener {
 				} catch (Exception e) {
 				}
 			else if (isSupported(c))
-				TIMPgui.rSync.triggerNotification(c.trim());
+				TIMPGUI.rSync.triggerNotification(c.trim());
 		}
 	}
 
@@ -1087,7 +1106,7 @@ class MyListDataListener implements ListDataListener {
 			execute("save.image(\""
 					+ (file == null ? "" : file.replace('\\', '/'))
 					+ "\",compress=TRUE)", false);
-		TIMPgui.writeHistory();
+		TIMPGUI.writeHistory();
 	}
 
 	/**
@@ -1095,7 +1114,7 @@ class MyListDataListener implements ListDataListener {
 	 */
 	public void saveWorkSpaceAs() {
 			//saveWorkSpace(file);
-			//TIMPgui.writeHistory();
+			//TIMPGUI.writeHistory();
 		}
         
         	/**
@@ -1162,16 +1181,16 @@ class MyListDataListener implements ListDataListener {
 	public String rReadConsole(Rengine re, String prompt, int addToHistory) {
                 Document outputDoc = output.getDocument();
 		if (prompt.indexOf("Save workspace") > -1) {
-			String retVal = TIMPgui.exit();
+			String retVal = TIMPGUI.exit();
 			if (wspace != null && retVal.indexOf('y') >= 0) {
-				TIMPgui.R.eval("save.image(\"" + wspace.replace('\\', '/') + "\")");
+				TIMPGUI.R.eval("save.image(\"" + wspace.replace('\\', '/') + "\")");
 				return "n\n";
 			} else
 				return retVal;
 		} else {
 			output.append(prompt);
 			output.setCaretPosition(outputDoc.getLength());
-			String s = TIMPgui.rSync.waitForNotification();
+			String s = TIMPGUI.rSync.waitForNotification();
 			try {
 				outputDoc.insertString(outputDoc.getLength(), s + "\n",null);
 			} catch (Exception e) {
@@ -1240,10 +1259,10 @@ class MyListDataListener implements ListDataListener {
 		try {
 			if ((hist = new File(filename)).exists()) {
 				BufferedReader reader = new BufferedReader(new FileReader(hist));
-				if (TIMPgui.RHISTORY == null)
-					TIMPgui.RHISTORY = new Vector();
+				if (TIMPGUI.RHISTORY == null)
+					TIMPGUI.RHISTORY = new Vector();
 				while (reader.ready())
-					TIMPgui.RHISTORY.add(reader.readLine() + "\n");
+					TIMPGUI.RHISTORY.add(reader.readLine() + "\n");
 				reader.close();
 			}
 		} catch (Exception e) {
@@ -1264,7 +1283,7 @@ class MyListDataListener implements ListDataListener {
 			System.out.println("Save History");
 			File hist = new File(filename);
 			BufferedWriter writer = new BufferedWriter(new FileWriter(hist));
-			Enumeration e = TIMPgui.RHISTORY.elements();
+			Enumeration e = TIMPGUI.RHISTORY.elements();
 			int i = 0;
 			while (e.hasMoreElements())
 				writer.write(e.nextElement().toString() + "#\n");
@@ -1299,7 +1318,7 @@ public class MyKeyListener implements KeyListener {
 					// (System.getProperty("user.name").indexOf("markus") > -1)
 					// JGR.RHISTORY.add(input.getText().trim());
 					// }
-					input.setText(TIMPgui.RHISTORY.get(--currentHistPosition)
+					input.setText(TIMPGUI.RHISTORY.get(--currentHistPosition)
 							.toString());
 					input.setCaretPosition(input.getText().length());
 					wasHistEvent = true;
@@ -1307,12 +1326,12 @@ public class MyKeyListener implements KeyListener {
 		} else if (ke.getKeyCode() == KeyEvent.VK_DOWN)
 			if (input.getCaretPosition() == 0
 					|| input.getCaretPosition() == input.getText().length()) {
-				if (currentHistPosition < TIMPgui.RHISTORY.size() - 1) {
-					input.setText(TIMPgui.RHISTORY.get(++currentHistPosition)
+				if (currentHistPosition < TIMPGUI.RHISTORY.size() - 1) {
+					input.setText(TIMPGUI.RHISTORY.get(++currentHistPosition)
 							.toString());
 					input.setCaretPosition(input.getText().length());
-				} else if (TIMPgui.RHISTORY.size() > 0
-						&& currentHistPosition < TIMPgui.RHISTORY.size()) {
+				} else if (TIMPGUI.RHISTORY.size() > 0
+						&& currentHistPosition < TIMPGUI.RHISTORY.size()) {
 					input.setText("");
 					currentHistPosition++;
 				}

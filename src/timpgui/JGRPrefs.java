@@ -149,8 +149,8 @@ public class JGRPrefs {
 	public static int tabWidth = 4;
 
 	/**
-	 * Apply current settings to TIMPgui.
-	 */
+     * Apply current settings to TIMPGUI.
+     */
 	public static void apply() {
 		JGRPrefs.refresh();
 	}
@@ -184,7 +184,7 @@ public class JGRPrefs {
 		try {
 			if (is != null) {
 				Preferences prefs = Preferences
-						.userNodeForPackage(TIMPgui.class);
+						.userNodeForPackage(TIMPGUI.class);
 				try {
 					prefs.clear();
 				} catch (Exception x) {
@@ -200,7 +200,7 @@ public class JGRPrefs {
 			return;
 
 		Preferences prefs = Preferences
-				.userNodeForPackage(TIMPgui.class);
+				.userNodeForPackage(TIMPGUI.class);
 		FontName = prefs.get("FontName", FontName);
 		FontSize = prefs.getInt("FontSize", FontSize);
 		maxHelpTabs = prefs.getInt("MaxHelpTabs", maxHelpTabs);
@@ -229,7 +229,7 @@ public class JGRPrefs {
 	 */
 	public static void writePrefs(boolean writeLibs) {
 		Preferences prefs = Preferences
-				.userNodeForPackage(TIMPgui.class);
+				.userNodeForPackage(TIMPGUI.class);
 
 		try {
 			prefs.clear();
@@ -257,10 +257,10 @@ public class JGRPrefs {
 				packages += ", " + JGRPackageManager.defaultPackages[i];
 			prefs.put("DefaultPackages", packages);
 		}
-		if (TIMPgui.RLIBS != null && TIMPgui.RLIBS.length > 1) {
-			String libpaths = TIMPgui.RLIBS[0].toString();
-			for (int i = 1; i < TIMPgui.RLIBS.length - 1; i++)
-				libpaths += (isWindows ? ";" : ":") + TIMPgui.RLIBS[i];
+		if (TIMPGUI.RLIBS != null && TIMPGUI.RLIBS.length > 1) {
+			String libpaths = TIMPGUI.RLIBS[0].toString();
+			for (int i = 1; i < TIMPGUI.RLIBS.length - 1; i++)
+				libpaths += (isWindows ? ";" : ":") + TIMPGUI.RLIBS[i];
 			prefs.put("InitialRLibraryPath", libpaths);
 		}
 		try {

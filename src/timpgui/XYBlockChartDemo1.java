@@ -38,7 +38,7 @@ import timpgui.NJFrame;
  */
 public class XYBlockChartDemo1 extends NJFrame {
     
-    XYZDataset dataset;
+    public static TDatasets datasets;
 
     /**
      * Constructs the demo application.
@@ -112,67 +112,12 @@ public class XYBlockChartDemo1 extends NJFrame {
     }
     
     /**
-     * Creates a sample dataset.
-     */
-    private static XYZDataset createDataset() {
-        return new XYZDataset() {
-            public int getSeriesCount() {
-                return 1;
-            }
-            public int getItemCount(int series) {
-                return 10000;
-            }
-            public Number getX(int series, int item) {
-                return new Double(getXValue(series, item));
-            }
-            public double getXValue(int series, int item) {
-                return item / 100 - 50;
-            }
-            public Number getY(int series, int item) {
-                return new Double(getYValue(series, item));
-            }
-            public double getYValue(int series, int item) {
-                return item - (item / 100) * 100 - 50;
-            }
-            public Number getZ(int series, int item) {
-                return new Double(getZValue(series, item));
-            }
-            public double getZValue(int series, int item) {
-                double x = getXValue(series, item);
-                double y = getYValue(series, item);
-                return Math.sin(Math.sqrt(x * x + y * y) / 5.0);
-            }
-            public void addChangeListener(DatasetChangeListener listener) {
-                // ignore - this dataset never changes
-            }
-            public void removeChangeListener(DatasetChangeListener listener) {
-                // ignore
-            }
-            public DatasetGroup getGroup() {
-                return null;
-            }
-            public void setGroup(DatasetGroup group) {
-                // ignore
-            }
-            public Comparable getSeriesKey(int series) {
-                return "sin(sqrt(x + y))";
-            }
-            public int indexOf(Comparable seriesKey) {
-                return 0;
-            }
-            public DomainOrder getDomainOrder() {
-                return DomainOrder.ASCENDING;
-            }        
-        };
-    }
-    
-    /**
      * Creates a panel for the demo.
      *  
      * @return A panel.
      */
     public static JPanel createDemoPanel() {
-        return new ChartPanel(createChart(createDataset()));
+        return new ChartPanel(createChart(datasets.createDataset()));
     }
     
     /**

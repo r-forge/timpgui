@@ -1,17 +1,12 @@
 package timpgui;
 
-//JGR - Java Gui for R, see http://www.rosuda.org/JGR/
-//Copyright (C) 2003 - 2005 Markus Helbig
-//--- for licensing information see LICENSE file in the original JGR distribution ---
-
 import java.util.Vector;
 
 /**
  * ConsoleSync - notifys when commands are in the queue and send them.
+ * Adapted and mofified from the JGR program written by
+ * Markus Helbig / Simon Urbanek
  * 
- * @author Markus Helbig/ Simon Urbanek
- * 
- * RoSuDa 2003 - 2005
  */
 
 public class ConsoleSync {

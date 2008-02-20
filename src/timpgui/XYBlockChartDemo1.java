@@ -30,15 +30,12 @@ import org.jfree.ui.ApplicationFrame;
 import org.jfree.ui.RectangleEdge;
 import org.jfree.ui.RectangleInsets;
 import org.jfree.ui.RefineryUtilities;
-import timpgui.NJFrame;
 
 /**
  * A simple demonstration application showing a chart created using 
  * the {@link XYBlockRenderer}.
  */
-public class XYBlockChartDemo1 extends NJFrame {
-    
-    public static TDatasets datasets;
+public class XYBlockChartDemo1 extends ApplicationFrame {
 
     /**
      * Constructs the demo application.
@@ -48,14 +45,8 @@ public class XYBlockChartDemo1 extends NJFrame {
     public XYBlockChartDemo1(String title) {
         super(title);
         JPanel chartPanel = createDemoPanel();
-        chartPanel.setPreferredSize(new java.awt.Dimension(500, 270));
-        setContentPane(chartPanel);
-    }
-    
-    public XYBlockChartDemo1(String title, XYZDataset dataset) {
-        super(title);
-        JPanel chartPanel = createDemoPanel(dataset);
-        chartPanel.setPreferredSize(new java.awt.Dimension(500, 270));
+        // changed resolution to fit Panel
+        chartPanel.setPreferredSize(new java.awt.Dimension(360, 280));
         setContentPane(chartPanel);
     }
     
@@ -74,8 +65,7 @@ public class XYBlockChartDemo1 extends NJFrame {
         xAxis.setAxisLinePaint(Color.white);
         xAxis.setTickMarkPaint(Color.white);
         
-        
-        NumberAxis yAxis = new NumberAxis("X2");
+        NumberAxis yAxis = new NumberAxis("Y");
         yAxis.setStandardTickUnits(NumberAxis.createIntegerTickUnits());
         yAxis.setLowerMargin(0.0);
         yAxis.setUpperMargin(0.0);
@@ -90,13 +80,13 @@ public class XYBlockChartDemo1 extends NJFrame {
         plot.setRangeGridlinePaint(Color.white);
         plot.setAxisOffset(new RectangleInsets(5, 5, 5, 5));
         plot.setOutlinePaint(Color.blue);
-        JFreeChart chart = new JFreeChart("psi.df", plot);
+        JFreeChart chart = new JFreeChart("XYBlockChartDemo1", plot);
         chart.removeLegend();
         NumberAxis scaleAxis = new NumberAxis("Scale");
         scaleAxis.setAxisLinePaint(Color.white);
         scaleAxis.setTickMarkPaint(Color.white);
         scaleAxis.setTickLabelFont(new Font("Dialog", Font.PLAIN, 7));
-        PaintScaleLegend legend = new PaintScaleLegend(new GrayPaintScale(-2.0,1.0), 
+        PaintScaleLegend legend = new PaintScaleLegend(new GrayPaintScale(), 
                 scaleAxis);
         legend.setAxisLocation(AxisLocation.BOTTOM_OR_LEFT);
         legend.setAxisOffset(5.0);
@@ -112,42 +102,89 @@ public class XYBlockChartDemo1 extends NJFrame {
     }
     
     /**
-     * Creates a panel for the demo.
-     *  
-     * @return A panel.
+     * Creates a sample dataset.
      */
-    public static JPanel createDemoPanel() {
-        return new ChartPanel(createChart(datasets.createDataset()));
+    private static XYZDataset createDataset() {
+        return new XYZDataset() {
+            public int getSeriesCount() {
+                return 1;
+            }
+            public int getItemCount(int series) {
+                return 10000;
+            }
+            public Number getX(int series, int item) {
+                return new Double(getXValue(series, item));
+            }
+            public double getXValue(int series, int item) {
+                return item / 100 - 50;
+            }
+            public Number getY(int series, int item) {
+                return new Double(getYValue(series, item));
+            }
+            public double getYValue(int series, int item) {
+                return item - (item / 100) * 100 - 50;
+            }
+            public Number getZ(int series, int item) {
+                return new Double(getZValue(series, item));
+            }
+            public double getZValue(int series, int item) {
+                double x = getXValue(series, item);
+                double y = getYValue(series, item);
+                return Math.sin(Math.sqrt(x * x + y * y) / 5.0);
+            }
+            public void addChangeListener(DatasetChangeListener listener) {
+                // ignore - this dataset never changes
+            }
+            public void removeChangeListener(DatasetChangeListener listener) {
+                // ignore
+            }
+            public DatasetGroup getGroup() {
+                return null;
+            }
+            public void setGroup(DatasetGroup group) {
+                // ignore
+            }
+            public Comparable getSeriesKey(int series) {
+                return "sin(sqrt(x + y))";
+            }
+            public int indexOf(Comparable seriesKey) {
+                return 0;
+            }
+            public DomainOrder getDomainOrder() {
+                return DomainOrder.ASCENDING;
+            }        
+        };
     }
     
     /**
      * Creates a panel for the demo.
      *  
-     * @param XYZDataset dataset
      * @return A panel.
      */
-    public static JPanel createDemoPanel(XYZDataset dataset) {
-        return new ChartPanel(createChart(dataset));
+    public static JPanel createDemoPanel() {
+        return new ChartPanel(createChart(createDataset()));
     }
     
+     /**
+     * Creates a panel for the demo.
+     *  
+     * @return A panel.
+     */
+    public static JPanel createCustomPanel(XYZDataset completeData) {
+        return new ChartPanel(createChart(completeData));
+    }
     
     /**
      * Starting point for the demonstration application.
      *
      * @param args  ignored.
      */
-    /*public static void main(String[] args) {
+    public static void main(String[] args) {
         XYBlockChartDemo1 demo = new XYBlockChartDemo1(
                 "JFreeChart: XYBlockChartDemo1");
         demo.pack();
         RefineryUtilities.centerFrameOnScreen(demo);
         demo.setVisible(true);
-    }*/
-    
-    public void showGraph() {
-        this.pack();
-        RefineryUtilities.centerFrameOnScreen(this);
-        this.setVisible(true);
     }
 
 }

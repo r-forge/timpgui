@@ -1,181 +1,71 @@
 /*
  * TIMPGUI.java
- *
- * Created on March 14, 2007, 4:03 PM
- *
- * To change this template, choose Tools | Template Manager
- * and open the template in the editor.
+ * Joris Snellenburg
  */
 
 package timpgui;
 
 import java.io.*;
 import java.util.Enumeration;
-import java.util.HashMap;
-import java.util.StringTokenizer;
 import java.util.Vector;
 import javax.swing.JOptionPane;
-import org.jfree.chart.ChartFactory;
-import org.jfree.chart.ChartFrame;
-import org.jfree.chart.JFreeChart;
-import org.jfree.data.general.DefaultPieDataset;
 import Jama.Matrix;
 
 // Import JRI packages
 import org.rosuda.JRI.Rengine;
-import org.rosuda.JRI.REXP;
-
-//Import JGR Pacakges
-import org.rosuda.JGR.util.ErrorMsg;
-import org.rosuda.ibase.SVar;
-import org.rosuda.util.Global;
-
-/**
- *
- * @author Joris
- */
-
 
 /**
  * TIMPGUI Main Class
+ * @revision February 19th, 2008.
  */
 public class TIMPGUI  {
     
-    //TIMPGUI_Version 0.1 aplha Sep 2007
-    
-    /** Version number of TIMPGUI */
+    /** TIMPGUI program constants */  
     public static final String VERSION = "0.1a";
-    
-    /** Title (used in the about box) */
     public static final String TITLE = "TIMPGUI";
-    
-    /** Subtitle (used in the about box) */
     public static final String SUBTITLE = "Java GUI for TIMP";
     
-    /** Develtime (used in the about box) */
-    public static final String DEVELTIME = "2007";
-    
-    /** Organization (used in the about box) */
-    public static final String INSTITUTION = "Computational Biophysics, Vrije Universiteit van Amsterdam";
-    
-    /** First author TIMP (used in the about box) */
-    public static final String AUTHOR1 = "Joris Snellenburg";
-    
-    /** Second author TIMP (used in the about box) */
-    public static final String AUTHOR2 = "Kate Mullen";
-    
-    /** Website of organization (used in the about box) */
-    public static final String WEBSITE = "http://www.nat.vu.nl";
-    
-    /** GUI Interface for TIMP */
+    /** GUI Interface for TIMP and R synchronization*/
     public static TIMPGUIFrame TIMPInterface = null;
-    
-    /**
-     * The history of current session. If there was a .Rhistory file, it will be
-     * loaded into this vector
-     */
-    public static Vector RHISTORY = null;
-    
-    /** RHOME path of current used R */
-    public static String RHOME = null;
-    
-    /** RLIB pathes, where we can find the user's R-packages */
-    public static String[] RLIBS = null;
-    
-    /** Rengine {@link org.rosuda.JRI.Rengine}, needed for executing R-commands */
-    public static Rengine R = null;
-    
-    /** ConsoleSnyc {@link org.rosuda.JRG.toolkit.ConsoleSync} */
+    public static Rengine R = null; //used to execute R commands
     public static ConsoleSync rSync = new ConsoleSync();
     
-    /** Current data-sets (data.frames, matrix, ...) */
-    public static Vector DATA = new Vector();
+    /** File location R uses */
+    public static Vector RHISTORY = null; // Stores the location .Rhistroy file
+    public static String RHOME = null; //RHOME path of current used R
+    public static String[] RLIBS = null;
     
-    /** Current models */
-    public static Vector MODELS = new Vector();
-    
-    /** Current data not in DATA {@link DATA} */
-    public static Vector OTHERS = new Vector();
-    
-    /** Current functions */
-    public static Vector FUNCTIONS = new Vector();
-    
-    /** Current objects in workspace */
-    public static Vector OBJECTS = new Vector();
-    
-    /** Keywords for syntaxhighlighting */
-    public static HashMap KEYWORDS = new HashMap();
-    
-    /** Keywords (objects) for syntaxhighlighting */
-    public static HashMap KEYWORDS_OBJECTS = new HashMap();
-    
-    /** Indicates wether the Rengine is up or not */
+    /** Bookkeeping */
     public static boolean STARTED = false;
-    
-    /**
-     * JGRListener, is uses for listening to java-commands coming from JGR's
-     * R-process
-     */
-    //private static JGRListener jgrlistener = null;
-    
-    /** arguments for Rengine */
     private static String[] rargs = { "--save" };
-    
+    private static int DEBUG = 0;
+
     /**
-     * Set to <code>true</code> when TIMP is running as the main program and
-     * <code>false</code> if the classes are loaded, but not run via main.
-     */
-    private static boolean TIMPmain = false;
-    
-    /** Contains various methods to deal with TIMP datasets */
-    public static TDatasets datasets = null;
-    
-    /**
-     * Starting the JGR Application (javaside)
+     * Starts  TIMPGUI Application
      */
     public TIMPGUI() {
-        SVar.int_NA = -2147483648;
-        
-        Object dummy = new Object();
-        JGRPackageManager.neededPackages.put("base", dummy);
-        JGRPackageManager.neededPackages.put("graphics", dummy);
-        JGRPackageManager.neededPackages.put("utils", dummy);
-        JGRPackageManager.neededPackages.put("methods", dummy);
-        JGRPackageManager.neededPackages.put("stats", dummy);
-        JGRPackageManager.neededPackages.put("datasets", dummy);
-        
-        JGRPackageManager.neededPackages.put("JGR", dummy);
-        JGRPackageManager.neededPackages.put("rJava", dummy);
-        JGRPackageManager.neededPackages.put("javaGD", dummy);
-        JGRPackageManager.neededPackages.put("TIMP", dummy);
-        
-        org.rosuda.util.Platform.initPlatform("org.rosuda.JGR.toolkit.");
-        
-        JGRPrefs.initialize();
+
+        TSettings.readPrefs();
         readHistory();
         TIMPInterface = new TIMPGUIFrame();
         TIMPInterface.setVisible(true);
+        if (System.getProperty("os.name").startsWith("Window")) {
+        TSettings.isWindows = true;
+        }
+        if (System.getProperty("os.name").startsWith("Mac")) {
+        TSettings.isMac = true;
+        }
         
-        datasets = new TDatasets();
-        
-        // let's preemptively load JRI - if we do it here, we can show an error
-        // message
+        // preemptively load JRI - if it doesn't work work in non R mode
+        // TODO: make a non-R mode in which other functions are still accessible
         try {
             System.loadLibrary("jri");
         } catch (UnsatisfiedLinkError e) {
-            String errStr = "all environment variables (PATH, LD_LIBRARY_PATH, etc.) are setup properly (see supplied script)";
+            String errStr = "Not all environment variables (PATH, LD_LIBRARY_PATH, etc.) are setup properly (see supplied script)";
             String libName = "libjri.so";
-            if (System.getProperty("os.name").startsWith("Window")) {
-                errStr = "you start JGR by double-clicking the JGR.exe program";
-                libName = "jri.dll";
-            }
-            if (System.getProperty("os.name").startsWith("Mac")) {
-                errStr = "you start JGR by double-clicking the JGR application";
-                libName = "libjri.jnilib";
-            }
-            System.out.println("Cannot find Java/R Interface (JRI) library");
             
-            System.err.println("Cannot find JRI native library!\n");
+            System.out.printf("Cannot find Java/R Interface (JRI) library %s \n", libName);
+            System.err.printf("%s \n", errStr);
             e.printStackTrace();
             System.exit(1);
         }
@@ -184,20 +74,19 @@ public class TIMPGUI  {
             JOptionPane
                     .showMessageDialog(
                     null,
-                    "Java/R Interface (JRI) library doesn't match this JGR version.\nPlease update JGR and JRI to the latest version.",
+                    "Java/R Interface (JRI) library doesn't match the latest version.\nPlease update your rJava libary to the latest version.",
                     "Version Mismatch", JOptionPane.ERROR_MESSAGE);
             System.exit(2);
         }
         R = new Rengine(rargs, true, TIMPInterface);
-        if (org.rosuda.util.Global.DEBUG > 0) {
+        if (DEBUG > 0) {
             System.out.println("Rengine created, waiting for R");}
         if (!R.waitForR()) {
             System.out.println("Cannot load R");
             System.exit(1);
         }
-        JGRPackageManager.defaultPackages = RController.getDefaultPackages();
-        
-        R.eval("try(setwd(\""+JGRPrefs.workingDirectory+"\"),silent=T)");
+        R.eval("try(setwd(\""+TSettings.workingDirectory+"\"),silent=T)");
+        R.eval("try(require(TIMP),silent=T)");
         
         STARTED = true;
         TIMPInterface.end = TIMPInterface.output.getText().length();
@@ -206,43 +95,73 @@ public class TIMPGUI  {
                     .eval("options(width=" + TIMPGUI.TIMPInterface.getFontWidth()
                     + ")");
         TIMPInterface.input.requestFocus();
-        new Refresher().run();
     }
     
     /**
-     * Exits JGR, but not before asked the user if he wants to save his
+     * Exits TIMPGUI, but not before asked the user if he wants to save his
      * workspace.
      *
      * @return users's answer (yes/no/cancel)
      */
     public static String exit() {
         int exit = JOptionPane.showConfirmDialog(null, "Save workspace?",
-                "Close JGR", JOptionPane.YES_NO_CANCEL_OPTION,
+                "Close TIMPGUI", JOptionPane.YES_NO_CANCEL_OPTION,
                 JOptionPane.QUESTION_MESSAGE);
         
         if (exit == 0) {
             writeHistory();
-            JGRPrefs.writeCurrentPackagesWhenExit();
+            TSettings.writeCurrentPackagesWhenExit();
             return "y\n";
         } else if (exit == 1) {
-            JGRPrefs.writeCurrentPackagesWhenExit();
+            TSettings.writeCurrentPackagesWhenExit();
             return "n\n";
         } else
             return "c\n";
     }
     
     public static Matrix getRMatrix(String datasetLabel) {
-                // getDataFromR
-        Matrix psidf=new Matrix(R.eval(datasetLabel+"@psi.df").asDoubleMatrix());
-        return psidf;
+        return new Matrix(R.eval(datasetLabel+"@psi.df").asDoubleMatrix());
     }
     
     public static double[] getRDouble(String datasetLabel, String xLabel) {
-        // psidf.get(1,1);
         double[] x= R.eval(datasetLabel+"@"+xLabel).asDoubleArray();
         return x;
     }
     
+    public static double[] getRLinLogLabels(String datasetLabel, String xLabel) {
+        double[] x= R.eval("linloglines("+datasetLabel+"@"+xLabel+",0,10)").asDoubleArray();
+        return x;
+    }
+    
+    public static Matrix getRXList(String name) {
+        Matrix x = new Matrix(R.eval("getXList("+name+")[[1]]").asDoubleMatrix());
+        return x;
+    }
+
+    public static Matrix getRCLPList(String name) {
+        Matrix x = new Matrix(R.eval("getCLPList("+name+")[[1]]").asDoubleMatrix());
+        return x;
+    }
+    
+    public static double[] getRDim1List(String name) {
+        double[] x= R.eval("getdim1List("+name+")[[1]]").asDoubleArray();
+        return x;
+    }
+
+    public static double[] getRDim1Labels(String name, double mu, double alpha) {
+        double[] x= R.eval("linloglines(getdim1List("+name+")[[1]],"+mu+","+alpha+")").asDoubleArray();
+        return x;
+    }
+  
+    static double[] getRDim2Labels(String name, double mu, double alpha) {
+        double[] x= R.eval("linloglines(getdim2List("+name+")[[1]],"+mu+","+alpha+")").asDoubleArray();
+        return x;
+    }
+
+    static double[] getRDim2List(String name) {
+        double[] x= R.eval("getdim2List("+name+")[[1]]").asDoubleArray();
+        return x;
+    }
     
     /**
      * Set R_HOME (in java app).
@@ -278,54 +197,10 @@ public class TIMPGUI  {
                         .getProperty("user.home"));
     }
     
-    /**
-     * Set keywords for highlighting.
-     *
-     * @param word
-     *            This word will be highlighted
-     */
-    public static void setKeyWords(String word) {
-        setKeyWords(new String[] { word });
-    }
+
     
-    /**
-     * Set keywords for highlighting.
-     *
-     * @param words
-     *            These words will be highlighted
-     */
-    public static void setKeyWords(String[] words) {
-        KEYWORDS.clear();
-        Object dummy = new Object();
-        for (int i = 0; i < words.length; i++)
-            KEYWORDS.put(words[i], dummy);
-    }
+
     
-    /**
-     * Set objects for hightlighting.
-     *
-     * @param object
-     *            This object will be highlighted
-     */
-    public static void setObjects(String object) {
-        setObjects(new String[] { object });
-    }
-    
-    /**
-     * Set objects for hightlighting.
-     *
-     * @param objects
-     *            These words will be highlighted
-     */
-    public static void setObjects(String[] objects) {
-        OBJECTS.clear();
-        KEYWORDS_OBJECTS.clear();
-        Object dummy = new Object();
-        for (int i = 0; i < objects.length; i++) {
-            KEYWORDS_OBJECTS.put(objects[i], dummy);
-            OBJECTS.add(objects[i]);
-        }
-    }
     
     /**
      * If there is a file named .Rhistory in the user's home path we load his
@@ -350,7 +225,7 @@ public class TIMPGUI  {
                 reader.close();
             }
         } catch (Exception e) {
-            new ErrorMsg(e);
+            
         }
     }
     
@@ -371,75 +246,32 @@ public class TIMPGUI  {
             writer.close();
         } catch (Exception e) {
             e.printStackTrace();
-            new ErrorMsg(e);
-        }
-    }
-    
-    /** return the value of the {@link #JGRmain} flag */
-    public static boolean isTIMPmain() {
-        return TIMPmain;
-    }
-    
-    private void checkForMissingPkg() {
-        try {
-            String previous = JGRPrefs.previousPackages;
             
-            //System.out.println("previous "+previous);
-            
-            if (previous == null)
-                return;
-            String current = RController.getCurrentPackages();
-            
-            //System.out.println("current: "+current);
-            
-            if (current == null)
-                return;
-            
-            Vector missing = new Vector();
-            
-            Vector currentPkg = new Vector();
-            Vector previousPkg = new Vector();
-            
-            StringTokenizer st = new StringTokenizer(current,",");
-            while (st.hasMoreTokens())
-                currentPkg.add(st.nextToken().toString().replaceFirst(",",""));
-            
-            st = new StringTokenizer(previous,",");
-            while (st.hasMoreTokens())
-                previousPkg.add(st.nextToken().toString().replaceFirst(",",""));
-            
-            for (int i = 0; i < currentPkg.size(); i++)
-                previousPkg.remove(currentPkg.elementAt(i));
-            
-            if (previousPkg.size() > 0)
-                new JGRPackageManager(previousPkg);
-        } catch (Exception e) {
         }
     }
     
     public static void main(String[] args) {
-        TIMPmain = true;
+
         if (args.length > 0) {
             Vector args2 = new Vector();
             for (int i = 0; i < args.length; i++) {
                 if (args[i].equals("--debug")) {
-                    org.rosuda.util.Global.DEBUG = 1;
-                    org.rosuda.JRI.Rengine.DEBUG = 1;
-                    System.out.println("JGR version " + VERSION);
+                    DEBUG = 1;
+                    System.out.println("TIMP version " + VERSION);
                 } else
                     args2.add(args[i]);
                 if (args[i].equals("--version")) {
-                    System.out.println("JGR version " + VERSION);
+                    System.out.println("TIMP version " + VERSION);
                     System.exit(0);
                 }
                 if (args[i].equals("--help") || args[i].equals("-h")) {
-                    System.out.println("JGR version " + VERSION);
+                    System.out.println("TIMP version " + VERSION);
                     System.out.println("\nOptions:");
                     System.out
                             .println("\n\t-h, --help\t Print short helpmessage and exit");
                     System.out.println("\t--version\t Print version end exit");
                     System.out
-                            .println("\t--debug\t Print more information about JGR's process");
+                            .println("\t--debug\t Print debug information");
                     System.out
                             .println("\nMost other R options are supported too");
                     System.exit(0);
@@ -454,38 +286,13 @@ public class TIMPGUI  {
             }
         }
         
-        if (Global.DEBUG > 0)
+        if (DEBUG > 0)
             for (int i = 0; i < rargs.length; i++)
                 System.out.println(rargs[i]);
         
         try {
             new TIMPGUI();
         } catch (Exception e) {
-            new ErrorMsg(e);
-        }
-    }
-    
-    class Refresher implements Runnable {
-        
-        public Refresher() {
-            checkForMissingPkg();
-        }
-        
-        public void run() {
-            while (true)
-                try {
-                    Thread.sleep(60000);
-                    REXP x = R.idleEval("try(.refreshKeyWords(),silent=TRUE)");
-                    String[] r = null;
-                    if (x != null && (r = x.asStringArray()) != null)
-                        setKeyWords(r);
-                    x = R.idleEval("try(.refreshObjects(),silent=TRUE)");
-                    r = null;
-                    if (x != null && (r = x.asStringArray()) != null)
-                        setObjects(r);
-                } catch (Exception e) {
-                    new ErrorMsg(e);
-                }
         }
     }
 }

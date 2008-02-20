@@ -1,5 +1,5 @@
 /*
- * LineChartDemo4.java
+ * CustomLinePlot.java
  *
  * Created on September 17, 2007, 2:03 PM
  *
@@ -14,7 +14,7 @@ package timpgui;
  * @author Joris
  */
 /* -------------------
- * LineChartDemo4.java
+ * CustomLinePlot.java
  * -------------------
  * (C) Copyright 2003-2005, by Object Refinery Limited.
  *
@@ -30,23 +30,27 @@ import org.jfree.chart.JFreeChart;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.plot.XYPlot;
 import org.jfree.chart.renderer.xy.XYLineAndShapeRenderer;
+import org.jfree.data.general.Dataset;
 import org.jfree.data.xy.XYDataset;
 import org.jfree.ui.ApplicationFrame;
 import org.jfree.ui.RefineryUtilities;
 
+
+
 /**
  * A simple line chart using data from an {@link XYDataset}.
  */
-public class LineChartDemo4 extends ApplicationFrame {
+public class CustomLinePlot extends ApplicationFrame {
     
      XYDataset dataset;
+     TDatasets datasets;
 
     /**
      * Creates a new demo.
      *
      * @param title  the frame title.
      */
-    public LineChartDemo4(String title) {
+    public CustomLinePlot(String title) {
 
         super(title);
         JPanel chartPanel = createDemoPanel();
@@ -55,7 +59,7 @@ public class LineChartDemo4 extends ApplicationFrame {
 
     }
     
-    public LineChartDemo4(String title, XYDataset dataset) {
+    public CustomLinePlot(String title, XYDataset dataset) {
 
         super(title);
         JPanel chartPanel = createDemoPanel(dataset);
@@ -92,8 +96,9 @@ public class LineChartDemo4 extends ApplicationFrame {
      * 
      * @return A panel.
      */
-    public static JPanel createDemoPanel() {
-        JFreeChart chart = createChart(new SampleXYDataset());
+    public JPanel createDemoPanel() {
+        XYDataset test = datasets.createTestDataset2();
+        JFreeChart chart = createChart(test);
         return new ChartPanel(chart);
     }
     
@@ -113,10 +118,10 @@ public class LineChartDemo4 extends ApplicationFrame {
      * @param args  ignored.
      */
     public static void main(String[] args) {
-        LineChartDemo4 demo = new LineChartDemo4("Line Chart Demo 4");
-        demo.pack();
-        RefineryUtilities.centerFrameOnScreen(demo);
-        demo.setVisible(true);
+        CustomLinePlot demo = new CustomLinePlot("Line Chart Demo 4");
+         demo.pack();
+         RefineryUtilities.centerFrameOnScreen(demo);
+         demo.setVisible(true);
     }
 
     void showGraph() {

@@ -1,0 +1,5 @@
+Manifest-Version: 1.0
+OpenIDE-Module: nl.vu.nat.tgmodels
+OpenIDE-Module-Localizing-Bundle: nl/vu/nat/tgmodels/Bundle.properties
+OpenIDE-Module-Specification-Version: 1.0
+

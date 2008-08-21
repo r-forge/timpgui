@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE filesystem PUBLIC "-//NetBeans//DTD Filesystem 1.1//EN" "http://www.netbeans.org/dtds/filesystem-1_1.dtd">
+<filesystem>
+    <folder name="Templates">
+        <folder name="Project">
+            <folder name="MPUR">
+                <file name="EmptyTgmProjectProject.zip" url="EmptyTgmProjectProject.zip">
+                    <attr name="SystemFileSystem.localizingBundle" stringvalue="nl.vu.nat.tgmprojectsupport.Bundle"/>
+                    <attr name="instantiatingIterator" methodvalue="nl.vu.nat.tgmprojectsupport.templates.EmptyTgmProjectWizardIterator.createIterator"/>
+                    <attr name="instantiatingWizardURL" urlvalue="nbresloc:/nl/vu/nat/tgmprojectsupport/templates/EmptyTgmProjectDescription.html"/>
+                    <attr name="template" boolvalue="true"/>
+                </file>
+                <file name="SampleTgmProjectProject.zip" url="SampleTgmProjectProject.zip">
+                    <attr name="SystemFileSystem.localizingBundle" stringvalue="nl.vu.nat.tgmprojectsupport.Bundle"/>
+                    <attr name="instantiatingIterator" methodvalue="nl.vu.nat.tgmprojectsupport.templates.EmptyTgmProjectWizardIterator.createIterator"/>
+                    <attr name="instantiatingWizardURL" urlvalue="nbresloc:/nl/vu/nat/tgmprojectsupport/templates/SampleTgmProjectDescription.html"/>
+                    <attr name="template" boolvalue="true"/>
+                </file>
+            </folder>
+        </folder>
+    </folder>
+    <folder name="Tgm">
+        <folder name="ModelSettings">
+        <!-- Declare a file, with its content provided by the URL. -->
+            <file name="ModelSettings.properties" url="defaults/ModelSettings.properties">
+                <attr name="SystemFileSystem.localizingBundle" stringvalue="nl.vu.nat.tgmprojectsupport.defaults.Bundle"/>
+            </file>
+        </folder>
+        <folder name="FittingSettings">
+        <!-- Declare a file, with its content provided by the URL. -->
+            <file name="FlimFitting.properties" url="defaults/FlimFitting.properties">
+                <attr name="SystemFileSystem.localizingBundle" stringvalue="nl.vu.nat.tgmprojectsupport.defaults.Bundle"/>
+            </file>
+        </folder>
+        <folder name="datasets"/>
+    </folder>
+    
+</filesystem>

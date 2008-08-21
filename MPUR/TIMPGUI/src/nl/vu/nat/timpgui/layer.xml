@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE filesystem PUBLIC "-//NetBeans//DTD Filesystem 1.1//EN" "http://www.netbeans.org/dtds/filesystem-1_1.dtd">
+<filesystem>
+    <folder name="Actions">
+        <folder name="Window">
+            <file name="nl-vu-nat-timpgui-RunRScriptsAction.instance"/>
+            <file name="nl-vu-nat-timpgui-TimpguiMainAction.instance"/>
+            <file name="nl-vu-nat-timpgui-plots-FlimOutputAction.instance"/>
+            <file name="nl-vu-nat-timpgui-plots-StreakOutAction.instance"/>
+        </folder>
+    </folder>
+    <folder name="Menu">
+        <folder name="Window">
+            <file name="FlimOutputAction.shadow">
+                <attr name="originalFile" stringvalue="Actions/Window/nl-vu-nat-timpgui-plots-FlimOutputAction.instance"/>
+            </file>
+            <file name="RunRScriptsAction.shadow">
+                <attr name="originalFile" stringvalue="Actions/Window/nl-vu-nat-timpgui-RunRScriptsAction.instance"/>
+            </file>
+            <file name="StreakOutAction.shadow">
+                <attr name="originalFile" stringvalue="Actions/Window/nl-vu-nat-timpgui-plots-StreakOutAction.instance"/>
+            </file>
+            <file name="TimpguiMainAction.shadow">
+                <attr name="originalFile" stringvalue="Actions/Window/nl-vu-nat-timpgui-TimpguiMainAction.instance"/>
+            </file>
+            </folder>
+    </folder>
+    <folder name="Windows2">
+        <folder name="Components">
+            <file name="FlimOutputTopComponent.settings" url="FlimOutputTopComponentSettings.xml"/>
+            <file name="RunRScriptsTopComponent.settings" url="RunRScriptsTopComponentSettings.xml"/>
+            <file name="StreakOutTopComponent.settings" url="StreakOutTopComponentSettings.xml"/>
+            <file name="TimpguiMainTopComponent.settings" url="TimpguiMainTopComponentSettings.xml"/>
+        </folder>
+        <folder name="Modes">
+            <folder name="editor">
+                <file name="FlimOutputTopComponent.wstcref" url="FlimOutputTopComponentWstcref.xml"/>
+                <file name="RunRScriptsTopComponent.wstcref" url="RunRScriptsTopComponentWstcref.xml"/>
+                <file name="TimpguiMainTopComponent.wstcref" url="TimpguiMainTopComponentWstcref.xml"/>
+                <file name="StreakOutTopComponent.wstcref" url="StreakOutTopComponentWstcref.xml"/>
+            </folder>
+        </folder>
+    </folder>
+</filesystem>

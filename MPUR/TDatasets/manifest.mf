@@ -1,0 +1,5 @@
+Manifest-Version: 1.0
+OpenIDE-Module: nl.vu.nat.tdatasets/1
+OpenIDE-Module-Localizing-Bundle: nl/vu/nat/tdatasets/Bundle.properties
+OpenIDE-Module-Specification-Version: 1.0
+

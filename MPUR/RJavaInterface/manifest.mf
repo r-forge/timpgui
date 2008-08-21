@@ -1,0 +1,6 @@
+Manifest-Version: 1.0
+OpenIDE-Module: nl.vu.nat.rjavainterface
+OpenIDE-Module-Install: nl/vu/nat/rjavainterface/Installer.class
+OpenIDE-Module-Localizing-Bundle: nl/vu/nat/rjavainterface/Bundle.properties
+OpenIDE-Module-Specification-Version: 1.0
+

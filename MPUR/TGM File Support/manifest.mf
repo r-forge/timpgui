@@ -1,0 +1,9 @@
+Manifest-Version: 1.0
+OpenIDE-Module: nl.vu.nat.tgmfilesupport/1
+OpenIDE-Module-Layer: nl/vu/nat/tgmfilesupport/layer.xml
+OpenIDE-Module-Localizing-Bundle: nl/vu/nat/tgmfilesupport/Bundle.properties
+
+Name: nl/vu/nat/tgmfilesupport/TgmDataLoader.class
+Install-Before: org.openide.loaders.XMLDataObject, org.netbeans.modules.xml.XMLDataObject
+OpenIDE-Module-Class: Loader
+

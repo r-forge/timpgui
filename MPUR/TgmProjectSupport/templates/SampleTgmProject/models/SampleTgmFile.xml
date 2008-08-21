@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+    Document   : TgmSchema.xml
+    Created on : August 11, 2008, 5:00 PM
+    Author     : jsg210
+    Description:
+        Purpose of the document follows.
+-->
+
+<ns0:tgm  xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'
+   xmlns:ns0='http://www.nat.vu.nl/~jsnel/Schema/TgmSchema'
+   xsi:schemaLocation='http://www.nat.vu.nl/~jsnel/Schema/TgmSchema TgmSchema.xsd'>
+        <ns0:dat>
+                <ns0:kinparPanel>
+                        <ns0:positivepar>false</ns0:positivepar>
+                        <ns0:kinpar>
+                                <ns0:start>NaN</ns0:start>
+                                <ns0:fixed>false</ns0:fixed>
+                                <ns0:modeldiffs_free>false</ns0:modeldiffs_free>
+                                <ns0:constrained>false</ns0:constrained>
+                                    <ns0:max>NaN</ns0:max>
+                            </ns0:kinpar>
+                        <ns0:seqmod>false</ns0:seqmod>
+                    </ns0:kinparPanel>
+                <ns0:modelName>SpecifyModelName</ns0:modelName>
+                <ns0:modType>kin</ns0:modType>
+                <ns0:irfparPanel>
+                        <ns0:dispmufun></ns0:dispmufun>
+                        <ns0:disptaufun></ns0:disptaufun>
+                        <ns0:parmu></ns0:parmu>
+                        <ns0:partau></ns0:partau>
+                        <ns0:dispmu>false</ns0:dispmu>
+                        <ns0:disptau>false</ns0:disptau>
+                        <ns0:lamda>NaN</ns0:lamda>
+                        <ns0:irf>0</ns0:irf>
+                    </ns0:irfparPanel>
+                <ns0:cohspecPanel>
+                        <ns0:cohspec>
+                                <ns0:type></ns0:type>
+                                <ns0:set>false</ns0:set>
+                            </ns0:cohspec>
+                        <ns0:coh></ns0:coh>
+                    </ns0:cohspecPanel>
+                <ns0:flimPanel>
+                        <ns0:mirf>false</ns0:mirf>
+                        <ns0:convalg>2</ns0:convalg>
+                        <ns0:reftau>NaN</ns0:reftau>
+                    </ns0:flimPanel>
+            </ns0:dat>
+
+</ns0:tgm>

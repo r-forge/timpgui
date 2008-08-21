@@ -1,0 +1,6 @@
+Manifest-Version: 1.0
+OpenIDE-Module: org.yourorghere.testaddmodel
+OpenIDE-Module-Layer: org/yourorghere/testaddmodel/layer.xml
+OpenIDE-Module-Localizing-Bundle: org/yourorghere/testaddmodel/Bundle.properties
+OpenIDE-Module-Specification-Version: 1.0
+

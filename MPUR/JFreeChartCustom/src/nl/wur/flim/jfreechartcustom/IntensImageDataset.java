@@ -1,0 +1,163 @@
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
+package nl.wur.flim.jfreechartcustom;
+
+import javax.swing.event.EventListenerList;
+import org.jfree.data.DomainOrder;
+import org.jfree.data.general.DatasetChangeEvent;
+import org.jfree.data.general.DatasetChangeListener;
+import org.jfree.data.general.DatasetGroup;
+import org.jfree.data.xy.XYZDataset;
+import static java.lang.Math.floor;
+
+/**
+ *
+ * @author Sergey
+ */
+public class IntensImageDataset implements XYZDataset {
+    private int imageWidth;
+    private int imageHeight;
+    private int[] intenceImage;
+    private transient EventListenerList listenerList;
+    private boolean active;    
+    
+    public IntensImageDataset(){
+        this.imageWidth = 1;
+        this.imageHeight = 1;
+        this.intenceImage = new int[1];
+        this.listenerList = new EventListenerList();
+        this.active = true;
+    }
+    
+    public IntensImageDataset(int width, int height, int[] image){
+        this.imageWidth = width;
+        this.imageHeight = height;
+        this.intenceImage = image;
+        this.listenerList = new EventListenerList();
+        this.active = true;
+    }
+
+  
+    public int GetImageWidth(){
+        return this.imageHeight;
+    }
+    
+    public int GetImageHeigth(){
+        return this.imageWidth;
+    }
+    
+    public int[] SetIntenceImage(){
+        return this.intenceImage;
+    }
+
+    
+    public void SetIntenceImage(int[] image){
+        this.intenceImage = image;
+        if (this.active)
+            fireDatasetChanged();
+    }
+    
+    public void SetValue(int x, int y, int value){
+        this.intenceImage[y*this.imageWidth+x]=value;        
+        if (this.active)
+            fireDatasetChanged();
+    }
+    
+    public void SetValue(int item, int value){
+        this.intenceImage[item]=value;
+        if (this.active)
+            fireDatasetChanged();
+    }
+    
+    public void SetActive(boolean status){
+        this.active = status;        
+    }
+    
+    public boolean IsActive(){
+        return this.active;
+    }
+
+    public void Update(){
+        this.fireDatasetChanged();
+    }
+    
+    public Number getZ(int series, int item) {
+        return new Double(getZValue(series, item));
+    }
+
+    public double getZValue(int series, int item) {
+        return this.intenceImage[item];
+    }
+
+    public DomainOrder getDomainOrder() {
+        return DomainOrder.ASCENDING;
+    }
+
+    public int getItemCount(int series) {
+        return this.imageHeight*this.imageWidth;
+    }
+
+    public Number getX(int series, int item) {
+        return new Double(getXValue(series, item));
+    }
+
+    @Override
+    public double getXValue(int series, int item) {
+        return item - (floor(item/this.imageWidth)*imageWidth);
+    }
+
+    public Number getY(int series, int item) {
+        return new Double(getYValue(series, item));
+    }
+
+    public double getYValue(int series, int item) {
+        return floor(item/this.imageWidth);
+    }
+
+    public int getSeriesCount(){
+        return 1;
+    }
+
+    public Comparable getSeriesKey(int series) {
+        return (Comparable)"ColorCodedImage";
+    }
+
+    public int indexOf(Comparable seriesKey) {
+        return 0;
+    }
+
+    public void addChangeListener(DatasetChangeListener listener) {
+        this.listenerList.add(DatasetChangeListener.class, listener);
+    }
+
+    public void removeChangeListener(DatasetChangeListener listener) {
+        this.listenerList.remove(DatasetChangeListener.class, listener);
+    }
+    
+    public DatasetGroup getGroup() {
+        return null;
+    }
+
+    public void setGroup(DatasetGroup group) {
+         // ignore
+    }
+    
+    protected void fireDatasetChanged() {
+        notifyListeners(new DatasetChangeEvent(this, this));
+    }
+    
+    protected void notifyListeners(DatasetChangeEvent event) {
+
+        Object[] listeners = this.listenerList.getListenerList();
+        for (int i = listeners.length - 2; i >= 0; i -= 2) {
+            if (listeners[i] == DatasetChangeListener.class) {
+                ((DatasetChangeListener) listeners[i + 1]).datasetChanged(
+                    event
+                );
+            }
+        }
+    }
+}

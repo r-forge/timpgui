@@ -1,0 +1,5 @@
+Manifest-Version: 1.0
+OpenIDE-Module: nl.wur.flim.jfreechartcustom
+OpenIDE-Module-Localizing-Bundle: nl/wur/flim/jfreechartcustom/Bundle.properties
+OpenIDE-Module-Specification-Version: 1.0
+

@@ -1,0 +1,6 @@
+Manifest-Version: 1.0
+OpenIDE-Module: nl.vu.nat.tgmprojectsupport
+OpenIDE-Module-Layer: nl/vu/nat/tgmprojectsupport/layer.xml
+OpenIDE-Module-Localizing-Bundle: nl/vu/nat/tgmprojectsupport/Bundle.properties
+OpenIDE-Module-Specification-Version: 1.0
+

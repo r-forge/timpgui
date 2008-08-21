@@ -1,0 +1,5 @@
+Manifest-Version: 1.0
+OpenIDE-Module: nl.vu.nat.timpinterface
+OpenIDE-Module-Localizing-Bundle: nl/vu/nat/timpinterface/Bundle.properties
+OpenIDE-Module-Specification-Version: 1.0
+

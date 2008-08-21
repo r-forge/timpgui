@@ -1,0 +1,6 @@
+Manifest-Version: 1.0
+OpenIDE-Module: nl.vu.nat.timpgui
+OpenIDE-Module-Layer: nl/vu/nat/timpgui/layer.xml
+OpenIDE-Module-Localizing-Bundle: nl/vu/nat/timpgui/Bundle.properties
+OpenIDE-Module-Specification-Version: 1.0
+

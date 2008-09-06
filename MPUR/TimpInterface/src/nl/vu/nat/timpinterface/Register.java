@@ -4,8 +4,6 @@
  */
 
 package nl.vu.nat.timpinterface;
-
-import java.util.ArrayList;
 import nl.vu.nat.rjavainterface.RController;
 import nl.wur.flimdataloader.flimpac.DatasetTimp;
 
@@ -18,7 +16,7 @@ public class Register {
     public static void RegisterData(DatasetTimp timpDat) {
       
     // send dataset to timp 
-    RController.sendDatasetTimp(timpDat);
+    TimpController.sendDatasetTimp(timpDat);
     // add its name to list of names 
     
     Current.addDataset(timpDat.GetDatasetName());
@@ -43,5 +41,9 @@ public class Register {
     // add its name  
     Current.SetcurrMIRF(x); 
     
+    }
+
+    private static void sendDatasetTimp(DatasetTimp timpDat) {
+        throw new UnsupportedOperationException("Not yet implemented");
     }
 }

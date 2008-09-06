@@ -7,6 +7,7 @@ package nl.vu.nat.timpinterface;
 import Jama.Matrix;
 import java.util.List;
 import nl.vu.nat.rjavainterface.RController;
+import nl.wur.flimdataloader.flimpac.DatasetTimp;
 import nl.wur.flimdataloader.flimpac.TimpResultDataset;
 
 public class TimpController {
@@ -246,4 +247,38 @@ public class TimpController {
     public static boolean existsInR(String varname) {
        return RController.getBoolean("exists(\""+varname+"\")");
     }
+    public static void sendDatasetTimp(DatasetTimp dd) {
+     
+        RController.setDoubleArray(dd.GetPsisim(), "psisim");
+        RController.setDoubleArray(dd.GetX(), "x");
+        RController.setDoubleArray(dd.GetX2(), "x2");
+        RController.setIntArray(dd.GetNl(), "nl");
+        RController.setIntArray(dd.GetNt(), "nt");
+        RController.setDoubleArray(dd.GetIntenceIm(), "intenceIm");
+       
+        RController.execute("psisim <- as.matrix(psisim)");
+        RController.execute("if(is.null(intenceIm))  intenceIm <- matrix(1,1,1)");
+        RController.execute("intenceIm <- as.matrix(intenceIm)");
+        RController.execute("dim(psisim) <- c(nt, nl)");
+        
+        RController.execute(dd.GetDatasetName() + "<- dat(psi.df = psisim, x = x, nt = nt, x2 = x2, nl = nl, " +
+                "inten = intenceIm)");
+        
+    }
+    
+    public static void getDatasetTimp(String ddname) {
+        
+	 double[] jx = RController.getDoubleArray("slot(" + ddname + ",'x' )");
+	 double[] jx2 = RController.getDoubleArray("slot(" + ddname + ",'x2' )");
+	 int[] jnt = RController.getIntArray("slot(" + ddname + ",'nt' )");
+         int[] jnl = RController.getIntArray("slot(" + ddname + ",'nl' )");
+         double[] jpsisim = RController.getDoubleArray("slot(" + ddname + ",'psisim' )");
+         double[] jintenceim = RController.getDoubleArray("slot(" + ddname + ",'intenceim' )");
+         String jdatasetname = RController.getString("slot(" + ddname + ",'datasetname' )");
+         
+         DatasetTimp dd = new DatasetTimp(jx, jx2, jnt, jnl, jpsisim, jintenceim, jdatasetname);
+         
+    }
+   
+     
 }

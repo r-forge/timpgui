@@ -454,6 +454,9 @@ public class RController implements RMainLoopCallbacks {
     public static int[] getIntArray(String cmd) {
         return re.eval(cmd).asIntArray();
     }
+    public static String getString(String cmd) {
+        return re.eval(cmd).asString();
+    }
     
     public static List<?> getRList(String cmd) {
         // This function is not yet working.
@@ -488,102 +491,28 @@ public class RController implements RMainLoopCallbacks {
         }
         return value;
     }
-   
-    
     public static RVector getRVector(String cmd) {
         return re.eval(cmd).asVector();
-    }
-    
-    public static void setDouble(String cmd) {
-    }
-
+    }  
     public static void setDoubleArray(double[] xx, String n) {
        long inr = re.rniPutDoubleArray(xx);
         re.rniAssign(n, inr, 0);
+        
+    } 
+    public static void setIntArray(int[] xx, String n) {
+       long inr = re.rniPutIntArray((int[])xx);
+        re.rniAssign(n, inr, 0);   
+    } 
+    public static void setInt(int xx, String n) {
+       int[] x1 = new int[0];
+       x1[0]=xx;
+       long inr = re.rniPutIntArray(x1);
+       re.rniAssign(n, inr, 0);   
+    } 
+    public static long parse(String cmd) {
+        return re.rniParse(cmd,1);
     }
-
-    public static void setDoubleMatrix(String cmd) {
-        
-    }
-    public static void sendDatasetTimp(DatasetTimp dd) {
-     
-        long psisim = re.rniPutDoubleArray(dd.GetPsisim());
-        re.rniAssign("psisim", psisim, 0);
-        REXP xx;
-        
-            
-        xx = re.eval("psisim");
-        
-        
-        long x = re.rniPutDoubleArray(dd.GetX());
-        re.rniAssign("x", x, 0);
-        xx = re.eval("x");
-        
-        
-        long x2 = re.rniPutDoubleArray(dd.GetX2());
-        re.rniAssign("x2", x2, 0);
-        xx = re.eval("x2");
-        
-        long nl = re.rniPutIntArray(dd.GetNl());
-        re.rniAssign("nl", nl, 0);
-        xx = re.eval("nl");
-        
-        long nt = re.rniPutIntArray(dd.GetNt());
-        re.rniAssign("nt", nt, 0);
-        xx = re.eval("nt");
-        double[] in;
-        
-        long intenceIm = re.rniPutDoubleArray(dd.GetIntenceIm());
-        re.rniAssign("intenceIm", intenceIm, 0);
-       
-        re.eval("psisim <- as.matrix(psisim)");
-        re.eval("if(is.null(intenceIm))  intenceIm <- matrix(1,1,1)");
-        re.eval("intenceIm <- as.matrix(intenceIm)");
-       
-        
-        re.eval("dim(psisim) <- c(nt, nl)");
-        
-        execute(dd.GetDatasetName() + "<- dat(psi.df = psisim, x = x, nt = nt, x2 = x2, nl = nl, " +
-                "inten = intenceIm)");
-        
-    }
-    
-     public static void getDatasetTimp(String ddname) {
-        
-         long x = re.rniParse("slot(" + ddname + ",'x' )", 1);
-	 double[] jx = re.rniGetDoubleArray(x);
-        
-         long x2 = re.rniParse("slot(" + ddname + ",'x2' )", 1);
-	 double[] jx2 = re.rniGetDoubleArray(x2);
-         
-         long nt = re.rniParse("slot(" + ddname + ",'nt' )", 1);
-	 int[] jnt = re.rniGetIntArray(nt);
-         
-         long nl = re.rniParse("slot(" + ddname + ",'nl' )", 1);
-	 int[] jnl = re.rniGetIntArray(nl);
-       
-         long psisim = re.rniParse("slot(" + ddname + ",'psisim' )", 1);
-	 double[] jpsisim = re.rniGetDoubleArray(psisim);
-       
-         long intenceim = re.rniParse("slot(" + ddname + ",'intenceim' )", 1);
-	 double[] jintenceim = re.rniGetDoubleArray(intenceim);
-         
-         long datasetname = re.rniParse("slot(" + ddname + ",'datasetname' )", 1);
-	 String jdatasetname = re.rniGetString(datasetname);
-         
-         DatasetTimp dd = new DatasetTimp(jx, jx2, jnt, jnl, jpsisim, jintenceim, jdatasetname);
-         
-         test1(ddname);
-        
-    }
-     public static void test1(String nn) {
-        
-        output.append("Test if dataset " + nn + " exists in R ...");
-        RController.execute("exists(\""+nn+"\")");
-        output.append("\n end test for dataset.");
-        io.select();
-     }
-     
+      
     public static void test() {
         InputOutput io1 = IOProvider.getDefault().getIO("Test Output", false);
         OutputWriter testOutput = io1.getOut();

@@ -303,7 +303,7 @@ private void jCBToPlotActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIR
     }
 
     MakeImageChart(MakeCCDataset(64, 64, res.GetX2(), selectedietm), minVal, maxVal, true);
-    ChartPanel chpanImage = new ChartPanel(chart);
+    ChartPanel chpanImage = new ChartPanel(chart,true);
     jPImage.removeAll();
     chpanImage.setSize(jPImage.getSize());
     chpanImage.addChartMouseListener(this);
@@ -326,7 +326,7 @@ private void jBUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
         minVal = Float.parseFloat(jTMin.getText());
         maxVal = Float.parseFloat(jTMax.getText());
         MakeImageChart(MakeCCDataset(64, 64, res.GetX2(), selectedietm), minVal, maxVal, true);
-        ChartPanel chpanImage = new ChartPanel(chart);
+        ChartPanel chpanImage = new ChartPanel(chart,true);
         jPImage.removeAll();
         chpanImage.setSize(jPImage.getSize());
         chpanImage.addChartMouseListener(this);
@@ -582,7 +582,7 @@ private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
         plot.setForegroundAlpha(0.85f);
         XYBarRenderer renderer = (XYBarRenderer) plot.getRenderer();
         renderer.setDrawBarOutline(false);
-        return new ChartPanel(charthist); 
+        return new ChartPanel(charthist,true); 
     }
     
     private double[] MakeFlimImage(double[] kinpar, Matrix amplitudes, int numOfSelPix){
@@ -661,7 +661,7 @@ private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
         
         JFreeChart tracechart =  new JFreeChart("Selected trace", JFreeChart.DEFAULT_TITLE_FONT, plot, true);
         
-        ChartPanel chpanSelectedTrace = new ChartPanel(tracechart);
+        ChartPanel chpanSelectedTrace = new ChartPanel(tracechart,true);
         chpanSelectedTrace.setSize(jPSelectedTrace.getSize());
         jPSelectedTrace.removeAll();
         jPSelectedTrace.add(chpanSelectedTrace);

@@ -388,7 +388,7 @@ private void BloadsampActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIR
             MakeImageChart(MakeXYZDataset());  
             MakeWaveTraceChart(PlotFirstTrace(false));
             MakeTimeTraceChart(PlotFirstTrace(true));
-            chpanImage = new ChartPanel(chart);
+            chpanImage = new ChartPanel(chart,true);
             jPStreakImage.removeAll();
             chpanImage.setSize(jPStreakImage.getSize());
             chpanImage.addChartMouseListener(this);
@@ -564,7 +564,7 @@ private void jPStreakImageMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIR
         );
         tracechart.getXYPlot().getDomainAxis().setUpperBound(data.GetX()[data.GetX().length-1]);
 //        tracechart.getXYPlot().setDomainZeroBaselineVisible(true);
-        ChartPanel chpan = new ChartPanel(tracechart);
+        ChartPanel chpan = new ChartPanel(tracechart,true);
         chpan.setSize(jPSelectedTimeTrace.getSize());
         jPSelectedTimeTrace.removeAll();
         jPSelectedTimeTrace.add(chpan);
@@ -588,7 +588,7 @@ private void jPStreakImageMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIR
         else 
             tracechart.getXYPlot().getDomainAxis().setUpperBound(data.GetX2()[data.GetX2().length-1]);
         //tracechart.getXYPlot().setDomainZeroBaselineVisible(true);
-        ChartPanel chpan = new ChartPanel(tracechart);
+        ChartPanel chpan = new ChartPanel(tracechart,true);
         chpan.setSize(jPSelectedWaveTrace.getSize());
         jPSelectedWaveTrace.removeAll();
         jPSelectedWaveTrace.add(chpan);

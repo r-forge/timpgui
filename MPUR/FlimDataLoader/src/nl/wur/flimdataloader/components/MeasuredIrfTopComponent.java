@@ -505,7 +505,7 @@ private void jBMakeMeasIrfVariableActionPerformed(java.awt.event.ActionEvent evt
         );
         chart.getXYPlot().getDomainAxis().setUpperBound(length);
         chart.getXYPlot().setDomainZeroBaselineVisible(true);
-        chpan = new ChartPanel(chart);
+        chpan = new ChartPanel(chart,true);
         chpan.setSize(jPanel2.getSize());
         jPanel2.removeAll();
         jPanel2.add(chpan);

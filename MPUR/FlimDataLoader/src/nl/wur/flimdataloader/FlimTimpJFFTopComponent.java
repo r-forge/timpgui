@@ -71,7 +71,7 @@ final class FlimTimpJFFTopComponent extends TopComponent implements ChartMouseLi
         flimImage = null;
         chart=null;
         chpanIntenceImage=null;
-        chpanSelectedTrace = null;
+//        chpanSelectedTrace = null;
         dataset = null;
         numSelPix = 0;
         tracesCollection = null;
@@ -430,13 +430,13 @@ private void BloadsampActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIR
         if (returnVal == JFileChooser.APPROVE_OPTION) {
             try {
                 File file = fc.getSelectedFile();
-                TFfilenam.setText(file.getAbsolutePath());
+                TFfilenam.setText(file.getName());
                 flimImage = new FlimImage(file);
                 flimImage.buildIntMap(1);
                 MakeIntImageChart(MakeXYZDataset());  
 //                MakeTracesChart(MakeTracesCollection(), true);
                 MakeTracesChart(PlotFirstTrace(), false);
-                chpanIntenceImage = new ChartPanel(chart);
+                chpanIntenceImage = new ChartPanel(chart, true);
                 jPIntensImage.removeAll();
                 chpanIntenceImage.setSize(jPIntensImage.getSize());
                 chpanIntenceImage.addChartMouseListener(this);
@@ -729,7 +729,7 @@ private XYZDataset MakeXYZDataset(){
             for (int i = 0; i < flimImage.getCurveNum(); i++)
                 tracechart.getXYPlot().getRenderer().setSeriesVisible(i, false);
         }
-        chpanSelectedTrace = new ChartPanel(tracechart);
+        chpanSelectedTrace = new ChartPanel(tracechart,true);
         chpanSelectedTrace.setSize(jPSelectedTrace.getSize());
         jPSelectedTrace.removeAll();
         jPSelectedTrace.add(chpanSelectedTrace);

@@ -242,4 +242,8 @@ public class TimpController {
         }
         return result;
     }
+    
+    public static boolean existsInR(String varname) {
+       return RController.getBoolean("exists(\""+varname+"\")");
+    }
 }

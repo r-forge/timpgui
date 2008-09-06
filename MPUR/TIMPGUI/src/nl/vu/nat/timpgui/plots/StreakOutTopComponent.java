@@ -82,55 +82,68 @@ final class StreakOutTopComponent extends TopComponent implements ChartMouseList
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPConcentrations = new javax.swing.JPanel();
+        jPanel6 = new javax.swing.JPanel();
+        jPanel5 = new javax.swing.JPanel();
+        jPanel4 = new javax.swing.JPanel();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        jListResultObjects = new javax.swing.JList();
+        jButton2 = new javax.swing.JButton();
+        jPanel3 = new javax.swing.JPanel();
+        jButton1 = new javax.swing.JButton();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        jListDatasets = new javax.swing.JList();
+        jPanel7 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jLKineticParameters = new javax.swing.JList();
         jScrollPane2 = new javax.swing.JScrollPane();
         jLSpectralParameters = new javax.swing.JList();
-        jPSpectras = new javax.swing.JPanel();
-        jButton1 = new javax.swing.JButton();
-        jScrollPane3 = new javax.swing.JScrollPane();
-        jListDatasets = new javax.swing.JList();
-        jPSelectedWaveTrace = new javax.swing.JPanel();
-        jPSelectedTimeTrace = new javax.swing.JPanel();
         jPStreakImage = new javax.swing.JPanel();
-        jButton2 = new javax.swing.JButton();
-        jScrollPane4 = new javax.swing.JScrollPane();
-        jListResultObjects = new javax.swing.JList();
+        jPanel1 = new javax.swing.JPanel();
+        jPSelectedTimeTrace = new javax.swing.JPanel();
+        jPSelectedWaveTrace = new javax.swing.JPanel();
+        jPanel2 = new javax.swing.JPanel();
+        jPSpectras = new javax.swing.JPanel();
+        jPConcentrations = new javax.swing.JPanel();
 
-        jPConcentrations.setBackground(new java.awt.Color(255, 255, 255));
-        jPConcentrations.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        setLayout(new java.awt.GridLayout(1, 0));
 
-        javax.swing.GroupLayout jPConcentrationsLayout = new javax.swing.GroupLayout(jPConcentrations);
-        jPConcentrations.setLayout(jPConcentrationsLayout);
-        jPConcentrationsLayout.setHorizontalGroup(
-            jPConcentrationsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 285, Short.MAX_VALUE)
+        jPanel6.setLayout(new java.awt.GridLayout(0, 1));
+
+        jPanel5.setLayout(new java.awt.GridLayout(1, 0));
+
+        jListResultObjects.setBorder(javax.swing.BorderFactory.createTitledBorder("ListOfResults"));
+        jListResultObjects.setModel(listOfDatasets);
+        jListResultObjects.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        jListResultObjects.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
+            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
+                jListResultObjectsValueChanged(evt);
+            }
+        });
+        jScrollPane4.setViewportView(jListResultObjects);
+
+        org.openide.awt.Mnemonics.setLocalizedText(jButton2, org.openide.util.NbBundle.getMessage(StreakOutTopComponent.class, "StreakOutTopComponent.jButton2.text")); // NOI18N
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
+        jPanel4.setLayout(jPanel4Layout);
+        jPanel4Layout.setHorizontalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, 225, Short.MAX_VALUE)
+            .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 225, Short.MAX_VALUE)
         );
-        jPConcentrationsLayout.setVerticalGroup(
-            jPConcentrationsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 166, Short.MAX_VALUE)
+        jPanel4Layout.setVerticalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
+                .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 320, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButton2))
         );
 
-        jLKineticParameters.setBorder(javax.swing.BorderFactory.createTitledBorder("KinParameters"));
-        jScrollPane1.setViewportView(jLKineticParameters);
-
-        jLSpectralParameters.setBorder(javax.swing.BorderFactory.createTitledBorder("SpecParameters"));
-        jScrollPane2.setViewportView(jLSpectralParameters);
-
-        jPSpectras.setBackground(new java.awt.Color(255, 255, 255));
-        jPSpectras.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-
-        javax.swing.GroupLayout jPSpectrasLayout = new javax.swing.GroupLayout(jPSpectras);
-        jPSpectras.setLayout(jPSpectrasLayout);
-        jPSpectrasLayout.setHorizontalGroup(
-            jPSpectrasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 305, Short.MAX_VALUE)
-        );
-        jPSpectrasLayout.setVerticalGroup(
-            jPSpectrasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 166, Short.MAX_VALUE)
-        );
+        jPanel5.add(jPanel4);
 
         org.openide.awt.Mnemonics.setLocalizedText(jButton1, org.openide.util.NbBundle.getMessage(StreakOutTopComponent.class, "StreakOutTopComponent.jButton1.text")); // NOI18N
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -140,11 +153,6 @@ final class StreakOutTopComponent extends TopComponent implements ChartMouseList
         });
 
         jListDatasets.setBorder(javax.swing.BorderFactory.createTitledBorder("ListOfDatasets"));
-        jListDatasets.setModel(new javax.swing.AbstractListModel() {
-            String[] strings = { "Dataset1" };
-            public int getSize() { return strings.length; }
-            public Object getElementAt(int i) { return strings[i]; }
-        });
         jListDatasets.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
             public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
                 jListDatasetsValueChanged(evt);
@@ -152,33 +160,38 @@ final class StreakOutTopComponent extends TopComponent implements ChartMouseList
         });
         jScrollPane3.setViewportView(jListDatasets);
 
-        jPSelectedWaveTrace.setBackground(new java.awt.Color(255, 255, 255));
-        jPSelectedWaveTrace.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, 225, Short.MAX_VALUE)
+            .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 225, Short.MAX_VALUE)
+        );
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 320, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButton1))
+        );
 
-        javax.swing.GroupLayout jPSelectedWaveTraceLayout = new javax.swing.GroupLayout(jPSelectedWaveTrace);
-        jPSelectedWaveTrace.setLayout(jPSelectedWaveTraceLayout);
-        jPSelectedWaveTraceLayout.setHorizontalGroup(
-            jPSelectedWaveTraceLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 285, Short.MAX_VALUE)
-        );
-        jPSelectedWaveTraceLayout.setVerticalGroup(
-            jPSelectedWaveTraceLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 150, Short.MAX_VALUE)
-        );
+        jPanel5.add(jPanel3);
 
-        jPSelectedTimeTrace.setBackground(new java.awt.Color(255, 255, 255));
-        jPSelectedTimeTrace.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        jPanel6.add(jPanel5);
 
-        javax.swing.GroupLayout jPSelectedTimeTraceLayout = new javax.swing.GroupLayout(jPSelectedTimeTrace);
-        jPSelectedTimeTrace.setLayout(jPSelectedTimeTraceLayout);
-        jPSelectedTimeTraceLayout.setHorizontalGroup(
-            jPSelectedTimeTraceLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 285, Short.MAX_VALUE)
-        );
-        jPSelectedTimeTraceLayout.setVerticalGroup(
-            jPSelectedTimeTraceLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 136, Short.MAX_VALUE)
-        );
+        jPanel7.setLayout(new java.awt.GridLayout(1, 0));
+
+        jLKineticParameters.setBorder(javax.swing.BorderFactory.createTitledBorder("KinParameters"));
+        jScrollPane1.setViewportView(jLKineticParameters);
+
+        jPanel7.add(jScrollPane1);
+
+        jLSpectralParameters.setBorder(javax.swing.BorderFactory.createTitledBorder("SpecParameters"));
+        jScrollPane2.setViewportView(jLSpectralParameters);
+
+        jPanel7.add(jScrollPane2);
+
+        jPanel6.add(jPanel7);
 
         jPStreakImage.setBackground(new java.awt.Color(0, 0, 0));
         jPStreakImage.setBorder(javax.swing.BorderFactory.createEtchedBorder());
@@ -194,86 +207,88 @@ final class StreakOutTopComponent extends TopComponent implements ChartMouseList
         jPStreakImage.setLayout(jPStreakImageLayout);
         jPStreakImageLayout.setHorizontalGroup(
             jPStreakImageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 305, Short.MAX_VALUE)
+            .addGap(0, 446, Short.MAX_VALUE)
         );
         jPStreakImageLayout.setVerticalGroup(
             jPStreakImageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 296, Short.MAX_VALUE)
+            .addGap(0, 346, Short.MAX_VALUE)
         );
 
-        org.openide.awt.Mnemonics.setLocalizedText(jButton2, org.openide.util.NbBundle.getMessage(StreakOutTopComponent.class, "StreakOutTopComponent.jButton2.text")); // NOI18N
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
-            }
-        });
+        jPanel6.add(jPStreakImage);
 
-        jListResultObjects.setBorder(javax.swing.BorderFactory.createTitledBorder("ListOfResults"));
-        jListResultObjects.setModel(listOfDatasets);
-        jListResultObjects.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
-        jListResultObjects.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
-            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
-                jListResultObjectsValueChanged(evt);
-            }
-        });
-        jScrollPane4.setViewportView(jListResultObjects);
+        add(jPanel6);
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-        this.setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane2, 0, 0, Short.MAX_VALUE)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jScrollPane4, 0, 0, Short.MAX_VALUE))
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 99, Short.MAX_VALUE)))
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 190, Short.MAX_VALUE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(jPConcentrations, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPSelectedWaveTrace, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPSelectedTimeTrace, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPSpectras, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPStreakImage, 0, 309, Short.MAX_VALUE))
-                .addContainerGap(47, javax.swing.GroupLayout.PREFERRED_SIZE))
+        jPanel1.setLayout(new java.awt.GridLayout(0, 1));
+
+        jPSelectedTimeTrace.setBackground(new java.awt.Color(255, 255, 255));
+        jPSelectedTimeTrace.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+
+        javax.swing.GroupLayout jPSelectedTimeTraceLayout = new javax.swing.GroupLayout(jPSelectedTimeTrace);
+        jPSelectedTimeTrace.setLayout(jPSelectedTimeTraceLayout);
+        jPSelectedTimeTraceLayout.setHorizontalGroup(
+            jPSelectedTimeTraceLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 446, Short.MAX_VALUE)
         );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jPSelectedTimeTrace, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jPSelectedWaveTrace, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(jScrollPane3, javax.swing.GroupLayout.Alignment.LEADING, 0, 0, Short.MAX_VALUE)
-                            .addComponent(jScrollPane4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 131, Short.MAX_VALUE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jButton1))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jPStreakImage, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPSpectras, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPConcentrations, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 170, Short.MAX_VALUE))
-                .addContainerGap())
+        jPSelectedTimeTraceLayout.setVerticalGroup(
+            jPSelectedTimeTraceLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 521, Short.MAX_VALUE)
         );
+
+        jPanel1.add(jPSelectedTimeTrace);
+
+        jPSelectedWaveTrace.setBackground(new java.awt.Color(255, 255, 255));
+        jPSelectedWaveTrace.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+
+        javax.swing.GroupLayout jPSelectedWaveTraceLayout = new javax.swing.GroupLayout(jPSelectedWaveTrace);
+        jPSelectedWaveTrace.setLayout(jPSelectedWaveTraceLayout);
+        jPSelectedWaveTraceLayout.setHorizontalGroup(
+            jPSelectedWaveTraceLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 446, Short.MAX_VALUE)
+        );
+        jPSelectedWaveTraceLayout.setVerticalGroup(
+            jPSelectedWaveTraceLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 521, Short.MAX_VALUE)
+        );
+
+        jPanel1.add(jPSelectedWaveTrace);
+
+        add(jPanel1);
+
+        jPanel2.setLayout(new java.awt.GridLayout(0, 1));
+
+        jPSpectras.setBackground(new java.awt.Color(255, 255, 255));
+        jPSpectras.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+
+        javax.swing.GroupLayout jPSpectrasLayout = new javax.swing.GroupLayout(jPSpectras);
+        jPSpectras.setLayout(jPSpectrasLayout);
+        jPSpectrasLayout.setHorizontalGroup(
+            jPSpectrasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 446, Short.MAX_VALUE)
+        );
+        jPSpectrasLayout.setVerticalGroup(
+            jPSpectrasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 521, Short.MAX_VALUE)
+        );
+
+        jPanel2.add(jPSpectras);
+
+        jPConcentrations.setBackground(new java.awt.Color(255, 255, 255));
+        jPConcentrations.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+
+        javax.swing.GroupLayout jPConcentrationsLayout = new javax.swing.GroupLayout(jPConcentrations);
+        jPConcentrations.setLayout(jPConcentrationsLayout);
+        jPConcentrationsLayout.setHorizontalGroup(
+            jPConcentrationsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 446, Short.MAX_VALUE)
+        );
+        jPConcentrationsLayout.setVerticalGroup(
+            jPConcentrationsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 521, Short.MAX_VALUE)
+        );
+
+        jPanel2.add(jPConcentrations);
+
+        add(jPanel2);
     }// </editor-fold>//GEN-END:initComponents
 
 private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
@@ -363,6 +378,13 @@ private void jListDatasetsValueChanged(javax.swing.event.ListSelectionEvent evt)
     private javax.swing.JPanel jPSelectedWaveTrace;
     private javax.swing.JPanel jPSpectras;
     private javax.swing.JPanel jPStreakImage;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel4;
+    private javax.swing.JPanel jPanel5;
+    private javax.swing.JPanel jPanel6;
+    private javax.swing.JPanel jPanel7;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;

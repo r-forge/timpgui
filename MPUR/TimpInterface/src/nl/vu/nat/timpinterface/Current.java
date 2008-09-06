@@ -187,17 +187,32 @@ public class Current {
     }
 
     public static void addModel(Tgm newTgm) {
+        if (Current.optionsNames.contains(newTgm.getDat().getModelName())) {
+            System.out.println("Warning: object " +newTgm.getDat().getModelName() +" already exists in R, overwriting.");
+            Current.optionsNames.indexOf(newTgm.getDat().getModelName());
+            Current.optionsNames.remove(numDat);
+            Current.datList.add(newTgm);
+            Current.nameOfCurrentModel=newTgm.getDat().getModelName();
+            Current.modelNames.add(nameOfCurrentModel);
+            Current.indexOfCurrentModel = datList.size();
+        } else {
         Current.datList.add(newTgm);
         Current.nameOfCurrentModel=newTgm.getDat().getModelName();
         Current.modelNames.add(nameOfCurrentModel);
         Current.indexOfCurrentModel = datList.size();
+        }
     }
 
     public static void addOpt(Tgo newTgo) {
+        if (Current.modelNames.contains(newTgo.getOpt().getOptName())) {
+            System.out.println("Warning: object " +newTgo.getOpt().getOptName() + " already exists in R");
+        } else {
         Current.optList.add(newTgo);
         Current.nameOfCurrentOptions = newTgo.getOpt().getOptName();
         Current.optionsNames.add(nameOfCurrentOptions);
         Current.indexOfCurrentOptions = optList.size();
+        
+    }
     }
         
         public static void addResults(ResultObject resultObject) {

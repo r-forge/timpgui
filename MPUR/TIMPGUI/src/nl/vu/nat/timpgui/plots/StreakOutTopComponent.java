@@ -132,13 +132,13 @@ final class StreakOutTopComponent extends TopComponent implements ChartMouseList
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, 225, Short.MAX_VALUE)
-            .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 225, Short.MAX_VALUE)
+            .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 79, Short.MAX_VALUE)
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
-                .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 320, Short.MAX_VALUE)
+                .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 22, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton2))
         );
@@ -164,13 +164,13 @@ final class StreakOutTopComponent extends TopComponent implements ChartMouseList
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, 225, Short.MAX_VALUE)
-            .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 225, Short.MAX_VALUE)
+            .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, 79, Short.MAX_VALUE)
+            .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 79, Short.MAX_VALUE)
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 320, Short.MAX_VALUE)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 22, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton1))
         );
@@ -227,7 +227,7 @@ final class StreakOutTopComponent extends TopComponent implements ChartMouseList
         jPSelectedTimeTrace.setLayout(jPSelectedTimeTraceLayout);
         jPSelectedTimeTraceLayout.setHorizontalGroup(
             jPSelectedTimeTraceLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 446, Short.MAX_VALUE)
+            .addGap(0, 648, Short.MAX_VALUE)
         );
         jPSelectedTimeTraceLayout.setVerticalGroup(
             jPSelectedTimeTraceLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -243,7 +243,7 @@ final class StreakOutTopComponent extends TopComponent implements ChartMouseList
         jPSelectedWaveTrace.setLayout(jPSelectedWaveTraceLayout);
         jPSelectedWaveTraceLayout.setHorizontalGroup(
             jPSelectedWaveTraceLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 446, Short.MAX_VALUE)
+            .addGap(0, 648, Short.MAX_VALUE)
         );
         jPSelectedWaveTraceLayout.setVerticalGroup(
             jPSelectedWaveTraceLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -263,7 +263,7 @@ final class StreakOutTopComponent extends TopComponent implements ChartMouseList
         jPSpectras.setLayout(jPSpectrasLayout);
         jPSpectrasLayout.setHorizontalGroup(
             jPSpectrasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 446, Short.MAX_VALUE)
+            .addGap(0, 648, Short.MAX_VALUE)
         );
         jPSpectrasLayout.setVerticalGroup(
             jPSpectrasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -279,7 +279,7 @@ final class StreakOutTopComponent extends TopComponent implements ChartMouseList
         jPConcentrations.setLayout(jPConcentrationsLayout);
         jPConcentrationsLayout.setHorizontalGroup(
             jPConcentrationsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 446, Short.MAX_VALUE)
+            .addGap(0, 648, Short.MAX_VALUE)
         );
         jPConcentrationsLayout.setVerticalGroup(
             jPConcentrationsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -300,9 +300,8 @@ private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
     }
     jLKineticParameters.setListData(rates);
 
-
-
-    chpanImage = new ChartPanel(MakeImageChart(MakeXYZDataset()));
+    chpanImage = new ChartPanel(MakeImageChart(MakeXYZDataset()),true);
+    chpanImage.getChartRenderingInfo().setEntityCollection(null);
     jPStreakImage.removeAll();
     chpanImage.setSize(jPStreakImage.getSize());
     chpanImage.addChartMouseListener(this);
@@ -349,9 +348,8 @@ private void jListDatasetsValueChanged(javax.swing.event.ListSelectionEvent evt)
     }
     jLKineticParameters.setListData(rates);
 
-
-
-    chpanImage = new ChartPanel(MakeImageChart(MakeXYZDataset()));
+    chpanImage = new ChartPanel(MakeImageChart(MakeXYZDataset()),true);
+    chpanImage.getChartRenderingInfo().setEntityCollection(null);
     jPStreakImage.removeAll();
     chpanImage.setSize(jPStreakImage.getSize());
     chpanImage.addChartMouseListener(this);
@@ -359,9 +357,9 @@ private void jListDatasetsValueChanged(javax.swing.event.ListSelectionEvent evt)
     jPStreakImage.add(chpanImage);
     jPStreakImage.repaint();
 
-    PlotFirstTrace();
-    MakeTracesChart();
-    PlotConcSpectrTrace();
+//    PlotFirstTrace();
+//    MakeTracesChart();
+//    PlotConcSpectrTrace();
     }
     
 }//GEN-LAST:event_jListDatasetsValueChanged
@@ -457,7 +455,6 @@ private void jListDatasetsValueChanged(javax.swing.event.ListSelectionEvent evt)
     }
 
     private void UpdateSelectedTraces(int waveInd, int timeInd) {
-
         tracesTimeCollection.getSeries(0).clear();
         tracesTimeCollection.getSeries(1).clear();
         residualsTime.getSeries(0).clear();
@@ -536,6 +533,7 @@ private void jListDatasetsValueChanged(javax.swing.event.ListSelectionEvent evt)
             specCollection.addSeries(seria);
         }
         JFreeChart tracechart;
+        // update multiple attributes in the chart, plot, axes, renderer(s), dataset(s) etc.
         tracechart = ChartFactory.createXYLineChart(
                 "Concentrations",
                 "Time (ns)",
@@ -548,6 +546,7 @@ private void jListDatasetsValueChanged(javax.swing.event.ListSelectionEvent evt)
         tracechart.getXYPlot().getDomainAxis().setUpperBound(res.GetX()[res.GetX().length - 1]);
 //        tracechart.getXYPlot().setDomainZeroBaselineVisible(true);
         ChartPanel chpan = new ChartPanel(tracechart);
+        chpan.getChartRenderingInfo().setEntityCollection(null);
         chpan.setSize(jPConcentrations.getSize());
         jPConcentrations.removeAll();
         jPConcentrations.add(chpan);
@@ -565,6 +564,7 @@ private void jListDatasetsValueChanged(javax.swing.event.ListSelectionEvent evt)
         tracechart.getXYPlot().getDomainAxis().setUpperBound(res.GetX2()[res.GetX2().length - 1]);
 //        tracechart.getXYPlot().setDomainZeroBaselineVisible(true);
         chpan = new ChartPanel(tracechart);
+        chpan.getChartRenderingInfo().setEntityCollection(null);
         chpan.setSize(jPSpectras.getSize());
         jPSpectras.removeAll();
         jPSpectras.add(chpan);
@@ -670,6 +670,7 @@ private void jListDatasetsValueChanged(javax.swing.event.ListSelectionEvent evt)
         plot.setRangeCrosshairLockedOnData(false);
 
         chart = new JFreeChart(plot);
+        chart.setNotify(false);
         chart.removeLegend();
 
         NumberAxis scaleAxis = new NumberAxis();
@@ -687,11 +688,12 @@ private void jListDatasetsValueChanged(javax.swing.event.ListSelectionEvent evt)
         legend.setPosition(RectangleEdge.RIGHT);
         legend.setBackgroundPaint(chart.getBackgroundPaint());
         chart.addSubtitle(legend);
+        chart.setNotify(true);
         return chart;
     }
 
     public void chartMouseClicked(ChartMouseEvent event) {
-
+        this.chart.setNotify(false);
         int mouseX = event.getTrigger().getX();
         int mouseY = event.getTrigger().getY();
         Point2D p = this.chpanImage.translateScreenToJava2D(new Point(mouseX, mouseY));
@@ -710,6 +712,7 @@ private void jListDatasetsValueChanged(javax.swing.event.ListSelectionEvent evt)
 //        System.out.println(chartX+"    "+chartY);
 
         UpdateSelectedTraces(chartY, chartX);
+        this.chart.setNotify(true);
 
     }
 

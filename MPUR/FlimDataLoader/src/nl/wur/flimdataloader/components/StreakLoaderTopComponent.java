@@ -19,7 +19,9 @@ import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import nl.vu.nat.timpinterface.Register;
 import nl.wur.flim.jfreechartcustom.ColorCodedImageDataset;
+import nl.wur.flim.jfreechartcustom.FastXYPlot;
 import nl.wur.flim.jfreechartcustom.RainbowPaintScale;
+import nl.wur.flim.jfreechartcustom.XYBlockRenderer;
 import nl.wur.flimdataloader.flimpac.DatasetTimp;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartMouseEvent;
@@ -31,9 +33,9 @@ import org.jfree.chart.axis.AxisLocation;
 import org.jfree.chart.axis.NumberAxis;
 import org.jfree.chart.axis.ValueAxis;
 import org.jfree.chart.plot.PlotOrientation;
-import org.jfree.chart.plot.XYPlot;
+//import org.jfree.chart.plot.XYPlot;
 import org.jfree.chart.renderer.PaintScale;
-import org.jfree.chart.renderer.xy.XYBlockRenderer;
+//import org.jfree.chart.renderer.xy.XYBlockRenderer;
 import org.jfree.chart.title.PaintScaleLegend;
 import org.jfree.data.xy.DefaultXYZDataset;
 import org.jfree.data.xy.XYSeries;
@@ -629,7 +631,7 @@ private void jPStreakImageMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIR
         XYBlockRenderer renderer = new XYBlockRenderer();
         PaintScale scale = new RainbowPaintScale(data.GetMinInt(), data.GetMaxInt());
         renderer.setPaintScale(scale);
-        XYPlot plot = new XYPlot(dataset, xAxis, yAxis, renderer);        
+        FastXYPlot plot = new FastXYPlot(dataset, xAxis, yAxis, renderer);        
    
         plot.setDomainCrosshairVisible(true);
         plot.setDomainCrosshairLockedOnData(false);
@@ -662,7 +664,7 @@ private void jPStreakImageMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIR
         int mouseX = event.getTrigger().getX();
         int mouseY = event.getTrigger().getY();
         Point2D p = this.chpanImage.translateScreenToJava2D(new Point(mouseX, mouseY));
-        XYPlot plot = (XYPlot) this.chart.getPlot();
+        FastXYPlot plot = (FastXYPlot) this.chart.getPlot();
         ChartRenderingInfo info = this.chpanImage.getChartRenderingInfo();
         Rectangle2D dataArea = info.getPlotInfo().getDataArea();
         

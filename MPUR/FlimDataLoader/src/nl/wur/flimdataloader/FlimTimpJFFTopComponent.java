@@ -24,9 +24,9 @@ import org.jfree.chart.axis.NumberAxis;
 import org.jfree.chart.entity.ChartEntity;
 import org.jfree.chart.entity.XYItemEntity;
 import org.jfree.chart.plot.PlotOrientation;
-import org.jfree.chart.plot.XYPlot;
+//import org.jfree.chart.plot.XYPlot;
 import org.jfree.chart.renderer.PaintScale;
-import org.jfree.chart.renderer.xy.XYBlockRenderer;
+//import org.jfree.chart.renderer.xy.XYBlockRenderer;
 import org.jfree.chart.title.PaintScaleLegend;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
@@ -41,6 +41,8 @@ import java.io.File;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 import nl.vu.nat.timpinterface.Register;
+import nl.wur.flim.jfreechartcustom.FastXYPlot;
+import nl.wur.flim.jfreechartcustom.XYBlockRenderer;
 import nl.wur.flimdataloader.flimpac.DatasetTimp;
 import nl.wur.flimdataloader.flimpac.FlimImage;
 
@@ -753,7 +755,7 @@ private XYZDataset MakeXYZDataset(){
         PaintScale scale = new GrayPaintScalePlus(0, flimImage.getMaxIntens(),-1);
         
         renderer.setPaintScale(scale);
-        XYPlot plot = new XYPlot(dataset, xAxis, yAxis, renderer);        
+        FastXYPlot plot = new FastXYPlot(dataset, xAxis, yAxis, renderer);        
 /*
         plot.setDomainCrosshairVisible(true);
         plot.setDomainCrosshairLockedOnData(false);

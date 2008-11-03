@@ -296,6 +296,7 @@ public class XYBlockRenderer extends AbstractXYItemRenderer
      *
      * @see #findRangeBounds(XYDataset)
      */
+    @Override
     public Range findDomainBounds(XYDataset dataset) {
         if (dataset != null) {
             Range r = DatasetUtilities.findDomainBounds(dataset, false);
@@ -359,6 +360,8 @@ public class XYBlockRenderer extends AbstractXYItemRenderer
             Rectangle2D dataArea, PlotRenderingInfo info, XYPlot plot,
             ValueAxis domainAxis, ValueAxis rangeAxis, XYDataset dataset,
             int series, int item, CrosshairState crosshairState, int pass) {
+        
+        boolean bAddEntity = false;
 
         double x = dataset.getXValue(series, item);
         double y = dataset.getYValue(series, item);
@@ -383,6 +386,7 @@ public class XYBlockRenderer extends AbstractXYItemRenderer
                     Math.abs(xx0 - xx1));
         }
         else {
+            // Detect if Rectangle is smaller than 2 by 2 pixels 
             block = new Rectangle2D.Double(Math.min(xx0, xx1),
                     Math.min(yy0, yy1), Math.abs(xx1 - xx0),
                     Math.abs(yy1 - yy0));
@@ -391,9 +395,8 @@ public class XYBlockRenderer extends AbstractXYItemRenderer
         g2.fill(block);
         g2.setStroke(new BasicStroke(1.0f));
         g2.draw(block);
-
         EntityCollection entities = state.getEntityCollection();
-        if (entities != null) {
+        if (entities != null && bAddEntity) {
             addEntity(entities, block, dataset, series, item, 0.0, 0.0);
         }
 

@@ -6,7 +6,7 @@
             <file name="nl-wur-flimdataloader-FlimTimpJFFAction.instance"/>
             <file name="nl-wur-flimdataloader-components-MeasuredIrfAction.instance"/>
             <file name="nl-wur-flimdataloader-components-StreakLoaderAction.instance"/>
-        </folder>
+            </folder>
     </folder>
     <folder name="Menu">
         <folder name="Window">
@@ -19,7 +19,7 @@
             <file name="StreakLoaderAction.shadow">
                 <attr name="originalFile" stringvalue="Actions/Window/nl-wur-flimdataloader-components-StreakLoaderAction.instance"/>
             </file>
-        </folder>
+            </folder>
     </folder>
     <folder name="Windows2">
         <folder name="Components">

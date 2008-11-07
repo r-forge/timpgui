@@ -99,7 +99,6 @@ final class StreakLoaderTopComponent extends TopComponent implements ChartMouseL
         jPSelectedTimeTrace = new javax.swing.JPanel();
         jPSelectedWaveTrace = new javax.swing.JPanel();
         jPanel5 = new javax.swing.JPanel();
-        jPStreakImage = new javax.swing.JPanel();
         jPanel1 = new javax.swing.JPanel();
         jLabel6 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
@@ -109,6 +108,7 @@ final class StreakLoaderTopComponent extends TopComponent implements ChartMouseL
         jLabel8 = new javax.swing.JLabel();
         jLTimeWind = new javax.swing.JLabel();
         jLWavewind = new javax.swing.JLabel();
+        jPStreakImage = new javax.swing.JPanel();
 
         jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder(org.openide.util.NbBundle.getMessage(StreakLoaderTopComponent.class, "StreakLoaderTopComponent.jPanel3.border.title"))); // NOI18N
         jPanel3.setMaximumSize(new java.awt.Dimension(460, 85));
@@ -138,7 +138,7 @@ final class StreakLoaderTopComponent extends TopComponent implements ChartMouseL
                 .addContainerGap())
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(TFfilenam, javax.swing.GroupLayout.DEFAULT_SIZE, 229, Short.MAX_VALUE)
+                .addComponent(TFfilenam, javax.swing.GroupLayout.DEFAULT_SIZE, 235, Short.MAX_VALUE)
                 .addGap(209, 209, 209))
         );
         jPanel3Layout.setVerticalGroup(
@@ -149,7 +149,7 @@ final class StreakLoaderTopComponent extends TopComponent implements ChartMouseL
                     .addComponent(Bloadsamp))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(TFfilenam, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(20, Short.MAX_VALUE))
+                .addContainerGap(21, Short.MAX_VALUE))
         );
 
         jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder("Dataset"));
@@ -177,11 +177,11 @@ final class StreakLoaderTopComponent extends TopComponent implements ChartMouseL
                 .addContainerGap()
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
-                        .addComponent(jTFDatasetName, javax.swing.GroupLayout.DEFAULT_SIZE, 281, Short.MAX_VALUE)
+                        .addComponent(jTFDatasetName, javax.swing.GroupLayout.DEFAULT_SIZE, 285, Short.MAX_VALUE)
                         .addGap(18, 18, 18)
                         .addComponent(jBSaveIvoFile))
                     .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, 182, Short.MAX_VALUE)
+                        .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, 190, Short.MAX_VALUE)
                         .addGap(115, 115, 115)
                         .addComponent(jBMakeDataset)))
                 .addContainerGap())
@@ -196,7 +196,7 @@ final class StreakLoaderTopComponent extends TopComponent implements ChartMouseL
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jBSaveIvoFile)
                     .addComponent(jTFDatasetName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(14, Short.MAX_VALUE))
+                .addContainerGap(15, Short.MAX_VALUE))
         );
 
         jPanel2.setLayout(new java.awt.GridBagLayout());
@@ -244,35 +244,6 @@ final class StreakLoaderTopComponent extends TopComponent implements ChartMouseL
         jPanel2.add(jPSelectedWaveTrace, gridBagConstraints);
 
         jPanel5.setLayout(new java.awt.GridBagLayout());
-
-        jPStreakImage.setBackground(new java.awt.Color(0, 0, 0));
-        jPStreakImage.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-        jPStreakImage.setMaximumSize(new java.awt.Dimension(450, 350));
-        jPStreakImage.setMinimumSize(new java.awt.Dimension(450, 350));
-        jPStreakImage.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jPStreakImageMouseClicked(evt);
-            }
-        });
-
-        javax.swing.GroupLayout jPStreakImageLayout = new javax.swing.GroupLayout(jPStreakImage);
-        jPStreakImage.setLayout(jPStreakImageLayout);
-        jPStreakImageLayout.setHorizontalGroup(
-            jPStreakImageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 446, Short.MAX_VALUE)
-        );
-        jPStreakImageLayout.setVerticalGroup(
-            jPStreakImageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 346, Short.MAX_VALUE)
-        );
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
-        gridBagConstraints.gridheight = java.awt.GridBagConstraints.REMAINDER;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.SOUTH;
-        jPanel5.add(jPStreakImage, gridBagConstraints);
 
         org.openide.awt.Mnemonics.setLocalizedText(jLabel6, org.openide.util.NbBundle.getMessage(StreakLoaderTopComponent.class, "StreakLoaderTopComponent.jLabel6.text")); // NOI18N
 
@@ -339,12 +310,26 @@ final class StreakLoaderTopComponent extends TopComponent implements ChartMouseL
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTH;
-        jPanel5.add(jPanel1, gridBagConstraints);
+        jPStreakImage.setBackground(new java.awt.Color(0, 0, 0));
+        jPStreakImage.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        jPStreakImage.setMaximumSize(new java.awt.Dimension(512, 512));
+        jPStreakImage.setMinimumSize(new java.awt.Dimension(512, 512));
+        jPStreakImage.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jPStreakImageMouseClicked(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPStreakImageLayout = new javax.swing.GroupLayout(jPStreakImage);
+        jPStreakImage.setLayout(jPStreakImageLayout);
+        jPStreakImageLayout.setHorizontalGroup(
+            jPStreakImageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 461, Short.MAX_VALUE)
+        );
+        jPStreakImageLayout.setVerticalGroup(
+            jPStreakImageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 368, Short.MAX_VALUE)
+        );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -353,12 +338,15 @@ final class StreakLoaderTopComponent extends TopComponent implements ChartMouseL
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, 466, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jPanel4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPStreakImage, javax.swing.GroupLayout.PREFERRED_SIZE, 465, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -368,11 +356,21 @@ final class StreakLoaderTopComponent extends TopComponent implements ChartMouseL
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap())
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(39, 39, 39))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jPStreakImage, javax.swing.GroupLayout.PREFERRED_SIZE, 372, Short.MAX_VALUE)
+                                .addContainerGap())))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap())))
         );
 
         jPanel3.getAccessibleContext().setAccessibleName(org.openide.util.NbBundle.getMessage(StreakLoaderTopComponent.class, "StreakLoaderTopComponent.jPanel3.AccessibleContext.accessibleName")); // NOI18N
@@ -639,7 +637,8 @@ private void jPStreakImageMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIR
         plot.setRangeCrosshairLockedOnData(false);
 
         chart = new JFreeChart(plot);
-        chart.removeLegend();   
+        chart.setAntiAlias(false);
+        chart.removeLegend();
   
         NumberAxis scaleAxis = new NumberAxis();
         scaleAxis.setAxisLinePaint(Color.black);

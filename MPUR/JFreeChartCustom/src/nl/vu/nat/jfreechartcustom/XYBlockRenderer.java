@@ -340,16 +340,16 @@ public class XYBlockRenderer extends AbstractXYItemRenderer
         }
     }
     
-     @Override
-      public XYItemRendererState initialise(Graphics2D g2,
-                Rectangle2D dataArea,
-                XYPlot plot,
-                XYDataset data,
-                PlotRenderingInfo info) {
-          final XYItemRendererState state =
+    @Override
+     public XYItemRendererState initialise(Graphics2D g2,
+         Rectangle2D dataArea,
+         XYPlot plot,
+         XYDataset data,
+         PlotRenderingInfo info) {
+         final XYItemRendererState state =
              super.initialise(g2, dataArea, plot, data, info);
-          state.setProcessVisibleItemsOnly(false);
-          return state;
+         state.setProcessVisibleItemsOnly(false);
+         return state;
        }                  
 
     /**
@@ -406,7 +406,7 @@ public class XYBlockRenderer extends AbstractXYItemRenderer
         g2.setPaint(p);
         g2.fill(block);
         g2.setStroke(new BasicStroke(1.0f));
-        //g2.draw(block);
+//        g2.draw(block);
         EntityCollection entities = state.getEntityCollection();
         if (entities != null && bAddEntity) {
             addEntity(entities, block, dataset, series, item, 0.0, 0.0);

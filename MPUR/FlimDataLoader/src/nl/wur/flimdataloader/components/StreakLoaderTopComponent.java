@@ -34,6 +34,7 @@ import org.jfree.chart.axis.NumberAxis;
 import org.jfree.chart.axis.ValueAxis;
 import org.jfree.chart.plot.PlotOrientation;
 //import org.jfree.chart.plot.XYPlot;
+import org.jfree.chart.plot.XYPlot;
 import org.jfree.chart.renderer.PaintScale;
 //import org.jfree.chart.renderer.xy.XYBlockRenderer;
 import org.jfree.chart.title.PaintScaleLegend;
@@ -67,8 +68,8 @@ final class StreakLoaderTopComponent extends TopComponent implements ChartMouseL
     private ColorCodedImageDataset dataset;
 
     private StreakLoaderTopComponent() {
-                fc = new JFileChooser();
-        fc.setAcceptAllFileFilterUsed(false);
+        fc = new JFileChooser();
+        fc.setAcceptAllFileFilterUsed(true);
         fc.setFileFilter(new FileNameExtensionFilter(" .ivo ASCII files", "ivo"));
         data = new DatasetTimp();
         initComponents();
@@ -149,7 +150,7 @@ final class StreakLoaderTopComponent extends TopComponent implements ChartMouseL
                     .addComponent(Bloadsamp))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(TFfilenam, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(23, Short.MAX_VALUE))
+                .addContainerGap(47, Short.MAX_VALUE))
         );
 
         jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder("Dataset"));
@@ -196,7 +197,7 @@ final class StreakLoaderTopComponent extends TopComponent implements ChartMouseL
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jBSaveIvoFile)
                     .addComponent(jTFDatasetName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(17, Short.MAX_VALUE))
+                .addContainerGap(41, Short.MAX_VALUE))
         );
 
         jPanel2.setLayout(new java.awt.GridBagLayout());
@@ -312,9 +313,9 @@ final class StreakLoaderTopComponent extends TopComponent implements ChartMouseL
 
         jPStreakImage.setBackground(new java.awt.Color(0, 0, 0));
         jPStreakImage.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-        jPStreakImage.setMaximumSize(new java.awt.Dimension(612, 512));
-        jPStreakImage.setMinimumSize(new java.awt.Dimension(612, 512));
-        jPStreakImage.setPreferredSize(new java.awt.Dimension(612, 512));
+        jPStreakImage.setMaximumSize(new java.awt.Dimension(500, 400));
+        jPStreakImage.setMinimumSize(new java.awt.Dimension(500, 400));
+        jPStreakImage.setPreferredSize(new java.awt.Dimension(550, 400));
         jPStreakImage.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jPStreakImageMouseClicked(evt);
@@ -325,11 +326,11 @@ final class StreakLoaderTopComponent extends TopComponent implements ChartMouseL
         jPStreakImage.setLayout(jPStreakImageLayout);
         jPStreakImageLayout.setHorizontalGroup(
             jPStreakImageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 608, Short.MAX_VALUE)
+            .addGap(0, 469, Short.MAX_VALUE)
         );
         jPStreakImageLayout.setVerticalGroup(
             jPStreakImageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 508, Short.MAX_VALUE)
+            .addGap(0, 400, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -345,7 +346,7 @@ final class StreakLoaderTopComponent extends TopComponent implements ChartMouseL
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jPanel4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPStreakImage, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jPStreakImage, javax.swing.GroupLayout.PREFERRED_SIZE, 473, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
@@ -363,15 +364,10 @@ final class StreakLoaderTopComponent extends TopComponent implements ChartMouseL
                         .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(39, 39, 39))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jPStreakImage, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addContainerGap())))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap())))
+                            .addComponent(jPStreakImage, javax.swing.GroupLayout.PREFERRED_SIZE, 404, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(104, Short.MAX_VALUE))
         );
 
         jPanel3.getAccessibleContext().setAccessibleName(org.openide.util.NbBundle.getMessage(StreakLoaderTopComponent.class, "StreakLoaderTopComponent.jPanel3.AccessibleContext.accessibleName")); // NOI18N
@@ -630,7 +626,7 @@ private void jPStreakImageMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIR
         XYBlockRenderer renderer = new XYBlockRenderer();
         PaintScale scale = new RainbowPaintScale(data.GetMinInt(), data.GetMaxInt());
         renderer.setPaintScale(scale);
-        FastXYPlot plot = new FastXYPlot(dataset, xAxis, yAxis, renderer);        
+        XYPlot plot = new XYPlot(dataset, xAxis, yAxis, renderer);        
    
         plot.setDomainCrosshairVisible(true);
         plot.setDomainCrosshairLockedOnData(false);
@@ -638,7 +634,7 @@ private void jPStreakImageMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIR
         plot.setRangeCrosshairLockedOnData(false);
 
         chart = new JFreeChart(plot);
-        chart.setAntiAlias(true);
+        chart.setAntiAlias(false);
         chart.removeLegend();
   
         NumberAxis scaleAxis = new NumberAxis();
@@ -664,7 +660,7 @@ private void jPStreakImageMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIR
         int mouseX = event.getTrigger().getX();
         int mouseY = event.getTrigger().getY();
         Point2D p = this.chpanImage.translateScreenToJava2D(new Point(mouseX, mouseY));
-        FastXYPlot plot = (FastXYPlot) this.chart.getPlot();
+        XYPlot plot = (XYPlot) this.chart.getPlot();
         ChartRenderingInfo info = this.chpanImage.getChartRenderingInfo();
         Rectangle2D dataArea = info.getPlotInfo().getDataArea();
         

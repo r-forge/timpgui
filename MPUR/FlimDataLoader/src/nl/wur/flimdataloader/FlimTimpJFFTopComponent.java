@@ -756,8 +756,7 @@ private XYZDataset MakeXYZDataset(){
         yAxis.setVisible(false);
         
         XYBlockRenderer renderer = new XYBlockRenderer();
-        PaintScale scale = new GrayPaintScalePlus(0, flimImage.getMaxIntens(),-1);
-        
+        PaintScale scale = new GrayPaintScalePlus(0, flimImage.getMaxIntens(),-1);        
         renderer.setPaintScale(scale);
         FastXYPlot plot = new FastXYPlot(dataset, xAxis, yAxis, renderer);        
 /*

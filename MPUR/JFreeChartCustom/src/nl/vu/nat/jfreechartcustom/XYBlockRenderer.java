@@ -339,6 +339,18 @@ public class XYBlockRenderer extends AbstractXYItemRenderer
             return null;
         }
     }
+    
+     @Override
+      public XYItemRendererState initialise(Graphics2D g2,
+                Rectangle2D dataArea,
+                XYPlot plot,
+                XYDataset data,
+                PlotRenderingInfo info) {
+          final XYItemRendererState state =
+             super.initialise(g2, dataArea, plot, data, info);
+          state.setProcessVisibleItemsOnly(false);
+          return state;
+       }                  
 
     /**
      * Draws the block representing the specified item.

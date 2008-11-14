@@ -638,7 +638,7 @@ private void jPStreakImageMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIR
         plot.setRangeCrosshairLockedOnData(false);
 
         chart = new JFreeChart(plot);
-        chart.setAntiAlias(false);
+        chart.setAntiAlias(true);
         chart.removeLegend();
   
         NumberAxis scaleAxis = new NumberAxis();

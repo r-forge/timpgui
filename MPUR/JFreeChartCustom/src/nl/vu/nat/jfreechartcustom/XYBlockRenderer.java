@@ -3,7 +3,7 @@
  * and open the template in the editor.
  */
 
-package nl.wur.flim.jfreechartcustom;
+package nl.vu.nat.jfreechartcustom;
 
 /**
  *

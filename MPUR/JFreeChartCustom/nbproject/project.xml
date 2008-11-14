@@ -24,6 +24,7 @@
                 </dependency>
             </module-dependencies>
             <public-packages>
+                <package>nl.vu.nat.jfreechartcustom</package>
                 <package>nl.wur.flim.jfreechartcustom</package>
             </public-packages>
         </data>

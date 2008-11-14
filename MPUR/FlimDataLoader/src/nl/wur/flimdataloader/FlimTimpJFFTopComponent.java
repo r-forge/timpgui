@@ -18,7 +18,6 @@ import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartMouseEvent;
 import org.jfree.chart.ChartMouseListener;
 import org.jfree.chart.ChartPanel;
-import org.jfree.chart.JFreeChart;
 import org.jfree.chart.axis.AxisLocation;
 import org.jfree.chart.axis.NumberAxis;
 import org.jfree.chart.entity.ChartEntity;
@@ -41,10 +40,11 @@ import java.io.File;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 import nl.vu.nat.timpinterface.Register;
-import nl.wur.flim.jfreechartcustom.FastXYPlot;
-import nl.wur.flim.jfreechartcustom.XYBlockRenderer;
 import nl.wur.flimdataloader.flimpac.DatasetTimp;
 import nl.wur.flimdataloader.flimpac.FlimImage;
+import nl.vu.nat.jfreechartcustom.FastXYPlot;
+import org.jfree.chart.JFreeChart;
+import org.jfree.chart.renderer.xy.XYBlockRenderer;
 
 /**
  * Top component which displays something.
@@ -123,8 +123,9 @@ final class FlimTimpJFFTopComponent extends TopComponent implements ChartMouseLi
 
         jPIntensImage.setBackground(new java.awt.Color(0, 0, 0));
         jPIntensImage.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-        jPIntensImage.setMaximumSize(new java.awt.Dimension(450, 350));
-        jPIntensImage.setMinimumSize(new java.awt.Dimension(450, 350));
+        jPIntensImage.setMaximumSize(new java.awt.Dimension(612, 512));
+        jPIntensImage.setMinimumSize(new java.awt.Dimension(612, 512));
+        jPIntensImage.setPreferredSize(new java.awt.Dimension(612, 512));
         jPIntensImage.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jPIntensImageMouseClicked(evt);
@@ -135,11 +136,11 @@ final class FlimTimpJFFTopComponent extends TopComponent implements ChartMouseLi
         jPIntensImage.setLayout(jPIntensImageLayout);
         jPIntensImageLayout.setHorizontalGroup(
             jPIntensImageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 476, Short.MAX_VALUE)
+            .addGap(0, 608, Short.MAX_VALUE)
         );
         jPIntensImageLayout.setVerticalGroup(
             jPIntensImageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 334, Short.MAX_VALUE)
+            .addGap(0, 508, Short.MAX_VALUE)
         );
 
         jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder("SampleFile"));
@@ -231,7 +232,7 @@ final class FlimTimpJFFTopComponent extends TopComponent implements ChartMouseLi
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jLabel8)
                             .addComponent(jLHeigth))))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(16, Short.MAX_VALUE))
         );
 
         jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder("Dataset"));
@@ -279,7 +280,7 @@ final class FlimTimpJFFTopComponent extends TopComponent implements ChartMouseLi
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jBMakeDataset)
                     .addComponent(jBSaveIvoFile))
-                .addContainerGap(16, Short.MAX_VALUE))
+                .addContainerGap(18, Short.MAX_VALUE))
         );
 
         jPanel5.setMaximumSize(new java.awt.Dimension(418, 105));
@@ -377,11 +378,11 @@ final class FlimTimpJFFTopComponent extends TopComponent implements ChartMouseLi
         jPSelectedTrace.setLayout(jPSelectedTraceLayout);
         jPSelectedTraceLayout.setHorizontalGroup(
             jPSelectedTraceLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 426, Short.MAX_VALUE)
+            .addGap(0, 414, Short.MAX_VALUE)
         );
         jPSelectedTraceLayout.setVerticalGroup(
             jPSelectedTraceLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 224, Short.MAX_VALUE)
+            .addGap(0, 386, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -393,12 +394,12 @@ final class FlimTimpJFFTopComponent extends TopComponent implements ChartMouseLi
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 96, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 188, Short.MAX_VALUE)
                         .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jPSelectedTrace, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, 430, Short.MAX_VALUE))
+                            .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addGap(18, 18, 18)
                         .addComponent(jPIntensImage, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
@@ -416,7 +417,7 @@ final class FlimTimpJFFTopComponent extends TopComponent implements ChartMouseLi
                         .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(jPSelectedTrace, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addComponent(jPIntensImage, javax.swing.GroupLayout.PREFERRED_SIZE, 338, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jPIntensImage, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
@@ -763,7 +764,8 @@ private XYZDataset MakeXYZDataset(){
         plot.setRangeCrosshairLockedOnData(false);
 */
         chart = new JFreeChart(plot);
-        chart.removeLegend();   
+        chart.removeLegend();
+        chart.setAntiAlias(false);
         NumberAxis scaleAxis = new NumberAxis();
         scaleAxis.setAxisLinePaint(Color.black);
         scaleAxis.setTickMarkPaint(Color.black);

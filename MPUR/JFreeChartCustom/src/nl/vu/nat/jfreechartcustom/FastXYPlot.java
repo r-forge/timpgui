@@ -1,4 +1,4 @@
-package nl.wur.flim.jfreechartcustom;
+package nl.vu.nat.jfreechartcustom;
 
 import java.awt.Graphics2D;
 import java.awt.geom.Rectangle2D;

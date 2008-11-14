@@ -7,6 +7,9 @@ package nl.wur.flimdataloader;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.Point;
+import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.Serializable;
@@ -20,8 +23,6 @@ import org.jfree.chart.ChartMouseListener;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.axis.AxisLocation;
 import org.jfree.chart.axis.NumberAxis;
-import org.jfree.chart.entity.ChartEntity;
-import org.jfree.chart.entity.XYItemEntity;
 import org.jfree.chart.plot.PlotOrientation;
 //import org.jfree.chart.plot.XYPlot;
 import org.jfree.chart.renderer.PaintScale;
@@ -42,9 +43,14 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import nl.vu.nat.timpinterface.Register;
 import nl.wur.flimdataloader.flimpac.DatasetTimp;
 import nl.wur.flimdataloader.flimpac.FlimImage;
+import org.jfree.chart.ChartRenderingInfo;
+import org.jfree.chart.axis.ValueAxis;
+import org.jfree.chart.plot.XYPlot;
+import static java.lang.Math.round;
 import nl.vu.nat.jfreechartcustom.FastXYPlot;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.renderer.xy.XYBlockRenderer;
+
 
 /**
  * Top component which displays something.
@@ -123,9 +129,9 @@ final class FlimTimpJFFTopComponent extends TopComponent implements ChartMouseLi
 
         jPIntensImage.setBackground(new java.awt.Color(0, 0, 0));
         jPIntensImage.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-        jPIntensImage.setMaximumSize(new java.awt.Dimension(612, 512));
-        jPIntensImage.setMinimumSize(new java.awt.Dimension(612, 512));
-        jPIntensImage.setPreferredSize(new java.awt.Dimension(612, 512));
+        jPIntensImage.setMaximumSize(new java.awt.Dimension(484, 384));
+        jPIntensImage.setMinimumSize(new java.awt.Dimension(484, 384));
+        jPIntensImage.setPreferredSize(new java.awt.Dimension(484, 384));
         jPIntensImage.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jPIntensImageMouseClicked(evt);
@@ -136,11 +142,11 @@ final class FlimTimpJFFTopComponent extends TopComponent implements ChartMouseLi
         jPIntensImage.setLayout(jPIntensImageLayout);
         jPIntensImageLayout.setHorizontalGroup(
             jPIntensImageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 608, Short.MAX_VALUE)
+            .addGap(0, 480, Short.MAX_VALUE)
         );
         jPIntensImageLayout.setVerticalGroup(
             jPIntensImageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 508, Short.MAX_VALUE)
+            .addGap(0, 380, Short.MAX_VALUE)
         );
 
         jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder("SampleFile"));
@@ -232,7 +238,7 @@ final class FlimTimpJFFTopComponent extends TopComponent implements ChartMouseLi
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jLabel8)
                             .addComponent(jLHeigth))))
-                .addContainerGap(16, Short.MAX_VALUE))
+                .addContainerGap(18, Short.MAX_VALUE))
         );
 
         jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder("Dataset"));
@@ -280,7 +286,7 @@ final class FlimTimpJFFTopComponent extends TopComponent implements ChartMouseLi
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jBMakeDataset)
                     .addComponent(jBSaveIvoFile))
-                .addContainerGap(18, Short.MAX_VALUE))
+                .addContainerGap(21, Short.MAX_VALUE))
         );
 
         jPanel5.setMaximumSize(new java.awt.Dimension(418, 105));
@@ -378,7 +384,7 @@ final class FlimTimpJFFTopComponent extends TopComponent implements ChartMouseLi
         jPSelectedTrace.setLayout(jPSelectedTraceLayout);
         jPSelectedTraceLayout.setHorizontalGroup(
             jPSelectedTraceLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 414, Short.MAX_VALUE)
+            .addGap(0, 610, Short.MAX_VALUE)
         );
         jPSelectedTraceLayout.setVerticalGroup(
             jPSelectedTraceLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -394,12 +400,12 @@ final class FlimTimpJFFTopComponent extends TopComponent implements ChartMouseLi
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 188, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 256, Short.MAX_VALUE)
                         .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jPSelectedTrace, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, 614, Short.MAX_VALUE))
                         .addGap(18, 18, 18)
                         .addComponent(jPIntensImage, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
@@ -621,35 +627,32 @@ private void jBUnselectActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FI
 
      public void chartMouseClicked(ChartMouseEvent event) {
         
-        ChartEntity entity = event.getEntity();
-        XYItemEntity cei = (XYItemEntity)entity;
-        int item = 0;
-        
-        try {
-            item = cei.getItem();            
-            if (dataset.getZValue(1,item)==-1){
-                dataset.SetValue(item,flimImage.getIntMap()[item]);
-                numSelPix--;
-                jLNumSelPix.setText(Integer.toString(numSelPix));
-            }else {
-                dataset.SetValue(item, -1);
-                numSelPix++;
-                jLNumSelPix.setText(Integer.toString(numSelPix));
-            }
-//            chpanSelectedTrace.getChart().getXYPlot().getRenderer().setSeriesVisible(item, true);
-            UpdateSelectedTrace(item);
-        }catch (Exception ex){
-            System.out.println("Error pixel out of chart");
-        }
+//        ChartEntity entity = event.getEntity();
+//        XYItemEntity cei = (XYItemEntity)entity;
+//        int item = 0;
+//        
+//        try {
+//            item = cei.getItem();            
+//            if (dataset.getZValue(1,item)==-1){
+//                dataset.SetValue(item,flimImage.getIntMap()[item]);
+//                numSelPix--;
+//                jLNumSelPix.setText(Integer.toString(numSelPix));
+//            }else {
+//                dataset.SetValue(item, -1);
+//                numSelPix++;
+//                jLNumSelPix.setText(Integer.toString(numSelPix));
+//            }
+////            chpanSelectedTrace.getChart().getXYPlot().getRenderer().setSeriesVisible(item, true);
+//            UpdateSelectedTrace(item);
+//        }catch (Exception ex){
+//            System.out.println("Error pixel out of chart");
+//        }
 
-/*
- * old code
- * 
         int mouseX = event.getTrigger().getX();
         int mouseY = event.getTrigger().getY();
-        Point2D p = this.chpan.translateScreenToJava2D(new Point(mouseX, mouseY));
+        Point2D p = this.chpanIntenceImage.translateScreenToJava2D(new Point(mouseX, mouseY));
         XYPlot plot = (XYPlot) this.chart.getPlot();
-        ChartRenderingInfo info = this.chpan.getChartRenderingInfo();
+        ChartRenderingInfo info = this.chpanIntenceImage.getChartRenderingInfo();
         Rectangle2D dataArea = info.getPlotInfo().getDataArea();
         
         ValueAxis domainAxis = plot.getDomainAxis();
@@ -670,8 +673,8 @@ private void jBUnselectActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FI
                 numSelPix++;
                 jLNumSelPix.setText(Integer.toString(numSelPix));
             }
+            UpdateSelectedTrace((int)chartY*flimImage.getX()+(int)chartX);
         }
-  */       
     }
 
     public void chartMouseMoved(ChartMouseEvent event) {
@@ -764,8 +767,9 @@ private XYZDataset MakeXYZDataset(){
         plot.setRangeCrosshairLockedOnData(false);
 */
         chart = new JFreeChart(plot);
-        chart.removeLegend();
         chart.setAntiAlias(false);
+        chart.removeLegend();   
+
         NumberAxis scaleAxis = new NumberAxis();
         scaleAxis.setAxisLinePaint(Color.black);
         scaleAxis.setTickMarkPaint(Color.black);

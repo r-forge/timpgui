@@ -644,9 +644,9 @@ private void jPStreakImageMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIR
         renderer.setPaintScale(scale);
         XYPlot plot = new XYPlot(dataset, xAxis, yAxis, renderer);        
    
-        plot.setDomainCrosshairVisible(true);
+        plot.setDomainCrosshairVisible(false);
         plot.setDomainCrosshairLockedOnData(false);
-        plot.setRangeCrosshairVisible(true);
+        plot.setRangeCrosshairVisible(false);
         plot.setRangeCrosshairLockedOnData(false);
 
         chart = new JFreeChart(plot);

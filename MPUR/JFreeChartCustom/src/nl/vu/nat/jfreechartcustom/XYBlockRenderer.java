@@ -97,7 +97,7 @@ public class XYBlockRenderer extends AbstractXYItemRenderer
     /**
      * The block height (defaults to 1.0).
      */
-    private double blockHeight = 1.0;
+    private double blockHeight =1.0;
 
     /**
      * The anchor point used to align each block to its (x, y) location.  The

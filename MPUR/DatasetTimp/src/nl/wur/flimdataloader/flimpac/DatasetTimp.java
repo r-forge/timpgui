@@ -104,7 +104,7 @@ public final class DatasetTimp {
         loadedString = sc.nextLine();
         loadedString = sc.nextLine();
         datasetName = file.getName();
-        if (loadedString.equalsIgnoreCase("Time explicit")){
+        if (loadedString.trim().equalsIgnoreCase("Time explicit")){
             sc.skip("Intervalnr");
             nt[0] = sc.nextInt();
             x = new double[nt[0]];
@@ -134,7 +134,7 @@ public final class DatasetTimp {
             
         }
         else {
-            if (loadedString.equalsIgnoreCase("Wavelength explicit")){
+            if (loadedString.trim().equalsIgnoreCase("Wavelength explicit")){
                 sc.next();
                 nl[0] = sc.nextInt();
                 x2 = new double[nl[0]];
@@ -165,7 +165,7 @@ public final class DatasetTimp {
 
             }
             else{
-                if (loadedString.equalsIgnoreCase("FLIM image")){
+                if (loadedString.trim().equalsIgnoreCase("FLIM image")){
                     System.out.println("flim");
                 }   
                 else{

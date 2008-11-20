@@ -153,7 +153,6 @@ public class KinparPanel extends SectionInnerPanel {
         jSNumOfComponents = new javax.swing.JSpinner();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTKinParamTable = new javax.swing.JTable();
-        jCConstrains = new javax.swing.JCheckBox();
         jCPositivepar = new javax.swing.JCheckBox();
         jCSeqmod = new javax.swing.JCheckBox();
 
@@ -167,13 +166,6 @@ public class KinparPanel extends SectionInnerPanel {
 
         jScrollPane1.setViewportView(jTKinParamTable);
 
-        jCConstrains.setText("Show constrains");
-        jCConstrains.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jCConstrainsActionPerformed(evt);
-            }
-        });
-
         jCPositivepar.setText("Set Kinetic Parameters Positive");
 
         jCSeqmod.setText("Sequential analysis");
@@ -185,19 +177,16 @@ public class KinparPanel extends SectionInnerPanel {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 598, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(10, 10, 10)
-                        .addComponent(jCSeqmod))
+                        .addComponent(jCSeqmod)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jCPositivepar))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 632, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(13, 13, 13)
                         .addComponent(jLabel1)
                         .addGap(28, 28, 28)
-                        .addComponent(jSNumOfComponents, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(38, 38, 38)
-                        .addComponent(jCConstrains)
-                        .addGap(33, 33, 33)
-                        .addComponent(jCPositivepar)))
+                        .addComponent(jSNumOfComponents, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -205,20 +194,22 @@ public class KinparPanel extends SectionInnerPanel {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jCPositivepar)
                     .addComponent(jLabel1)
-                    .addComponent(jSNumOfComponents, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jCConstrains))
+                    .addComponent(jSNumOfComponents, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 136, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jCSeqmod)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jCSeqmod)
+                    .addComponent(jCPositivepar))
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
 
 private void jSNumOfComponentsStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jSNumOfComponentsStateChanged
 // TODO add your handling code here:]
+//    jSNumOfComponents.getPreviousValue().
+//    for (int i = 0; i < Math.abs((Integer)jSNumOfComponents.getValue()-(Integer)jSNumOfComponents.getPreviousValue()); i++) {
     if ((Integer) jSNumOfComponents.getValue() > model.getRowCount()) {
         model.addRow(defRow);
     } else {
@@ -228,22 +219,13 @@ private void jSNumOfComponentsStateChanged(javax.swing.event.ChangeEvent evt) {/
 //    model.setRowCount((Integer)jSNumOfComponents.getValue());
 //    model.addRow(new Object[]{"v1", "v2","v3"});
     //   jTKinParamTable.
+//    }
+    
     }
     endUIChange();
 }//GEN-LAST:event_jSNumOfComponentsStateChanged
 
-private void jCConstrainsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCConstrainsActionPerformed
-// TODO add your handling code here:
-    if (jCConstrains.isSelected()) {
-        model.setColumnCount(6);
-        model.setColumnIdentifiers(colNames);
-    } else {
-        model.setColumnCount(3);
-    }
-}//GEN-LAST:event_jCConstrainsActionPerformed
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JCheckBox jCConstrains;
     private javax.swing.JCheckBox jCPositivepar;
     private javax.swing.JCheckBox jCSeqmod;
     private javax.swing.JLabel jLabel1;

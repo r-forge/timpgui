@@ -68,7 +68,7 @@ public class JRIConnectionFactory implements IConnectionFactory{
 
     @Override
     public IRConnection createConnection(final Properties configuration) {
-        String[] rargs = null;
+        String[] rargs = {"--no-save"};
         boolean runMainLoop = true;
         RMainLoopCallbacks callback = null;
         if (configuration != null) {

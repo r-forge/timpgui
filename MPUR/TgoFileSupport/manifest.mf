@@ -2,6 +2,7 @@ Manifest-Version: 1.0
 OpenIDE-Module: nl.vu.nat.tgofilesupport/1
 OpenIDE-Module-Layer: nl/vu/nat/tgofilesupport/layer.xml
 OpenIDE-Module-Localizing-Bundle: nl/vu/nat/tgofilesupport/Bundle.properties
+OpenIDE-Module-Specification-Version: 1.0
 
 Name: nl/vu/nat/tgofilesupport/TgoDataLoader.class
 Install-Before: org.openide.loaders.XMLDataObject, org.netbeans.modules.xml.XMLDataObject

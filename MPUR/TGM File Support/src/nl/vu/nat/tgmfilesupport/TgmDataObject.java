@@ -7,6 +7,8 @@ package nl.vu.nat.tgmfilesupport;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.io.Writer;
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.Unmarshaller;
 import nl.vu.nat.tgmeditor.TgmToolBarMVElement;
 import nl.vu.nat.tgmodels.tgm.Dat;
 import nl.vu.nat.tgmodels.tgm.Tgm;
@@ -110,8 +112,8 @@ public class TgmDataObject extends XmlMultiViewDataObject {
             java.io.InputStream is = getEditorSupport().getInputStream();
 
             try {
-                javax.xml.bind.JAXBContext jaxbCtx = javax.xml.bind.JAXBContext.newInstance(tgm.getClass().getPackage().getName());
-                javax.xml.bind.Unmarshaller unmarshaller = jaxbCtx.createUnmarshaller();
+                JAXBContext jaxbCtx = JAXBContext.newInstance(tgm.getClass().getPackage().getName());
+                Unmarshaller unmarshaller = jaxbCtx.createUnmarshaller();
                 tgm = (Tgm) unmarshaller.unmarshal(is); //NOI18N
             } catch (javax.xml.bind.JAXBException ex) {
                 // XXXTODO Handle exception

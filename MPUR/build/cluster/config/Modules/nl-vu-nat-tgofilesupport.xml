@@ -8,5 +8,5 @@
     <param name="jar">modules/nl-vu-nat-tgofilesupport.jar</param>
     <param name="release">1</param>
     <param name="reloadable">false</param>
-    <param name="specversion">1.0.2</param>
+    <param name="specversion">1.0</param>
 </module>

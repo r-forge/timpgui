@@ -31,7 +31,8 @@ public class TgmDataLoader extends UniFileLoader {
         getExtensions().addMimeType(REQUIRED_MIME);
     }
 
-    protected MultiDataObject createMultiObject(FileObject primaryFile) throws DataObjectExistsException, IOException {
+    @Override
+   protected MultiDataObject createMultiObject(FileObject primaryFile) throws DataObjectExistsException, IOException {
         return new TgmDataObject(primaryFile, this);
     }
 

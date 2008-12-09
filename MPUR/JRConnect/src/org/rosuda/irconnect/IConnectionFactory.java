@@ -14,9 +14,9 @@ import java.util.Properties;
 
 public interface IConnectionFactory {
 
-    public static final String HOST = "host";
-    public static final String PORT = "port";
-    public static final String default_host="localhost";
+    public static final String HOST = "192.168.0.100";
+    public static final String PORT = "6311";
+    public static final String default_host="192.168.0.100";
     public static final int default_port=6311;
 
     /**

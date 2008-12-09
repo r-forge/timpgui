@@ -94,6 +94,7 @@ public final class DatasetTimp {
     public void SetIntenceIm(double[] x2Value){x2 = x2Value;} 
     public String SetDatasetName(String datasetName){return datasetName;}
     public void LoadIvoFile(File file) throws FileNotFoundException, IOException, IllegalAccessException, InstantiationException {
+        datasetName = file.getName();
         maxInt = 0;
         minInt = 0; 
         Vector x2Vector = new Vector();
@@ -103,7 +104,6 @@ public final class DatasetTimp {
         loadedString = sc.nextLine();
         loadedString = sc.nextLine();
         loadedString = sc.nextLine();
-        datasetName = file.getName();
         if (loadedString.trim().equalsIgnoreCase("Time explicit")){
             sc.skip("Intervalnr");
             nt[0] = sc.nextInt();

@@ -357,9 +357,9 @@ private void jListDatasetsValueChanged(javax.swing.event.ListSelectionEvent evt)
     jPStreakImage.add(chpanImage);
     jPStreakImage.repaint();
 
-//    PlotFirstTrace();
-//    MakeTracesChart();
-//    PlotConcSpectrTrace();
+    PlotFirstTrace();
+    MakeTracesChart();
+    PlotConcSpectrTrace();
     }
     
 }//GEN-LAST:event_jListDatasetsValueChanged

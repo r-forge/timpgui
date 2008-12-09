@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://www.netbeans.org/ns/project/1">
+    <type>org.netbeans.modules.apisupport.project</type>
+    <configuration>
+        <data xmlns="http://www.netbeans.org/ns/nb-module-project/3">
+            <code-name-base>javax.xml.bind</code-name-base>
+            <suite-component/>
+            <module-dependencies/>
+            <public-packages>
+                <package>javax.xml.bind</package>
+                <package>javax.xml.bind.annotation</package>
+                <package>javax.xml.bind.annotation.adapters</package>
+                <package>javax.xml.bind.attachment</package>
+                <package>javax.xml.bind.helpers</package>
+                <package>javax.xml.bind.util</package>
+            </public-packages>
+            <class-path-extension>
+                <runtime-relative-path>ext/jaxb-api.jar</runtime-relative-path>
+                <binary-origin>release/modules/ext/jaxb-api.jar</binary-origin>
+            </class-path-extension>
+        </data>
+    </configuration>
+</project>

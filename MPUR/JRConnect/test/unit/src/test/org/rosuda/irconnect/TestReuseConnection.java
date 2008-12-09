@@ -21,7 +21,7 @@ public class TestReuseConnection extends TestCase
     /**
      * this test crashes REngine (now)
      */
-	public void XtestLoadLib() {
+	public void testLoadLib() {
 		try {
 			connection.voidEval("1/3");
 		} catch (RserveException e) {

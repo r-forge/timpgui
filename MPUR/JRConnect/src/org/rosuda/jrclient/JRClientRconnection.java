@@ -2,15 +2,16 @@ package org.rosuda.jrclient;
 
 import org.rosuda.REngine.Rserve.RserveException;
 import org.rosuda.REngine.Rserve.RConnection;
+import org.rosuda.irconnect.ARConnection;
 import org.rosuda.irconnect.IRConnection;
 import org.rosuda.irconnect.IREXP;
 import org.rosuda.irconnect.RServerException;
 import org.rosuda.rengine.REngineREXP;
 
 
-class JRClientRconnection implements IRConnection {
+class JRClientRconnection extends ARConnection implements IRConnection {
 
-	private final RConnection delegate;
+	final RConnection delegate;
 	
 	JRClientRconnection(final String host, final int port) {
 		try {
@@ -76,6 +77,15 @@ class JRClientRconnection implements IRConnection {
 			throw new RServerException(this, e.getRequestErrorDescription(), e.getMessage());
 		}
 	}
+
+    @Override
+    protected void login(final String userName, final String userPassword) {
+       try {
+            delegate.login(userName, userName);
+       } catch (final RserveException e) {
+            throw new RServerException(this, e.getRequestErrorDescription(), e.getMessage());
+       }
+    }
 		
 	
 

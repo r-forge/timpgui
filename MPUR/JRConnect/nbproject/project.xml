@@ -7,6 +7,14 @@
             <suite-component/>
             <module-dependencies>
                 <dependency>
+                    <code-name-base>org.openide.io</code-name-base>
+                    <build-prerequisite/>
+                    <compile-dependency/>
+                    <run-dependency>
+                        <specification-version>1.13.1</specification-version>
+                    </run-dependency>
+                </dependency>
+                <dependency>
                     <code-name-base>org.rosuda.JRI</code-name-base>
                     <build-prerequisite/>
                     <compile-dependency/>
@@ -22,8 +30,23 @@
                         <specification-version>1.0</specification-version>
                     </run-dependency>
                 </dependency>
+                <dependency>
+                    <code-name-base>org.rosuda.jrclient</code-name-base>
+                    <build-prerequisite/>
+                    <compile-dependency/>
+                    <run-dependency>
+                        <specification-version>1.0</specification-version>
+                    </run-dependency>
+                </dependency>
             </module-dependencies>
-            <public-packages/>
+            <public-packages>
+                <package>org.rosuda.constants</package>
+                <package>org.rosuda.irconnect</package>
+                <package>org.rosuda.irconnect.proxy</package>
+                <package>org.rosuda.jrclient</package>
+                <package>org.rosuda.jri</package>
+                <package>org.rosuda.rengine</package>
+            </public-packages>
         </data>
     </configuration>
 </project>

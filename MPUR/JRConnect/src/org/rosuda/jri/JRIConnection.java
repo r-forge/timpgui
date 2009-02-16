@@ -14,7 +14,7 @@ import org.rosuda.JRI.Rengine;
  */
 public class JRIConnection implements IRConnection{
 
-    private final Rengine engine;
+    final Rengine engine;
 
     JRIConnection(final Rengine engine) {
         this.engine = engine;

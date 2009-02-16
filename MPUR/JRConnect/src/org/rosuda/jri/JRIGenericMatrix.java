@@ -26,8 +26,7 @@ public class JRIGenericMatrix extends AJRIMatrix {
                     };
                 }
             }
-        }
-        throw new IllegalArgumentException("unsupported type : "+delegate.getType()+ " = "+REXPNames.xtName(delegate.getType()));
+        } else throw new IllegalArgumentException("unsupported type : "+delegate.getType()+ " = "+REXPNames.xtName(delegate.getType()));
         /*
         if (delegate.getType()==IREXP.XT_VECTOR) {          
             for (int r=0;r<rows;r++) {

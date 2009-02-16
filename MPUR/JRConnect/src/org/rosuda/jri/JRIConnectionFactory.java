@@ -7,10 +7,15 @@ package org.rosuda.jri;
 
 import java.util.Map.Entry;
 import java.util.Properties;
+import org.openide.windows.IOProvider;
+import org.openide.windows.InputOutput;
+import org.openide.windows.OutputWriter;
 import org.rosuda.JRI.RMainLoopCallbacks;
 import org.rosuda.JRI.Rengine;
 import org.rosuda.irconnect.IConnectionFactory;
 import org.rosuda.irconnect.IRConnection;
+import org.rosuda.irconnect.ITwoWayConnection;
+import org.rosuda.irconnect.proxy.RConnectionProxy;
 
 /**
  *
@@ -28,13 +33,34 @@ public class JRIConnectionFactory implements IConnectionFactory{
         return instance;
     }
 
+    private StringBuffer console = new StringBuffer();
+    private static InputOutput io = IOProvider.getDefault().getIO("R Output", false);
+    private static OutputWriter output;
+    private static OutputWriter error;
+
     protected JRIConnectionFactory() {
         instance = this;
         defaultCallback = new RMainLoopCallbacks() {
 
-            public void rWriteConsole(final Rengine engine, final String text, int arg2) {
-                throw new UnsupportedOperationException("Not supported yet.");
-            }
+    /**
+     * Write output from R into console (old R callback).
+     *
+     * @param re
+     *            used Rengine
+     * @param text
+     *            output
+     * @param addToHist
+     *            seems to be added in versions 1.5 (no documentation)
+     */
+    public void rWriteConsole(Rengine re, String text, int addToHist) {
+        output = io.getOut();
+        console.append(text);
+        if (console.length() > 100) {
+            output.append(console.toString());
+            console.delete(0, console.length());
+        }
+        output.close();
+    }
 
             public void rBusy(final Rengine engine, final int which)  {
                 throw new UnsupportedOperationException("Not supported yet.");
@@ -67,7 +93,8 @@ public class JRIConnectionFactory implements IConnectionFactory{
     }
 
     @Override
-    public IRConnection createConnection(final Properties configuration) {
+    public IRConnection createRConnection(final Properties configuration) {
+        //String[] rargs = null;
         String[] rargs = {"--no-save"};
         boolean runMainLoop = true;
         RMainLoopCallbacks callback = null;
@@ -90,5 +117,11 @@ public class JRIConnectionFactory implements IConnectionFactory{
         }
         return new JRIConnection(new Rengine(rargs, runMainLoop, callback));
     }
+
+    public ITwoWayConnection createTwoWayConnection(final Properties configuration) {
+        final IRConnection irConnection = createRConnection(configuration);
+        return RConnectionProxy.createProxy(irConnection, new JRIJava2RConnection(irConnection));
+    }
+
 
 }

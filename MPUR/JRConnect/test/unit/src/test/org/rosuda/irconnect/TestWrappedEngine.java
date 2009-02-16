@@ -3,6 +3,7 @@ package test.org.rosuda.irconnect;
 import java.util.ArrayList;
 import java.util.List;
 
+import java.util.Properties;
 import junit.framework.TestCase;
 import org.rosuda.irconnect.IRBool;
 import org.rosuda.irconnect.IRConnection;
@@ -22,7 +23,12 @@ public class TestWrappedEngine extends TestCase {
     @Override
 	protected void setUp() throws Exception {
 		super.setUp();
-		connection = new REngineConnectionFactory().createConnection(null);
+        final Properties config = new Properties();
+        config.load(TestWrappedEngine.class.getResourceAsStream("/test/org/rosuda/irconnect/config.properties"));
+        final String configurationProperties = "/test/org/rosuda/irconnect/"+config.getProperty("mode")+".properties";
+		final Properties testConfiguration = new Properties();
+        testConfiguration.load(TestWrappedEngine.class.getResourceAsStream(configurationProperties));
+        connection = new REngineConnectionFactory().createRConnection(testConfiguration);
 	}
 
     @Override

@@ -28,7 +28,7 @@ public class TestWrappedJRI extends TestCase {
 	protected void setUp() throws Exception {		
 		super.setUp();
         if (connection==null) {
-            connection = JRIConnectionFactory.getInstance().createConnection(null);
+            connection = JRIConnectionFactory.getInstance().createRConnection(null);
         }
 	}
 

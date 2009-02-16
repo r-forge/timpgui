@@ -12,13 +12,13 @@ import org.rosuda.rengine.REngineConnectionFactory;
 public class TestCreateConnection extends TestCase{
 
     public void testCreateREngineConnection() {
-        final IRConnection irConnection = new REngineConnectionFactory().createConnection(null);
+        final IRConnection irConnection = new REngineConnectionFactory().createRConnection(null);
         assertNotNull(irConnection);
         irConnection.close();
     }
 
     public void testCreateRServeConnection() {
-        final IRConnection irConnection = new JRClientConnectionFactory().createConnection(null);
+        final IRConnection irConnection = new JRClientConnectionFactory().createRConnection(null);
         assertNotNull(irConnection);
         irConnection.close();
     }

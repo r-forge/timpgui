@@ -7,6 +7,7 @@
 package org.rosuda.irconnect;
 
 import java.util.Properties;
+import org.rosuda.irconnect.proxy.RConnectionProxy;
 
 /**
  *
@@ -25,7 +26,16 @@ public abstract class AConnectionFactory implements IConnectionFactory{
     }
 
     @Override
-    public IRConnection createConnection(final Properties configuration) {
+    public IRConnection createRConnection(final Properties configuration) {
+        return createARConnection(configuration);
+    }
+
+    public ITwoWayConnection createTwoWayConnection(final Properties configuration) {
+        final IRConnection connection = createARConnection(configuration);
+        return RConnectionProxy.createProxy(connection, handleCreateTransfer(connection));
+    }
+
+    private final IRConnection createARConnection(final Properties configuration) {
         if (configuration == null)
             return handleCreateConnection(default_host, default_port);
         String host = default_host;
@@ -36,8 +46,16 @@ public abstract class AConnectionFactory implements IConnectionFactory{
         if (configuration.containsKey(IConnectionFactory.PORT)) {
             port = Integer.parseInt(configuration.getProperty(IConnectionFactory.PORT));
         }
-        return handleCreateConnection(host, port);
+        final ARConnection connection = handleCreateConnection(host, port);
+        if (configuration.containsKey(IConnectionFactory.USER) && configuration.containsKey(IConnectionFactory.PASSWORD)) {
+            final String user = configuration.getProperty(IConnectionFactory.USER);
+            final String password = configuration.getProperty(IConnectionFactory.PASSWORD);
+            connection.login(user, password);
+        }
+        return connection;
     }
 
-    protected abstract IRConnection handleCreateConnection(final String host, final int port);
+    protected abstract ARConnection handleCreateConnection(final String host, final int port);
+
+    protected abstract IJava2RConnection handleCreateTransfer(final IRConnection con);
 }

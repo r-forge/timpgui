@@ -390,7 +390,7 @@ private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
 //        orheigh = new int [1];
 //        orheigh[0] = 1;
 //        orwidth = new int [1];
-//	orwidth[0] = 1;
+//	orwidth[0] = 1;s
 //        datasetName = "dataset1";
 //        maxInt = 0;
 }//GEN-LAST:event_jButton2ActionPerformed

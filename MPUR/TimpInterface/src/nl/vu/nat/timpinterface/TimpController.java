@@ -9,65 +9,85 @@ import java.util.List;
 import nl.vu.nat.rjavainterface.RController;
 import nl.wur.flimdataloader.flimpac.DatasetTimp;
 import nl.wur.flimdataloader.flimpac.TimpResultDataset;
+import org.rosuda.irconnect.IREXP;
+import org.rosuda.irconnect.IRMatrix;
+import org.rosuda.irconnect.ITwoWayConnection;
+import org.rosuda.jri.JRIConnectionFactory;
 
 public class TimpController {
-//    public static Matrix getRMatrix(String datasetLabel) {
-//        //return new Matrix(re.eval(datasetLabel + "@psi.df").asDoubleMatrix());
-//    }
-//
-//    public static double[] getRDouble(String datasetLabel, String xLabel) {
-//        //double[] x = re.eval(datasetLabel + "@" + xLabel).asDoubleArray();
-//        return x;
-//    }
-//
-//    public static double[] getRLinLogLabels(String datasetLabel, String xLabel) {
-//        //double[] x = re.eval("linloglines(" + datasetLabel + "@" + xLabel + ",0,10)").asDoubleArray();
-//        return x;
-//    }
-//
-//    public static Matrix getRXList(String name) {
-//        //Matrix x = new Matrix(re.eval("getXList(" + name + ")[[1]]").asDoubleMatrix());
-//        return x;
-//    }
-//
-//    public static Matrix getRCLPList(String name) {
-//        //Matrix x = new Matrix(re.eval("getCLPList(" + name + ")[[1]]").asDoubleMatrix());
-//        return x;
-//    }
-//
-//    public static double[] getRDim1List(String name) {
-//        //double[] x = re.eval("getdim1List(" + name + ")[[1]]").asDoubleArray();
-//        return x;
-//    }
-//
-//    public static double[] getRDim1Labels(String name, double mu, double alpha) {
-//        //double[] x = re.eval("linloglines(getdim1List(" + name + ")[[1]]," + mu + "," + alpha + ")").asDoubleArray();
-//        return x;
-//    }
-//
-//    public static double[] getRDim2Labels(String name, double mu, double alpha) {
-//        //double[] x = re.eval("linloglines(getdim2List(" + name + ")[[1]]," + mu + "," + alpha + ")").asDoubleArray();
-//        return x;
-//    }
-//
-//    public static double[] getRDim2List(String name) {
-//        //double[] x = re.eval("getdim2List(" + name + ")[[1]]").asDoubleArray();
-//        return x;
-//    }
-    public static void onls(String resultVariable) {
-        //onls(result)
-        // not yet inplemented
+
+    private static ITwoWayConnection connection;
+
+    public TimpController() {
+        connection = JRIConnectionFactory.getInstance().createTwoWayConnection(null);
     }
 
-    public static void sumnls(String resultVariable) {
-//sumnls(result)        
+    public boolean getBool(String cmd) {
+		final IREXP ret = connection.eval(new StringBuffer().append(
+		"try(").append(cmd).append(")").toString());
+		return ret.asBool().isTRUE();
+	}
 
-        // not yet inplemented
-    }
+    // getBoolArray
+
+    public double getDouble(String cmd) {
+		final IREXP ret = connection.eval(new StringBuffer().append(
+		"try(").append(cmd).append(")").toString());
+		return ret.asDouble();
+	}
+
+    public double[] getDoubleArray(String cmd) {
+		final IREXP evalREXP = connection.eval(new StringBuffer().append(
+		"try(").append(cmd).append(")").toString());
+		return evalREXP.asDoubleArray();
+	}
+
+    //getFactor
+
+    public int getInt(String cmd) {
+		final IREXP ret = connection.eval(new StringBuffer().append(
+		"try(").append(cmd).append(")").toString());
+		return ret.asInt();
+	}
+
+    public int[] getIntArray(String cmd) {
+		final IREXP evalREXP = connection.eval(new StringBuffer().append(
+		"try(").append(cmd).append(")").toString());
+		return evalREXP.asIntArray();
+	}
+
+    //asList, asMap
+
+    public IRMatrix getMatrix(String cmd) {
+		final IREXP evalREXP = connection.eval(new StringBuffer().append(
+		"try(").append(cmd).append(")").toString());
+		return evalREXP.asMatrix();
+	}
+
+    public String getString(String cmd) {
+		final IREXP ret = connection.eval(new StringBuffer().append(
+		"try(").append(cmd).append(")").toString());
+		return ret.asString();
+	}    
+
+    public String[] getStringArray(String cmd) {
+		final IREXP evalREXP = connection.eval(new StringBuffer().append(
+		"try(").append(cmd).append(")").toString());
+		return evalREXP.asStringArray();
+	}
+
+    //asSymbol, asVector.
 
     public static double[] getParEst(String resultVariable, int dataset, String param) {
-        System.out.println("parEst(" + resultVariable + ", param = \"" + param + "\", dataset =" + dataset + ")");
-        return RController.getDoubleArray("unlist(parEst(" + resultVariable + ", param = \"" + param + "\", dataset =" + dataset + "))");
+        //System.out.println("parEst(" + resultVariable + ", param = \"" + param + "\", dataset =" + dataset + ")");
+        final IREXP evalREXP = connection.eval(new StringBuffer().append("" +
+                "unlist(" +
+                "parEst(" +
+                resultVariable + ", " +
+                "param = \"" + param + "\"" +
+                "dataset = \"" + dataset + "\"" +
+                "))").toString());
+        return evalREXP.asDoubleArray();
     }
 
     public static List<Matrix> getXList(String resultVariable, boolean single) {
@@ -278,6 +298,17 @@ public class TimpController {
          
          DatasetTimp dd = new DatasetTimp(jx, jx2, jnt, jnl, jpsisim, jintenceim, jdatasetname);
          
+    }
+
+        public static void onls(String resultVariable) {
+        //onls(result)
+        // not yet inplemented
+    }
+
+    public static void sumnls(String resultVariable) {
+//sumnls(result)
+
+        // not yet inplemented
     }
    
      

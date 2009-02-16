@@ -14,6 +14,10 @@ public class RServerException extends RuntimeException {
 
 	private String msg;
 
+    public RServerException(final String errorDescription, final String msg) {
+		this(null, errorDescription, msg);
+	}
+
 	public RServerException(final IRConnection rconnection, final String errorDescription) {
 		this(rconnection, errorDescription, null);
 	}
@@ -24,6 +28,7 @@ public class RServerException extends RuntimeException {
 
 	public RServerException(final IRConnection rconnection, final String errorDescription, final String msg,
 			final Throwable cause) {
+        super(cause);
 		this.errorDescription = errorDescription;
 		this.connection = rconnection;
 		this.msg = msg;

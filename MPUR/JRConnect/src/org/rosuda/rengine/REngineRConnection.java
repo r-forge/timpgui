@@ -6,21 +6,23 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.rosuda.REngine.Rserve.RConnection;
 import org.rosuda.REngine.Rserve.RserveException;
+import org.rosuda.irconnect.ARConnection;
 import org.rosuda.irconnect.IRConnection;
 import org.rosuda.irconnect.IREXP;
 import org.rosuda.irconnect.RServerException;
 
 
-public class REngineRConnection implements IRConnection {
+public class REngineRConnection extends ARConnection implements IRConnection {
 
 	protected static Logger logger = Logger.getLogger(REngineRConnection.class.getName());
 
-	private final RConnection delegate;
+	final RConnection delegate;
 		
 	REngineRConnection(final String host, final int port) {
 		try {
 			this.delegate = new RConnection(host,port);
 		} catch (final RserveException rse) {
+            rse.printStackTrace();
 			throw new RServerException(this, rse.getRequestErrorDescription(), rse.getMessage());
 		}
 		if (this.delegate == null)
@@ -68,5 +70,15 @@ public class REngineRConnection implements IRConnection {
 			throw new RServerException(this, rse.getRequestErrorDescription(), rse.getMessage()+" on r-command:"+query, rse);
 		}
 	}
+
+    @Override
+    protected void login(final String userName, final String userPassword) {
+        try {
+            delegate.login(userName, userPassword);
+        } catch (final RserveException rse) {
+            Logger.getLogger(REngineRConnection.class.getName()).log(Level.SEVERE, null, rse);
+            throw new RServerException(this, rse.getRequestErrorDescription(), rse.getMessage()+" on login user \""+userName+"\"", rse);
+        }
+    }
 
 }

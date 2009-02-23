@@ -152,6 +152,7 @@ public class TgmDataObject extends XmlMultiViewDataObject {
 
     public Tgm getTgm() { //perhaps IOExeption?
         // If the Object "tgm" doesn't exist yet, read in from file
+
         if (tgm == null) {
             tgm = new Tgm();
             try {

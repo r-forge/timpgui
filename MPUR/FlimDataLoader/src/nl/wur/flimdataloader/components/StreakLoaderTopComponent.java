@@ -715,7 +715,7 @@ private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
             }
         }
         double[][] chartdata = {xValues,yValues,data.GetPsisim()};
-        dataset2.addSeries("Streak image", chartdata);
+        dataset2.addSeries("Image", chartdata);
         
         dataset = new ColorCodedImageDataset(data.GetNl()[0],data.GetNt()[0],data.GetPsisim(), true);
         return dataset;

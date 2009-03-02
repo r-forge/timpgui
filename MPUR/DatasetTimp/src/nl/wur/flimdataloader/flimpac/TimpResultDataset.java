@@ -1,17 +1,14 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 
 package nl.wur.flimdataloader.flimpac;
 
 import Jama.Matrix;
-import org.openide.util.Lookup;
-
+//import org.openide.util.Lookup;
 /**
  *
  * @author Sergey
  */
+import Jama.Matrix;
+
 public class TimpResultDataset {
     private double maxInt;
     private double minInt;

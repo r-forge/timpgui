@@ -48,11 +48,11 @@ public class ColorCodedImageDataset implements XYZDataset {
     }
     
     public int GetImageWidth(){
-        return this.imageHeight;
+        return this.imageWidth;
     }
     
     public int GetImageHeigth(){
-        return this.imageWidth;
+        return this.imageHeight;
     }
     
     public double[] GetImage(){

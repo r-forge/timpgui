@@ -10,7 +10,6 @@ import javax.swing.JComponent;
 
 import nl.vu.nat.tgmodels.tgo.Tgo;
 import nl.vu.nat.tgofilesupport.TgoDataObject;
-import nl.vu.nat.timpinterface.Call_fitModel;
 import nl.vu.nat.timpinterface.Current;
 import org.netbeans.modules.xml.multiview.ui.SectionInnerPanel;
 import org.netbeans.modules.xml.multiview.ui.SectionView;
@@ -74,7 +73,7 @@ private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
 // TODO add your handling code here:
     endUIChange();
    //Call_fitModel.fitModel(tgo, Current.getCurrentModel());
-   Current.addOpt(tgo);
+   //Current.addOpt(tgo);
 
 }//GEN-LAST:event_jButton1ActionPerformed
 

@@ -3,9 +3,9 @@
  * and open the template in the editor.
  */
 
-package nl.vu.nat.timpinterface;
+package nl.vu.nat.timpservice;
 
-import nl.vu.nat.rjavainterface.RController;
+import nl.vu.nat.timpinterface.*;
 import nl.vu.nat.tgmodels.tgm.CohspecPanelModel;
 import nl.vu.nat.tgmodels.tgm.Dat;
 import nl.vu.nat.tgmodels.tgm.FlimPanelModel;
@@ -234,9 +234,9 @@ public class Call_initModel {
        String mod_type = "mod_type = \"" + dat.getModType() + "\""; 
        return mod_type;
    }
-   public static void initModel(Tgm tgm) {
-       execute("ls()");
-       String initmodel = Current.getNameOfCurrentModel() + " <- initModel(" + 
+
+   public String initModel(Tgm tgm) {
+       String initModel = Current.getNameOfCurrentModel() + " <- initModel(" +
                           get_kinpar(tgm) + "," + 
                           get_constrained(tgm) + "," + 
                           get_fixed(tgm) + "," +
@@ -251,14 +251,9 @@ public class Call_initModel {
                           get_convalg(tgm) + "," + 
                           get_irf(tgm) +
                           ")";
-       System.out.println(initmodel); 
-      
-       execute(initmodel);
+       return initModel;
+     
        
    }  
-
-    public static void execute(String cmd) {
-       RController.execute(cmd, false);
-   }
 
 }

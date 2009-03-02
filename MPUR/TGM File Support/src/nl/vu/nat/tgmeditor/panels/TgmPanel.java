@@ -9,7 +9,6 @@ package nl.vu.nat.tgmeditor.panels;
 import nl.vu.nat.tgmfilesupport.TgmDataObject;
 import javax.swing.JComponent;
 import nl.vu.nat.tgmodels.tgm.Tgm;
-import nl.vu.nat.timpinterface.Call_initModel;
 import nl.vu.nat.timpinterface.Current;
 import org.netbeans.modules.xml.multiview.ui.SectionInnerPanel;
 import org.netbeans.modules.xml.multiview.ui.SectionView;
@@ -85,8 +84,8 @@ private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
     // Validation code here
 
     //Everything is checked, user can use send model to TIMP button now.
-    Current.addModel(tgm);
-    Call_initModel.initModel(tgm);
+    //Current.addModel(tgm);
+    //Call_initModel.initModel(tgm);
 
 }//GEN-LAST:event_jButton1ActionPerformed
 

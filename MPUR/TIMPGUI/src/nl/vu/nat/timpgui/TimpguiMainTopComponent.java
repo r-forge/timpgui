@@ -8,18 +8,12 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
-import javax.swing.event.ListDataEvent;
-import javax.swing.event.ListDataListener;
-import nl.vu.nat.timpinterface.Call_fitModel;
 import nl.vu.nat.timpinterface.Current;
 import nl.vu.nat.timpinterface.ResultObject;
-import nl.vu.nat.timpinterface.TimpController;
 import org.openide.util.NbBundle;
 import org.openide.windows.TopComponent;
 import org.openide.windows.WindowManager;
 import org.openide.util.Utilities;
-import nl.wur.flimdataloader.FlimTimpJFFAction;
-import nl.wur.flimdataloader.flimpac.DatasetTimp;
 
 /**
  * Top component which displays something.
@@ -353,11 +347,11 @@ private void JListDatasetsComponentShown(java.awt.event.ComponentEvent evt) {//G
 
 private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
 // TODO add your handling code here:
-    Current.setSelectedDatasetNames(JListDatasets.getSelectedIndices());
-    Current.setSelectedModelName(jListModels.getSelectedIndex());
-    Current.setSelectedOptionsName(jListOptions.getSelectedIndex());
+    //Current.setSelectedDatasetNames(JListDatasets.getSelectedIndices());
+    //Current.setSelectedModelName(jListModels.getSelectedIndex());
+    //Current.setSelectedOptionsName(jListOptions.getSelectedIndex());
     //Current.addResults(new ResultObject(Current.getSelectedDatasetNames(JListDatasets.getSelectedIndices()), jTResultsNameTextfield.getText()));
-    Call_fitModel.fitModel(JListDatasets.getSelectedIndices(), jListModels.getSelectedIndex(), jListOptions.getSelectedIndex(), jTResultsNameTextfield.getText());
+    //Call_fitModel.fitModel(JListDatasets.getSelectedIndices(), jListModels.getSelectedIndex(), jListOptions.getSelectedIndex(), jTResultsNameTextfield.getText());
 }//GEN-LAST:event_jButton1ActionPerformed
 
 private void removeDatasetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeDatasetActionPerformed

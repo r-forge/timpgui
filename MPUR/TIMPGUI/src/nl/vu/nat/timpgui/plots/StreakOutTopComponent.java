@@ -15,7 +15,6 @@ import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
 import nl.vu.nat.timpinterface.Current;
 import nl.vu.nat.timpinterface.ResultObject;
-import nl.vu.nat.timpinterface.TimpController;
 import nl.wur.flim.jfreechartcustom.ColorCodedImageDataset;
 import nl.wur.flim.jfreechartcustom.RainbowPaintScale;
 import nl.wur.flimdataloader.flimpac.TimpResultDataset;

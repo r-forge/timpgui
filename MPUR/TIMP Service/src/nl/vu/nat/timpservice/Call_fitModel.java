@@ -1,7 +1,7 @@
-package nl.vu.nat.timpinterface;
+package nl.vu.nat.timpservice;
 
+import nl.vu.nat.timpinterface.*;
 import java.util.ArrayList;
-import nl.vu.nat.rjavainterface.RController;
 import nl.vu.nat.tgmodels.tgm.Dat;
 import nl.vu.nat.tgmodels.tgm.KinparPanelModel;
 import nl.vu.nat.tgmodels.tgm.Tgm;
@@ -224,7 +224,8 @@ public class Call_fitModel {
             } else {
                 dd = "postscript";
             }
-            execute("options(device=\"" + dd + "\")");
+            //TODO: execute this command somewhere else
+           // execute("options(device=\"" + dd + "\")");
         }
         opt = opt + "sumnls=FALSE," +
                 get_writefit(tgo) + "," +
@@ -278,7 +279,7 @@ public class Call_fitModel {
     }
 
     public static void fitModel(int[] datasetIndices, int modelIndex, int optionIndex, String resultsName) {
-
+        //TODO: remove dependecy on Current.class
         ArrayList<String> selectedDatasetNamesList = Current.getSelectedDatasetNames(datasetIndices);
         Tgm tgm = Current.getSelectedModel(modelIndex);
         Tgo tgo = Current.getSelectedOpt(optionIndex);
@@ -301,9 +302,9 @@ public class Call_fitModel {
                 dsets +
                 ", modspec = list(" + modelName + ")," + opt + ")";
 
-        execute(fitcall);
-        ResultObject x = new ResultObject(selectedDatasetNamesList, resultsName);
-        Current.addResults(x);
+// TODO: move the next to lines to other classes
+//        ResultObject x = new ResultObject(selectedDatasetNamesList, resultsName);
+//        Current.addResults(x);
     }
 
 //    public static void fitModel(Tgo tgo, Tgm tgm) {
@@ -339,9 +340,6 @@ public class Call_fitModel {
 //
 //    }
 
-    public static void execute(String cmd) {
-        RController.execute(cmd, false);
-    }
 }
 
 

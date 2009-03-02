@@ -2,7 +2,7 @@ package nl.vu.nat.timpinterface;
 
 
 import junit.framework.TestCase;
-import nl.vu.nat.timpinterface.TimpController;
+import nl.vu.nat.timpservice.TimpController;
 
 public class TestTimpController extends TestCase {
 

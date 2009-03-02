@@ -2,8 +2,9 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package nl.vu.nat.timpinterface;
+package nl.vu.nat.timpservice;
 
+import nl.vu.nat.timpinterface.*;
 import nl.vu.nat.timpinterface.TimpInterface;
 import Jama.Matrix;
 import java.util.List;
@@ -388,7 +389,18 @@ public class TimpController implements TimpInterface {
     connection.assign(name, refD);
 
     // TODO: different way to keep track of objects
-    Current.SetcurrMIRF(name);
+    //Current.SetcurrMIRF(name);
 
     }
+
+    public void SendDatasetsToTIMP() {}
+
+    public void SendModelsToTIMP() {}
+
+    public void DoAnalysis() {
+    //TODO: call upon SendDatasetsToTIMP, SendModelsToTIMP
+
+
+    }
+
 }

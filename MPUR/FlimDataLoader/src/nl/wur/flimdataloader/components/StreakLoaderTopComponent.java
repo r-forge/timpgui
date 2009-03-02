@@ -28,6 +28,7 @@ import org.jfree.chart.ChartMouseListener;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.ChartRenderingInfo;
 import nl.vu.nat.jfreechartcustom.FastXYPlot;
+import nl.vu.nat.timpinterface.TimpController;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.axis.AxisLocation;
 import org.jfree.chart.axis.NumberAxis;
@@ -501,7 +502,7 @@ private void BloadsampActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIR
 
 private void jBMakeDatasetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBMakeDatasetActionPerformed
 // TODO add your handling code here:
-    Register.RegisterData(data);
+    //TimpController.RegisterData(data);
 }//GEN-LAST:event_jBMakeDatasetActionPerformed
 
 private void jPStreakImageMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPStreakImageMouseClicked

@@ -6,6 +6,7 @@
 package nl.wur.flimdataloader.flimpac;
 
 import Jama.Matrix;
+import org.openide.util.Lookup;
 
 /**
  *

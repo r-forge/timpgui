@@ -4,17 +4,19 @@
  */
 package nl.vu.nat.timpinterface;
 
+import nl.vu.nat.timpinterface.TimpInterface;
 import Jama.Matrix;
 import java.util.List;
-import nl.vu.nat.rjavainterface.RController;
 import nl.wur.flimdataloader.flimpac.DatasetTimp;
 import nl.wur.flimdataloader.flimpac.TimpResultDataset;
 import org.rosuda.irconnect.IREXP;
+import org.rosuda.irconnect.IRList;
+import org.rosuda.irconnect.IRMap;
 import org.rosuda.irconnect.IRMatrix;
 import org.rosuda.irconnect.ITwoWayConnection;
 import org.rosuda.jri.JRIConnectionFactory;
 
-public class TimpController {
+public class TimpController implements TimpInterface {
 
     private static ITwoWayConnection connection;
 
@@ -23,130 +25,178 @@ public class TimpController {
     }
 
     public boolean getBool(String cmd) {
-		final IREXP ret = connection.eval(new StringBuffer().append(
-		"try(").append(cmd).append(")").toString());
-		return ret.asBool().isTRUE();
-	}
+        final IREXP ret = connection.eval(new StringBuffer().append(
+                "try(").append(cmd).append(")").toString());
+        return ret.asBool().isTRUE();
+    }
 
     // getBoolArray
-
     public double getDouble(String cmd) {
-		final IREXP ret = connection.eval(new StringBuffer().append(
-		"try(").append(cmd).append(")").toString());
-		return ret.asDouble();
-	}
+        final IREXP ret = connection.eval(new StringBuffer().append(
+                "try(").append(cmd).append(")").toString());
+        return ret.asDouble();
+    }
 
     public double[] getDoubleArray(String cmd) {
-		final IREXP evalREXP = connection.eval(new StringBuffer().append(
-		"try(").append(cmd).append(")").toString());
-		return evalREXP.asDoubleArray();
-	}
+        final IREXP evalREXP = connection.eval(new StringBuffer().append(
+                "try(").append(cmd).append(")").toString());
+        return evalREXP.asDoubleArray();
+    }
 
     //getFactor
-
     public int getInt(String cmd) {
-		final IREXP ret = connection.eval(new StringBuffer().append(
-		"try(").append(cmd).append(")").toString());
-		return ret.asInt();
-	}
+        final IREXP ret = connection.eval(new StringBuffer().append(
+                "try(").append(cmd).append(")").toString());
+        return ret.asInt();
+    }
 
     public int[] getIntArray(String cmd) {
-		final IREXP evalREXP = connection.eval(new StringBuffer().append(
-		"try(").append(cmd).append(")").toString());
-		return evalREXP.asIntArray();
-	}
+        final IREXP evalREXP = connection.eval(new StringBuffer().append(
+                "try(").append(cmd).append(")").toString());
+        return evalREXP.asIntArray();
+    }
 
     //asList, asMap
+    public IRMatrix getIRMatrix(String cmd) {
+        final IREXP evalREXP = connection.eval(new StringBuffer().append(
+                "try(").append(cmd).append(")").toString());
+        return evalREXP.asMatrix();
+    }
 
-    public IRMatrix getMatrix(String cmd) {
-		final IREXP evalREXP = connection.eval(new StringBuffer().append(
-		"try(").append(cmd).append(")").toString());
-		return evalREXP.asMatrix();
-	}
+    public Matrix getDoubleMatrix(String cmd) {
+        //just once the values
+        IRMatrix matrix = getIRMatrix(cmd);
+        Matrix doubleMatrix = new Matrix(matrix.getRows(), matrix.getColumns());
+        for (int row = 0; row < matrix.getRows(); row++) {
+            for (int col = 0; col < matrix.getColumns(); col++) {
+                doubleMatrix.set(row,col,matrix.getValueAt(row, col).asDouble());
+            }
+        }
+        return doubleMatrix;
+    }
+
+     public Matrix getIntMatrix(String cmd) {
+        //just once the values
+        IRMatrix matrix = getIRMatrix(cmd);
+        Matrix intMatrix = new Matrix(matrix.getRows(), matrix.getColumns());
+        for (int row = 0; row < matrix.getRows(); row++) {
+            for (int col = 0; col < matrix.getColumns(); col++) {
+                intMatrix.set(row,col,matrix.getValueAt(row, col).asInt());
+            }
+        }
+        return intMatrix;
+    }
 
     public String getString(String cmd) {
-		final IREXP ret = connection.eval(new StringBuffer().append(
-		"try(").append(cmd).append(")").toString());
-		return ret.asString();
-	}    
+        final IREXP ret = connection.eval(new StringBuffer().append(
+                "try(").append(cmd).append(")").toString());
+        return ret.asString();
+    }
 
     public String[] getStringArray(String cmd) {
-		final IREXP evalREXP = connection.eval(new StringBuffer().append(
-		"try(").append(cmd).append(")").toString());
-		return evalREXP.asStringArray();
-	}
+        final IREXP evalREXP = connection.eval(new StringBuffer().append(
+                "try(").append(cmd).append(")").toString());
+        return evalREXP.asStringArray();
+    }
+
+    	public IRList getIRList(String cmd) {
+        final IREXP ret = connection.eval(new StringBuffer().append(
+                "try(").append(cmd).append(")").toString());
+        return ret.asList();
+        }
+
+        public IRMap getIRMap(String cmd) {
+        final IREXP ret = connection.eval(new StringBuffer().append(
+                "try(").append(cmd).append(")").toString());
+        return ret.asMap();
+        }
+
+        public List<?> getList(String cmd) {
+        // TODO: this function is not yet working.
+        List ls = null;
+        final IRMap namedRList = getIRMap(cmd);
+		final String[] keys = namedRList.keys();
+        final IREXP header = namedRList.at(keys[1]);
+		final IREXP footer = namedRList.at(keys[1]);
+		final IREXP results = namedRList.at(keys[1]);
+        ls.add(results.asDoubleArray());
+        return ls;
+        }
 
     //asSymbol, asVector.
 
-    public static double[] getParEst(String resultVariable, int dataset, String param) {
+
+    // TIMP specific functions
+
+    public double[] getParEst(String resultVariable, int dataset, String param) {
         //System.out.println("parEst(" + resultVariable + ", param = \"" + param + "\", dataset =" + dataset + ")");
-        final IREXP evalREXP = connection.eval(new StringBuffer().append("" +
+        return getDoubleArray(
+                new StringBuffer().append("" +
                 "unlist(" +
                 "parEst(" +
                 resultVariable + ", " +
                 "param = \"" + param + "\"" +
                 "dataset = \"" + dataset + "\"" +
                 "))").toString());
-        return evalREXP.asDoubleArray();
     }
 
-    public static List<Matrix> getXList(String resultVariable, boolean single) {
+    public  List<Matrix> getXList(String resultVariable, boolean single) {
         return getXList(resultVariable, 0, single);
     }
 
-    public static List<Matrix> getXList(String resultVariable, int group, boolean single) {
+    public List<Matrix> getXList(String resultVariable, int group, boolean single) {
         //getXList(result, group = vector())
         List<Matrix> ls = null;
-        int length = RController.getInt("length(" + resultVariable + ")");
+        int length = connection.eval("length(" + resultVariable + ")").asInt();
         for (int i = 0; i < length; i++) {
             ls.add(i, getX(resultVariable, group, i, single));
         }
         return ls;
     }
 
-    public static Matrix getX(String resultVariable, int index, boolean single) {
+    public Matrix getX(String resultVariable, int index, boolean single) {
         return getX(resultVariable, 1, index, single);
     }
 
-    public static Matrix getX(String resultVariable, int group, int index, boolean single) {
+    public Matrix getX(String resultVariable, int group, int index, boolean single) {
         //getX(result, group = vector(), dataset=1)
-        String groupStr;
         if (group == 0) {
-            groupStr = "vector()";
+            String groupStr = "vector()";
         } else {
-            groupStr = Integer.toString(group);
+            String groupStr = Integer.toString(group);
         }
         //return new Matrix(RController.getDoubleMatrix("getX(" + resultVariable + ", group = " + groupStr + ", dataset =" + index + ")"));
         if (single) {
-            double[] temp = RController.getDoubleArray("getX(" + resultVariable + ", dataset =" + index + ")");
-            Matrix x = new Matrix(1,temp.length);
-            for (int i =0; i<temp.length; i++) {
-            x.set(0,i,temp[i]);}
+            double[] temp = connection.eval("getX(" + resultVariable + ", dataset =" + index + ")").asDoubleArray();
+            Matrix x = new Matrix(1, temp.length);
+            for (int i = 0; i < temp.length; i++) {
+                x.set(0, i, temp[i]);
+            }
             return x;
         } else {
-        return new Matrix(RController.getDoubleMatrix("getX(" + resultVariable + ", dataset =" + index + ")"));
+            return getDoubleMatrix("getX(" + resultVariable + ", dataset =" + index + ")");
         }
     }
 
-    public static List<Matrix> getCLPList(String resultVariable) {
+    public List<Matrix> getCLPList(String resultVariable) {
         return getCLPList(resultVariable, false);
     }
 
-    public static List<Matrix> getCLPList(String resultVariable, boolean getclperr) {
+    public List<Matrix> getCLPList(String resultVariable, boolean getclperr) {
         //getCLPList(result, group = vector())
         List<Matrix> ls = null;
-        int length = RController.getInt("length(" + resultVariable + ")");
+        int length = getInt("length(" + resultVariable + ")");
         for (int i = 0; i < length; i++) {
             ls.add(i, getCLP(resultVariable, getclperr, i));
         }
         return ls;
     }
 
-    public static Matrix getCLP(String resultVariable, int dataset) {
+    public Matrix getCLP(String resultVariable, int dataset) {
         return getCLP(resultVariable, false, dataset);
     }
 
-    public static Matrix getCLP(String resultVariable, boolean getclperr, int dataset) {
+    public Matrix getCLP(String resultVariable, boolean getclperr, int dataset) {
         //getCLP(result, group = vector(), dataset=1)
         String getclperrStr;
         if (getclperr) {
@@ -154,28 +204,28 @@ public class TimpController {
         } else {
             getclperrStr = "FALSE";
         }
-        return new Matrix(RController.getDoubleMatrix("t(getCLP(" + resultVariable + ", getclperr = " + getclperrStr + ", dataset =" + dataset + "))"));
+        return getDoubleMatrix("t(getCLP(" + resultVariable + ", getclperr = " + getclperrStr + ", dataset =" + dataset + "))");
     }
 
-    public static List<Matrix> getDataList(String resultVariable) {
+    public List<Matrix> getDataList(String resultVariable) {
         return getCLPList(resultVariable, false);
     }
 
-    public static List<Matrix> getDataList(String resultVariable, boolean weighted) {
+    public List<Matrix> getDataList(String resultVariable, boolean weighted) {
         //getCLPList(result, group = vector())
         List<Matrix> ls = null;
-        int length = RController.getInt("length(" + resultVariable + ")");
+        int length = getInt("length(" + resultVariable + ")");
         for (int i = 0; i < length; i++) {
             ls.add(i, getData(resultVariable, i, weighted));
         }
         return ls;
     }
 
-    public static Matrix getData(String resultVariable, int dataset) {
+    public Matrix getData(String resultVariable, int dataset) {
         return getData(resultVariable, dataset, false);
     }
 
-    public static Matrix getData(String resultVariable, int dataset, boolean weighted) {
+    public Matrix getData(String resultVariable, int dataset, boolean weighted) {
         //getCLP(result, group = vector(), dataset=1)
         String weightedStr;
         if (weighted) {
@@ -183,68 +233,68 @@ public class TimpController {
         } else {
             weightedStr = "FALSE";
         }
-        return new Matrix(RController.getDoubleMatrix("getData(" + resultVariable + ", dataset =" + dataset + ", weighted = " + weightedStr + ")"));
+        return getDoubleMatrix("getData(" + resultVariable + ", dataset =" + dataset + ", weighted = " + weightedStr + ")");
     }
 
-    public static List<Matrix> getResidualsList(String resultVariable, boolean weighted) {
+    public List<Matrix> getResidualsList(String resultVariable, boolean weighted) {
         //getCLPList(result, group = vector())
         List<Matrix> ls = null;
-        int length = RController.getInt("length(" + resultVariable + ")");
+        int length = getInt("length(" + resultVariable + ")");
         for (int i = 0; i < length; i++) {
             ls.add(i, getData(resultVariable, i, weighted));
         }
         return ls;
     }
 
-    public static Matrix getResiduals(String resultVariable) {
+    public Matrix getResiduals(String resultVariable) {
         return getResiduals(resultVariable, 1);
     }
 
-    public static Matrix getResiduals(String resultVariable, int dataset) {
+    public Matrix getResiduals(String resultVariable, int dataset) {
         //getCLP(result, group = vector(), dataset=1)
-        return new Matrix(RController.getDoubleMatrix("getResiduals(" + resultVariable + ", dataset =" + dataset + ")"));
+        return getDoubleMatrix("getResiduals(" + resultVariable + ", dataset =" + dataset + ")");
     }
 
-    public static List getSVDResiduals(String resultVariable) {
+    public List getSVDResiduals(String resultVariable) {
         return getSVDResiduals(resultVariable, 2, 1);
     }
 
-    public static List getSVDResiduals(String resultVariable, int numsing, int dataset) {
-        //getSVDResiduals(result, numsing = 2, dataset = 1)
-        return RController.getRList("getSVDResiduals(" + resultVariable + ", numsing =" + numsing + ",dataset =" + ")");
+    public List getSVDResiduals(String resultVariable, int numsing, int dataset) {
+        //TODO: this function will not return a proper list
+        return getList("getSVDResiduals(" + resultVariable + ", numsing =" + numsing + ",dataset =" + ")");
     }
 
-    public static List<Matrix> getTracesList(String resultVariable, boolean weighted) {
+    public List<Matrix> getTracesList(String resultVariable, boolean weighted) {
         //getCLPList(result, group = vector())
         List<Matrix> ls = null;
-        int length = RController.getInt("length(" + resultVariable + ")");
+        int length = getInt("length(" + resultVariable + ")");
         for (int i = 0; i < length; i++) {
             ls.add(i, getData(resultVariable, i, weighted));
         }
         return ls;
     }
 
-    public static Matrix getTraces(String resultVariable) {
+    public Matrix getTraces(String resultVariable) {
         return getTraces(resultVariable, 1);
     }
 
-    public static Matrix getTraces(String resultVariable, int dataset) {
+    public Matrix getTraces(String resultVariable, int dataset) {
         //getCLP(result, group = vector(), dataset=1)
-        return new Matrix(RController.getDoubleMatrix("getTraces(" + resultVariable + ", dataset =" + dataset + ")"));
+        return getDoubleMatrix("getTraces(" + resultVariable + ", dataset =" + dataset + ")");
     }
 
-    public static double[] getdim1(String resultVariable) {
+    public double[] getdim1(String resultVariable) {
         //getdim1(result)
-        return RController.getDoubleArray("getdim1(" + resultVariable + ")");
+        return connection.eval("getdim1(" + resultVariable + ")").asDoubleArray();
     }
 
-    public static double[] getdim2(String resultVariable) {
+    public double[] getdim2(String resultVariable) {
         //getdim2(result)
-        return RController.getDoubleArray("getdim2(" + resultVariable + ")");
+        return connection.eval("getdim2(" + resultVariable + ")").asDoubleArray();
 
     }
 
-    public static TimpResultDataset setTimpResultDataset(String datasetName, int dataset, ResultObject resultObject) {
+    public TimpResultDataset setTimpResultDataset(String datasetName, int dataset, ResultObject resultObject) {
         dataset++;
         TimpResultDataset result = new TimpResultDataset();
         result.SetDatasetName(datasetName);
@@ -263,53 +313,82 @@ public class TimpController {
         }
         return result;
     }
-    
-    public static boolean existsInR(String varname) {
-       return RController.getBoolean("exists(\""+varname+"\")");
-    }
-    public static void sendDatasetTimp(DatasetTimp dd) {
-     
-        RController.setDoubleArray(dd.GetPsisim(), "psisim");
-        RController.setDoubleArray(dd.GetX(), "x");
-        RController.setDoubleArray(dd.GetX2(), "x2");
-        RController.setIntArray(dd.GetNl(), "nl");
-        RController.setIntArray(dd.GetNt(), "nt");
-        RController.setDoubleArray(dd.GetIntenceIm(), "intenceIm");
-       
-        RController.execute("psisim <- as.matrix(psisim)");
-        RController.execute("if(is.null(intenceIm))  intenceIm <- matrix(1,1,1)");
-        RController.execute("intenceIm <- as.matrix(intenceIm)");
-        RController.execute("dim(psisim) <- c(nt, nl)");
-        
-        RController.execute(dd.GetDatasetName() + "<- dat(psi.df = psisim, x = x, nt = nt, x2 = x2, nl = nl, " +
-                "inten = intenceIm)");
-        
-    }
-    
-    public static void getDatasetTimp(String ddname) {
-        
-	 double[] jx = RController.getDoubleArray("slot(" + ddname + ",'x' )");
-	 double[] jx2 = RController.getDoubleArray("slot(" + ddname + ",'x2' )");
-	 int[] jnt = RController.getIntArray("slot(" + ddname + ",'nt' )");
-         int[] jnl = RController.getIntArray("slot(" + ddname + ",'nl' )");
-         double[] jpsisim = RController.getDoubleArray("slot(" + ddname + ",'psisim' )");
-         double[] jintenceim = RController.getDoubleArray("slot(" + ddname + ",'intenceim' )");
-         String jdatasetname = RController.getString("slot(" + ddname + ",'datasetname' )");
-         
-         DatasetTimp dd = new DatasetTimp(jx, jx2, jnt, jnl, jpsisim, jintenceim, jdatasetname);
-         
+
+    public boolean existsInR(String varname) {
+        return connection.eval("exists(\"" + varname + "\")").asBool().isTRUE();
     }
 
-        public static void onls(String resultVariable) {
+    public void sendDatasetTimp(DatasetTimp dd) {
+
+        connection.assign("psisim", dd.GetPsisim());
+        connection.assign("x", dd.GetX());
+        connection.assign("x2", dd.GetX2());
+        connection.assign("nl", dd.GetNl());
+        connection.assign("nt", dd.GetNt());
+        connection.assign("intenceIm", dd.GetIntenceIm());
+
+        connection.eval("psisim <- as.matrix(psisim)");
+        connection.eval("if(is.null(intenceIm))  intenceIm <- matrix(1,1,1)");
+        connection.eval("intenceIm <- as.matrix(intenceIm)");
+        connection.eval("dim(psisim) <- c(nt, nl)");
+
+        connection.eval(dd.GetDatasetName() + "<- dat(psi.df = psisim, x = x, nt = nt, x2 = x2, nl = nl, " +
+                "inten = intenceIm)");
+
+    }
+
+    public void getDatasetTimp(String ddname) {
+
+        double[] jx = connection.eval("slot(" + ddname + ",'x' )").asDoubleArray();
+        double[] jx2 = connection.eval("slot(" + ddname + ",'x2' )").asDoubleArray();
+        int[] jnt = connection.eval("slot(" + ddname + ",'nt' )").asIntArray();
+        int[] jnl = connection.eval("slot(" + ddname + ",'nl' )").asIntArray();
+        double[] jpsisim = connection.eval("slot(" + ddname + ",'psisim' )").asDoubleArray();
+        double[] jintenceim = connection.eval("slot(" + ddname + ",'intenceim' )").asDoubleArray();
+        String jdatasetname = connection.eval("slot(" + ddname + ",'datasetname' )").asString();
+
+        DatasetTimp dd = new DatasetTimp(jx, jx2, jnt, jnl, jpsisim, jintenceim, jdatasetname);
+
+    }
+
+    public void onls(String resultVariable) {
         //onls(result)
         // not yet inplemented
     }
 
-    public static void sumnls(String resultVariable) {
+    public void sumnls(String resultVariable) {
 //sumnls(result)
 
         // not yet inplemented
     }
-   
-     
+
+    public void RegisterData(DatasetTimp timpDat) {
+
+    // send dataset to timp
+    sendDatasetTimp(timpDat);
+    // add its name to list of names
+
+    Current.addDataset(timpDat.GetDatasetName());
+    // uncomment below when want multiple datasets
+    //ArrayList<String> x = Current.getDatasetNames();
+//    ArrayList<String> x = new ArrayList<String>();
+//
+//    x.add((String)timpDat.GetDatasetName());
+//
+//    Current.SetdatasetNames(x);
+
+    }
+    public void RegisterMeasuredIRF(String name, float[] refArray) {
+
+    double[] refD = new double[refArray.length];
+     for (int i = 0; i < refD.length; i++)
+        refD[i] = (double)refArray[i];
+
+    // send IRF to timp
+    connection.assign(name, refD);
+
+    // TODO: different way to keep track of objects
+    Current.SetcurrMIRF(name);
+
+    }
 }

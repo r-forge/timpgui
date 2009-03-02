@@ -27,8 +27,8 @@
                 <package>org.jfree.util</package>
             </public-packages>
             <class-path-extension>
-                <runtime-relative-path>ext/jcommon-1.0.14.jar</runtime-relative-path>
-                <binary-origin>release/modules/ext/jcommon-1.0.14.jar</binary-origin>
+                <runtime-relative-path>ext/jcommon-1.0.15.jar</runtime-relative-path>
+                <binary-origin>release/modules/ext/jcommon-1.0.15.jar</binary-origin>
             </class-path-extension>
         </data>
     </configuration>

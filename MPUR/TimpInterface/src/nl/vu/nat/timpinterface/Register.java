@@ -16,7 +16,7 @@ public class Register {
     public static void RegisterData(DatasetTimp timpDat) {
       
     // send dataset to timp 
-    TimpController.sendDatasetTimp(timpDat);
+    //TimpController.sendDatasetTimp(timpDat);
     // add its name to list of names 
     
     Current.addDataset(timpDat.GetDatasetName());

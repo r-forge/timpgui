@@ -1,0 +1,6 @@
+Manifest-Version: 1.0
+OpenIDE-Module: nl.wur.flimdataloader
+OpenIDE-Module-Layer: nl/wur/flimdataloader/layer.xml
+OpenIDE-Module-Localizing-Bundle: nl/wur/flimdataloader/Bundle.properties
+OpenIDE-Module-Specification-Version: 1.0
+

@@ -2,9 +2,6 @@
 <!DOCTYPE filesystem PUBLIC "-//NetBeans//DTD Filesystem 1.2//EN" "http://www.netbeans.org/dtds/filesystem-1_2.dtd">
 <filesystem>
     <folder name="Actions">
-        <folder name="Edit">
-            <file name="org-timpgui-flimdataloader-OpenSdtAction.instance"/>
-        </folder>
         <folder name="Window">
             <file name="org-timpgui-flimdataloader-editor-SdtAction.instance">
                 <attr name="SystemFileSystem.localizingBundle" stringvalue="org.timpgui.flimdataloader.Bundle"/>
@@ -44,10 +41,6 @@
                     </file>
                     <file name="org-openide-actions-ToolsAction.instance">
                         <attr name="position" intvalue="1300"/>
-                    </file>
-                    <file name="org-timpgui-flimdataloader-OpenSdtAction.shadow">
-                        <attr name="originalFile" stringvalue="Actions/Edit/org-timpgui-flimdataloader-OpenSdtAction.instance"/>
-                        <attr name="position" intvalue="0"/>
                     </file>
                     <file name="sep-1.instance">
                         <attr name="instanceClass" stringvalue="javax.swing.JSeparator"/>

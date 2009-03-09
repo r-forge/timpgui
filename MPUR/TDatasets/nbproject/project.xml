@@ -3,11 +3,20 @@
     <type>org.netbeans.modules.apisupport.project</type>
     <configuration>
         <data xmlns="http://www.netbeans.org/ns/nb-module-project/3">
-            <code-name-base>nl.vu.nat.tdatasets</code-name-base>
+            <code-name-base>org.timpgui.tdatasets</code-name-base>
             <suite-component/>
-            <module-dependencies/>
+            <module-dependencies>
+                <dependency>
+                    <code-name-base>Jama</code-name-base>
+                    <build-prerequisite/>
+                    <compile-dependency/>
+                    <run-dependency>
+                        <specification-version>1.0</specification-version>
+                    </run-dependency>
+                </dependency>
+            </module-dependencies>
             <public-packages>
-                <package>nl.vu.nat.tdatasets</package>
+                <package>org.timpgui.tdatasets</package>
             </public-packages>
         </data>
     </configuration>

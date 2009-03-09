@@ -340,7 +340,7 @@ private void jListDatasetsValueChanged(javax.swing.event.ListSelectionEvent evt)
 // TODO add your handling code here:
     if (jListDatasets.getSelectedIndex()!=-1) {
     //res = TimpController.setTimpResultDataset((String)jListDatasets.getSelectedValue(), jListDatasets.getSelectedIndex(), Current.GetresultNames().get(jListResultObjects.getSelectedIndex()));
-    res.CalcRangeInt();
+  //  res.CalcRangeInt();
     Object[] rates = new Object[res.GetKineticParameters().length];
     for (int i = 0; i < res.GetKineticParameters().length; i++) {
         rates[i] = "k" + (i + 1) + "=" + res.GetKineticParameters()[i] + "ns";

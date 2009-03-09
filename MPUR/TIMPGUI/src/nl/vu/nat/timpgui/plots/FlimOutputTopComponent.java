@@ -345,7 +345,7 @@ private void jListDatasetsValueChanged(javax.swing.event.ListSelectionEvent evt)
 // TODO add your handling code here:
     if (jListDatasets.getSelectedIndex()!=-1) {
     //res = tc.setTimpResultDataset((String)jListDatasets.getSelectedValue(), jListDatasets.getSelectedIndex(), Current.GetresultNames().get(jListResultObjects.getSelectedIndex()));
-    res.CalcRangeInt();
+  //  res.CalcRangeInt();
     
     jCBToPlot.removeAllItems();
 //    jCBToPlot.addItem("Average Lifetimes");

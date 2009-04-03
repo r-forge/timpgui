@@ -31,7 +31,7 @@ import org.openide.nodes.Node;
 import org.openide.util.ImageUtilities;
 
 import nl.vu.nat.tgmprojectsupport.TGProject;
-import org.timpgui.tgproject.actions.NewFileSource;
+import org.timpgui.tgproject.actions.OpenDatasetFile;
 
 /**
  * This class represents the folder "src" defined in the
@@ -85,7 +85,7 @@ public class TGDatasetNode extends FilterNode {
         if(proj != null && proj instanceof TGProject){
             Action[] temp = actions;
             actions = new Action[actions.length+1];
-            actions[0] = new NewFileSource((TGProject)proj);
+            actions[0] = new OpenDatasetFile((TGProject)proj);
             for (int i = 0; i < temp.length; i++) {
                 actions[i+1] = temp[i];
 

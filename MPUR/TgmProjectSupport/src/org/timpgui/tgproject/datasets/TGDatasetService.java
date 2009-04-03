@@ -28,7 +28,7 @@ import org.openide.util.Lookup;
  * @author  Johann Sorel (Puzzle-GIS)
  * @author  Thomas Bonavia (comments)
  */
-public interface GISSourceService {
+public interface TGDatasetService {
 
     /**
      * Get the title of the service.
@@ -51,6 +51,6 @@ public interface GISSourceService {
      * @return  The rebuilt {@code GISSource}.
      * @throws  java.lang.IllegalArgumentException
      */
-    GISSource restoreSource(GISSourceInfo info) throws IllegalArgumentException;
+//    TGDataset restoreSource(GISSourceInfo info) throws IllegalArgumentException;
     
 }

@@ -43,7 +43,7 @@ import org.openide.util.lookup.InstanceContent;
  * @author  Johann Sorel (Puzzle-GIS)
  * @author  Thomas Bonavia (comments)
  */
-public abstract class GISSource {
+public abstract class TGDataset {
 
     public static final String STATE_PROPERTY = "state";
 
@@ -51,30 +51,34 @@ public abstract class GISSource {
     protected final InstanceContent content = new InstanceContent();
     protected final Lookup lookup;
 
-    private final GISSourceInfo info;
-    private GISSourceState state = GISSourceState.UNLOADED;
+//    private final GISSourceInfo info;
+    private TGDatasetState state = TGDatasetState.UNLOADED;
     
-    protected GISSource(final GISSourceInfo info){
-        if(info == null || info.getID() < 0){
-            throw new IllegalArgumentException("SourceInfo can not be null or have an invalid ID number");
-        }
-        this.info = info;
+//    protected TGDataset(final GISSourceInfo info){
+//        if(info == null || info.getID() < 0){
+//            throw new IllegalArgumentException("SourceInfo can not be null or have an invalid ID number");
+//        }
+//        this.info = info;
+//
+//        lookup = new AbstractLookup(content);
+//    }
 
+    protected TGDataset(){
         lookup = new AbstractLookup(content);
     }
     
-    public final GISSourceInfo getInfo(){
-        return info;
-    }
+//    public final GISSourceInfo getInfo(){
+//        return info;
+//    }
 
-    public GISSourceState getState() {
+    public TGDatasetState getState() {
         return state;
     }
 
-    protected void setState(final GISSourceState state){
+    protected void setState(final TGDatasetState state){
         if(state == null) throw new NullPointerException("state can not be null");
 
-        final GISSourceState oldState = this.state;
+        final TGDatasetState oldState = this.state;
         this.state = state;
         propertySupport.firePropertyChange(STATE_PROPERTY, oldState, this.state);
     }

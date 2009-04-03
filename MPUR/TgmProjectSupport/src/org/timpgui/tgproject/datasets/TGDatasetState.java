@@ -26,7 +26,7 @@ package org.timpgui.tgproject.datasets;
  * the sources to load or unload for more efficiency.
  * @author Johann Sorel (Puzzle-GIS)
  */
-public enum GISSourceState {
+public enum TGDatasetState {
     UNLOADED,
     LOADED,
     LOADING_ERROR

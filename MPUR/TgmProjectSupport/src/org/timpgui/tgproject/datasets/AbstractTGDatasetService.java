@@ -27,12 +27,12 @@ import org.openide.util.lookup.InstanceContent;
 /**
  * @author Johann Sorel (Puzzle-GIS)
  */
-public abstract class AbstractGISSourceService implements GISSourceService{
+public abstract class AbstractTGDatasetService implements TGDatasetService{
 
     protected final InstanceContent content = new InstanceContent();
     protected final Lookup lookup;
 
-    protected AbstractGISSourceService(){
+    protected AbstractTGDatasetService(){
         content.add(this);
         lookup = new AbstractLookup(content);
     }

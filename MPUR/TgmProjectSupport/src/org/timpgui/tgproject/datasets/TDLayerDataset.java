@@ -30,7 +30,7 @@ import java.util.Map;
  * @author  Johann Sorel (Puzzle-GIS)
  * @author  Thomas Bonavia (comments)
  */
-public final class GISLayerSource {
+public final class TDLayerDataset {
 
     /**
      * Key providing the saving information of this layer.
@@ -40,9 +40,9 @@ public final class GISLayerSource {
 
     private final int sourceId;
     private final Map<String,String> params = new HashMap<String, String>();
-    private final GISSource source;
+    private final TGDataset source;
     
-    public GISLayerSource(int sourceId, Map<String,String> parameters, GISSource source){
+    public TDLayerDataset(int sourceId, Map<String,String> parameters, TGDataset source){
         if(sourceId <=0){
             throw new NullPointerException("SourceID can not be null");
         }
@@ -73,7 +73,7 @@ public final class GISLayerSource {
     /**
      * Return the original GIS source of this layer.
      */
-    public final GISSource getGISSource(){
+    public final TGDataset getTGDataset(){
         return source;
     }
     

@@ -168,7 +168,7 @@ public class FlimImage implements TGDatasetService {
     public void pixTraceToFile(int i, int j, String fileName){
     }
 
-    public String getMime() {
+    public String getExtention() {
         return "sdt";
     }
 
@@ -176,13 +176,21 @@ public class FlimImage implements TGDatasetService {
         return "FLIM";
     }
 
-    public boolean checkFile(File file) throws FileNotFoundException, IOException, IllegalAccessException, InstantiationException {
+
+    public String getFilterString() {
+        return ".sdt Backer&Hickl FLIM Image";
+    }
+
+    public boolean Validator(File file) throws FileNotFoundException, IOException, IllegalAccessException, InstantiationException {
         ImageInputStream f = new FileImageInputStream(new RandomAccessFile(file, "r"));
         f.setByteOrder(ByteOrder.LITTLE_ENDIAN);
         FileHeader header = new FileHeader();
+        MeasureInfo measinf = new MeasureInfo();
         header.fread(f);
 //        System.out.println(f.getStreamPosition());
-        f.seek(header.info_offs);
+        f.seek(header.meas_desc_block_offs);
+//        System.out.println("meas "+f.getStreamPosition());
+        measinf.fread(f);
 
         return true;
     }

@@ -7,20 +7,25 @@ import java.io.IOException;
 /**
  * this interfays should be implemente d by all possible filetypes
  */
-public interface TGDatasetService {
 
+
+
+public interface TGDatasetService {
     /**
      * get type - extention of the suported files.
      * @return A {String} containing the extention.
      */
-    public String getMime();
-    
+    public String getExtention();
     /**
+     * @return true if str = sdt.
+     */
+    public String getFilterString();
+     /**
      * Get the file type.
      * @return A {@code String} containing the type of the file for loaders.
      */
     public String getType();
 
-    public boolean checkFile(File file) throws FileNotFoundException, IOException, IllegalAccessException, InstantiationException;
+    public boolean Validator(File file) throws FileNotFoundException, IOException, IllegalAccessException, InstantiationException;
        
 }

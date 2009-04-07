@@ -20,8 +20,12 @@
  */
 package org.timpgui.tgproject.actions;
 
-import java.awt.Component;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.Collection;
 import javax.swing.AbstractAction;
 
 import nl.vu.nat.tgmprojectsupport.TGProject;
@@ -32,6 +36,9 @@ import org.openide.DialogDisplayer;
 import org.openide.NotifyDescriptor;
 import org.openide.NotifyDescriptor.Confirmation;
 import org.openide.WizardDescriptor;
+import org.openide.util.Exceptions;
+import org.openide.util.Lookup;
+import org.timpgui.tgproject.datasets.TGDatasetService;
 
 //import org.timpgui.tgproject.datasets.GISSourceInfo;
 
@@ -43,7 +50,8 @@ import org.openide.WizardDescriptor;
 public final class OpenDatasetFile extends AbstractAction {
 
     private final TGProject project;
-    private Component frame;
+//    private Component frame;
+    private final Collection<? extends TGDatasetService> services;
 
     public OpenDatasetFile(){
         this(null);
@@ -52,6 +60,7 @@ public final class OpenDatasetFile extends AbstractAction {
     public OpenDatasetFile(final TGProject project){
         super(Utilities.getString("openDatasetFile"));
         this.project = project;
+        services = Lookup.getDefault().lookupAll(TGDatasetService.class);
     }
 
     /**
@@ -61,6 +70,7 @@ public final class OpenDatasetFile extends AbstractAction {
     @SuppressWarnings("empty-statement")
     public void actionPerformed(ActionEvent e) {
         final Project candidate;
+
         if(project == null){
             candidate = OpenProjects.getDefault().getMainProject();
         }else{
@@ -71,35 +81,82 @@ public final class OpenDatasetFile extends AbstractAction {
         if(candidate != null && candidate instanceof TGProject) {
 //            final GISProject gis =(GISProject) candidate;
             final JFileSourcePane pane = new JFileSourcePane();
-//            final ActionListener lst = new ActionListener() {
-//
-//                @Override
-//                public void actionPerformed(ActionEvent e) {
-//                    if (e.getActionCommand().equalsIgnoreCase("Finish")) {
-//                        pane.setVisible(false);
-//                        final Map<String,GISSourceInfo> sources = pane.getSources();
-//                        final Set<String> names = sources.keySet();
-//                        for (final String name : names) {
-//                            gis.registerSource(name,sources.get(name));
-//                        }
-//                    }
-//                }
-//            };
-//
+
+            final ActionListener lst = new ActionListener() {
+
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    File[] files;
+                    if (e.getActionCommand().equalsIgnoreCase("Finish")) {
+                        pane.setVisible(false);
+                        files = pane.getSelectedFiles();
+                        for(File f : files){
+                            for(final TGDatasetService service : services){
+                                if (f.getName().endsWith(service.getExtention())){
+                                    try {
+                                        if (service.Validator(f)) {
+                                            //TODO create xml file.
+                                        }
+                                    } catch (FileNotFoundException ex) {
+                                        Exceptions.printStackTrace(ex);
+                                    } catch (IOException ex) {
+                                        Exceptions.printStackTrace(ex);
+                                    } catch (IllegalAccessException ex) {
+                                        Exceptions.printStackTrace(ex);
+                                    } catch (InstantiationException ex) {
+                                        Exceptions.printStackTrace(ex);
+                                    }
+
+                                }
+
+
+                            }
+                        }
+
+                        Confirmation msg = new NotifyDescriptor.Confirmation("Bla bla bla", NotifyDescriptor.OK_CANCEL_OPTION);
+                        DialogDisplayer.getDefault().notify(msg);
+
+                    }
+                }
+            };
+
             final WizardDescriptor wdesc = WizardUtilities.createSimplewWizard(pane, Utilities.getString("openFile"));
-//            wdesc.setButtonListener(lst);
+            wdesc.setButtonListener(lst);
             DialogDisplayer.getDefault().notify(wdesc);
         }else{
+
             NotifyDescriptor msg =  new NotifyDescriptor.Message(Utilities.getString("projectIsNotTG"), NotifyDescriptor.INFORMATION_MESSAGE);
             DialogDisplayer.getDefault().notify(msg);
         }
 //
        
 
-        Confirmation msg = new NotifyDescriptor.Confirmation("Bla bla bla", NotifyDescriptor.OK_CANCEL_OPTION);
-        DialogDisplayer.getDefault().notify(msg);
 
-            
+
+
+//        DataObject dataObject = (DataObject) activatedNodes[0].getLookup().lookup(DataObject.class);
+//
+//        FileObject fileObject = dataObject.getPrimaryFile();
+//        String mimeType = fileObject.getMIMEType();
+//        try {
+//            InputStream stream = fileObject.getInputStream();
+//            try {
+//                Validation.validate(mimeType, stream);
+//            } finally {
+//                stream.close();
+//            }
+//        } catch (IOException ioe) {
+//            // in 5.5 and older:
+//            ErrorManager.getDefault().notify(ioe);
+//        // in 6.0 use:
+////         org.openide.util.Exceptions.printStackTrace(ex);
+//        }
+
+
+
+
+
+
         
     }
 

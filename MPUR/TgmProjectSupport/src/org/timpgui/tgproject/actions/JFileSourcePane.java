@@ -22,12 +22,9 @@ package org.timpgui.tgproject.actions;
 
 import java.io.File;
 import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
-
-import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import org.openide.util.Lookup;
+import org.timpgui.tgproject.datasets.TGDatasetService;
 
 //import org.puzzle.core.project.source.capabilities.FileSourceCreation;
 //import org.puzzle.core.project.source.GISSourceInfo;
@@ -43,7 +40,7 @@ import org.openide.util.Lookup;
 
 
 final class JFileSourcePane extends javax.swing.JPanel {
-    //    private final Collection<? extends GISSourceService> services;
+    private final Collection<? extends TGDatasetService> services;
 
     JFileSourcePane() {
        this(null);
@@ -57,16 +54,12 @@ final class JFileSourcePane extends javax.swing.JPanel {
 
         initComponents();
         gui_choose.setAcceptAllFileFilterUsed(true);
-        gui_choose.setFileFilter(new FileNameExtensionFilter(".sdt flim imadges", "sdt"));
 
-//        services = Lookup.getDefault().lookupAll(GISSourceService.class);
-//
-//        for(final GISSourceService service : services){
-//
-//            final FileSourceCreation fileService = service.getLookup().lookup(FileSourceCreation.class);
-//            if(fileService != null)
-//                gui_choose.addChoosableFileFilter( fileService.createFilter());
-//        }
+        services = Lookup.getDefault().lookupAll(TGDatasetService.class);
+
+        for(final TGDatasetService service : services){
+            gui_choose.addChoosableFileFilter(new FileNameExtensionFilter(service.getFilterString(),service.getExtention()));
+        }
         
         if(openPath != null){
             gui_choose.setCurrentDirectory(openPath);
@@ -119,6 +112,11 @@ final class JFileSourcePane extends javax.swing.JPanel {
     /**
      * Returns a map of name > GISSourceInfo to create GISSources.
      */
+
+    final File[] getSelectedFiles() {
+        return gui_choose.getSelectedFiles();
+
+    }
 //    final Map<String,GISSourceInfo> getSources(){
 //        final Map<String,GISSourceInfo> sources = new HashMap<String, GISSourceInfo>();
 //        final File[] files = gui_choose.getSelectedFiles();

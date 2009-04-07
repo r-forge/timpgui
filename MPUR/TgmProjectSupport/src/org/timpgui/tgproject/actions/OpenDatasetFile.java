@@ -33,15 +33,16 @@ import org.netbeans.api.project.Project;
 import org.netbeans.api.project.ui.OpenProjects;
 
 import org.openide.DialogDisplayer;
+import org.openide.ErrorManager;
 import org.openide.NotifyDescriptor;
 import org.openide.NotifyDescriptor.Confirmation;
 import org.openide.WizardDescriptor;
 import org.openide.util.Exceptions;
 import org.openide.util.Lookup;
 import org.timpgui.tgproject.datasets.TGDatasetService;
+import org.timpgui.tgproject.datasets.Tgd;
 
 //import org.timpgui.tgproject.datasets.GISSourceInfo;
-
 /**
  * action to open dataset.
  *
@@ -53,11 +54,11 @@ public final class OpenDatasetFile extends AbstractAction {
 //    private Component frame;
     private final Collection<? extends TGDatasetService> services;
 
-    public OpenDatasetFile(){
+    public OpenDatasetFile() {
         this(null);
     }
 
-    public OpenDatasetFile(final TGProject project){
+    public OpenDatasetFile(final TGProject project) {
         super(Utilities.getString("openDatasetFile"));
         this.project = project;
         services = Lookup.getDefault().lookupAll(TGDatasetService.class);
@@ -71,14 +72,14 @@ public final class OpenDatasetFile extends AbstractAction {
     public void actionPerformed(ActionEvent e) {
         final Project candidate;
 
-        if(project == null){
+        if (project == null) {
             candidate = OpenProjects.getDefault().getMainProject();
-        }else{
+        } else {
             candidate = project;
         }
 
 
-        if(candidate != null && candidate instanceof TGProject) {
+        if (candidate != null && candidate instanceof TGProject) {
 //            final GISProject gis =(GISProject) candidate;
             final JFileSourcePane pane = new JFileSourcePane();
 
@@ -90,20 +91,41 @@ public final class OpenDatasetFile extends AbstractAction {
                     if (e.getActionCommand().equalsIgnoreCase("Finish")) {
                         pane.setVisible(false);
                         files = pane.getSelectedFiles();
-                        for(File f : files){
-                            for(final TGDatasetService service : services){
-                                if (f.getName().endsWith(service.getExtention())){
+                        for (File f : files) {
+                            for (final TGDatasetService service : services) {
+                                if (f.getName().endsWith(service.getExtention())) {
                                     try {
                                         if (service.Validator(f)) {
                                             //TODO create xml file.
-                               Confirmation msg = new NotifyDescriptor.Confirmation("Bla bla bla", NotifyDescriptor.OK_CANCEL_OPTION);
-                        DialogDisplayer.getDefault().notify(msg);
+                                            Tgd tgd = new Tgd();
+                                            tgd.setFileName(f.getName());
+                                            tgd.setFiltype(service.getType());
+                                            tgd.setPath(f.getParent());
+                                            // TODO: f.getParent() should be the datasets folder
+                                            File out = new File(f.getParent(),f.getName().concat(".xml"));
+                                            try {
+                                                javax.xml.bind.JAXBContext jaxbCtx = javax.xml.bind.JAXBContext.newInstance(tgd.getClass().getPackage().getName());
+                                                javax.xml.bind.Marshaller marshaller = jaxbCtx.createMarshaller();
+                                                marshaller.setProperty(javax.xml.bind.Marshaller.JAXB_ENCODING, "UTF-8"); //NOI18N
+                                                marshaller.setProperty(javax.xml.bind.Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
+                                                // We marshal the data to a new xml file
+                                                marshaller.marshal(tgd, out);
+
+
+                                            } catch (javax.xml.bind.JAXBException ex) {
+                                                // XXXTODO Handle exception
+                                                java.util.logging.Logger.getLogger("global").log(java.util.logging.Level.SEVERE, null, ex); //NOI18N
+                                            } 
+
+                                            //END TODO
+                                            Confirmation msg = new NotifyDescriptor.Confirmation("Bla bla bla", NotifyDescriptor.OK_CANCEL_OPTION);
+                                            DialogDisplayer.getDefault().notify(msg);
 
                                         }
                                     } catch (FileNotFoundException ex) {
                                         Exceptions.printStackTrace(ex);
                                     } catch (IOException ex) {
-                                        Exceptions.printStackTrace(ex);
+                                         ErrorManager.getDefault().notify(ErrorManager.INFORMATIONAL, ex);
                                     } catch (IllegalAccessException ex) {
                                         Exceptions.printStackTrace(ex);
                                     } catch (InstantiationException ex) {
@@ -114,7 +136,7 @@ public final class OpenDatasetFile extends AbstractAction {
 
 
                             }
-                        }                     
+                        }
                     }
                 }
             };
@@ -122,13 +144,13 @@ public final class OpenDatasetFile extends AbstractAction {
             final WizardDescriptor wdesc = WizardUtilities.createSimplewWizard(pane, Utilities.getString("openFile"));
             wdesc.setButtonListener(lst);
             DialogDisplayer.getDefault().notify(wdesc);
-        }else{
+        } else {
 
-            NotifyDescriptor msg =  new NotifyDescriptor.Message(Utilities.getString("projectIsNotTG"), NotifyDescriptor.INFORMATION_MESSAGE);
+            NotifyDescriptor msg = new NotifyDescriptor.Message(Utilities.getString("projectIsNotTG"), NotifyDescriptor.INFORMATION_MESSAGE);
             DialogDisplayer.getDefault().notify(msg);
         }
 //
-       
+
 
 
 
@@ -156,9 +178,6 @@ public final class OpenDatasetFile extends AbstractAction {
 
 
 
-        
+
     }
-
-
-
 }

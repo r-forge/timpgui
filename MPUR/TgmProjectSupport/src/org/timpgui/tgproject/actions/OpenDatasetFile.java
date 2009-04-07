@@ -96,6 +96,9 @@ public final class OpenDatasetFile extends AbstractAction {
                                     try {
                                         if (service.Validator(f)) {
                                             //TODO create xml file.
+                               Confirmation msg = new NotifyDescriptor.Confirmation("Bla bla bla", NotifyDescriptor.OK_CANCEL_OPTION);
+                        DialogDisplayer.getDefault().notify(msg);
+
                                         }
                                     } catch (FileNotFoundException ex) {
                                         Exceptions.printStackTrace(ex);
@@ -111,11 +114,7 @@ public final class OpenDatasetFile extends AbstractAction {
 
 
                             }
-                        }
-
-                        Confirmation msg = new NotifyDescriptor.Confirmation("Bla bla bla", NotifyDescriptor.OK_CANCEL_OPTION);
-                        DialogDisplayer.getDefault().notify(msg);
-
+                        }                     
                     }
                 }
             };

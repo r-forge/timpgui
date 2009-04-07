@@ -59,10 +59,8 @@ public final class Validation {
                 Lookup.getDefault().lookupAll (TGDatasetService.class);
         boolean validated = false;
         for (TGDatasetService v : validators) {
-            if (v.getFilterString()) {
                 v.Validator(file);
                 validated = true;
-            }
         }
         return validated;
     }

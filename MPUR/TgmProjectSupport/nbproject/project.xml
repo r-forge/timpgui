@@ -135,6 +135,7 @@
             <public-packages>
                 <package>nl.vu.nat.tgmprojectsupport</package>
                 <package>nl.vu.nat.tgmprojectsupport.templates</package>
+                <package>org.timpgui.tgproject.datasets</package>
             </public-packages>
         </data>
     </configuration>

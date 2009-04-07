@@ -27,7 +27,7 @@ import org.openide.util.lookup.InstanceContent;
 /**
  * @author Johann Sorel (Puzzle-GIS)
  */
-public abstract class AbstractTGDatasetService implements TGDatasetService{
+public abstract class AbstractTGDatasetService {
 
     protected final InstanceContent content = new InstanceContent();
     protected final Lookup lookup;
@@ -37,9 +37,9 @@ public abstract class AbstractTGDatasetService implements TGDatasetService{
         lookup = new AbstractLookup(content);
     }
 
-    @Override
-    public Lookup getLookup() {
-        return lookup;
-    }
+//    @Override
+//    public Lookup getLookup() {
+//        return lookup;
+//    }
 
 }

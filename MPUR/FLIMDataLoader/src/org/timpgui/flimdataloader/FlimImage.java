@@ -12,6 +12,7 @@ import javax.imageio.stream.ImageInputStream;
 import org.timpgui.flimdataloader.structs.BHFileBlockHeader;
 import org.timpgui.flimdataloader.structs.FileHeader;
 import org.timpgui.flimdataloader.structs.MeasureInfo;
+import org.timpgui.tgproject.datasets.TGDatasetService;
 import static java.lang.Math.sqrt;
 import static java.lang.Math.floor;
 
@@ -24,7 +25,7 @@ import static java.lang.Math.floor;
  *
  * @author Sergey
  */
-public class FlimImage {
+public class FlimImage implements TGDatasetService {
     
     private int[] data;
     private int[] intmap;
@@ -39,12 +40,12 @@ public class FlimImage {
     
     public FlimImage(){
     	cannelN=1;
-	x=y=0;
-	time=0;
-	curvenum=0;
-	increm=0;
-	cannelW=0;
-	amplmax=amplmin=0;
+        x=y=0;
+        time=0;
+        curvenum=0;
+        increm=0;
+        cannelW=0;
+        amplmax=amplmin=0;
     }
     public FlimImage(File file) throws FileNotFoundException, IOException, IllegalAccessException, InstantiationException {
         ImageInputStream f = new FileImageInputStream(new RandomAccessFile(file, "r"));
@@ -167,5 +168,23 @@ public class FlimImage {
     public void pixTraceToFile(int i, int j, String fileName){
     }
 
+    public String getMime() {
+        return "sdt";
+    }
+
+    public String getType() {
+        return "FLIM";
+    }
+
+    public boolean checkFile(File file) throws FileNotFoundException, IOException, IllegalAccessException, InstantiationException {
+        ImageInputStream f = new FileImageInputStream(new RandomAccessFile(file, "r"));
+        f.setByteOrder(ByteOrder.LITTLE_ENDIAN);
+        FileHeader header = new FileHeader();
+        header.fread(f);
+//        System.out.println(f.getStreamPosition());
+        f.seek(header.info_offs);
+
+        return true;
+    }
 
 }

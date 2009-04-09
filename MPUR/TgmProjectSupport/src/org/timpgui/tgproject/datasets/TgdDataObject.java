@@ -38,7 +38,7 @@ public class TgdDataObject extends MultiDataObject {
 
     @Override
     protected Node createNodeDelegate() {
-        return new DataNode(this, Children.LEAF, getLookup());
+        return new TgdDataNode(this); // removed: getLookup()
     }
 
     @Override
@@ -47,7 +47,13 @@ public class TgdDataObject extends MultiDataObject {
     }
 
     private Tgd getTgd() {
-        throw new UnsupportedOperationException("Not yet implemented");
+          // If the Object "tgd" doesn't exist yet, read in from file
+
+        if (tgd == null) {
+                tgd = new Tgd();
+        }
+        // Else simply return the object
+        return tgd;
     }
 
 /**

@@ -37,6 +37,10 @@ import org.openide.ErrorManager;
 import org.openide.NotifyDescriptor;
 import org.openide.NotifyDescriptor.Confirmation;
 import org.openide.WizardDescriptor;
+import org.openide.filesystems.FileObject;
+import org.openide.filesystems.FileUtil;
+import org.openide.filesystems.Repository;
+import org.openide.loaders.DataFolder;
 import org.openide.util.Exceptions;
 import org.openide.util.Lookup;
 import org.timpgui.tgproject.datasets.TGDatasetService;
@@ -101,8 +105,10 @@ public final class OpenDatasetFile extends AbstractAction {
                                             tgd.setFileName(f.getName());
                                             tgd.setFiltype(service.getType());
                                             tgd.setPath(f.getParent());
-                                            // TODO: f.getParent() should be the datasets folder
-                                            File out = new File(f.getParent(),f.getName().concat(".xml"));
+                                            // Get Dataset folder if exists, else recreate it.
+                                             FileObject d = project.getDatasetFolder(true);
+                                            // TODO: make it OS independent (don't use "/")
+                                             File out = new File("/".concat(d.getPath()),f.getName().concat(".xml"));
                                             try {
                                                 javax.xml.bind.JAXBContext jaxbCtx = javax.xml.bind.JAXBContext.newInstance(tgd.getClass().getPackage().getName());
                                                 javax.xml.bind.Marshaller marshaller = jaxbCtx.createMarshaller();

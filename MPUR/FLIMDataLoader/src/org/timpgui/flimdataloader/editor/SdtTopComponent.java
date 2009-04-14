@@ -47,6 +47,8 @@ import static java.lang.Math.round;
 import nl.vu.nat.jfreechartcustom.FastXYPlot;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.renderer.xy.XYBlockRenderer;
+import org.openide.util.Exceptions;
+import org.openide.util.Exceptions;
 import org.openide.windows.CloneableTopComponent;
 import org.timpgui.flimdataloader.FlimImage;
 import org.timpgui.flimdataloader.SdtDataObject;
@@ -117,6 +119,52 @@ final public class SdtTopComponent extends CloneableTopComponent implements Char
                 jLWidth.setText(Integer.toString(flimImage.getX()));
                 jLChWidth.setText(Double.toString(flimImage.getCannelW()).substring(0, 7));
     }
+
+    public SdtTopComponent(String filename) {
+        initComponents();
+        setName(NbBundle.getMessage(SdtTopComponent.class, "CTL_SdtTopComponent"));
+        setToolTipText(NbBundle.getMessage(SdtTopComponent.class, "HINT_SdtTopComponent"));
+
+
+        if (flimImage == null) {
+            try {
+                flimImage = new FlimImage(new File(filename));
+            } catch (FileNotFoundException ex) {
+                Exceptions.printStackTrace(ex);
+            } catch (IOException ex) {
+                Exceptions.printStackTrace(ex);
+            } catch (IllegalAccessException ex) {
+                Exceptions.printStackTrace(ex);
+            } catch (InstantiationException ex) {
+                Exceptions.printStackTrace(ex);
+            }
+
+        }
+
+        flimImage.buildIntMap(1);
+
+                        //TFfilenam.setText(file.getName());
+                //flimImage = new FlimImage(file);
+                MakeIntImageChart(MakeXYZDataset());
+//                MakeTracesChart(MakeTracesCollection(), true);
+                MakeTracesChart(PlotFirstTrace(), false);
+                chpanIntenceImage = new ChartPanel(chart, true);
+                jPIntensImage.removeAll();
+                chpanIntenceImage.setSize(jPIntensImage.getMaximumSize());
+                //chpanIntenceImage.setSize(128, 128);
+                chpanIntenceImage.addChartMouseListener(this);
+
+                jPIntensImage.add(chpanIntenceImage);
+                jPIntensImage.repaint();
+
+                jLNumSelPix.setText(Integer.toString(numSelPix));
+                jLMaxAmpl.setText(Integer.toString(flimImage.getMaxIntens()));
+                jLChNumm.setText(Integer.toString(flimImage.getCannelN()));
+                jLHeigth.setText(Integer.toString(flimImage.getY()));
+                jLWidth.setText(Integer.toString(flimImage.getX()));
+                jLChWidth.setText(Double.toString(flimImage.getCannelW()).substring(0, 7));
+    }
+
 
     /** This method is called from within the constructor to
      * initialize the form.

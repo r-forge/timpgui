@@ -36,15 +36,15 @@ public final class ShowDataset extends CookieAction {
 
             for (final DatasetLoaderInterfeys service : services) {
                 if (service.getType().equalsIgnoreCase(filetype)){
-
+                    service.openDatasetEditor(filename);
                 }
 
             }
 
             //filename = FileUtil.toFile(dataObject.getPrimaryFile()).getAbsolutePath();
 //            filename = dataObject.getPrimaryFile().getPath().concat(dataObject. getPrimaryFile().getName());
-            Confirmation msg = new NotifyDescriptor.Confirmation(filename, NotifyDescriptor.OK_CANCEL_OPTION);
-                DialogDisplayer.getDefault().notify(msg);
+//            Confirmation msg = new NotifyDescriptor.Confirmation(filename, NotifyDescriptor.OK_CANCEL_OPTION);
+//                DialogDisplayer.getDefault().notify(msg);
         }else
         {
             Confirmation msg = new NotifyDescriptor.Confirmation("2Bla 2bla 2bla", NotifyDescriptor.OK_CANCEL_OPTION);

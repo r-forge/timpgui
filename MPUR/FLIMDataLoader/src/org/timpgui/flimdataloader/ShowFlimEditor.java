@@ -21,7 +21,6 @@ public class ShowFlimEditor implements  DatasetLoaderInterfeys{
     public void openDatasetEditor(String filename) {
         SdtTopComponent tc = new SdtTopComponent(filename);
         tc.open();
-        tc.
     }
 
 }

@@ -8,12 +8,13 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
-import nl.vu.nat.timpinterface.Current;
-import nl.vu.nat.timpinterface.ResultObject;
+import org.openide.util.Lookup;
+import org.timpgui.timpinterface.ResultObject;
 import org.openide.util.NbBundle;
 import org.openide.windows.TopComponent;
 import org.openide.windows.WindowManager;
 import org.openide.util.Utilities;
+import org.timpgui.timpinterface.TimpInterface;
 
 /**
  * Top component which displays something.
@@ -508,28 +509,28 @@ private void jBShowResultsButtonActionPerformed(java.awt.event.ActionEvent evt) 
         int selectedModel =jListModels.getSelectedIndex();
         int selectedOptions = jListOptions.getSelectedIndex();
         
-        ArrayList<String> datasetNames = Current.getDatasetNames();
+        ArrayList<String> datasetNames = new ArrayList<String>();//Current.getDatasetNames();
         datasetsListModel.removeAllElements();
         for (int i = 0; i<datasetNames.size(); i++) {
             datasetsListModel.addElement(datasetNames.get(i));
         }
         JListDatasets.setModel(datasetsListModel);
         
-        ArrayList<String> modelNames = Current.getModelNames();
+        ArrayList<String> modelNames =  new ArrayList<String>();//Current.getModelNames();
         modelsListModel.removeAllElements();
         for (int i = 0; i < modelNames.size(); i++) {
             modelsListModel.addElement(modelNames.get(i));
         }
         jListOptions.setModel(modelsListModel);
         
-        ArrayList<String> optionsNames = Current.getOptNames();
+        ArrayList<String> optionsNames =  new ArrayList<String>();//Current.getOptNames();
         optionsListModel.removeAllElements();
         for (int i = 0; i < optionsNames.size(); i++) {
             optionsListModel.addElement(optionsNames.get(i));
         }
         jListOptions.setModel(optionsListModel);
         
-        ArrayList<ResultObject> resultObjects = Current.GetresultNames();
+        ArrayList<ResultObject> resultObjects =  new ArrayList<ResultObject>();//Current.GetresultNames();
         resultsListModel.removeAllElements();
         for (int i = 0; i < resultObjects.size(); i++) {
             resultsListModel.addElement(resultObjects.get(i).getNameOfResultsObjects());

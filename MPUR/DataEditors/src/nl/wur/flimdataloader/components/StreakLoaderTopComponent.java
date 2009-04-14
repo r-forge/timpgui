@@ -19,7 +19,6 @@ import javax.swing.JFileChooser;
 import nl.wur.flim.jfreechartcustom.ColorCodedImageDataset;
 import nl.wur.flim.jfreechartcustom.RainbowPaintScale;
 import nl.vu.nat.jfreechartcustom.XYBlockRenderer;
-import nl.wur.flimdataloader.flimpac.DatasetTimp;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartMouseEvent;
 import org.jfree.chart.ChartMouseListener;
@@ -44,6 +43,7 @@ import org.jfree.ui.RectangleInsets;
 import org.openide.util.NbBundle;
 import org.openide.windows.TopComponent;
 import org.openide.windows.WindowManager;
+import org.timpgui.structures.DatasetTimp;
 //import org.openide.util.Utilities;
 
 /**

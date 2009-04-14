@@ -14,8 +14,6 @@ import java.util.Vector;
 import java.util.logging.Logger;
 import javax.swing.JFileChooser;
 import javax.swing.SpinnerNumberModel;
-import nl.vu.nat.timpinterface.Current;
-import nl.vu.nat.timpinterface.Register;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
@@ -403,7 +401,7 @@ private void jBCalculateBGActionPerformed(java.awt.event.ActionEvent evt) {//GEN
 private void jBMakeMeasIrfVariableActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBMakeMeasIrfVariableActionPerformed
 // TODO add your handling code here:
     //Current.SetcurrMIRF(tTFIrfVariableName.getText());
-    Register.RegisterMeasuredIRF(tTFIrfVariableName.getText(), refArray);
+   // Register.RegisterMeasuredIRF(tTFIrfVariableName.getText(), refArray);
 }//GEN-LAST:event_jBMakeMeasIrfVariableActionPerformed
 
 

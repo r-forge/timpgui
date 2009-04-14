@@ -7,15 +7,7 @@
             <suite-component/>
             <module-dependencies>
                 <dependency>
-                    <code-name-base>nat.vu.nl.datasettimp</code-name-base>
-                    <build-prerequisite/>
-                    <compile-dependency/>
-                    <run-dependency>
-                        <specification-version>1.0</specification-version>
-                    </run-dependency>
-                </dependency>
-                <dependency>
-                    <code-name-base>nl.vu.nat.timpinterface</code-name-base>
+                    <code-name-base>org.timpgui.timpinterface</code-name-base>
                     <build-prerequisite/>
                     <compile-dependency/>
                     <run-dependency>
@@ -105,6 +97,14 @@
                 </dependency>
                 <dependency>
                     <code-name-base>org.rosuda.JRI</code-name-base>
+                    <build-prerequisite/>
+                    <compile-dependency/>
+                    <run-dependency>
+                        <specification-version>1.0</specification-version>
+                    </run-dependency>
+                </dependency>
+                <dependency>
+                    <code-name-base>org.timpgui.structures</code-name-base>
                     <build-prerequisite/>
                     <compile-dependency/>
                     <run-dependency>

@@ -50,8 +50,7 @@ import org.jfree.chart.renderer.xy.XYBlockRenderer;
 import org.openide.windows.CloneableTopComponent;
 import org.timpgui.flimdataloader.FlimImage;
 import org.timpgui.flimdataloader.SdtDataObject;
-import org.timpgui.tdatasets.DatasetTimp;
-
+import org.timpgui.structures.DatasetTimp;
 
 /**
  * Top component which displays something.

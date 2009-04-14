@@ -9,7 +9,6 @@ package nl.vu.nat.tgmeditor.panels;
 import nl.vu.nat.tgmfilesupport.TgmDataObject;
 import javax.swing.JComponent;
 import nl.vu.nat.tgmodels.tgm.Tgm;
-import nl.vu.nat.timpinterface.Current;
 import org.netbeans.modules.xml.multiview.ui.SectionInnerPanel;
 import org.netbeans.modules.xml.multiview.ui.SectionView;
 

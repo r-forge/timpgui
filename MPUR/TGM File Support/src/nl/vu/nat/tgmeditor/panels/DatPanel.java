@@ -9,7 +9,6 @@ package nl.vu.nat.tgmeditor.panels;
 import nl.vu.nat.tgmfilesupport.TgmDataObject;
 import javax.swing.JComponent;
 import nl.vu.nat.tgmodels.tgm.Dat;
-import nl.vu.nat.timpinterface.Current;
 import org.netbeans.modules.xml.multiview.ui.SectionInnerPanel;
 import org.netbeans.modules.xml.multiview.ui.SectionView;
 
@@ -99,7 +98,7 @@ public class DatPanel extends SectionInnerPanel {
         if (source == jTModelNameTextField) {
         dat.setModelName((String)value);
         }
-        Current.SetcurrModel(dat.getModelName());
+        //.SetcurrModel(dat.getModelName());
         endUIChange();
     }
 

@@ -1,5 +1,5 @@
 Manifest-Version: 1.0
-OpenIDE-Module: nl.vu.nat.timpservice
-OpenIDE-Module-Localizing-Bundle: nl/vu/nat/timpservice/Bundle.properties
+OpenIDE-Module: org.timpgui.timpservice
+OpenIDE-Module-Localizing-Bundle: org/timpgui/timpservice/Bundle.properties
 OpenIDE-Module-Specification-Version: 1.0
 

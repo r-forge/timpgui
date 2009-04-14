@@ -1,0 +1,5 @@
+Manifest-Version: 1.0
+OpenIDE-Module: org.timpgui.structures
+OpenIDE-Module-Localizing-Bundle: org/timpgui/structures/Bundle.properties
+OpenIDE-Module-Specification-Version: 1.0
+

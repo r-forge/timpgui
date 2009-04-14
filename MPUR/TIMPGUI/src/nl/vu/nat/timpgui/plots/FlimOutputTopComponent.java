@@ -11,11 +11,9 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
-import nl.vu.nat.timpinterface.Current;
-import nl.vu.nat.timpinterface.ResultObject;
+import org.timpgui.timpinterface.ResultObject;
 import nl.wur.flim.jfreechartcustom.ColorCodedImageDataset;
 import nl.wur.flim.jfreechartcustom.RainbowPaintScale;
-import nl.wur.flimdataloader.flimpac.TimpResultDataset;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartMouseEvent;
 import org.jfree.chart.ChartMouseListener;
@@ -43,6 +41,7 @@ import org.jfree.ui.RectangleInsets;
 import org.openide.util.NbBundle;
 import org.openide.windows.TopComponent;
 import org.openide.windows.WindowManager;
+import org.timpgui.structures.TimpResultDataset;
 //import org.openide.util.Utilities;
 /**
  * Top component which displays something.
@@ -371,7 +370,7 @@ private void jListDatasetsValueChanged(javax.swing.event.ListSelectionEvent evt)
 private void jListResultObjectsValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_jListResultObjectsValueChanged
 // TODO add your handling code here:
     if (jListResultObjects.getSelectedIndex()!=-1) {
-        resultObjects = Current.GetresultNames();    
+        resultObjects = null; //Current.GetresultNames();
         ResultObject results = resultObjects.get(jListResultObjects.getSelectedIndex());    
         
         listOfDatasets.removeAllElements();
@@ -737,7 +736,7 @@ private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
         int selected = jListResultObjects.getSelectedIndex();
         
         listOfResultObjectNames.removeAllElements();
-        resultObjects = Current.GetresultNames();
+        resultObjects = null;//Current.GetresultNames();
         for (int i = 0; i < resultObjects.size(); i++) {
         String x = resultObjects.get(i).getNameOfResultsObjects();
         listOfResultObjectNames.addElement(x);

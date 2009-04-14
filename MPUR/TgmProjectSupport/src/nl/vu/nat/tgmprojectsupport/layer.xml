@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE filesystem PUBLIC "-//NetBeans//DTD Filesystem 1.1//EN" "http://www.netbeans.org/dtds/filesystem-1_1.dtd">
 <filesystem>
+    <folder name="Actions">
+        <folder name="Build">
+            <file name="org-timpgui-tgproject-actions-ShowDataset.instance"/>
+        </folder>
+    </folder>
     <folder name="Loaders">
         <folder name="text">
             <folder name="tgd+xml">
@@ -31,6 +36,10 @@
                     </file>
                     <file name="org-openide-actions-ToolsAction.instance">
                         <attr name="position" intvalue="1300"/>
+                    </file>
+                    <file name="org-timpgui-tgproject-actions-ShowDataset.shadow">
+                        <attr name="originalFile" stringvalue="Actions/Build/org-timpgui-tgproject-actions-ShowDataset.instance"/>
+                        <attr name="position" intvalue="0"/>
                     </file>
                     <file name="sep-1.instance">
                         <attr name="instanceClass" stringvalue="javax.swing.JSeparator"/>

@@ -46,11 +46,19 @@ public class TgdDataObject extends MultiDataObject {
         return getCookieSet().getLookup();
     }
 
-    private Tgd getTgd() {
+    public Tgd getTgd() {
           // If the Object "tgd" doesn't exist yet, read in from file
 
         if (tgd == null) {
                 tgd = new Tgd();
+                            try {
+                javax.xml.bind.JAXBContext jaxbCtx = javax.xml.bind.JAXBContext.newInstance(tgd.getClass().getPackage().getName());
+                javax.xml.bind.Unmarshaller unmarshaller = jaxbCtx.createUnmarshaller();
+                tgd = (Tgd) unmarshaller.unmarshal(FileUtil.toFile(this.getPrimaryFile())); //NOI18N //replaced: new java.io.File("File path") //Fix this: java.lang.IllegalArgumentException: file parameter must not be null
+            } catch (javax.xml.bind.JAXBException ex) {
+                // XXXTODO Handle exception
+                java.util.logging.Logger.getLogger("global").log(java.util.logging.Level.SEVERE, null, ex); //NOI18N
+            }
         }
         // Else simply return the object
         return tgd;

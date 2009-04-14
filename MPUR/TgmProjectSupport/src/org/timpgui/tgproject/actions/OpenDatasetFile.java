@@ -39,8 +39,6 @@ import org.openide.NotifyDescriptor.Confirmation;
 import org.openide.WizardDescriptor;
 import org.openide.filesystems.FileObject;
 import org.openide.filesystems.FileUtil;
-import org.openide.filesystems.Repository;
-import org.openide.loaders.DataFolder;
 import org.openide.util.Exceptions;
 import org.openide.util.Lookup;
 import org.timpgui.tgproject.datasets.TGDatasetService;
@@ -108,7 +106,9 @@ public final class OpenDatasetFile extends AbstractAction {
                                             // Get Dataset folder if exists, else recreate it.
                                              FileObject d = project.getDatasetFolder(true);
                                             // TODO: make it OS independent (don't use "/")
-                                             File out = new File("/".concat(d.getPath()),f.getName().concat(".xml"));
+                                             String filenamepath = FileUtil.toFile(d).getAbsolutePath();
+                                             String filename = FileUtil.toFileObject(f).getName().concat(".xml");
+                                             File out = new File(filenamepath,filename);
                                             try {
                                                 javax.xml.bind.JAXBContext jaxbCtx = javax.xml.bind.JAXBContext.newInstance(tgd.getClass().getPackage().getName());
                                                 javax.xml.bind.Marshaller marshaller = jaxbCtx.createMarshaller();
@@ -124,8 +124,6 @@ public final class OpenDatasetFile extends AbstractAction {
                                             } 
 
                                             //END TODO
-                                            Confirmation msg = new NotifyDescriptor.Confirmation("Bla bla bla", NotifyDescriptor.OK_CANCEL_OPTION);
-                                            DialogDisplayer.getDefault().notify(msg);
 
                                         }
                                     } catch (FileNotFoundException ex) {

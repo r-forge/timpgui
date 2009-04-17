@@ -21,38 +21,31 @@
 package org.timpgui.tgproject.nodes;
 
 import java.awt.Image;
-import javax.swing.Action;
 
-import org.netbeans.api.project.FileOwnerQuery;
-import org.netbeans.api.project.Project;
-import org.openide.loaders.DataObject;
 import org.openide.nodes.FilterNode;
 import org.openide.nodes.Node;
 import org.openide.util.ImageUtilities;
 
-import nl.vu.nat.tgmprojectsupport.TGProject;
-import org.timpgui.tgproject.actions.NewModels;
-
 /**
- * This class provides a {@link org.openide.nodes.Node} for the "map" folder
- * defined in the {@link org.puzzle.core.project.TGProject}.
- * This folder is intended to contain all files describing
- * {@code MapContext}s for each project.
+ * This class provides a {@link org.openide.nodes.Node} for the "doc" folder
+ * defined in the {@link org.puzzle.core.project.GISProject}.
+ * This folder is intended to contain all files document files, used to make
+ * reports or printable maps...
  *
  * @author Johann Sorel (Puzzle-GIS)
  * @author  Thomas Bonavia (comments)
  *
  * @see     org.openide.nodes.FilterNode
  */
-public class TGModelNode extends FilterNode {
+public class TGResultsNode extends FilterNode {
 
-    private final Image ICON = ImageUtilities.loadImage("nl/vu/nat/tgmprojectsupport/map.png");
+    private final Image ICON = ImageUtilities.loadImage("nl/vu/nat/tgmprojectsupport/doc.png", true);
 
     /**
      * Constructor.
-     * @param Node, map folder
+     * @param   node      The {@code Node} describing the folder.
      */
-    public TGModelNode(Node node) {
+    public TGResultsNode(Node node) {
         super(node);
     }
 
@@ -68,32 +61,11 @@ public class TGModelNode extends FilterNode {
 
     @Override
     public String getDisplayName() {
-        return Utilities.getString("models");
+        return Utilities.getString("results");
     }
 
     @Override
     public boolean canRename() {
         return false;
     }
-
-    @Override
-    public Action[] getActions(boolean arg0) {
-        Action[] actions = super.getActions(arg0);
-
-        final DataObject obj = getLookup().lookup(DataObject.class);
-        final Project proj = FileOwnerQuery.getOwner(obj.getPrimaryFile());
-
-        if(proj != null && proj instanceof TGProject){
-            Action[] temp = actions;
-            actions = new Action[actions.length+1];
-            actions[0] = new NewModels( (TGProject)proj);
-            for (int i = 0; i < temp.length; i++) {
-                actions[i+1] = temp[i];
-
-            }
-        }
-
-        return actions;
-    }
-
 }

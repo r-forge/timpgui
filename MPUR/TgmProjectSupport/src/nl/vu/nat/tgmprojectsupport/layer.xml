@@ -6,16 +6,16 @@
             <file name="org-timpgui-tgproject-actions-ShowDataset.instance"/>
         </folder>
         <folder name="Project">
-            <file name="org-timpgui-tgproject-actions-OpenDataFile.instance"/>
+            <file name="org-timpgui-tgproject-actions-OpenDatasetFile.instance"/>
         </folder>
     </folder>
     <folder name="Loaders">
         <folder name="folder">
             <folder name="any">
                 <folder name="Actions">
-                    <attr name="org-timpgui-tgproject-actions-OpenDataFile.shadow/RenameAction.instance" boolvalue="true"/>
-                    <file name="org-timpgui-tgproject-actions-OpenDataFile.shadow">
-                        <attr name="originalFile" stringvalue="Actions/Project/org-timpgui-tgproject-actions-OpenDataFile.instance"/>
+                    <attr name="org-timpgui-tgproject-actions-OpenDatasetFile.shadow/RenameAction.instance" boolvalue="true"/>
+                    <file name="org-timpgui-tgproject-actions-OpenDatasetFile.shadow">
+                        <attr name="originalFile" stringvalue="Actions/Project/org-timpgui-tgproject-actions-OpenDatasetFile.instance"/>
                     </file>
                 </folder>
             </folder>
@@ -87,8 +87,8 @@
     </folder>
     <folder name="Menu">
         <folder name="File">
-            <file name="org-timpgui-tgproject-actions-OpenDataFile.shadow">
-                <attr name="originalFile" stringvalue="Actions/Project/org-timpgui-tgproject-actions-OpenDataFile.instance"/>
+            <file name="org-timpgui-tgproject-actions-OpenDatasetFile.shadow">
+                <attr name="originalFile" stringvalue="Actions/Project/org-timpgui-tgproject-actions-OpenDatasetFile.instance"/>
                 <attr name="position" intvalue="300"/>
             </file>
         </folder>

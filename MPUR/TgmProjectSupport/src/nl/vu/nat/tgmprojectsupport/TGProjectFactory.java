@@ -91,9 +91,9 @@ public class TGProjectFactory implements ProjectFactory{
             throw new IOException ("Project dir " + projectRoot.getPath() + " deleted," +" cannot save project");
         }
         //Force creation of folders if it was deleted
-        ((TGProject) project).getModelFolder(true);
-        ((TGProject) project).getResultFolder(true);
-        ((TGProject) project).getDatasetFolder(true);
+        ((TGProject) project).getModelsFolder(true);
+        ((TGProject) project).getResultsFolder(true);
+        ((TGProject) project).getDatasetsFolder(true);
 
         //Find the properties file gisproject/project.properties,
         //creating it if necessary

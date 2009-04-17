@@ -63,6 +63,8 @@ public final class OpenDatasetFile extends AbstractAction {
         super();
         this.project = project;
         services = Lookup.getDefault().lookupAll(TGDatasetService.class);
+        putValue (NAME, "Add Dataset File");
+
     }
 
     /**
@@ -81,9 +83,7 @@ public final class OpenDatasetFile extends AbstractAction {
 
 
         if (candidate != null && candidate instanceof TGProject) {
-//            final GISProject gis =(GISProject) candidate;
             final JFileSourcePane pane = new JFileSourcePane();
-
             final ActionListener lst = new ActionListener() {
 
                 @Override
@@ -103,7 +103,7 @@ public final class OpenDatasetFile extends AbstractAction {
                                             tgd.setFiltype(service.getType());
                                             tgd.setPath(f.getParent());
                                             // Get Dataset folder if exists, else recreate it.
-                                             FileObject d = project.getDatasetFolder(true);                                            
+                                             FileObject d = project.getDatasetsFolder(true);
                                             // TODO: make it OS independent (don't use "/")
                                              String filenamepath = FileUtil.toFile(d).getAbsolutePath();
                                              String filename = FileUtil.toFileObject(f).getName().concat(".xml");

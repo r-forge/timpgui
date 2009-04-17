@@ -87,7 +87,7 @@ public final class NewModels extends AbstractAction {
             for (FileObject fo : templates) {
                 if (fo.getName().equals("GISContextTemplate")) {
                     try {
-                        tw.instantiate(DataObject.find(fo), DataFolder.findFolder(gis.getModelFolder(true)));
+                        tw.instantiate(DataObject.find(fo), DataFolder.findFolder(gis.getModelsFolder(true)));
                     } catch (DataObjectNotFoundException donfe) {
                         Logger.getLogger(TGProject.class.getName()).log(Level.SEVERE,
                                 "Unable to find object " + fo.getPath(), donfe);

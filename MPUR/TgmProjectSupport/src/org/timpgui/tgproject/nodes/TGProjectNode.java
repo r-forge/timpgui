@@ -119,21 +119,26 @@ class TGProjectNodeFilter extends FilterNode.Children{
         final DataObject dob = node.getLookup().lookup (DataObject.class);
         final FileObject file = dob.getPrimaryFile();
 
-        if(file.equals(project.getDatasetFolder(true))){
+        if(file.equals(project.getDatasetsFolder(true))){
             return new TGDatasetNode(node);
-        }else if(file.equals(project.getModelFolder(true))){
-            return new TGModelNode(node);
-        }else if(file.equals(project.getResultFolder(true))){
-            return new TGResultNode(node);
+        } else if(file.equals(project.getPreprocessingFolder(true))){
+            return new TGPreprocessingNode(node);
+        }else if(file.equals(project.getModelsFolder(true))){
+            return new TGModelsNode(node);
+        }else if(file.equals(project.getOptionsFolder(true))){
+            return new TGOptionsNode(node);
+        }else if(file.equals(project.getResultsFolder(true))){
+            return new TGResultsNode(node);
         }else{
             return new FilterNode(node);
         }
     }
 
 
+    @Override
     protected Node[] createNodes(Node node) {
         final String name = node.getName();
-        if(name.equals("gisproject")){
+        if(name.equals("tgproject")){
             return new Node[0];
         }else{
             return super.createNodes(node);

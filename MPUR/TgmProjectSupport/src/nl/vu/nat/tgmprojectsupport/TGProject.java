@@ -67,12 +67,16 @@ import org.openide.util.lookup.InstanceContent;
  */
 public class TGProject implements Project {
 
-    /** The name of the folder containing models files. */
-    public static final String MODEL_DIR = "models";
-    /** The name of the folder containing output files. */
-    public static final String RESULT_DIR = "results";
     /** The name of the folder containing datasets files. */
-    public static final String DATASET_DIR = "datasets";
+    public static final String DATASETS_DIR = "datasets";
+    /** The name of the folder containing preprocessing files. */
+    public static final String PREPROCESSING_DIR = "preprocessing";
+    /** The name of the folder containing models files. */
+    public static final String MODELS_DIR = "models";
+    /** The name of the folder containing fitting options files. */
+    public static final String OPTIONS_DIR = "options";
+    /** The name of the folder containing output files. */
+    public static final String RESULTS_DIR = "results";
     private final FileObject projectDir;
     private final ProjectState state;
     private final LogicalViewProvider logicalView = new TGLogicalView(this);
@@ -126,38 +130,19 @@ public class TGProject implements Project {
     }
 
     /**
-     * Get the maps folder.
+     * Get the datasets folder.
      * @param   create    Create the folder if does not exists ?
-     * @return  The {@code FileObject} representing the maps folder.
+     * @return  The {@code FileObject} representing the sources folder.
      */
-    public FileObject getModelFolder(boolean create) {
-        FileObject result = projectDir.getFileObject(MODEL_DIR);
+    public FileObject getDatasetsFolder(boolean create) {
+        FileObject result = projectDir.getFileObject(DATASETS_DIR);
 
         if (result == null && create) {
             try {
-                result = projectDir.createFolder(MODEL_DIR);
+                result = projectDir.createFolder(DATASETS_DIR);
             } catch (IOException ioe) {
                 Logger.getLogger(TGProject.class.getName()).log(Level.SEVERE,
-                        "Unable to create folder " + MODEL_DIR, ioe);
-            }
-        }
-        return result;
-    }
-
-    /**
-     * Get the documents folder.
-     * @param   create    Create the folder if does not exists ?
-     * @return  The {@code FileObject} representing the documents folder.
-     */
-    public FileObject getResultFolder(boolean create) {
-        FileObject result = projectDir.getFileObject(RESULT_DIR);
-
-        if (result == null && create) {
-            try {
-                result = projectDir.createFolder(RESULT_DIR);
-            } catch (IOException ioe) {
-                Logger.getLogger(TGProject.class.getName()).log(Level.SEVERE,
-                        "Unable to create folder " + RESULT_DIR, ioe);
+                        "Unable to create folder " + DATASETS_DIR, ioe);
             }
         }
         return result;
@@ -168,15 +153,72 @@ public class TGProject implements Project {
      * @param   create    Create the folder if does not exists ?
      * @return  The {@code FileObject} representing the sources folder.
      */
-    public FileObject getDatasetFolder(boolean create) {
-        FileObject result = projectDir.getFileObject(DATASET_DIR);
+    public FileObject getPreprocessingFolder(boolean create) {
+        FileObject result = projectDir.getFileObject(PREPROCESSING_DIR);
 
         if (result == null && create) {
             try {
-                result = projectDir.createFolder(DATASET_DIR);
+                result = projectDir.createFolder(PREPROCESSING_DIR);
             } catch (IOException ioe) {
                 Logger.getLogger(TGProject.class.getName()).log(Level.SEVERE,
-                        "Unable to create folder " + DATASET_DIR, ioe);
+                        "Unable to create folder " + PREPROCESSING_DIR, ioe);
+            }
+        }
+        return result;
+    }
+
+    /**
+     * Get the models folder.
+     * @param   create    Create the folder if does not exists ?
+     * @return  The {@code FileObject} representing the maps folder.
+     */
+    public FileObject getModelsFolder(boolean create) {
+        FileObject result = projectDir.getFileObject(MODELS_DIR);
+
+        if (result == null && create) {
+            try {
+                result = projectDir.createFolder(MODELS_DIR);
+            } catch (IOException ioe) {
+                Logger.getLogger(TGProject.class.getName()).log(Level.SEVERE,
+                        "Unable to create folder " + MODELS_DIR, ioe);
+            }
+        }
+        return result;
+    }
+
+        /**
+     * Get the fittings options folder.
+     * @param   create    Create the folder if does not exists ?
+     * @return  The {@code FileObject} representing the sources folder.
+     */
+    public FileObject getOptionsFolder(boolean create) {
+        FileObject result = projectDir.getFileObject(OPTIONS_DIR);
+
+        if (result == null && create) {
+            try {
+                result = projectDir.createFolder(OPTIONS_DIR);
+            } catch (IOException ioe) {
+                Logger.getLogger(TGProject.class.getName()).log(Level.SEVERE,
+                        "Unable to create folder " + OPTIONS_DIR, ioe);
+            }
+        }
+        return result;
+    }
+
+    /**
+     * Get the documents folder.
+     * @param   create    Create the folder if does not exists ?
+     * @return  The {@code FileObject} representing the documents folder.
+     */
+    public FileObject getResultsFolder(boolean create) {
+        FileObject result = projectDir.getFileObject(RESULTS_DIR);
+
+        if (result == null && create) {
+            try {
+                result = projectDir.createFolder(RESULTS_DIR);
+            } catch (IOException ioe) {
+                Logger.getLogger(TGProject.class.getName()).log(Level.SEVERE,
+                        "Unable to create folder " + RESULTS_DIR, ioe);
             }
         }
         return result;

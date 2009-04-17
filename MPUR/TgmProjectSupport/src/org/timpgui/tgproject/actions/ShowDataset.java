@@ -8,22 +8,21 @@ import java.util.Collection;
 import org.openide.DialogDisplayer;
 import org.openide.NotifyDescriptor;
 import org.openide.NotifyDescriptor.Confirmation;
-import org.openide.filesystems.FileUtil;
 import org.openide.loaders.DataObject;
 import org.openide.nodes.Node;
 import org.openide.util.HelpCtx;
 import org.openide.util.Lookup;
 import org.openide.util.NbBundle;
 import org.openide.util.actions.CookieAction;
-import org.timpgui.tgproject.datasets.DatasetLoaderInterfeys;
+import org.timpgui.tgproject.datasets.DatasetLoaderInterface;
 import org.timpgui.tgproject.datasets.TgdDataObject;
 
 public final class ShowDataset extends CookieAction {
     
-    private final Collection<? extends DatasetLoaderInterfeys> services;
+    private final Collection<? extends DatasetLoaderInterface> services;
 
     public ShowDataset(){
-        services = Lookup.getDefault().lookupAll(DatasetLoaderInterfeys.class);
+        services = Lookup.getDefault().lookupAll(DatasetLoaderInterface.class);
     }
 
     protected void performAction(Node[] activatedNodes) {
@@ -34,7 +33,7 @@ public final class ShowDataset extends CookieAction {
             filename = filename.concat("/").concat((String)dataObject.getTgd().getFileName());
             filetype = (String)dataObject.getTgd().getFiltype();
 
-            for (final DatasetLoaderInterfeys service : services) {
+            for (final DatasetLoaderInterface service : services) {
                 if (service.getType().equalsIgnoreCase(filetype)){
                     service.openDatasetEditor(filename);
                 }

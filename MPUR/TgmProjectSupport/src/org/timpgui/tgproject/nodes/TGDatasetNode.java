@@ -31,6 +31,7 @@ import org.openide.nodes.Node;
 import org.openide.util.ImageUtilities;
 
 import nl.vu.nat.tgmprojectsupport.TGProject;
+import org.openide.loaders.DataFolder;
 import org.timpgui.tgproject.actions.OpenDatasetFile;
 
 /**
@@ -52,7 +53,7 @@ public class TGDatasetNode extends FilterNode {
      * @param  node      The "src" folder.
      */
     public TGDatasetNode(Node node) {
-        super(node);
+        super(node, new TGDatasetChildrenNode(node));
     }
 
     @Override
@@ -67,6 +68,9 @@ public class TGDatasetNode extends FilterNode {
 
     @Override
     public String getDisplayName() {
+        if (this.getParentNode() instanceof TGDatasetNode){
+            return this.getName();
+        }
         return Utilities.getString("datasets");
     }
 
@@ -93,6 +97,31 @@ public class TGDatasetNode extends FilterNode {
         }
 
         return actions;
+    }
+
+
+    private static class TGDatasetChildrenNode extends FilterNode.Children {
+        TGDatasetChildrenNode(Node node) {
+            super(node);
+        }
+
+        @Override
+        protected Node[] createNodes(Node n) {
+            if (n.getLookup().lookup(DataFolder.class) != null) {
+                return new Node[] {new TGDatasetNode(n)};
+            } else {
+//                Feed feed = getFeed(n);
+//                if (feed != null) {
+//                    try {
+//                        return new Node[] {new OneFeedNode(n, feed.getSyndFeed())};
+//                    } catch (IOException ioe) {
+//                        Exceptions.printStackTrace(ioe);
+//                    }
+//                }
+            }
+            // best effort
+            return new Node[] {new FilterNode(n)};
+        }
     }
 
 }

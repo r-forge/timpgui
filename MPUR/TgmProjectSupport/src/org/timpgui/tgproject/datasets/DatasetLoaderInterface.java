@@ -9,7 +9,7 @@ package org.timpgui.tgproject.datasets;
  *
  * @author lsp
  */
-public interface DatasetLoaderInterfeys {
+public interface DatasetLoaderInterface {
 
     public String getType();
 

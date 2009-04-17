@@ -35,7 +35,6 @@ import org.netbeans.api.project.ui.OpenProjects;
 import org.openide.DialogDisplayer;
 import org.openide.ErrorManager;
 import org.openide.NotifyDescriptor;
-import org.openide.NotifyDescriptor.Confirmation;
 import org.openide.WizardDescriptor;
 import org.openide.filesystems.FileObject;
 import org.openide.filesystems.FileUtil;
@@ -61,7 +60,7 @@ public final class OpenDatasetFile extends AbstractAction {
     }
 
     public OpenDatasetFile(final TGProject project) {
-        super(Utilities.getString("openDatasetFile"));
+        super();
         this.project = project;
         services = Lookup.getDefault().lookupAll(TGDatasetService.class);
     }
@@ -104,7 +103,7 @@ public final class OpenDatasetFile extends AbstractAction {
                                             tgd.setFiltype(service.getType());
                                             tgd.setPath(f.getParent());
                                             // Get Dataset folder if exists, else recreate it.
-                                             FileObject d = project.getDatasetFolder(true);
+                                             FileObject d = project.getDatasetFolder(true);                                            
                                             // TODO: make it OS independent (don't use "/")
                                              String filenamepath = FileUtil.toFile(d).getAbsolutePath();
                                              String filename = FileUtil.toFileObject(f).getName().concat(".xml");

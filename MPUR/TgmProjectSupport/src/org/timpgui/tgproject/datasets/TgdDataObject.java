@@ -4,6 +4,7 @@
  */
 package org.timpgui.tgproject.datasets;
 
+import org.timpgui.tgproject.nodes.TgdDataNode;
 import java.io.IOException;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Unmarshaller;

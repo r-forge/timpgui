@@ -2,8 +2,9 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.timpgui.tgproject.datasets;
+package org.timpgui.tgproject.nodes;
 
+import org.timpgui.tgproject.datasets.*;
 import org.netbeans.api.project.FileOwnerQuery;
 import org.netbeans.api.project.Project;
 import org.openide.filesystems.FileObject;

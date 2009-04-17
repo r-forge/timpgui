@@ -6,13 +6,13 @@
 package org.timpgui.flimdataloader;
 
 import org.timpgui.flimdataloader.editor.SdtTopComponent;
-import org.timpgui.tgproject.datasets.DatasetLoaderInterfeys;
+import org.timpgui.tgproject.datasets.DatasetLoaderInterface;
 
 /**
  *
  * @author lsp
  */
-public class ShowFlimEditor implements  DatasetLoaderInterfeys{
+public class ShowFlimEditor implements  DatasetLoaderInterface{
 
     public String getType() {
         return "FLIM";

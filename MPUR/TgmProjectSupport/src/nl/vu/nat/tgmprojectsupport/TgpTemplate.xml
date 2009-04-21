@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+    Document   : TgpSchema.xml
+    Created on : April 21, 2009, 3:34 PM
+    Author     : jsg210
+    Description:
+        Purpose of the document follows.
+-->
+
+<ns0:tgp  xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'
+   xmlns:ns0='http://timpgui.org/Schema/TgpSchema'
+   xsi:schemaLocation='http://timpgui.org/Schema/TgpSchema TgpSchema.xsd'>
+    <ns0:type></ns0:type>
+    <ns0:numberOfDimensions></ns0:numberOfDimensions>
+    <ns0:selectedData>
+        <ns0:begin></ns0:begin>
+        <ns0:end></ns0:end>
+    </ns0:selectedData>
+    <ns0:selectedData>
+        <ns0:begin></ns0:begin>
+        <ns0:end></ns0:end>
+    </ns0:selectedData>
+    <ns0:selectedData>
+        <ns0:begin></ns0:begin>
+        <ns0:end></ns0:end>
+    </ns0:selectedData>
+    <ns0:numberOfTraces></ns0:numberOfTraces>
+    <ns0:numberOfTraces></ns0:numberOfTraces>
+    <ns0:numberOfTraces></ns0:numberOfTraces>
+    <ns0:outlierDetection>
+        <ns0:windowSize></ns0:windowSize>
+        <ns0:threshold></ns0:threshold>
+    </ns0:outlierDetection>
+
+</ns0:tgp>

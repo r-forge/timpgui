@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.RandomAccessFile;
 import java.nio.ByteOrder;
+import java.util.zip.CRC32;
 import javax.imageio.stream.FileImageInputStream;
 import javax.imageio.stream.ImageInputStream;
 import org.timpgui.flimdataloader.structs.BHFileBlockHeader;
@@ -191,6 +192,8 @@ public class FlimImage implements TGDatasetService {
         f.seek(header.meas_desc_block_offs);
 //        System.out.println("meas "+f.getStreamPosition());
         measinf.fread(f);
+
+        CRC32 checksum = new CRC32();
 
         return true;
     }

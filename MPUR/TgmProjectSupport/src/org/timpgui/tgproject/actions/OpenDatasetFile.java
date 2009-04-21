@@ -49,6 +49,13 @@ import org.timpgui.tgproject.datasets.Tgd;
  *
  * @author Johann Sorel (Puzzle-GIS)
  */
+
+
+//=========================================================
+//
+//          this clas is nolonger in use
+//
+//========================================================
 public final class OpenDatasetFile extends AbstractAction {
 
     private final TGProject project;

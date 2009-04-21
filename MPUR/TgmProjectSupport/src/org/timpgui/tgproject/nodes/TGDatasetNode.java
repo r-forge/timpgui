@@ -32,7 +32,7 @@ import org.openide.util.ImageUtilities;
 
 import nl.vu.nat.tgmprojectsupport.TGProject;
 import org.openide.loaders.DataFolder;
-import org.timpgui.tgproject.actions.OpenDatasetFile;
+import org.timpgui.tgproject.actions.OpenDataset;
 
 /**
  * This class represents the folder "src" defined in the
@@ -54,6 +54,8 @@ public class TGDatasetNode extends FilterNode {
      */
     public TGDatasetNode(Node node) {
         super(node, new TGDatasetChildrenNode(node));
+
+        //nodeactions[0] = new OpenDatasetFile((TGProject)proj);
     }
 
     @Override
@@ -81,15 +83,17 @@ public class TGDatasetNode extends FilterNode {
 
     @Override
     public Action[] getActions(boolean arg0) {
-        Action[] actions = super.getActions(arg0);
+       Action[] actions = super.getActions(arg0);
 
         final DataObject obj = getLookup().lookup(DataObject.class);
         final Project proj = FileOwnerQuery.getOwner(obj.getPrimaryFile());
-        
+
         if(proj != null && proj instanceof TGProject){
             Action[] temp = actions;
             actions = new Action[actions.length+1];
-            actions[0] = new OpenDatasetFile((TGProject)proj);
+            actions[0] = new OpenDataset();
+            
+
             for (int i = 0; i < temp.length; i++) {
                 actions[i+1] = temp[i];
 

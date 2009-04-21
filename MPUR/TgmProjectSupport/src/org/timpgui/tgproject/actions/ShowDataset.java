@@ -53,7 +53,7 @@ public final class ShowDataset extends CookieAction {
     }
 
     protected int mode() {
-        return CookieAction.MODE_EXACTLY_ONE;
+        return CookieAction.MODE_ALL;
     }
 
     public String getName() {

@@ -7,9 +7,9 @@ and open the template in the editor.
 <MIME-resolver>
     <file>
         <ext name="xml"/>
-        <resolver mime="text/tgp+xml">
+        <resolver mime="text/tgd+xml">
             <xml-rule>
-                <element ns="http://timpgui.org/Schema/TgpSchema"/>
+                <element ns="http://timpgui.org/Schema/TgdSchema"/>
             </xml-rule>
         </resolver>
     </file>

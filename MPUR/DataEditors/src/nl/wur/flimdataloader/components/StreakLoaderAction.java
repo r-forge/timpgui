@@ -4,6 +4,8 @@
  */
 package nl.wur.flimdataloader.components;
 
+import org.timpgui.dataeditors.*;
+import org.timpgui.dataeditors.SpecEditorTopComponent;
 import java.awt.event.ActionEvent;
 import javax.swing.AbstractAction;
 import javax.swing.ImageIcon;
@@ -22,7 +24,7 @@ public class StreakLoaderAction extends AbstractAction {
     }
 
     public void actionPerformed(ActionEvent evt) {
-        TopComponent win = StreakLoaderTopComponent.findInstance();
+        TopComponent win = SpecEditorTopComponent.findInstance();
         win.open();
         win.requestActive();
     }

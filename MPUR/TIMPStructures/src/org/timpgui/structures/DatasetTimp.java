@@ -93,7 +93,7 @@ public final class DatasetTimp {
     public void SetX2(double[] x2Value){x2 = x2Value;}
     public void SetIntenceIm(double[] x2Value){x2 = x2Value;} 
     public String SetDatasetName(String datasetName){return datasetName;}
-    public void LoadIvoFile(File file) throws FileNotFoundException, IOException, IllegalAccessException, InstantiationException {
+    public void LoadASCIIFile(File file) throws FileNotFoundException, IOException, IllegalAccessException, InstantiationException {
         datasetName = file.getName();
         maxInt = 0;
         minInt = 0; 

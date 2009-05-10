@@ -43,9 +43,7 @@ package org.timpgui.tgproject.datasets;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.Collection;
-import org.timpgui.tgproject.datasets.TGDatasetService;
 import org.openide.util.Lookup;
 
 public final class Validation {

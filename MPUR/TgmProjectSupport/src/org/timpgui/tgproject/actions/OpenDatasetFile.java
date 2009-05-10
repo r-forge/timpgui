@@ -107,7 +107,7 @@ public final class OpenDatasetFile extends AbstractAction {
                                             //TODO create xml file.
                                             Tgd tgd = new Tgd();
                                             tgd.setFileName(f.getName());
-                                            tgd.setFiltype(service.getType());
+                                            tgd.setFiltype(service.getType(null));
                                             tgd.setPath(f.getParent());
                                             // Get Dataset folder if exists, else recreate it.
                                              FileObject d = project.getDatasetsFolder(true);

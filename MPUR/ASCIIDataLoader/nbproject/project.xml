@@ -5,8 +5,35 @@
         <data xmlns="http://www.netbeans.org/ns/nb-module-project/3">
             <code-name-base>org.timpgui.asciidataloader</code-name-base>
             <suite-component/>
-            <module-dependencies/>
-            <public-packages/>
+            <module-dependencies>
+                <dependency>
+                    <code-name-base>nl.vu.nat.tgmprojectsupport</code-name-base>
+                    <build-prerequisite/>
+                    <compile-dependency/>
+                    <run-dependency>
+                        <specification-version>1.0</specification-version>
+                    </run-dependency>
+                </dependency>
+                <dependency>
+                    <code-name-base>nl.wur.flimdataloader</code-name-base>
+                    <build-prerequisite/>
+                    <compile-dependency/>
+                    <run-dependency>
+                        <specification-version>1.0</specification-version>
+                    </run-dependency>
+                </dependency>
+                <dependency>
+                    <code-name-base>org.openide.dialogs</code-name-base>
+                    <build-prerequisite/>
+                    <compile-dependency/>
+                    <run-dependency>
+                        <specification-version>7.8.1</specification-version>
+                    </run-dependency>
+                </dependency>
+            </module-dependencies>
+            <public-packages>
+                <package>org.timpgui.asciidataloader</package>
+            </public-packages>
         </data>
     </configuration>
 </project>

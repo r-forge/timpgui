@@ -21,8 +21,6 @@
 package org.timpgui.tgproject.nodes;
 
 import java.awt.Image;
-import java.util.ArrayList;
-import java.util.List;
 import javax.swing.Action;
 import javax.swing.ImageIcon;
 
@@ -31,17 +29,10 @@ import org.netbeans.spi.project.ui.support.CommonProjectActions;
 
 import org.openide.filesystems.FileObject;
 import org.openide.loaders.DataObject;
-import org.openide.loaders.DataObjectNotFoundException;
-import org.openide.nodes.AbstractNode;
-import org.openide.nodes.Children;
 import org.openide.nodes.FilterNode;
-import org.openide.nodes.Index.ArrayChildren;
 import org.openide.nodes.Node;
-import org.openide.util.Exceptions;
 import org.openide.util.ImageUtilities;
-import org.openide.util.Lookup;
 import org.openide.util.lookup.Lookups;
-import org.openide.util.lookup.ProxyLookup;
 
 import nl.vu.nat.tgmprojectsupport.TGProject;
 

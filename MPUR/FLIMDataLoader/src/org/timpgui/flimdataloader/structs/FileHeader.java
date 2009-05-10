@@ -26,13 +26,13 @@ public class FileHeader extends BaseStructure{
    public short    no_of_meas_desc_blocks;  // number of measurement description blocks
    public short    meas_desc_block_length;  // length of the measurement description blocks
    //unsigned 
-   public short    header_valid;   // valid: 0x5555, not valid: 0x1111
+   public char    header_valid;   // valid: 0x5555, not valid: 0x1111
    //unsigned 
    public long     reserved1;      // reserved1 now contains no_of_data_blocks
    //unsigned 
-   public short    reserved2;
+   public char    reserved2;
    //unsigned 
-   public short chksum;            // checksum of file header
+   public char     chksum;            // checksum of file header
 }
 
 

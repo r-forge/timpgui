@@ -1,6 +1,8 @@
 package org.timpgui.flimdataloader;
 
 
+import java.io.ByteArrayOutputStream;
+import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -10,6 +12,9 @@ import java.nio.ByteOrder;
 import java.util.zip.CRC32;
 import javax.imageio.stream.FileImageInputStream;
 import javax.imageio.stream.ImageInputStream;
+import org.openide.DialogDisplayer;
+import org.openide.NotifyDescriptor;
+import org.openide.NotifyDescriptor.Confirmation;
 import org.timpgui.flimdataloader.structs.BHFileBlockHeader;
 import org.timpgui.flimdataloader.structs.FileHeader;
 import org.timpgui.flimdataloader.structs.MeasureInfo;
@@ -173,7 +178,7 @@ public class FlimImage implements TGDatasetService {
         return "sdt";
     }
 
-    public String getType() {
+    public String getType(File file) {
         return "FLIM";
     }
 
@@ -186,16 +191,50 @@ public class FlimImage implements TGDatasetService {
         ImageInputStream f = new FileImageInputStream(new RandomAccessFile(file, "r"));
         f.setByteOrder(ByteOrder.LITTLE_ENDIAN);
         FileHeader header = new FileHeader();
-        MeasureInfo measinf = new MeasureInfo();
+//        MeasureInfo measinf = new MeasureInfo();
         header.fread(f);
 //        System.out.println(f.getStreamPosition());
-        f.seek(header.meas_desc_block_offs);
+//        f.seek(header.meas_desc_block_offs);
 //        System.out.println("meas "+f.getStreamPosition());
-        measinf.fread(f);
+//        measinf.fread(f);
 
-        CRC32 checksum = new CRC32();
-
-        return true;
+//        ByteArrayOutputStream bos = new ByteArrayOutputStream();
+//        DataOutputStream dos = new DataOutputStream(bos);
+//        dos.writeShort(header.revision);
+//        dos.writeInt((int)header.info_offs);
+//        dos.writeShort(header.info_length);
+//        dos.writeInt((int)header.setup_offs);
+//        dos.writeShort(header.setup_length);
+//        dos.writeInt((int)header.data_block_offs);
+//        dos.writeShort(header.no_of_data_blocks);
+//        dos.writeInt((int)header.data_block_length);
+//        dos.writeInt((int)header.meas_desc_block_offs);
+//        dos.writeShort(header.no_of_meas_desc_blocks);
+//        dos.writeShort(header.meas_desc_block_length);
+//        dos.writeShort(header.header_valid);
+//        dos.writeInt((int)header.reserved1);
+//        dos.writeShort((int)header.reserved2);
+//        dos.writeShort((int)header.chksum);
+//
+//        dos.flush();
+//        byte[] bytearr = bos.toByteArray();
+//        CRC32 checksum = new CRC32();
+//        checksum.reset();
+//        checksum.update(bytearr);
+//        long chs = checksum.getValue();
+//
+//        if ((long)header.chksum == chs){
+//            Confirmation msg = new NotifyDescriptor.Confirmation("valid", NotifyDescriptor.OK_CANCEL_OPTION);
+//                DialogDisplayer.getDefault().notify(msg);
+//        }
+//
+         if (header.header_valid == 0X5555)
+             return true;
+         else{
+            Confirmation msg = new NotifyDescriptor.Confirmation("Header of the file is not valid", "Error!!!", NotifyDescriptor.ERROR_MESSAGE);
+                DialogDisplayer.getDefault().notify(msg);
+             return false;
+         }
     }
 
 }

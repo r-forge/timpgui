@@ -3,7 +3,7 @@
  * and open the template in the editor.
  */
 
-package nl.wur.flimdataloader.components;
+package org.timpgui.dataeditors;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -29,10 +29,8 @@ import org.jfree.chart.axis.AxisLocation;
 import org.jfree.chart.axis.NumberAxis;
 import org.jfree.chart.axis.ValueAxis;
 import org.jfree.chart.plot.PlotOrientation;
-//import org.jfree.chart.plot.XYPlot;
 import org.jfree.chart.plot.XYPlot;
 import org.jfree.chart.renderer.PaintScale;
-//import org.jfree.chart.renderer.xy.XYBlockRenderer;
 import org.jfree.chart.title.PaintScaleLegend;
 import org.jfree.data.xy.DefaultXYZDataset;
 import org.jfree.data.xy.XYSeries;
@@ -41,21 +39,23 @@ import org.jfree.data.xy.XYZDataset;
 import org.jfree.ui.RectangleEdge;
 import org.jfree.ui.RectangleInsets;
 import org.openide.util.NbBundle;
+import org.openide.windows.CloneableTopComponent;
 import org.openide.windows.TopComponent;
 import org.openide.windows.WindowManager;
 import org.timpgui.structures.DatasetTimp;
-//import org.openide.util.Utilities;
+
+
 
 /**
  * Top component which displays something.
  */
-final class StreakLoaderTopComponent extends TopComponent implements ChartMouseListener {
+final public class SpecEditorTopComponent extends CloneableTopComponent implements ChartMouseListener {
 
-    private static StreakLoaderTopComponent instance;
+    private static SpecEditorTopComponent instance;
     /** path to the icon used by the component and its open action */
 //    static final String ICON_PATH = "SET/PATH/TO/ICON/HERE";
 
-    private static final String PREFERRED_ID = "StreakLoaderTopComponent";
+    private static final String PREFERRED_ID = "SpecEditorTopComponent";
     
     private JFileChooser fc;
     private JFreeChart chart;
@@ -64,15 +64,54 @@ final class StreakLoaderTopComponent extends TopComponent implements ChartMouseL
     private DatasetTimp data;
     private ColorCodedImageDataset dataset;
 
-    private StreakLoaderTopComponent() {
+    public SpecEditorTopComponent() {
         fc = new JFileChooser();
         fc.setAcceptAllFileFilterUsed(true);
         //fc.setFileFilter(new FileNameExtensionFilter(" .ivo ASCII files", "ivo"));
         data = new DatasetTimp();
         initComponents();
-        setName(NbBundle.getMessage(StreakLoaderTopComponent.class, "CTL_StreakLoaderTopComponent"));
-        setToolTipText(NbBundle.getMessage(StreakLoaderTopComponent.class, "HINT_StreakLoaderTopComponent"));
+        setName(NbBundle.getMessage(SpecEditorTopComponent.class, "CTL_StreakLoaderTopComponent"));
+        setToolTipText(NbBundle.getMessage(SpecEditorTopComponent.class, "HINT_StreakLoaderTopComponent"));
 //        setIcon(Utilities.loadImage(ICON_PATH, true));
+    }
+
+    public SpecEditorTopComponent(String filename) {
+//        fc = new JFileChooser();
+//        fc.setAcceptAllFileFilterUsed(true);
+        //fc.setFileFilter(new FileNameExtensionFilter(" .ivo ASCII files", "ivo"));
+        initComponents();
+        setName(NbBundle.getMessage(SpecEditorTopComponent.class, "CTL_StreakLoaderTopComponent"));
+        setToolTipText(NbBundle.getMessage(SpecEditorTopComponent.class, "HINT_StreakLoaderTopComponent"));
+//        setIcon(Utilities.loadImage(ICON_PATH, true));
+        data = new DatasetTimp();
+        try {
+            data.LoadASCIIFile(new File(filename));
+            MakeImageChart(MakeXYZDataset());
+            MakeWaveTraceChart(PlotFirstTrace(false));
+            MakeTimeTraceChart(PlotFirstTrace(true));
+            chpanImage = new ChartPanel(chart,true);
+            jPStreakImage.removeAll();
+            chpanImage.setSize(jPStreakImage.getSize());
+            chpanImage.addChartMouseListener(this);
+
+            jPStreakImage.add(chpanImage);
+            jPStreakImage.repaint();
+            jLTimsteps.setText(Integer.toString(data.GetNt()[0]));
+            jLWavewind.setText(Double.toString(data.GetX2()[data.GetX2().length-1]-data.GetX2()[0]));
+            jLTimeWind.setText(Double.toString(data.GetX()[data.GetX().length-1]-data.GetX()[0]));
+            jLWavesteps.setText(Integer.toString(data.GetNl()[0]));
+
+
+        } catch (FileNotFoundException ex) {
+            System.out.println("File not found");
+        } catch (IOException ex) {
+            System.out.println("IOException");
+        } catch (IllegalAccessException ex) {
+            System.out.println("IllegalAccessException");
+        } catch (InstantiationException ex) {
+            System.out.println("InstantiationException");
+        }
+
     }
 
     /** This method is called from within the constructor to
@@ -132,20 +171,20 @@ final class StreakLoaderTopComponent extends TopComponent implements ChartMouseL
 
         jPanel_Dataset.setLayout(new java.awt.GridBagLayout());
 
-        jPanel_1LoadDataset.setBorder(javax.swing.BorderFactory.createTitledBorder(org.openide.util.NbBundle.getMessage(StreakLoaderTopComponent.class, "StreakLoaderTopComponent.jPanel_1LoadDataset.border.title"))); // NOI18N
+        jPanel_1LoadDataset.setBorder(javax.swing.BorderFactory.createTitledBorder(org.openide.util.NbBundle.getMessage(SpecEditorTopComponent.class, "SpecEditorTopComponent.jPanel_1LoadDataset.border.title"))); // NOI18N
         jPanel_1LoadDataset.setMaximumSize(new java.awt.Dimension(700, 150));
         jPanel_1LoadDataset.setMinimumSize(new java.awt.Dimension(700, 150));
         jPanel_1LoadDataset.setPreferredSize(new java.awt.Dimension(700, 150));
 
-        jPanel6.setBorder(javax.swing.BorderFactory.createTitledBorder(org.openide.util.NbBundle.getMessage(StreakLoaderTopComponent.class, "StreakLoaderTopComponent.jPanel6.border.title"))); // NOI18N
+        jPanel6.setBorder(javax.swing.BorderFactory.createTitledBorder(org.openide.util.NbBundle.getMessage(SpecEditorTopComponent.class, "SpecEditorTopComponent.jPanel6.border.title"))); // NOI18N
         jPanel6.setLayout(null);
 
-        org.openide.awt.Mnemonics.setLocalizedText(jBSaveIvoFile, org.openide.util.NbBundle.getMessage(StreakLoaderTopComponent.class, "StreakLoaderTopComponent.jBSaveIvoFile.text")); // NOI18N
+        org.openide.awt.Mnemonics.setLocalizedText(jBSaveIvoFile, org.openide.util.NbBundle.getMessage(SpecEditorTopComponent.class, "SpecEditorTopComponent.jBSaveIvoFile.text")); // NOI18N
         jBSaveIvoFile.setEnabled(false);
         jPanel6.add(jBSaveIvoFile);
         jBSaveIvoFile.setBounds(10, 80, 128, 25);
 
-        org.openide.awt.Mnemonics.setLocalizedText(Bloadsamp, org.openide.util.NbBundle.getMessage(StreakLoaderTopComponent.class, "StreakLoaderTopComponent.Bloadsamp.text")); // NOI18N
+        org.openide.awt.Mnemonics.setLocalizedText(Bloadsamp, org.openide.util.NbBundle.getMessage(SpecEditorTopComponent.class, "SpecEditorTopComponent.Bloadsamp.text")); // NOI18N
         Bloadsamp.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 BloadsampActionPerformed(evt);
@@ -154,7 +193,7 @@ final class StreakLoaderTopComponent extends TopComponent implements ChartMouseL
         jPanel6.add(Bloadsamp);
         Bloadsamp.setBounds(10, 20, 123, 25);
 
-        org.openide.awt.Mnemonics.setLocalizedText(jBMakeDataset, org.openide.util.NbBundle.getMessage(StreakLoaderTopComponent.class, "StreakLoaderTopComponent.jBMakeDataset.text")); // NOI18N
+        org.openide.awt.Mnemonics.setLocalizedText(jBMakeDataset, org.openide.util.NbBundle.getMessage(SpecEditorTopComponent.class, "SpecEditorTopComponent.jBMakeDataset.text")); // NOI18N
         jBMakeDataset.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jBMakeDatasetActionPerformed(evt);
@@ -163,19 +202,19 @@ final class StreakLoaderTopComponent extends TopComponent implements ChartMouseL
         jPanel6.add(jBMakeDataset);
         jBMakeDataset.setBounds(10, 50, 126, 25);
 
-        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(org.openide.util.NbBundle.getMessage(StreakLoaderTopComponent.class, "StreakLoaderTopComponent.jPanel1.border.title"))); // NOI18N
+        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(org.openide.util.NbBundle.getMessage(SpecEditorTopComponent.class, "SpecEditorTopComponent.jPanel1.border.title"))); // NOI18N
         jPanel1.setLayout(null);
 
         TFfilenam.setEditable(false);
-        TFfilenam.setText(org.openide.util.NbBundle.getMessage(StreakLoaderTopComponent.class, "StreakLoaderTopComponent.TFfilenam.text")); // NOI18N
+        TFfilenam.setText(org.openide.util.NbBundle.getMessage(SpecEditorTopComponent.class, "SpecEditorTopComponent.TFfilenam.text")); // NOI18N
         jPanel1.add(TFfilenam);
         TFfilenam.setBounds(10, 40, 160, 20);
 
-        org.openide.awt.Mnemonics.setLocalizedText(jLabel1, org.openide.util.NbBundle.getMessage(StreakLoaderTopComponent.class, "StreakLoaderTopComponent.jLabel1.text")); // NOI18N
+        org.openide.awt.Mnemonics.setLocalizedText(jLabel1, org.openide.util.NbBundle.getMessage(SpecEditorTopComponent.class, "SpecEditorTopComponent.jLabel1.text")); // NOI18N
         jPanel1.add(jLabel1);
         jLabel1.setBounds(10, 20, 64, 15);
 
-        jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder(org.openide.util.NbBundle.getMessage(StreakLoaderTopComponent.class, "StreakLoaderTopComponent.jPanel4.border.title"))); // NOI18N
+        jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder(org.openide.util.NbBundle.getMessage(SpecEditorTopComponent.class, "SpecEditorTopComponent.jPanel4.border.title"))); // NOI18N
         jPanel4.setMaximumSize(new java.awt.Dimension(400, 120));
         jPanel4.setMinimumSize(new java.awt.Dimension(200, 120));
         jPanel4.setPreferredSize(new java.awt.Dimension(200, 120));
@@ -186,11 +225,11 @@ final class StreakLoaderTopComponent extends TopComponent implements ChartMouseL
         jPanel14.setPreferredSize(new java.awt.Dimension(100, 30));
         jPanel14.setLayout(null);
 
-        org.openide.awt.Mnemonics.setLocalizedText(jLabel5, org.openide.util.NbBundle.getMessage(StreakLoaderTopComponent.class, "StreakLoaderTopComponent.jLabel5.text")); // NOI18N
+        org.openide.awt.Mnemonics.setLocalizedText(jLabel5, org.openide.util.NbBundle.getMessage(SpecEditorTopComponent.class, "SpecEditorTopComponent.jLabel5.text")); // NOI18N
         jPanel14.add(jLabel5);
         jLabel5.setBounds(10, 10, 87, 15);
 
-        jTFDatasetName.setText(org.openide.util.NbBundle.getMessage(StreakLoaderTopComponent.class, "StreakLoaderTopComponent.jTFDatasetName.text")); // NOI18N
+        jTFDatasetName.setText(org.openide.util.NbBundle.getMessage(SpecEditorTopComponent.class, "SpecEditorTopComponent.jTFDatasetName.text")); // NOI18N
         jPanel14.add(jTFDatasetName);
         jTFDatasetName.setBounds(110, 10, 200, 19);
 
@@ -202,18 +241,18 @@ final class StreakLoaderTopComponent extends TopComponent implements ChartMouseL
 
         jPanel13.setLayout(new java.awt.GridBagLayout());
 
-        org.openide.awt.Mnemonics.setLocalizedText(jLabel7, org.openide.util.NbBundle.getMessage(StreakLoaderTopComponent.class, "StreakLoaderTopComponent.jLabel7.text")); // NOI18N
+        org.openide.awt.Mnemonics.setLocalizedText(jLabel7, org.openide.util.NbBundle.getMessage(SpecEditorTopComponent.class, "SpecEditorTopComponent.jLabel7.text")); // NOI18N
         jPanel15.add(jLabel7);
 
-        org.openide.awt.Mnemonics.setLocalizedText(jLTimeWind, org.openide.util.NbBundle.getMessage(StreakLoaderTopComponent.class, "StreakLoaderTopComponent.jLTimeWind.text")); // NOI18N
+        org.openide.awt.Mnemonics.setLocalizedText(jLTimeWind, org.openide.util.NbBundle.getMessage(SpecEditorTopComponent.class, "SpecEditorTopComponent.jLTimeWind.text")); // NOI18N
         jPanel15.add(jLTimeWind);
 
         jPanel13.add(jPanel15, new java.awt.GridBagConstraints());
 
-        org.openide.awt.Mnemonics.setLocalizedText(jLabel8, org.openide.util.NbBundle.getMessage(StreakLoaderTopComponent.class, "StreakLoaderTopComponent.jLabel8.text")); // NOI18N
+        org.openide.awt.Mnemonics.setLocalizedText(jLabel8, org.openide.util.NbBundle.getMessage(SpecEditorTopComponent.class, "SpecEditorTopComponent.jLabel8.text")); // NOI18N
         jPanel16.add(jLabel8);
 
-        org.openide.awt.Mnemonics.setLocalizedText(jLWavewind, org.openide.util.NbBundle.getMessage(StreakLoaderTopComponent.class, "StreakLoaderTopComponent.jLWavewind.text")); // NOI18N
+        org.openide.awt.Mnemonics.setLocalizedText(jLWavewind, org.openide.util.NbBundle.getMessage(SpecEditorTopComponent.class, "SpecEditorTopComponent.jLWavewind.text")); // NOI18N
         jPanel16.add(jLWavewind);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -221,10 +260,10 @@ final class StreakLoaderTopComponent extends TopComponent implements ChartMouseL
         gridBagConstraints.gridy = 1;
         jPanel13.add(jPanel16, gridBagConstraints);
 
-        org.openide.awt.Mnemonics.setLocalizedText(jLabel6, org.openide.util.NbBundle.getMessage(StreakLoaderTopComponent.class, "StreakLoaderTopComponent.jLabel6.text")); // NOI18N
+        org.openide.awt.Mnemonics.setLocalizedText(jLabel6, org.openide.util.NbBundle.getMessage(SpecEditorTopComponent.class, "SpecEditorTopComponent.jLabel6.text")); // NOI18N
         jPanel17.add(jLabel6);
 
-        org.openide.awt.Mnemonics.setLocalizedText(jLTimsteps, org.openide.util.NbBundle.getMessage(StreakLoaderTopComponent.class, "StreakLoaderTopComponent.jLTimsteps.text")); // NOI18N
+        org.openide.awt.Mnemonics.setLocalizedText(jLTimsteps, org.openide.util.NbBundle.getMessage(SpecEditorTopComponent.class, "SpecEditorTopComponent.jLTimsteps.text")); // NOI18N
         jPanel17.add(jLTimsteps);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -232,10 +271,10 @@ final class StreakLoaderTopComponent extends TopComponent implements ChartMouseL
         gridBagConstraints.gridy = 0;
         jPanel13.add(jPanel17, gridBagConstraints);
 
-        org.openide.awt.Mnemonics.setLocalizedText(jLabel9, org.openide.util.NbBundle.getMessage(StreakLoaderTopComponent.class, "StreakLoaderTopComponent.jLabel9.text")); // NOI18N
+        org.openide.awt.Mnemonics.setLocalizedText(jLabel9, org.openide.util.NbBundle.getMessage(SpecEditorTopComponent.class, "SpecEditorTopComponent.jLabel9.text")); // NOI18N
         jPanel18.add(jLabel9);
 
-        org.openide.awt.Mnemonics.setLocalizedText(jLWavesteps, org.openide.util.NbBundle.getMessage(StreakLoaderTopComponent.class, "StreakLoaderTopComponent.jLWavesteps.text")); // NOI18N
+        org.openide.awt.Mnemonics.setLocalizedText(jLWavesteps, org.openide.util.NbBundle.getMessage(SpecEditorTopComponent.class, "SpecEditorTopComponent.jLWavesteps.text")); // NOI18N
         jPanel18.add(jLWavesteps);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -278,9 +317,9 @@ final class StreakLoaderTopComponent extends TopComponent implements ChartMouseL
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.weighty = 1.0;
         jPanel_Dataset.add(jPanel_1LoadDataset, gridBagConstraints);
-        jPanel_1LoadDataset.getAccessibleContext().setAccessibleName(org.openide.util.NbBundle.getMessage(StreakLoaderTopComponent.class, "StreakLoaderTopComponent.jPanel3.AccessibleContext.accessibleName")); // NOI18N
+        jPanel_1LoadDataset.getAccessibleContext().setAccessibleName(org.openide.util.NbBundle.getMessage(SpecEditorTopComponent.class, "StreakLoaderTopComponent.jPanel3.AccessibleContext.accessibleName")); // NOI18N
 
-        jPanel_2RegionSelect.setBorder(javax.swing.BorderFactory.createTitledBorder(org.openide.util.NbBundle.getMessage(StreakLoaderTopComponent.class, "StreakLoaderTopComponent.jPanel_2RegionSelect.border.title"))); // NOI18N
+        jPanel_2RegionSelect.setBorder(javax.swing.BorderFactory.createTitledBorder(org.openide.util.NbBundle.getMessage(SpecEditorTopComponent.class, "SpecEditorTopComponent.jPanel_2RegionSelect.border.title"))); // NOI18N
         jPanel_2RegionSelect.setMaximumSize(new java.awt.Dimension(820, 540));
         jPanel_2RegionSelect.setMinimumSize(new java.awt.Dimension(820, 540));
         jPanel_2RegionSelect.setPreferredSize(new java.awt.Dimension(820, 540));
@@ -341,36 +380,36 @@ final class StreakLoaderTopComponent extends TopComponent implements ChartMouseL
             .addGap(0, 196, Short.MAX_VALUE)
         );
 
-        jPanel19.setBorder(javax.swing.BorderFactory.createTitledBorder(org.openide.util.NbBundle.getMessage(StreakLoaderTopComponent.class, "StreakLoaderTopComponent.jPanel19.border.title"))); // NOI18N
+        jPanel19.setBorder(javax.swing.BorderFactory.createTitledBorder(org.openide.util.NbBundle.getMessage(SpecEditorTopComponent.class, "SpecEditorTopComponent.jPanel19.border.title"))); // NOI18N
 
-        org.openide.awt.Mnemonics.setLocalizedText(jLabel2, org.openide.util.NbBundle.getMessage(StreakLoaderTopComponent.class, "StreakLoaderTopComponent.jLabel2.text")); // NOI18N
+        org.openide.awt.Mnemonics.setLocalizedText(jLabel2, org.openide.util.NbBundle.getMessage(SpecEditorTopComponent.class, "SpecEditorTopComponent.jLabel2.text")); // NOI18N
 
-        org.openide.awt.Mnemonics.setLocalizedText(jLabel3, org.openide.util.NbBundle.getMessage(StreakLoaderTopComponent.class, "StreakLoaderTopComponent.jLabel3.text")); // NOI18N
+        org.openide.awt.Mnemonics.setLocalizedText(jLabel3, org.openide.util.NbBundle.getMessage(SpecEditorTopComponent.class, "SpecEditorTopComponent.jLabel3.text")); // NOI18N
 
-        jTextField2.setText(org.openide.util.NbBundle.getMessage(StreakLoaderTopComponent.class, "StreakLoaderTopComponent.jTextField2.text")); // NOI18N
+        jTextField2.setText(org.openide.util.NbBundle.getMessage(SpecEditorTopComponent.class, "SpecEditorTopComponent.jTextField2.text")); // NOI18N
         jTextField2.setEnabled(false);
         jTextField2.setMinimumSize(new java.awt.Dimension(60, 20));
 
-        jTextField3.setText(org.openide.util.NbBundle.getMessage(StreakLoaderTopComponent.class, "StreakLoaderTopComponent.jTextField3.text")); // NOI18N
+        jTextField3.setText(org.openide.util.NbBundle.getMessage(SpecEditorTopComponent.class, "SpecEditorTopComponent.jTextField3.text")); // NOI18N
         jTextField3.setEnabled(false);
         jTextField3.setMinimumSize(new java.awt.Dimension(60, 20));
 
-        jTextField4.setText(org.openide.util.NbBundle.getMessage(StreakLoaderTopComponent.class, "StreakLoaderTopComponent.jTextField4.text")); // NOI18N
+        jTextField4.setText(org.openide.util.NbBundle.getMessage(SpecEditorTopComponent.class, "SpecEditorTopComponent.jTextField4.text")); // NOI18N
         jTextField4.setEnabled(false);
         jTextField4.setMinimumSize(new java.awt.Dimension(60, 20));
 
-        jTextField5.setText(org.openide.util.NbBundle.getMessage(StreakLoaderTopComponent.class, "StreakLoaderTopComponent.jTextField5.text")); // NOI18N
+        jTextField5.setText(org.openide.util.NbBundle.getMessage(SpecEditorTopComponent.class, "SpecEditorTopComponent.jTextField5.text")); // NOI18N
         jTextField5.setEnabled(false);
         jTextField5.setMinimumSize(new java.awt.Dimension(60, 20));
 
-        org.openide.awt.Mnemonics.setLocalizedText(jButton1, org.openide.util.NbBundle.getMessage(StreakLoaderTopComponent.class, "StreakLoaderTopComponent.jButton1.text")); // NOI18N
+        org.openide.awt.Mnemonics.setLocalizedText(jButton1, org.openide.util.NbBundle.getMessage(SpecEditorTopComponent.class, "SpecEditorTopComponent.jButton1.text")); // NOI18N
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
             }
         });
 
-        org.openide.awt.Mnemonics.setLocalizedText(jButton2, org.openide.util.NbBundle.getMessage(StreakLoaderTopComponent.class, "StreakLoaderTopComponent.jButton2.text")); // NOI18N
+        org.openide.awt.Mnemonics.setLocalizedText(jButton2, org.openide.util.NbBundle.getMessage(SpecEditorTopComponent.class, "SpecEditorTopComponent.jButton2.text")); // NOI18N
         jButton2.setEnabled(false);
 
         javax.swing.GroupLayout jPanel19Layout = new javax.swing.GroupLayout(jPanel19);
@@ -467,7 +506,7 @@ private void BloadsampActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIR
         try {
             File file = fc.getSelectedFile();
             TFfilenam.setText(file.getAbsolutePath());
-            data.LoadIvoFile(file);
+            data.LoadASCIIFile(file);
             MakeImageChart(MakeXYZDataset());  
             MakeWaveTraceChart(PlotFirstTrace(false));
             MakeTimeTraceChart(PlotFirstTrace(true));
@@ -557,9 +596,9 @@ private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
      * i.e. deserialization routines; otherwise you could get a non-deserialized instance.
      * To obtain the singleton instance, use {@link findInstance}.
      */
-    public static synchronized StreakLoaderTopComponent getDefault() {
+    public static synchronized SpecEditorTopComponent getDefault() {
         if (instance == null) {
-            instance = new StreakLoaderTopComponent();
+            instance = new SpecEditorTopComponent();
         }
         return instance;
     }
@@ -567,17 +606,17 @@ private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
     /**
      * Obtain the StreakLoaderTopComponent instance. Never call {@link #getDefault} directly!
      */
-    public static synchronized StreakLoaderTopComponent findInstance() {
+    public static synchronized SpecEditorTopComponent findInstance() {
         TopComponent win = WindowManager.getDefault().findTopComponent(PREFERRED_ID);
         if (win == null) {
-            Logger.getLogger(StreakLoaderTopComponent.class.getName()).warning(
+            Logger.getLogger(SpecEditorTopComponent.class.getName()).warning(
                     "Cannot find " + PREFERRED_ID + " component. It will not be located properly in the window system.");
             return getDefault();
         }
-        if (win instanceof StreakLoaderTopComponent) {
-            return (StreakLoaderTopComponent) win;
+        if (win instanceof SpecEditorTopComponent) {
+            return (SpecEditorTopComponent) win;
         }
-        Logger.getLogger(StreakLoaderTopComponent.class.getName()).warning(
+        Logger.getLogger(SpecEditorTopComponent.class.getName()).warning(
                 "There seem to be multiple components with the '" + PREFERRED_ID +
                 "' ID. That is a potential source of errors and unexpected behavior.");
         return getDefault();
@@ -614,7 +653,7 @@ private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
         private static final long serialVersionUID = 1L;
 
         public Object readResolve() {
-            return StreakLoaderTopComponent.getDefault();
+            return SpecEditorTopComponent.getDefault();
         }
     }
     

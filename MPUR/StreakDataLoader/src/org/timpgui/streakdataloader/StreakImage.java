@@ -22,7 +22,7 @@ public class StreakImage implements TGDatasetService{
         return "img";
     }
 
-    public String getType() {
+    public String getType(File file) {
         return "Streak";
     }
 

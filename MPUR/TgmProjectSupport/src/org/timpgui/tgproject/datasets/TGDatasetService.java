@@ -24,7 +24,7 @@ public interface TGDatasetService {
      * Get the file type.
      * @return A {@code String} containing the type of the file for loaders.
      */
-    public String getType();
+    public String getType(File file) throws FileNotFoundException;
 
     public boolean Validator(File file) throws FileNotFoundException, IOException, IllegalAccessException, InstantiationException;
        

@@ -38,7 +38,7 @@
                 <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                   <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
                     <TitledBorder title="1: Load Dataset">
-                      <ResourceString PropertyName="titleX" bundle="nl/wur/flimdataloader/components/Bundle.properties" key="StreakLoaderTopComponent.jPanel_1LoadDataset.border.title" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+                      <ResourceString PropertyName="titleX" bundle="org/timpgui/dataeditors/Bundle.properties" key="SpecEditorTopComponent.jPanel_1LoadDataset.border.title" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
                     </TitledBorder>
                   </Border>
                 </Property>
@@ -95,7 +95,7 @@
                     <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                       <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
                         <TitledBorder title="New Dataset">
-                          <ResourceString PropertyName="titleX" bundle="nl/wur/flimdataloader/components/Bundle.properties" key="StreakLoaderTopComponent.jPanel6.border.title" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+                          <ResourceString PropertyName="titleX" bundle="org/timpgui/dataeditors/Bundle.properties" key="SpecEditorTopComponent.jPanel6.border.title" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
                         </TitledBorder>
                       </Border>
                     </Property>
@@ -108,7 +108,7 @@
                     <Component class="javax.swing.JButton" name="jBSaveIvoFile">
                       <Properties>
                         <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                          <ResourceString bundle="nl/wur/flimdataloader/components/Bundle.properties" key="StreakLoaderTopComponent.jBSaveIvoFile.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+                          <ResourceString bundle="org/timpgui/dataeditors/Bundle.properties" key="SpecEditorTopComponent.jBSaveIvoFile.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
                         </Property>
                         <Property name="enabled" type="boolean" value="false"/>
                       </Properties>
@@ -121,7 +121,7 @@
                     <Component class="javax.swing.JButton" name="Bloadsamp">
                       <Properties>
                         <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                          <ResourceString bundle="nl/wur/flimdataloader/components/Bundle.properties" key="StreakLoaderTopComponent.Bloadsamp.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+                          <ResourceString bundle="org/timpgui/dataeditors/Bundle.properties" key="SpecEditorTopComponent.Bloadsamp.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
                         </Property>
                       </Properties>
                       <Events>
@@ -136,7 +136,7 @@
                     <Component class="javax.swing.JButton" name="jBMakeDataset">
                       <Properties>
                         <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                          <ResourceString bundle="nl/wur/flimdataloader/components/Bundle.properties" key="StreakLoaderTopComponent.jBMakeDataset.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+                          <ResourceString bundle="org/timpgui/dataeditors/Bundle.properties" key="SpecEditorTopComponent.jBMakeDataset.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
                         </Property>
                       </Properties>
                       <Events>
@@ -155,7 +155,7 @@
                     <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                       <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
                         <TitledBorder title="File Properties">
-                          <ResourceString PropertyName="titleX" bundle="nl/wur/flimdataloader/components/Bundle.properties" key="StreakLoaderTopComponent.jPanel1.border.title" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+                          <ResourceString PropertyName="titleX" bundle="org/timpgui/dataeditors/Bundle.properties" key="SpecEditorTopComponent.jPanel1.border.title" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
                         </TitledBorder>
                       </Border>
                     </Property>
@@ -169,7 +169,7 @@
                       <Properties>
                         <Property name="editable" type="boolean" value="false"/>
                         <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                          <ResourceString bundle="nl/wur/flimdataloader/components/Bundle.properties" key="StreakLoaderTopComponent.TFfilenam.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+                          <ResourceString bundle="org/timpgui/dataeditors/Bundle.properties" key="SpecEditorTopComponent.TFfilenam.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
                         </Property>
                       </Properties>
                       <Constraints>
@@ -181,7 +181,7 @@
                     <Component class="javax.swing.JLabel" name="jLabel1">
                       <Properties>
                         <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                          <ResourceString bundle="nl/wur/flimdataloader/components/Bundle.properties" key="StreakLoaderTopComponent.jLabel1.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+                          <ResourceString bundle="org/timpgui/dataeditors/Bundle.properties" key="SpecEditorTopComponent.jLabel1.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
                         </Property>
                       </Properties>
                       <Constraints>
@@ -197,7 +197,7 @@
                     <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                       <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
                         <TitledBorder title="Dataset Properties">
-                          <ResourceString PropertyName="titleX" bundle="nl/wur/flimdataloader/components/Bundle.properties" key="StreakLoaderTopComponent.jPanel4.border.title" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+                          <ResourceString PropertyName="titleX" bundle="org/timpgui/dataeditors/Bundle.properties" key="SpecEditorTopComponent.jPanel4.border.title" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
                         </TitledBorder>
                       </Border>
                     </Property>
@@ -239,7 +239,7 @@
                         <Component class="javax.swing.JLabel" name="jLabel5">
                           <Properties>
                             <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                              <ResourceString bundle="nl/wur/flimdataloader/components/Bundle.properties" key="StreakLoaderTopComponent.jLabel5.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+                              <ResourceString bundle="org/timpgui/dataeditors/Bundle.properties" key="SpecEditorTopComponent.jLabel5.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
                             </Property>
                           </Properties>
                           <Constraints>
@@ -251,7 +251,7 @@
                         <Component class="javax.swing.JTextField" name="jTFDatasetName">
                           <Properties>
                             <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                              <ResourceString bundle="nl/wur/flimdataloader/components/Bundle.properties" key="StreakLoaderTopComponent.jTFDatasetName.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+                              <ResourceString bundle="org/timpgui/dataeditors/Bundle.properties" key="SpecEditorTopComponent.jTFDatasetName.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
                             </Property>
                           </Properties>
                           <Constraints>
@@ -283,14 +283,14 @@
                             <Component class="javax.swing.JLabel" name="jLabel7">
                               <Properties>
                                 <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                                  <ResourceString bundle="nl/wur/flimdataloader/components/Bundle.properties" key="StreakLoaderTopComponent.jLabel7.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+                                  <ResourceString bundle="org/timpgui/dataeditors/Bundle.properties" key="SpecEditorTopComponent.jLabel7.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
                                 </Property>
                               </Properties>
                             </Component>
                             <Component class="javax.swing.JLabel" name="jLTimeWind">
                               <Properties>
                                 <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                                  <ResourceString bundle="nl/wur/flimdataloader/components/Bundle.properties" key="StreakLoaderTopComponent.jLTimeWind.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+                                  <ResourceString bundle="org/timpgui/dataeditors/Bundle.properties" key="SpecEditorTopComponent.jLTimeWind.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
                                 </Property>
                               </Properties>
                             </Component>
@@ -308,14 +308,14 @@
                             <Component class="javax.swing.JLabel" name="jLabel8">
                               <Properties>
                                 <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                                  <ResourceString bundle="nl/wur/flimdataloader/components/Bundle.properties" key="StreakLoaderTopComponent.jLabel8.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+                                  <ResourceString bundle="org/timpgui/dataeditors/Bundle.properties" key="SpecEditorTopComponent.jLabel8.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
                                 </Property>
                               </Properties>
                             </Component>
                             <Component class="javax.swing.JLabel" name="jLWavewind">
                               <Properties>
                                 <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                                  <ResourceString bundle="nl/wur/flimdataloader/components/Bundle.properties" key="StreakLoaderTopComponent.jLWavewind.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+                                  <ResourceString bundle="org/timpgui/dataeditors/Bundle.properties" key="SpecEditorTopComponent.jLWavewind.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
                                 </Property>
                               </Properties>
                             </Component>
@@ -333,14 +333,14 @@
                             <Component class="javax.swing.JLabel" name="jLabel6">
                               <Properties>
                                 <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                                  <ResourceString bundle="nl/wur/flimdataloader/components/Bundle.properties" key="StreakLoaderTopComponent.jLabel6.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+                                  <ResourceString bundle="org/timpgui/dataeditors/Bundle.properties" key="SpecEditorTopComponent.jLabel6.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
                                 </Property>
                               </Properties>
                             </Component>
                             <Component class="javax.swing.JLabel" name="jLTimsteps">
                               <Properties>
                                 <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                                  <ResourceString bundle="nl/wur/flimdataloader/components/Bundle.properties" key="StreakLoaderTopComponent.jLTimsteps.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+                                  <ResourceString bundle="org/timpgui/dataeditors/Bundle.properties" key="SpecEditorTopComponent.jLTimsteps.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
                                 </Property>
                               </Properties>
                             </Component>
@@ -358,14 +358,14 @@
                             <Component class="javax.swing.JLabel" name="jLabel9">
                               <Properties>
                                 <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                                  <ResourceString bundle="nl/wur/flimdataloader/components/Bundle.properties" key="StreakLoaderTopComponent.jLabel9.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+                                  <ResourceString bundle="org/timpgui/dataeditors/Bundle.properties" key="SpecEditorTopComponent.jLabel9.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
                                 </Property>
                               </Properties>
                             </Component>
                             <Component class="javax.swing.JLabel" name="jLWavesteps">
                               <Properties>
                                 <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                                  <ResourceString bundle="nl/wur/flimdataloader/components/Bundle.properties" key="StreakLoaderTopComponent.jLWavesteps.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+                                  <ResourceString bundle="org/timpgui/dataeditors/Bundle.properties" key="SpecEditorTopComponent.jLWavesteps.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
                                 </Property>
                               </Properties>
                             </Component>
@@ -382,7 +382,7 @@
                 <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                   <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
                     <TitledBorder title="2: Select region for analysis">
-                      <ResourceString PropertyName="titleX" bundle="nl/wur/flimdataloader/components/Bundle.properties" key="StreakLoaderTopComponent.jPanel_2RegionSelect.border.title" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+                      <ResourceString PropertyName="titleX" bundle="org/timpgui/dataeditors/Bundle.properties" key="SpecEditorTopComponent.jPanel_2RegionSelect.border.title" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
                     </TitledBorder>
                   </Border>
                 </Property>
@@ -553,7 +553,7 @@
                     <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                       <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
                         <TitledBorder title="Selected Region">
-                          <ResourceString PropertyName="titleX" bundle="nl/wur/flimdataloader/components/Bundle.properties" key="StreakLoaderTopComponent.jPanel19.border.title" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+                          <ResourceString PropertyName="titleX" bundle="org/timpgui/dataeditors/Bundle.properties" key="SpecEditorTopComponent.jPanel19.border.title" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
                         </TitledBorder>
                       </Border>
                     </Property>
@@ -618,21 +618,21 @@
                     <Component class="javax.swing.JLabel" name="jLabel2">
                       <Properties>
                         <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                          <ResourceString bundle="nl/wur/flimdataloader/components/Bundle.properties" key="StreakLoaderTopComponent.jLabel2.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+                          <ResourceString bundle="org/timpgui/dataeditors/Bundle.properties" key="SpecEditorTopComponent.jLabel2.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
                         </Property>
                       </Properties>
                     </Component>
                     <Component class="javax.swing.JLabel" name="jLabel3">
                       <Properties>
                         <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                          <ResourceString bundle="nl/wur/flimdataloader/components/Bundle.properties" key="StreakLoaderTopComponent.jLabel3.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+                          <ResourceString bundle="org/timpgui/dataeditors/Bundle.properties" key="SpecEditorTopComponent.jLabel3.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
                         </Property>
                       </Properties>
                     </Component>
                     <Component class="javax.swing.JTextField" name="jTextField2">
                       <Properties>
                         <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                          <ResourceString bundle="nl/wur/flimdataloader/components/Bundle.properties" key="StreakLoaderTopComponent.jTextField2.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+                          <ResourceString bundle="org/timpgui/dataeditors/Bundle.properties" key="SpecEditorTopComponent.jTextField2.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
                         </Property>
                         <Property name="enabled" type="boolean" value="false"/>
                         <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
@@ -643,7 +643,7 @@
                     <Component class="javax.swing.JTextField" name="jTextField3">
                       <Properties>
                         <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                          <ResourceString bundle="nl/wur/flimdataloader/components/Bundle.properties" key="StreakLoaderTopComponent.jTextField3.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+                          <ResourceString bundle="org/timpgui/dataeditors/Bundle.properties" key="SpecEditorTopComponent.jTextField3.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
                         </Property>
                         <Property name="enabled" type="boolean" value="false"/>
                         <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
@@ -654,7 +654,7 @@
                     <Component class="javax.swing.JTextField" name="jTextField4">
                       <Properties>
                         <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                          <ResourceString bundle="nl/wur/flimdataloader/components/Bundle.properties" key="StreakLoaderTopComponent.jTextField4.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+                          <ResourceString bundle="org/timpgui/dataeditors/Bundle.properties" key="SpecEditorTopComponent.jTextField4.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
                         </Property>
                         <Property name="enabled" type="boolean" value="false"/>
                         <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
@@ -665,7 +665,7 @@
                     <Component class="javax.swing.JTextField" name="jTextField5">
                       <Properties>
                         <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                          <ResourceString bundle="nl/wur/flimdataloader/components/Bundle.properties" key="StreakLoaderTopComponent.jTextField5.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+                          <ResourceString bundle="org/timpgui/dataeditors/Bundle.properties" key="SpecEditorTopComponent.jTextField5.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
                         </Property>
                         <Property name="enabled" type="boolean" value="false"/>
                         <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
@@ -676,7 +676,7 @@
                     <Component class="javax.swing.JButton" name="jButton1">
                       <Properties>
                         <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                          <ResourceString bundle="nl/wur/flimdataloader/components/Bundle.properties" key="StreakLoaderTopComponent.jButton1.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+                          <ResourceString bundle="org/timpgui/dataeditors/Bundle.properties" key="SpecEditorTopComponent.jButton1.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
                         </Property>
                       </Properties>
                       <Events>
@@ -686,7 +686,7 @@
                     <Component class="javax.swing.JButton" name="jButton2">
                       <Properties>
                         <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                          <ResourceString bundle="nl/wur/flimdataloader/components/Bundle.properties" key="StreakLoaderTopComponent.jButton2.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+                          <ResourceString bundle="org/timpgui/dataeditors/Bundle.properties" key="SpecEditorTopComponent.jButton2.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
                         </Property>
                         <Property name="enabled" type="boolean" value="false"/>
                       </Properties>

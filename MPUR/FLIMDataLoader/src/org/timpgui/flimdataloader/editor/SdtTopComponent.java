@@ -142,7 +142,7 @@ final public class SdtTopComponent extends CloneableTopComponent implements Char
 
         flimImage.buildIntMap(1);
 
-                        //TFfilenam.setText(file.getName());
+                //TFfilenam.setText(file.getName());
                 //flimImage = new FlimImage(file);
                 MakeIntImageChart(MakeXYZDataset());
 //                MakeTracesChart(MakeTracesCollection(), true);

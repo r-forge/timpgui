@@ -78,7 +78,7 @@ final public class SpecEditorTopComponent extends CloneableTopComponent implemen
     public SpecEditorTopComponent(String filename) {
 //        fc = new JFileChooser();
 //        fc.setAcceptAllFileFilterUsed(true);
-        //fc.setFileFilter(new FileNameExtensionFilter(" .ivo ASCII files", "ivo"));
+//        fc.setFileFilter(new FileNameExtensionFilter(" .ivo ASCII files", "ivo"));
         initComponents();
         setName(NbBundle.getMessage(SpecEditorTopComponent.class, "CTL_StreakLoaderTopComponent"));
         setToolTipText(NbBundle.getMessage(SpecEditorTopComponent.class, "HINT_StreakLoaderTopComponent"));
@@ -91,7 +91,7 @@ final public class SpecEditorTopComponent extends CloneableTopComponent implemen
             MakeTimeTraceChart(PlotFirstTrace(true));
             chpanImage = new ChartPanel(chart,true);
             jPStreakImage.removeAll();
-            chpanImage.setSize(jPStreakImage.getSize());
+            chpanImage.setSize(jPStreakImage.getMaximumSize());
             chpanImage.addChartMouseListener(this);
 
             jPStreakImage.add(chpanImage);
@@ -171,7 +171,6 @@ final public class SpecEditorTopComponent extends CloneableTopComponent implemen
 
         jPanel_Dataset.setLayout(new java.awt.GridBagLayout());
 
-        jPanel_1LoadDataset.setBorder(javax.swing.BorderFactory.createTitledBorder(org.openide.util.NbBundle.getMessage(SpecEditorTopComponent.class, "SpecEditorTopComponent.jPanel_1LoadDataset.border.title"))); // NOI18N
         jPanel_1LoadDataset.setMaximumSize(new java.awt.Dimension(700, 150));
         jPanel_1LoadDataset.setMinimumSize(new java.awt.Dimension(700, 150));
         jPanel_1LoadDataset.setPreferredSize(new java.awt.Dimension(700, 150));
@@ -298,15 +297,15 @@ final public class SpecEditorTopComponent extends CloneableTopComponent implemen
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, 335, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(16, Short.MAX_VALUE))
+                .addContainerGap(26, Short.MAX_VALUE))
         );
         jPanel_1LoadDatasetLayout.setVerticalGroup(
             jPanel_1LoadDatasetLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel_1LoadDatasetLayout.createSequentialGroup()
                 .addGroup(jPanel_1LoadDatasetLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 120, Short.MAX_VALUE)
-                    .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel6, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 120, Short.MAX_VALUE))
+                    .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 138, Short.MAX_VALUE)
+                    .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, 138, Short.MAX_VALUE)
+                    .addComponent(jPanel6, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 138, Short.MAX_VALUE))
                 .addContainerGap())
         );
 
@@ -326,9 +325,9 @@ final public class SpecEditorTopComponent extends CloneableTopComponent implemen
 
         jPStreakImage.setBackground(new java.awt.Color(0, 0, 0));
         jPStreakImage.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-        jPStreakImage.setMaximumSize(new java.awt.Dimension(550, 400));
-        jPStreakImage.setMinimumSize(new java.awt.Dimension(550, 400));
-        jPStreakImage.setPreferredSize(new java.awt.Dimension(550, 400));
+        jPStreakImage.setMaximumSize(new java.awt.Dimension(420, 380));
+        jPStreakImage.setMinimumSize(new java.awt.Dimension(420, 380));
+        jPStreakImage.setPreferredSize(new java.awt.Dimension(420, 380));
         jPStreakImage.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jPStreakImageMouseClicked(evt);
@@ -339,45 +338,45 @@ final public class SpecEditorTopComponent extends CloneableTopComponent implemen
         jPStreakImage.setLayout(jPStreakImageLayout);
         jPStreakImageLayout.setHorizontalGroup(
             jPStreakImageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 546, Short.MAX_VALUE)
+            .addGap(0, 416, Short.MAX_VALUE)
         );
         jPStreakImageLayout.setVerticalGroup(
             jPStreakImageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 396, Short.MAX_VALUE)
+            .addGap(0, 376, Short.MAX_VALUE)
         );
 
         jPSelectedTimeTrace.setBackground(new java.awt.Color(255, 255, 255));
         jPSelectedTimeTrace.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-        jPSelectedTimeTrace.setMaximumSize(new java.awt.Dimension(550, 300));
-        jPSelectedTimeTrace.setMinimumSize(new java.awt.Dimension(256, 200));
-        jPSelectedTimeTrace.setPreferredSize(new java.awt.Dimension(550, 300));
+        jPSelectedTimeTrace.setMaximumSize(new java.awt.Dimension(366, 185));
+        jPSelectedTimeTrace.setMinimumSize(new java.awt.Dimension(366, 185));
+        jPSelectedTimeTrace.setPreferredSize(new java.awt.Dimension(366, 185));
 
         javax.swing.GroupLayout jPSelectedTimeTraceLayout = new javax.swing.GroupLayout(jPSelectedTimeTrace);
         jPSelectedTimeTrace.setLayout(jPSelectedTimeTraceLayout);
         jPSelectedTimeTraceLayout.setHorizontalGroup(
             jPSelectedTimeTraceLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 246, Short.MAX_VALUE)
+            .addGap(0, 362, Short.MAX_VALUE)
         );
         jPSelectedTimeTraceLayout.setVerticalGroup(
             jPSelectedTimeTraceLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 196, Short.MAX_VALUE)
+            .addGap(0, 185, Short.MAX_VALUE)
         );
 
         jPSelectedWaveTrace.setBackground(new java.awt.Color(255, 255, 255));
         jPSelectedWaveTrace.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-        jPSelectedWaveTrace.setMaximumSize(new java.awt.Dimension(250, 200));
-        jPSelectedWaveTrace.setMinimumSize(new java.awt.Dimension(250, 200));
-        jPSelectedWaveTrace.setPreferredSize(new java.awt.Dimension(250, 200));
+        jPSelectedWaveTrace.setMaximumSize(new java.awt.Dimension(366, 185));
+        jPSelectedWaveTrace.setMinimumSize(new java.awt.Dimension(366, 185));
+        jPSelectedWaveTrace.setPreferredSize(new java.awt.Dimension(366, 185));
 
         javax.swing.GroupLayout jPSelectedWaveTraceLayout = new javax.swing.GroupLayout(jPSelectedWaveTrace);
         jPSelectedWaveTrace.setLayout(jPSelectedWaveTraceLayout);
         jPSelectedWaveTraceLayout.setHorizontalGroup(
             jPSelectedWaveTraceLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 246, Short.MAX_VALUE)
+            .addGap(0, 362, Short.MAX_VALUE)
         );
         jPSelectedWaveTraceLayout.setVerticalGroup(
             jPSelectedWaveTraceLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 196, Short.MAX_VALUE)
+            .addGap(0, 181, Short.MAX_VALUE)
         );
 
         jPanel19.setBorder(javax.swing.BorderFactory.createTitledBorder(org.openide.util.NbBundle.getMessage(SpecEditorTopComponent.class, "SpecEditorTopComponent.jPanel19.border.title"))); // NOI18N
@@ -453,7 +452,7 @@ final public class SpecEditorTopComponent extends CloneableTopComponent implemen
                     .addComponent(jLabel3)
                     .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(21, Short.MAX_VALUE))
+                .addContainerGap(26, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout jPanel_2RegionSelectLayout = new javax.swing.GroupLayout(jPanel_2RegionSelect);
@@ -461,28 +460,30 @@ final public class SpecEditorTopComponent extends CloneableTopComponent implemen
         jPanel_2RegionSelectLayout.setHorizontalGroup(
             jPanel_2RegionSelectLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel_2RegionSelectLayout.createSequentialGroup()
-                .addGap(5, 5, 5)
                 .addGroup(jPanel_2RegionSelectLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel19, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel_2RegionSelectLayout.createSequentialGroup()
+                        .addGap(5, 5, 5)
+                        .addComponent(jPanel19, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel_2RegionSelectLayout.createSequentialGroup()
                         .addComponent(jPStreakImage, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanel_2RegionSelectLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jPSelectedWaveTrace, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jPSelectedTimeTrace, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addGap(5, 5, 5))
+                            .addComponent(jPSelectedTimeTrace, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jPSelectedWaveTrace, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                .addContainerGap())
         );
         jPanel_2RegionSelectLayout.setVerticalGroup(
             jPanel_2RegionSelectLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel_2RegionSelectLayout.createSequentialGroup()
-                .addGap(1, 1, 1)
                 .addGroup(jPanel_2RegionSelectLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPStreakImage, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel_2RegionSelectLayout.createSequentialGroup()
                         .addComponent(jPSelectedWaveTrace, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jPSelectedTimeTrace, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jPSelectedTimeTrace, 0, 189, Short.MAX_VALUE))
+                    .addComponent(jPStreakImage, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel19, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(4, 4, 4))
+                .addGap(18, 18, 18))
         );
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -512,7 +513,7 @@ private void BloadsampActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIR
             MakeTimeTraceChart(PlotFirstTrace(true));
             chpanImage = new ChartPanel(chart,true);
             jPStreakImage.removeAll();
-            chpanImage.setSize(jPStreakImage.getSize());
+            chpanImage.setSize(jPStreakImage.getMaximumSize());
             chpanImage.addChartMouseListener(this);
 
             jPStreakImage.add(chpanImage);
@@ -709,7 +710,7 @@ private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
         tracechart.getXYPlot().getDomainAxis().setUpperBound(data.GetX()[data.GetX().length-1]);
 //        tracechart.getXYPlot().setDomainZeroBaselineVisible(true);
         ChartPanel chpan = new ChartPanel(tracechart,true);
-        chpan.setSize(jPSelectedTimeTrace.getSize());
+        chpan.setSize(jPSelectedTimeTrace.getMaximumSize());
         jPSelectedTimeTrace.removeAll();
         jPSelectedTimeTrace.add(chpan);
         jPSelectedTimeTrace.repaint(); 
@@ -733,7 +734,7 @@ private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
             tracechart.getXYPlot().getDomainAxis().setUpperBound(data.GetX2()[data.GetX2().length-1]);
         //tracechart.getXYPlot().setDomainZeroBaselineVisible(true);
         ChartPanel chpan = new ChartPanel(tracechart,true);
-        chpan.setSize(jPSelectedWaveTrace.getSize());
+        chpan.setSize(jPSelectedWaveTrace.getMaximumSize());
         jPSelectedWaveTrace.removeAll();
         jPSelectedWaveTrace.add(chpan);
         jPSelectedWaveTrace.repaint(); 

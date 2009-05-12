@@ -113,11 +113,8 @@
                 </dependency>
             </module-dependencies>
             <public-packages>
-                <package>nl.wur.flimdataloader</package>
                 <package>nl.wur.flimdataloader.components</package>
-                <package>nl.wur.flimdataloader.flimpac</package>
-                <package>nl.wur.flimdataloader.jfreecustomising</package>
-                <package>nl.wur.flimdataloader.structs</package>
+                <package>org.timpgui.dataeditors</package>
             </public-packages>
         </data>
     </configuration>

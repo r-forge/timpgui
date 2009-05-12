@@ -48,7 +48,6 @@ import nl.vu.nat.jfreechartcustom.FastXYPlot;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.renderer.xy.XYBlockRenderer;
 import org.openide.util.Exceptions;
-import org.openide.util.Exceptions;
 import org.openide.windows.CloneableTopComponent;
 import org.timpgui.flimdataloader.FlimImage;
 import org.timpgui.flimdataloader.SdtDataObject;
@@ -68,7 +67,7 @@ final public class SdtTopComponent extends CloneableTopComponent implements Char
     private int numSelPix;
 
     private static SdtTopComponent instance;
-    /** path to the icon used by the component and its open action */
+ /** path to the icon used by the component and its open action */
 //    static final String ICON_PATH = "SET/PATH/TO/ICON/HERE";
 
     private static final String PREFERRED_ID = "SdtTopComponent";

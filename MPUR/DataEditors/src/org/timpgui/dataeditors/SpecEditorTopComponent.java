@@ -606,6 +606,7 @@ private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
     /**
      * Obtain the StreakLoaderTopComponent instance. Never call {@link #getDefault} directly!
      */
+
     public static synchronized SpecEditorTopComponent findInstance() {
         TopComponent win = WindowManager.getDefault().findTopComponent(PREFERRED_ID);
         if (win == null) {
@@ -624,7 +625,7 @@ private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
 
     @Override
     public int getPersistenceType() {
-        return TopComponent.PERSISTENCE_ALWAYS;
+        return CloneableTopComponent.PERSISTENCE_ALWAYS;
     }
 
     @Override

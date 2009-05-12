@@ -19,9 +19,9 @@ public class ShowSpecEditor implements  DatasetLoaderInterface{
     }
 
     public void openDatasetEditor(String filename) {
-        SpecEditorTopComponent tc = new SpecEditorTopComponent(filename);
-//        tc.open();
-//        tc.requestActive();
+        SpecEditorTopComponent tc = new SpecEditorTopComponent(filename);     
+        tc.open();
+        tc.requestActive();
     }
 
 }

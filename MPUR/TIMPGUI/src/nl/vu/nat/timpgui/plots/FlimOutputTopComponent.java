@@ -682,7 +682,7 @@ private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
         for (int i = 0; i<selPixels.length; i++){
              image[(int)selPixels[i]] = lifeTimeImage[i];
         }
-        dataset = new ColorCodedImageDataset(origWidth, origHeigth, image, false); 
+        dataset = new ColorCodedImageDataset(origWidth, origHeigth, image, res.GetX2(), res.GetX() ,false);
         return dataset;
     }
     private void MakeImageChart(XYZDataset dataset, double min, double max, boolean mode){

@@ -28,6 +28,7 @@
                 <package>org.jfree.chart.imagemap</package>
                 <package>org.jfree.chart.labels</package>
                 <package>org.jfree.chart.needle</package>
+                <package>org.jfree.chart.panel</package>
                 <package>org.jfree.chart.plot</package>
                 <package>org.jfree.chart.plot.dial</package>
                 <package>org.jfree.chart.renderer</package>

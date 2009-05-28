@@ -22,6 +22,8 @@ public class ColorCodedImageDataset implements XYZDataset {
     private int imageWidth;
     private int imageHeight;
     private double[] colCodedImage;
+    private double[] timesteps;
+    private double[] wavelengths;
     private transient EventListenerList listenerList;
     private boolean active;  
     
@@ -29,24 +31,38 @@ public class ColorCodedImageDataset implements XYZDataset {
         this.imageWidth = 1;
         this.imageHeight = 1;
         this.colCodedImage = new double[1];
+        this.timesteps =  new double[1];
+        this.wavelengths =  new double[1];
         this.listenerList = new EventListenerList();
         this.active = true;
     }
     
-    public ColorCodedImageDataset(int width, int height, double[] image, boolean timpDataset){
+    public ColorCodedImageDataset(int width, int height, double[] image, double[] x, double[] x2, boolean timpDataset){
         this.imageWidth = width;
         this.imageHeight = height;        
         this.listenerList = new EventListenerList();
         this.active = true;
         this.colCodedImage = new double[width*height];
+        this.timesteps = new double[height];
+        this.wavelengths = new double[width];
+        this.timesteps = x2;
+        this.wavelengths = x;
         if (timpDataset)
-            for (int i = 0; i<height; i++)
+            for (int i = 0; i<height; i++){
                 for (int j = 0; j<width; j++)
                     this.colCodedImage[i*width+j] = image[j*height+i];
+            }
         else 
             this.colCodedImage = image;
     }
     
+    public double GetWaveValue(int index){
+        return this.wavelengths[index];
+    }
+
+    public double GetTimeValue(int index){
+        return this.timesteps[index];
+    }
     public int GetImageWidth(){
         return this.imageWidth;
     }

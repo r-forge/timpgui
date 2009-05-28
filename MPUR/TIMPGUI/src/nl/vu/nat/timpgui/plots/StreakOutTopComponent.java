@@ -639,7 +639,8 @@ private void jListDatasetsValueChanged(javax.swing.event.ListSelectionEvent evt)
         double[][] chartdata = {xValues, yValues, res.GetTraces().getColumnPackedCopy()};
         dataset2.addSeries("Streak image", chartdata);
 
-        ColorCodedImageDataset dataset = new ColorCodedImageDataset(res.GetX2().length,res.GetX().length,res.GetTraces().getRowPackedCopy(),false);
+        ColorCodedImageDataset dataset = new ColorCodedImageDataset(res.GetX2().length,res.GetX().length,
+                    res.GetTraces().getRowPackedCopy(),res.GetX2(),res.GetX(),false);
         
         return dataset;
     }

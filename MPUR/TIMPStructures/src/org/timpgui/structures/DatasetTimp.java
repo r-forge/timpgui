@@ -6,11 +6,12 @@ package org.timpgui.structures;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.Scanner;
 import java.util.Vector;
 import static java.lang.Math.sqrt;
 
-public final class DatasetTimp {
+public final class DatasetTimp implements Serializable{
     private double maxInt;
     private double minInt;
     private double[] psisim;
@@ -92,7 +93,7 @@ public final class DatasetTimp {
     public void SetX(double[] xValue){x = xValue;}
     public void SetX2(double[] x2Value){x2 = x2Value;}
     public void SetIntenceIm(double[] x2Value){x2 = x2Value;} 
-    public String SetDatasetName(String datasetName){return datasetName;}
+    public void SetDatasetName(String dataName){this.datasetName=dataName;}
     public void LoadASCIIFile(File file) throws FileNotFoundException, IOException, IllegalAccessException, InstantiationException {
         datasetName = file.getName();
         maxInt = 0;

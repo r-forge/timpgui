@@ -11,6 +11,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.logging.Logger;
 import nl.wur.flim.jfreechartcustom.ColorCodedImageDataset;
@@ -38,6 +39,9 @@ import org.jfree.ui.Layer;
 import org.jfree.ui.RectangleAnchor;
 import org.jfree.ui.RectangleEdge;
 import org.jfree.ui.RectangleInsets;
+import org.openide.filesystems.FileObject;
+import org.openide.filesystems.Repository;
+import org.openide.util.Exceptions;
 import org.openide.util.NbBundle;
 import org.openide.windows.CloneableTopComponent;
 import org.openide.windows.TopComponent;
@@ -470,9 +474,30 @@ private void jBMakeDatasetActionPerformed(java.awt.event.ActionEvent evt) {//GEN
     //Check if all parameters are ok
     //endTODO=====================
     //create timpdataset.
-    DatasetTimp dataset = new DatasetTimp();
-    dataset.SetDatasetName(jTFDatasetName.getText());
+    DatasetTimp newdataset = new DatasetTimp();
+    newdataset.SetDatasetName(jTFDatasetName.getText());
+    FileObject folder = Repository.getDefault().getDefaultFileSystem().getRoot();
+
+    FileObject writeTo;
+        try {
+            writeTo = folder.createData("testserfile", "ser");
+            ObjectOutputStream stream = new ObjectOutputStream(writeTo.getOutputStream());
+            stream.writeObject(newdataset);
+            stream.close();
+        } catch (IOException ex) {
+            Exceptions.printStackTrace(ex);
+        }
+
+
+
+
+
+
+ 
     
+  //  InstanceCookie ck = DataObject.find(folder).getNodeDelegate().getLookup()lookup(InstanceCookie.class);
+
+
 
 }//GEN-LAST:event_jBMakeDatasetActionPerformed
 

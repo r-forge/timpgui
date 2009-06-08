@@ -34,7 +34,7 @@ public final class OpenDataset extends CookieAction {
     protected void performAction(Node[] activatedNodes) {
         final DataObject dataObject = activatedNodes[0].getLookup().lookup(DataObject.class);
 
-        final Project candidate;
+//        final Project candidate;
 
         final JFileSourcePane pane = new JFileSourcePane();
         final ActionListener lst = new ActionListener() {

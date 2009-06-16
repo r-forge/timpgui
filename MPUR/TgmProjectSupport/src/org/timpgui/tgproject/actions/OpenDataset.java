@@ -64,8 +64,8 @@ public final class OpenDataset extends CookieAction {
                                             }
                                             //TODO create xml file.
                                             Tgd tgd = new Tgd();
-                                            tgd.setFileName(f.getName());
-                                            tgd.setFiltype(service.getType(f));
+                                            tgd.setFilename(f.getName());
+                                            tgd.setFiletype(service.getType(f));
                                             tgd.setPath(f.getParent());
                                             // Get Dataset folder if exists, else recreate it.
                                             FileObject d = dataObject.getPrimaryFile();

@@ -7,6 +7,7 @@ package org.timpgui.flimdataloader;
 
 import org.timpgui.flimdataloader.editor.SdtTopComponent;
 import org.timpgui.tgproject.datasets.DatasetLoaderInterface;
+import org.timpgui.tgproject.datasets.TgdDataObject;
 
 /**
  *
@@ -18,8 +19,8 @@ public class ShowFlimEditor implements  DatasetLoaderInterface{
         return "FLIM";
     }
 
-    public void openDatasetEditor(String filename) {
-        SdtTopComponent tc = new SdtTopComponent(filename);        
+    public void openDatasetEditor(TgdDataObject dataObj) {
+        SdtTopComponent tc = new SdtTopComponent(dataObj);
         tc.open();
         tc.requestActive();
     }

@@ -10,10 +10,15 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Collection;
 import org.netbeans.api.project.Project;
+import org.netbeans.api.project.ui.OpenProjects;
 import org.openide.DialogDisplayer;
+import org.openide.NotifyDescriptor;
+import org.openide.NotifyDescriptor.Confirmation;
 import org.openide.WizardDescriptor;
 import org.openide.filesystems.FileObject;
+import org.openide.filesystems.FileSystem;
 import org.openide.filesystems.FileUtil;
+import org.openide.loaders.DataFolder;
 import org.openide.loaders.DataObject;
 import org.openide.nodes.Node;
 import org.openide.util.Exceptions;
@@ -26,6 +31,7 @@ import org.timpgui.tgproject.datasets.Tgd;
 
 public final class OpenDataset extends CookieAction {
     private final Collection<? extends TGDatasetService> services;
+
     public OpenDataset() {
         super();
         services = Lookup.getDefault().lookupAll(TGDatasetService.class);
@@ -38,9 +44,8 @@ public final class OpenDataset extends CookieAction {
 
         final JFileSourcePane pane = new JFileSourcePane();
         final ActionListener lst = new ActionListener() {
-
             public void actionPerformed(ActionEvent e) {
-                File[] files;
+                File[] files;                
                 if (e.getActionCommand().equalsIgnoreCase("Finish")) {
                     pane.setVisible(false);
                     files = pane.getSelectedFiles();
@@ -49,6 +54,14 @@ public final class OpenDataset extends CookieAction {
                             if (f.getName().endsWith(service.getExtention())) {
                                     try {
                                         if (service.Validator(f)) {
+                                            FileObject cachefolder = null;
+                                            final Project proj = OpenProjects.getDefault().getMainProject();
+                                            if (proj!=null){
+                                                 cachefolder = proj.getProjectDirectory();
+                                            } else {
+                                                Confirmation msg = new NotifyDescriptor.Confirmation("Select main project", NotifyDescriptor.OK_CANCEL_OPTION);
+                                                DialogDisplayer.getDefault().notify(msg);
+                                            }
                                             //TODO create xml file.
                                             Tgd tgd = new Tgd();
                                             tgd.setFileName(f.getName());
@@ -56,10 +69,20 @@ public final class OpenDataset extends CookieAction {
                                             tgd.setPath(f.getParent());
                                             // Get Dataset folder if exists, else recreate it.
                                             FileObject d = dataObject.getPrimaryFile();
-                                            //FileObject d = project.getDatasetsFolder(true);
-                                            // TODO: make it OS independent (don't use "/")
+
                                             String filenamepath = FileUtil.toFile(d).getAbsolutePath();
                                             String filename = FileUtil.toFileObject(f).getName().concat(".xml");
+                                            
+                                            String datfold = FileUtil.toFile(proj.getProjectDirectory().getFileObject("datasets")).getAbsolutePath();
+                                            String relPath = filenamepath.replaceFirst(datfold, "");
+                                            
+                                            cachefolder = cachefolder.getFileObject(".cache");
+                                            relPath.split("");
+                                            cachefolder.createFolder(relPath);
+//                                            DataFolder cachefolder = dataObject.getFolder();
+//                                            DataFolder.create(cachefolder, FileUtil.toFileObject(f).getName());
+//
+
                                             File out = new File(filenamepath, filename);
                                             try {
                                                 javax.xml.bind.JAXBContext jaxbCtx = javax.xml.bind.JAXBContext.newInstance(tgd.getClass().getPackage().getName());

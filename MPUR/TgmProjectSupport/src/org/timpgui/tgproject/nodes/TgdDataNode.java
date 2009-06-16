@@ -25,18 +25,18 @@ public class TgdDataNode extends DataNode implements Transferable {
 
 
     public TgdDataNode(TgdDataObject obj) {
-        super(obj, Children.LEAF);
+        super(obj, new TgdDataChildrenNode(obj));
         this.obj = obj;
         setIconBaseWithExtension(IMAGE_ICON_BASE);
     }
 
     TgdDataNode(TgdDataObject obj, Lookup lookup) {
-        super(obj, Children.LEAF, lookup);
+        super(obj, new TgdDataChildrenNode(obj), lookup);
         this.obj = obj;
         setIconBaseWithExtension(IMAGE_ICON_BASE);
     }
-    
 
+  
 //    /** Creates a property sheet. */
 //    @Override
 //    protected Sheet createSheet() {

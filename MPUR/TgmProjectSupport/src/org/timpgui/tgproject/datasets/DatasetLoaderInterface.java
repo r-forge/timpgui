@@ -13,6 +13,6 @@ public interface DatasetLoaderInterface {
 
     public String getType();
 
-    public void openDatasetEditor(String filename);
+    public void openDatasetEditor(TgdDataObject dataObj);
 
 }

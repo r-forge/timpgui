@@ -39,6 +39,12 @@ import org.jfree.ui.Layer;
 import org.jfree.ui.RectangleAnchor;
 import org.jfree.ui.RectangleEdge;
 import org.jfree.ui.RectangleInsets;
+import org.netbeans.api.project.Project;
+import org.netbeans.api.project.ui.OpenProjects;
+import org.openide.DialogDisplayer;
+import org.openide.NotifyDescriptor;
+import org.openide.NotifyDescriptor.Confirmation;
+import org.openide.NotifyDescriptor.Exception;
 import org.openide.filesystems.FileObject;
 import org.openide.filesystems.Repository;
 import org.openide.util.Exceptions;
@@ -47,6 +53,7 @@ import org.openide.windows.CloneableTopComponent;
 import org.openide.windows.TopComponent;
 import org.openide.windows.WindowManager;
 import org.timpgui.structures.DatasetTimp;
+import org.timpgui.tgproject.datasets.TgdDataObject;
 
 
 
@@ -70,6 +77,7 @@ final public class SpecEditorTopCompNew extends CloneableTopComponent { //implem
     private XYSeriesCollection timeTracesCollection, waveTracesCollection;
     private DatasetTimp data;
     private ColorCodedImageDataset dataset;
+    private TgdDataObject dataObject;
 
     public SpecEditorTopCompNew() {
         data = new DatasetTimp();
@@ -79,9 +87,16 @@ final public class SpecEditorTopCompNew extends CloneableTopComponent { //implem
 //        setIcon(Utilities.loadImage(ICON_PATH, true));
     }
 
-    public SpecEditorTopCompNew(String filename) {
+    public SpecEditorTopCompNew(TgdDataObject dataObj) {
+        String filename;
+        dataObject = dataObj;
         initComponents();
-        setName(NbBundle.getMessage(SpecEditorTopCompNew.class, "CTL_StreakLoaderTopComponent"));
+        setName((String)dataObject.getTgd().getFileName());
+        filename = (String)dataObject.getTgd().getPath();
+        filename = filename.concat("/").concat((String)dataObject.getTgd().getFileName());
+
+
+//        setName(NbBundle.getMessage(SpecEditorTopCompNew.class, "CTL_StreakLoaderTopComponent"));
         setToolTipText(NbBundle.getMessage(SpecEditorTopCompNew.class, "HINT_StreakLoaderTopComponent"));
 //        setIcon(Utilities.loadImage(ICON_PATH, true));
         data = new DatasetTimp();
@@ -476,17 +491,32 @@ private void jBMakeDatasetActionPerformed(java.awt.event.ActionEvent evt) {//GEN
     //create timpdataset.
     DatasetTimp newdataset = new DatasetTimp();
     newdataset.SetDatasetName(jTFDatasetName.getText());
-    FileObject folder = Repository.getDefault().getDefaultFileSystem().getRoot();
+
+    FileObject cachefolder = null;
+    final Project proj = OpenProjects.getDefault().getMainProject();
+    if (proj!=null){
+        cachefolder = proj.getProjectDirectory();
+    } else {
+        Confirmation msg = new NotifyDescriptor.Confirmation("Select main project", NotifyDescriptor.ERROR_MESSAGE);
+        DialogDisplayer.getDefault().notify(msg);
+    }
+    
+    cachefolder = cachefolder.getFileObject(".cache");
+    cachefolder = cachefolder.getFileObject(dataObject.getName().concat(".xml"));
+
+
+    //FileObject folder = Repository.getDefault().getDefaultFileSystem().getRoot();
 
     FileObject writeTo;
         try {
-            writeTo = folder.createData("testserfile", "ser");
+            writeTo = cachefolder.createData(newdataset.GetDatasetName(), "ser");
             ObjectOutputStream stream = new ObjectOutputStream(writeTo.getOutputStream());
             stream.writeObject(newdataset);
             stream.close();
         } catch (IOException ex) {
             Exceptions.printStackTrace(ex);
         }
+
 
 
 

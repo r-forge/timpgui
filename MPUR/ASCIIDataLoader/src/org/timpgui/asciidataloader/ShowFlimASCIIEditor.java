@@ -6,6 +6,7 @@
 package org.timpgui.asciidataloader;
 
 import org.timpgui.tgproject.datasets.DatasetLoaderInterface;
+import org.timpgui.tgproject.datasets.TgdDataObject;
 
 /**
  *
@@ -17,7 +18,7 @@ public class ShowFlimASCIIEditor implements  DatasetLoaderInterface {
         return "FLIMascii";
     }
 
-    public void openDatasetEditor(String filename) {
+    public void openDatasetEditor(TgdDataObject dataObj) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 

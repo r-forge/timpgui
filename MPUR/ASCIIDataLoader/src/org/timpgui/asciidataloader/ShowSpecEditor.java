@@ -8,23 +8,24 @@ package org.timpgui.asciidataloader;
 import org.timpgui.dataeditors.SpecEditorTopCompNew;
 import org.timpgui.dataeditors.SpecEditorTopComponent;
 import org.timpgui.tgproject.datasets.DatasetLoaderInterface;
+import org.timpgui.tgproject.datasets.TgdDataObject;
 
 /**
  *
  * @author lsp
  */
-public class ShowSpecEditor implements  DatasetLoaderInterface{
+public class ShowSpecEditor implements DatasetLoaderInterface{
 
     public String getType() {
         return "spec";
     }
 
-    public void openDatasetEditor(String filename) {
 
-//        SpecEditorTopComponent tc = new SpecEditorTopComponent(filename);
-        SpecEditorTopCompNew tc = new SpecEditorTopCompNew(filename);
+    public void openDatasetEditor(TgdDataObject dataObj) {
+        SpecEditorTopCompNew tc = new SpecEditorTopCompNew(dataObj);
         tc.open();
         tc.requestActive();
+//        SpecEditorTopComponent tc = new SpecEditorTopComponent(filename);
     }
 
 }

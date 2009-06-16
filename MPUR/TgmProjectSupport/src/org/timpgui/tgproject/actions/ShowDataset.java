@@ -35,7 +35,7 @@ public final class ShowDataset extends CookieAction {
 
             for (final DatasetLoaderInterface service : services) {
                 if (service.getType().equalsIgnoreCase(filetype)){
-                    service.openDatasetEditor(filename);
+                    service.openDatasetEditor(dataObject);
                 }
 
             }

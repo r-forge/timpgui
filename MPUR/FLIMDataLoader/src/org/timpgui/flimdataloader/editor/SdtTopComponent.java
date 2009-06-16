@@ -52,6 +52,7 @@ import org.openide.windows.CloneableTopComponent;
 import org.timpgui.flimdataloader.FlimImage;
 import org.timpgui.flimdataloader.SdtDataObject;
 import org.timpgui.structures.DatasetTimp;
+import org.timpgui.tgproject.datasets.TgdDataObject;
 
 /**
  * Top component which displays something.
@@ -119,9 +120,12 @@ final public class SdtTopComponent extends CloneableTopComponent implements Char
                 jLChWidth.setText(Double.toString(flimImage.getCannelW()).substring(0, 7));
     }
 
-    public SdtTopComponent(String filename) {
+    public SdtTopComponent(TgdDataObject dataObject) {
+        String filename;
         initComponents();
-        setName(NbBundle.getMessage(SdtTopComponent.class, "CTL_SdtTopComponent"));
+        setName((String)dataObject.getTgd().getFileName());
+        filename = (String)dataObject.getTgd().getPath();
+        filename = filename.concat("/").concat((String)dataObject.getTgd().getFileName());
         setToolTipText(NbBundle.getMessage(SdtTopComponent.class, "HINT_SdtTopComponent"));
 
 

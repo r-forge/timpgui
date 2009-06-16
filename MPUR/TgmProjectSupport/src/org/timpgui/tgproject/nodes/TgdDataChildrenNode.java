@@ -5,32 +5,64 @@
 
 package org.timpgui.tgproject.nodes;
 
-import java.util.ArrayList;
+import java.awt.Image;
+import java.awt.datatransfer.DataFlavor;
+import java.awt.datatransfer.Transferable;
+import java.awt.datatransfer.UnsupportedFlavorException;
+import java.io.IOException;
+import org.openide.filesystems.FileObject;
+import org.openide.nodes.AbstractNode;
 import org.openide.nodes.Children;
-import org.openide.nodes.Node;
-import org.timpgui.tgproject.datasets.TgdDataObject;
+import org.openide.util.ImageUtilities;
 
 /**
  *
  * @author lsp
  */
-class TgdDataChildrenNode extends Children.Keys {
-    private TgdDataObject dataObj;
-    public TgdDataChildrenNode(TgdDataObject obj) {
-        dataObj = obj;
+public class TgdDataChildrenNode extends AbstractNode implements Transferable{
+    private FileObject filObj;
+    private final Image ICON = ImageUtilities.loadImage("nl/vu/nat/tgmprojectsupport/doc.png", true);
+    public static final DataFlavor DATA_FLAVOR = new DataFlavor(TgdDataChildrenNode.class, "TgdDataChildrenNode");
+
+    public TgdDataChildrenNode(FileObject fileObject) {
+        super(Children.LEAF);
+        filObj = fileObject;
+
     }
 
     @Override
-    protected Node[] createNodes(Object arg0) {
-        ArrayList <Node> nodesArr = new  ArrayList<Node>();
- //       dataObj.getFolder().files()
-
-        return nodesArr.toArray(new Node[nodesArr.size()]);
+    public Image getIcon(int type) {
+        return ICON;
     }
 
     @Override
-    protected void addNotify() {
-        super.addNotify();
+    public Image getOpenedIcon(int type) {
+        return getIcon(type);
     }
 
+    @Override
+    public String getDisplayName() {
+        return filObj.getName();
+    }
+
+    @Override
+   public Transferable drag() {
+      return(this);
+   }
+
+   public DataFlavor[] getTransferDataFlavors() {
+      return(new DataFlavor[]{DATA_FLAVOR});
+   }
+
+   public boolean isDataFlavorSupported(DataFlavor flavor) {
+      return(flavor == DATA_FLAVOR);
+   }
+
+   public Object getTransferData(DataFlavor flavor) throws UnsupportedFlavorException {
+      if(flavor == DATA_FLAVOR) {
+         return(this);
+      } else {
+         throw new UnsupportedFlavorException(flavor);
+      }
+   }
 }

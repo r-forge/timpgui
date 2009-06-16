@@ -502,7 +502,7 @@ private void jBMakeDatasetActionPerformed(java.awt.event.ActionEvent evt) {//GEN
     }
     
     cachefolder = cachefolder.getFileObject(".cache");
-    cachefolder = cachefolder.getFileObject(dataObject.getName().concat(".xml"));
+    cachefolder = cachefolder.getFileObject(dataObject.getTgd().getCacheFolderName().toString());
 
 
     //FileObject folder = Repository.getDefault().getDefaultFileSystem().getRoot();

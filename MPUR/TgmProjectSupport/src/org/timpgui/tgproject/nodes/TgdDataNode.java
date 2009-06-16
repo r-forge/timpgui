@@ -22,21 +22,20 @@ import org.openide.nodes.Children;
 import org.openide.nodes.Sheet;
 import org.openide.util.Lookup;
 
-public class TgdDataNode extends DataNode implements Transferable {
+public class TgdDataNode extends DataNode {
 
     private static final String IMAGE_ICON_BASE = "nl/vu/nat/tgmfilesupport/povicon.gif";
-    public static final DataFlavor DATA_FLAVOR = new DataFlavor(TgdDataNode.class, "TgdDataNode");
     private TgdDataObject obj;
 
 
     public TgdDataNode(TgdDataObject obj) {
-        super(obj, new TgdDataChildrenNode(obj));
+        super(obj, new TgdDataChildren(obj));
         this.obj = obj;
         setIconBaseWithExtension(IMAGE_ICON_BASE);                                       
     }
 
     TgdDataNode(TgdDataObject obj, Lookup lookup) {
-        super(obj, new TgdDataChildrenNode(obj), lookup);
+        super(obj, new TgdDataChildren(obj), lookup);
         this.obj = obj;
         setIconBaseWithExtension(IMAGE_ICON_BASE);
     }
@@ -73,32 +72,6 @@ public class TgdDataNode extends DataNode implements Transferable {
         }
         return result;
     }
-
-   @Override
-   public Transferable drag() {
-      return(this);
-   }
-
-   public DataFlavor[] getTransferDataFlavors() {
-      return(new DataFlavor[]{DATA_FLAVOR});
-   }
-
-   public boolean isDataFlavorSupported(DataFlavor flavor) {
-      return(flavor == DATA_FLAVOR);
-   }
-
-   public Object getTransferData(DataFlavor flavor) throws UnsupportedFlavorException {
-      if(flavor == DATA_FLAVOR) {
-         return(this);
-      } else {
-         throw new UnsupportedFlavorException(flavor);
-      }
-   }
-
-
-
-
-
 
 
 }

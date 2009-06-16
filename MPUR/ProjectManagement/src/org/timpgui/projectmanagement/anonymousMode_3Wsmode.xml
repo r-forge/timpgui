@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mode version="2.3">
+    <name unique="anonymousMode_3" />
+  <kind type="view" />
+  <state type="joined" />
+  <constraints>
+    <path orientation="horizontal" number="20" weight="0.45685279187817257"/>
+    <path orientation="vertical" number="24" weight="0.1959686450167973"/>
+  </constraints>
+  <bounds x="0" y="0" width="0" height="0" />
+  <frame state="0"/>
+    <active-tc  id="SelectedDatasetsViewTopComponent" />
+    <empty-behavior permanent="false"/>
+</mode>

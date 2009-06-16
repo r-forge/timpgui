@@ -171,6 +171,7 @@
                 <package>nl.vu.nat.tgmprojectsupport</package>
                 <package>nl.vu.nat.tgmprojectsupport.templates</package>
                 <package>org.timpgui.tgproject.datasets</package>
+                <package>org.timpgui.tgproject.nodes</package>
             </public-packages>
         </data>
     </configuration>

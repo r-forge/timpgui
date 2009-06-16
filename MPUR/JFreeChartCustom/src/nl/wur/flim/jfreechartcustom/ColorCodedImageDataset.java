@@ -36,7 +36,7 @@ public class ColorCodedImageDataset implements XYZDataset {
         this.listenerList = new EventListenerList();
         this.active = true;
     }
-    
+  
     public ColorCodedImageDataset(int width, int height, double[] image, double[] x, double[] x2, boolean timpDataset){
         this.imageWidth = width;
         this.imageHeight = height;        

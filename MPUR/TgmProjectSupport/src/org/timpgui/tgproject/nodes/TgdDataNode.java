@@ -4,6 +4,10 @@
  */
 package org.timpgui.tgproject.nodes;
 
+import java.awt.datatransfer.DataFlavor;
+import java.awt.datatransfer.Transferable;
+import java.awt.datatransfer.UnsupportedFlavorException;
+import java.io.IOException;
 import org.timpgui.tgproject.datasets.*;
 import org.netbeans.api.project.FileOwnerQuery;
 import org.netbeans.api.project.Project;
@@ -13,9 +17,10 @@ import org.openide.nodes.Children;
 import org.openide.nodes.Sheet;
 import org.openide.util.Lookup;
 
-public class TgdDataNode extends DataNode {
+public class TgdDataNode extends DataNode implements Transferable {
 
     private static final String IMAGE_ICON_BASE = "nl/vu/nat/tgmfilesupport/povicon.gif";
+    public static final DataFlavor DATA_FLAVOR = new DataFlavor(TgdDataNode.class, "TgdDataNode");
     private TgdDataObject obj;
 
 
@@ -64,7 +69,25 @@ public class TgdDataNode extends DataNode {
         return result;
     }
 
+   @Override
+   public Transferable drag() {
+      return(this);
+   }
 
+   public DataFlavor[] getTransferDataFlavors() {
+      return(new DataFlavor[]{DATA_FLAVOR});
+   }
 
+   public boolean isDataFlavorSupported(DataFlavor flavor) {
+      return(flavor == DATA_FLAVOR);
+   }
+
+   public Object getTransferData(DataFlavor flavor) throws UnsupportedFlavorException {
+      if(flavor == DATA_FLAVOR) {
+         return(this);
+      } else {
+         throw new UnsupportedFlavorException(flavor);
+      }
+   }
 
 }

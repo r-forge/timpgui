@@ -7,10 +7,12 @@ package nl.vu.nat.tgofilesupport;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.io.Writer;
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.Unmarshaller;
+
 import nl.vu.nat.tgmodels.tgo.OptPanelElements;
 import nl.vu.nat.tgmodels.tgo.Tgo;
 import nl.vu.nat.tgoeditor.TgoToolBarMVElement;
-
 import org.netbeans.api.xml.cookies.CheckXMLCookie;
 import org.netbeans.api.xml.cookies.ValidateXMLCookie;
 import org.netbeans.modules.xml.multiview.DesignMultiViewDesc;
@@ -24,17 +26,20 @@ import org.openide.ErrorManager;
 import org.openide.filesystems.FileObject;
 import org.openide.filesystems.FileUtil;
 import org.openide.loaders.DataObjectExistsException;
+import org.openide.nodes.CookieSet;
 import org.openide.nodes.Node;
+import org.openide.util.Lookup;
 
 public class TgoDataObject extends XmlMultiViewDataObject {
     // Model synchronizer takes care of two way synchronization between the view and the XML file
+
     private ModelSynchronizer modelSynchronizer;    // Here we declare the variable, representing the type of design view, which will be discussed in some future installment of this series:
     private static final int TYPE_TOOLBAR = 0;
     Tgo tgo;
 
     public TgoDataObject(FileObject pf, TgoDataLoader loader) throws DataObjectExistsException, IOException {
         super(pf, loader);
-        //CookieSet cookies = getCookieSet();
+        CookieSet cookies = getCookieSet();
         //cookies.add((Node.Cookie) DataEditorSupport.create(this, getPrimaryEntry(), cookies));
 
         // Added code from vdblog
@@ -109,10 +114,10 @@ public class TgoDataObject extends XmlMultiViewDataObject {
             tgo = getTgo();
         } else {
             java.io.InputStream is = getEditorSupport().getInputStream();
-
+           
             try {
-                javax.xml.bind.JAXBContext jaxbCtx = javax.xml.bind.JAXBContext.newInstance(tgo.getClass().getPackage().getName());
-                javax.xml.bind.Unmarshaller unmarshaller = jaxbCtx.createUnmarshaller();
+                JAXBContext jaxbCtx = JAXBContext.newInstance(tgo.getClass().getPackage().getName());
+                Unmarshaller unmarshaller = jaxbCtx.createUnmarshaller();
                 tgo = (Tgo) unmarshaller.unmarshal(is); //NOI18N
             } catch (javax.xml.bind.JAXBException ex) {
                 // XXXTODO Handle exception
@@ -124,6 +129,7 @@ public class TgoDataObject extends XmlMultiViewDataObject {
 
     private static class DesignView extends DesignMultiViewDesc {
 
+        private static final long serialVersionUID = 1L;
         private int type;
 
         DesignView(TgoDataObject dObj, int type) {

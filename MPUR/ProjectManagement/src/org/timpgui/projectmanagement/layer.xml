@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE filesystem PUBLIC "-//NetBeans//DTD Filesystem 1.2//EN" "http://www.netbeans.org/dtds/filesystem-1_2.dtd">
+<filesystem>
+    <folder name="Actions">
+        <folder name="Window">
+            <file name="org-timpgui-projectmanagement-SelectedDatasetsViewAction.instance">
+                <attr name="SystemFileSystem.localizingBundle" stringvalue="org.timpgui.projectmanagement.Bundle"/>
+                <attr name="component" methodvalue="org.timpgui.projectmanagement.SelectedDatasetsViewTopComponent.findInstance"/>
+                <attr name="displayName" bundlevalue="org.timpgui.projectmanagement.Bundle#CTL_SelectedDatasetsViewAction"/>
+                <attr name="instanceCreate" methodvalue="org.openide.windows.TopComponent.openAction"/>
+            </file>
+            <file name="org-timpgui-projectmanagement-SelectedModelsViewAction.instance">
+                <attr name="SystemFileSystem.localizingBundle" stringvalue="org.timpgui.projectmanagement.Bundle"/>
+                <attr name="component" methodvalue="org.timpgui.projectmanagement.SelectedModelsViewTopComponent.findInstance"/>
+                <attr name="displayName" bundlevalue="org.timpgui.projectmanagement.Bundle#CTL_SelectedModelsViewAction"/>
+                <attr name="instanceCreate" methodvalue="org.openide.windows.TopComponent.openAction"/>
+            </file>
+            <file name="org-timpgui-projectmanagement-SelectedOptionsViewAction.instance">
+                <attr name="SystemFileSystem.localizingBundle" stringvalue="org.timpgui.projectmanagement.Bundle"/>
+                <attr name="component" methodvalue="org.timpgui.projectmanagement.SelectedOptionsViewTopComponent.findInstance"/>
+                <attr name="displayName" bundlevalue="org.timpgui.projectmanagement.Bundle#CTL_SelectedOptionsViewAction"/>
+                <attr name="instanceCreate" methodvalue="org.openide.windows.TopComponent.openAction"/>
+            </file>
+        </folder>
+    </folder>
+    <folder name="Menu">
+        <folder name="Window">
+            <file name="SelectedDatasetsViewAction.shadow">
+                <attr name="originalFile" stringvalue="Actions/Window/org-timpgui-projectmanagement-SelectedDatasetsViewAction.instance"/>
+            </file>
+        </folder>
+    </folder>
+    <folder name="Windows2">
+        <folder name="Components">
+            <file name="SelectedDatasetsViewTopComponent.settings" url="SelectedDatasetsViewTopComponentSettings.xml"/>
+            <file name="SelectedModelsViewTopComponent.settings" url="SelectedModelsViewTopComponentSettings.xml"/>
+            <file name="SelectedOptionsViewTopComponent.settings" url="SelectedOptionsViewTopComponentSettings.xml"/>
+        </folder>
+        <folder name="Modes">
+            <folder name="anonymousMode_1">
+                <file name="SelectedOptionsViewTopComponent.wstcref" url="SelectedOptionsViewTopComponentWstcref.xml"/>
+            </folder>
+            <file name="anonymousMode_1.wsmode" url="anonymousMode_1Wsmode.xml"/>
+            <folder name="anonymousMode_3">
+                <file name="SelectedDatasetsViewTopComponent.wstcref" url="SelectedDatasetsViewTopComponentWstcref.xml"/>
+            </folder>
+            <file name="anonymousMode_3.wsmode" url="anonymousMode_3Wsmode.xml"/>
+            <folder name="anonymousMode_4">
+                <file name="SelectedModelsViewTopComponent.wstcref" url="SelectedModelsViewTopComponentWstcref.xml"/>
+            </folder>
+            <file name="anonymousMode_4.wsmode" url="anonymousMode_4Wsmode.xml"/>
+            <folder name="explorer"/>
+        </folder>
+    </folder>
+</filesystem>

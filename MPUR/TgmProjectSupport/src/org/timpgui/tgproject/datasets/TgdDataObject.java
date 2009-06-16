@@ -8,15 +8,18 @@ import org.timpgui.tgproject.nodes.TgdDataNode;
 import java.io.IOException;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Unmarshaller;
+import nl.vu.nat.tgmodels.tgm.Tgm;
+import org.openide.cookies.InstanceCookie;
 import org.openide.filesystems.FileObject;
 import org.openide.filesystems.FileUtil;
 import org.openide.loaders.DataObjectExistsException;
+import org.openide.loaders.InstanceDataObject;
 import org.openide.loaders.MultiDataObject;
 import org.openide.loaders.MultiFileLoader;
 import org.openide.nodes.Node;
 import org.openide.util.Lookup;
 
-public class TgdDataObject extends MultiDataObject {
+public class TgdDataObject extends InstanceDataObject {
     private Tgd tgd;
 
     public TgdDataObject(FileObject pf, MultiFileLoader loader) throws DataObjectExistsException, IOException {
@@ -81,4 +84,5 @@ public class TgdDataObject extends MultiDataObject {
 
         }
     }
+
 }

@@ -25,7 +25,9 @@ import org.openide.ErrorManager;
 import org.openide.filesystems.FileObject;
 import org.openide.filesystems.FileUtil;
 import org.openide.loaders.DataObjectExistsException;
+import org.openide.nodes.CookieSet;
 import org.openide.nodes.Node;
+import org.openide.util.Lookup;
 
 public class TgmDataObject extends XmlMultiViewDataObject {
     // Model synchronizer takes care of two way synchronization between the view and the XML file
@@ -35,7 +37,7 @@ public class TgmDataObject extends XmlMultiViewDataObject {
 
     public TgmDataObject(FileObject pf, TgmDataLoader loader) throws DataObjectExistsException, IOException {
         super(pf, loader);
-        //CookieSet cookies = getCookieSet();
+        CookieSet cookies = getCookieSet();
         //cookies.add((Node.Cookie) DataEditorSupport.create(this, getPrimaryEntry(), cookies));
 
         // Added code from vdblog
@@ -58,11 +60,12 @@ public class TgmDataObject extends XmlMultiViewDataObject {
     protected Node createNodeDelegate() {
         return new TgmDataNode(this); // removed: getLookup()
     }
+   
+    @Override
+    public Lookup getLookup() {
+        return getCookieSet().getLookup();
+    }
 
-//    @Override
-//    public Lookup getLookup() {
-//        return getCookieSet().getLookup();
-//    }
     @Override
     protected DesignMultiViewDesc[] getMultiViewDesc() {
         // Returns an instance of DesignMultiViewDesc, which is comparable to Interface MultiViewDescription in the MultiView Windows API.

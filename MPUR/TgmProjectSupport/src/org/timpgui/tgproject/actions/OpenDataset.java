@@ -28,6 +28,7 @@ import org.openide.util.NbBundle;
 import org.openide.util.actions.CookieAction;
 import org.timpgui.tgproject.datasets.TGDatasetService;
 import org.timpgui.tgproject.datasets.Tgd;
+import sun.util.calendar.BaseCalendar.Date;
 
 public final class OpenDataset extends CookieAction {
     private final Collection<? extends TGDatasetService> services;
@@ -62,6 +63,7 @@ public final class OpenDataset extends CookieAction {
                                                 Confirmation msg = new NotifyDescriptor.Confirmation("Select main project", NotifyDescriptor.OK_CANCEL_OPTION);
                                                 DialogDisplayer.getDefault().notify(msg);
                                             }
+
                                             //TODO create xml file.
                                             Tgd tgd = new Tgd();
                                             tgd.setFilename(f.getName());
@@ -72,16 +74,14 @@ public final class OpenDataset extends CookieAction {
 
                                             String filenamepath = FileUtil.toFile(d).getAbsolutePath();
                                             String filename = FileUtil.toFileObject(f).getName().concat(".xml");
-                                            
-                                            String datfold = FileUtil.toFile(proj.getProjectDirectory().getFileObject("datasets")).getAbsolutePath();
-                                            String relPath = filenamepath.replaceFirst(datfold, "");
-                                            
                                             cachefolder = cachefolder.getFileObject(".cache");
-                                            relPath.split("");
-                                            cachefolder.createFolder(relPath);
+                                            String foldername = filename.concat("_".concat(String.valueOf(System.currentTimeMillis())));
+                                            cachefolder.createFolder(foldername);
+                                            
 //                                            DataFolder cachefolder = dataObject.getFolder();
 //                                            DataFolder.create(cachefolder, FileUtil.toFileObject(f).getName());
-//
+
+                                            tgd.setCacheFolderName(foldername);
 
                                             File out = new File(filenamepath, filename);
                                             try {

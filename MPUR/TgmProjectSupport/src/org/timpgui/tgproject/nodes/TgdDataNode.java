@@ -8,9 +8,14 @@ import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
 import java.awt.datatransfer.UnsupportedFlavorException;
 import java.io.IOException;
+import org.openide.util.Exceptions;
 import org.timpgui.tgproject.datasets.*;
 import org.netbeans.api.project.FileOwnerQuery;
 import org.netbeans.api.project.Project;
+import org.netbeans.api.project.ui.OpenProjects;
+import org.openide.DialogDisplayer;
+import org.openide.NotifyDescriptor;
+import org.openide.NotifyDescriptor.Confirmation;
 import org.openide.filesystems.FileObject;
 import org.openide.loaders.DataNode;
 import org.openide.nodes.Children;
@@ -27,7 +32,7 @@ public class TgdDataNode extends DataNode implements Transferable {
     public TgdDataNode(TgdDataObject obj) {
         super(obj, new TgdDataChildrenNode(obj));
         this.obj = obj;
-        setIconBaseWithExtension(IMAGE_ICON_BASE);
+        setIconBaseWithExtension(IMAGE_ICON_BASE);                                       
     }
 
     TgdDataNode(TgdDataObject obj, Lookup lookup) {
@@ -89,5 +94,11 @@ public class TgdDataNode extends DataNode implements Transferable {
          throw new UnsupportedFlavorException(flavor);
       }
    }
+
+
+
+
+
+
 
 }

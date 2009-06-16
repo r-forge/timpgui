@@ -123,9 +123,9 @@ final public class SdtTopComponent extends CloneableTopComponent implements Char
     public SdtTopComponent(TgdDataObject dataObject) {
         String filename;
         initComponents();
-        setName((String)dataObject.getTgd().getFileName());
+        setName((String)dataObject.getTgd().getFilename());
         filename = (String)dataObject.getTgd().getPath();
-        filename = filename.concat("/").concat((String)dataObject.getTgd().getFileName());
+        filename = filename.concat("/").concat((String)dataObject.getTgd().getFilename());
         setToolTipText(NbBundle.getMessage(SdtTopComponent.class, "HINT_SdtTopComponent"));
 
 

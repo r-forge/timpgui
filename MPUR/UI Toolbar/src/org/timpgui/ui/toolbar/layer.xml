@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE filesystem PUBLIC "-//NetBeans//DTD Filesystem 1.2//EN" "http://www.netbeans.org/dtds/filesystem-1_2.dtd">
+<filesystem>
+    <folder name="Actions">
+        <folder name="Build">
+            <file name="org-timpgui-ui-toolbar-StartAnalysis.instance">
+                <attr name="SystemFileSystem.localizingBundle" stringvalue="org.timpgui.ui.toolbar.Bundle"/>
+                <attr name="delegate" newvalue="org.timpgui.ui.toolbar.StartAnalysis"/>
+                <attr name="displayName" bundlevalue="org.timpgui.ui.toolbar.Bundle#CTL_StartAnalysis"/>
+                <attr name="iconBase" stringvalue="org/timpgui/ui/toolbar/runProject.png"/>
+                <attr name="instanceCreate" methodvalue="org.openide.awt.Actions.alwaysEnabled"/>
+                <attr name="noIconInMenu" stringvalue="false"/>
+            </file>
+        </folder>
+    </folder>
+    <folder name="Toolbars">
+        <folder name="File">
+            <file name="org-timpgui-ui-toolbar-StartAnalysis.shadow">
+                <attr name="originalFile" stringvalue="Actions/Build/org-timpgui-ui-toolbar-StartAnalysis.instance"/>
+                <attr name="position" intvalue="500"/>
+            </file>
+        </folder>
+    </folder>
+</filesystem>

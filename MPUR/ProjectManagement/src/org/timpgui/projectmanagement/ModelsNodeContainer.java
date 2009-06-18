@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.ListIterator;
 import java.util.Vector;
 import java.util.logging.Logger;
+import nl.vu.nat.tgmfilesupport.TgmDataNode;
 import nl.vu.nat.tgmfilesupport.TgmDataObject;
 
 /**
@@ -33,10 +34,10 @@ public final class ModelsNodeContainer extends Index.ArrayChildren {
       return list;
    }
 
-   public ListIterator<TgmDataObject> getRemaining(Node current) {
-      Vector<TgmDataObject> v = new Vector<TgmDataObject>();
+   public ListIterator<TgmDataNode> getRemaining(Node current) {
+      Vector<TgmDataNode> v = new Vector<TgmDataNode>();
       for (Node n : list.subList(indexOf(current), list.size())) {
-         v.add(n.getLookup().lookup(TgmDataObject.class));
+         v.add(n.getLookup().lookup(TgmDataNode.class));
       }
       return(v.listIterator());
    }

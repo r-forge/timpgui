@@ -15,9 +15,11 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import javax.swing.JComponent;
 import javax.swing.KeyStroke;
+import javax.tools.FileObject;
 import org.openide.explorer.ExplorerManager;
 import org.openide.explorer.view.TreeTableView;
 import org.openide.nodes.Node;
+import org.timpgui.tgproject.nodes.TgdDataChildrenNode;
 import org.timpgui.tgproject.nodes.TgdDataNode;
 
 /**
@@ -53,14 +55,14 @@ class DatasetView extends TreeTableView {
 
          @Override
          public void dragEnter(DropTargetDragEvent dtde) {
-            if(!dtde.isDataFlavorSupported(TgdDataNode.DATA_FLAVOR)) {
+            if(!dtde.isDataFlavorSupported(TgdDataChildrenNode.DATA_FLAVOR)) {
                dtde.rejectDrag();
             }
          }
 
          public void drop(DropTargetDropEvent dtde) {
             try {
-               TgdDataNode n = (TgdDataNode)dtde.getTransferable().getTransferData(TgdDataNode.DATA_FLAVOR);
+               TgdDataChildrenNode n = (TgdDataChildrenNode)dtde.getTransferable().getTransferData(TgdDataChildrenNode.DATA_FLAVOR);
                ExplorerManager.find(getParent()).getRootContext().getChildren().add(new Node[]{n});
             } catch(Exception e) {
                e.printStackTrace();

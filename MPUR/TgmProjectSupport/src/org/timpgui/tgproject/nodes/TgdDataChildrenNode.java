@@ -11,22 +11,24 @@ import java.awt.datatransfer.Transferable;
 import java.awt.datatransfer.UnsupportedFlavorException;
 import java.io.IOException;
 import org.openide.filesystems.FileObject;
+import org.openide.loaders.DataNode;
 import org.openide.nodes.AbstractNode;
 import org.openide.nodes.Children;
 import org.openide.util.ImageUtilities;
+import org.timpgui.tgproject.datasets.TimpDatasetDataObject;
 
 /**
  *
  * @author lsp
  */
-public class TgdDataChildrenNode extends AbstractNode implements Transferable{
-    private FileObject filObj;
+public class TgdDataChildrenNode extends DataNode implements Transferable{
+    private TimpDatasetDataObject tdo;
     private final Image ICON = ImageUtilities.loadImage("nl/vu/nat/tgmprojectsupport/doc.png", true);
     public static final DataFlavor DATA_FLAVOR = new DataFlavor(TgdDataChildrenNode.class, "TgdDataChildrenNode");
 
-    public TgdDataChildrenNode(FileObject fileObject) {
-        super(Children.LEAF);
-        filObj = fileObject;
+    public TgdDataChildrenNode(TimpDatasetDataObject tdo) {
+        super(tdo,Children.LEAF);
+        this.tdo = tdo;
 
     }
 
@@ -42,7 +44,7 @@ public class TgdDataChildrenNode extends AbstractNode implements Transferable{
 
     @Override
     public String getDisplayName() {
-        return filObj.getName();
+        return tdo.getName();
     }
 
     @Override

@@ -25,6 +25,7 @@ import org.openide.util.Lookup;
 public class TgdDataNode extends DataNode {
 
     private static final String IMAGE_ICON_BASE = "nl/vu/nat/tgmfilesupport/povicon.gif";
+    //public static final DataFlavor DATA_FLAVOR = new DataFlavor(TgdDataNode.class, "TgdDataNode");
     private TgdDataObject obj;
 
 

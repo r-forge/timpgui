@@ -19,7 +19,6 @@ import nl.vu.nat.tgofilesupport.TgoDataNode;
 import org.openide.explorer.ExplorerManager;
 import org.openide.explorer.view.TreeTableView;
 import org.openide.nodes.Node;
-import org.timpgui.tgproject.nodes.TgdDataNode;
 
 /**
  *

@@ -419,9 +419,12 @@ final public class SpecEditorTopCompNew extends CloneableTopComponent { //implem
 
 private void jBMakeDatasetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBMakeDatasetActionPerformed
 
-    NewDatasetNameDialog d = new NewDatasetNameDialog();
-    DialogDescriptor desc = new DialogDescriptor(d,"New Dataset Name");
-    DialogDisplayer.getDefault().createDialog(desc);
+        JDialog dialog = new JDialog(WindowManager.getDefault().getMainWindow(), "Module Explorer", true);
+        dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+        dialog.setContentPane(new NewDatasetNameDialog());
+        dialog.setSize(300, 200);
+        dialog.setVisible(true);
+
     //TODO ======================
     //Check if all parameters are ok
     //endTODO=====================

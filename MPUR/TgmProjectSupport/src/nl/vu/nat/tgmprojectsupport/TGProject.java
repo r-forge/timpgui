@@ -77,6 +77,8 @@ public class TGProject implements Project {
     public static final String OPTIONS_DIR = "options";
     /** The name of the folder containing output files. */
     public static final String RESULTS_DIR = "results";
+    /** The name of the folder containing dataset files. */
+    public static final String CACHE_DIR = ".cache";
     private final FileObject projectDir;
     private final ProjectState state;
     private final LogicalViewProvider logicalView = new TGLogicalView(this);
@@ -219,6 +221,25 @@ public class TGProject implements Project {
             } catch (IOException ioe) {
                 Logger.getLogger(TGProject.class.getName()).log(Level.SEVERE,
                         "Unable to create folder " + RESULTS_DIR, ioe);
+            }
+        }
+        return result;
+    }
+
+        /**
+     * Get the documents folder.
+     * @param   create    Create the folder if does not exists ?
+     * @return  The {@code FileObject} representing the documents folder.
+     */
+    public FileObject getCacheFolder(boolean create) {
+        FileObject result = projectDir.getFileObject(CACHE_DIR);
+
+        if (result == null && create) {
+            try {
+                result = projectDir.createFolder(CACHE_DIR);
+            } catch (IOException ioe) {
+                Logger.getLogger(TGProject.class.getName()).log(Level.SEVERE,
+                        "Unable to create folder " + CACHE_DIR, ioe);
             }
         }
         return result;

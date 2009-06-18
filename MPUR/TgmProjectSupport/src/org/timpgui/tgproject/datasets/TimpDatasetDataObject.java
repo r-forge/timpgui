@@ -16,6 +16,7 @@ import org.openide.nodes.Node;
 import org.openide.nodes.Children;
 import org.openide.util.Lookup;
 import org.openide.text.DataEditorSupport;
+import org.timpgui.tgproject.nodes.TimpDatasetNode;
 
 public class TimpDatasetDataObject extends InstanceDataObject {
 
@@ -27,7 +28,7 @@ public class TimpDatasetDataObject extends InstanceDataObject {
 
     @Override
     protected Node createNodeDelegate() {
-        return new DataNode(this, Children.LEAF, getLookup());
+        return new TimpDatasetNode(this);
     }
 
     @Override

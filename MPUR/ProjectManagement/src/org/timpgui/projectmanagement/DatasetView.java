@@ -19,7 +19,7 @@ import javax.tools.FileObject;
 import org.openide.explorer.ExplorerManager;
 import org.openide.explorer.view.TreeTableView;
 import org.openide.nodes.Node;
-import org.timpgui.tgproject.nodes.TgdDataChildrenNode;
+import org.timpgui.tgproject.nodes.TimpDatasetNode;
 import org.timpgui.tgproject.nodes.TgdDataNode;
 
 /**
@@ -55,14 +55,16 @@ class DatasetView extends TreeTableView {
 
          @Override
          public void dragEnter(DropTargetDragEvent dtde) {
-            if(!dtde.isDataFlavorSupported(TgdDataChildrenNode.DATA_FLAVOR)) {
+            if(!dtde.isDataFlavorSupported(TimpDatasetNode.DATA_FLAVOR)) {
                dtde.rejectDrag();
             }
          }
 
          public void drop(DropTargetDropEvent dtde) {
             try {
-               TgdDataChildrenNode n = (TgdDataChildrenNode)dtde.getTransferable().getTransferData(TgdDataChildrenNode.DATA_FLAVOR);
+               TimpDatasetNode n = (TimpDatasetNode)dtde.getTransferable().getTransferData(TimpDatasetNode.DATA_FLAVOR);
+               //   TopComponent currentTopComponent = (TopComponent)Utilities.actionsGlobalContext().lookup(TopComponent.class);
+               // ExplorerManager.find(currentTopComponent).getRootContext().getChildren().add(new Node[]{n});
                ExplorerManager.find(getParent()).getRootContext().getChildren().add(new Node[]{n});
             } catch(Exception e) {
                e.printStackTrace();

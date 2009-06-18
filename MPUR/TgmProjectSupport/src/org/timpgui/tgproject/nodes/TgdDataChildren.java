@@ -6,23 +6,20 @@
 package org.timpgui.tgproject.nodes;
 
 import java.io.IOException;
+
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import org.netbeans.api.project.Project;
+import java.util.List;
+import nl.vu.nat.tgmprojectsupport.TGProject;
 import org.netbeans.api.project.ui.OpenProjects;
-import org.openide.DialogDisplayer;
-import org.openide.NotifyDescriptor;
-import org.openide.NotifyDescriptor.Confirmation;
 import org.openide.filesystems.FileObject;
-import org.openide.loaders.DataFolder;
 import org.openide.loaders.DataObject;
 import org.openide.loaders.DataObjectNotFoundException;
 import org.openide.nodes.Children;
 import org.openide.nodes.Node;
 import org.openide.util.Exceptions;
-import org.timpgui.tdatasets.DatasetTimp;
+import org.timpgui.tgproject.datasets.TDLayerDataset;
 import org.timpgui.tgproject.datasets.TgdDataObject;
+import org.timpgui.tgproject.datasets.TimpDatasetDataObject;
 
 /**
  *
@@ -30,46 +27,44 @@ import org.timpgui.tgproject.datasets.TgdDataObject;
  */
 class TgdDataChildren extends Children.Keys {
 
-    private TgdDataObject dataObj;
-    private FileObject serFile = null;
+    private TgdDataObject obj;
 
-    public TgdDataChildren(TgdDataObject obj) throws IOException {
-        dataObj = obj;
-        FileObject projdir = null;
-        FileObject cachefolder = null;
-        final Project proj = OpenProjects.getDefault().getMainProject();
-        if (proj!=null){
-            projdir = proj.getProjectDirectory();
-            if (projdir.getFileObject(".cache")!=null) {
-                cachefolder = projdir.getFileObject(".cache");
-                FileObject df = cachefolder.getFileObject(dataObj.getTgd().getCacheFolderName());
-            } else {
-                projdir.createFolder(".cache");
-                cachefolder = projdir.getFileObject(".cache");
+    private final List <TimpDatasetDataObject> datasets = new ArrayList<TimpDatasetDataObject>();
+    private TimpDatasetDataObject dataset;
+    private FileObject cachefolder;
+    private FileObject datasetfolder;
+    private FileObject[] files;
+
+    public TgdDataChildren(TgdDataObject obj) {
+        this.obj=obj;
+        DataObject dObj = null;
+        final TGProject proj = (TGProject) OpenProjects.getDefault().getMainProject();
+        cachefolder = proj.getCacheFolder(true);
+        datasetfolder = cachefolder.getFileObject(obj.getTgd().getCacheFolderName());
+        files = datasetfolder.getChildren();
+        for (FileObject file : files) {
+            try {
+                dObj = DataObject.find(file);
+            } catch (DataObjectNotFoundException ex) {
+                Exceptions.printStackTrace(ex);
             }
-        } else {
-            Confirmation msg = new NotifyDescriptor.Confirmation("Select main project", NotifyDescriptor.OK_CANCEL_OPTION);
-            DialogDisplayer.getDefault().notify(msg);
+            if (dObj!=null) {
+            datasets.add((TimpDatasetDataObject)dObj);
+            }
         }
-        
-    }
 
-
-
-    @Override
-    protected Node[] createNodes(Object arg0) {
-        FileObject serf = (FileObject) arg0;
-        ArrayList<Node> nodesSerFiles = new ArrayList<Node>();
-        FileObject[] serFiles = serf.getChildren();
-        for (int i = 0; i<serFiles.length; i++){
-//            nodesSerFiles.add(new TgdDataChildrenNode(serFiles[i]));
-        }
-        return (nodesSerFiles.toArray(new Node[nodesSerFiles.size()]));
     }
 
     @Override
     protected void addNotify() {
-        setKeys(new FileObject[] {serFile});
+        setKeys(datasets);
+    }
+
+    @Override
+    protected Node[] createNodes(Object key) {
+       TimpDatasetDataObject datasetObject = (TimpDatasetDataObject) key;
+       TimpDatasetNode tn = new TimpDatasetNode(datasetObject);
+       return new Node[] {tn};
     }
 
 }

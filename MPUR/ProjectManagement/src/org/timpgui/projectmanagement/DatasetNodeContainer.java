@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.ListIterator;
 import java.util.Vector;
 import java.util.logging.Logger;
-import org.timpgui.tgproject.nodes.TgdDataChildrenNode;
+import org.timpgui.tgproject.nodes.TimpDatasetNode;
 
 /**
  *
@@ -33,10 +33,10 @@ public final class DatasetNodeContainer extends Index.ArrayChildren {
       return list;
    }
 
-   public ListIterator<TgdDataChildrenNode> getRemaining(Node current) {
-      Vector<TgdDataChildrenNode> v = new Vector<TgdDataChildrenNode>();
+   public ListIterator<TimpDatasetNode> getRemaining(Node current) {
+      Vector<TimpDatasetNode> v = new Vector<TimpDatasetNode>();
       for (Node n : list.subList(indexOf(current), list.size())) {
-         v.add(n.getLookup().lookup(TgdDataChildrenNode.class));
+         v.add(n.getLookup().lookup(TimpDatasetNode.class));
       }
       return(v.listIterator());
    }

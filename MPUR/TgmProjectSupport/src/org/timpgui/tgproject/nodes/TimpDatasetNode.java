@@ -15,22 +15,26 @@ import org.openide.loaders.DataNode;
 import org.openide.nodes.AbstractNode;
 import org.openide.nodes.Children;
 import org.openide.util.ImageUtilities;
+import org.openide.util.Lookup;
 import org.timpgui.tgproject.datasets.TimpDatasetDataObject;
 
 /**
  *
  * @author lsp
  */
-public class TgdDataChildrenNode extends DataNode implements Transferable{
+public class TimpDatasetNode extends DataNode implements Transferable{
     private TimpDatasetDataObject tdo;
     private final Image ICON = ImageUtilities.loadImage("nl/vu/nat/tgmprojectsupport/doc.png", true);
-    public static final DataFlavor DATA_FLAVOR = new DataFlavor(TgdDataChildrenNode.class, "TgdDataChildrenNode");
+    public static final DataFlavor DATA_FLAVOR = new DataFlavor(TimpDatasetNode.class, "TimpDatasetNode");
 
-    public TgdDataChildrenNode(TimpDatasetDataObject tdo) {
+    public TimpDatasetNode(TimpDatasetDataObject tdo) {
         super(tdo,Children.LEAF);
         this.tdo = tdo;
-
     }
+
+   public TimpDatasetNode(TimpDatasetDataObject obj, Lookup lookup) {
+      super(obj, Children.LEAF, lookup);
+   }
 
     @Override
     public Image getIcon(int type) {

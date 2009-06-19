@@ -35,6 +35,8 @@ import org.openide.util.ImageUtilities;
 import org.openide.util.lookup.Lookups;
 
 import nl.vu.nat.tgmprojectsupport.TGProject;
+import org.netbeans.spi.project.ui.support.NodeFactorySupport;
+import org.openide.nodes.Children;
 
 
 /**
@@ -122,8 +124,7 @@ class TGProjectNodeFilter extends FilterNode.Children{
         }else if(file.equals(project.getResultsFolder(true))){
             return new TGResultsNode(node);
         }else{
- //           return new FilterNode(node); //TODO: remove
-            return null;
+           return new FilterNode(node);
         }
 
     }
@@ -134,7 +135,9 @@ class TGProjectNodeFilter extends FilterNode.Children{
         final String name = node.getName();
         if(name.equals("tgproject")){
             return new Node[0];
-        }else{
+        } else if(name.equals(".cache")) {
+            return new Node[0];
+        } else {
             return super.createNodes(node);
         }
     }

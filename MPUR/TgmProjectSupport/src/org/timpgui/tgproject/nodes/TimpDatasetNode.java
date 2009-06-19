@@ -16,7 +16,6 @@ import org.openide.nodes.Children;
 import org.openide.util.Exceptions;
 import org.openide.util.ImageUtilities;
 import org.openide.util.Lookup;
-import org.timpgui.tdatasets.DatasetTimp;
 import org.timpgui.tgproject.datasets.TimpDatasetDataObject;
 
 /**
@@ -42,7 +41,7 @@ public class TimpDatasetNode extends DataNode implements Transferable{
     }
 
    public TimpDatasetDataObject getObject(){
-       return tdo;
+       return obj;
    }
 
     @Override
@@ -79,20 +78,5 @@ public class TimpDatasetNode extends DataNode implements Transferable{
       } else {
          throw new UnsupportedFlavorException(flavor);
       }
-   }
-
-   public DatasetTimp getTimpDataset() {
-       DatasetTimp dataset = null;
-       InstanceCookie ck = obj.getLookup().lookup(InstanceCookie.class);
-       if (ck!=null) {
-            try {
-                dataset = (DatasetTimp) ck.instanceCreate();
-            } catch (IOException ex) {
-                Exceptions.printStackTrace(ex);
-            } catch (ClassNotFoundException ex) {
-                Exceptions.printStackTrace(ex);
-            }
-       }
-       return dataset;
    }
 }

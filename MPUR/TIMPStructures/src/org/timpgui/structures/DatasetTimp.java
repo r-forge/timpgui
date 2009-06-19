@@ -23,6 +23,7 @@ public final class DatasetTimp implements Serializable{
     private int[] orwidth;
     private double[] intenceIm;
     private String datasetName;
+    private String type;
 
 
     public DatasetTimp() {
@@ -40,7 +41,8 @@ public final class DatasetTimp implements Serializable{
 	orwidth[0] = 1;
         datasetName = "dataset1";
         maxInt = 0;
-        minInt = 0; 
+        minInt = 0;
+        type = null;
     }
     public DatasetTimp(int ntValue, int nlValue, int curveNumValue, String dataset) {      
         psisim = new double[ntValue*nlValue];
@@ -85,6 +87,7 @@ public final class DatasetTimp implements Serializable{
     public double GetMaxInt(){return maxInt;}
     public double GetMinInt(){return minInt;}
     public String GetDatasetName(){return datasetName;}
+    public String getType() {return type;}
     public void SetNt(int ntvalue){this.nt[0] = ntvalue;}
     public void SetNl(int nlvalue){this.nl[0] = nlvalue;}
     public void SetOrigHeigh(int orheighValue){orheigh[0] = orheighValue;}
@@ -93,7 +96,9 @@ public final class DatasetTimp implements Serializable{
     public void SetX(double[] xValue){x = xValue;}
     public void SetX2(double[] x2Value){x2 = x2Value;}
     public void SetIntenceIm(double[] x2Value){x2 = x2Value;} 
-    public void SetDatasetName(String dataName){this.datasetName=dataName;}
+    public void setDatasetName(String dataName){this.datasetName=dataName;}
+    public void setType(String type) {this.type = type;}
+
     public void LoadASCIIFile(File file) throws FileNotFoundException, IOException, IllegalAccessException, InstantiationException {
         datasetName = file.getName();
         maxInt = 0;

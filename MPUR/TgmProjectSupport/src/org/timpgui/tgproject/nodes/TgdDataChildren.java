@@ -80,8 +80,8 @@ public class TgdDataChildren extends Children.Keys {
     @Override
     protected Node[] createNodes(Object key) {
        TimpDatasetDataObject datasetObject = (TimpDatasetDataObject) key;
-       TimpDatasetNode tn = new TimpDatasetNode(datasetObject);
-       return new Node[] {tn};
+       //TimpDatasetNode tn = (TimpDatasetNode) datasetObject.getNodeDelegate();//new TimpDatasetNode(datasetObject);
+       return new Node[] {datasetObject.getNodeDelegate()};
     }
 
     @Override

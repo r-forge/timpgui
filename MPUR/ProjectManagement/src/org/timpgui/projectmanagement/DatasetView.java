@@ -69,7 +69,7 @@ class DatasetView extends TreeTableView {
                ExplorerManager.find(getParent()).getRootContext().getChildren().add(new Node[]{new TimpDatasetNode((TimpDatasetDataObject)n.getDataObject())});
             } catch(Exception e) {
                e.printStackTrace();
-               dtde.rejectDrop();
+               //dtde.rejectDrop();
             }
          }
 

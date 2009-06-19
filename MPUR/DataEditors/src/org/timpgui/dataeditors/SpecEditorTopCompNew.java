@@ -445,7 +445,8 @@ private void jBMakeDatasetActionPerformed(java.awt.event.ActionEvent evt) {//GEN
 
     if (res.equals(NotifyDescriptor.OK_OPTION)){
         DatasetTimp newdataset = new DatasetTimp();
-        newdataset.SetDatasetName(datasetNameDialod.getInputText());
+        newdataset.setDatasetName(datasetNameDialod.getInputText());
+        newdataset.setType("spec");
         FileObject cachefolder = null;
         final TGProject proj = (TGProject) OpenProjects.getDefault().getMainProject();
         if (proj!=null){

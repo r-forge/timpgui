@@ -10,12 +10,13 @@ import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
 import java.awt.datatransfer.UnsupportedFlavorException;
 import java.io.IOException;
-import org.openide.filesystems.FileObject;
+import org.openide.cookies.InstanceCookie;
 import org.openide.loaders.DataNode;
-import org.openide.nodes.AbstractNode;
 import org.openide.nodes.Children;
+import org.openide.util.Exceptions;
 import org.openide.util.ImageUtilities;
 import org.openide.util.Lookup;
+import org.timpgui.tdatasets.DatasetTimp;
 import org.timpgui.tgproject.datasets.TimpDatasetDataObject;
 
 /**
@@ -23,18 +24,22 @@ import org.timpgui.tgproject.datasets.TimpDatasetDataObject;
  * @author lsp
  */
 public class TimpDatasetNode extends DataNode implements Transferable{
-    private TimpDatasetDataObject tdo;
+    private TimpDatasetDataObject obj;
     private final Image ICON = ImageUtilities.loadImage("nl/vu/nat/tgmprojectsupport/doc.png", true);
+    private static final String IMAGE_ICON_BASE = "nl/vu/nat/tgmfilesupport/povicon.gif";
     public static final DataFlavor DATA_FLAVOR = new DataFlavor(TimpDatasetNode.class, "TimpDatasetNode");
 
-    public TimpDatasetNode(TimpDatasetDataObject tdo) {
-        super(tdo,Children.LEAF);
-        this.tdo = tdo;
+    public TimpDatasetNode(TimpDatasetDataObject obj) {
+        super(obj, Children.LEAF);
+        this.obj=obj;
+        setIconBaseWithExtension(IMAGE_ICON_BASE);
     }
 
-   public TimpDatasetNode(TimpDatasetDataObject obj, Lookup lookup) {
-      super(obj, Children.LEAF, lookup);
-   }
+    TimpDatasetNode(TimpDatasetDataObject obj, Lookup lookup) {
+        super(obj, Children.LEAF, lookup);
+        this.obj=obj;
+        setIconBaseWithExtension(IMAGE_ICON_BASE);
+    }
 
     @Override
     public Image getIcon(int type) {
@@ -48,7 +53,7 @@ public class TimpDatasetNode extends DataNode implements Transferable{
 
     @Override
     public String getDisplayName() {
-        return tdo.getName();
+        return obj.getName();
     }
 
     @Override
@@ -70,5 +75,20 @@ public class TimpDatasetNode extends DataNode implements Transferable{
       } else {
          throw new UnsupportedFlavorException(flavor);
       }
+   }
+
+   public DatasetTimp getTimpDataset() {
+       DatasetTimp dataset = null;
+       InstanceCookie ck = obj.getLookup().lookup(InstanceCookie.class);
+       if (ck!=null) {
+            try {
+                dataset = (DatasetTimp) ck.instanceCreate();
+            } catch (IOException ex) {
+                Exceptions.printStackTrace(ex);
+            } catch (ClassNotFoundException ex) {
+                Exceptions.printStackTrace(ex);
+            }
+       }
+       return dataset;
    }
 }

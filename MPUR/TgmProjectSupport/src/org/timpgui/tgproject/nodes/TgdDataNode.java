@@ -8,7 +8,7 @@ import org.timpgui.tgproject.datasets.*;
 import org.openide.loaders.DataNode;
 import org.openide.util.Lookup;
 
-public class TgdDataNode extends DataNode {
+public class TgdDataNode extends DataNode{
 
     private static final String IMAGE_ICON_BASE = "nl/vu/nat/tgmfilesupport/povicon.gif";
     //public static final DataFlavor DATA_FLAVOR = new DataFlavor(TgdDataNode.class, "TgdDataNode");
@@ -17,7 +17,8 @@ public class TgdDataNode extends DataNode {
     public TgdDataNode(TgdDataObject obj) {
         super(obj,new TgdDataChildren(obj));
         this.obj = obj;
-        setIconBaseWithExtension(IMAGE_ICON_BASE);                                       
+        setIconBaseWithExtension(IMAGE_ICON_BASE);
+
     }
 
     TgdDataNode(TgdDataObject obj, Lookup lookup) {
@@ -26,4 +27,5 @@ public class TgdDataNode extends DataNode {
         setIconBaseWithExtension(IMAGE_ICON_BASE);
     }
 
+ 
 }

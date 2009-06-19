@@ -5,6 +5,7 @@
 
 package org.timpgui.tgproject.nodes;
 
+import java.beans.PropertyChangeEvent;
 import java.io.IOException;
 
 import java.util.ArrayList;
@@ -16,7 +17,12 @@ import org.openide.loaders.DataObject;
 import org.openide.loaders.DataObjectNotFoundException;
 import org.openide.nodes.Children;
 import org.openide.nodes.Node;
+import org.openide.nodes.NodeEvent;
+import org.openide.nodes.NodeListener;
+import org.openide.nodes.NodeMemberEvent;
+import org.openide.nodes.NodeReorderEvent;
 import org.openide.util.Exceptions;
+import org.openide.util.lookup.Lookups;
 import org.timpgui.tgproject.datasets.TDLayerDataset;
 import org.timpgui.tgproject.datasets.TgdDataObject;
 import org.timpgui.tgproject.datasets.TimpDatasetDataObject;
@@ -25,7 +31,7 @@ import org.timpgui.tgproject.datasets.TimpDatasetDataObject;
  *
  * @author lsp
  */
-class TgdDataChildren extends Children.Keys {
+class TgdDataChildren extends Children.Keys implements NodeListener{
 
     private TgdDataObject obj;
 
@@ -65,6 +71,37 @@ class TgdDataChildren extends Children.Keys {
        TimpDatasetDataObject datasetObject = (TimpDatasetDataObject) key;
        TimpDatasetNode tn = new TimpDatasetNode(datasetObject);
        return new Node[] {tn};
+    }
+
+    @Override
+    public boolean remove(Node[] arg0) {
+        try {
+            arg0[0].destroy();
+        } catch (IOException ex) {
+            Exceptions.printStackTrace(ex);
+        }
+        this.refresh();
+        return super.remove(arg0);
+    }
+
+    public void childrenAdded(NodeMemberEvent ev) {
+        System.out.print("blblb");
+    }
+
+    public void childrenRemoved(NodeMemberEvent ev) {
+        System.out.print("blblb");
+    }
+
+    public void childrenReordered(NodeReorderEvent ev) {
+        System.out.print("blblb");
+    }
+
+    public void nodeDestroyed(NodeEvent ev) {
+        System.out.print("blblb");
+    }
+
+    public void propertyChange(PropertyChangeEvent evt) {
+        System.out.print("blblb");
     }
 
 }

@@ -19,6 +19,7 @@ import javax.tools.FileObject;
 import org.openide.explorer.ExplorerManager;
 import org.openide.explorer.view.TreeTableView;
 import org.openide.nodes.Node;
+import org.timpgui.tgproject.datasets.TimpDatasetDataObject;
 import org.timpgui.tgproject.nodes.TimpDatasetNode;
 import org.timpgui.tgproject.nodes.TgdDataNode;
 
@@ -65,7 +66,7 @@ class DatasetView extends TreeTableView {
                TimpDatasetNode n = (TimpDatasetNode)dtde.getTransferable().getTransferData(TimpDatasetNode.DATA_FLAVOR);
                //   TopComponent currentTopComponent = (TopComponent)Utilities.actionsGlobalContext().lookup(TopComponent.class);
                // ExplorerManager.find(currentTopComponent).getRootContext().getChildren().add(new Node[]{n});
-               ExplorerManager.find(getParent()).getRootContext().getChildren().add(new Node[]{n});
+               ExplorerManager.find(getParent()).getRootContext().getChildren().add(new Node[]{new TimpDatasetNode((TimpDatasetDataObject)n.getDataObject())});
             } catch(Exception e) {
                e.printStackTrace();
                dtde.rejectDrop();

@@ -122,8 +122,10 @@ class TGProjectNodeFilter extends FilterNode.Children{
         }else if(file.equals(project.getResultsFolder(true))){
             return new TGResultsNode(node);
         }else{
-            return new FilterNode(node); //TODO: remove
+ //           return new FilterNode(node); //TODO: remove
+            return null;
         }
+
     }
 
 

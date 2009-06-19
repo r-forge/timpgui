@@ -4,6 +4,8 @@
  */
 package org.timpgui.tgproject.actions;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.Collection;
 import org.openide.DialogDisplayer;
 import org.openide.NotifyDescriptor;
@@ -22,10 +24,10 @@ import org.timpgui.tgproject.datasets.TgdDataObject;
 import org.timpgui.tgproject.datasets.TimpDatasetDataObject;
 
 public final class ShowTimpDataset extends CookieAction {
-    
+
     private final Collection<? extends DatasetLoaderInterface> services;
 
-    public ShowTimpDataset(){
+    public ShowTimpDataset() {
         services = Lookup.getDefault().lookupAll(DatasetLoaderInterface.class);
     }
 
@@ -33,31 +35,26 @@ public final class ShowTimpDataset extends CookieAction {
         String filename, filetype;
         TimpDatasetDataObject dataObject = activatedNodes[0].getLookup().lookup(TimpDatasetDataObject.class);
         String datatype = null;
-        if (!(dataObject==null)){
+        if (!(dataObject == null)) {
             DatasetTimp dataset = null;
-            try {
-                dataset = dataObject.getDatasetTimp();
-            } catch (DataObjectNotFoundException ex) {
-                Exceptions.printStackTrace(ex);
+            dataset = dataObject.getDatasetTimp();
+            if (dataset != null) {
+                datatype = dataset.getType();
             }
-
-            if(dataset!=null){datatype = dataset.getType();}
-
             for (final DatasetLoaderInterface service : services) {
-                if (service.getType().equalsIgnoreCase(datatype)){
+                if (service.getType().equalsIgnoreCase(datatype)) {
                     service.openDatasetEditor(dataset);
                 }
 
             }
 
-            //filename = FileUtil.toFile(dataObject.getPrimaryFile()).getAbsolutePath();
+        //filename = FileUtil.toFile(dataObject.getPrimaryFile()).getAbsolutePath();
 //            filename = dataObject.getPrimaryFile().getPath().concat(dataObject. getPrimaryFile().getName());
 //            Confirmation msg = new NotifyDescriptor.Confirmation(filename, NotifyDescriptor.OK_CANCEL_OPTION);
 //                DialogDisplayer.getDefault().notify(msg);
-        }else
-        {
+        } else {
             Confirmation msg = new NotifyDescriptor.Confirmation("2Bla 2bla 2bla", NotifyDescriptor.OK_CANCEL_OPTION);
-                DialogDisplayer.getDefault().notify(msg);
+            DialogDisplayer.getDefault().notify(msg);
         }
 
     }

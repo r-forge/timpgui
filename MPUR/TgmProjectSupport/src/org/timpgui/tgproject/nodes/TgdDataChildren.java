@@ -10,6 +10,7 @@ import java.io.IOException;
 
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.event.ChangeListener;
 import nl.vu.nat.tgmprojectsupport.TGProject;
 import org.netbeans.api.project.ui.OpenProjects;
 import org.openide.filesystems.FileObject;
@@ -31,7 +32,8 @@ import org.timpgui.tgproject.datasets.TimpDatasetDataObject;
  *
  * @author lsp
  */
-class TgdDataChildren extends Children.Keys implements NodeListener{
+
+public class TgdDataChildren extends Children.Keys {
 
     private TgdDataObject obj;
 
@@ -40,6 +42,7 @@ class TgdDataChildren extends Children.Keys implements NodeListener{
     private FileObject cachefolder;
     private FileObject datasetfolder;
     private FileObject[] files;
+    private ChangeListener listener;
 
     public TgdDataChildren(TgdDataObject obj) {
         this.obj=obj;
@@ -59,6 +62,14 @@ class TgdDataChildren extends Children.Keys implements NodeListener{
             }
         }
 
+
+    }
+
+    public void addObj(TimpDatasetDataObject objToAdd){
+        if (datasets!=null){
+             datasets.add(objToAdd);
+        }
+        setKeys(datasets);
     }
 
     @Override
@@ -75,33 +86,11 @@ class TgdDataChildren extends Children.Keys implements NodeListener{
 
     @Override
     public boolean remove(Node[] arg0) {
-        try {
-            arg0[0].destroy();
-        } catch (IOException ex) {
-            Exceptions.printStackTrace(ex);
-        }
-        this.refresh();
-        return super.remove(arg0);
+        TimpDatasetNode node = (TimpDatasetNode)arg0[0];
+        datasets.remove(node.getObject());
+        setKeys(datasets);
+        return true;
     }
 
-    public void childrenAdded(NodeMemberEvent ev) {
-        System.out.print("blblb");
-    }
-
-    public void childrenRemoved(NodeMemberEvent ev) {
-        System.out.print("blblb");
-    }
-
-    public void childrenReordered(NodeReorderEvent ev) {
-        System.out.print("blblb");
-    }
-
-    public void nodeDestroyed(NodeEvent ev) {
-        System.out.print("blblb");
-    }
-
-    public void propertyChange(PropertyChangeEvent evt) {
-        System.out.print("blblb");
-    }
 
 }

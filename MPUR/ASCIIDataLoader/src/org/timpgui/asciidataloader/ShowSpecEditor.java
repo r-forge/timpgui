@@ -6,7 +6,7 @@
 package org.timpgui.asciidataloader;
 
 import org.timpgui.dataeditors.SpecEditorTopCompNew;
-import org.timpgui.dataeditors.SpecEditorTopComponent;
+import org.timpgui.structures.DatasetTimp;
 import org.timpgui.tgproject.datasets.DatasetLoaderInterface;
 import org.timpgui.tgproject.datasets.TgdDataObject;
 
@@ -20,7 +20,6 @@ public class ShowSpecEditor implements DatasetLoaderInterface{
         return "spec";
     }
 
-
     public void openDatasetEditor(TgdDataObject dataObj) {
         SpecEditorTopCompNew tc = new SpecEditorTopCompNew(dataObj);
         tc.open();
@@ -28,4 +27,9 @@ public class ShowSpecEditor implements DatasetLoaderInterface{
 //        SpecEditorTopComponent tc = new SpecEditorTopComponent(filename);
     }
 
+    public void openDatasetEditor(DatasetTimp dataObj) {
+        SpecEditorTopCompNew tc = new SpecEditorTopCompNew(dataObj);
+        tc.open();
+        tc.requestActive();
+    }
 }

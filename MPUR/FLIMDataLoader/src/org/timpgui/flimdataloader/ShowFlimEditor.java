@@ -6,6 +6,7 @@
 package org.timpgui.flimdataloader;
 
 import org.timpgui.flimdataloader.editor.SdtTopComponent;
+import org.timpgui.structures.DatasetTimp;
 import org.timpgui.tgproject.datasets.DatasetLoaderInterface;
 import org.timpgui.tgproject.datasets.TgdDataObject;
 
@@ -23,6 +24,10 @@ public class ShowFlimEditor implements  DatasetLoaderInterface{
         SdtTopComponent tc = new SdtTopComponent(dataObj);
         tc.open();
         tc.requestActive();
+    }
+
+    public void openDatasetEditor(DatasetTimp dataObj) {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 
 }

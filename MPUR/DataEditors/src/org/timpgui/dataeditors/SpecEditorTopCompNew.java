@@ -15,6 +15,7 @@ import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.logging.Logger;
 import javax.swing.JDialog;
+import nl.vu.nat.tgmprojectsupport.TGProject;
 import nl.wur.flim.jfreechartcustom.ColorCodedImageDataset;
 import nl.wur.flim.jfreechartcustom.ImageCrosshairLabelGenerator;
 import nl.wur.flim.jfreechartcustom.RainbowPaintScale;
@@ -49,6 +50,7 @@ import org.openide.NotifyDescriptor.Confirmation;
 import org.openide.NotifyDescriptor.Exception;
 import org.openide.filesystems.FileObject;
 import org.openide.filesystems.Repository;
+import org.openide.loaders.DataObject;
 import org.openide.util.Exceptions;
 import org.openide.util.NbBundle;
 import org.openide.windows.CloneableTopComponent;
@@ -56,6 +58,8 @@ import org.openide.windows.TopComponent;
 import org.openide.windows.WindowManager;
 import org.timpgui.structures.DatasetTimp;
 import org.timpgui.tgproject.datasets.TgdDataObject;
+import org.timpgui.tgproject.datasets.TimpDatasetDataObject;
+import org.timpgui.tgproject.nodes.TgdDataChildren;
 
 
 
@@ -89,7 +93,7 @@ final public class SpecEditorTopCompNew extends CloneableTopComponent { //implem
 //        setIcon(Utilities.loadImage(ICON_PATH, true));
     }
 
-    public SpecEditorTopCompNew(TgdDataObject dataObj) {
+     public SpecEditorTopCompNew(TgdDataObject dataObj) {
         String filename;
         dataObject = dataObj;
         initComponents();
@@ -129,6 +133,15 @@ final public class SpecEditorTopCompNew extends CloneableTopComponent { //implem
         } catch (InstantiationException ex) {
             System.out.println("InstantiationException");
         }
+
+    }
+
+    public SpecEditorTopCompNew(DatasetTimp dataObj) {
+        initComponents();
+        data = dataObj;
+        setName((String)data.GetDatasetName());
+        setToolTipText(NbBundle.getMessage(SpecEditorTopCompNew.class, "HINT_StreakLoaderTopComponent"));        
+        MakeImageChart(MakeXYZDataset());
 
     }
 
@@ -419,51 +432,53 @@ final public class SpecEditorTopCompNew extends CloneableTopComponent { //implem
 
 private void jBMakeDatasetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBMakeDatasetActionPerformed
 
-        JDialog dialog = new JDialog(WindowManager.getDefault().getMainWindow(), "Module Explorer", true);
-        dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-        dialog.setContentPane(new NewDatasetNameDialog());
-        dialog.setSize(300, 200);
-        dialog.setVisible(true);
+//        JDialog dialog = new JDialog(WindowManager.getDefault().getMainWindow(), "Module Explorer", true);
+//        dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+//        dialog.setContentPane(new NewDatasetNameDialog());
+//        dialog.setSize(300, 200);
+//        dialog.setVisible(true);
+//      
+    NotifyDescriptor.InputLine datasetNameDialod = new NotifyDescriptor.InputLine(
+            "Dataset name",
+            "Please specify the name for a dataset");
+    Object res = DialogDisplayer.getDefault().notify(datasetNameDialod);
+
+    if (res.equals(NotifyDescriptor.OK_OPTION)){
+        DatasetTimp newdataset = new DatasetTimp();
+        newdataset.SetDatasetName(datasetNameDialod.getInputText());
+        FileObject cachefolder = null;
+        final TGProject proj = (TGProject) OpenProjects.getDefault().getMainProject();
+        if (proj!=null){
+            cachefolder = proj.getCacheFolder(true);
+        } else {
+            Confirmation msg = new NotifyDescriptor.Confirmation("Select main project", NotifyDescriptor.ERROR_MESSAGE);
+            DialogDisplayer.getDefault().notify(msg);
+        }
+        cachefolder = cachefolder.getFileObject(dataObject.getTgd().getCacheFolderName().toString());
+
+
+        //FileObject folder = Repository.getDefault().getDefaultFileSystem().getRoot();
+
+        FileObject writeTo;
+            try {
+                writeTo = cachefolder.createData(newdataset.GetDatasetName(), "timpdataset");
+                ObjectOutputStream stream = new ObjectOutputStream(writeTo.getOutputStream());
+                stream.writeObject(newdataset);
+                stream.close();
+                TimpDatasetDataObject dObj = (TimpDatasetDataObject) DataObject.find(writeTo);
+                TgdDataChildren chidrens = (TgdDataChildren) dataObject.getNodeDelegate().getChildren();
+                chidrens.addObj(dObj);
+            } catch (IOException ex) {
+                Exceptions.printStackTrace(ex);
+            }
+
+    }
 
     //TODO ======================
     //Check if all parameters are ok
     //endTODO=====================
     //create timpdataset.
-    DatasetTimp newdataset = new DatasetTimp();
-    newdataset.SetDatasetName(inputDatasetName.getText());
 
-    FileObject cachefolder = null;
-    final Project proj = OpenProjects.getDefault().getMainProject();
-    if (proj!=null){
-        cachefolder = proj.getProjectDirectory();
-    } else {
-        Confirmation msg = new NotifyDescriptor.Confirmation("Select main project", NotifyDescriptor.ERROR_MESSAGE);
-        DialogDisplayer.getDefault().notify(msg);
-    }
-    
-    cachefolder = cachefolder.getFileObject(".cache");
-    cachefolder = cachefolder.getFileObject(dataObject.getTgd().getCacheFolderName().toString());
-
-
-    //FileObject folder = Repository.getDefault().getDefaultFileSystem().getRoot();
-
-    FileObject writeTo;
-        try {
-            writeTo = cachefolder.createData(newdataset.GetDatasetName(), "timpdataset");
-            ObjectOutputStream stream = new ObjectOutputStream(writeTo.getOutputStream());
-            stream.writeObject(newdataset);
-            stream.close();
-        } catch (IOException ex) {
-            Exceptions.printStackTrace(ex);
-        }
-
-
-
-
-
-
-
- 
     
   //  InstanceCookie ck = DataObject.find(folder).getNodeDelegate().getLookup()lookup(InstanceCookie.class);
 

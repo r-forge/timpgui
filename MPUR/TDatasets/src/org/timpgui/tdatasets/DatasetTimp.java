@@ -6,11 +6,12 @@ package org.timpgui.tdatasets;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.Scanner;
 import java.util.Vector;
 import static java.lang.Math.sqrt;
 
-public final class DatasetTimp {
+public final class DatasetTimp implements Serializable{
     private double maxInt;
     private double minInt;
     private double[] psisim;

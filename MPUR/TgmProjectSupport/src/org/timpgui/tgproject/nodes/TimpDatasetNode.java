@@ -41,6 +41,10 @@ public class TimpDatasetNode extends DataNode implements Transferable{
         setIconBaseWithExtension(IMAGE_ICON_BASE);
     }
 
+   public TimpDatasetDataObject getObject(){
+       return tdo;
+   }
+
     @Override
     public Image getIcon(int type) {
         return ICON;

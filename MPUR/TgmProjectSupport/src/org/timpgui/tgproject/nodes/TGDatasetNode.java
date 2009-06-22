@@ -78,6 +78,9 @@ public class TGDatasetNode extends FilterNode {
 
     @Override
     public boolean canRename() {
+        if (this.getParentNode() instanceof TGDatasetNode){
+            return true;
+        }
         return false;
     }
 
@@ -108,6 +111,8 @@ public class TGDatasetNode extends FilterNode {
         TGDatasetChildrenNode(Node node) {
             super(node);
         }
+
+
 
         @Override
         protected Node[] createNodes(Node n) {

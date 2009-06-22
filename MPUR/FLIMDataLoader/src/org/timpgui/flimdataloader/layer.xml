@@ -87,14 +87,6 @@
             </file>
         </folder>
     </folder>
-    <folder name="Templates">
-        <folder name="Other">
-            <file name="SdtTemplate.sdt" url="SdtTemplate.sdt">
-                <attr name="SystemFileSystem.localizingBundle" stringvalue="org.timpgui.flimdataloader.Bundle"/>
-                <attr name="template" boolvalue="true"/>
-            </file>
-        </folder>
-    </folder>
     <folder name="Windows2">
         <folder name="Components">
             <file name="SdtTopComponent.settings" url="SdtTopComponentSettings.xml"/>

@@ -475,9 +475,7 @@ private void jBMakeDatasetActionPerformed(java.awt.event.ActionEvent evt) {//GEN
 
     }
 
-    //TODO ======================
-    //Check if all parameters are ok
-    //endTODO=====================
+    //TODO: Check if all parameters are ok
     //create timpdataset.
 
     

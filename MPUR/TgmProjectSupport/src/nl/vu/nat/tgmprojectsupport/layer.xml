@@ -218,15 +218,7 @@
     </folder>
     <folder name="Templates">
         <folder name="Other">
-            <file name="TgdTemplate.xml" url="TgdTemplate.xml">
-                <attr name="SystemFileSystem.localizingBundle" stringvalue="nl.vu.nat.tgmprojectsupport.Bundle"/>
-                <attr name="template" boolvalue="true"/>
-            </file>
             <file name="TgpTemplate.xml" url="TgpTemplate.xml">
-                <attr name="SystemFileSystem.localizingBundle" stringvalue="nl.vu.nat.tgmprojectsupport.Bundle"/>
-                <attr name="template" boolvalue="true"/>
-            </file>
-            <file name="TimpDatasetTemplate.timpdataset" url="TimpDatasetTemplate.timpdataset">
                 <attr name="SystemFileSystem.localizingBundle" stringvalue="nl.vu.nat.tgmprojectsupport.Bundle"/>
                 <attr name="template" boolvalue="true"/>
             </file>

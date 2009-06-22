@@ -88,10 +88,10 @@ public final class OpenDataset extends CookieAction {
                                                 // We marshal the data to a new xml file
                                                 marshaller.marshal(tgd, out);
                                             } catch (javax.xml.bind.JAXBException ex) {
-                                                // XXXTODO Handle exception
+                                                // TODO Handle exception
                                                 java.util.logging.Logger.getLogger("global").log(java.util.logging.Level.SEVERE, null, ex); //NOI18N
                                             }
-                                            //END TODO
+
                                         }
                                     } catch (IOException ex) {
                                         Exceptions.printStackTrace(ex);

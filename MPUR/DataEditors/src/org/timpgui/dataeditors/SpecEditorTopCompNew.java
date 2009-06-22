@@ -14,7 +14,6 @@ import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.logging.Logger;
-import javax.swing.JDialog;
 import nl.vu.nat.tgmprojectsupport.TGProject;
 import nl.wur.flim.jfreechartcustom.ColorCodedImageDataset;
 import nl.wur.flim.jfreechartcustom.ImageCrosshairLabelGenerator;
@@ -27,29 +26,27 @@ import org.jfree.chart.JFreeChart;
 import org.jfree.chart.annotations.XYDataImageAnnotation;
 import org.jfree.chart.axis.AxisLocation;
 import org.jfree.chart.axis.NumberAxis;
+import org.jfree.chart.event.ChartChangeEvent;
+import org.jfree.chart.event.ChartChangeListener;
 import org.jfree.chart.panel.CrosshairOverlay;
 import org.jfree.chart.plot.Crosshair;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.plot.XYPlot;
 import org.jfree.chart.renderer.PaintScale;
 import org.jfree.chart.title.PaintScaleLegend;
+import org.jfree.data.Range;
 import org.jfree.data.xy.DefaultXYZDataset;
 import org.jfree.data.xy.XYDataset;
-import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 import org.jfree.ui.Layer;
 import org.jfree.ui.RectangleAnchor;
 import org.jfree.ui.RectangleEdge;
 import org.jfree.ui.RectangleInsets;
-import org.netbeans.api.project.Project;
 import org.netbeans.api.project.ui.OpenProjects;
-import org.openide.DialogDescriptor;
 import org.openide.DialogDisplayer;
 import org.openide.NotifyDescriptor;
 import org.openide.NotifyDescriptor.Confirmation;
-import org.openide.NotifyDescriptor.Exception;
 import org.openide.filesystems.FileObject;
-import org.openide.filesystems.Repository;
 import org.openide.loaders.DataObject;
 import org.openide.util.Exceptions;
 import org.openide.util.NbBundle;
@@ -66,7 +63,8 @@ import org.timpgui.tgproject.nodes.TgdDataChildren;
 /**
  * Top component which displays something.
  */
-final public class SpecEditorTopCompNew extends CloneableTopComponent { //implements ChartMouseListener {
+final public class SpecEditorTopCompNew extends CloneableTopComponent 
+        implements ChartChangeListener { //implements ChartMouseListener {
 
     private static SpecEditorTopCompNew instance;
     /** path to the icon used by the component and its open action */
@@ -74,16 +72,20 @@ final public class SpecEditorTopCompNew extends CloneableTopComponent { //implem
 
     private static final String PREFERRED_ID = "SpecEditorTopComponent";
     
-    private JFreeChart chart;
-    private JFreeChart subchart1;
-    private JFreeChart subchart2;
+    private JFreeChart chartMain;
+    private JFreeChart subchartTimeTrace;
+    private JFreeChart subchartWaveTrace;
     private Crosshair crosshair1;
     private Crosshair crosshair2;
     private ChartPanel chpanImage;
-    private XYSeriesCollection timeTracesCollection, waveTracesCollection;
+    //private XYSeriesCollection timeTracesCollection, waveTracesCollection;
     private DatasetTimp data;
     private ColorCodedImageDataset dataset;
     private TgdDataObject dataObject;
+    private Range lastXRange;
+    private Range lastYRange;
+    private Range wholeXRange;
+    private Range wholeYRange;
 
     public SpecEditorTopCompNew() {
         data = new DatasetTimp();
@@ -432,21 +434,53 @@ final public class SpecEditorTopCompNew extends CloneableTopComponent { //implem
 
 private void jBMakeDatasetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBMakeDatasetActionPerformed
 
-//        JDialog dialog = new JDialog(WindowManager.getDefault().getMainWindow(), "Module Explorer", true);
-//        dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-//        dialog.setContentPane(new NewDatasetNameDialog());
-//        dialog.setSize(300, 200);
-//        dialog.setVisible(true);
-//      
+    int startX, startY, endX, endY;
+    int newWidth, newHeight;
+
     NotifyDescriptor.InputLine datasetNameDialod = new NotifyDescriptor.InputLine(
             "Dataset name",
             "Please specify the name for a dataset");
     Object res = DialogDisplayer.getDefault().notify(datasetNameDialod);
 
     if (res.equals(NotifyDescriptor.OK_OPTION)){
-        DatasetTimp newdataset = data;
+        DatasetTimp newdataset = new DatasetTimp(); //data;
         newdataset.setDatasetName(datasetNameDialod.getInputText());
         newdataset.setType("spec");
+
+        startX = (int)(this.lastXRange.getLowerBound());
+        endX = (int)(this.lastXRange.getUpperBound())-1;
+        startY = (int)(this.wholeYRange.getUpperBound() - this.lastYRange.getUpperBound());
+        endY = (int)(this.wholeYRange.getUpperBound() - this.lastYRange.getLowerBound())-1;
+        newWidth = endX - startX+1;
+        newHeight = endY - startY+1;
+
+        double[] newvec = new double[newWidth];
+   
+        for (int i = 0; i<newWidth; i++){
+            newvec[i]=data.GetX2()[i+startX];
+        }
+        newdataset.SetX2(newvec);
+        newdataset.SetNl(newWidth);
+
+        newvec = new double[newHeight];
+        for (int i = 0; i<newHeight; i++){
+            newvec[i]=data.GetX()[i+startY];
+        }
+        newdataset.SetX(newvec);
+        newdataset.SetNt(newHeight);
+
+        newvec = new double[newHeight*newWidth];
+
+        for (int i = 0; i < newWidth; i++){
+            for (int j = 0; j < newHeight; j++){
+                newvec[(i)*newHeight+j] = data.GetPsisim()[(startX+i-1)*data.GetNt()[0]+startY+j-1];
+            }
+        }
+        newdataset.SetPsisim(newvec);
+        newdataset.CalcRangeInt();
+
+
+
         FileObject cachefolder = null;
         final TGProject proj = (TGProject) OpenProjects.getDefault().getMainProject();
         if (proj!=null){
@@ -456,6 +490,9 @@ private void jBMakeDatasetActionPerformed(java.awt.event.ActionEvent evt) {//GEN
             DialogDisplayer.getDefault().notify(msg);
         }
         cachefolder = cachefolder.getFileObject(dataObject.getTgd().getCacheFolderName().toString());
+
+ //TODO check if all parameters are ok
+ //create timpdataset.
 
 
         //FileObject folder = Repository.getDefault().getDefaultFileSystem().getRoot();
@@ -495,16 +532,16 @@ private void jPSpecImageMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST
 
 private void jSRowStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jSRowStateChanged
     crosshair2.setValue(dataset.GetImageHeigth()-jSRow.getValue());
-    int xIndex = jSRow.getValue() - jSRow.getMinimum();
+    int xIndex = jSRow.getValue();// - jSRow.getMinimum();
     XYDataset d = ImageUtilities.extractRowFromImageDataset(dataset, xIndex, "Spec");
-    subchart2.getXYPlot().setDataset(d);
+    subchartWaveTrace.getXYPlot().setDataset(d);
 }//GEN-LAST:event_jSRowStateChanged
 
 private void jSColumStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jSColumStateChanged
     crosshair1.setValue(jSColum.getValue());
-    int xIndex = jSColum.getValue() - jSColum.getMinimum();
+    int xIndex = jSColum.getValue();// - jSColum.getMinimum();
     XYDataset d = ImageUtilities.extractColumnFromImageDataset(dataset, xIndex, "Spec");
-    subchart1.getXYPlot().setDataset(d);
+    subchartTimeTrace.getXYPlot().setDataset(d);
 }//GEN-LAST:event_jSColumStateChanged
 
 
@@ -599,27 +636,27 @@ private void jSColumStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST
         }
     }
     
-     private XYSeriesCollection PlotFirstTrace(boolean mode){
-        if (mode){
-             timeTracesCollection = new XYSeriesCollection();
-             XYSeries seria = new XYSeries("TimeTrace");
-             for (int j=0; j<data.GetNt()[0]; j++){
-                 seria.add(data.GetX()[j], data.GetPsisim()[j]);
-             }
-            timeTracesCollection.addSeries(seria);
-            return timeTracesCollection;         
-        }
-        else {
-            waveTracesCollection = new XYSeriesCollection();
-            XYSeries seria = new XYSeries("WaveTrace");
-            for (int j=0; j<data.GetNl()[0]; j++){
-                seria.add(data.GetX2()[j], data.GetPsisim()[j*data.GetNt()[0]]);
-            }
-            waveTracesCollection.addSeries(seria);
-            return waveTracesCollection;         
-            
-        }
-    }
+//     private XYSeriesCollection PlotFirstTrace(boolean mode){
+//        if (mode){
+//             timeTracesCollection = new XYSeriesCollection();
+//             XYSeries seria = new XYSeries("TimeTrace");
+//             for (int j=0; j<data.GetNt()[0]; j++){
+//                 seria.add(data.GetX()[j], data.GetPsisim()[j]);
+//             }
+//            timeTracesCollection.addSeries(seria);
+//            return timeTracesCollection;
+//        }
+//        else {
+//            waveTracesCollection = new XYSeriesCollection();
+//            XYSeries seria = new XYSeries("WaveTrace");
+//            for (int j=0; j<data.GetNl()[0]; j++){
+//                seria.add(data.GetX2()[j], data.GetPsisim()[j*data.GetNt()[0]]);
+//            }
+//            waveTracesCollection.addSeries(seria);
+//            return waveTracesCollection;
+//
+//        }
+//    }
     
 //    private void UpdateSelectedTimeTrace(int index){
 //        timeTracesCollection.getSeries(0).clear();
@@ -699,6 +736,62 @@ private void jSColumStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST
         return dataset;
     }
 
+   public void chartChanged(ChartChangeEvent event) {
+        XYPlot plot = this.chartMain.getXYPlot();
+        double lowBound = plot.getDomainAxis().getRange().getLowerBound();
+        double upBound = plot.getDomainAxis().getRange().getUpperBound();
+        boolean recreate = false;
+        int lowInd, upInd;
+
+        if (lowBound < wholeXRange.getLowerBound()) {
+            lowBound = wholeXRange.getLowerBound();
+            recreate = true;            
+        }
+        if (upBound > wholeXRange.getUpperBound()) {
+            upBound = wholeXRange.getUpperBound();
+            recreate = true;                        
+        }
+        if (recreate){
+            plot.getDomainAxis().setRange(new Range(lowBound, upBound));
+//            this.chartMain.getPlot().getDomainAxis().setRange(new Range(lowBound, upBound));
+        }
+        recreate = false;   
+        lowBound = plot.getRangeAxis().getRange().getLowerBound();
+        upBound = plot.getRangeAxis().getRange().getUpperBound();
+        if (lowBound < wholeYRange.getLowerBound()) {
+            lowBound = wholeYRange.getLowerBound();
+            recreate = true;            
+        }
+        if (upBound > wholeYRange.getUpperBound()) {
+            upBound = wholeYRange.getUpperBound();
+            recreate = true;                        
+        }
+        if (recreate){
+            plot.getRangeAxis().setRange(new Range(lowBound, upBound));
+//            this.chartMain.getPlot().getDomainAxis().setRange(new Range(lowBound, upBound));
+        }
+
+        if (!plot.getDomainAxis().getRange().equals(this.lastXRange)) {
+            this.lastXRange = plot.getDomainAxis().getRange();
+            XYPlot plot2 = (XYPlot) this.subchartWaveTrace.getPlot();
+            lowInd = (int)(this.lastXRange.getLowerBound());
+            upInd = (int)(this.lastXRange.getUpperBound()-1);
+            plot2.getDomainAxis().setRange(new Range(data.GetX2()[lowInd],data.GetX2()[upInd]));
+            jSColum.setMinimum(lowInd);
+            jSColum.setMaximum(upInd);
+        }
+
+         if (!plot.getRangeAxis().getRange().equals(this.lastYRange)) {
+            this.lastYRange = plot.getRangeAxis().getRange();
+            XYPlot plot1 = (XYPlot) this.subchartTimeTrace.getPlot();
+            lowInd = (int)(this.wholeYRange.getUpperBound() - this.lastYRange.getUpperBound());
+            upInd = (int)(this.wholeYRange.getUpperBound() - this.lastYRange.getLowerBound()-1);
+            plot1.getDomainAxis().setRange(new Range(data.GetX()[lowInd],data.GetX()[upInd]));
+            jSRow.setMinimum(lowInd);
+            jSRow.setMaximum(upInd);
+        }
+    }
+
     private JFreeChart createChart(XYDataset dataset1) {
 
         JFreeChart chart_temp = ChartFactory.createScatterPlot(null,
@@ -729,9 +822,12 @@ private void jSColumStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST
     
     private void MakeImageChart(ColorCodedImageDataset dataset){
         PaintScale ps = new RainbowPaintScale(data.GetMinInt(), data.GetMaxInt());
-        chart = createChart(new XYSeriesCollection());
-        //chart.addChangeListener(this);
-        chpanImage = new ChartPanel(chart);
+        this.chartMain = createChart(new XYSeriesCollection());
+        this.chartMain.addChangeListener(this);
+        XYPlot tempPlot = (XYPlot)this.chartMain.getPlot();
+        this.wholeXRange = tempPlot.getDomainAxis().getRange();
+        this.wholeYRange = tempPlot.getRangeAxis().getRange();
+        chpanImage = new ChartPanel(chartMain);
         chpanImage.setFillZoomRectangle(true);
         chpanImage.setMouseWheelEnabled(true);
         jPSpecImage.removeAll();
@@ -763,7 +859,7 @@ private void jSColumStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST
 
 //        //TODO add creation of the other charts
         XYSeriesCollection dataset1 = new XYSeriesCollection();
-        subchart1 = ChartFactory.createXYLineChart(
+        subchartTimeTrace = ChartFactory.createXYLineChart(
             null,
             null,
             null,
@@ -773,9 +869,9 @@ private void jSColumStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST
             false,
             false
         );
-        subchart1.getXYPlot().getDomainAxis().setUpperBound(data.GetX()[data.GetX().length-1]);
+        subchartTimeTrace.getXYPlot().getDomainAxis().setUpperBound(data.GetX()[data.GetX().length-1]);
 ////        tracechart.getXYPlot().setDomainZeroBaselineVisible(true);
-        ChartPanel chpan = new ChartPanel(subchart1,true);
+        ChartPanel chpan = new ChartPanel(subchartTimeTrace,true);
         chpan.setSize(jPYTrace.getMaximumSize());
         jPYTrace.removeAll();
         chpan.setMinimumDrawHeight(0);
@@ -783,14 +879,14 @@ private void jSColumStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST
         jPYTrace.add(chpan);
         jPYTrace.repaint();
 
-        XYPlot plot1 = (XYPlot) subchart1.getPlot();
+        XYPlot plot1 = (XYPlot) subchartTimeTrace.getPlot();
         plot1.getDomainAxis().setLowerMargin(0.0);
         plot1.getDomainAxis().setUpperMargin(0.0);
         plot1.setDomainAxisLocation(AxisLocation.BOTTOM_OR_LEFT);
         plot1.getDomainAxis().setInverted(true);
 
         XYSeriesCollection dataset2 = new XYSeriesCollection();
-        subchart2 = ChartFactory.createXYLineChart(
+        subchartWaveTrace = ChartFactory.createXYLineChart(
             null,
             null,
             null,
@@ -801,11 +897,11 @@ private void jSColumStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST
             false
         );
         if (data.GetX2()[data.GetX2().length-1]<data.GetX2()[0])
-            subchart2.getXYPlot().getDomainAxis().setUpperBound(data.GetX2()[0]);
+            subchartWaveTrace.getXYPlot().getDomainAxis().setUpperBound(data.GetX2()[0]);
         else
-            subchart2.getXYPlot().getDomainAxis().setUpperBound(data.GetX2()[data.GetX2().length-1]);
+            subchartWaveTrace.getXYPlot().getDomainAxis().setUpperBound(data.GetX2()[data.GetX2().length-1]);
 
-        XYPlot plot2 = (XYPlot) subchart2.getPlot();
+        XYPlot plot2 = (XYPlot) subchartWaveTrace.getPlot();
         plot2.getDomainAxis().setLowerMargin(0.0);
         plot2.getDomainAxis().setUpperMargin(0.0);
         plot2.getDomainAxis().setAutoRange(true);
@@ -814,7 +910,7 @@ private void jSColumStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST
         plot2.setDomainAxisLocation(AxisLocation.TOP_OR_RIGHT);
         plot2.setRangeAxisLocation(AxisLocation.TOP_OR_RIGHT);
 
-        ChartPanel subchart2Panel = new ChartPanel(subchart2,true);
+        ChartPanel subchart2Panel = new ChartPanel(subchartWaveTrace,true);
         subchart2Panel.setSize(jPXTrace.getMaximumSize());
         jPXTrace.removeAll();
         subchart2Panel.setMinimumDrawHeight(0);
@@ -869,8 +965,8 @@ private void jSColumStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST
     //        legend.setPadding(new RectangleInsets(5, 5, 5, 5));
         legend.setStripWidth(15);
         legend.setPosition(RectangleEdge.RIGHT);
-        legend.setBackgroundPaint(chart.getBackgroundPaint());
-        chart.addSubtitle(legend);
+        legend.setBackgroundPaint(chartMain.getBackgroundPaint());
+        chartMain.addSubtitle(legend);
         
     }
     

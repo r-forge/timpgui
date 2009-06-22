@@ -181,8 +181,8 @@ public final class DatasetTimp implements Serializable{
         }
     }    
     public void CalcRangeInt(){
-        maxInt = 0;
-        minInt = 0; 
+        maxInt = psisim[0];
+        minInt = psisim[0];
         for (int i = 0; i < nl[0]*nt[0]; i++){
             if (psisim[i]>maxInt)
                 maxInt = psisim[i];

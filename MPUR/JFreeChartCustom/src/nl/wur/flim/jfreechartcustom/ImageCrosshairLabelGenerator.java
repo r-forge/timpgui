@@ -92,10 +92,10 @@ public class ImageCrosshairLabelGenerator implements CrosshairLabelGenerator{
         Object[] v;
         if (inverted){
             v = new Object[] { this.numberFormat.format(
-                    labels[labels.length-(int)crosshair.getValue()-1]) };
+                    labels[labels.length-(int)crosshair.getValue()]) };
         } else {
             v = new Object[] { this.numberFormat.format(
-                    labels[(int)crosshair.getValue()-1]) };
+                    labels[(int)crosshair.getValue()]) };
         }
 
         String result = MessageFormat.format(this.labelTemplate, v);

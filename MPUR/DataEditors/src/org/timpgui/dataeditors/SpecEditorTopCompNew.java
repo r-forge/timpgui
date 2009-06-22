@@ -444,7 +444,7 @@ private void jBMakeDatasetActionPerformed(java.awt.event.ActionEvent evt) {//GEN
     Object res = DialogDisplayer.getDefault().notify(datasetNameDialod);
 
     if (res.equals(NotifyDescriptor.OK_OPTION)){
-        DatasetTimp newdataset = new DatasetTimp();
+        DatasetTimp newdataset = data;
         newdataset.setDatasetName(datasetNameDialod.getInputText());
         newdataset.setType("spec");
         FileObject cachefolder = null;

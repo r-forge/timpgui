@@ -6,7 +6,6 @@
 package org.timpgui.timpinterface;
 
 import nl.vu.nat.tgmodels.tgm.Tgm;
-import nl.vu.nat.tgmodels.tgo.Tgo;
 import org.timpgui.structures.DatasetTimp;
 import org.timpgui.structures.TimpResultDataset;
 
@@ -16,7 +15,7 @@ import org.timpgui.structures.TimpResultDataset;
  */
 public interface TimpInterface {
 
-    TimpResultDataset[] runAnalysis(DatasetTimp[] datasets, Tgm[] models, Tgo options);
+    TimpResultDataset[] runAnalysis(DatasetTimp[] datasets, Tgm[] models, int iterations);
 
 //    void RegisterData(DatasetTimp timpDat);
 //

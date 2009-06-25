@@ -8,7 +8,6 @@ import Jama.Matrix;
 import java.util.List;
 import nl.vu.nat.tgmodels.tgm.Tgm;
 import nl.vu.nat.tgmodels.tgo.Tgo;
-import org.timpgui.timpinterface.ResultObject;
 import org.timpgui.timpinterface.TimpInterface;
 import org.rosuda.irconnect.IREXP;
 import org.rosuda.irconnect.IRList;
@@ -29,12 +28,13 @@ public class TimpController implements TimpInterface {
     }
 
     @Override
-    public TimpResultDataset[] runAnalysis(DatasetTimp[] datasets, Tgm[] models, Tgo options) {
+    public TimpResultDataset[] runAnalysis(DatasetTimp[] datasets, Tgm[] models, int iterations) {
 
         TimpResultDataset[] result = null;
         String[] listOfDatasets = null;
         String[] listOfModels = null;
-        String optResult = null;
+        String modelType = null;
+        String options = null;
 
         for (int i = 0; i < datasets.length; i++) {
             DatasetTimp dataset = datasets[i];
@@ -46,11 +46,10 @@ public class TimpController implements TimpInterface {
             listOfModels[i] = tgm.getDat().getModelName();
             sendModel(tgm,i);
         }
-        if(options != null){
-        optResult = parseOptions(options);
-        }
-
-        result = fitModel(listOfDatasets, listOfModels, optResult);
+        modelType = models[0].getDat().getModType();
+        options = getOptions(modelType, iterations);
+        
+        result = fitModel(listOfDatasets, listOfModels, options);
         
         return result;
     }
@@ -113,12 +112,20 @@ public class TimpController implements TimpInterface {
                 "inten = intenceIm)");
     }
 
-          private void sendModel(Tgm tgm, int i) {
+          private void sendModel(Tgm tgm, int index) {
+            String modelString = InitModel.parseModel(tgm);
+              connection.eval("dataset" + String.valueOf(index) + " <- dat(psi.df = psisim, x = x, nt = nt, x2 = x2, nl = nl, " +
+                "inten = intenceIm)");
+
 
           }
 
-          private String parseOptions(Tgo tgo) {
-              return null;
+       private String getOptions(String modelType, int iterations) {
+              String result = null;
+              connection.eval("opt = " + modelType +"opt(" +
+                      "iter = " + String.valueOf(iterations) +
+                      "plot=FALSE)");
+               return result;
           }
 
       private TimpResultDataset getTimpResultDataset(String datasetName, int datasetNumber) {

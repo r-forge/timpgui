@@ -21,9 +21,9 @@ public class InitModel {
 
 
 // Public classes
-      public String parseModel(Tgm tgm) {
+      public static String parseModel(Tgm tgm) {
        //TODO: "temp" was  Current.getNameOfCurrentModel()
-       String initModel = "temp" + " <- initModel(" +
+       String initModel = "initModel(" +
                           get_kinpar(tgm) + "," +
                           get_constrained(tgm) + "," +
                           get_fixed(tgm) + "," +

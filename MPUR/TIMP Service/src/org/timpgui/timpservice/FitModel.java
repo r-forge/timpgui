@@ -17,6 +17,84 @@ import nl.vu.nat.tgmodels.tgo.Tgo;
  */
 public class FitModel {
 
+    public static String get_opt(Tgo tgo, Tgm tgm) {
+        Dat dat = tgm.getDat();
+        String opt = "";
+        OptPanelElements mm = tgo.getOpt();
+        OutputPanelElements outputP = mm.getOutputpanel();
+        if (dat.getModType().equals("kin")) {
+            opt = "kinopt(";
+        } else if (dat.getModType().equals("spec")) {
+            opt = "specopt(";
+        } else if (dat.getModType().equals("mass")) {
+            opt = "massopt(";
+        // in all below cases need to make plots in TIMP
+        }
+        if (outputP.isWritefit() || outputP.isWriteclperr() ||
+                outputP.isWritecon() || outputP.isWritedata() ||
+                outputP.isWritefitivo() || outputP.isWritespec() ||
+                outputP.isWritenormspec() || get_output(tgo).length() > 0) {
+            opt = opt + "plot = TRUE,";
+        } else {
+            opt = opt + "plot = FALSE,";
+        }
+        if (get_output(tgo).length() > 0) {
+            String dd;
+            opt = opt + get_output(tgo) + ",";
+            //TODO: "temp" was Current.getNameOfCurrentModel()
+            opt = opt + "makeps = \"" + "res" + "temp" + "\",";  // fix
+            if (outputP.getOutput().getFormat().compareTo("pdf") == 0) {
+                dd = "pdf";
+            } else {
+                dd = "postscript";
+            }
+            //TODO: execute this command somewhere else
+           // execute("options(device=\"" + dd + "\")");
+        }
+        opt = opt + "sumnls=FALSE," +
+                get_writefit(tgo) + "," +
+                get_writeclperr(tgo) + "," +
+                get_writecon(tgo) + "," +
+                get_writespec(tgo) + "," +
+                get_writedata(tgo) + "," +
+                get_writefitivo(tgo) + "," +
+                get_writenormspec(tgo) + "," +
+                get_title(tgo) + "," +
+                get_iter(tgo) + "," +
+                get_FLIM(tgo) + "," +
+                get_algorithm(tgo) + "," +
+                get_nnls(tgo) + "," +
+                get_stderrclp(tgo) + ")";
+        return opt;
+    }
+
+    public static String get_modeldiffs(Tgm tgm, int numDat) {
+        Dat dat = tgm.getDat();
+        KinparPanelModel kinparPanelModel = dat.getKinparPanel();
+        String free = "";
+        int count = 0;
+        for (int i = 0; i < kinparPanelModel.getKinpar().size(); i++) {
+            if (kinparPanelModel.getKinpar().get(i).isModeldiffsFree()) {
+                if (count > 0) {
+                    free = free + ",";
+                } else {
+                    free = free + "free=list(";
+                }
+                for (int j = 0; j < numDat; j++) {
+                    free = free + "list(what = \"kinpar\", ind=" + Integer.toString(i + 1) + ", dataset=" +
+                            Integer.toString(j + 1) + ",start=" +
+                            Double.toString(kinparPanelModel.getKinpar().get(i).getStart()) + ")";
+                    count++;
+                }
+            }
+        }
+        if (count > 0) {
+            free = free + ")";
+        }
+        String modeldiffs = "list(" + free + ")";
+        return modeldiffs;
+    }
+
     private static String get_stderrclp(Tgo tgo) {
         OptPanelElements opt = tgo.getOpt();
         AlgorithmPanelElements outputP = opt.getAlgorithmPanel();
@@ -194,83 +272,6 @@ public class FitModel {
         return std;
     }
 
-    public static String get_opt(Tgo tgo, Tgm tgm) {
-        Dat dat = tgm.getDat();
-        String opt = "";
-        OptPanelElements mm = tgo.getOpt();
-        OutputPanelElements outputP = mm.getOutputpanel();
-        if (dat.getModType().equals("kin")) {
-            opt = "kinopt(";
-        } else if (dat.getModType().equals("spec")) {
-            opt = "specopt(";
-        } else if (dat.getModType().equals("mass")) {
-            opt = "massopt(";
-        // in all below cases need to make plots in TIMP 
-        }
-        if (outputP.isWritefit() || outputP.isWriteclperr() ||
-                outputP.isWritecon() || outputP.isWritedata() ||
-                outputP.isWritefitivo() || outputP.isWritespec() ||
-                outputP.isWritenormspec() || get_output(tgo).length() > 0) {
-            opt = opt + "plot = TRUE,";
-        } else {
-            opt = opt + "plot = FALSE,";
-        }
-        if (get_output(tgo).length() > 0) {
-            String dd;
-            opt = opt + get_output(tgo) + ",";
-            //TODO: "temp" was Current.getNameOfCurrentModel()
-            opt = opt + "makeps = \"" + "res" + "temp" + "\",";  // fix
-            if (outputP.getOutput().getFormat().compareTo("pdf") == 0) {
-                dd = "pdf";
-            } else {
-                dd = "postscript";
-            }
-            //TODO: execute this command somewhere else
-           // execute("options(device=\"" + dd + "\")");
-        }
-        opt = opt + "sumnls=FALSE," +
-                get_writefit(tgo) + "," +
-                get_writeclperr(tgo) + "," +
-                get_writecon(tgo) + "," +
-                get_writespec(tgo) + "," +
-                get_writedata(tgo) + "," +
-                get_writefitivo(tgo) + "," +
-                get_writenormspec(tgo) + "," +
-                get_title(tgo) + "," +
-                get_iter(tgo) + "," +
-                get_FLIM(tgo) + "," +
-                get_algorithm(tgo) + "," +
-                get_nnls(tgo) + "," +
-                get_stderrclp(tgo) + ")";
-        return opt;
-    }
-
-    public static String get_modeldiffs(Tgm tgm, int numDat) {
-        Dat dat = tgm.getDat();
-        KinparPanelModel kinparPanelModel = dat.getKinparPanel();
-        String free = "";
-        int count = 0;
-        for (int i = 0; i < kinparPanelModel.getKinpar().size(); i++) {
-            if (kinparPanelModel.getKinpar().get(i).isModeldiffsFree()) {
-                if (count > 0) {
-                    free = free + ",";
-                } else {
-                    free = free + "free=list(";
-                }
-                for (int j = 0; j < numDat; j++) {
-                    free = free + "list(what = \"kinpar\", ind=" + Integer.toString(i + 1) + ", dataset=" +
-                            Integer.toString(j + 1) + ",start=" +
-                            Double.toString(kinparPanelModel.getKinpar().get(i).getStart()) + ")";
-                    count++;
-                }
-            }
-        }
-        if (count > 0) {
-            free = free + ")";
-        }
-        String modeldiffs = "list(" + free + ")";
-        return modeldiffs;
-    }
 
   
 

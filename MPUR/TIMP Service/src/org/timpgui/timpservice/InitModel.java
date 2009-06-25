@@ -5,7 +5,6 @@
 
 package org.timpgui.timpservice;
 
-import org.timpgui.timpinterface.*;
 import nl.vu.nat.tgmodels.tgm.CohspecPanelModel;
 import nl.vu.nat.tgmodels.tgm.Dat;
 import nl.vu.nat.tgmodels.tgm.FlimPanelModel;
@@ -15,10 +14,35 @@ import nl.vu.nat.tgmodels.tgm.Tgm;
 
 /**
  *
- * @author kate
+ * @author Katharine Mullen
+ * @author Joris Snellenburg
  */
-public class Call_initModel {
-  
+public class InitModel {
+
+
+// Public classes
+      public String parseModel(Tgm tgm) {
+       //TODO: "temp" was  Current.getNameOfCurrentModel()
+       String initModel = "temp" + " <- initModel(" +
+                          get_kinpar(tgm) + "," +
+                          get_constrained(tgm) + "," +
+                          get_fixed(tgm) + "," +
+                          get_seqmod(tgm) + "," +
+                          get_positivepar(tgm) + "," +
+                          get_mod_type(tgm) + "," +
+                          get_measured_irf(tgm) + "," +
+                          get_parmu(tgm) + "," +
+                          get_dispmufun(tgm) + "," +
+                          get_partau(tgm) + "," +
+                          get_disptaufun(tgm) + "," +
+                          get_convalg(tgm) + "," +
+                          get_irf(tgm) +
+                          ")";
+       return initModel;
+   }
+
+
+      // Private classes
    private static String get_kinpar(Tgm tgm) {
        Dat dat = tgm.getDat();
        KinparPanelModel kinparPanelModel = dat.getKinparPanel();
@@ -234,27 +258,5 @@ public class Call_initModel {
        String mod_type = "mod_type = \"" + dat.getModType() + "\""; 
        return mod_type;
    }
-
-   public String initModel(Tgm tgm) {
-       //TODO: "temp" was  Current.getNameOfCurrentModel()
-       String initModel = "temp" + " <- initModel(" +
-                          get_kinpar(tgm) + "," + 
-                          get_constrained(tgm) + "," + 
-                          get_fixed(tgm) + "," +
-                          get_seqmod(tgm) + "," + 
-                          get_positivepar(tgm) + "," +
-                          get_mod_type(tgm) + "," +
-                          get_measured_irf(tgm) + "," +
-                          get_parmu(tgm) + "," + 
-                          get_dispmufun(tgm) + "," +
-                          get_partau(tgm) + "," +
-                          get_disptaufun(tgm) + "," + 
-                          get_convalg(tgm) + "," + 
-                          get_irf(tgm) +
-                          ")";
-       return initModel;
-     
-       
-   }  
 
 }

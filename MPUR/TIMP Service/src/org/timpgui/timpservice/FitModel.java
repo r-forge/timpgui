@@ -15,7 +15,7 @@ import nl.vu.nat.tgmodels.tgo.Tgo;
  *
  * @author kate
  */
-public class Call_fitModel {
+public class FitModel {
 
     private static String get_stderrclp(Tgo tgo) {
         OptPanelElements opt = tgo.getOpt();
@@ -272,74 +272,7 @@ public class Call_fitModel {
         return modeldiffs;
     }
 
-    public static String get_AllOpt(Tgm tgm, Tgo tgo, int numDat) {
-        return "modeldiffs =" +
-                get_modeldiffs(tgm, numDat) + "," +
-                "opt =" + get_opt(tgo, tgm);
-
-    }
-
-    public static void fitModel(int[] datasetIndices, int modelIndex, int optionIndex, String resultsName) {
-        //TODO: remove dependecy on Current.class ArrayList<String> result = new ArrayList<String>();
-        ArrayList<String> selectedDatasetNamesList = new ArrayList<String>(); //Current.getSelectedDatasetNames(datasetIndices);
-        Tgm tgm = null; //Current.getSelectedModel(modelIndex);
-        Tgo tgo = null; //Current.getSelectedOpt(optionIndex);
-
-        String opt = get_AllOpt(tgm, tgo, selectedDatasetNamesList.size());
-
-        String dsets = "data=list(";
-        for (int i = 0; i < selectedDatasetNamesList.size(); i++) {
-            if (i > 0) {
-                dsets = dsets + ",";
-            }
-            dsets = dsets + selectedDatasetNamesList.get(i);
-        }
-        dsets = dsets + ")";
-
-        String modelName = tgm.getDat().getModelName();
-
-        int numDat = 1;
-        String fitcall = resultsName + "<- fitModel(" +
-                dsets +
-                ", modspec = list(" + modelName + ")," + opt + ")";
-
-// TODO: move the next to lines to other classes
-//        ResultObject x = new ResultObject(selectedDatasetNamesList, resultsName);
-//        Current.addResults(x);
-    }
-
-//    public static void fitModel(Tgo tgo, Tgm tgm) {
-//
-//        Dat dat = tgm.getDat();
-//
-//        String resultsName = "res" + Current.getNameOfCurrentModel();
-//
-//        String dsets = "data=list(";
-//
-//        List listDatasetsName = Current.getDatasetNames();
-//
-//        String opt = get_AllOpt(tgm, tgo, listDatasetsName.size());
-//
-//        for (int i = 0; i < listDatasetsName.size(); i++) {
-//            if (i > 0) {
-//                dsets = dsets + ",";
-//            }
-//            dsets = dsets + listDatasetsName.get(i);
-//        }
-//        dsets = dsets + ")";
-//
-//        String modelName = Current.getNameOfCurrentModel();
-//
-//        int numDat = 1;
-//        String fitcall = resultsName + "<- fitModel(" +
-//                dsets +
-//                ", modspec = list(" + modelName + ")," + opt + ")";
-//
-//        execute(fitcall);
-//
-//        Current.SetcurrResult(resultsName);
-//
-//    }
+  
 
 }
 

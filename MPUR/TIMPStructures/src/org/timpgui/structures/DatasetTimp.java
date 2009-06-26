@@ -186,9 +186,11 @@ public final class DatasetTimp implements Serializable{
         for (int i = 0; i < nl[0]*nt[0]; i++){
             if (psisim[i]>maxInt)
                 maxInt = psisim[i];
-            if (psisim[i]<maxInt)
+            if (psisim[i]<minInt)
                 minInt = psisim[i];
         }
-  //      return maxInt; 
+//        double out;
+//        out = maxInt;
+  //      return maxInt;
     }
 }

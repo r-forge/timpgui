@@ -7,6 +7,7 @@ package org.timpgui.dataeditors;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.Panel;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -161,8 +162,8 @@ final public class SpecEditorTopCompNew extends CloneableTopComponent
         jButton3 = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
         jToolBar1 = new javax.swing.JToolBar();
-        jButton1 = new javax.swing.JButton();
         jBMakeDataset = new javax.swing.JButton();
+        jBResample = new javax.swing.JButton();
         jBSaveIvoFile = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
         jPSpecImage = new javax.swing.JPanel();
@@ -220,14 +221,6 @@ final public class SpecEditorTopCompNew extends CloneableTopComponent
 
         jToolBar1.setRollover(true);
 
-        org.openide.awt.Mnemonics.setLocalizedText(jButton1, org.openide.util.NbBundle.getMessage(SpecEditorTopCompNew.class, "SpecEditorTopCompNew.jButton1.text")); // NOI18N
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
-            }
-        });
-        jToolBar1.add(jButton1);
-
         org.openide.awt.Mnemonics.setLocalizedText(jBMakeDataset, org.openide.util.NbBundle.getMessage(SpecEditorTopCompNew.class, "SpecEditorTopCompNew.jBMakeDataset.text")); // NOI18N
         jBMakeDataset.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -236,8 +229,19 @@ final public class SpecEditorTopCompNew extends CloneableTopComponent
         });
         jToolBar1.add(jBMakeDataset);
 
+        org.openide.awt.Mnemonics.setLocalizedText(jBResample, org.openide.util.NbBundle.getMessage(SpecEditorTopCompNew.class, "SpecEditorTopCompNew.jBResample.text")); // NOI18N
+        jBResample.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBResampleActionPerformed(evt);
+            }
+        });
+        jToolBar1.add(jBResample);
+
         org.openide.awt.Mnemonics.setLocalizedText(jBSaveIvoFile, org.openide.util.NbBundle.getMessage(SpecEditorTopCompNew.class, "SpecEditorTopCompNew.jBSaveIvoFile.text")); // NOI18N
         jBSaveIvoFile.setEnabled(false);
+        jBSaveIvoFile.setFocusable(false);
+        jBSaveIvoFile.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jBSaveIvoFile.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         jToolBar1.add(jBSaveIvoFile);
 
         jPSpecImage.setBackground(new java.awt.Color(0, 0, 0));
@@ -425,6 +429,7 @@ final public class SpecEditorTopCompNew extends CloneableTopComponent
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
                 .addComponent(jToolBar1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -446,7 +451,6 @@ private void jBMakeDatasetActionPerformed(java.awt.event.ActionEvent evt) {//GEN
         DatasetTimp newdataset = new DatasetTimp(); //data;
         newdataset.setDatasetName(datasetNameDialod.getInputText());
         newdataset.setType("spec");
-
         startX = (int)(this.lastXRange.getLowerBound());
         endX = (int)(this.lastXRange.getUpperBound())-1;
         startY = (int)(this.wholeYRange.getUpperBound() - this.lastYRange.getUpperBound());
@@ -473,7 +477,7 @@ private void jBMakeDatasetActionPerformed(java.awt.event.ActionEvent evt) {//GEN
 
         for (int i = 0; i < newWidth; i++){
             for (int j = 0; j < newHeight; j++){
-                newvec[(i)*newHeight+j] = data.GetPsisim()[(startX+i-1)*data.GetNt()[0]+startY+j-1];
+                newvec[(i)*newHeight+j] = data.GetPsisim()[(startX+i)*data.GetNt()[0]+startY+j];
             }
         }
         newdataset.SetPsisim(newvec);
@@ -522,9 +526,178 @@ private void jBMakeDatasetActionPerformed(java.awt.event.ActionEvent evt) {//GEN
 
 }//GEN-LAST:event_jBMakeDatasetActionPerformed
 
-private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-// TODO add your handling code here:
-}//GEN-LAST:event_jButton1ActionPerformed
+private void jBResampleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBResampleActionPerformed
+// TODO resampling
+//    ResampleSpecDatasetDialog resDiag = new ResampleSpecDatasetDialog(, true);
+    ResampleSpecDataset resamplePanel = new ResampleSpecDataset();
+    resamplePanel.setInitialNumbers(data.GetNl()[0], data.GetNt()[0]);
+    NotifyDescriptor resampleDatasetDialod = new NotifyDescriptor(
+            resamplePanel,
+            "Resample dataset",
+            NotifyDescriptor.OK_CANCEL_OPTION,
+            NotifyDescriptor.PLAIN_MESSAGE,
+            null,
+            NotifyDescriptor.CANCEL_OPTION);
+    DatasetTimp findataset = new DatasetTimp();
+    findataset.SetPsisim(data.GetPsisim());
+    findataset.SetX(data.GetX());
+    findataset.SetX2(data.GetX2());
+    findataset.setType("spec");
+    findataset.SetNl(data.GetNl()[0]);
+    findataset.SetNt(data.GetNt()[0]);
+
+    if (DialogDisplayer.getDefault().notify(resampleDatasetDialod).equals(NotifyDescriptor.OK_OPTION)){
+        DatasetTimp newdataset = new DatasetTimp(); //data;
+        if (resamplePanel.getResampleXState()){
+            //resample x dimention
+            int num = resamplePanel.getResampleXNum();
+            double sum;
+            int imwidth = findataset.GetNl()[0];
+            int imheight =findataset.GetNt()[0];
+            int w = findataset.GetNl()[0]/num;
+
+            double[] temp = new double[num*imheight];
+            int count=0;
+
+            for (int i=0; i<imheight; i++){
+                for (int j=0; j<num-1; j++){
+                    sum=0;
+                    for (int k=0; k<w; k++)
+                        sum+=findataset.GetPsisim()[i+(j*w+k)*imheight];
+                    temp[i+j*imheight]=sum/w;
+                }
+
+                sum=0;
+                count=0;
+                for (int k=i+((num-1)*w)*imheight; k<i+(imwidth-1)*imheight; k=k+imheight){
+                    sum+=findataset.GetPsisim()[k];
+                    count++;
+                }
+                temp[i+(num-1)*imheight]=sum/count;
+            }
+
+            newdataset.SetPsisim(temp);
+
+            temp = new double[num];
+
+            for (int j=0; j<num-1; j++){
+                sum=0;
+                for (int k=j*w; k<(j+1)*w; k++){
+                    sum+=findataset.GetX2()[k];
+                    }
+                    temp[j]=sum/w;
+                }
+            sum=0;
+            count=0;
+            for (int k=(num-1)*w; k<imwidth; k++){
+                sum+=findataset.GetX2()[k];
+                count++;
+            }
+            temp[num-1]=sum/count;    
+            newdataset.SetX2(temp);
+            newdataset.SetNl(num);
+            newdataset.SetNt(findataset.GetNt()[0]);
+            newdataset.SetX(findataset.GetX());
+            newdataset.CalcRangeInt();
+            newdataset.setType("spec");
+            findataset = newdataset;
+        }
+
+        if (resamplePanel.getResampleYState()){
+            //resample y dimention
+            newdataset = new DatasetTimp(); //data;
+            int num = resamplePanel.getResampleYNum();
+            double sum;
+            int imwidth = findataset.GetNl()[0];
+            int imheight =findataset.GetNt()[0];
+            int w = findataset.GetNt()[0]/num;
+
+            double[] temp = new double[num*imwidth];
+            int count=0;
+
+            for (int i = 0; i < imwidth; i++){
+                for (int j = 0; j < num-1; j++){
+                     sum=0;
+                     for (int k=0; k<w; k++)
+                         sum+=findataset.GetPsisim()[i*imheight+j*w+k];
+                     temp[i*imheight+j]=sum/w;
+                }
+
+                sum=0;
+                count=0;
+                for (int k = i*imheight+(num-1)*w; k<i*imheight; k++){
+                    sum+=findataset.GetPsisim()[k];
+                    count++;
+                }
+                temp[i+(num-1)*imheight]=sum/count;
+            }
+
+            newdataset.SetPsisim(temp);
+
+            temp = new double[num];
+
+            for (int j=0; j<num-1; j++){
+                sum=0;
+                for (int k=j*w; k<(j+1)*w; k++){
+                    sum+=findataset.GetX2()[k];
+                    }
+                    temp[j]=sum/w;
+                }
+            sum=0;
+            count=0;
+            for (int k=(num-1)*w; k<imwidth; k++){
+                sum+=findataset.GetX2()[k];
+                count++;
+            }
+            temp[num-1]=sum/count;
+
+            newdataset.SetX2(temp);
+            newdataset.SetNl(num);
+            newdataset.SetNt(findataset.GetNt()[0]);
+            newdataset.SetX(findataset.GetX());
+            newdataset.CalcRangeInt();
+         
+        }
+
+
+
+            NotifyDescriptor.InputLine datasetNameDialod = new NotifyDescriptor.InputLine(
+                    "Dataset name",
+                    "Please specify the name for a dataset");
+            if (DialogDisplayer.getDefault().notify(datasetNameDialod).equals(NotifyDescriptor.OK_OPTION)){
+                findataset.setDatasetName(datasetNameDialod.getInputText());
+                FileObject cachefolder = null;
+                final TGProject proj = (TGProject) OpenProjects.getDefault().getMainProject();
+                if (proj!=null){
+                    cachefolder = proj.getCacheFolder(true);
+                } else {
+                    Confirmation msg = new NotifyDescriptor.Confirmation(
+                            "Select main project",
+                            NotifyDescriptor.ERROR_MESSAGE);
+                    DialogDisplayer.getDefault().notify(msg);
+                }
+                cachefolder = cachefolder.getFileObject(dataObject.getTgd().getCacheFolderName().toString());
+                FileObject writeTo;
+                try {
+                    writeTo = cachefolder.createData(findataset.GetDatasetName(), "timpdataset");
+                    ObjectOutputStream stream = new ObjectOutputStream(writeTo.getOutputStream());
+                    stream.writeObject(findataset);
+                    stream.close();
+                    TimpDatasetDataObject dObj = (TimpDatasetDataObject) DataObject.find(writeTo);
+                    TgdDataChildren chidrens = (TgdDataChildren) dataObject.getNodeDelegate().getChildren();
+                    chidrens.addObj(dObj);
+                } catch (IOException ex) {
+                    Exceptions.printStackTrace(ex);
+                }
+            }
+
+
+   }
+
+
+
+
+}//GEN-LAST:event_jBResampleActionPerformed
 
 private void jPSpecImageMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPSpecImageMouseClicked
     // TODO add your han   dling code here:
@@ -548,8 +721,8 @@ private void jSColumStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField inputDatasetName;
     private javax.swing.JButton jBMakeDataset;
+    private javax.swing.JButton jBResample;
     private javax.swing.JButton jBSaveIvoFile;
-    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JDialog jDialog1;

@@ -32,7 +32,6 @@ public final class ShowTimpDataset extends CookieAction {
     }
 
     protected void performAction(Node[] activatedNodes) {
-        String filename, filetype;
         TimpDatasetDataObject dataObject = activatedNodes[0].getLookup().lookup(TimpDatasetDataObject.class);
         String datatype = null;
         if (!(dataObject == null)) {
@@ -43,7 +42,7 @@ public final class ShowTimpDataset extends CookieAction {
             }
             for (final DatasetLoaderInterface service : services) {
                 if (service.getType().equalsIgnoreCase(datatype)) {
-                    service.openDatasetEditor(dataset);
+                    service.openDatasetEditor(dataObject);
                 }
 
             }

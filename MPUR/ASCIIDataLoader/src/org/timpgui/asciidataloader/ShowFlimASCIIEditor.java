@@ -9,6 +9,7 @@ package org.timpgui.asciidataloader;
 import org.timpgui.structures.DatasetTimp;
 import org.timpgui.tgproject.datasets.DatasetLoaderInterface;
 import org.timpgui.tgproject.datasets.TgdDataObject;
+import org.timpgui.tgproject.datasets.TimpDatasetDataObject;
 
 /**
  *
@@ -24,7 +25,7 @@ public class ShowFlimASCIIEditor implements  DatasetLoaderInterface {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
-    public void openDatasetEditor(DatasetTimp dataObj) {
+    public void openDatasetEditor(TimpDatasetDataObject dataObj) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 

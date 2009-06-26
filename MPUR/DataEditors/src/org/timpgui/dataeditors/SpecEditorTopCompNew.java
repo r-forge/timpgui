@@ -83,6 +83,7 @@ final public class SpecEditorTopCompNew extends CloneableTopComponent
     private DatasetTimp data;
     private ColorCodedImageDataset dataset;
     private TgdDataObject dataObject;
+    private TimpDatasetDataObject dataObject2;
     private Range lastXRange;
     private Range lastYRange;
     private Range wholeXRange;
@@ -139,12 +140,13 @@ final public class SpecEditorTopCompNew extends CloneableTopComponent
 
     }
 
-    public SpecEditorTopCompNew(DatasetTimp dataObj) {
+    public SpecEditorTopCompNew(TimpDatasetDataObject dataObj) {
         initComponents();
-        data = dataObj;
+        data = dataObj.getDatasetTimp();
         setName((String)data.GetDatasetName());
         setToolTipText(NbBundle.getMessage(SpecEditorTopCompNew.class, "HINT_StreakLoaderTopComponent"));        
         MakeImageChart(MakeXYZDataset());
+        dataObject2 = dataObj;
 
     }
 
@@ -620,16 +622,16 @@ private void jBResampleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FI
                      sum=0;
                      for (int k=0; k<w; k++)
                          sum+=findataset.GetPsisim()[i*imheight+j*w+k];
-                     temp[i*imheight+j]=sum/w;
+                     temp[i*num+j]=sum/w;
                 }
 
                 sum=0;
                 count=0;
-                for (int k = i*imheight+(num-1)*w; k<i*imheight; k++){
+                for (int k = i*imheight+(num-1)*w; k<(i+1)*imheight; k++){
                     sum+=findataset.GetPsisim()[k];
                     count++;
                 }
-                temp[i+(num-1)*imheight]=sum/count;
+                temp[(i+1)*num-1]=sum/count;
             }
 
             newdataset.SetPsisim(temp);
@@ -639,23 +641,25 @@ private void jBResampleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FI
             for (int j=0; j<num-1; j++){
                 sum=0;
                 for (int k=j*w; k<(j+1)*w; k++){
-                    sum+=findataset.GetX2()[k];
+                    sum+=findataset.GetX()[k];
                     }
                     temp[j]=sum/w;
                 }
             sum=0;
             count=0;
             for (int k=(num-1)*w; k<imwidth; k++){
-                sum+=findataset.GetX2()[k];
+                sum+=findataset.GetX()[k];
                 count++;
             }
             temp[num-1]=sum/count;
 
-            newdataset.SetX2(temp);
-            newdataset.SetNl(num);
-            newdataset.SetNt(findataset.GetNt()[0]);
-            newdataset.SetX(findataset.GetX());
+            newdataset.SetX(temp);
+            newdataset.SetNt(num);
+            newdataset.SetNl(findataset.GetNl()[0]);
+            newdataset.SetX2(findataset.GetX2());
             newdataset.CalcRangeInt();
+            newdataset.setType("spec");
+            findataset = newdataset;
          
         }
 
@@ -676,15 +680,29 @@ private void jBResampleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FI
                             NotifyDescriptor.ERROR_MESSAGE);
                     DialogDisplayer.getDefault().notify(msg);
                 }
-                cachefolder = cachefolder.getFileObject(dataObject.getTgd().getCacheFolderName().toString());
+                if ((dataObject==null)&&(dataObject2!=null)){
+                    cachefolder = dataObject2.getFolder().getPrimaryFile();
+                }
+                else
+                {
+                    cachefolder = cachefolder.getFileObject(dataObject.getTgd().getCacheFolderName().toString());
+                }
+                
                 FileObject writeTo;
                 try {
                     writeTo = cachefolder.createData(findataset.GetDatasetName(), "timpdataset");
                     ObjectOutputStream stream = new ObjectOutputStream(writeTo.getOutputStream());
                     stream.writeObject(findataset);
                     stream.close();
+                    TgdDataChildren chidrens;
                     TimpDatasetDataObject dObj = (TimpDatasetDataObject) DataObject.find(writeTo);
-                    TgdDataChildren chidrens = (TgdDataChildren) dataObject.getNodeDelegate().getChildren();
+                    if ((dataObject==null)&&(dataObject2!=null)){
+                        chidrens = (TgdDataChildren) dataObject2.getNodeDelegate().getParentNode().getChildren();
+                    }
+                    else
+                    {
+                        chidrens = (TgdDataChildren) dataObject.getNodeDelegate().getChildren();
+                    }
                     chidrens.addObj(dObj);
                 } catch (IOException ex) {
                     Exceptions.printStackTrace(ex);

@@ -58,7 +58,7 @@ public class RainbowPaintScale extends GrayPaintScale{
     @Override
     public Paint getPaint(double value) {
         float hue;
-        if (((value<=this.lowerBound)||(value>=this.upperBound))&&mode) {
+        if (((value<this.lowerBound)||(value>this.upperBound))&&mode) {
             return Color.black;
         }
         else{

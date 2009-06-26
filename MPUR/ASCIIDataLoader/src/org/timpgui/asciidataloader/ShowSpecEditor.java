@@ -9,6 +9,7 @@ import org.timpgui.dataeditors.SpecEditorTopCompNew;
 import org.timpgui.structures.DatasetTimp;
 import org.timpgui.tgproject.datasets.DatasetLoaderInterface;
 import org.timpgui.tgproject.datasets.TgdDataObject;
+import org.timpgui.tgproject.datasets.TimpDatasetDataObject;
 
 /**
  *
@@ -27,7 +28,7 @@ public class ShowSpecEditor implements DatasetLoaderInterface{
 //        SpecEditorTopComponent tc = new SpecEditorTopComponent(filename);
     }
 
-    public void openDatasetEditor(DatasetTimp dataObj) {
+    public void openDatasetEditor(TimpDatasetDataObject dataObj) {
         SpecEditorTopCompNew tc = new SpecEditorTopCompNew(dataObj);
         tc.open();
         tc.requestActive();

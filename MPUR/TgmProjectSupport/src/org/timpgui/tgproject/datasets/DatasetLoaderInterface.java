@@ -18,6 +18,6 @@ public interface DatasetLoaderInterface {
 
     public void openDatasetEditor(TgdDataObject dataObj);
 
-    public void openDatasetEditor(DatasetTimp dataObj);
+    public void openDatasetEditor(TimpDatasetDataObject dataObj);
 
 }

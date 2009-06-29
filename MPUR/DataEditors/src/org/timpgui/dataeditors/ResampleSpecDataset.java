@@ -11,6 +11,9 @@
 
 package org.timpgui.dataeditors;
 
+import org.openide.DialogDisplayer;
+import org.openide.NotifyDescriptor;
+
 /**
  *
  * @author lsp
@@ -51,9 +54,22 @@ public class ResampleSpecDataset extends java.awt.Panel {
 
         jTYnum.setText(org.openide.util.NbBundle.getMessage(ResampleSpecDataset.class, "ResampleSpecDataset.jTYnum.text")); // NOI18N
         jTYnum.setEnabled(false);
+        jTYnum.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jTYnumKeyReleased(evt);
+            }
+        });
 
         jTXnum.setText(org.openide.util.NbBundle.getMessage(ResampleSpecDataset.class, "ResampleSpecDataset.jTXnum.text")); // NOI18N
         jTXnum.setEnabled(false);
+        jTXnum.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jTXnumKeyReleased(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jTXnumKeyTyped(evt);
+            }
+        });
 
         jCbResampleY.setText(org.openide.util.NbBundle.getMessage(ResampleSpecDataset.class, "ResampleSpecDataset.jCbResampleY.text")); // NOI18N
         jCbResampleY.addActionListener(new java.awt.event.ActionListener() {
@@ -132,6 +148,33 @@ public class ResampleSpecDataset extends java.awt.Panel {
         jLabel1.setEnabled(jCbResampleY.isSelected());
     }//GEN-LAST:event_jCbResampleYActionPerformed
 
+    private void jTXnumKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTXnumKeyTyped
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTXnumKeyTyped
+
+    private void jTXnumKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTXnumKeyReleased
+        // TODO add your handling code here:
+        if (Integer.parseInt(jTXnum.getText())>numXCh){
+            NotifyDescriptor errorMessage =new NotifyDescriptor.Exception(
+                    new Exception("Please specify correct number of channels" +
+                    "Should be less than "+ String.valueOf(numXCh)));
+            DialogDisplayer.getDefault().notify(errorMessage);
+            jTXnum.setText(String.valueOf(numXCh));
+        }
+    }//GEN-LAST:event_jTXnumKeyReleased
+
+    private void jTYnumKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTYnumKeyReleased
+        // TODO add your handling code here:
+        if (Integer.parseInt(jTYnum.getText())>numYCh){
+            NotifyDescriptor errorMessage =new NotifyDescriptor.Exception(
+                    new Exception("Please specify correct number of channels" +
+                    "Should be less than "+ String.valueOf(numYCh)));
+            DialogDisplayer.getDefault().notify(errorMessage);
+            jTYnum.setText(String.valueOf(numYCh));
+        }
+
+    }//GEN-LAST:event_jTYnumKeyReleased
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JCheckBox jCCreatNewDataset;
@@ -149,7 +192,7 @@ public class ResampleSpecDataset extends java.awt.Panel {
         jTXnum.setText(Integer.toString(x));
         jTYnum.setText(Integer.toString(y));
         numXCh = x;
-        numXCh = y;
+        numYCh = y;
     }
 
     public boolean getResampleXState(){

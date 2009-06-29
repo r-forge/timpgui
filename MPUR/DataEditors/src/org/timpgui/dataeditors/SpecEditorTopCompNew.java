@@ -142,12 +142,12 @@ final public class SpecEditorTopCompNew extends CloneableTopComponent
 
     public SpecEditorTopCompNew(TimpDatasetDataObject dataObj) {
         initComponents();
+        dataObject2 = dataObj;
         data = dataObj.getDatasetTimp();
         setName((String)data.GetDatasetName());
         setToolTipText(NbBundle.getMessage(SpecEditorTopCompNew.class, "HINT_StreakLoaderTopComponent"));        
         MakeImageChart(MakeXYZDataset());
-        dataObject2 = dataObj;
-
+        
     }
 
     /** This method is called from within the constructor to
@@ -166,6 +166,10 @@ final public class SpecEditorTopCompNew extends CloneableTopComponent
         jToolBar1 = new javax.swing.JToolBar();
         jBMakeDataset = new javax.swing.JButton();
         jBResample = new javax.swing.JButton();
+        jSeparator1 = new javax.swing.JToolBar.Separator();
+        jTBZoomX = new javax.swing.JToggleButton();
+        jTBZoomY = new javax.swing.JToggleButton();
+        jSeparator2 = new javax.swing.JToolBar.Separator();
         jBSaveIvoFile = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
         jPSpecImage = new javax.swing.JPanel();
@@ -238,6 +242,30 @@ final public class SpecEditorTopCompNew extends CloneableTopComponent
             }
         });
         jToolBar1.add(jBResample);
+        jToolBar1.add(jSeparator1);
+
+        org.openide.awt.Mnemonics.setLocalizedText(jTBZoomX, org.openide.util.NbBundle.getMessage(SpecEditorTopCompNew.class, "SpecEditorTopCompNew.jTBZoomX.text")); // NOI18N
+        jTBZoomX.setFocusable(false);
+        jTBZoomX.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jTBZoomX.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        jTBZoomX.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTBZoomXActionPerformed(evt);
+            }
+        });
+        jToolBar1.add(jTBZoomX);
+
+        org.openide.awt.Mnemonics.setLocalizedText(jTBZoomY, org.openide.util.NbBundle.getMessage(SpecEditorTopCompNew.class, "SpecEditorTopCompNew.jTBZoomY.text")); // NOI18N
+        jTBZoomY.setFocusable(false);
+        jTBZoomY.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jTBZoomY.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        jTBZoomY.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTBZoomYActionPerformed(evt);
+            }
+        });
+        jToolBar1.add(jTBZoomY);
+        jToolBar1.add(jSeparator2);
 
         org.openide.awt.Mnemonics.setLocalizedText(jBSaveIvoFile, org.openide.util.NbBundle.getMessage(SpecEditorTopCompNew.class, "SpecEditorTopCompNew.jBSaveIvoFile.text")); // NOI18N
         jBSaveIvoFile.setEnabled(false);
@@ -269,6 +297,7 @@ final public class SpecEditorTopCompNew extends CloneableTopComponent
         );
 
         jSColum.setMinimum(1);
+        jSColum.setValue(1);
         jSColum.addChangeListener(new javax.swing.event.ChangeListener() {
             public void stateChanged(javax.swing.event.ChangeEvent evt) {
                 jSColumStateChanged(evt);
@@ -277,6 +306,7 @@ final public class SpecEditorTopCompNew extends CloneableTopComponent
 
         jSRow.setMinimum(1);
         jSRow.setOrientation(javax.swing.JSlider.VERTICAL);
+        jSRow.setValue(1);
         jSRow.setInverted(true);
         jSRow.addChangeListener(new javax.swing.event.ChangeListener() {
             public void stateChanged(javax.swing.event.ChangeEvent evt) {
@@ -424,16 +454,15 @@ final public class SpecEditorTopCompNew extends CloneableTopComponent
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jToolBar1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jToolBar1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(134, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
                 .addComponent(jToolBar1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(18, 18, 18)
                 .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
@@ -444,14 +473,14 @@ private void jBMakeDatasetActionPerformed(java.awt.event.ActionEvent evt) {//GEN
     int startX, startY, endX, endY;
     int newWidth, newHeight;
 
-    NotifyDescriptor.InputLine datasetNameDialod = new NotifyDescriptor.InputLine(
+    NotifyDescriptor.InputLine datasetNameDialog = new NotifyDescriptor.InputLine(
             "Dataset name",
             "Please specify the name for a dataset");
-    Object res = DialogDisplayer.getDefault().notify(datasetNameDialod);
+    Object res = DialogDisplayer.getDefault().notify(datasetNameDialog);
 
     if (res.equals(NotifyDescriptor.OK_OPTION)){
         DatasetTimp newdataset = new DatasetTimp(); //data;
-        newdataset.setDatasetName(datasetNameDialod.getInputText());
+        newdataset.setDatasetName(datasetNameDialog.getInputText());
         newdataset.setType("spec");
         startX = (int)(this.lastXRange.getLowerBound());
         endX = (int)(this.lastXRange.getUpperBound())-1;
@@ -500,9 +529,6 @@ private void jBMakeDatasetActionPerformed(java.awt.event.ActionEvent evt) {//GEN
  //TODO check if all parameters are ok
  //create timpdataset.
 
-
-        //FileObject folder = Repository.getDefault().getDefaultFileSystem().getRoot();
-
         FileObject writeTo;
             try {
                 writeTo = cachefolder.createData(newdataset.GetDatasetName(), "timpdataset");
@@ -517,14 +543,6 @@ private void jBMakeDatasetActionPerformed(java.awt.event.ActionEvent evt) {//GEN
             }
 
     }
-
-    //TODO: Check if all parameters are ok
-    //create timpdataset.
-
-    
-  //  InstanceCookie ck = DataObject.find(folder).getNodeDelegate().getLookup()lookup(InstanceCookie.class);
-
-
 
 }//GEN-LAST:event_jBMakeDatasetActionPerformed
 
@@ -647,7 +665,7 @@ private void jBResampleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FI
                 }
             sum=0;
             count=0;
-            for (int k=(num-1)*w; k<imwidth; k++){
+            for (int k=(num-1)*w; k<imheight; k++){
                 sum+=findataset.GetX()[k];
                 count++;
             }
@@ -663,8 +681,7 @@ private void jBResampleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FI
          
         }
 
-
-
+        if (resamplePanel.getNewDatasetState()){
             NotifyDescriptor.InputLine datasetNameDialod = new NotifyDescriptor.InputLine(
                     "Dataset name",
                     "Please specify the name for a dataset");
@@ -675,10 +692,9 @@ private void jBResampleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FI
                 if (proj!=null){
                     cachefolder = proj.getCacheFolder(true);
                 } else {
-                    Confirmation msg = new NotifyDescriptor.Confirmation(
-                            "Select main project",
-                            NotifyDescriptor.ERROR_MESSAGE);
-                    DialogDisplayer.getDefault().notify(msg);
+                    NotifyDescriptor errorMessage =new NotifyDescriptor.Exception(
+                        new Exception("Please select main project"));
+                    DialogDisplayer.getDefault().notify(errorMessage);
                 }
                 if ((dataObject==null)&&(dataObject2!=null)){
                     cachefolder = dataObject2.getFolder().getPrimaryFile();
@@ -708,8 +724,11 @@ private void jBResampleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FI
                     Exceptions.printStackTrace(ex);
                 }
             }
-
-
+        }
+        else {
+            data=findataset;
+            MakeImageChart(MakeXYZDataset());
+        }
    }
 
 
@@ -735,6 +754,32 @@ private void jSColumStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST
     subchartTimeTrace.getXYPlot().setDataset(d);
 }//GEN-LAST:event_jSColumStateChanged
 
+private void jTBZoomYActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTBZoomYActionPerformed
+    jTBZoomX.setSelected(false);
+    if (jTBZoomY.isSelected()){
+        chpanImage.setDomainZoomable(false);
+        chpanImage.setRangeZoomable(true);
+    } else {
+        chpanImage.setDomainZoomable(true);
+        chpanImage.setRangeZoomable(true);
+    }
+
+
+//    chpanImage.setRangeZoomable(jTBZoomY.isSelected());
+
+}//GEN-LAST:event_jTBZoomYActionPerformed
+
+private void jTBZoomXActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTBZoomXActionPerformed
+    jTBZoomY.setSelected(false);
+    if (jTBZoomX.isSelected()){
+        chpanImage.setDomainZoomable(true);
+        chpanImage.setRangeZoomable(false);
+    } else {
+        chpanImage.setDomainZoomable(true);
+        chpanImage.setRangeZoomable(true);
+    }
+}//GEN-LAST:event_jTBZoomXActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField inputDatasetName;
@@ -754,6 +799,10 @@ private void jSColumStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST
     private javax.swing.JPanel jPanel19;
     private javax.swing.JSlider jSColum;
     private javax.swing.JSlider jSRow;
+    private javax.swing.JToolBar.Separator jSeparator1;
+    private javax.swing.JToolBar.Separator jSeparator2;
+    private javax.swing.JToggleButton jTBZoomX;
+    private javax.swing.JToggleButton jTBZoomY;
     private javax.swing.JTextField jTextField2;
     private javax.swing.JTextField jTextField3;
     private javax.swing.JTextField jTextField4;
@@ -827,86 +876,6 @@ private void jSColumStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST
         }
     }
     
-//     private XYSeriesCollection PlotFirstTrace(boolean mode){
-//        if (mode){
-//             timeTracesCollection = new XYSeriesCollection();
-//             XYSeries seria = new XYSeries("TimeTrace");
-//             for (int j=0; j<data.GetNt()[0]; j++){
-//                 seria.add(data.GetX()[j], data.GetPsisim()[j]);
-//             }
-//            timeTracesCollection.addSeries(seria);
-//            return timeTracesCollection;
-//        }
-//        else {
-//            waveTracesCollection = new XYSeriesCollection();
-//            XYSeries seria = new XYSeries("WaveTrace");
-//            for (int j=0; j<data.GetNl()[0]; j++){
-//                seria.add(data.GetX2()[j], data.GetPsisim()[j*data.GetNt()[0]]);
-//            }
-//            waveTracesCollection.addSeries(seria);
-//            return waveTracesCollection;
-//
-//        }
-//    }
-    
-//    private void UpdateSelectedTimeTrace(int index){
-//        timeTracesCollection.getSeries(0).clear();
-//        for (int j=0; j<data.GetNt()[0]; j++){
-//            timeTracesCollection.getSeries(0).add(data.GetX()[j], data.GetPsisim()[index*data.GetNt()[0]+j]);
-//        }
-//    }
-//
-//    private void UpdateSelectedWaveTrace(int index){
-//        waveTracesCollection.getSeries(0).clear();
-//        for (int j=0; j<data.GetNl()[0]; j++){
-//            waveTracesCollection.getSeries(0).add(data.GetX2()[j], data.GetPsisim()[j*data.GetNt()[0]+index]);
-//        }
-//    }
-//
-//    private void MakeTimeTraceChart(XYSeriesCollection dat){
-//        JFreeChart tracechart;
-//        tracechart = ChartFactory.createXYLineChart(
-//            "Selected trace",
-//            "Time (ns)",
-//            "Number of counts",
-//            dat,
-//            PlotOrientation.VERTICAL,
-//            false,
-//            false,
-//            false
-//        );
-//        tracechart.getXYPlot().getDomainAxis().setUpperBound(data.GetX()[data.GetX().length-1]);
-////        tracechart.getXYPlot().setDomainZeroBaselineVisible(true);
-//        ChartPanel chpan = new ChartPanel(tracechart,true);
-//        chpan.setSize(jPSelectedTimeTrace.getMaximumSize());
-//        jPSelectedTimeTrace.removeAll();
-//        jPSelectedTimeTrace.add(chpan);
-//        jPSelectedTimeTrace.repaint();
-//    }
-
-//    private void MakeWaveTraceChart(XYSeriesCollection dat){
-//        JFreeChart tracechart;
-//        tracechart = ChartFactory.createXYLineChart(
-//            "Selected Spectrum",
-//            "Wavelength (nm)",
-//            "Number of counts",
-//            dat,
-//            PlotOrientation.VERTICAL,
-//            false,
-//            false,
-//            false
-//        );
-//        if (data.GetX2()[data.GetX2().length-1]<data.GetX2()[0])
-//            tracechart.getXYPlot().getDomainAxis().setUpperBound(data.GetX2()[0]);
-//        else
-//            tracechart.getXYPlot().getDomainAxis().setUpperBound(data.GetX2()[data.GetX2().length-1]);
-//        //tracechart.getXYPlot().setDomainZeroBaselineVisible(true);
-//        ChartPanel chpan = new ChartPanel(tracechart,true);
-//        chpan.setSize(jPSelectedWaveTrace.getMaximumSize());
-//        jPSelectedWaveTrace.removeAll();
-//        jPSelectedWaveTrace.add(chpan);
-//        jPSelectedWaveTrace.repaint();
-//    }
     
     private ColorCodedImageDataset MakeXYZDataset(){
         DefaultXYZDataset dataset2 = new DefaultXYZDataset();
@@ -1111,38 +1080,11 @@ private void jSColumStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST
 
         jSColum.setMaximum(dataset.GetImageWidth()-1);
         jSColum.setMinimum(1);
+        jSColum.setValue(1);
         jSRow.setMaximum(dataset.GetImageHeigth()-1);
         jSRow.setMinimum(1);
+        jSRow.setValue(1);
 
-
-//        chart.setAntiAlias(false);
-//        chart.removeLegend();
-
-
-
-//        NumberAxis xAxis = new NumberAxis("Wavelengts (nm)");
-//        xAxis.setLowerMargin(0.0);
-//        xAxis.setUpperMargin(0.0);
-////        xAxis.setRange(data.GetX2()[0],data.GetX2()[data.GetX2().length-1]);
-//        xAxis.setVisible(false);
-//        NumberAxis yAxis = new NumberAxis("Time (ps)");
-//        yAxis.setAutoRangeIncludesZero(false);
-//        yAxis.setInverted(true);
-//        yAxis.setLowerMargin(0.0);
-//        yAxis.setUpperMargin(0.0);
-// //       yAxis.setRange(data.GetX()[0],data.GetX()[data.GetX().length-1]);
-//        yAxis.setVisible(false);
-//        XYBlockRenderer renderer = new XYBlockRenderer();
-//
-//        renderer.setPaintScale(scale);
-////        XYPlot plot = new XYPlot(dataset, xAxis, yAxis, renderer);
-//
-//        plot.setDomainCrosshairVisible(false);
-//        plot.setDomainCrosshairLockedOnData(false);
-//        plot.setRangeCrosshairVisible(false);
-//        plot.setRangeCrosshairLockedOnData(false);
-
-  
         NumberAxis scaleAxis = new NumberAxis();
         scaleAxis.setAxisLinePaint(Color.black);
         scaleAxis.setTickMarkPaint(Color.black);

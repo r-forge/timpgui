@@ -12,18 +12,18 @@ import java.util.Vector;
 import static java.lang.Math.sqrt;
 
 public final class DatasetTimp implements Serializable{
-    private double maxInt;
-    private double minInt;
-    private double[] psisim;
-    private double[] x;
-    private double[] x2;
-    private int[] nt;
-    private int[] nl;
-    private int[] orheigh;
-    private int[] orwidth;
-    private double[] intenceIm;
-    private String datasetName;
-    private String type;
+    private double maxInt;      //max(psisim)
+    private double minInt;      //min(psysim)
+    private double[] psisim;    //matrix with data stored as vector timetraces in row
+    private double[] x;         //vector with timesteps (xdimention)
+    private double[] x2;        //vector with wavelengts (ydimention)
+    private int[] nt;           //length of x
+    private int[] nl;           //length of x2
+    private int[] orheigh;      //original hight of flimimage
+    private int[] orwidth;      //original widht of flimimage
+    private double[] intenceIm; //intensity image for flimimage
+    private String datasetName; //dataset name
+    private String type;        //type: spec/flim/mas
 
 
     public DatasetTimp() {

@@ -29,7 +29,7 @@ import org.timpgui.tgproject.nodes.TgdDataNode;
  */
 class DatasetView extends TreeTableView {
 
-       public DatasetView() {
+      public DatasetView() {
       setRootVisible(false);
       setDropTarget();
    }
@@ -70,6 +70,7 @@ class DatasetView extends TreeTableView {
             } catch(Exception e) {
                e.printStackTrace();
                //dtde.rejectDrop();
+               
             }
          }
 

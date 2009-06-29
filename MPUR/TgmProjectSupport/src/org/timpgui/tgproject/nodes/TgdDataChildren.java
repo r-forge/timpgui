@@ -5,8 +5,6 @@
 
 package org.timpgui.tgproject.nodes;
 
-import java.beans.PropertyChangeEvent;
-import java.io.IOException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,13 +16,7 @@ import org.openide.loaders.DataObject;
 import org.openide.loaders.DataObjectNotFoundException;
 import org.openide.nodes.Children;
 import org.openide.nodes.Node;
-import org.openide.nodes.NodeEvent;
-import org.openide.nodes.NodeListener;
-import org.openide.nodes.NodeMemberEvent;
-import org.openide.nodes.NodeReorderEvent;
 import org.openide.util.Exceptions;
-import org.openide.util.lookup.Lookups;
-import org.timpgui.tgproject.datasets.TDLayerDataset;
 import org.timpgui.tgproject.datasets.TgdDataObject;
 import org.timpgui.tgproject.datasets.TimpDatasetDataObject;
 
@@ -42,7 +34,6 @@ public class TgdDataChildren extends Children.Keys {
     private FileObject cachefolder;
     private FileObject datasetfolder;
     private FileObject[] files;
-    private ChangeListener listener;
 
     public TgdDataChildren(TgdDataObject obj) {
         this.obj=obj;

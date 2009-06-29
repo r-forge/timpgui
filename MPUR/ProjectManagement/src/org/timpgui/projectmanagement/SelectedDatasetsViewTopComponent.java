@@ -19,7 +19,7 @@ import org.openide.windows.WindowManager;
 /**
  * Top component which displays something.
  */
-final class SelectedDatasetsViewTopComponent extends TopComponent implements ExplorerManager.Provider {
+public final class SelectedDatasetsViewTopComponent extends TopComponent implements ExplorerManager.Provider {
 
     private static SelectedDatasetsViewTopComponent instance;
     /** path to the icon used by the component and its open action */
@@ -35,9 +35,10 @@ final class SelectedDatasetsViewTopComponent extends TopComponent implements Exp
         initComponents();
         setName(NbBundle.getMessage(SelectedDatasetsViewTopComponent.class, "CTL_SelectedDatasetsViewTopComponent"));
         setToolTipText(NbBundle.getMessage(SelectedDatasetsViewTopComponent.class, "HINT_SelectedDatasetsViewTopComponent"));
-//        setIcon(Utilities.loadImage(ICON_PATH, true));
-        manager.setRootContext(new AbstractNode(container));
-        associateLookup(ExplorerUtils.createLookup(manager, getActionMap()));
+        manager.setRootContext(new AbstractNode(container,ExplorerUtils.createLookup(manager, getActionMap())));
+        //setIcon(Utilities.loadImage(ICON_PATH, true));
+        //manager.setRootContext(new AbstractNode(container,ExplorerUtils.createLookup(manager, getActionMap())) );
+        //associateLookup(ExplorerUtils.createLookup(manager, getActionMap()));
         
     }
 

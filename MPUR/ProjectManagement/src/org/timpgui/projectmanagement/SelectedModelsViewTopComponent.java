@@ -19,7 +19,7 @@ import org.openide.windows.WindowManager;
 /**
  * Top component which displays something.
  */
-final class SelectedModelsViewTopComponent extends TopComponent implements ExplorerManager.Provider {
+public final class SelectedModelsViewTopComponent extends TopComponent implements ExplorerManager.Provider {
 
     private static SelectedModelsViewTopComponent instance;
     /** path to the icon used by the component and its open action */

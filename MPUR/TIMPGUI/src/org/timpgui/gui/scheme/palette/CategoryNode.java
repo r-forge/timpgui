@@ -1,0 +1,18 @@
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
+package org.timpgui.gui.scheme.palette;
+
+import org.openide.nodes.AbstractNode;
+import org.openide.util.lookup.Lookups;
+
+public class CategoryNode extends AbstractNode {
+
+    /** Creates a new instance of CategoryNode */
+    public CategoryNode( Category category ) {
+        super( new ShapeChildren(category), Lookups.singleton(category) );
+        setDisplayName(category.getName());
+    }
+}

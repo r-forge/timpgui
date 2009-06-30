@@ -18,6 +18,7 @@ import javax.swing.KeyStroke;
 import javax.tools.FileObject;
 import org.openide.explorer.ExplorerManager;
 import org.openide.explorer.view.TreeTableView;
+import org.openide.nodes.FilterNode;
 import org.openide.nodes.Node;
 import org.timpgui.tgproject.datasets.TimpDatasetDataObject;
 import org.timpgui.tgproject.nodes.TimpDatasetNode;

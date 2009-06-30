@@ -25,22 +25,26 @@ public class TimpController implements TimpInterface {
 
     public TimpController() {
         connection = JRIConnectionFactory.getInstance().createTwoWayConnection(null);
+        connection.eval("require(TIMP)");
     }
 
     @Override
     public TimpResultDataset[] runAnalysis(DatasetTimp[] datasets, Tgm[] models, int iterations) {
 
         TimpResultDataset[] result = null;
-        String[] listOfDatasets = null;
-        String[] listOfModels = null;
+        String[] listOfDatasets;
+        String[] listOfModels;
         String modelType = null;
         String options = null;
 
+        listOfDatasets = new String[datasets.length];
         for (int i = 0; i < datasets.length; i++) {
             DatasetTimp dataset = datasets[i];
             listOfDatasets[i] = dataset.GetDatasetName();
             sendDataset(dataset,i);
         }
+
+        listOfModels = new String[models.length];
         for (int i = 0; i < models.length; i++) {
             Tgm tgm = models[i];
             listOfModels[i] = tgm.getDat().getModelName();
@@ -59,32 +63,34 @@ public class TimpController implements TimpInterface {
          String cmd = null;
          cmd = NAME_OF_RESULT_OBJECT + " <- fitModel(";
          if(listOfDatasets!=null) {
-             cmd.concat("list)");
+             cmd = cmd.concat("list(");
              for (int i = 0; i < listOfDatasets.length; i++) {
-                 cmd.concat(listOfDatasets[i]);
+                 if (i>1) {cmd = cmd +",";}
+                 cmd = cmd.concat("dataset"+String.valueOf(i+1));
              }
-             cmd.concat(")");
+             cmd = cmd.concat(")");
          }
 
          if(listOfModels!=null) {
-             cmd.concat("list)");
+             cmd = cmd.concat(",list(");
              for (int i = 0; i < listOfModels.length; i++) {
-                 cmd.concat(listOfModels[i]);
+                 if (i>1) {cmd = cmd +",";}
+                 cmd = cmd.concat("model"+String.valueOf(i+1));
              }
-             cmd.concat(")");
+             cmd = cmd.concat(")");
          }
 
          if(optResult!=null) {
-             cmd.concat("opt = ");
-             cmd.concat(optResult);
+             cmd = cmd.concat(",");
+             cmd = cmd.concat(optResult);
          }
 
-         cmd.concat(")");
+         cmd = cmd.concat(")");
 
          connection.eval(cmd);
 
-
           if(listOfDatasets!=null) {
+              timpResults = new TimpResultDataset[listOfDatasets.length];
              for (int i = 0; i < listOfDatasets.length; i++) {
                 timpResults[i] = getTimpResultDataset(listOfDatasets[i], i);
              }
@@ -94,7 +100,15 @@ public class TimpController implements TimpInterface {
 
     }
 
+    private Matrix getTempMatrix(String cmd) {
+        connection.eval("temp <-" + cmd);
+        double[] dim = connection.eval("dim(temp)").asDoubleArray();
+        double[] temp = connection.eval("temp").asDoubleArray();
+        return new Matrix(temp,(int)dim[0]);
+    }
+
          private void sendDataset(DatasetTimp dd, int index) {
+        index++;
         connection.assign("psisim", dd.GetPsisim());
         connection.assign("x", dd.GetX());
         connection.assign("x2", dd.GetX2());
@@ -113,25 +127,25 @@ public class TimpController implements TimpInterface {
     }
 
           private void sendModel(Tgm tgm, int index) {
+              index++;
             String modelString = InitModel.parseModel(tgm);
-              connection.eval("dataset" + String.valueOf(index) + " <- dat(psi.df = psisim, x = x, nt = nt, x2 = x2, nl = nl, " +
-                "inten = intenceIm)");
+              connection.eval("model" + String.valueOf(index) + " <- " + modelString);
 
 
           }
 
        private String getOptions(String modelType, int iterations) {
-              String result = null;
-              connection.eval("opt = " + modelType +"opt(" +
+              String result = "opt = " + modelType +"opt(" +
                       "iter = " + String.valueOf(iterations) +
-                      "plot=FALSE)");
+                      ", plot=FALSE)";
+              connection.eval(result);
                return result;
           }
 
       private TimpResultDataset getTimpResultDataset(String datasetName, int datasetNumber) {
 
         String name = "dataset" + String.valueOf(datasetNumber);
-
+        datasetNumber++;
         TimpResultDataset result = new TimpResultDataset();
 
         result.SetDatasetName(datasetName);
@@ -143,7 +157,7 @@ public class TimpController implements TimpInterface {
         result.SetFittedTraces(getTraces(NAME_OF_RESULT_OBJECT, datasetNumber));
         result.SetKineticParameters(getParEst(NAME_OF_RESULT_OBJECT, datasetNumber, "kinpar"));
         result.SetSpectralParameters(getParEst(NAME_OF_RESULT_OBJECT, datasetNumber, "specpar"));
-        if (result.GetKineticParameters().length > 1) {
+        if (result.GetKineticParameters().length > 2) {
             result.SetConcentrations(getX(NAME_OF_RESULT_OBJECT, datasetNumber, false));
         } else {
             result.SetConcentrations(getX(NAME_OF_RESULT_OBJECT, datasetNumber, true));
@@ -164,7 +178,7 @@ public class TimpController implements TimpInterface {
                 "parEst(" +
                 resultVariable + ", " +
                 "param = \"" + param + "\"" +
-                "dataset = \"" + dataset + "\"" +
+                ",dataset = " + dataset +
                 "))").toString());
     }
 
@@ -193,7 +207,6 @@ public class TimpController implements TimpInterface {
         } else {
             String groupStr = Integer.toString(group);
         }
-        //return new Matrix(RController.getDoubleMatrix("getX(" + resultVariable + ", group = " + groupStr + ", dataset =" + index + ")"));
         if (single) {
             double[] temp = connection.eval("getX(" + resultVariable + ", dataset =" + index + ")").asDoubleArray();
             Matrix x = new Matrix(1, temp.length);
@@ -202,7 +215,9 @@ public class TimpController implements TimpInterface {
             }
             return x;
         } else {
-            return getDoubleMatrix("getX(" + resultVariable + ", dataset =" + index + ")");
+            //return getDoubleMatrix("getX(" + resultVariable + ", dataset =" + index + ")");
+            return getTempMatrix("getX(" + resultVariable + ", dataset =" + index + ")");
+
         }
     }
 
@@ -232,8 +247,14 @@ public class TimpController implements TimpInterface {
         } else {
             getclperrStr = "FALSE";
         }
-        return getDoubleMatrix("t(getCLP(" + resultVariable + ", getclperr = " + getclperrStr + ", dataset =" + dataset + "))");
+        //TODO: Have Ralf fix this bug related to asMatrix not working.
+        //return getDoubleMatrix("t(getCLP(" + resultVariable + ", getclperr = " + getclperrStr + ", dataset =" + dataset + "))");
+        String cmd = "t(getCLP(" + resultVariable + ", getclperr = " + getclperrStr + ", dataset =" + dataset + "))";
+        return getTempMatrix(cmd);
+     
     }
+
+
 
     public List<Matrix> getDataList(String resultVariable) {
         return getCLPList(resultVariable, false);
@@ -261,7 +282,8 @@ public class TimpController implements TimpInterface {
         } else {
             weightedStr = "FALSE";
         }
-        return getDoubleMatrix("getData(" + resultVariable + ", dataset =" + dataset + ", weighted = " + weightedStr + ")");
+        //return getDoubleMatrix("getData(" + resultVariable + ", dataset =" + dataset + ", weighted = " + weightedStr + ")");
+        return getTempMatrix("getData(" + resultVariable + ", dataset =" + dataset + ", weighted = " + weightedStr + ")");
     }
 
     public List<Matrix> getResidualsList(String resultVariable, boolean weighted) {
@@ -280,7 +302,8 @@ public class TimpController implements TimpInterface {
 
     public Matrix getResiduals(String resultVariable, int dataset) {
         //getCLP(cmd, group = vector(), dataset=1)
-        return getDoubleMatrix("getResiduals(" + resultVariable + ", dataset =" + dataset + ")");
+        //return getDoubleMatrix("getResiduals(" + resultVariable + ", dataset =" + dataset + ")");
+        return getTempMatrix("getResiduals(" + resultVariable + ", dataset =" + dataset + ")");
     }
 
     public List getSVDResiduals(String resultVariable) {
@@ -308,7 +331,8 @@ public class TimpController implements TimpInterface {
 
     public Matrix getTraces(String resultVariable, int dataset) {
         //getCLP(cmd, group = vector(), dataset=1)
-        return getDoubleMatrix("getTraces(" + resultVariable + ", dataset =" + dataset + ")");
+        //return getDoubleMatrix("getTraces(" + resultVariable + ", dataset =" + dataset + ")");
+        return getTempMatrix("getTraces(" + resultVariable + ", dataset =" + dataset + ")");
     }
 
     public double[] getdim1(String resultVariable) {

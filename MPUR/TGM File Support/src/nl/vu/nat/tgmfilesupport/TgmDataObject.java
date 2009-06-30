@@ -56,6 +56,8 @@ public class TgmDataObject extends XmlMultiViewDataObject {
         }
     }
 
+
+
     @Override
     protected Node createNodeDelegate() {
         return new TgmDataNode(this); // removed: getLookup()

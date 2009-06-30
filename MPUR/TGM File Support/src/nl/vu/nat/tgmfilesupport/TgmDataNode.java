@@ -49,6 +49,10 @@ public class TgmDataNode extends DataNode implements Transferable {
         return getDataObject().getPrimaryFile();
     }
 
+    public TgmDataObject getObject() {
+        return obj;
+    }    
+
     private Object getFromProject(Class clazz) {
         // TODO: fix unchecked conversion here
         Object result;

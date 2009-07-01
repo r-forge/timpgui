@@ -9,14 +9,10 @@ import java.awt.Image;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
 import java.awt.datatransfer.UnsupportedFlavorException;
-import java.io.IOException;
-import org.openide.cookies.InstanceCookie;
 import org.openide.loaders.DataNode;
 import org.openide.nodes.Children;
-import org.openide.util.Exceptions;
 import org.openide.util.ImageUtilities;
 import org.openide.util.Lookup;
-import org.timpgui.structures.DatasetTimp;
 
 import org.timpgui.tgproject.datasets.TimpDatasetDataObject;
 

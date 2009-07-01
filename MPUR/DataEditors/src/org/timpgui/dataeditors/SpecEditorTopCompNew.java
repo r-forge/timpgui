@@ -7,7 +7,6 @@ package org.timpgui.dataeditors;
 
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.Panel;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -46,7 +45,6 @@ import org.jfree.ui.RectangleInsets;
 import org.netbeans.api.project.ui.OpenProjects;
 import org.openide.DialogDisplayer;
 import org.openide.NotifyDescriptor;
-import org.openide.NotifyDescriptor.Confirmation;
 import org.openide.filesystems.FileObject;
 import org.openide.loaders.DataObject;
 import org.openide.util.Exceptions;
@@ -69,7 +67,7 @@ final public class SpecEditorTopCompNew extends CloneableTopComponent
 
     private static SpecEditorTopCompNew instance;
     /** path to the icon used by the component and its open action */
-//    static final String ICON_PATH = "SET/PATH/TO/ICON/HERE";
+    //    static final String ICON_PATH = "SET/PATH/TO/ICON/HERE";
 
     private static final String PREFERRED_ID = "SpecEditorTopComponent";
     
@@ -113,21 +111,6 @@ final public class SpecEditorTopCompNew extends CloneableTopComponent
         try {
             data.LoadASCIIFile(new File(filename));
             MakeImageChart(MakeXYZDataset());
-//            MakeWaveTraceChart(PlotFirstTrace(false));
-//            MakeTimeTraceChart(PlotFirstTrace(true));
-//            chpanImage = new ChartPanel(chart,true);
-//            jPStreakImage.removeAll();
-//            chpanImage.setSize(jPStreakImage.getMaximumSize());
-//            chpanImage.addChartMouseListener(this);
-//
-//            jPStreakImage.add(chpanImage);
-//            jPStreakImage.repaint();
-//            jLTimsteps.setText(Integer.toString(data.GetNt()[0]));
-//            jLWavewind.setText(Double.toString(data.GetX2()[data.GetX2().length-1]-data.GetX2()[0]));
-//            jLTimeWind.setText(Double.toString(data.GetX()[data.GetX().length-1]-data.GetX()[0]));
-//            jLWavesteps.setText(Integer.toString(data.GetNl()[0]));
-
-
         } catch (FileNotFoundException ex) {
             System.out.println("File not found");
         } catch (IOException ex) {
@@ -176,13 +159,6 @@ final public class SpecEditorTopCompNew extends CloneableTopComponent
         jSColum = new javax.swing.JSlider();
         jSRow = new javax.swing.JSlider();
         jPXTrace = new javax.swing.JPanel();
-        jPanel19 = new javax.swing.JPanel();
-        jLabel2 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
-        jTextField2 = new javax.swing.JTextField();
-        jTextField3 = new javax.swing.JTextField();
-        jTextField4 = new javax.swing.JTextField();
-        jTextField5 = new javax.swing.JTextField();
         jPYTrace = new javax.swing.JPanel();
 
         inputDatasetName.setText(org.openide.util.NbBundle.getMessage(SpecEditorTopCompNew.class, "SpecEditorTopCompNew.inputDatasetName.text")); // NOI18N
@@ -315,96 +291,32 @@ final public class SpecEditorTopCompNew extends CloneableTopComponent
         });
 
         jPXTrace.setBackground(new java.awt.Color(255, 255, 255));
-        jPXTrace.setMaximumSize(new java.awt.Dimension(380, 170));
-        jPXTrace.setMinimumSize(new java.awt.Dimension(380, 170));
-        jPXTrace.setPreferredSize(new java.awt.Dimension(380, 170));
+        jPXTrace.setMaximumSize(new java.awt.Dimension(442, 178));
+        jPXTrace.setMinimumSize(new java.awt.Dimension(442, 178));
+        jPXTrace.setPreferredSize(new java.awt.Dimension(442, 178));
+        jPXTrace.setVerifyInputWhenFocusTarget(false);
 
         javax.swing.GroupLayout jPXTraceLayout = new javax.swing.GroupLayout(jPXTrace);
         jPXTrace.setLayout(jPXTraceLayout);
         jPXTraceLayout.setHorizontalGroup(
             jPXTraceLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 380, Short.MAX_VALUE)
+            .addGap(0, 442, Short.MAX_VALUE)
         );
         jPXTraceLayout.setVerticalGroup(
             jPXTraceLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 170, Short.MAX_VALUE)
+            .addGap(0, 178, Short.MAX_VALUE)
         );
-
-        jPanel19.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-
-        org.openide.awt.Mnemonics.setLocalizedText(jLabel2, org.openide.util.NbBundle.getMessage(SpecEditorTopCompNew.class, "SpecEditorTopCompNew.jLabel2.text")); // NOI18N
-
-        org.openide.awt.Mnemonics.setLocalizedText(jLabel3, org.openide.util.NbBundle.getMessage(SpecEditorTopCompNew.class, "SpecEditorTopCompNew.jLabel3.text")); // NOI18N
-
-        jTextField2.setText(org.openide.util.NbBundle.getMessage(SpecEditorTopCompNew.class, "SpecEditorTopCompNew.jTextField2.text")); // NOI18N
-        jTextField2.setEnabled(false);
-        jTextField2.setMinimumSize(new java.awt.Dimension(60, 20));
-
-        jTextField3.setText(org.openide.util.NbBundle.getMessage(SpecEditorTopCompNew.class, "SpecEditorTopCompNew.jTextField3.text")); // NOI18N
-        jTextField3.setEnabled(false);
-        jTextField3.setMinimumSize(new java.awt.Dimension(60, 20));
-
-        jTextField4.setText(org.openide.util.NbBundle.getMessage(SpecEditorTopCompNew.class, "SpecEditorTopCompNew.jTextField4.text")); // NOI18N
-        jTextField4.setEnabled(false);
-        jTextField4.setMinimumSize(new java.awt.Dimension(60, 20));
-
-        jTextField5.setText(org.openide.util.NbBundle.getMessage(SpecEditorTopCompNew.class, "SpecEditorTopCompNew.jTextField5.text")); // NOI18N
-        jTextField5.setEnabled(false);
-        jTextField5.setMinimumSize(new java.awt.Dimension(60, 20));
-
-        javax.swing.GroupLayout jPanel19Layout = new javax.swing.GroupLayout(jPanel19);
-        jPanel19.setLayout(jPanel19Layout);
-        jPanel19Layout.setHorizontalGroup(
-            jPanel19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel19Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(jPanel19Layout.createSequentialGroup()
-                        .addGroup(jPanel19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                .addComponent(jTextField3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, 82, Short.MAX_VALUE))
-                            .addComponent(jTextField2, javax.swing.GroupLayout.DEFAULT_SIZE, 76, Short.MAX_VALUE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jTextField5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jTextField4, javax.swing.GroupLayout.DEFAULT_SIZE, 76, Short.MAX_VALUE))))
-                .addContainerGap(58, Short.MAX_VALUE))
-        );
-
-        jPanel19Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jTextField2, jTextField3, jTextField4, jTextField5});
-
-        jPanel19Layout.setVerticalGroup(
-            jPanel19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel19Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel3)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-
-        jPanel19Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {jTextField2, jTextField3, jTextField4, jTextField5});
 
         jPYTrace.setBackground(new java.awt.Color(255, 255, 255));
-        jPYTrace.setMaximumSize(new java.awt.Dimension(170, 380));
-        jPYTrace.setMinimumSize(new java.awt.Dimension(170, 380));
-        jPYTrace.setPreferredSize(new java.awt.Dimension(170, 380));
+        jPYTrace.setMaximumSize(new java.awt.Dimension(211, 380));
+        jPYTrace.setMinimumSize(new java.awt.Dimension(211, 380));
+        jPYTrace.setPreferredSize(new java.awt.Dimension(211, 380));
 
         javax.swing.GroupLayout jPYTraceLayout = new javax.swing.GroupLayout(jPYTrace);
         jPYTrace.setLayout(jPYTraceLayout);
         jPYTraceLayout.setHorizontalGroup(
             jPYTraceLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 170, Short.MAX_VALUE)
+            .addGap(0, 211, Short.MAX_VALUE)
         );
         jPYTraceLayout.setVerticalGroup(
             jPYTraceLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -417,35 +329,32 @@ final public class SpecEditorTopCompNew extends CloneableTopComponent
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(jPSpecImage, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jSColum, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 450, Short.MAX_VALUE))
+                        .addComponent(jPSpecImage, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(12, 12, 12)
                         .addComponent(jSRow, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jPYTrace, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jPXTrace, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jPanel19, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                .addContainerGap())
+                    .addComponent(jPXTrace, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jSColum, javax.swing.GroupLayout.PREFERRED_SIZE, 403, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(23, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jSRow, javax.swing.GroupLayout.PREFERRED_SIZE, 369, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jPSpecImage, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jSColum, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jSRow, javax.swing.GroupLayout.PREFERRED_SIZE, 380, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jPYTrace, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPXTrace, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jPanel19, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap())
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jPSpecImage, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jPYTrace, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jSColum, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jPXTrace, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -454,17 +363,16 @@ final public class SpecEditorTopCompNew extends CloneableTopComponent
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jToolBar1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(134, Short.MAX_VALUE))
+                    .addComponent(jToolBar1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(70, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jToolBar1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -514,22 +422,12 @@ private void jBMakeDatasetActionPerformed(java.awt.event.ActionEvent evt) {//GEN
         newdataset.SetPsisim(newvec);
         newdataset.CalcRangeInt();
 
-
-
         FileObject cachefolder = null;
         final TGProject proj = (TGProject) OpenProjects.getDefault().getMainProject();
         if (proj!=null){
             cachefolder = proj.getCacheFolder(true);
-        } else {
-            Confirmation msg = new NotifyDescriptor.Confirmation("Select main project", NotifyDescriptor.ERROR_MESSAGE);
-            DialogDisplayer.getDefault().notify(msg);
-        }
-        cachefolder = cachefolder.getFileObject(dataObject.getTgd().getCacheFolderName().toString());
-
- //TODO check if all parameters are ok
- //create timpdataset.
-
-        FileObject writeTo;
+            cachefolder = cachefolder.getFileObject(dataObject.getTgd().getCacheFolderName().toString());
+            FileObject writeTo;
             try {
                 writeTo = cachefolder.createData(newdataset.GetDatasetName(), "timpdataset");
                 ObjectOutputStream stream = new ObjectOutputStream(writeTo.getOutputStream());
@@ -542,6 +440,11 @@ private void jBMakeDatasetActionPerformed(java.awt.event.ActionEvent evt) {//GEN
                 Exceptions.printStackTrace(ex);
             }
 
+        } else {
+            NotifyDescriptor errorMessage =new NotifyDescriptor.Exception(
+                    new Exception("Please select main project"));
+            DialogDisplayer.getDefault().notify(errorMessage);
+        }
     }
 
 }//GEN-LAST:event_jBMakeDatasetActionPerformed
@@ -730,10 +633,6 @@ private void jBResampleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FI
             MakeImageChart(MakeXYZDataset());
         }
    }
-
-
-
-
 }//GEN-LAST:event_jBResampleActionPerformed
 
 private void jPSpecImageMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPSpecImageMouseClicked
@@ -763,10 +662,6 @@ private void jTBZoomYActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
         chpanImage.setDomainZoomable(true);
         chpanImage.setRangeZoomable(true);
     }
-
-
-//    chpanImage.setRangeZoomable(jTBZoomY.isSelected());
-
 }//GEN-LAST:event_jTBZoomYActionPerformed
 
 private void jTBZoomXActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTBZoomXActionPerformed
@@ -790,23 +685,16 @@ private void jTBZoomXActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
     private javax.swing.JButton jButton4;
     private javax.swing.JDialog jDialog1;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPSpecImage;
     private javax.swing.JPanel jPXTrace;
     private javax.swing.JPanel jPYTrace;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel19;
     private javax.swing.JSlider jSColum;
     private javax.swing.JSlider jSRow;
     private javax.swing.JToolBar.Separator jSeparator1;
     private javax.swing.JToolBar.Separator jSeparator2;
     private javax.swing.JToggleButton jTBZoomX;
     private javax.swing.JToggleButton jTBZoomY;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
-    private javax.swing.JTextField jTextField4;
-    private javax.swing.JTextField jTextField5;
     private javax.swing.JToolBar jToolBar1;
     // End of variables declaration//GEN-END:variables
     /**
@@ -1102,30 +990,6 @@ private void jTBZoomXActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
         chartMain.addSubtitle(legend);
         
     }
-    
-//    public void chartMouseClicked(ChartMouseEvent event) {
-//
-//        int mouseX = event.getTrigger().getX();
-//        int mouseY = event.getTrigger().getY();
-//        Point2D p = this.chpanImage.translateScreenToJava2D(new Point(mouseX, mouseY));
-//        XYPlot plot = (XYPlot) this.chart.getPlot();
-//        ChartRenderingInfo info = this.chpanImage.getChartRenderingInfo();
-//        Rectangle2D dataArea = info.getPlotInfo().getDataArea();
-//
-//        ValueAxis domainAxis = plot.getDomainAxis();
-//        RectangleEdge domainAxisEdge = plot.getDomainAxisEdge();
-//        ValueAxis rangeAxis = plot.getRangeAxis();
-//        RectangleEdge rangeAxisEdge = plot.getRangeAxisEdge();
-//
-//        int chartX =  (int) (domainAxis.java2DToValue(p.getX(), dataArea, domainAxisEdge));
-//        int chartY =  (int) (rangeAxis.java2DToValue(p.getY(), dataArea, rangeAxisEdge));
-//
-////        System.out.println(chartX+"    "+chartY);
-//
-//        UpdateSelectedWaveTrace(chartY);
-//        UpdateSelectedTimeTrace(chartX);
-//
-//    }
 
     public void chartMouseMoved(ChartMouseEvent event) {
 //         System.out.println("ChartMouseMoved");

@@ -1,15 +1,13 @@
 
 package org.timpgui.structures;
-
-import Jama.Matrix;
-//import org.openide.util.Lookup;
 /**
  *
  * @author Sergey
  */
 import Jama.Matrix;
+import java.io.Serializable;
 
-public class TimpResultDataset {
+public class TimpResultDataset  implements Serializable{
     private double maxInt;
     private double minInt;
     private String datasetName;

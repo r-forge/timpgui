@@ -8,6 +8,7 @@ import Jama.Matrix;
 import java.util.List;
 import nl.vu.nat.tgmodels.tgm.Tgm;
 import nl.vu.nat.tgmodels.tgo.Tgo;
+import org.timpgui.timpinterface.ResultObject;
 import org.timpgui.timpinterface.TimpInterface;
 import org.rosuda.irconnect.IREXP;
 import org.rosuda.irconnect.IRList;

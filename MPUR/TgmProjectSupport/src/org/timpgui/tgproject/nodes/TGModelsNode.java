@@ -18,8 +18,7 @@ import org.timpgui.tgproject.actions.NewModels;
 /**
  */
 public class TGModelsNode extends FilterNode {
-
-    private final Image ICON = ImageUtilities.loadImage("nl/vu/nat/tgmprojectsupport/map.png");
+    private final Image ICON = ImageUtilities.loadImage("nl/vu/nat/tgmprojectsupport/folder-models.png", true);
 
     /**
      * Constructor.

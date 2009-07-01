@@ -4,33 +4,62 @@
  */
 package org.timpgui.tgproject.datasets;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
 import org.openide.filesystems.FileObject;
-import org.openide.loaders.DataNode;
+import org.openide.filesystems.FileUtil;
 import org.openide.loaders.DataObjectExistsException;
-import org.openide.loaders.MultiDataObject;
+import org.openide.loaders.InstanceDataObject;
 import org.openide.loaders.MultiFileLoader;
 import org.openide.nodes.CookieSet;
 import org.openide.nodes.Node;
-import org.openide.nodes.Children;
 import org.openide.util.Lookup;
-import org.openide.text.DataEditorSupport;
+import org.openide.util.Exceptions;
+import org.timpgui.structures.TimpResultDataset;
+import org.timpgui.tgproject.nodes.TimpResultsNode;
 
-public class TimpResultDataObject extends MultiDataObject {
+public class TimpResultDataObject extends InstanceDataObject  {
+
+    private TimpResultDataset obj;
 
     public TimpResultDataObject(FileObject pf, MultiFileLoader loader) throws DataObjectExistsException, IOException {
         super(pf, loader);
         CookieSet cookies = getCookieSet();
-        cookies.add((Node.Cookie) DataEditorSupport.create(this, getPrimaryEntry(), cookies));
+//        cookies.add((Node.Cookie) DataEditorSupport.create(this, getPrimaryEntry(), cookies));
     }
 
     @Override
     protected Node createNodeDelegate() {
-        return new DataNode(this, Children.LEAF, getLookup());
+        return new TimpResultsNode(this);
     }
 
     @Override
     public Lookup getLookup() {
         return getCookieSet().getLookup();
+    }
+
+    public TimpResultDataset getDatasetTimp() {
+        TimpResultDataset dataset = null;
+        ObjectInputStream ois = null;
+        try {
+            File file = FileUtil.toFile(this.getPrimaryFile());
+            ois = new ObjectInputStream(new FileInputStream(file));
+            try {
+                dataset = (TimpResultDataset) ois.readObject();
+            } catch (ClassNotFoundException ex) {
+                Exceptions.printStackTrace(ex);
+            }
+        } catch (IOException ex) {
+            Exceptions.printStackTrace(ex);
+        } finally {
+            try {
+                ois.close();
+            } catch (IOException ex) {
+                Exceptions.printStackTrace(ex);
+            }
+        }
+        return dataset;
     }
 }

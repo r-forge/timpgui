@@ -46,7 +46,7 @@ import org.timpgui.tgproject.actions.OpenDataset;
  */
 public class TGDatasetNode extends FilterNode {
 
-    private final Image ICON = ImageUtilities.loadImage("nl/vu/nat/tgmprojectsupport/source.png", true);
+    private final Image ICON = ImageUtilities.loadImage("nl/vu/nat/tgmprojectsupport/folder-datasets.png", true);
 
     /**
      * Constructor.

@@ -20,6 +20,7 @@ public class TimpResultDataset  implements Serializable{
     private Matrix residuals;
     private Matrix traces;
     private Matrix fittedTraces;
+    private String type;
     
     public void SetDatasetName(String datasetNameValue){datasetName = datasetNameValue;}
     public void SetKineticParameters(double[] kineticParametersValue){kineticParameters = kineticParametersValue;} 
@@ -31,7 +32,9 @@ public class TimpResultDataset  implements Serializable{
     public void SetResiduals(Matrix residualsValue){residuals = residualsValue;}
     public void SetTraces(Matrix tracesValue){traces =tracesValue;}
     public void SetFittedTraces(Matrix fittedTracesValue){fittedTraces = fittedTracesValue;}
-    
+    public void setType(String type) {this.type = type;}
+
+    public String getType() {return type;}
     public double GetMaxInt(){return maxInt;}
     public double GetMinInt(){return minInt;}
     public String GetDatasetName(){return datasetName;}
@@ -62,14 +65,14 @@ public class TimpResultDataset  implements Serializable{
     
     public void CalcRangeInt(){
         maxInt = 0;
-        minInt = 0; 
+        minInt = 0;
+        double[] temp = traces.getColumnPackedCopy();
         for (int i = 0; i < x2.length*x.length; i++){
-            if (traces.getRowPackedCopy()[i]>maxInt)
-                maxInt = traces.getRowPackedCopy()[i];
-            if (traces.getRowPackedCopy()[i]<minInt)
-                minInt = traces.getRowPackedCopy()[i];
+            if (temp[i]>maxInt)
+                maxInt = temp[i];
+            if (temp[i]<minInt)
+                minInt = temp[i];
         }
-  //      return maxInt; 
     }
     
 

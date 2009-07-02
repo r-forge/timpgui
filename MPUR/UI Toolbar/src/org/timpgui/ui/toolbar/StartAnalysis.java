@@ -68,18 +68,17 @@ public final class StartAnalysis implements ActionListener {
                     //get results directory
                     resultsfolder = proj.getResultsFolder(true);
                     try {
+                        //todo resove problem with same name for directory
                         resultsfolder = resultsfolder.createFolder(resultNameDialog.getInputText());
                         for (int i = 0; i < results.length; i++) {
                             TimpResultDataset timpResultDataset = results[i];
+                            timpResultDataset.setType(datasets[i].getType());
                             FileObject writeTo;
                                try {
-                                   writeTo = resultsfolder.createData(timpResultDataset.GetDatasetName(), "timpres");
+                                   writeTo = resultsfolder.createData("dataset"+(i+1)+"_"+timpResultDataset.GetDatasetName(), "timpres");
                                    ObjectOutputStream stream = new ObjectOutputStream(writeTo.getOutputStream());
                                    stream.writeObject(timpResultDataset);
                                    stream.close();
-//                                   TimpDatasetDataObject dObj = (TimpDatasetDataObject) DataObject.find(writeTo);
-//                                   TgdDataChildren chidrens = (TgdDataChildren) dataObject.getNodeDelegate().getChildren();
-//                                   chidrens.addObj(dObj);
                                } catch (IOException ex) {
                                    Exceptions.printStackTrace(ex);
                                }

@@ -99,9 +99,9 @@ final public class SpecEditorTopCompNew extends CloneableTopComponent
         String filename;
         dataObject = dataObj;
         initComponents();
-        setName((String)dataObject.getTgd().getFilename());
-        filename = (String)dataObject.getTgd().getPath();
-        filename = filename.concat("/").concat((String)dataObject.getTgd().getFilename());
+        setName(dataObject.getTgd().getFilename());
+        filename = dataObject.getTgd().getPath();
+        filename = filename.concat("/").concat(dataObject.getTgd().getFilename());
 
 
 //        setName(NbBundle.getMessage(SpecEditorTopCompNew.class, "CTL_StreakLoaderTopComponent"));
@@ -127,7 +127,7 @@ final public class SpecEditorTopCompNew extends CloneableTopComponent
         initComponents();
         dataObject2 = dataObj;
         data = dataObj.getDatasetTimp();
-        setName((String)data.GetDatasetName());
+        setName(data.GetDatasetName());
         setToolTipText(NbBundle.getMessage(SpecEditorTopCompNew.class, "HINT_StreakLoaderTopComponent"));        
         MakeImageChart(MakeXYZDataset());
         
@@ -251,26 +251,15 @@ final public class SpecEditorTopCompNew extends CloneableTopComponent
         jToolBar1.add(jBSaveIvoFile);
 
         jPSpecImage.setBackground(new java.awt.Color(0, 0, 0));
-        jPSpecImage.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-        jPSpecImage.setMaximumSize(new java.awt.Dimension(450, 380));
-        jPSpecImage.setMinimumSize(new java.awt.Dimension(450, 380));
-        jPSpecImage.setPreferredSize(new java.awt.Dimension(450, 380));
+        jPSpecImage.setMaximumSize(new java.awt.Dimension(423, 356));
+        jPSpecImage.setMinimumSize(new java.awt.Dimension(423, 356));
+        jPSpecImage.setPreferredSize(new java.awt.Dimension(423, 356));
         jPSpecImage.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jPSpecImageMouseClicked(evt);
             }
         });
-
-        javax.swing.GroupLayout jPSpecImageLayout = new javax.swing.GroupLayout(jPSpecImage);
-        jPSpecImage.setLayout(jPSpecImageLayout);
-        jPSpecImageLayout.setHorizontalGroup(
-            jPSpecImageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 446, Short.MAX_VALUE)
-        );
-        jPSpecImageLayout.setVerticalGroup(
-            jPSpecImageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 376, Short.MAX_VALUE)
-        );
+        jPSpecImage.setLayout(new java.awt.BorderLayout());
 
         jSColum.setMinimum(1);
         jSColum.setValue(1);
@@ -291,68 +280,45 @@ final public class SpecEditorTopCompNew extends CloneableTopComponent
         });
 
         jPXTrace.setBackground(new java.awt.Color(255, 255, 255));
-        jPXTrace.setMaximumSize(new java.awt.Dimension(442, 178));
-        jPXTrace.setMinimumSize(new java.awt.Dimension(442, 178));
-        jPXTrace.setPreferredSize(new java.awt.Dimension(442, 178));
+        jPXTrace.setMaximumSize(new java.awt.Dimension(423, 178));
+        jPXTrace.setMinimumSize(new java.awt.Dimension(423, 178));
+        jPXTrace.setPreferredSize(new java.awt.Dimension(423, 178));
         jPXTrace.setVerifyInputWhenFocusTarget(false);
-
-        javax.swing.GroupLayout jPXTraceLayout = new javax.swing.GroupLayout(jPXTrace);
-        jPXTrace.setLayout(jPXTraceLayout);
-        jPXTraceLayout.setHorizontalGroup(
-            jPXTraceLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 442, Short.MAX_VALUE)
-        );
-        jPXTraceLayout.setVerticalGroup(
-            jPXTraceLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 178, Short.MAX_VALUE)
-        );
+        jPXTrace.setLayout(new java.awt.BorderLayout());
 
         jPYTrace.setBackground(new java.awt.Color(255, 255, 255));
-        jPYTrace.setMaximumSize(new java.awt.Dimension(211, 380));
-        jPYTrace.setMinimumSize(new java.awt.Dimension(211, 380));
-        jPYTrace.setPreferredSize(new java.awt.Dimension(211, 380));
-
-        javax.swing.GroupLayout jPYTraceLayout = new javax.swing.GroupLayout(jPYTrace);
-        jPYTrace.setLayout(jPYTraceLayout);
-        jPYTraceLayout.setHorizontalGroup(
-            jPYTraceLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 211, Short.MAX_VALUE)
-        );
-        jPYTraceLayout.setVerticalGroup(
-            jPYTraceLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 380, Short.MAX_VALUE)
-        );
+        jPYTrace.setMaximumSize(new java.awt.Dimension(211, 356));
+        jPYTrace.setMinimumSize(new java.awt.Dimension(211, 356));
+        jPYTrace.setPreferredSize(new java.awt.Dimension(211, 356));
+        jPYTrace.setLayout(new java.awt.BorderLayout());
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jPSpecImage, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(12, 12, 12)
-                        .addComponent(jSRow, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jPYTrace, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jPXTrace, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jSColum, javax.swing.GroupLayout.PREFERRED_SIZE, 403, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(23, Short.MAX_VALUE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jPSpecImage, javax.swing.GroupLayout.DEFAULT_SIZE, 423, Short.MAX_VALUE)
+                    .addComponent(jSColum, javax.swing.GroupLayout.PREFERRED_SIZE, 403, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jPXTrace, 0, 423, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jSRow, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPYTrace, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(62, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jSRow, javax.swing.GroupLayout.PREFERRED_SIZE, 369, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jSRow, javax.swing.GroupLayout.PREFERRED_SIZE, 338, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jPSpecImage, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jPYTrace, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(jPYTrace, javax.swing.GroupLayout.Alignment.LEADING, 0, 356, Short.MAX_VALUE)
+                            .addComponent(jPSpecImage, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 356, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jSColum, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGap(8, 8, 8)
                         .addComponent(jPXTrace, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -365,14 +331,15 @@ final public class SpecEditorTopCompNew extends CloneableTopComponent
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jToolBar1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(70, Short.MAX_VALUE))
+                .addContainerGap(76, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jToolBar1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -841,7 +808,6 @@ private void jTBZoomXActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
     }
 
     private JFreeChart createChart(XYDataset dataset1) {
-
         JFreeChart chart_temp = ChartFactory.createScatterPlot(null,
                 null, null, dataset1, PlotOrientation.VERTICAL, false, false,
                 false);
@@ -878,8 +844,8 @@ private void jTBZoomXActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
         chpanImage = new ChartPanel(chartMain);
         chpanImage.setFillZoomRectangle(true);
         chpanImage.setMouseWheelEnabled(true);
-        jPSpecImage.removeAll();
-        chpanImage.setSize(jPSpecImage.getMaximumSize());
+//        jPSpecImage.removeAll();
+//        chpanImage.setSize(jPSpecImage.getMaximumSize());
         jPSpecImage.add(chpanImage);
         jPSpecImage.repaint();
 
@@ -920,8 +886,8 @@ private void jTBZoomXActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
         subchartTimeTrace.getXYPlot().getDomainAxis().setUpperBound(data.GetX()[data.GetX().length-1]);
 ////        tracechart.getXYPlot().setDomainZeroBaselineVisible(true);
         ChartPanel chpan = new ChartPanel(subchartTimeTrace,true);
-        chpan.setSize(jPYTrace.getMaximumSize());
-        jPYTrace.removeAll();
+//        chpan.setSize(jPYTrace.getMaximumSize());
+//        jPYTrace.removeAll();
         chpan.setMinimumDrawHeight(0);
         chpan.setMinimumDrawWidth(0);
         jPYTrace.add(chpan);
@@ -959,8 +925,8 @@ private void jTBZoomXActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
         plot2.setRangeAxisLocation(AxisLocation.TOP_OR_RIGHT);
 
         ChartPanel subchart2Panel = new ChartPanel(subchartWaveTrace,true);
-        subchart2Panel.setSize(jPXTrace.getMaximumSize());
-        jPXTrace.removeAll();
+//        subchart2Panel.setSize(jPXTrace.getMaximumSize());
+//        jPXTrace.removeAll();
         subchart2Panel.setMinimumDrawHeight(0);
         subchart2Panel.setMinimumDrawWidth(0);
         jPXTrace.add(subchart2Panel);

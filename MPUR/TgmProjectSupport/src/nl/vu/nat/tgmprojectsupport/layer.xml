@@ -4,6 +4,7 @@
     <folder name="Actions">
         <folder name="Build">
             <file name="org-timpgui-tgproject-actions-ShowDataset.instance"/>
+            <file name="org-timpgui-tgproject-actions-ShowResultsDataset.instance"/>
             <file name="org-timpgui-tgproject-actions-ShowTimpDataset.instance"/>
             <file name="org-timpgui-tgproject-actions-OpenDataset.instance"/>
             <file name="org-timpgui-tgproject-actions-OpenDatasetFile.instance"/>
@@ -221,6 +222,10 @@
                     </file>
                     <file name="org-openide-actions-ToolsAction.instance">
                         <attr name="position" intvalue="1300"/>
+                    </file>
+                    <file name="org-timpgui-tgproject-actions-ShowResultsDataset.shadow">
+                        <attr name="originalFile" stringvalue="Actions/Build/org-timpgui-tgproject-actions-ShowResultsDataset.instance"/>
+                        <attr name="position" intvalue="0"/>
                     </file>
                     <file name="sep-1.instance">
                         <attr name="instanceClass" stringvalue="javax.swing.JSeparator"/>

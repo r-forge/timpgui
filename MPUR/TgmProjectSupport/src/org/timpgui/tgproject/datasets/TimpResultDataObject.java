@@ -20,6 +20,7 @@ import org.openide.util.Exceptions;
 import org.timpgui.structures.TimpResultDataset;
 import org.timpgui.tgproject.nodes.TimpResultsNode;
 
+
 public class TimpResultDataObject extends InstanceDataObject  {
 
     private TimpResultDataset obj;
@@ -40,7 +41,7 @@ public class TimpResultDataObject extends InstanceDataObject  {
         return getCookieSet().getLookup();
     }
 
-    public TimpResultDataset getDatasetTimp() {
+    public TimpResultDataset getTimpResultDataset() {
         TimpResultDataset dataset = null;
         ObjectInputStream ois = null;
         try {

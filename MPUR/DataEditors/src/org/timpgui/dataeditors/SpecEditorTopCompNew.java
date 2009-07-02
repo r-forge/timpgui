@@ -20,7 +20,6 @@ import nl.wur.flim.jfreechartcustom.ImageCrosshairLabelGenerator;
 import nl.wur.flim.jfreechartcustom.RainbowPaintScale;
 import nl.wur.flim.jfreechartcustom.ImageUtilities;
 import org.jfree.chart.ChartFactory;
-import org.jfree.chart.ChartMouseEvent;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.annotations.XYDataImageAnnotation;
@@ -254,11 +253,6 @@ final public class SpecEditorTopCompNew extends CloneableTopComponent
         jPSpecImage.setMaximumSize(new java.awt.Dimension(423, 356));
         jPSpecImage.setMinimumSize(new java.awt.Dimension(423, 356));
         jPSpecImage.setPreferredSize(new java.awt.Dimension(423, 356));
-        jPSpecImage.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jPSpecImageMouseClicked(evt);
-            }
-        });
         jPSpecImage.setLayout(new java.awt.BorderLayout());
 
         jSColum.setMinimum(1);
@@ -601,10 +595,6 @@ private void jBResampleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FI
         }
    }
 }//GEN-LAST:event_jBResampleActionPerformed
-
-private void jPSpecImageMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPSpecImageMouseClicked
-    // TODO add your han   dling code here:
-}//GEN-LAST:event_jPSpecImageMouseClicked
 
 private void jSRowStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jSRowStateChanged
     crosshair2.setValue(dataset.GetImageHeigth()-jSRow.getValue());
@@ -957,7 +947,4 @@ private void jTBZoomXActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
         
     }
 
-    public void chartMouseMoved(ChartMouseEvent event) {
-//         System.out.println("ChartMouseMoved");
-    }
 }

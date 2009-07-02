@@ -21,11 +21,11 @@ class SdtOpenSupport extends OpenSupport implements OpenCookie, CloseCookie {
         super(entry);
     }
 
-    protected CloneableTopComponent createCloneableTopComponent() {
-        SdtDataObject dobj = (SdtDataObject) entry.getDataObject();
-        SdtTopComponent tc = new SdtTopComponent(dobj);      
-        tc.setDisplayName(dobj.getName());
-        return tc;
-    }
+        protected CloneableTopComponent createCloneableTopComponent() {
+            SdtDataObject dobj = (SdtDataObject) entry.getDataObject();
+            SdtTopComponent tc = new SdtTopComponent(dobj);
+            tc.setDisplayName(dobj.getName());
+            return tc;
+        }
 
     }

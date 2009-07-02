@@ -5,10 +5,6 @@
 package org.timpgui.resultsdisplayers;
 
 import java.awt.Color;
-import java.awt.Font;
-import java.awt.Point;
-import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.io.Serializable;
 import java.util.logging.Logger;
@@ -20,12 +16,10 @@ import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartMouseEvent;
 import org.jfree.chart.ChartMouseListener;
 import org.jfree.chart.ChartPanel;
-import org.jfree.chart.ChartRenderingInfo;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.annotations.XYDataImageAnnotation;
 import org.jfree.chart.axis.AxisLocation;
 import org.jfree.chart.axis.NumberAxis;
-import org.jfree.chart.axis.ValueAxis;
 import org.jfree.chart.panel.CrosshairOverlay;
 import org.jfree.chart.plot.CombinedDomainXYPlot;
 import org.jfree.chart.plot.Crosshair;
@@ -33,18 +27,15 @@ import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.plot.XYPlot;
 import org.jfree.chart.renderer.PaintScale;
 import org.jfree.chart.renderer.xy.StandardXYItemRenderer;
-import org.jfree.chart.renderer.xy.XYBlockRenderer;
 import org.jfree.chart.renderer.xy.XYItemRenderer;
-import org.jfree.chart.title.PaintScaleLegend;
 import org.jfree.data.Range;
 import org.jfree.data.xy.DefaultXYZDataset;
+import org.jfree.data.xy.XYDataset;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
-import org.jfree.data.xy.XYZDataset;
 import org.jfree.ui.Layer;
 import org.jfree.ui.RectangleAnchor;
-import org.jfree.ui.RectangleEdge;
-import org.jfree.ui.RectangleInsets;
+import org.openide.util.NbBundle;
 import org.openide.windows.TopComponent;
 import org.openide.windows.WindowManager;
 import org.timpgui.structures.TimpResultDataset;
@@ -71,21 +62,28 @@ public final class SpecResultsTopComponent extends TopComponent implements Chart
     private Range wholeYRange;
     private Crosshair crosshair1;
     private Crosshair crosshair2;
+    private JFreeChart chartMain;
+    private ColorCodedImageDataset dataset;
 
 
     public SpecResultsTopComponent(TimpResultDataObject dataObj) {
         initComponents();
-        
+        setToolTipText(NbBundle.getMessage(SpecResultsTopComponent.class, "HINT_StreakOutTopComponent"));
         setName(dataObj.getName());
         res = dataObj.getTimpResultDataset();
         res.CalcRangeInt();
         Object[] rates = new Object[res.GetKineticParameters().length/2];
         for (int i = 0; i < res.GetKineticParameters().length/2; i++) {
-            rates[i] = "k" + (i + 1) + "=" + res.GetKineticParameters()[i] + "ns";
+            rates[i] = "k" + (i + 1) + "=" + res.GetKineticParameters()[i] + " ns";
         }
         jLKineticParameters.setListData(rates);
 
-        MakeImageChart(MakeXYZDataset());
+        MakeImageChart();
+
+
+
+
+//        MakeImageChart(MakeXYZDataset());
 //        chpanImage.getChartRenderingInfo().setEntityCollection(null);
 //        jPSpecImage.removeAll();
 //        chpanImage.setSize(jPStreakImage.getMaximumSize());
@@ -486,41 +484,38 @@ public final class SpecResultsTopComponent extends TopComponent implements Chart
     }
 
     private ColorCodedImageDataset MakeXYZDataset() {
-        DefaultXYZDataset dataset2 = new DefaultXYZDataset();
-        double[] xValues = new double[res.GetX().length * res.GetX2().length];
-        double[] yValues = new double[res.GetX().length * res.GetX2().length];
+//        DefaultXYZDataset dataset2 = new DefaultXYZDataset();
+//        double[] xValues = new double[res.GetX().length * res.GetX2().length];
+//        double[] yValues = new double[res.GetX().length * res.GetX2().length];
+//
+//        for (int i = 0; i < res.GetX().length; i++) {
+//            for (int j = 0; j < res.GetX2().length; j++) {
+//                xValues[j * res.GetX().length + i] = res.GetX2()[j];
+//                yValues[j * res.GetX().length + i] = res.GetX()[i];
+//            }
+//        }
+//        double[][] chartdata = {xValues, yValues, res.GetTraces().getColumnPackedCopy()};
+//        dataset2.addSeries("Streak image", chartdata);
 
-        for (int i = 0; i < res.GetX().length; i++) {
-            for (int j = 0; j < res.GetX2().length; j++) {
-                xValues[j * res.GetX().length + i] = res.GetX2()[j];
-                yValues[j * res.GetX().length + i] = res.GetX()[i];
-            }
-        }
-        double[][] chartdata = {xValues, yValues, res.GetTraces().getColumnPackedCopy()};
-        dataset2.addSeries("Streak image", chartdata);
-
-        ColorCodedImageDataset dataset = new ColorCodedImageDataset(res.GetX2().length,res.GetX().length,
+        dataset = new ColorCodedImageDataset(res.GetX2().length,res.GetX().length,
                     res.GetTraces().getRowPackedCopy(),res.GetX2(),res.GetX(),false);
         return dataset;
     }
 
-
-
-    private JFreeChart MakeImageChart(ColorCodedImageDataset dataset) {
-
-        chart = ChartFactory.createScatterPlot(null,
-                null, null, dataset, PlotOrientation.VERTICAL, false, false,
+        private JFreeChart createChart(XYDataset dataset1) {
+        JFreeChart chart_temp = ChartFactory.createScatterPlot(null,
+                null, null, dataset1, PlotOrientation.VERTICAL, false, false,
                 false);
 
-        PaintScale scale = new RainbowPaintScale(res.GetMinInt(), res.GetMaxInt(), true, false);
-        BufferedImage image = ImageUtilities.createColorCodedImage(dataset, scale);
+        PaintScale ps = new RainbowPaintScale(res.GetMinInt(), res.GetMaxInt());
+        BufferedImage image = ImageUtilities.createColorCodedImage(this.dataset, ps);
+
         XYDataImageAnnotation ann = new XYDataImageAnnotation(image, 0,0,
                 dataset.GetImageWidth(), dataset.GetImageHeigth(), true);
-        XYPlot plot = (XYPlot) chart.getPlot();
+        XYPlot plot = (XYPlot) chart_temp.getPlot();
         plot.setDomainPannable(true);
         plot.setRangePannable(true);
         plot.getRenderer().addAnnotation(ann, Layer.BACKGROUND);
-
         NumberAxis xAxis = (NumberAxis) plot.getDomainAxis();
         xAxis.setStandardTickUnits(NumberAxis.createIntegerTickUnits());
         xAxis.setLowerMargin(0.0);
@@ -531,24 +526,26 @@ public final class SpecResultsTopComponent extends TopComponent implements Chart
         yAxis.setLowerMargin(0.0);
         yAxis.setUpperMargin(0.0);
         yAxis.setVisible(false);
+        return chart_temp;
+    }
 
-
-//        PaintScale ps = new RainbowPaintScale(res.GetMinInt(), res.GetMaxInt(), true, false);
-//        chart.addChangeListener(this);
-
-        XYPlot tempPlot = chart.getXYPlot();
+    private void MakeImageChart(){
+        dataset = new ColorCodedImageDataset(res.GetX2().length,res.GetX().length,
+            res.GetTraces().getRowPackedCopy(),res.GetX2(),res.GetX(),false);
+        PaintScale ps = new RainbowPaintScale(res.GetMinInt(), res.GetMaxInt());
+        this.chartMain = createChart(new XYSeriesCollection());
+//        this.chartMain.addChangeListener(this);
+        XYPlot tempPlot = (XYPlot)this.chartMain.getPlot();
         this.wholeXRange = tempPlot.getDomainAxis().getRange();
         this.wholeYRange = tempPlot.getRangeAxis().getRange();
-        chpanImage = new ChartPanel(chart);
+        chpanImage = new ChartPanel(chartMain);
         chpanImage.setFillZoomRectangle(true);
         chpanImage.setMouseWheelEnabled(true);
-//        jPSpecImage.removeAll();
-//        chpanImage.setSize(jPSpecImage.getMaximumSize());
         jPSpecImage.add(chpanImage);
         jPSpecImage.repaint();
 
-//        ImageCrosshairLabelGenerator crossLabGen1 = new ImageCrosshairLabelGenerator(res.GetX2(),false);
-//        ImageCrosshairLabelGenerator crossLabGen2 = new ImageCrosshairLabelGenerator(res.GetX(),true);
+        ImageCrosshairLabelGenerator crossLabGen1 = new ImageCrosshairLabelGenerator(res.GetX2(),false);
+        ImageCrosshairLabelGenerator crossLabGen2 = new ImageCrosshairLabelGenerator(res.GetX(),true);
 
         CrosshairOverlay overlay = new CrosshairOverlay();
         crosshair1 = new Crosshair(0.0);
@@ -560,17 +557,82 @@ public final class SpecResultsTopComponent extends TopComponent implements Chart
         overlay.addRangeCrosshair(crosshair2);
 
         chpanImage.addOverlay(overlay);
-//        crosshair1.setLabelGenerator(crossLabGen1);
+        crosshair1.setLabelGenerator(crossLabGen1);
         crosshair1.setLabelVisible(true);
         crosshair1.setLabelAnchor(RectangleAnchor.BOTTOM_RIGHT);
         crosshair1.setLabelBackgroundPaint(new Color(255, 255, 0, 100));
         crosshair2.setLabelAnchor(RectangleAnchor.BOTTOM_RIGHT);
-//        crosshair2.setLabelGenerator(crossLabGen2);
+        crosshair2.setLabelGenerator(crossLabGen2);
         crosshair2.setLabelVisible(true);
         crosshair2.setLabelBackgroundPaint(new Color(255, 255, 0, 100));
 
+    }
+
+//    private JFreeChart MakeImageChart(ColorCodedImageDataset dataset) {
+//
+//        chart = ChartFactory.createScatterPlot(null,
+//                null, null, dataset, PlotOrientation.VERTICAL, false, false,
+//                false);
+//
+//        PaintScale scale = new RainbowPaintScale(res.GetMinInt(), res.GetMaxInt(), true, false);
+//        BufferedImage image = ImageUtilities.createColorCodedImage(dataset, scale);
+//        XYDataImageAnnotation ann = new XYDataImageAnnotation(image, 0,0,
+//                dataset.GetImageWidth(), dataset.GetImageHeigth(), true);
+//        XYPlot plot = (XYPlot) chart.getPlot();
+//        plot.setDomainPannable(true);
+//        plot.setRangePannable(true);
+//        plot.getRenderer().addAnnotation(ann, Layer.BACKGROUND);
+//
+//        NumberAxis xAxis = (NumberAxis) plot.getDomainAxis();
+//        xAxis.setStandardTickUnits(NumberAxis.createIntegerTickUnits());
+//        xAxis.setLowerMargin(0.0);
+//        xAxis.setUpperMargin(0.0);
+//        xAxis.setVisible(false);
+//        NumberAxis yAxis = (NumberAxis) plot.getRangeAxis();
+//        yAxis.setStandardTickUnits(NumberAxis.createIntegerTickUnits());
+//        yAxis.setLowerMargin(0.0);
+//        yAxis.setUpperMargin(0.0);
+//        yAxis.setVisible(false);
 
 
+//        PaintScale ps = new RainbowPaintScale(res.GetMinInt(), res.GetMaxInt(), true, false);
+//        chart.addChangeListener(this);
+
+//        XYPlot tempPlot = chart.getXYPlot();
+//        this.wholeXRange = tempPlot.getDomainAxis().getRange();
+//        this.wholeYRange = tempPlot.getRangeAxis().getRange();
+//        chpanImage = new ChartPanel(chart);
+//        chpanImage.setFillZoomRectangle(true);
+//        chpanImage.setMouseWheelEnabled(true);
+////        jPSpecImage.removeAll();
+////        chpanImage.setSize(jPSpecImage.getMaximumSize());
+//        jPSpecImage.add(chpanImage);
+//        jPSpecImage.repaint();
+//
+////        ImageCrosshairLabelGenerator crossLabGen1 = new ImageCrosshairLabelGenerator(res.GetX2(),false);
+////        ImageCrosshairLabelGenerator crossLabGen2 = new ImageCrosshairLabelGenerator(res.GetX(),true);
+//
+//        CrosshairOverlay overlay = new CrosshairOverlay();
+//        crosshair1 = new Crosshair(0.0);
+//        crosshair1.setPaint(Color.RED);
+//        crosshair2 = new Crosshair(0.0);
+//        crosshair2.setPaint(Color.YELLOW);
+//
+//        overlay.addDomainCrosshair(crosshair1);
+//        overlay.addRangeCrosshair(crosshair2);
+//
+//        chpanImage.addOverlay(overlay);
+////        crosshair1.setLabelGenerator(crossLabGen1);
+//        crosshair1.setLabelVisible(true);
+//        crosshair1.setLabelAnchor(RectangleAnchor.BOTTOM_RIGHT);
+//        crosshair1.setLabelBackgroundPaint(new Color(255, 255, 0, 100));
+//        crosshair2.setLabelAnchor(RectangleAnchor.BOTTOM_RIGHT);
+////        crosshair2.setLabelGenerator(crossLabGen2);
+//        crosshair2.setLabelVisible(true);
+//        crosshair2.setLabelBackgroundPaint(new Color(255, 255, 0, 100));
+//
+//
+//
  
 //        NumberAxis xAxis = new NumberAxis("Wavelengts (nm)");
 //        xAxis.setLowerMargin(0.0);
@@ -615,8 +677,8 @@ public final class SpecResultsTopComponent extends TopComponent implements Chart
 //        legend.setBackgroundPaint(chart.getBackgroundPaint());
 //        chart.addSubtitle(legend);
 //        chart.setNotify(true);
-        return chart;
-    }
+//        return chart;
+//    }
 
     public void chartMouseClicked(ChartMouseEvent event) {
 //        this.chart.setNotify(false);

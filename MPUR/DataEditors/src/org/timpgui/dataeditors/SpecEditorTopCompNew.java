@@ -723,19 +723,6 @@ private void jTBZoomXActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
     
     
     private ColorCodedImageDataset MakeXYZDataset(){
-//        DefaultXYZDataset dataset2 = new DefaultXYZDataset();
-//        double[] xValues  = new double[data.GetNl()[0]*data.GetNt()[0]];
-//        double[] yValues  = new double[data.GetNl()[0]*data.GetNt()[0]];
-//
-//        for (int i = 0; i<data.GetNt()[0]; i++){
-//            for (int j = 0; j<data.GetNl()[0]; j++){
-//                xValues[j*data.GetNt()[0]+i] = data.GetX2()[j];
-//                yValues[j*data.GetNt()[0]+i] = data.GetX()[i];
-//            }
-//        }
-//        double[][] chartdata = {xValues,yValues,data.GetPsisim()};
-//        dataset2.addSeries("Image", chartdata);
-//        
         dataset = new ColorCodedImageDataset(data.GetNl()[0],data.GetNt()[0],
                 data.GetPsisim(), data.GetX2(), data.GetX(), true);
         return dataset;

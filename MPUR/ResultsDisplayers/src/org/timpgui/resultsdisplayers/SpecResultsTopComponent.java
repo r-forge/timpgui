@@ -5,6 +5,8 @@
 package org.timpgui.resultsdisplayers;
 
 import java.awt.Color;
+import java.awt.Font;
+import java.awt.Paint;
 import java.awt.image.BufferedImage;
 import java.io.Serializable;
 import java.util.logging.Logger;
@@ -13,13 +15,13 @@ import nl.wur.flim.jfreechartcustom.ImageCrosshairLabelGenerator;
 import nl.wur.flim.jfreechartcustom.ImageUtilities;
 import nl.wur.flim.jfreechartcustom.RainbowPaintScale;
 import org.jfree.chart.ChartFactory;
-import org.jfree.chart.ChartMouseEvent;
-import org.jfree.chart.ChartMouseListener;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.annotations.XYDataImageAnnotation;
 import org.jfree.chart.axis.AxisLocation;
 import org.jfree.chart.axis.NumberAxis;
+import org.jfree.chart.event.ChartChangeEvent;
+import org.jfree.chart.event.ChartChangeListener;
 import org.jfree.chart.panel.CrosshairOverlay;
 import org.jfree.chart.plot.CombinedDomainXYPlot;
 import org.jfree.chart.plot.Crosshair;
@@ -28,13 +30,17 @@ import org.jfree.chart.plot.XYPlot;
 import org.jfree.chart.renderer.PaintScale;
 import org.jfree.chart.renderer.xy.StandardXYItemRenderer;
 import org.jfree.chart.renderer.xy.XYItemRenderer;
+import org.jfree.chart.title.PaintScaleLegend;
 import org.jfree.data.Range;
-import org.jfree.data.xy.DefaultXYZDataset;
 import org.jfree.data.xy.XYDataset;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 import org.jfree.ui.Layer;
 import org.jfree.ui.RectangleAnchor;
+import org.jfree.ui.RectangleEdge;
+import org.jfree.ui.RectangleInsets;
+import org.netbeans.api.visual.border.Border;
+import org.netbeans.api.visual.border.BorderFactory;
 import org.openide.util.NbBundle;
 import org.openide.windows.TopComponent;
 import org.openide.windows.WindowManager;
@@ -43,7 +49,7 @@ import org.timpgui.tgproject.datasets.TimpResultDataObject;
 /**
  * Top component which displays something.
  */
-public final class SpecResultsTopComponent extends TopComponent implements ChartMouseListener {
+public final class SpecResultsTopComponent extends TopComponent implements ChartChangeListener {
 
     private static SpecResultsTopComponent instance;
     /** path to the icon used by the component and its open action */
@@ -80,18 +86,6 @@ public final class SpecResultsTopComponent extends TopComponent implements Chart
 
         MakeImageChart();
 
-
-
-
-//        MakeImageChart(MakeXYZDataset());
-//        chpanImage.getChartRenderingInfo().setEntityCollection(null);
-//        jPSpecImage.removeAll();
-//        chpanImage.setSize(jPStreakImage.getMaximumSize());
-//        chpanImage.addChartMouseListener(this);
-
-//        jPSpecImage.add(chpanImage);
-//        jPSpecImage.repaint();
-
         PlotFirstTrace();
         MakeTracesChart();
         PlotConcSpectrTrace();
@@ -100,12 +94,9 @@ public final class SpecResultsTopComponent extends TopComponent implements Chart
 //    private ArrayList<ResultObject> resultObjects;
 
     private SpecResultsTopComponent() {
-
         initComponents();
-
-//        setName(NbBundle.getMessage(SpecResultsTopComponent.class, "CTL_StreakOutTopComponent"));
-//        setToolTipText(NbBundle.getMessage(SpecResultsTopComponent.class, "HINT_StreakOutTopComponent"));
-//        setIcon(Utilities.loadImage(ICON_PATH, true));
+        setName(NbBundle.getMessage(SpecResultsTopComponent.class, "HINT_StreakOutTopComponent"));
+        setToolTipText(NbBundle.getMessage(SpecResultsTopComponent.class, "HINT_StreakOutTopComponent"));
     }
 
     /** This method is called from within the constructor to
@@ -128,9 +119,13 @@ public final class SpecResultsTopComponent extends TopComponent implements Chart
         jLSpectralParameters = new javax.swing.JList();
         jPanel3 = new javax.swing.JPanel();
         jPanel1 = new javax.swing.JPanel();
-        jPSelectedTimeTrace = new javax.swing.JPanel();
         jPSelectedWaveTrace = new javax.swing.JPanel();
+        jPSelectedTimeTrace = new javax.swing.JPanel();
+        jPanel4 = new javax.swing.JPanel();
         jPSpecImage = new javax.swing.JPanel();
+        jSColum = new javax.swing.JSlider();
+        jSRow = new javax.swing.JSlider();
+        jPLegend = new javax.swing.JPanel();
 
         setLayout(new java.awt.BorderLayout());
 
@@ -178,18 +173,12 @@ public final class SpecResultsTopComponent extends TopComponent implements Chart
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 222, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(924, Short.MAX_VALUE))
+                .addContainerGap(960, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab(org.openide.util.NbBundle.getMessage(SpecResultsTopComponent.class, "SpecResultsTopComponent.jPanel6.TabConstraints.tabTitle"), jPanel6); // NOI18N
 
         jPanel1.setLayout(new java.awt.GridLayout(2, 0));
-
-        jPSelectedTimeTrace.setBackground(new java.awt.Color(255, 255, 255));
-        jPSelectedTimeTrace.setMaximumSize(new java.awt.Dimension(450, 350));
-        jPSelectedTimeTrace.setMinimumSize(new java.awt.Dimension(450, 350));
-        jPSelectedTimeTrace.setLayout(new java.awt.BorderLayout());
-        jPanel1.add(jPSelectedTimeTrace);
 
         jPSelectedWaveTrace.setBackground(new java.awt.Color(255, 255, 255));
         jPSelectedWaveTrace.setMaximumSize(new java.awt.Dimension(450, 150));
@@ -197,15 +186,64 @@ public final class SpecResultsTopComponent extends TopComponent implements Chart
         jPSelectedWaveTrace.setLayout(new java.awt.BorderLayout());
         jPanel1.add(jPSelectedWaveTrace);
 
+        jPSelectedTimeTrace.setBackground(new java.awt.Color(255, 255, 255));
+        jPSelectedTimeTrace.setMaximumSize(new java.awt.Dimension(450, 350));
+        jPSelectedTimeTrace.setMinimumSize(new java.awt.Dimension(450, 350));
+        jPSelectedTimeTrace.setLayout(new java.awt.BorderLayout());
+        jPanel1.add(jPSelectedTimeTrace);
+
         jPSpecImage.setBackground(new java.awt.Color(0, 0, 0));
-        jPSpecImage.setMaximumSize(new java.awt.Dimension(450, 350));
-        jPSpecImage.setMinimumSize(new java.awt.Dimension(450, 350));
-        jPSpecImage.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jPSpecImageMouseClicked(evt);
+        jPSpecImage.setMaximumSize(new java.awt.Dimension(450, 450));
+        jPSpecImage.setMinimumSize(new java.awt.Dimension(350, 350));
+        jPSpecImage.setPreferredSize(new java.awt.Dimension(350, 350));
+        jPSpecImage.setLayout(new java.awt.BorderLayout());
+
+        jSColum.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                jSColumStateChanged(evt);
             }
         });
-        jPSpecImage.setLayout(new java.awt.BorderLayout());
+
+        jSRow.setOrientation(javax.swing.JSlider.VERTICAL);
+        jSRow.setInverted(true);
+        jSRow.setMinimumSize(new java.awt.Dimension(16, 350));
+        jSRow.setPreferredSize(new java.awt.Dimension(16, 350));
+        jSRow.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                jSRowStateChanged(evt);
+            }
+        });
+
+        jPLegend.setBackground(new java.awt.Color(255, 255, 255));
+        jPLegend.setPreferredSize(new java.awt.Dimension(40, 350));
+        jPLegend.setLayout(new java.awt.BorderLayout());
+
+        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
+        jPanel4.setLayout(jPanel4Layout);
+        jPanel4Layout.setHorizontalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jSColum, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPSpecImage, javax.swing.GroupLayout.PREFERRED_SIZE, 350, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jSRow, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPLegend, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+        );
+        jPanel4Layout.setVerticalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addComponent(jSRow, javax.swing.GroupLayout.PREFERRED_SIZE, 350, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addComponent(jPSpecImage, javax.swing.GroupLayout.PREFERRED_SIZE, 350, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 10, Short.MAX_VALUE)
+                .addComponent(jSColum, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addComponent(jPLegend, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -213,19 +251,20 @@ public final class SpecResultsTopComponent extends TopComponent implements Chart
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPSpecImage, javax.swing.GroupLayout.PREFERRED_SIZE, 416, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(52, 52, 52)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 392, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(70, Short.MAX_VALUE))
+                .addContainerGap(34, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(jPSpecImage, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 326, Short.MAX_VALUE))
-                .addContainerGap(796, Short.MAX_VALUE))
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 326, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(818, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab(org.openide.util.NbBundle.getMessage(SpecResultsTopComponent.class, "SpecResultsTopComponent.jPanel3.TabConstraints.tabTitle"), jPanel3); // NOI18N
@@ -233,14 +272,27 @@ public final class SpecResultsTopComponent extends TopComponent implements Chart
         add(jTabbedPane1, java.awt.BorderLayout.PAGE_START);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jPSpecImageMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPSpecImageMouseClicked
-// TODO add your han   dling code here:
-}//GEN-LAST:event_jPSpecImageMouseClicked
+    private void jSRowStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jSRowStateChanged
+        // TODO add your handling code here:
+        crosshair2.setValue(dataset.GetImageHeigth()-jSRow.getValue());
+        int xIndex = jSRow.getValue();// - jSRow.getMinimum();
+        XYDataset d = ImageUtilities.extractRowFromImageDataset(dataset, xIndex, "Spec");
+//        subchartWaveTrace.getXYPlot().setDataset(d);
+    }//GEN-LAST:event_jSRowStateChanged
+
+    private void jSColumStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jSColumStateChanged
+        // TODO add your handling code here:
+        crosshair1.setValue(jSColum.getValue());
+        int xIndex = jSColum.getValue();// - jSColum.getMinimum();
+        XYDataset d = ImageUtilities.extractColumnFromImageDataset(dataset, xIndex, "Spec");
+//        subchartTimeTrace.getXYPlot().setDataset(d);
+    }//GEN-LAST:event_jSColumStateChanged
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JList jLKineticParameters;
     private javax.swing.JList jLSpectralParameters;
     private javax.swing.JPanel jPConcentrations;
+    private javax.swing.JPanel jPLegend;
     private javax.swing.JPanel jPSelectedTimeTrace;
     private javax.swing.JPanel jPSelectedWaveTrace;
     private javax.swing.JPanel jPSpecImage;
@@ -248,8 +300,11 @@ public final class SpecResultsTopComponent extends TopComponent implements Chart
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel7;
+    private javax.swing.JSlider jSColum;
+    private javax.swing.JSlider jSRow;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTabbedPane jTabbedPane1;
@@ -309,6 +364,62 @@ public final class SpecResultsTopComponent extends TopComponent implements Chart
     @Override
     protected String preferredID() {
         return PREFERRED_ID;
+    }
+
+    public void chartChanged(ChartChangeEvent arg0) {
+        XYPlot plot = this.chartMain.getXYPlot();
+        double lowBound = plot.getDomainAxis().getRange().getLowerBound();
+        double upBound = plot.getDomainAxis().getRange().getUpperBound();
+        boolean recreate = false;
+        int lowInd, upInd;
+
+        if (lowBound < wholeXRange.getLowerBound()) {
+            lowBound = wholeXRange.getLowerBound();
+            recreate = true;
+        }
+        if (upBound > wholeXRange.getUpperBound()) {
+            upBound = wholeXRange.getUpperBound();
+            recreate = true;
+        }
+        if (recreate){
+            plot.getDomainAxis().setRange(new Range(lowBound, upBound));
+//            this.chartMain.getPlot().getDomainAxis().setRange(new Range(lowBound, upBound));
+        }
+        recreate = false;
+        lowBound = plot.getRangeAxis().getRange().getLowerBound();
+        upBound = plot.getRangeAxis().getRange().getUpperBound();
+        if (lowBound < wholeYRange.getLowerBound()) {
+            lowBound = wholeYRange.getLowerBound();
+            recreate = true;
+        }
+        if (upBound > wholeYRange.getUpperBound()) {
+            upBound = wholeYRange.getUpperBound();
+            recreate = true;
+        }
+        if (recreate){
+            plot.getRangeAxis().setRange(new Range(lowBound, upBound));
+//            this.chartMain.getPlot().getDomainAxis().setRange(new Range(lowBound, upBound));
+        }
+
+//        if (!plot.getDomainAxis().getRange().equals(this.lastXRange)) {
+//            this.lastXRange = plot.getDomainAxis().getRange();
+//            XYPlot plot2 = (XYPlot) this.subchartWaveTrace.getPlot();
+//            lowInd = (int)(this.lastXRange.getLowerBound());
+//            upInd = (int)(this.lastXRange.getUpperBound()-1);
+//            plot2.getDomainAxis().setRange(new Range(data.GetX2()[lowInd],data.GetX2()[upInd]));
+//            jSColum.setMinimum(lowInd);
+//            jSColum.setMaximum(upInd);
+//        }
+//
+//         if (!plot.getRangeAxis().getRange().equals(this.lastYRange)) {
+//            this.lastYRange = plot.getRangeAxis().getRange();
+//            XYPlot plot1 = (XYPlot) this.subchartTimeTrace.getPlot();
+//            lowInd = (int)(this.wholeYRange.getUpperBound() - this.lastYRange.getUpperBound());
+//            upInd = (int)(this.wholeYRange.getUpperBound() - this.lastYRange.getLowerBound()-1);
+//            plot1.getDomainAxis().setRange(new Range(data.GetX()[lowInd],data.GetX()[upInd]));
+//            jSRow.setMinimum(lowInd);
+//            jSRow.setMaximum(upInd);
+//        }
     }
 
     final static class ResolvableHelper implements Serializable {
@@ -378,10 +489,7 @@ public final class SpecResultsTopComponent extends TopComponent implements Chart
     private void PlotConcSpectrTrace() {
         XYSeriesCollection concCollection = new XYSeriesCollection();
         XYSeriesCollection specCollection = new XYSeriesCollection();
-
         XYSeries seria;
-
-
         for (int j = 0; j < res.GetKineticParameters().length/2; j++) {
             seria = new XYSeries("Conc" + (j + 1));
             for (int i = 0; i < res.GetX().length; i++) {
@@ -483,26 +591,8 @@ public final class SpecResultsTopComponent extends TopComponent implements Chart
 
     }
 
-    private ColorCodedImageDataset MakeXYZDataset() {
-//        DefaultXYZDataset dataset2 = new DefaultXYZDataset();
-//        double[] xValues = new double[res.GetX().length * res.GetX2().length];
-//        double[] yValues = new double[res.GetX().length * res.GetX2().length];
-//
-//        for (int i = 0; i < res.GetX().length; i++) {
-//            for (int j = 0; j < res.GetX2().length; j++) {
-//                xValues[j * res.GetX().length + i] = res.GetX2()[j];
-//                yValues[j * res.GetX().length + i] = res.GetX()[i];
-//            }
-//        }
-//        double[][] chartdata = {xValues, yValues, res.GetTraces().getColumnPackedCopy()};
-//        dataset2.addSeries("Streak image", chartdata);
+    private JFreeChart createChart(XYDataset dataset1) {
 
-        dataset = new ColorCodedImageDataset(res.GetX2().length,res.GetX().length,
-                    res.GetTraces().getRowPackedCopy(),res.GetX2(),res.GetX(),false);
-        return dataset;
-    }
-
-        private JFreeChart createChart(XYDataset dataset1) {
         JFreeChart chart_temp = ChartFactory.createScatterPlot(null,
                 null, null, dataset1, PlotOrientation.VERTICAL, false, false,
                 false);
@@ -534,16 +624,14 @@ public final class SpecResultsTopComponent extends TopComponent implements Chart
             res.GetTraces().getRowPackedCopy(),res.GetX2(),res.GetX(),false);
         PaintScale ps = new RainbowPaintScale(res.GetMinInt(), res.GetMaxInt());
         this.chartMain = createChart(new XYSeriesCollection());
-//        this.chartMain.addChangeListener(this);
+        this.chartMain.addChangeListener(this);
         XYPlot tempPlot = (XYPlot)this.chartMain.getPlot();
         this.wholeXRange = tempPlot.getDomainAxis().getRange();
         this.wholeYRange = tempPlot.getRangeAxis().getRange();
+        tempPlot.setInsets(new RectangleInsets(0, 0, 0, 0));
         chpanImage = new ChartPanel(chartMain);
         chpanImage.setFillZoomRectangle(true);
         chpanImage.setMouseWheelEnabled(true);
-        jPSpecImage.add(chpanImage);
-        jPSpecImage.repaint();
-
         ImageCrosshairLabelGenerator crossLabGen1 = new ImageCrosshairLabelGenerator(res.GetX2(),false);
         ImageCrosshairLabelGenerator crossLabGen2 = new ImageCrosshairLabelGenerator(res.GetX(),true);
 
@@ -552,10 +640,8 @@ public final class SpecResultsTopComponent extends TopComponent implements Chart
         crosshair1.setPaint(Color.red);
         crosshair2 = new Crosshair(0.0);
         crosshair2.setPaint(Color.GRAY);
-
         overlay.addDomainCrosshair(crosshair1);
         overlay.addRangeCrosshair(crosshair2);
-
         chpanImage.addOverlay(overlay);
         crosshair1.setLabelGenerator(crossLabGen1);
         crosshair1.setLabelVisible(true);
@@ -566,147 +652,35 @@ public final class SpecResultsTopComponent extends TopComponent implements Chart
         crosshair2.setLabelVisible(true);
         crosshair2.setLabelBackgroundPaint(new Color(255, 255, 0, 100));
 
-    }
+        jSColum.setMaximum(dataset.GetImageWidth()-1);
+        jSColum.setMinimum(1);
+        jSColum.setValue(1);
+        jSRow.setMaximum(dataset.GetImageHeigth()-1);
+        jSRow.setMinimum(1);
+        jSRow.setValue(1);
 
-//    private JFreeChart MakeImageChart(ColorCodedImageDataset dataset) {
-//
-//        chart = ChartFactory.createScatterPlot(null,
-//                null, null, dataset, PlotOrientation.VERTICAL, false, false,
-//                false);
-//
-//        PaintScale scale = new RainbowPaintScale(res.GetMinInt(), res.GetMaxInt(), true, false);
-//        BufferedImage image = ImageUtilities.createColorCodedImage(dataset, scale);
-//        XYDataImageAnnotation ann = new XYDataImageAnnotation(image, 0,0,
-//                dataset.GetImageWidth(), dataset.GetImageHeigth(), true);
-//        XYPlot plot = (XYPlot) chart.getPlot();
-//        plot.setDomainPannable(true);
-//        plot.setRangePannable(true);
-//        plot.getRenderer().addAnnotation(ann, Layer.BACKGROUND);
-//
-//        NumberAxis xAxis = (NumberAxis) plot.getDomainAxis();
-//        xAxis.setStandardTickUnits(NumberAxis.createIntegerTickUnits());
-//        xAxis.setLowerMargin(0.0);
-//        xAxis.setUpperMargin(0.0);
-//        xAxis.setVisible(false);
-//        NumberAxis yAxis = (NumberAxis) plot.getRangeAxis();
-//        yAxis.setStandardTickUnits(NumberAxis.createIntegerTickUnits());
-//        yAxis.setLowerMargin(0.0);
-//        yAxis.setUpperMargin(0.0);
-//        yAxis.setVisible(false);
-
-
-//        PaintScale ps = new RainbowPaintScale(res.GetMinInt(), res.GetMaxInt(), true, false);
-//        chart.addChangeListener(this);
-
-//        XYPlot tempPlot = chart.getXYPlot();
-//        this.wholeXRange = tempPlot.getDomainAxis().getRange();
-//        this.wholeYRange = tempPlot.getRangeAxis().getRange();
-//        chpanImage = new ChartPanel(chart);
-//        chpanImage.setFillZoomRectangle(true);
-//        chpanImage.setMouseWheelEnabled(true);
-////        jPSpecImage.removeAll();
-////        chpanImage.setSize(jPSpecImage.getMaximumSize());
-//        jPSpecImage.add(chpanImage);
-//        jPSpecImage.repaint();
-//
-////        ImageCrosshairLabelGenerator crossLabGen1 = new ImageCrosshairLabelGenerator(res.GetX2(),false);
-////        ImageCrosshairLabelGenerator crossLabGen2 = new ImageCrosshairLabelGenerator(res.GetX(),true);
-//
-//        CrosshairOverlay overlay = new CrosshairOverlay();
-//        crosshair1 = new Crosshair(0.0);
-//        crosshair1.setPaint(Color.RED);
-//        crosshair2 = new Crosshair(0.0);
-//        crosshair2.setPaint(Color.YELLOW);
-//
-//        overlay.addDomainCrosshair(crosshair1);
-//        overlay.addRangeCrosshair(crosshair2);
-//
-//        chpanImage.addOverlay(overlay);
-////        crosshair1.setLabelGenerator(crossLabGen1);
-//        crosshair1.setLabelVisible(true);
-//        crosshair1.setLabelAnchor(RectangleAnchor.BOTTOM_RIGHT);
-//        crosshair1.setLabelBackgroundPaint(new Color(255, 255, 0, 100));
-//        crosshair2.setLabelAnchor(RectangleAnchor.BOTTOM_RIGHT);
-////        crosshair2.setLabelGenerator(crossLabGen2);
-//        crosshair2.setLabelVisible(true);
-//        crosshair2.setLabelBackgroundPaint(new Color(255, 255, 0, 100));
-//
-//
-//
- 
-//        NumberAxis xAxis = new NumberAxis("Wavelengts (nm)");
-//        xAxis.setLowerMargin(0.0);
-//        xAxis.setUpperMargin(0.0);
-//     //   xAxis.setRange(res.GetX2()[0],res.GetX2()[res.GetX2().length-1]);
-//        xAxis.setVisible(false);
-//        NumberAxis yAxis = new NumberAxis("Time (ps)");
-//        yAxis.setAutoRangeIncludesZero(false);
-//        yAxis.setInverted(true);
-//        yAxis.setLowerMargin(0.0);
-//        yAxis.setUpperMargin(0.0);
-//     //   yAxis.setRange(res.GetX()[0],res.GetX()[res.GetX().length-1]);
-//        yAxis.setVisible(false);
-
-//        XYBlockRenderer renderer = new XYBlockRenderer();
-//        PaintScale scale = new RainbowPaintScale(res.GetMinInt(), res.GetMaxInt(), true, false);
-//        renderer.setPaintScale(scale);
-//        XYPlot plot = new XYPlot(dataset, xAxis, yAxis, renderer);
-
-//        plot.setDomainCrosshairVisible(true);
-//        plot.setDomainCrosshairLockedOnData(false);
-//        plot.setRangeCrosshairVisible(true);
-//        plot.setRangeCrosshairLockedOnData(false);
-//
-//        chart = new JFreeChart(plot);
-//        chart.setNotify(false);
-//        chart.removeLegend();
-//
-//        NumberAxis scaleAxis = new NumberAxis();
-//        scaleAxis.setAxisLinePaint(Color.black);
-//        scaleAxis.setTickMarkPaint(Color.black);
-//        scaleAxis.setRange(res.GetMinInt(), res.GetMaxInt());
-//        scaleAxis.setTickLabelFont(new Font("Dialog", Font.PLAIN, 9));
-//        PaintScaleLegend legend = new PaintScaleLegend(scale, scaleAxis);
-//        legend.setAxisLocation(AxisLocation.BOTTOM_OR_RIGHT);
-////        legend.setAxisOffset(5.0);
-//        legend.setMargin(new RectangleInsets(5, 5, 5, 5));
-////        legend.setFrame(new BlockBorder(Color.red));
-////        legend.setPadding(new RectangleInsets(5, 5, 5, 5));
-//        legend.setStripWidth(15);
-//        legend.setPosition(RectangleEdge.RIGHT);
-//        legend.setBackgroundPaint(chart.getBackgroundPaint());
-//        chart.addSubtitle(legend);
-//        chart.setNotify(true);
-//        return chart;
-//    }
-
-    public void chartMouseClicked(ChartMouseEvent event) {
-//        this.chart.setNotify(false);
-//        int mouseX = event.getTrigger().getX();
-//        int mouseY = event.getTrigger().getY();
-//        Point2D p = this.chpanImage.translateScreenToJava2D(new Point(mouseX, mouseY));
-//        XYPlot plot = (XYPlot) this.chart.getPlot();
-//        ChartRenderingInfo info = this.chpanImage.getChartRenderingInfo();
-//        Rectangle2D dataArea = info.getPlotInfo().getDataArea();
-//
-//        ValueAxis domainAxis = plot.getDomainAxis();
-//        RectangleEdge domainAxisEdge = plot.getDomainAxisEdge();
-//        ValueAxis rangeAxis = plot.getRangeAxis();
-//        RectangleEdge rangeAxisEdge = plot.getRangeAxisEdge();
-//
-//        int chartX = (int) (domainAxis.java2DToValue(p.getX(), dataArea, domainAxisEdge));
-//        int chartY = (int) (rangeAxis.java2DToValue(p.getY(), dataArea, rangeAxisEdge));
-//
-////        System.out.println(chartX+"    "+chartY);
-//
-//        UpdateSelectedTraces(chartY, chartX);
-//        this.chart.setNotify(true);
-
-    }
-
-    public void chartMouseMoved(ChartMouseEvent event) {
-//         System.out.println("ChartMouseMoved");
-    }
-    
+        NumberAxis scaleAxis = new NumberAxis();
+        scaleAxis.setAxisLinePaint(Color.black);
+        scaleAxis.setTickMarkPaint(Color.black);
+        scaleAxis.setRange(res.GetMinInt(), res.GetMaxInt());
+        scaleAxis.setTickLabelFont(new Font("Dialog", Font.PLAIN, 9));
+        PaintScaleLegend legend = new PaintScaleLegend(ps, scaleAxis);
+        legend.setAxisLocation(AxisLocation.BOTTOM_OR_RIGHT);
+        legend.setMargin(new RectangleInsets(5, 5, 5, 5));
+        legend.setStripWidth(15);
+        legend.setPosition(RectangleEdge.RIGHT);
+        legend.setBackgroundPaint(chartMain.getBackgroundPaint());
+      //  chartMain.addSubtitle(legend);
         
+        JFreeChart chartLegend = ChartFactory.createScatterPlot(null,
+                null, null, null, PlotOrientation.VERTICAL, false, false,
+                false);
+        chartLegend.addSubtitle(legend);
+
+        ChartPanel chpanLegend = new ChartPanel(chartLegend);
+        jPLegend.add(chpanLegend);
+        jPSpecImage.add(chpanImage);
+        jPSpecImage.repaint();
+        jPLegend.repaint();
+    }        
 }

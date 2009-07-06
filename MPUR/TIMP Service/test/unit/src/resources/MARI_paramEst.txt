@@ -1,0 +1,17 @@
+ 
+
+Sum square error: 1.587184 
+
+Residual standard error: 0.03255050 on 1498 degrees
+    of freedom
+
+
+Parameters: kinpar 
+dataset 1: 0.223588111503244, 1.74132736488962, 0.000290709080658876
+    standard errors: 0.0738545008726909, 0.498561544499022, 1.79993235499670e-05
+Parameters: irfpar 
+dataset 1: -0.0968859182633664, 0.133692286330080
+    standard errors: 0.0249372712617488, 0.0169784679526621
+Parameters: parmu 
+dataset 1: 0.143560319310710
+    standard errors: 0.0233140775041973

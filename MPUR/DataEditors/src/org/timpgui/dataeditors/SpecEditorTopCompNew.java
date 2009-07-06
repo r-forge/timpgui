@@ -848,7 +848,6 @@ private void jTBZoomXActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
         crosshair2.setLabelVisible(true);
         crosshair2.setLabelBackgroundPaint(new Color(255, 255, 0, 100));
 
-//        //TODO add creation of the other charts
         XYSeriesCollection dataset1 = new XYSeriesCollection();
         subchartTimeTrace = ChartFactory.createXYLineChart(
             null,
@@ -910,11 +909,11 @@ private void jTBZoomXActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
         jPXTrace.repaint();
 
         jSColum.setMaximum(dataset.GetImageWidth()-1);
-        jSColum.setMinimum(1);
-        jSColum.setValue(1);
+        jSColum.setMinimum(0);
+        jSColum.setValue(0);
         jSRow.setMaximum(dataset.GetImageHeigth()-1);
-        jSRow.setMinimum(1);
-        jSRow.setValue(1);
+        jSRow.setMinimum(0);
+        jSRow.setValue(0);
 
         NumberAxis scaleAxis = new NumberAxis();
         scaleAxis.setAxisLinePaint(Color.black);

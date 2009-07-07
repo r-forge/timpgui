@@ -26,18 +26,15 @@ final class SchemeDesignTopComponent extends TopComponent {
 //    static final String ICON_PATH = "SET/PATH/TO/ICON/HERE";
 
     private static final String PREFERRED_ID = "SchemeDesignTopComponent";
-    private JComponent myView;
+    private TIMPGUIScene scene = new TIMPGUIScene();
 
     private SchemeDesignTopComponent() {
         initComponents();
         setName(NbBundle.getMessage(SchemeDesignTopComponent.class, "CTL_SchemeDesignTopComponent"));
         setToolTipText(NbBundle.getMessage(SchemeDesignTopComponent.class, "HINT_SchemeDesignTopComponent"));
 //        setIcon(Utilities.loadImage(ICON_PATH, true));
-        GraphSceneImpl scene = new GraphSceneImpl();
-        myView = scene.createView();
-        schemeDesignPane.setViewportView(myView);
-        add(scene.createSatelliteView(), BorderLayout.WEST);
-        associateLookup( Lookups.fixed( new Object[] { PaletteSupport.createPalette() } ) );
+        jPanel2.add( scene.createView());
+        jPanel1.add(scene.createSatelliteView());
         
     }
 
@@ -49,25 +46,32 @@ final class SchemeDesignTopComponent extends TopComponent {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        schemeDesignPane = new javax.swing.JScrollPane();
+        jSplitPane1 = new javax.swing.JSplitPane();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jPanel2 = new javax.swing.JPanel();
+        jPanel1 = new javax.swing.JPanel();
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-        this.setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(104, Short.MAX_VALUE)
-                .addComponent(schemeDesignPane, javax.swing.GroupLayout.PREFERRED_SIZE, 296, javax.swing.GroupLayout.PREFERRED_SIZE))
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(schemeDesignPane, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 300, Short.MAX_VALUE)
-        );
+        setLayout(new java.awt.BorderLayout());
+
+        jSplitPane1.setDividerLocation(600);
+
+        jPanel2.setLayout(new java.awt.BorderLayout());
+        jScrollPane1.setViewportView(jPanel2);
+
+        jSplitPane1.setLeftComponent(jScrollPane1);
+
+        jPanel1.setLayout(new java.awt.BorderLayout());
+        jSplitPane1.setRightComponent(jPanel1);
+
+        add(jSplitPane1, java.awt.BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JScrollPane schemeDesignPane;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JSplitPane jSplitPane1;
     // End of variables declaration//GEN-END:variables
     /**
      * Gets default instance. Do not use directly: reserved for *.settings files only,

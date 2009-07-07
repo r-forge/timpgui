@@ -292,9 +292,9 @@ final class StreakOutTopComponent extends TopComponent implements ChartMouseList
 private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
 // TODO add your handling code here:
     res = new TimpResultDataset();
-    Object[] rates = new Object[res.GetKineticParameters().length];
-    for (int i = 0; i < res.GetKineticParameters().length; i++) {
-        rates[i] = "k" + (i + 1) + "=" + res.GetKineticParameters()[i] + "ns";
+    Object[] rates = new Object[res.getKineticParameters().length];
+    for (int i = 0; i < res.getKineticParameters().length; i++) {
+        rates[i] = "k" + (i + 1) + "=" + res.getKineticParameters()[i] + "ns";
     }
     jLKineticParameters.setListData(rates);
 
@@ -340,9 +340,9 @@ private void jListDatasetsValueChanged(javax.swing.event.ListSelectionEvent evt)
     if (jListDatasets.getSelectedIndex()!=-1) {
     //res = TimpController.setTimpResultDataset((String)jListDatasets.getSelectedValue(), jListDatasets.getSelectedIndex(), Current.GetresultNames().get(jListResultObjects.getSelectedIndex()));
   //  res.CalcRangeInt();
-    Object[] rates = new Object[res.GetKineticParameters().length];
-    for (int i = 0; i < res.GetKineticParameters().length; i++) {
-        rates[i] = "k" + (i + 1) + "=" + res.GetKineticParameters()[i] + "ns";
+    Object[] rates = new Object[res.getKineticParameters().length];
+    for (int i = 0; i < res.getKineticParameters().length; i++) {
+        rates[i] = "k" + (i + 1) + "=" + res.getKineticParameters()[i] + "ns";
     }
     jLKineticParameters.setListData(rates);
 
@@ -460,16 +460,16 @@ private void jListDatasetsValueChanged(javax.swing.event.ListSelectionEvent evt)
         tracesWaveCollection.getSeries(1).clear();
         residualsWave.getSeries(0).clear();
 
-        for (int j = 0; j < res.GetX().length; j++) {
-            tracesTimeCollection.getSeries(0).add(res.GetX()[j], res.GetTraces().get(j, timeInd));
-            tracesTimeCollection.getSeries(1).add(res.GetX()[j], res.GetFittedTraces().get(j, timeInd));
-            residualsTime.getSeries(0).add(res.GetX()[j], res.GetResiduals().get(j, timeInd));
+        for (int j = 0; j < res.getX().length; j++) {
+            tracesTimeCollection.getSeries(0).add(res.getX()[j], res.getTraces().get(j, timeInd));
+            tracesTimeCollection.getSeries(1).add(res.getX()[j], res.getFittedTraces().get(j, timeInd));
+            residualsTime.getSeries(0).add(res.getX()[j], res.getResiduals().get(j, timeInd));
         }
 
-        for (int j = 0; j < res.GetX2().length; j++) {
-            tracesWaveCollection.getSeries(0).add(res.GetX2()[j], res.GetTraces().get(j, waveInd));
-            tracesWaveCollection.getSeries(1).add(res.GetX2()[j], res.GetFittedTraces().get(j, waveInd));
-            residualsWave.getSeries(0).add(res.GetX2()[j], res.GetResiduals().get(j, waveInd));
+        for (int j = 0; j < res.getX2().length; j++) {
+            tracesWaveCollection.getSeries(0).add(res.getX2()[j], res.getTraces().get(j, waveInd));
+            tracesWaveCollection.getSeries(1).add(res.getX2()[j], res.getFittedTraces().get(j, waveInd));
+            residualsWave.getSeries(0).add(res.getX2()[j], res.getResiduals().get(j, waveInd));
         }
 
     }
@@ -483,10 +483,10 @@ private void jListDatasetsValueChanged(javax.swing.event.ListSelectionEvent evt)
         XYSeries seriaData = new XYSeries("Trace");
         XYSeries seriaFit = new XYSeries("Fittedtrace");
         XYSeries resid = new XYSeries("Residuals");
-        for (int j = 0; j < res.GetX().length; j++) {
-            seriaData.add(res.GetX()[j], res.GetTraces().get(j, 0));
-            seriaFit.add(res.GetX()[j], res.GetFittedTraces().get(j, 0));
-            resid.add(res.GetX()[j], res.GetResiduals().get(j, 0));
+        for (int j = 0; j < res.getX().length; j++) {
+            seriaData.add(res.getX()[j], res.getTraces().get(j, 0));
+            seriaFit.add(res.getX()[j], res.getFittedTraces().get(j, 0));
+            resid.add(res.getX()[j], res.getResiduals().get(j, 0));
         }
         tracesTimeCollection.addSeries(seriaData);
         tracesTimeCollection.addSeries(seriaFit);
@@ -495,10 +495,10 @@ private void jListDatasetsValueChanged(javax.swing.event.ListSelectionEvent evt)
         seriaData = new XYSeries("Trace");
         seriaFit = new XYSeries("Fittedtrace");
         resid = new XYSeries("Residuals");
-        for (int j = 0; j < res.GetX2().length; j++) {
-            seriaData.add(res.GetX2()[j], res.GetTraces().get(0, j));
-            seriaFit.add(res.GetX2()[j], res.GetFittedTraces().get(0, j));
-            resid.add(res.GetX2()[j], res.GetResiduals().get(0, j));
+        for (int j = 0; j < res.getX2().length; j++) {
+            seriaData.add(res.getX2()[j], res.getTraces().get(0, j));
+            seriaFit.add(res.getX2()[j], res.getFittedTraces().get(0, j));
+            resid.add(res.getX2()[j], res.getResiduals().get(0, j));
         }
 
         tracesWaveCollection.addSeries(seriaData);
@@ -515,18 +515,18 @@ private void jListDatasetsValueChanged(javax.swing.event.ListSelectionEvent evt)
         XYSeries seria;
 
 
-        for (int j = 0; j < res.GetKineticParameters().length; j++) {
+        for (int j = 0; j < res.getKineticParameters().length; j++) {
             seria = new XYSeries("Conc" + (j + 1));
-            for (int i = 0; i < res.GetX().length; i++) {
-                seria.add(res.GetX()[i], res.GetConcentrations().get(i, j));
+            for (int i = 0; i < res.getX().length; i++) {
+                seria.add(res.getX()[i], res.getConcentrations().get(i, j));
             }
             concCollection.addSeries(seria);
         }
 
-        for (int j = 0; j < res.GetKineticParameters().length; j++) {
+        for (int j = 0; j < res.getKineticParameters().length; j++) {
             seria = new XYSeries("Spec" + (j + 1));
-            for (int i = 0; i < res.GetX2().length; i++) {
-                seria.add(res.GetX2()[i], res.GetSpectras().get(j, i));
+            for (int i = 0; i < res.getX2().length; i++) {
+                seria.add(res.getX2()[i], res.getSpectra().get(j, i));
             }
             specCollection.addSeries(seria);
         }
@@ -541,7 +541,7 @@ private void jListDatasetsValueChanged(javax.swing.event.ListSelectionEvent evt)
                 false,
                 false,
                 false);
-        tracechart.getXYPlot().getDomainAxis().setUpperBound(res.GetX()[res.GetX().length - 1]);
+        tracechart.getXYPlot().getDomainAxis().setUpperBound(res.getX()[res.getX().length - 1]);
 //        tracechart.getXYPlot().setDomainZeroBaselineVisible(true);
         ChartPanel chpan = new ChartPanel(tracechart);
         chpan.getChartRenderingInfo().setEntityCollection(null);
@@ -559,7 +559,7 @@ private void jListDatasetsValueChanged(javax.swing.event.ListSelectionEvent evt)
                 false,
                 false,
                 false);
-        tracechart.getXYPlot().getDomainAxis().setUpperBound(res.GetX2()[res.GetX2().length - 1]);
+        tracechart.getXYPlot().getDomainAxis().setUpperBound(res.getX2()[res.getX2().length - 1]);
 //        tracechart.getXYPlot().setDomainZeroBaselineVisible(true);
         chpan = new ChartPanel(tracechart);
         chpan.getChartRenderingInfo().setEntityCollection(null);
@@ -584,7 +584,7 @@ private void jListDatasetsValueChanged(javax.swing.event.ListSelectionEvent evt)
         subplot2.setRangeAxisLocation(AxisLocation.TOP_OR_LEFT);
 
         NumberAxis xAxis = new NumberAxis("Time (ns)");
-        xAxis.setRange(res.GetX()[0], res.GetX()[res.GetX().length - 1]);
+        xAxis.setRange(res.getX()[0], res.getX()[res.getX().length - 1]);
         CombinedDomainXYPlot plot = new CombinedDomainXYPlot(xAxis);
         plot.setGap(10.0);
 
@@ -607,7 +607,7 @@ private void jListDatasetsValueChanged(javax.swing.event.ListSelectionEvent evt)
         subplot2.setRangeAxisLocation(AxisLocation.TOP_OR_LEFT);
 
         xAxis = new NumberAxis("Wavelength (nm)");
-        xAxis.setRange(res.GetX2()[0], res.GetX2()[res.GetX2().length - 1]);
+        xAxis.setRange(res.getX2()[0], res.getX2()[res.getX2().length - 1]);
         plot = new CombinedDomainXYPlot(xAxis);
         plot.setGap(10.0);
 
@@ -627,20 +627,20 @@ private void jListDatasetsValueChanged(javax.swing.event.ListSelectionEvent evt)
 
     private XYZDataset MakeXYZDataset() {
         DefaultXYZDataset dataset2 = new DefaultXYZDataset();
-        double[] xValues = new double[res.GetX().length * res.GetX2().length];
-        double[] yValues = new double[res.GetX().length * res.GetX2().length];
+        double[] xValues = new double[res.getX().length * res.getX2().length];
+        double[] yValues = new double[res.getX().length * res.getX2().length];
 
-        for (int i = 0; i < res.GetX().length; i++) {
-            for (int j = 0; j < res.GetX2().length; j++) {
-                xValues[j * res.GetX().length + i] = res.GetX2()[j];
-                yValues[j * res.GetX().length + i] = res.GetX()[i];
+        for (int i = 0; i < res.getX().length; i++) {
+            for (int j = 0; j < res.getX2().length; j++) {
+                xValues[j * res.getX().length + i] = res.getX2()[j];
+                yValues[j * res.getX().length + i] = res.getX()[i];
             }
         }
-        double[][] chartdata = {xValues, yValues, res.GetTraces().getColumnPackedCopy()};
+        double[][] chartdata = {xValues, yValues, res.getTraces().getColumnPackedCopy()};
         dataset2.addSeries("Streak image", chartdata);
 
-        ColorCodedImageDataset dataset = new ColorCodedImageDataset(res.GetX2().length,res.GetX().length,
-                    res.GetTraces().getRowPackedCopy(),res.GetX2(),res.GetX(),false);
+        ColorCodedImageDataset dataset = new ColorCodedImageDataset(res.getX2().length,res.getX().length,
+                    res.getTraces().getRowPackedCopy(),res.getX2(),res.getX(),false);
         
         return dataset;
     }
@@ -659,7 +659,7 @@ private void jListDatasetsValueChanged(javax.swing.event.ListSelectionEvent evt)
      //   yAxis.setRange(res.GetX()[0],res.GetX()[res.GetX().length-1]);
         yAxis.setVisible(false);
         XYBlockRenderer renderer = new XYBlockRenderer();
-        PaintScale scale = new RainbowPaintScale(res.GetMinInt(), res.GetMaxInt(), true, false);
+        PaintScale scale = new RainbowPaintScale(res.getMinInt(), res.getMaxInt(), true, false);
         renderer.setPaintScale(scale);
         XYPlot plot = new XYPlot(dataset, xAxis, yAxis, renderer);
 
@@ -675,7 +675,7 @@ private void jListDatasetsValueChanged(javax.swing.event.ListSelectionEvent evt)
         NumberAxis scaleAxis = new NumberAxis();
         scaleAxis.setAxisLinePaint(Color.black);
         scaleAxis.setTickMarkPaint(Color.black);
-        scaleAxis.setRange(res.GetMinInt(), res.GetMaxInt());
+        scaleAxis.setRange(res.getMinInt(), res.getMaxInt());
         scaleAxis.setTickLabelFont(new Font("Dialog", Font.PLAIN, 9));
         PaintScaleLegend legend = new PaintScaleLegend(scale, scaleAxis);
         legend.setAxisLocation(AxisLocation.BOTTOM_OR_RIGHT);

@@ -300,7 +300,7 @@ private void jCBToPlotActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIR
         maxVal = 1;
     }
 
-    MakeImageChart(MakeCCDataset(64, 64, res.GetX2(), selectedietm), minVal, maxVal, true);
+    MakeImageChart(MakeCCDataset(64, 64, res.getX2(), selectedietm), minVal, maxVal, true);
     ChartPanel chpanImage = new ChartPanel(chart,true);
     jPImage.removeAll();
     chpanImage.setSize(jPImage.getSize());
@@ -323,7 +323,7 @@ private void jBUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
 
         minVal = Float.parseFloat(jTMin.getText());
         maxVal = Float.parseFloat(jTMax.getText());
-        MakeImageChart(MakeCCDataset(64, 64, res.GetX2(), selectedietm), minVal, maxVal, true);
+        MakeImageChart(MakeCCDataset(64, 64, res.getX2(), selectedietm), minVal, maxVal, true);
         ChartPanel chpanImage = new ChartPanel(chart,true);
         jPImage.removeAll();
         chpanImage.setSize(jPImage.getSize());
@@ -348,15 +348,15 @@ private void jListDatasetsValueChanged(javax.swing.event.ListSelectionEvent evt)
     
     jCBToPlot.removeAllItems();
 //    jCBToPlot.addItem("Average Lifetimes");
-    Object[] lifetimes = new Object[res.GetKineticParameters().length];
-    listToPlot = new Object[res.GetKineticParameters().length + 1];
-    aveLifetimes = MakeFlimImage(res.GetKineticParameters(), res.GetSpectras(), res.GetX2().length);
+    Object[] lifetimes = new Object[res.getKineticParameters().length];
+    listToPlot = new Object[res.getKineticParameters().length + 1];
+    aveLifetimes = MakeFlimImage(res.getKineticParameters(), res.getSpectra(), res.getX2().length);
     listToPlot[0] = "Average Lifetimes";
     jCBToPlot.addItem(listToPlot[0]);
-    for (int i = 0; i < res.GetKineticParameters().length; i++) {
+    for (int i = 0; i < res.getKineticParameters().length; i++) {
         listToPlot[i + 1] = "Component " + (i + 1);
         jCBToPlot.addItem(listToPlot[i + 1]);
-        lifetimes[i] = "Tau" + (i + 1) + "=" + 1 / res.GetKineticParameters()[i] + "ns";
+        lifetimes[i] = "Tau" + (i + 1) + "=" + 1 / res.getKineticParameters()[i] + "ns";
     }
     jLEstimatedLifetimes.setListData(lifetimes);
 
@@ -561,8 +561,8 @@ private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
         }
         else {
             name = "Componet "+(ind);
-            data = new double[res.GetX2().length];
-            for (int i = 0; i < res.GetX2().length; i++)
+            data = new double[res.getX2().length];
+            for (int i = 0; i < res.getX2().length; i++)
                 data[i] = normAmpl.get(ind-1, i);
             datasetHist.addSeries(name, data, 20, 0.0, 1.0);
         }
@@ -605,8 +605,8 @@ private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
     private void UpdateSelectedTrace(int pixnum){  
     
         int item = -1;
-        for (int i = 0; i < res.GetX2().length; i++)
-            if (res.GetX2()[i]==pixnum){
+        for (int i = 0; i < res.getX2().length; i++)
+            if (res.getX2()[i]==pixnum){
                 item = i;
             }
         
@@ -614,10 +614,10 @@ private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
             tracesCollection.getSeries(0).clear();
             tracesCollection.getSeries(1).clear();
             residuals.getSeries(0).clear();
-            for (int j=0; j<res.GetX().length; j++){
-                tracesCollection.getSeries(0).add(res.GetX()[j], res.GetTraces().get(j, item));
-                tracesCollection.getSeries(1).add(res.GetX()[j], res.GetFittedTraces().get(j, item));
-                residuals.getSeries(0).add(res.GetX()[j], res.GetResiduals().get(j, item));
+            for (int j=0; j<res.getX().length; j++){
+                tracesCollection.getSeries(0).add(res.getX()[j], res.getTraces().get(j, item));
+                tracesCollection.getSeries(1).add(res.getX()[j], res.getFittedTraces().get(j, item));
+                residuals.getSeries(0).add(res.getX()[j], res.getResiduals().get(j, item));
             }
         }
     }
@@ -627,10 +627,10 @@ private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
             XYSeries seriaData = new XYSeries("Trace");
             XYSeries seriaFit = new XYSeries("Fittedtrace");
             XYSeries resid = new XYSeries("Residuals");
-            for (int j=0; j<res.GetX().length; j++){
-                seriaData.add(res.GetX()[j], res.GetTraces().get(j, 0));
-                seriaFit.add(res.GetX()[j], res.GetFittedTraces().get(j, 0));
-                resid.add(res.GetX()[j],res.GetResiduals().get(j, 0));
+            for (int j=0; j<res.getX().length; j++){
+                seriaData.add(res.getX()[j], res.getTraces().get(j, 0));
+                seriaFit.add(res.getX()[j], res.getFittedTraces().get(j, 0));
+                resid.add(res.getX()[j],res.getResiduals().get(j, 0));
             }
            tracesCollection.addSeries(seriaData);
            tracesCollection.addSeries(seriaFit);
@@ -649,7 +649,7 @@ private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
         subplot2.setRangeAxisLocation(AxisLocation.TOP_OR_LEFT);
         
         NumberAxis xAxis  = new NumberAxis("Time (ns)");
-        xAxis.setRange(res.GetX()[0], res.GetX()[res.GetX().length-1]);
+        xAxis.setRange(res.getX()[0], res.getX()[res.getX().length-1]);
         CombinedDomainXYPlot plot = new CombinedDomainXYPlot(xAxis);
         plot.setGap(10.0);
         
@@ -672,8 +672,8 @@ private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
            lifeTimeImage = aveLifetimes;
         } 
         else {
-            lifeTimeImage = new double[res.GetX2().length]; 
-            for (int i = 0; i < res.GetX2().length; i++){
+            lifeTimeImage = new double[res.getX2().length];
+            for (int i = 0; i < res.getX2().length; i++){
                 lifeTimeImage[i] = normAmpl.get(ind-1, i);
             }
         } 
@@ -682,7 +682,7 @@ private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
         for (int i = 0; i<selPixels.length; i++){
              image[(int)selPixels[i]] = lifeTimeImage[i];
         }
-        dataset = new ColorCodedImageDataset(origWidth, origHeigth, image, res.GetX2(), res.GetX() ,false);
+        dataset = new ColorCodedImageDataset(origWidth, origHeigth, image, res.getX2(), res.getX() ,false);
         return dataset;
     }
     private void MakeImageChart(XYZDataset dataset, double min, double max, boolean mode){

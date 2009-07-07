@@ -22,31 +22,31 @@ public class TimpResultDataset  implements Serializable{
     private Matrix fittedTraces;
     private String type;
     
-    public void SetDatasetName(String datasetNameValue){datasetName = datasetNameValue;}
-    public void SetKineticParameters(double[] kineticParametersValue){kineticParameters = kineticParametersValue;} 
-    public void SetSpectralParameters(double[] spectralParametersValue){spectralParameters = spectralParametersValue;}
-    public void SetConcentrations(Matrix concentrationsValue){concentrations = concentrationsValue;}
-    public void SetSpectras(Matrix spectrasValue){spectras = spectrasValue;}    
-    public void SetX(double[] xValue){x = xValue;}
-    public void SetX2(double[] x2Value){x2 = x2Value;}
-    public void SetResiduals(Matrix residualsValue){residuals = residualsValue;}
-    public void SetTraces(Matrix tracesValue){traces =tracesValue;}
-    public void SetFittedTraces(Matrix fittedTracesValue){fittedTraces = fittedTracesValue;}
+    public void setDatasetName(String datasetNameValue){datasetName = datasetNameValue;}
+    public void setKineticParameters(double[] kineticParametersValue){kineticParameters = kineticParametersValue;}
+    public void setSpectralParameters(double[] spectralParametersValue){spectralParameters = spectralParametersValue;}
+    public void setConcentrations(Matrix concentrationsValue){concentrations = concentrationsValue;}
+    public void setSpectra(Matrix spectraValue){spectras = spectraValue;}
+    public void setX(double[] xValue){x = xValue;}
+    public void setX2(double[] x2Value){x2 = x2Value;}
+    public void setResiduals(Matrix residualsValue){residuals = residualsValue;}
+    public void setTraces(Matrix tracesValue){traces =tracesValue;}
+    public void retFittedTraces(Matrix fittedTracesValue){fittedTraces = fittedTracesValue;}
     public void setType(String type) {this.type = type;}
 
     public String getType() {return type;}
-    public double GetMaxInt(){return maxInt;}
-    public double GetMinInt(){return minInt;}
-    public String GetDatasetName(){return datasetName;}
-    public double[] GetKineticParameters(){return kineticParameters;} 
-    public double[] GetSpectralParameters(){return spectralParameters;}
-    public Matrix GetConcentrations(){return concentrations;}
-    public Matrix GetSpectras(){return spectras;}    
-    public double[] GetX(){return x;}
-    public double[] GetX2(){return x2;}
-    public Matrix GetResiduals(){return residuals;}
-    public Matrix GetTraces(){return traces;}
-    public Matrix GetFittedTraces(){return fittedTraces;}
+    public double getMaxInt(){return maxInt;}
+    public double getMinInt(){return minInt;}
+    public String getDatasetName(){return datasetName;}
+    public double[] getKineticParameters(){return kineticParameters;}
+    public double[] getSpectralParameters(){return spectralParameters;}
+    public Matrix getConcentrations(){return concentrations;}
+    public Matrix getSpectra(){return spectras;}
+    public double[] getX(){return x;}
+    public double[] getX2(){return x2;}
+    public Matrix getResiduals(){return residuals;}
+    public Matrix getTraces(){return traces;}
+    public Matrix getFittedTraces(){return fittedTraces;}
     
     public TimpResultDataset(){
         datasetName = "Dataset1";
@@ -60,10 +60,10 @@ public class TimpResultDataset  implements Serializable{
         residuals = Matrix.random(15, 10);    
         traces = Matrix.random(15, 10);    
         fittedTraces = Matrix.random(15, 10);    
-        CalcRangeInt();
+        calcRangeInt();
     }
     
-    public void CalcRangeInt(){
+    public void calcRangeInt(){
         maxInt = 0;
         minInt = 0;
         double[] temp = traces.getColumnPackedCopy();

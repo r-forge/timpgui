@@ -149,19 +149,19 @@ public class TimpController implements TimpInterface {
         datasetNumber++;
         TimpResultDataset result = new TimpResultDataset();
 
-        result.SetDatasetName(datasetName);
-        result.SetSpectras(getCLP(NAME_OF_RESULT_OBJECT, datasetNumber));
-        result.SetX(getdim1(NAME_OF_RESULT_OBJECT));
-        result.SetX2(getdim2(NAME_OF_RESULT_OBJECT));
-        result.SetResiduals(getResiduals(NAME_OF_RESULT_OBJECT, datasetNumber));
-        result.SetTraces(getData(NAME_OF_RESULT_OBJECT, datasetNumber)); //if weighted=TRUE then use 3rd argument
-        result.SetFittedTraces(getTraces(NAME_OF_RESULT_OBJECT, datasetNumber));
-        result.SetKineticParameters(getParEst(NAME_OF_RESULT_OBJECT, datasetNumber, "kinpar"));
-        result.SetSpectralParameters(getParEst(NAME_OF_RESULT_OBJECT, datasetNumber, "specpar"));
-        if (result.GetKineticParameters().length > 2) {
-            result.SetConcentrations(getX(NAME_OF_RESULT_OBJECT, datasetNumber, false));
+        result.setDatasetName(datasetName);
+        result.setSpectra(getCLP(NAME_OF_RESULT_OBJECT, datasetNumber));
+        result.setX(getdim1(NAME_OF_RESULT_OBJECT));
+        result.setX2(getdim2(NAME_OF_RESULT_OBJECT));
+        result.setResiduals(getResiduals(NAME_OF_RESULT_OBJECT, datasetNumber));
+        result.setTraces(getData(NAME_OF_RESULT_OBJECT, datasetNumber)); //if weighted=TRUE then use 3rd argument
+        result.retFittedTraces(getTraces(NAME_OF_RESULT_OBJECT, datasetNumber));
+        result.setKineticParameters(getParEst(NAME_OF_RESULT_OBJECT, datasetNumber, "kinpar"));
+        result.setSpectralParameters(getParEst(NAME_OF_RESULT_OBJECT, datasetNumber, "specpar"));
+        if (result.getKineticParameters().length > 2) {
+            result.setConcentrations(getX(NAME_OF_RESULT_OBJECT, datasetNumber, false));
         } else {
-            result.SetConcentrations(getX(NAME_OF_RESULT_OBJECT, datasetNumber, true));
+            result.setConcentrations(getX(NAME_OF_RESULT_OBJECT, datasetNumber, true));
         }
         return result;
     }

@@ -19,9 +19,10 @@ public class ShapeChildren  extends Index.ArrayChildren {
     private Category category;
 
     private String[][] items = new String[][]{
-        {"0", "Shapes", "org/timpgui/gui/scheme/resources/image1.png"},
-        {"1", "Shapes", "org/timpgui/gui/scheme/resources/image2.png"},
-        {"2", "Shapes", "org/timpgui/gui/scheme/resources/image3.png"},
+        {"0", "Preprocessing", "org/timpgui/gui/scheme/resources/image1.png"},
+        {"0", "Data", "org/timpgui/gui/scheme/resources/image2.png"},
+        {"0", "Modelling", "org/timpgui/gui/scheme/resources/image3.png"},
+        {"0", "Plotting", "org/timpgui/gui/scheme/resources/image3.png"},
     };
 
     public ShapeChildren(Category Category) {

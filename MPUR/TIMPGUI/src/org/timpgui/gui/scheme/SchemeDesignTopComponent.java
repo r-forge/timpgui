@@ -5,10 +5,8 @@
 
 package org.timpgui.gui.scheme;
 
-import java.awt.BorderLayout;
 import java.io.Serializable;
 import java.util.logging.Logger;
-import javax.swing.JComponent;
 import org.openide.util.NbBundle;
 import org.openide.util.lookup.Lookups;
 import org.openide.windows.TopComponent;
@@ -33,9 +31,10 @@ final class SchemeDesignTopComponent extends TopComponent {
         setName(NbBundle.getMessage(SchemeDesignTopComponent.class, "CTL_SchemeDesignTopComponent"));
         setToolTipText(NbBundle.getMessage(SchemeDesignTopComponent.class, "HINT_SchemeDesignTopComponent"));
 //        setIcon(Utilities.loadImage(ICON_PATH, true));
-        jPanel2.add( scene.createView());
+        jScrollPane1.setViewportView(scene.createView());
+        //jPanel2.add(scene.createView());
         jPanel1.add(scene.createSatelliteView());
-        
+        associateLookup( Lookups.fixed( new Object[] { PaletteSupport.createPalette() } ) );
     }
 
     /** This method is called from within the constructor to

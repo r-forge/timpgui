@@ -5,9 +5,11 @@
 package org.timpgui.resultsdisplayers;
 
 import Jama.SingularValueDecomposition;
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Paint;
+import java.awt.geom.Ellipse2D;
 import java.awt.image.BufferedImage;
 import java.io.Serializable;
 import java.util.logging.Logger;
@@ -20,6 +22,7 @@ import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.annotations.XYDataImageAnnotation;
 import org.jfree.chart.axis.AxisLocation;
+import org.jfree.chart.axis.LogAxis;
 import org.jfree.chart.axis.NumberAxis;
 import org.jfree.chart.event.ChartChangeEvent;
 import org.jfree.chart.event.ChartChangeListener;
@@ -31,6 +34,7 @@ import org.jfree.chart.plot.XYPlot;
 import org.jfree.chart.renderer.PaintScale;
 import org.jfree.chart.renderer.xy.StandardXYItemRenderer;
 import org.jfree.chart.renderer.xy.XYItemRenderer;
+import org.jfree.chart.renderer.xy.XYLineAndShapeRenderer;
 import org.jfree.chart.title.PaintScaleLegend;
 import org.jfree.data.Range;
 import org.jfree.data.xy.XYDataset;
@@ -137,11 +141,15 @@ public final class SpecResultsTopComponent extends TopComponent implements Chart
         jPConcentrations = new javax.swing.JPanel();
         jToolBar1 = new javax.swing.JToolBar();
         jPanel5 = new javax.swing.JPanel();
+        jPanel9 = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
+        jPanel8 = new javax.swing.JPanel();
         jPSingValues = new javax.swing.JPanel();
         jPLeftSingVectors = new javax.swing.JPanel();
         jPRightSingVectors = new javax.swing.JPanel();
         jScrollPane4 = new javax.swing.JScrollPane();
         jPanel3 = new javax.swing.JPanel();
+        jToolBar2 = new javax.swing.JToolBar();
         jPanel1 = new javax.swing.JPanel();
         jPSelectedWaveTrace = new javax.swing.JPanel();
         jPSelectedTimeTrace = new javax.swing.JPanel();
@@ -198,38 +206,77 @@ public final class SpecResultsTopComponent extends TopComponent implements Chart
         jToolBar1.setRollover(true);
 
         jPanel5.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-        jPanel5.setLayout(new java.awt.GridLayout());
+        jPanel5.setLayout(new java.awt.GridBagLayout());
+
+        jPanel9.setLayout(new java.awt.BorderLayout());
+
+        jLabel1.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        org.openide.awt.Mnemonics.setLocalizedText(jLabel1, org.openide.util.NbBundle.getMessage(SpecResultsTopComponent.class, "SpecResultsTopComponent.jLabel1.text")); // NOI18N
+        jLabel1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jPanel9.add(jLabel1, java.awt.BorderLayout.CENTER);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        jPanel5.add(jPanel9, gridBagConstraints);
+
+        jPanel8.setLayout(new java.awt.GridBagLayout());
 
         jPSingValues.setBackground(new java.awt.Color(255, 255, 255));
         jPSingValues.setLayout(new java.awt.BorderLayout());
-        jPanel5.add(jPSingValues);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 0.26;
+        gridBagConstraints.weighty = 1.0;
+        jPanel8.add(jPSingValues, gridBagConstraints);
 
         jPLeftSingVectors.setBackground(new java.awt.Color(255, 255, 255));
         jPLeftSingVectors.setLayout(new java.awt.BorderLayout());
-        jPanel5.add(jPLeftSingVectors);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 0.37;
+        gridBagConstraints.weighty = 1.0;
+        jPanel8.add(jPLeftSingVectors, gridBagConstraints);
 
         jPRightSingVectors.setBackground(new java.awt.Color(255, 255, 255));
         jPRightSingVectors.setLayout(new java.awt.BorderLayout());
-        jPanel5.add(jPRightSingVectors);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 0.37;
+        gridBagConstraints.weighty = 1.0;
+        jPanel8.add(jPRightSingVectors, gridBagConstraints);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 1.0;
+        jPanel5.add(jPanel8, gridBagConstraints);
 
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
         jPanel6Layout.setHorizontalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jToolBar1, javax.swing.GroupLayout.DEFAULT_SIZE, 931, Short.MAX_VALUE)
+            .addComponent(jToolBar1, javax.swing.GroupLayout.DEFAULT_SIZE, 960, Short.MAX_VALUE)
             .addGroup(jPanel6Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, 603, Short.MAX_VALUE)
+                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, 617, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel6Layout.createSequentialGroup()
-                        .addComponent(jPConcentrations, javax.swing.GroupLayout.PREFERRED_SIZE, 294, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(3, 3, 3))
-                    .addComponent(jPanel7, 0, 0, Short.MAX_VALUE))
+                    .addComponent(jPanel7, 0, 0, Short.MAX_VALUE)
+                    .addComponent(jPConcentrations, javax.swing.GroupLayout.DEFAULT_SIZE, 313, Short.MAX_VALUE))
                 .addContainerGap())
             .addGroup(jPanel6Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, 907, Short.MAX_VALUE)
+                .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, 936, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanel6Layout.setVerticalGroup(
@@ -244,13 +291,15 @@ public final class SpecResultsTopComponent extends TopComponent implements Chart
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jPConcentrations, javax.swing.GroupLayout.PREFERRED_SIZE, 231, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, 255, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(646, Short.MAX_VALUE))
+                .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, 263, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(695, Short.MAX_VALUE))
         );
 
         jScrollPane3.setViewportView(jPanel6);
 
         jTabbedPane1.addTab(org.openide.util.NbBundle.getMessage(SpecResultsTopComponent.class, "SpecResultsTopComponent.jScrollPane3.TabConstraints.tabTitle"), jScrollPane3); // NOI18N
+
+        jToolBar2.setRollover(true);
 
         jPanel1.setLayout(new java.awt.GridLayout(2, 0));
 
@@ -318,18 +367,23 @@ public final class SpecResultsTopComponent extends TopComponent implements Chart
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 492, Short.MAX_VALUE))
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jToolBar2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 915, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel3Layout.createSequentialGroup()
+                        .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 491, Short.MAX_VALUE)))
+                .addGap(45, 45, 45))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
+                .addComponent(jToolBar2, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 493, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(922, Short.MAX_VALUE))
+                .addContainerGap(933, Short.MAX_VALUE))
         );
 
         jScrollPane4.setViewportView(jPanel3);
@@ -389,6 +443,7 @@ public final class SpecResultsTopComponent extends TopComponent implements Chart
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JList jLKineticParameters;
     private javax.swing.JList jLSpectralParameters;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPConcentrations;
     private javax.swing.JPanel jPDAS;
     private javax.swing.JPanel jPDASnorm;
@@ -407,6 +462,8 @@ public final class SpecResultsTopComponent extends TopComponent implements Chart
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel7;
+    private javax.swing.JPanel jPanel8;
+    private javax.swing.JPanel jPanel9;
     private javax.swing.JSlider jSColum;
     private javax.swing.JSlider jSRow;
     private javax.swing.JScrollPane jScrollPane1;
@@ -415,6 +472,7 @@ public final class SpecResultsTopComponent extends TopComponent implements Chart
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JToolBar jToolBar1;
+    private javax.swing.JToolBar jToolBar2;
     // End of variables declaration//GEN-END:variables
     /**
      * Gets default instance. Do not use directly: reserved for *.settings files only,
@@ -564,7 +622,7 @@ public final class SpecResultsTopComponent extends TopComponent implements Chart
         chpan.getChartRenderingInfo().setEntityCollection(null);
         jPConcentrations.removeAll();
         jPConcentrations.add(chpan);
-        jPConcentrations.repaint();
+//        jPConcentrations.repaint();
 
     }
     private void PlotSpectrTrace() {
@@ -621,8 +679,6 @@ public final class SpecResultsTopComponent extends TopComponent implements Chart
         chpan = new ChartPanel(tracechart);
         jPSASnorm.removeAll();
         jPSASnorm.add(chpan);
-//        jPSASnorm
-//        jPSAS.repaint();
 
     }
 
@@ -719,14 +775,14 @@ public final class SpecResultsTopComponent extends TopComponent implements Chart
         XYPlot plot2_1 = (XYPlot) subchartWaveTrace.getPlot();
         plot2_1.getDomainAxis().setLowerMargin(0.0);
         plot2_1.getDomainAxis().setUpperMargin(0.0);
-        plot2_1.getDomainAxis().setAutoRange(true);
+        plot2_1.getDomainAxis().setAutoRange(false);
         plot2_1.setDomainAxisLocation(AxisLocation.BOTTOM_OR_LEFT);
         plot2_1.setRangeAxisLocation(AxisLocation.BOTTOM_OR_LEFT);
 
         XYPlot plot2_2 = (XYPlot) subchartResidualsWave.getPlot();
         plot2_2.getDomainAxis().setLowerMargin(0.0);
         plot2_2.getDomainAxis().setUpperMargin(0.0);
-        plot2_2.getDomainAxis().setAutoRange(true);
+        plot2_2.getDomainAxis().setAutoRange(false);
         plot2_2.setDomainAxisLocation(AxisLocation.BOTTOM_OR_LEFT);
         plot2_2.setRangeAxisLocation(AxisLocation.BOTTOM_OR_LEFT);
 
@@ -839,10 +895,105 @@ public final class SpecResultsTopComponent extends TopComponent implements Chart
     }
 
     private void calculateSVDResiduals(){
+        int n = 2;
+//do SVD
         SingularValueDecomposition result;
         result = res.getResiduals().svd();
-        
 
+//creare collection with first 2 LSV
+        XYSeriesCollection lSVCollection = new XYSeriesCollection();
+        XYSeries seria;
+        for (int j = 0; j < n; j++) {
+            seria = new XYSeries("LSV" + (j + 1));
+            for (int i = 0; i < res.getX().length; i++) {
+                seria.add(res.getX()[i], result.getU().get(i, j));
+            }
+            lSVCollection.addSeries(seria);
+        }
+//creare chart for 2 LSV
+        JFreeChart tracechart = ChartFactory.createXYLineChart(
+                    "Left singular vectors",
+                    "Time (ns)",
+                    null,
+                    lSVCollection,
+                    PlotOrientation.VERTICAL,
+                    false,
+                    false,
+                    false);
+        tracechart.getTitle().setFont(new Font(tracechart.getTitle().getFont().getFontName(), Font.PLAIN, 12));
+        tracechart.setBackgroundPaint(JFreeChart.DEFAULT_BACKGROUND_PAINT);
+        tracechart.getXYPlot().getDomainAxis().setUpperBound(res.getX()[res.getX().length - 1]);
+        tracechart.getXYPlot().getDomainAxis().setAutoRange(false);
+        ChartPanel chpan = new ChartPanel(tracechart);
+//add chart with 2 LSV to JPannel
+        jPLeftSingVectors.removeAll();
+        jPLeftSingVectors.add(chpan);
+
+//creare collection with first 2 RSV
+        XYSeriesCollection rSVCollection = new XYSeriesCollection();
+        for (int j = 0; j < n; j++) {
+            seria = new XYSeries("RSV" + (j + 1));
+            for (int i = 0; i < res.getX2().length; i++) {
+                seria.add(res.getX2()[i], result.getV().get(i, j));
+            }
+            rSVCollection.addSeries(seria);
+        }
+
+//creare chart for 2 RSV
+        tracechart = ChartFactory.createXYLineChart(
+                    "Right singular vectors",
+                    "Wavelength (nm)",
+                    null,
+                    rSVCollection,
+                    PlotOrientation.VERTICAL,
+                    false,
+                    false,
+                    false);
+        tracechart.getTitle().setFont(new Font(tracechart.getTitle().getFont().getFontName(), Font.PLAIN, 12));
+        tracechart.setBackgroundPaint(JFreeChart.DEFAULT_BACKGROUND_PAINT);
+        tracechart.getXYPlot().getDomainAxis().setUpperBound(res.getX()[res.getX().length - 1]);
+        tracechart.getXYPlot().getDomainAxis().setAutoRange(false);
+        chpan = new ChartPanel(tracechart);
+//add chart with 2 RSV to JPannel
+        jPRightSingVectors.removeAll();
+        jPRightSingVectors.add(chpan);
+
+//creare collection with singular values
+        XYSeriesCollection sVCollection = new XYSeriesCollection();
+        seria = new XYSeries("SV");
+        for (int i = 0; i < result.getSingularValues().length; i++) {
+            seria.add(i+1, result.getSingularValues()[i]);
+        }
+        sVCollection.addSeries(seria);
+
+
+//creare chart for 2 RSV
+        tracechart = ChartFactory.createXYLineChart(
+                    "Screeplot",
+                    "Number of factors (#)",
+                    null,
+                    sVCollection,
+                    PlotOrientation.VERTICAL,
+                    false,
+                    false,
+                    false);
+        tracechart.getXYPlot().setRangeAxis(new LogAxis("Log(SV)"));
+        XYLineAndShapeRenderer renderer = (XYLineAndShapeRenderer) tracechart.getXYPlot().getRenderer();
+        renderer.setBaseShapesVisible(true);
+        renderer.setDrawOutlines(true);
+        renderer.setUseFillPaint(true);
+        renderer.setBaseFillPaint(Color.white);
+        renderer.setSeriesStroke(0, new BasicStroke(1.0f));
+        renderer.setSeriesOutlineStroke(0, new BasicStroke(1.0f));
+        renderer.setSeriesShape(0, new Ellipse2D.Double(-4.0, -4.0, 8.0, 8.0));
+
+        tracechart.getTitle().setFont(new Font(tracechart.getTitle().getFont().getFontName(), Font.PLAIN, 12));
+        tracechart.setBackgroundPaint(JFreeChart.DEFAULT_BACKGROUND_PAINT);
+
+        chpan = new ChartPanel(tracechart);
+//add chart with 2 RSV to JPannel
+        jPSingValues.removeAll();
+        jPSingValues.add(chpan);
     }
 
 }

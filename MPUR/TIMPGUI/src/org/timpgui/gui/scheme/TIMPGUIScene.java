@@ -21,12 +21,15 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 import javax.swing.JComponent;
+import javax.swing.JPopupMenu;
 import org.netbeans.api.visual.action.AcceptProvider;
 import org.netbeans.api.visual.action.ActionFactory;
 import org.netbeans.api.visual.action.ConnectorState;
+import org.netbeans.api.visual.action.PopupMenuProvider;
 import org.netbeans.api.visual.vmd.VMDGraphScene;
 import org.netbeans.api.visual.vmd.VMDNodeWidget;
 import org.netbeans.api.visual.vmd.VMDPinWidget;
+import org.netbeans.api.visual.widget.Scene;
 import org.netbeans.api.visual.widget.Widget;
 import org.openide.util.Utilities;
 
@@ -41,6 +44,7 @@ public class TIMPGUIScene extends VMDGraphScene {
     private static final Image GLYPH_CANCEL = Utilities.loadImage("org/timpgui/gui/scheme/resources/cancelGlyph.png"); // NOI18N
     private static int nodeID = 1;
     private static int edgeID = 1;
+    private static int pinID = 1;
 
     /** Creates a new instance of TIMPGUIScene */
     public TIMPGUIScene() {
@@ -67,19 +71,44 @@ public class TIMPGUIScene extends VMDGraphScene {
             }
 
             public void accept(Widget widget, Point point, Transferable transferable) {
+
+                String test = TIMPGUIScene.createNode ((VMDGraphScene)widget.getScene(), (int) point.getX(), (int) point.getY(), IMAGE_CANVAS, "testCanvas", "MyCanvas", Arrays.asList (GLYPH_PRE_CODE, GLYPH_CANCEL, GLYPH_POST_CODE));
+                TIMPGUIScene.this.repaint();
                 //Image image = getImageFromTransferable(transferable);
                 //Widget w = GraphSceneImpl.this.addNode(new MyNode(image));
                 //w.setPreferredLocation(widget.convertLocalToScene(point));
             }
+
+
         }));
 
     }
-
-    private static String createNode(VMDGraphScene scene, int x, int y, Image image, String name, String type, List<Image> glyphs) {
-        String nodeID = "node" + TIMPGUIScene.nodeID++;
+    
+    private static String createNode(final VMDGraphScene scene, int x, int y, Image image, String name, String type, List<Image> glyphs) {
+        final String nodeID = "node" + TIMPGUIScene.nodeID++;
         VMDNodeWidget widget = (VMDNodeWidget) scene.addNode(nodeID);
         widget.setPreferredLocation(new Point(x, y));
         widget.setNodeProperties(image, name, type, glyphs);
+
+        widget.getActions().addAction(ActionFactory.createAcceptAction(new AcceptProvider() {
+
+            public ConnectorState isAcceptable(Widget widget, Point point, Transferable transferable) {
+                return ConnectorState.ACCEPT;
+            }
+
+            public void accept(Widget widget, Point point, Transferable transferable) {
+                String pinID = "pin" + TIMPGUIScene.pinID++;
+                ((VMDPinWidget) scene.addPin(nodeID, pinID)).setProperties("testName" +  TIMPGUIScene.pinID++, null);
+                //Image image = getImageFromTransferable(transferable);
+                //Widget w = GraphSceneImpl.this.addNode(new MyNode(image));
+                //w.setPreferredLocation(widget.convertLocalToScene(point));
+            }
+
+
+        }));
+
+
+
         scene.addPin(nodeID, nodeID + VMDGraphScene.PIN_ID_DEFAULT_SUFFIX);
         return nodeID;
     }

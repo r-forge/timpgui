@@ -24,7 +24,7 @@ final class SchemeDesignTopComponent extends TopComponent {
 //    static final String ICON_PATH = "SET/PATH/TO/ICON/HERE";
 
     private static final String PREFERRED_ID = "SchemeDesignTopComponent";
-    private TIMPGUIScene scene = new TIMPGUIScene();
+    TIMPGUIScene scene = new TIMPGUIScene();
 
     private SchemeDesignTopComponent() {
         initComponents();

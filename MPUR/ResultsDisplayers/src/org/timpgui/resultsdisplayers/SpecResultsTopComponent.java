@@ -8,10 +8,12 @@ import Jama.SingularValueDecomposition;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.GridLayout;
 import java.awt.Paint;
 import java.awt.geom.Ellipse2D;
 import java.awt.image.BufferedImage;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.logging.Logger;
 import nl.wur.flim.jfreechartcustom.ColorCodedImageDataset;
 import nl.wur.flim.jfreechartcustom.ImageCrosshairLabelGenerator;
@@ -46,6 +48,7 @@ import org.jfree.ui.RectangleEdge;
 import org.jfree.ui.RectangleInsets;
 import org.netbeans.api.visual.border.Border;
 import org.netbeans.api.visual.border.BorderFactory;
+import org.openide.util.Exceptions;
 import org.openide.util.NbBundle;
 import org.openide.windows.TopComponent;
 import org.openide.windows.WindowManager;
@@ -66,10 +69,8 @@ public final class SpecResultsTopComponent extends TopComponent implements Chart
     private JFreeChart subchartResidualsTime;
     private JFreeChart subchartWaveTrace;
     private JFreeChart subchartResidualsWave;
-//    private XYSeriesCollection tracesTimeCollection;
-//    private XYSeriesCollection residualsTime;
-//    private XYSeriesCollection tracesWaveCollection;
-//    private XYSeriesCollection residualsWave;
+    ArrayList<Integer> selectedTimeTraces = new ArrayList();
+    ArrayList<Integer> selectedWaveTraces = new ArrayList();
     private Range lastXRange;
     private Range lastYRange;
     private Range wholeXRange;
@@ -102,11 +103,11 @@ public final class SpecResultsTopComponent extends TopComponent implements Chart
         makeImageChart();
         MakeTracesChart();
         jSColum.setMaximum(dataset.GetImageWidth()-1);
-        jSColum.setMinimum(1);
-        jSColum.setValue(1);
+        jSColum.setMinimum(0);
+        jSColum.setValue(0);
         jSRow.setMaximum(dataset.GetImageHeigth()-1);
-        jSRow.setMinimum(1);
-        jSRow.setValue(1);
+        jSRow.setMinimum(0);
+        jSRow.setValue(0);
          
     }
 
@@ -150,6 +151,9 @@ public final class SpecResultsTopComponent extends TopComponent implements Chart
         jScrollPane4 = new javax.swing.JScrollPane();
         jPanel3 = new javax.swing.JPanel();
         jToolBar2 = new javax.swing.JToolBar();
+        jButton1 = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
+        jButton3 = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
         jPSelectedWaveTrace = new javax.swing.JPanel();
         jPSelectedTimeTrace = new javax.swing.JPanel();
@@ -157,8 +161,19 @@ public final class SpecResultsTopComponent extends TopComponent implements Chart
         jPSpecImage = new javax.swing.JPanel();
         jSColum = new javax.swing.JSlider();
         jSRow = new javax.swing.JSlider();
+        jScrollPane5 = new javax.swing.JScrollPane();
+        jList1 = new javax.swing.JList();
+        jScrollPane6 = new javax.swing.JScrollPane();
+        jList2 = new javax.swing.JList();
+        jPSelTimeTrCollection = new javax.swing.JPanel();
+        jPSelWavTrCollection = new javax.swing.JPanel();
 
         setLayout(new java.awt.BorderLayout());
+
+        jTabbedPane1.setMaximumSize(new java.awt.Dimension(1032, 820));
+        jTabbedPane1.setPreferredSize(new java.awt.Dimension(1032, 820));
+
+        jPanel6.setPreferredSize(new java.awt.Dimension(960, 800));
 
         jPanel2.setLayout(new java.awt.GridLayout(0, 2));
 
@@ -210,7 +225,7 @@ public final class SpecResultsTopComponent extends TopComponent implements Chart
 
         jPanel9.setLayout(new java.awt.BorderLayout());
 
-        jLabel1.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        jLabel1.setFont(new java.awt.Font("Dialog", 1, 14));
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         org.openide.awt.Mnemonics.setLocalizedText(jLabel1, org.openide.util.NbBundle.getMessage(SpecResultsTopComponent.class, "SpecResultsTopComponent.jLabel1.text")); // NOI18N
         jLabel1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
@@ -292,7 +307,7 @@ public final class SpecResultsTopComponent extends TopComponent implements Chart
                         .addComponent(jPConcentrations, javax.swing.GroupLayout.PREFERRED_SIZE, 231, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, 263, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(695, Short.MAX_VALUE))
+                .addContainerGap(38, Short.MAX_VALUE))
         );
 
         jScrollPane3.setViewportView(jPanel6);
@@ -300,6 +315,39 @@ public final class SpecResultsTopComponent extends TopComponent implements Chart
         jTabbedPane1.addTab(org.openide.util.NbBundle.getMessage(SpecResultsTopComponent.class, "SpecResultsTopComponent.jScrollPane3.TabConstraints.tabTitle"), jScrollPane3); // NOI18N
 
         jToolBar2.setRollover(true);
+
+        org.openide.awt.Mnemonics.setLocalizedText(jButton1, org.openide.util.NbBundle.getMessage(SpecResultsTopComponent.class, "SpecResultsTopComponent.jButton1.text")); // NOI18N
+        jButton1.setFocusable(false);
+        jButton1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jButton1.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+        jToolBar2.add(jButton1);
+
+        org.openide.awt.Mnemonics.setLocalizedText(jButton2, org.openide.util.NbBundle.getMessage(SpecResultsTopComponent.class, "SpecResultsTopComponent.jButton2.text")); // NOI18N
+        jButton2.setFocusable(false);
+        jButton2.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jButton2.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+        jToolBar2.add(jButton2);
+
+        org.openide.awt.Mnemonics.setLocalizedText(jButton3, org.openide.util.NbBundle.getMessage(SpecResultsTopComponent.class, "SpecResultsTopComponent.jButton3.text")); // NOI18N
+        jButton3.setFocusable(false);
+        jButton3.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jButton3.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
+        jToolBar2.add(jButton3);
 
         jPanel1.setLayout(new java.awt.GridLayout(2, 0));
 
@@ -362,6 +410,10 @@ public final class SpecResultsTopComponent extends TopComponent implements Chart
                 .addContainerGap())
         );
 
+        jScrollPane5.setViewportView(jList1);
+
+        jScrollPane6.setViewportView(jList2);
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
@@ -370,7 +422,13 @@ public final class SpecResultsTopComponent extends TopComponent implements Chart
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jToolBar2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 915, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel3Layout.createSequentialGroup()
-                        .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(jPanel3Layout.createSequentialGroup()
+                                .addContainerGap()
+                                .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 162, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(70, 70, 70)
+                                .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 491, Short.MAX_VALUE)))
                 .addGap(45, 45, 45))
@@ -381,14 +439,29 @@ public final class SpecResultsTopComponent extends TopComponent implements Chart
                 .addComponent(jToolBar2, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(28, 28, 28)
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jScrollPane6)
+                            .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 198, Short.MAX_VALUE)))
                     .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 493, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(933, Short.MAX_VALUE))
+                .addContainerGap(883, Short.MAX_VALUE))
         );
 
         jScrollPane4.setViewportView(jPanel3);
 
         jTabbedPane1.addTab(org.openide.util.NbBundle.getMessage(SpecResultsTopComponent.class, "SpecResultsTopComponent.jScrollPane4.TabConstraints.tabTitle"), jScrollPane4); // NOI18N
+
+        jPSelTimeTrCollection.setMaximumSize(new java.awt.Dimension(1024, 768));
+        jPSelTimeTrCollection.setPreferredSize(new java.awt.Dimension(1024, 768));
+        jPSelTimeTrCollection.setLayout(new java.awt.GridLayout(2, 2));
+        jTabbedPane1.addTab(org.openide.util.NbBundle.getMessage(SpecResultsTopComponent.class, "SpecResultsTopComponent.jPSelTimeTrCollection.TabConstraints.tabTitle"), jPSelTimeTrCollection); // NOI18N
+
+        jPSelWavTrCollection.setMaximumSize(new java.awt.Dimension(1032, 820));
+        jPSelWavTrCollection.setPreferredSize(new java.awt.Dimension(1032, 820));
+        jPSelWavTrCollection.setLayout(new java.awt.GridLayout(2, 2));
+        jTabbedPane1.addTab(org.openide.util.NbBundle.getMessage(SpecResultsTopComponent.class, "SpecResultsTopComponent.jPSelWavTrCollection.TabConstraints.tabTitle"), jPSelWavTrCollection); // NOI18N
 
         add(jTabbedPane1, java.awt.BorderLayout.PAGE_START);
     }// </editor-fold>//GEN-END:initComponents
@@ -440,10 +513,129 @@ public final class SpecResultsTopComponent extends TopComponent implements Chart
 
     }//GEN-LAST:event_jSColumStateChanged
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+
+//        selectedTimeTraces.add(jSColum.getValue());
+//        NumberAxis xAxis = new NumberAxis("Time (ns)");
+//        xAxis.setRange(res.getX()[0], res.getX()[res.getX().length - 1]);
+//        xAxis.setUpperBound(res.getX()[res.getX().length-1]);
+//        CombinedDomainXYPlot plot = new CombinedDomainXYPlot(xAxis);
+//        plot.setGap(5.0);
+//        try {
+//            plot.add((XYPlot) subchartTimeTrace.getXYPlot().clone(), 3);
+//            plot.add((XYPlot) subchartResidualsTime.getXYPlot().clone(), 1);
+//        } catch (CloneNotSupportedException ex) {
+//            Exceptions.printStackTrace(ex);
+//        }
+//        plot.setOrientation(PlotOrientation.VERTICAL);
+//        JFreeChart tracechart = new JFreeChart(plot);
+//        tracechart.removeLegend();
+//        ChartPanel chpan = new ChartPanel(tracechart,true);
+//        chpan.setMinimumDrawHeight(0);
+//        chpan.setMinimumDrawWidth(0);
+//        jPSelTimeTrCollection.add(chpan);
+//
+//        selectedWaveTraces.add(jSRow.getValue());
+//        xAxis = new NumberAxis("Time (ns)");
+//        if (res.getX2()[res.getX2().length-1]<res.getX2()[0]){
+//            xAxis.setUpperBound(res.getX2()[0]);
+//            xAxis.setLowerBound(res.getX2()[res.getX2().length-1]);
+//        }
+//        else {
+//            xAxis.setLowerBound(res.getX2()[0]);
+//            xAxis.setUpperBound(res.getX2()[res.getX2().length-1]);
+//        }
+//
+//        plot = new CombinedDomainXYPlot(xAxis);
+//        plot.setGap(5.0);
+//        try {
+//            plot.add((XYPlot) subchartWaveTrace.getXYPlot().clone(), 3);
+//            plot.add((XYPlot) subchartResidualsWave.getXYPlot().clone(), 1);
+//        } catch (CloneNotSupportedException ex) {
+//            Exceptions.printStackTrace(ex);
+//        }
+//        plot.setOrientation(PlotOrientation.VERTICAL);
+//        tracechart = new JFreeChart(plot);
+//        tracechart.removeLegend();
+//        chpan = new ChartPanel(tracechart,true);
+//        chpan.setMinimumDrawHeight(0);
+//        chpan.setMinimumDrawWidth(0);
+//        jPSelWavTrCollection.add(chpan);
+
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+
+        selectedTimeTraces.add(jSColum.getValue());
+        NumberAxis xAxis = new NumberAxis("Time (ns)");
+        xAxis.setRange(res.getX()[0], res.getX()[res.getX().length - 1]);
+        xAxis.setUpperBound(res.getX()[res.getX().length-1]);
+        CombinedDomainXYPlot plot = new CombinedDomainXYPlot(xAxis);
+        plot.setGap(5.0);
+        try {
+            plot.add((XYPlot) subchartTimeTrace.getXYPlot().clone(), 3);
+            plot.add((XYPlot) subchartResidualsTime.getXYPlot().clone(), 1);
+        } catch (CloneNotSupportedException ex) {
+            Exceptions.printStackTrace(ex);
+        }
+        plot.setOrientation(PlotOrientation.VERTICAL);
+        JFreeChart tracechart = new JFreeChart(plot);
+        tracechart.removeLegend();
+        ChartPanel chpan = new ChartPanel(tracechart,true);
+        chpan.setMinimumDrawHeight(0);
+        chpan.setMinimumDrawWidth(0);
+        jPSelTimeTrCollection.add(chpan);
+        GridLayout gl = (GridLayout)jPSelTimeTrCollection.getLayout();
+        if (selectedTimeTraces.size()/4>=gl.getRows()){
+            jPSelTimeTrCollection.setLayout(new GridLayout(gl.getRows()+1, 4));
+        }
+
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+
+        selectedWaveTraces.add(jSRow.getValue());
+        NumberAxis xAxis = new NumberAxis("Time (ns)");
+        if (res.getX2()[res.getX2().length-1]<res.getX2()[0]){
+            xAxis.setUpperBound(res.getX2()[0]);
+            xAxis.setLowerBound(res.getX2()[res.getX2().length-1]);
+        }
+        else {
+            xAxis.setLowerBound(res.getX2()[0]);
+            xAxis.setUpperBound(res.getX2()[res.getX2().length-1]);
+        }
+
+        CombinedDomainXYPlot plot = new CombinedDomainXYPlot(xAxis);
+        plot.setGap(5.0);
+        try {
+            plot.add((XYPlot) subchartWaveTrace.getXYPlot().clone(), 3);
+            plot.add((XYPlot) subchartResidualsWave.getXYPlot().clone(), 1);
+        } catch (CloneNotSupportedException ex) {
+            Exceptions.printStackTrace(ex);
+        }
+        plot.setOrientation(PlotOrientation.VERTICAL);
+        JFreeChart tracechart = new JFreeChart(plot);
+        tracechart.removeLegend();
+        ChartPanel chpan = new ChartPanel(tracechart,true);
+        chpan.setMinimumDrawHeight(0);
+        chpan.setMinimumDrawWidth(0);
+        jPSelWavTrCollection.add(chpan);
+        GridLayout gl = (GridLayout)jPSelWavTrCollection.getLayout();
+        if (selectedWaveTraces.size()/4>=gl.getRows()){
+            jPSelWavTrCollection.setLayout(new GridLayout(gl.getRows()+1, 4));
+        }
+
+    }//GEN-LAST:event_jButton3ActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
     private javax.swing.JList jLKineticParameters;
     private javax.swing.JList jLSpectralParameters;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JList jList1;
+    private javax.swing.JList jList2;
     private javax.swing.JPanel jPConcentrations;
     private javax.swing.JPanel jPDAS;
     private javax.swing.JPanel jPDASnorm;
@@ -451,6 +643,8 @@ public final class SpecResultsTopComponent extends TopComponent implements Chart
     private javax.swing.JPanel jPRightSingVectors;
     private javax.swing.JPanel jPSAS;
     private javax.swing.JPanel jPSASnorm;
+    private javax.swing.JPanel jPSelTimeTrCollection;
+    private javax.swing.JPanel jPSelWavTrCollection;
     private javax.swing.JPanel jPSelectedTimeTrace;
     private javax.swing.JPanel jPSelectedWaveTrace;
     private javax.swing.JPanel jPSingValues;
@@ -470,6 +664,8 @@ public final class SpecResultsTopComponent extends TopComponent implements Chart
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
+    private javax.swing.JScrollPane jScrollPane5;
+    private javax.swing.JScrollPane jScrollPane6;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JToolBar jToolBar1;
     private javax.swing.JToolBar jToolBar2;

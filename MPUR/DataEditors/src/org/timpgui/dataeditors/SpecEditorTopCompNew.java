@@ -18,6 +18,7 @@ import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.logging.Logger;
+import javax.swing.SpinnerNumberModel;
 import nl.vu.nat.tgmprojectsupport.TGProject;
 import nl.wur.flim.jfreechartcustom.ColorCodedImageDataset;
 import nl.wur.flim.jfreechartcustom.ImageCrosshairLabelGenerator;
@@ -80,6 +81,8 @@ final public class SpecEditorTopCompNew extends CloneableTopComponent
     private JFreeChart chartMain;
     private JFreeChart subchartTimeTrace;
     private JFreeChart subchartWaveTrace;
+    private JFreeChart leftSVChart;
+    private JFreeChart rightSVChart;
     private Crosshair crosshair1;
     private Crosshair crosshair2;
     private ChartPanel chpanImage;
@@ -147,7 +150,6 @@ final public class SpecEditorTopCompNew extends CloneableTopComponent
      */
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
-        java.awt.GridBagConstraints gridBagConstraints;
 
         jDialog1 = new javax.swing.JDialog();
         inputDatasetName = new javax.swing.JTextField();
@@ -175,9 +177,14 @@ final public class SpecEditorTopCompNew extends CloneableTopComponent
         jPYTrace = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jPanel3 = new javax.swing.JPanel();
+        jToolBar2 = new javax.swing.JToolBar();
         jPanel5 = new javax.swing.JPanel();
-        jPanel9 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
+        jPanel9 = new javax.swing.JPanel();
+        jLabel3 = new javax.swing.JLabel();
+        jSnumSV = new javax.swing.JSpinner();
+        jLabel4 = new javax.swing.JLabel();
+        jTFtotalNumSV = new javax.swing.JTextField();
         jPanel8 = new javax.swing.JPanel();
         jPSingValues = new javax.swing.JPanel();
         jPanel4 = new javax.swing.JPanel();
@@ -185,11 +192,6 @@ final public class SpecEditorTopCompNew extends CloneableTopComponent
         jPanel7 = new javax.swing.JPanel();
         jPLeftSingVectors = new javax.swing.JPanel();
         jPRightSingVectors = new javax.swing.JPanel();
-        jToolBar2 = new javax.swing.JToolBar();
-        jSpinner1 = new javax.swing.JSpinner();
-        jLabel3 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
 
         inputDatasetName.setText(org.openide.util.NbBundle.getMessage(SpecEditorTopCompNew.class, "SpecEditorTopCompNew.inputDatasetName.text")); // NOI18N
 
@@ -347,67 +349,95 @@ final public class SpecEditorTopCompNew extends CloneableTopComponent
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jSRow, javax.swing.GroupLayout.PREFERRED_SIZE, 338, javax.swing.GroupLayout.PREFERRED_SIZE)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(jPYTrace, javax.swing.GroupLayout.Alignment.LEADING, 0, 356, Short.MAX_VALUE)
-                    .addComponent(jPSpecImage, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 356, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jSColum, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(30, 30, 30)
-                .addComponent(jPXTrace, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jSRow, javax.swing.GroupLayout.PREFERRED_SIZE, 338, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(jPYTrace, javax.swing.GroupLayout.Alignment.LEADING, 0, 356, Short.MAX_VALUE)
+                            .addComponent(jPSpecImage, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 356, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jSColum, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(30, 30, 30)
+                        .addComponent(jPXTrace, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(13, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jToolBar1, javax.swing.GroupLayout.DEFAULT_SIZE, 925, Short.MAX_VALUE)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(216, Short.MAX_VALUE))
-            .addComponent(jToolBar1, javax.swing.GroupLayout.DEFAULT_SIZE, 892, Short.MAX_VALUE)
+                .addContainerGap(249, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addComponent(jToolBar1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 564, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(254, Short.MAX_VALUE))
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(219, Short.MAX_VALUE))
         );
 
         jScrollPane2.setViewportView(jPanel2);
 
         jTabbedPane1.addTab(org.openide.util.NbBundle.getMessage(SpecEditorTopCompNew.class, "SpecEditorTopCompNew.jScrollPane2.TabConstraints.tabTitle"), jScrollPane2); // NOI18N
 
-        jPanel5.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-        jPanel5.setLayout(new java.awt.GridBagLayout());
+        jToolBar2.setRollover(true);
 
-        jPanel9.setLayout(new java.awt.BorderLayout());
+        jPanel5.setLayout(new java.awt.BorderLayout());
 
-        jLabel2.setFont(new java.awt.Font("Dialog", 1, 14));
+        jLabel2.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         org.openide.awt.Mnemonics.setLocalizedText(jLabel2, org.openide.util.NbBundle.getMessage(SpecEditorTopCompNew.class, "SpecEditorTopCompNew.jLabel2.text")); // NOI18N
         jLabel2.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        jPanel9.add(jLabel2, java.awt.BorderLayout.CENTER);
+        jPanel5.add(jLabel2, java.awt.BorderLayout.CENTER);
 
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        jPanel5.add(jPanel9, gridBagConstraints);
+        org.openide.awt.Mnemonics.setLocalizedText(jLabel3, org.openide.util.NbBundle.getMessage(SpecEditorTopCompNew.class, "SpecEditorTopCompNew.jLabel3.text")); // NOI18N
 
-        jPanel8.setLayout(new java.awt.GridBagLayout());
+        jSnumSV.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                jSnumSVStateChanged(evt);
+            }
+        });
+
+        org.openide.awt.Mnemonics.setLocalizedText(jLabel4, org.openide.util.NbBundle.getMessage(SpecEditorTopCompNew.class, "SpecEditorTopCompNew.jLabel4.text")); // NOI18N
+
+        jTFtotalNumSV.setEditable(false);
+        jTFtotalNumSV.setText(org.openide.util.NbBundle.getMessage(SpecEditorTopCompNew.class, "SpecEditorTopCompNew.jTFtotalNumSV.text")); // NOI18N
+
+        javax.swing.GroupLayout jPanel9Layout = new javax.swing.GroupLayout(jPanel9);
+        jPanel9.setLayout(jPanel9Layout);
+        jPanel9Layout.setHorizontalGroup(
+            jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel9Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel3)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jSnumSV, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jLabel4)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jTFtotalNumSV, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(314, Short.MAX_VALUE))
+        );
+        jPanel9Layout.setVerticalGroup(
+            jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel9Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel3)
+                    .addComponent(jSnumSV, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel4)
+                    .addComponent(jTFtotalNumSV, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
 
         jPSingValues.setBackground(new java.awt.Color(255, 255, 255));
+        jPSingValues.setMaximumSize(new java.awt.Dimension(32767, 32767));
         jPSingValues.setLayout(new java.awt.BorderLayout());
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.weightx = 0.4;
-        gridBagConstraints.weighty = 1.0;
-        jPanel8.add(jPSingValues, gridBagConstraints);
 
         jPanel4.setPreferredSize(new java.awt.Dimension(0, 0));
 
@@ -415,20 +445,12 @@ final public class SpecEditorTopCompNew extends CloneableTopComponent
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 259, Short.MAX_VALUE)
+            .addGap(0, 273, Short.MAX_VALUE)
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 260, Short.MAX_VALUE)
+            .addGap(0, 268, Short.MAX_VALUE)
         );
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.weightx = 0.3;
-        gridBagConstraints.weighty = 1.0;
-        jPanel8.add(jPanel4, gridBagConstraints);
 
         jPanel6.setPreferredSize(new java.awt.Dimension(0, 0));
 
@@ -436,91 +458,71 @@ final public class SpecEditorTopCompNew extends CloneableTopComponent
         jPanel6.setLayout(jPanel6Layout);
         jPanel6Layout.setHorizontalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 259, Short.MAX_VALUE)
+            .addGap(0, 273, Short.MAX_VALUE)
         );
         jPanel6Layout.setVerticalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 260, Short.MAX_VALUE)
+            .addGap(0, 268, Short.MAX_VALUE)
         );
 
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.weightx = 0.3;
-        gridBagConstraints.weighty = 1.0;
-        jPanel8.add(jPanel6, gridBagConstraints);
-
         jPanel7.setPreferredSize(new java.awt.Dimension(0, 0));
-        jPanel7.setLayout(new java.awt.GridLayout());
+        jPanel7.setLayout(new java.awt.GridLayout(1, 0));
 
         jPLeftSingVectors.setBackground(new java.awt.Color(255, 255, 255));
+        jPLeftSingVectors.setMaximumSize(new java.awt.Dimension(32767, 32767));
         jPLeftSingVectors.setLayout(new java.awt.BorderLayout());
         jPanel7.add(jPLeftSingVectors);
 
         jPRightSingVectors.setBackground(new java.awt.Color(255, 255, 255));
+        jPRightSingVectors.setMaximumSize(new java.awt.Dimension(32767, 32767));
         jPRightSingVectors.setLayout(new java.awt.BorderLayout());
         jPanel7.add(jPRightSingVectors);
 
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.weighty = 1.0;
-        jPanel8.add(jPanel7, gridBagConstraints);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.weighty = 1.0;
-        jPanel5.add(jPanel8, gridBagConstraints);
-
-        jToolBar2.setRollover(true);
-
-        org.openide.awt.Mnemonics.setLocalizedText(jLabel3, org.openide.util.NbBundle.getMessage(SpecEditorTopCompNew.class, "SpecEditorTopCompNew.jLabel3.text")); // NOI18N
-
-        org.openide.awt.Mnemonics.setLocalizedText(jLabel4, org.openide.util.NbBundle.getMessage(SpecEditorTopCompNew.class, "SpecEditorTopCompNew.jLabel4.text")); // NOI18N
-
-        jTextField1.setEditable(false);
-        jTextField1.setText(org.openide.util.NbBundle.getMessage(SpecEditorTopCompNew.class, "SpecEditorTopCompNew.jTextField1.text")); // NOI18N
+        javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
+        jPanel8.setLayout(jPanel8Layout);
+        jPanel8Layout.setHorizontalGroup(
+            jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel8Layout.createSequentialGroup()
+                .addGap(1, 1, 1)
+                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, 273, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jPSingValues, javax.swing.GroupLayout.PREFERRED_SIZE, 365, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, 273, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(jPanel8Layout.createSequentialGroup()
+                .addGap(1, 1, 1)
+                .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, 911, javax.swing.GroupLayout.PREFERRED_SIZE))
+        );
+        jPanel8Layout.setVerticalGroup(
+            jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel8Layout.createSequentialGroup()
+                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, 268, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jPSingValues, javax.swing.GroupLayout.PREFERRED_SIZE, 268, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, 268, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, 268, javax.swing.GroupLayout.PREFERRED_SIZE))
+        );
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, 925, Short.MAX_VALUE)
+            .addComponent(jToolBar2, javax.swing.GroupLayout.DEFAULT_SIZE, 925, Short.MAX_VALUE)
+            .addComponent(jPanel9, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jToolBar2, javax.swing.GroupLayout.PREFERRED_SIZE, 901, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jLabel3)
-                        .addGap(29, 29, 29)
-                        .addComponent(jSpinner1, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(27, 27, 27)
-                        .addComponent(jLabel4)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, 868, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(jPanel8, javax.swing.GroupLayout.DEFAULT_SIZE, 913, Short.MAX_VALUE)
+                .addContainerGap())
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addComponent(jToolBar2, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel3)
-                    .addComponent(jSpinner1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel4)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, 541, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(233, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, 537, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(209, Short.MAX_VALUE))
         );
 
         jScrollPane1.setViewportView(jPanel3);
@@ -829,9 +831,8 @@ private void jBdoSVDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST
 
     Matrix pSIsim = new Matrix(data.GetPsisim(), data.GetNt()[0]);
     svdResult =  pSIsim.svd();
-    
-    
-
+    jTFtotalNumSV.setText(String.valueOf(svdResult.getSingularValues().length));
+    jSnumSV.setModel(new SpinnerNumberModel(1.0,0.0,svdResult.getSingularValues().length,1.0));
     int n = 1;
     //creare collection with first 2 LSV
     XYSeriesCollection lSVCollection = new XYSeriesCollection();
@@ -843,7 +844,7 @@ private void jBdoSVDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST
     lSVCollection.addSeries(seria);
 
 //creare chart for 2 LSV
-    JFreeChart tracechart = ChartFactory.createXYLineChart(
+    leftSVChart = ChartFactory.createXYLineChart(
                 "Left singular vectors",
                 "Time (ns)",
                 null,
@@ -852,11 +853,11 @@ private void jBdoSVDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST
                 false,
                 false,
                 false);
-    tracechart.getTitle().setFont(new Font(tracechart.getTitle().getFont().getFontName(), Font.PLAIN, 12));
-    tracechart.setBackgroundPaint(JFreeChart.DEFAULT_BACKGROUND_PAINT);
-    tracechart.getXYPlot().getDomainAxis().setUpperBound(data.GetX()[data.GetX().length - 1]);
-    tracechart.getXYPlot().getDomainAxis().setAutoRange(false);
-    ChartPanel chpan = new ChartPanel(tracechart);
+    leftSVChart.getTitle().setFont(new Font(leftSVChart.getTitle().getFont().getFontName(), Font.PLAIN, 12));
+    leftSVChart.setBackgroundPaint(JFreeChart.DEFAULT_BACKGROUND_PAINT);
+    leftSVChart.getXYPlot().getDomainAxis().setUpperBound(data.GetX()[data.GetX().length - 1]);
+    leftSVChart.getXYPlot().getDomainAxis().setAutoRange(false);
+    ChartPanel chpan = new ChartPanel(leftSVChart);
 //add chart with 2 LSV to JPannel
     jPLeftSingVectors.removeAll();
     jPLeftSingVectors.add(chpan);
@@ -872,7 +873,7 @@ private void jBdoSVDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST
     }
 
 //creare chart for 2 RSV
-    tracechart = ChartFactory.createXYLineChart(
+    rightSVChart = ChartFactory.createXYLineChart(
                 "Right singular vectors",
                 "Wavelength (nm)",
                 null,
@@ -881,11 +882,11 @@ private void jBdoSVDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST
                 false,
                 false,
                 false);
-    tracechart.getTitle().setFont(new Font(tracechart.getTitle().getFont().getFontName(), Font.PLAIN, 12));
-    tracechart.setBackgroundPaint(JFreeChart.DEFAULT_BACKGROUND_PAINT);
-    tracechart.getXYPlot().getDomainAxis().setUpperBound(data.GetX()[data.GetX().length - 1]);
-    tracechart.getXYPlot().getDomainAxis().setAutoRange(false);
-    chpan = new ChartPanel(tracechart);
+    rightSVChart.getTitle().setFont(new Font(rightSVChart.getTitle().getFont().getFontName(), Font.PLAIN, 12));
+    rightSVChart.setBackgroundPaint(JFreeChart.DEFAULT_BACKGROUND_PAINT);
+    rightSVChart.getXYPlot().getDomainAxis().setUpperBound(data.GetX2()[data.GetX2().length - 1]);
+    rightSVChart.getXYPlot().getDomainAxis().setAutoRange(false);
+    chpan = new ChartPanel(rightSVChart);
 //add chart with 2 RSV to JPannel
     jPRightSingVectors.removeAll();
     jPRightSingVectors.add(chpan);
@@ -900,7 +901,7 @@ private void jBdoSVDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST
 
 
 //creare chart for 2 RSV
-    tracechart = ChartFactory.createXYLineChart(
+    JFreeChart tracechart = ChartFactory.createXYLineChart(
                 "Screeplot",
                 "Number of factors (#)",
                 null,
@@ -909,7 +910,10 @@ private void jBdoSVDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST
                 false,
                 false,
                 false);
-    tracechart.getXYPlot().setRangeAxis(new LogAxis("Log(SV)"));
+    LogAxis logAxe = new LogAxis("Log(SV)");
+    logAxe.setAutoRange(true);
+  //  logAxe.setLowerBound(svdResult.getSingularValues()[svdResult.getSingularValues().length-2]);
+    tracechart.getXYPlot().setRangeAxis(logAxe);
     XYLineAndShapeRenderer renderer = (XYLineAndShapeRenderer) tracechart.getXYPlot().getRenderer();
     renderer.setBaseShapesVisible(true);
     renderer.setDrawOutlines(true);
@@ -928,6 +932,35 @@ private void jBdoSVDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST
     jPSingValues.add(chpan);
 
 }//GEN-LAST:event_jBdoSVDActionPerformed
+
+private void jSnumSVStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jSnumSVStateChanged
+
+    double n = (Double)jSnumSV.getModel().getValue();
+
+    //creare collection with first 2 LSV
+    XYSeriesCollection lSVCollection = new XYSeriesCollection();
+    XYSeries seria;
+    for (int j =0; j < n; j++){
+        seria = new XYSeries("LSV1"+j+1);
+        for (int i = 0; i < data.GetX().length; i++) {
+            seria.add(data.GetX()[i], svdResult.getU().get(i, j));
+        }
+        lSVCollection.addSeries(seria);
+    }
+    leftSVChart.getXYPlot().setDataset(lSVCollection);
+
+    XYSeriesCollection rSVCollection = new XYSeriesCollection();
+    for (int j = 0; j < n; j++) {
+        seria = new XYSeries("RSV" + (j + 1));
+        for (int i = 0; i < data.GetX2().length; i++) {
+            seria.add(data.GetX2()[i], svdResult.getV().get(i, j));
+        }
+        rSVCollection.addSeries(seria);
+    }
+
+    rightSVChart.getXYPlot().setDataset(rSVCollection);
+
+}//GEN-LAST:event_jSnumSVStateChanged
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -965,11 +998,11 @@ private void jBdoSVDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST
     private javax.swing.JToolBar.Separator jSeparator1;
     private javax.swing.JToolBar.Separator jSeparator2;
     private javax.swing.JToolBar.Separator jSeparator3;
-    private javax.swing.JSpinner jSpinner1;
+    private javax.swing.JSpinner jSnumSV;
     private javax.swing.JToggleButton jTBZoomX;
     private javax.swing.JToggleButton jTBZoomY;
+    private javax.swing.JTextField jTFtotalNumSV;
     private javax.swing.JTabbedPane jTabbedPane1;
-    private javax.swing.JTextField jTextField1;
     private javax.swing.JToolBar jToolBar1;
     private javax.swing.JToolBar jToolBar2;
     // End of variables declaration//GEN-END:variables

@@ -24,11 +24,16 @@ import javax.swing.JComponent;
 import javax.swing.JPopupMenu;
 import org.netbeans.api.visual.action.AcceptProvider;
 import org.netbeans.api.visual.action.ActionFactory;
+import org.netbeans.api.visual.action.ConnectProvider;
 import org.netbeans.api.visual.action.ConnectorState;
 import org.netbeans.api.visual.action.PopupMenuProvider;
+import org.netbeans.api.visual.action.ReconnectProvider;
+import org.netbeans.api.visual.action.WidgetAction;
 import org.netbeans.api.visual.vmd.VMDGraphScene;
 import org.netbeans.api.visual.vmd.VMDNodeWidget;
 import org.netbeans.api.visual.vmd.VMDPinWidget;
+import org.netbeans.api.visual.widget.ConnectionWidget;
+import org.netbeans.api.visual.widget.LayerWidget;
 import org.netbeans.api.visual.widget.Scene;
 import org.netbeans.api.visual.widget.Widget;
 import org.openide.util.Utilities;
@@ -45,43 +50,70 @@ public class TIMPGUIScene extends VMDGraphScene {
     private static int nodeID = 1;
     private static int edgeID = 1;
     private static int pinID = 1;
+    private long nodeCounter = 0;
+    private long edgeCounter = 0;
+
+    private LayerWidget interactionLayer = new LayerWidget (this);
+
+    private WidgetAction connectAction;
+    private WidgetAction acceptAction;
+    private WidgetAction reconnectAction;
+
 
     /** Creates a new instance of TIMPGUIScene */
     public TIMPGUIScene() {
-        String mobile = createNode(this, 100, 100, IMAGE_LIST, "menu", "List", null);
-        createPin(this, mobile, "start", IMAGE_ITEM, "Start", "Element");
-        String game = createNode(this, 600, 100, IMAGE_CANVAS, "gameCanvas", "MyCanvas", Arrays.asList(GLYPH_PRE_CODE, GLYPH_CANCEL, GLYPH_POST_CODE));
-        createPin(this, game, "ok", IMAGE_COMMAND, "okCommand1", "Command");
-        createEdge(this, "start", game);
-        createEdge(this, "ok", mobile);
 
-        getActions().addAction(ActionFactory.createAcceptAction(new AcceptProvider() {
+        addChild (interactionLayer = new LayerWidget (this));
 
-            public ConnectorState isAcceptable(Widget widget, Point point, Transferable transferable) {
-                Image dragImage = getImageFromTransferable(transferable);
-                JComponent view = getView();
-                Graphics2D g2 = (Graphics2D) view.getGraphics();
-                Rectangle visRect = view.getVisibleRect();
-                view.paintImmediately(visRect.x, visRect.y, visRect.width, visRect.height);
-                g2.drawImage(dragImage,
-                        AffineTransform.getTranslateInstance(point.getLocation().getX(),
-                        point.getLocation().getY()),
-                        null);
-                return ConnectorState.ACCEPT;
-            }
+        acceptAction = ActionFactory.createAcceptAction (new TIMPAcceptProvider());
+        TIMPConnectProvider timpConnectprovider = new TIMPConnectProvider();
+        connectAction = ActionFactory.createConnectAction (interactionLayer,timpConnectprovider);
+        TIMPReconnectProvider timpReconnectprovider = new TIMPReconnectProvider();
+        reconnectAction = ActionFactory.createReconnectAction (timpReconnectprovider);
 
-            public void accept(Widget widget, Point point, Transferable transferable) {
+        getActions ().addAction (createSelectAction ());
+        getActions ().addAction (createAcceptAction ());
 
-                String test = TIMPGUIScene.createNode ((VMDGraphScene)widget.getScene(), (int) point.getX(), (int) point.getY(), IMAGE_CANVAS, "testCanvas", "MyCanvas", Arrays.asList (GLYPH_PRE_CODE, GLYPH_CANCEL, GLYPH_POST_CODE));
-                TIMPGUIScene.this.repaint();
-                //Image image = getImageFromTransferable(transferable);
-                //Widget w = GraphSceneImpl.this.addNode(new MyNode(image));
-                //w.setPreferredLocation(widget.convertLocalToScene(point));
-            }
+    }
 
 
-        }));
+    public void addNodeCommonActions (VMDNodeWidget widget) {
+        WidgetAction.Chain actions = widget.getActions ();
+        actions.addAction (createObjectHoverAction ());
+        actions.addAction (createSelectAction ());
+//        actions.addAction (createMoveAction ());
+        actions.addAction (createAcceptAction ());
+        actions.addAction (createConnectAction ());
+//        actions.addAction (createPopupMenuAction ());
+//        actions.addAction (createEditAction ());
+    }
 
+    public void addEdgeCommonActions (ConnectionWidget widget) {
+        WidgetAction.Chain actions = widget.getActions ();
+        actions.addAction (createObjectHoverAction ());
+        actions.addAction (createSelectAction ());
+        actions.addAction (createConnectAction ());
+//        actions.addAction (createReconnectAction ());
+//        actions.addAction (createPopupMenuAction ());
+//        actions.addAction (createEditAction ());
+    }
+
+    public void addPinCommonActions (VMDPinWidget widget) {
+        WidgetAction.Chain actions = widget.getActions ();
+        actions.addAction (createObjectHoverAction ());
+        actions.addAction (createSelectAction ());
+        actions.addAction (createAcceptAction ());
+        actions.addAction (createConnectAction ());
+//        actions.addAction (createPopupMenuAction ());
+//        actions.addAction (createEditAction ());
+    }
+
+    public WidgetAction createConnectAction () {
+        return connectAction;
+    }
+
+    public WidgetAction createAcceptAction () {
+        return acceptAction;
     }
     
     private static String createNode(final VMDGraphScene scene, int x, int y, Image image, String name, String type, List<Image> glyphs) {
@@ -89,26 +121,6 @@ public class TIMPGUIScene extends VMDGraphScene {
         VMDNodeWidget widget = (VMDNodeWidget) scene.addNode(nodeID);
         widget.setPreferredLocation(new Point(x, y));
         widget.setNodeProperties(image, name, type, glyphs);
-
-        widget.getActions().addAction(ActionFactory.createAcceptAction(new AcceptProvider() {
-
-            public ConnectorState isAcceptable(Widget widget, Point point, Transferable transferable) {
-                return ConnectorState.ACCEPT;
-            }
-
-            public void accept(Widget widget, Point point, Transferable transferable) {
-                String pinID = "pin" + TIMPGUIScene.pinID++;
-                ((VMDPinWidget) scene.addPin(nodeID, pinID)).setProperties("testName" +  TIMPGUIScene.pinID++, null);
-                //Image image = getImageFromTransferable(transferable);
-                //Widget w = GraphSceneImpl.this.addNode(new MyNode(image));
-                //w.setPreferredLocation(widget.convertLocalToScene(point));
-            }
-
-
-        }));
-
-
-
         scene.addPin(nodeID, nodeID + VMDGraphScene.PIN_ID_DEFAULT_SUFFIX);
         return nodeID;
     }
@@ -124,37 +136,6 @@ public class TIMPGUIScene extends VMDGraphScene {
         scene.setEdgeTarget(edgeID, targetNodeID + VMDGraphScene.PIN_ID_DEFAULT_SUFFIX);
     }
 
-    @Override
-    protected void attachEdgeSourceAnchor(String arg0, String arg1, String arg2) {
-        super.attachEdgeSourceAnchor(arg0, arg1, arg2);
-    }
-
-    @Override
-    protected void attachEdgeTargetAnchor(String arg0, String arg1, String arg2) {
-        super.attachEdgeTargetAnchor(arg0, arg1, arg2);
-    }
-
-    @Override
-    protected Widget attachEdgeWidget(String arg0) {
-        return super.attachEdgeWidget(arg0);
-    }
-
-    @Override
-    protected Widget attachNodeWidget(String arg0) {
-        return super.attachNodeWidget(arg0);
-    }
-
-    @Override
-    protected Widget attachPinWidget(String arg0, String arg1) {
-        return super.attachPinWidget(arg0, arg1);
-    }
-
-    @Override
-    public void layoutScene() {
-        super.layoutScene();
-    }
-
-
     private Image getImageFromTransferable(Transferable transferable) {
     Object o = null;
     try {
@@ -166,6 +147,105 @@ public class TIMPGUIScene extends VMDGraphScene {
     }
     return o instanceof Image ? (Image) o : Utilities.loadImage("org/netbeans/shapesample/palette/shape1.png");
 }
+
+     private class TIMPAcceptProvider implements AcceptProvider {
+
+            public ConnectorState isAcceptable(Widget widget, Point point, Transferable transferable) {
+                Image dragImage = getImageFromTransferable(transferable);
+                JComponent view = getView();
+                Graphics2D g2 = (Graphics2D) view.getGraphics();
+                Rectangle visRect = view.getVisibleRect();
+                view.paintImmediately(visRect.x, visRect.y, visRect.width, visRect.height);
+                g2.drawImage(dragImage,
+                AffineTransform.getTranslateInstance(point.getLocation().getX(),
+                point.getLocation().getY()),
+                null);
+                return ConnectorState.ACCEPT;
+            }
+
+            public void accept(Widget widget, Point point, Transferable transferable) {
+                //createNode (scene, 400, 400, IMAGE_LIST, "menu", "List", null);
+                final String nodeID = "node" + TIMPGUIScene.nodeID++;
+                widget.setPreferredLocation(point);
+                VMDNodeWidget newWidget = (VMDNodeWidget) attachNodeWidget(nodeID);
+                newWidget.setPreferredLocation (point);
+                newWidget.setNodeProperties (IMAGE_LIST, nodeID, nodeID, null);
+                addNodeCommonActions(newWidget);
+                repaint();
+            }
+        }
+
+     private class TIMPConnectProvider implements ConnectProvider {
+
+        private String source = null;
+        private String target = null;
+
+        public boolean isSourceWidget (Widget sourceWidget) {
+            Object object = findObject (sourceWidget);
+            source = isNode (object) ? (String) object : null;
+            return source != null;
+        }
+
+        public ConnectorState isTargetWidget (Widget sourceWidget, Widget targetWidget) {
+            Object object = findObject (targetWidget);
+            target = isNode (object) ? (String) object : null;
+            if (target != null)
+                return ! source.equals (target) ? ConnectorState.ACCEPT : ConnectorState.REJECT_AND_STOP;
+            return object != null ? ConnectorState.REJECT_AND_STOP : ConnectorState.REJECT;
+        }
+
+        public boolean hasCustomTargetWidgetResolver (Scene scene) {
+            return false;
+        }
+
+        public Widget resolveTargetWidget (Scene scene, Point sceneLocation) {
+            return null;
+        }
+
+        public void createConnection (Widget sourceWidget, Widget targetWidget) {
+            String edge = "edge" + edgeCounter ++;
+            addEdge (edge);
+            setEdgeSource (edge, source);
+            setEdgeTarget (edge, target);
+        }
+        }
+
+          private class TIMPReconnectProvider implements ReconnectProvider {
+
+        public boolean isSourceReconnectable(ConnectionWidget connectionWidget) {
+            throw new UnsupportedOperationException("Not supported yet.");
+        }
+
+        public boolean isTargetReconnectable(ConnectionWidget connectionWidget) {
+            throw new UnsupportedOperationException("Not supported yet.");
+        }
+
+        public void reconnectingStarted(ConnectionWidget connectionWidget, boolean reconnectingSource) {
+            throw new UnsupportedOperationException("Not supported yet.");
+        }
+
+        public void reconnectingFinished(ConnectionWidget connectionWidget, boolean reconnectingSource) {
+            throw new UnsupportedOperationException("Not supported yet.");
+        }
+
+        public ConnectorState isReplacementWidget(ConnectionWidget connectionWidget, Widget replacementWidget, boolean reconnectingSource) {
+            throw new UnsupportedOperationException("Not supported yet.");
+        }
+
+        public boolean hasCustomReplacementWidgetResolver(Scene scene) {
+            throw new UnsupportedOperationException("Not supported yet.");
+        }
+
+        public Widget resolveReplacementWidget(Scene scene, Point sceneLocation) {
+            throw new UnsupportedOperationException("Not supported yet.");
+        }
+
+        public void reconnect(ConnectionWidget connectionWidget, Widget replacementWidget, boolean reconnectingSource) {
+            throw new UnsupportedOperationException("Not supported yet.");
+        }
+
+
+        }
 
 }
 

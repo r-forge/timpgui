@@ -13,6 +13,7 @@
                 <attr name="displayName" bundlevalue="org.timpgui.gui.scheme.Bundle#CTL_SchemeDesignAction"/>
                 <attr name="instanceCreate" methodvalue="org.openide.windows.TopComponent.openAction"/>
             </file>
+            <file name="org-timpgui-gui-scheme-ShapeAction.instance"/>
         </folder>
     </folder>
     <folder name="Menu">
@@ -32,6 +33,9 @@
             <file name="TimpguiMainAction.shadow">
                 <attr name="originalFile" stringvalue="Actions/Window/nl-vu-nat-timpgui-TimpguiMainAction.instance"/>
             </file>
+            <file name="ShapeAction.shadow">
+                <attr name="originalFile" stringvalue="Actions/Window/org-timpgui-gui-scheme-ShapeAction.instance"/>
+            </file>
             </folder>
     </folder>
     <folder name="Windows2">
@@ -41,6 +45,7 @@
             <file name="SchemeDesignTopComponent.settings" url="SchemeDesignTopComponentSettings.xml"/>
             <file name="StreakOutTopComponent.settings" url="StreakOutTopComponentSettings.xml"/>
             <file name="TimpguiMainTopComponent.settings" url="TimpguiMainTopComponentSettings.xml"/>
+            <file name="ShapeTopComponent.settings" url="ShapeTopComponentSettings.xml"/>
         </folder>
         <folder name="Modes">
             <folder name="editor">
@@ -49,6 +54,7 @@
                 <file name="SchemeDesignTopComponent.wstcref" url="SchemeDesignTopComponentWstcref.xml"/>
                 <file name="TimpguiMainTopComponent.wstcref" url="TimpguiMainTopComponentWstcref.xml"/>
                 <file name="StreakOutTopComponent.wstcref" url="StreakOutTopComponentWstcref.xml"/>
+                <file name="ShapeTopComponent.wstcref" url="ShapeTopComponentWstcref.xml"/>
             </folder>
         </folder>
     </folder>

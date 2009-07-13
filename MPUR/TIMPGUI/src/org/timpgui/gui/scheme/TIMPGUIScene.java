@@ -171,6 +171,7 @@ public class TIMPGUIScene extends VMDGraphScene {
                 newWidget.setPreferredLocation (point);
                 newWidget.setNodeProperties (IMAGE_LIST, nodeID, nodeID, null);
                 addNodeCommonActions(newWidget);
+                widget.getScene().addChild(newWidget);
                 repaint();
             }
         }

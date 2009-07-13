@@ -3,7 +3,7 @@
  * and open the template in the editor.
  */
 
-package org.timpgui.gui.scheme;
+package org.timpgui.gui.scheme.components;
 
 import java.awt.BorderLayout;
 import java.io.Serializable;
@@ -16,8 +16,6 @@ import org.openide.util.Lookup;
 import org.openide.util.NbBundle;
 import org.openide.windows.TopComponent;
 import org.openide.windows.WindowManager;
-import org.timpgui.projectmanagement.DatasetNodeContainer;
-import org.timpgui.projectmanagement.DatasetView;
 //import org.openide.util.Utilities;
 
 /**
@@ -66,8 +64,6 @@ public final class DatasetsListView extends TopComponent implements ExplorerMana
         setFocusable(true);
         setMaximumSize(new java.awt.Dimension(200, 200));
         setMinimumSize(new java.awt.Dimension(200, 200));
-        setName("null"); // NOI18N
-        setPreferredSize(new java.awt.Dimension(200, 200));
 
         toolbar.setRollover(true);
 

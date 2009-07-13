@@ -17,7 +17,6 @@ import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
 import java.awt.datatransfer.UnsupportedFlavorException;
 import java.awt.geom.AffineTransform;
-import java.awt.geom.CubicCurve2D;
 import java.io.IOException;
 import javax.swing.JComponent;
 import org.netbeans.api.visual.action.AcceptProvider;
@@ -30,9 +29,7 @@ import org.netbeans.api.visual.widget.ComponentWidget;
 import org.netbeans.api.visual.widget.LabelWidget;
 import org.netbeans.api.visual.widget.LayerWidget;
 import org.netbeans.api.visual.widget.Widget;
-import org.netbeans.api.visual.widget.general.IconNodeWidget;
 import org.openide.util.Utilities;
-import org.timpgui.projectmanagement.SelectedDatasetsViewTopComponent;
 
 /**
  *

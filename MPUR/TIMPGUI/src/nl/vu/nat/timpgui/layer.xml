@@ -7,12 +7,6 @@
             <file name="nl-vu-nat-timpgui-TimpguiMainAction.instance"/>
             <file name="nl-vu-nat-timpgui-plots-FlimOutputAction.instance"/>
             <file name="nl-vu-nat-timpgui-plots-StreakOutAction.instance"/>
-            <file name="org-timpgui-gui-scheme-SchemeDesignAction.instance">
-                <attr name="SystemFileSystem.localizingBundle" stringvalue="nl.vu.nat.timpgui.Bundle"/>
-                <attr name="component" methodvalue="org.timpgui.gui.scheme.SchemeDesignTopComponent.findInstance"/>
-                <attr name="displayName" bundlevalue="org.timpgui.gui.scheme.Bundle#CTL_SchemeDesignAction"/>
-                <attr name="instanceCreate" methodvalue="org.openide.windows.TopComponent.openAction"/>
-            </file>
             <file name="org-timpgui-gui-scheme-ShapeAction.instance"/>
         </folder>
     </folder>
@@ -42,7 +36,6 @@
         <folder name="Components">
             <file name="FlimOutputTopComponent.settings" url="FlimOutputTopComponentSettings.xml"/>
             <file name="RunRScriptsTopComponent.settings" url="RunRScriptsTopComponentSettings.xml"/>
-            <file name="SchemeDesignTopComponent.settings" url="SchemeDesignTopComponentSettings.xml"/>
             <file name="StreakOutTopComponent.settings" url="StreakOutTopComponentSettings.xml"/>
             <file name="TimpguiMainTopComponent.settings" url="TimpguiMainTopComponentSettings.xml"/>
             <file name="ShapeTopComponent.settings" url="ShapeTopComponentSettings.xml"/>
@@ -51,7 +44,6 @@
             <folder name="editor">
                 <file name="FlimOutputTopComponent.wstcref" url="FlimOutputTopComponentWstcref.xml"/>
                 <file name="RunRScriptsTopComponent.wstcref" url="RunRScriptsTopComponentWstcref.xml"/>
-                <file name="SchemeDesignTopComponent.wstcref" url="SchemeDesignTopComponentWstcref.xml"/>
                 <file name="TimpguiMainTopComponent.wstcref" url="TimpguiMainTopComponentWstcref.xml"/>
                 <file name="StreakOutTopComponent.wstcref" url="StreakOutTopComponentWstcref.xml"/>
                 <file name="ShapeTopComponent.wstcref" url="ShapeTopComponentWstcref.xml"/>

@@ -29,15 +29,15 @@ public class ImageCrosshairLabelGenerator implements CrosshairLabelGenerator{
     /**
      * Creates a new instance with default attributes.
      */
-    public ImageCrosshairLabelGenerator() {
-        this("{0}", NumberFormat.getNumberInstance());
-    }
+//    public ImageCrosshairLabelGenerator() {
+//        this("{0}", NumberFormat.getNumberInstance());
+//    }
 
     public ImageCrosshairLabelGenerator(double[] val, boolean inv) {
         this("{0}", NumberFormat.getNumberInstance());
         this.labels = new double[val.length];
-        labels = val;
-        inverted = inv;
+        this.labels = val;
+        this.inverted = inv;
     }
     /**
      * Creates a new instance with the specified attributes.

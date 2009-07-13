@@ -38,12 +38,13 @@ public class TestCustomComponent extends javax.swing.JPanel {
         jComboBox1 = new javax.swing.JComboBox();
         jLabel1 = new javax.swing.JLabel();
 
+        setBorder(javax.swing.BorderFactory.createTitledBorder(org.openide.util.NbBundle.getMessage(TestCustomComponent.class, "TestCustomComponent.border.title"))); // NOI18N
         setLayout(new java.awt.BorderLayout());
 
-        jCheckBox1.setText(org.openide.util.NbBundle.getMessage(TestCustomComponent.class, "TestCustomComponent.jCheckBox1.text")); // NOI18N
+        jCheckBox1.setText("null");
         add(jCheckBox1, java.awt.BorderLayout.PAGE_START);
 
-        jButton1.setText(org.openide.util.NbBundle.getMessage(TestCustomComponent.class, "TestCustomComponent.jButton1.text")); // NOI18N
+        jButton1.setText("null");
         add(jButton1, java.awt.BorderLayout.LINE_START);
 
         jList1.setModel(new javax.swing.AbstractListModel() {
@@ -58,7 +59,7 @@ public class TestCustomComponent extends javax.swing.JPanel {
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         add(jComboBox1, java.awt.BorderLayout.LINE_END);
 
-        jLabel1.setText(org.openide.util.NbBundle.getMessage(TestCustomComponent.class, "TestCustomComponent.jLabel1.text")); // NOI18N
+        jLabel1.setText("null");
         add(jLabel1, java.awt.BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents
 

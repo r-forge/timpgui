@@ -366,12 +366,18 @@
               <Layout>
                 <DimensionLayout dim="0">
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="jPanel5" alignment="0" pref="925" max="32767" attributes="0"/>
-                      <Component id="jToolBar2" alignment="0" pref="925" max="32767" attributes="1"/>
-                      <Component id="jPanel9" alignment="1" max="32767" attributes="0"/>
+                      <Component id="jPanel5" alignment="0" pref="983" max="32767" attributes="0"/>
                       <Group type="102" alignment="0" attributes="0">
-                          <Component id="jPanel8" pref="913" max="32767" attributes="0"/>
+                          <Component id="jPanel8" pref="971" max="32767" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
+                      </Group>
+                      <Group type="102" alignment="0" attributes="0">
+                          <Component id="jPanel9" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace pref="73" max="32767" attributes="0"/>
+                      </Group>
+                      <Group type="102" alignment="0" attributes="0">
+                          <Component id="jToolBar2" min="-2" pref="908" max="-2" attributes="1"/>
+                          <EmptySpace pref="75" max="32767" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
@@ -435,7 +441,7 @@
                               <Component id="jLabel4" min="-2" max="-2" attributes="0"/>
                               <EmptySpace type="unrelated" max="-2" attributes="0"/>
                               <Component id="jTFtotalNumSV" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace pref="314" max="32767" attributes="0"/>
+                              <EmptySpace pref="241" max="32767" attributes="0"/>
                           </Group>
                       </Group>
                     </DimensionLayout>
@@ -490,14 +496,15 @@
                     <DimensionLayout dim="0">
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" attributes="0">
-                              <EmptySpace min="1" pref="1" max="1" attributes="0"/>
-                              <Component id="jPanel4" min="-2" pref="273" max="-2" attributes="0"/>
-                              <Component id="jPSingValues" min="-2" pref="365" max="-2" attributes="0"/>
-                              <Component id="jPanel6" min="-2" pref="273" max="-2" attributes="0"/>
-                          </Group>
-                          <Group type="102" attributes="0">
-                              <EmptySpace min="1" pref="1" max="1" attributes="0"/>
-                              <Component id="jPanel7" min="-2" pref="911" max="-2" attributes="0"/>
+                              <EmptySpace min="1" pref="1" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Group type="102" attributes="0">
+                                      <Component id="jPanel4" min="-2" pref="273" max="-2" attributes="0"/>
+                                      <Component id="jPSingValues" min="-2" pref="365" max="-2" attributes="0"/>
+                                      <Component id="jPanel6" min="-2" pref="273" max="-2" attributes="0"/>
+                                  </Group>
+                                  <Component id="jPanel7" min="-2" pref="911" max="-2" attributes="0"/>
+                              </Group>
                           </Group>
                       </Group>
                     </DimensionLayout>
@@ -519,9 +526,6 @@
                       <Properties>
                         <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                           <Color blue="ff" green="ff" red="ff" type="rgb"/>
-                        </Property>
-                        <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                          <Dimension value="[32767, 32767]"/>
                         </Property>
                       </Properties>
 
@@ -584,9 +588,6 @@
                             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                               <Color blue="ff" green="ff" red="ff" type="rgb"/>
                             </Property>
-                            <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                              <Dimension value="[32767, 32767]"/>
-                            </Property>
                           </Properties>
 
                           <Layout class="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout"/>
@@ -595,9 +596,6 @@
                           <Properties>
                             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                               <Color blue="ff" green="ff" red="ff" type="rgb"/>
-                            </Property>
-                            <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                              <Dimension value="[32767, 32767]"/>
                             </Property>
                           </Properties>
 

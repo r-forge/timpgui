@@ -3,11 +3,12 @@
  * and open the template in the editor.
  */
 
-package org.timpgui.projectmanagement;
+package org.timpgui.gui.scheme;
 
 import java.awt.BorderLayout;
 import java.io.Serializable;
 import java.util.logging.Logger;
+import javax.swing.JToolBar;
 import org.openide.explorer.ExplorerManager;
 import org.openide.explorer.ExplorerUtils;
 import org.openide.nodes.AbstractNode;
@@ -15,27 +16,30 @@ import org.openide.util.Lookup;
 import org.openide.util.NbBundle;
 import org.openide.windows.TopComponent;
 import org.openide.windows.WindowManager;
+import org.timpgui.projectmanagement.DatasetNodeContainer;
+import org.timpgui.projectmanagement.DatasetView;
 //import org.openide.util.Utilities;
 
 /**
  * Top component which displays something.
  */
-public final class SelectedDatasetsViewTopComponent extends TopComponent implements ExplorerManager.Provider {
+public final class DatasetsListView extends TopComponent implements ExplorerManager.Provider {
 
-    private static SelectedDatasetsViewTopComponent instance;
+    private static DatasetsListView instance;
     /** path to the icon used by the component and its open action */
 //    static final String ICON_PATH = "SET/PATH/TO/ICON/HERE";
 
-    private static final String PREFERRED_ID = "SelectedDatasetsViewTopComponent";
+    private static final String PREFERRED_ID = "DatasetsListView";
 
    private ExplorerManager manager   = new ExplorerManager();
    private DatasetView    datasetView  = new DatasetView();
    private DatasetNodeContainer   container = new DatasetNodeContainer();
 
-    public SelectedDatasetsViewTopComponent() {
+    public DatasetsListView() {
         initComponents();
-        setName(NbBundle.getMessage(SelectedDatasetsViewTopComponent.class, "CTL_SelectedDatasetsViewTopComponent"));
-        setToolTipText(NbBundle.getMessage(SelectedDatasetsViewTopComponent.class, "HINT_SelectedDatasetsViewTopComponent"));
+        
+        //setName(NbBundle.getMessage(DatasetsListView.class, "CTL_DatasetsListViewTopComponent"));
+        //setToolTipText(NbBundle.getMessage(DatasetsListView.class, "HINT_DatasetsListViewTopComponent"));
         manager.setRootContext(new AbstractNode(container,ExplorerUtils.createLookup(manager, getActionMap())));
         //setIcon(Utilities.loadImage(ICON_PATH, true));
         //manager.setRootContext(new AbstractNode(container,ExplorerUtils.createLookup(manager, getActionMap())) );
@@ -57,10 +61,18 @@ public final class SelectedDatasetsViewTopComponent extends TopComponent impleme
         rename = new javax.swing.JButton();
         panel = new javax.swing.JPanel();
 
+        setBorder(javax.swing.BorderFactory.createTitledBorder(org.openide.util.NbBundle.getMessage(DatasetsListView.class, "DatasetsListView.border.title"))); // NOI18N
+        setDisplayName(org.openide.util.NbBundle.getMessage(DatasetsListView.class, "DatasetsListView.displayName")); // NOI18N
+        setFocusable(true);
+        setMaximumSize(new java.awt.Dimension(200, 200));
+        setMinimumSize(new java.awt.Dimension(200, 200));
+        setName("null"); // NOI18N
+        setPreferredSize(new java.awt.Dimension(200, 200));
+
         toolbar.setRollover(true);
 
-        org.openide.awt.Mnemonics.setLocalizedText(add, org.openide.util.NbBundle.getMessage(SelectedDatasetsViewTopComponent.class, "SelectedDatasetsViewTopComponent.add.text")); // NOI18N
-        add.setToolTipText(org.openide.util.NbBundle.getMessage(SelectedDatasetsViewTopComponent.class, "SelectedDatasetsViewTopComponent.add.toolTipText")); // NOI18N
+        org.openide.awt.Mnemonics.setLocalizedText(add, org.openide.util.NbBundle.getMessage(DatasetsListView.class, "DatasetsListView.add.text")); // NOI18N
+        add.setToolTipText(org.openide.util.NbBundle.getMessage(DatasetsListView.class, "DatasetsListView.add.toolTipText")); // NOI18N
         add.setFocusable(false);
         add.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         add.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
@@ -71,8 +83,8 @@ public final class SelectedDatasetsViewTopComponent extends TopComponent impleme
         });
         toolbar.add(add);
 
-        org.openide.awt.Mnemonics.setLocalizedText(remove, org.openide.util.NbBundle.getMessage(SelectedDatasetsViewTopComponent.class, "SelectedDatasetsViewTopComponent.remove.text")); // NOI18N
-        remove.setToolTipText(org.openide.util.NbBundle.getMessage(SelectedDatasetsViewTopComponent.class, "SelectedDatasetsViewTopComponent.remove.toolTipText")); // NOI18N
+        org.openide.awt.Mnemonics.setLocalizedText(remove, org.openide.util.NbBundle.getMessage(DatasetsListView.class, "DatasetsListView.remove.text")); // NOI18N
+        remove.setToolTipText(org.openide.util.NbBundle.getMessage(DatasetsListView.class, "DatasetsListView.remove.toolTipText")); // NOI18N
         remove.setFocusable(false);
         remove.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         remove.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
@@ -83,8 +95,8 @@ public final class SelectedDatasetsViewTopComponent extends TopComponent impleme
         });
         toolbar.add(remove);
 
-        org.openide.awt.Mnemonics.setLocalizedText(rename, org.openide.util.NbBundle.getMessage(SelectedDatasetsViewTopComponent.class, "SelectedDatasetsViewTopComponent.rename.text")); // NOI18N
-        rename.setToolTipText(org.openide.util.NbBundle.getMessage(SelectedDatasetsViewTopComponent.class, "SelectedDatasetsViewTopComponent.rename.toolTipText")); // NOI18N
+        org.openide.awt.Mnemonics.setLocalizedText(rename, org.openide.util.NbBundle.getMessage(DatasetsListView.class, "DatasetsListView.rename.text")); // NOI18N
+        rename.setToolTipText(org.openide.util.NbBundle.getMessage(DatasetsListView.class, "DatasetsListView.rename.toolTipText")); // NOI18N
         rename.setFocusable(false);
         rename.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         rename.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
@@ -95,6 +107,9 @@ public final class SelectedDatasetsViewTopComponent extends TopComponent impleme
         });
         toolbar.add(rename);
 
+        panel.setMaximumSize(new java.awt.Dimension(190, 140));
+        panel.setMinimumSize(new java.awt.Dimension(190, 140));
+        panel.setPreferredSize(new java.awt.Dimension(190, 140));
         panel.setLayout(new java.awt.BorderLayout());
         panel.add(datasetView, BorderLayout.CENTER);
 
@@ -102,17 +117,18 @@ public final class SelectedDatasetsViewTopComponent extends TopComponent impleme
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
-            .addComponent(panel, javax.swing.GroupLayout.DEFAULT_SIZE, 400, Short.MAX_VALUE)
-            .addComponent(toolbar, javax.swing.GroupLayout.DEFAULT_SIZE, 400, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(toolbar, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(panel, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(toolbar, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(toolbar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(panel, javax.swing.GroupLayout.DEFAULT_SIZE, 269, Short.MAX_VALUE))
+                .addComponent(panel, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -141,9 +157,9 @@ public final class SelectedDatasetsViewTopComponent extends TopComponent impleme
      * i.e. deserialization routines; otherwise you could get a non-deserialized instance.
      * To obtain the singleton instance, use {@link #findInstance}.
      */
-    public static synchronized SelectedDatasetsViewTopComponent getDefault() {
+    public static synchronized DatasetsListView getDefault() {
         if (instance == null) {
-            instance = new SelectedDatasetsViewTopComponent();
+            instance = new DatasetsListView();
         }
         return instance;
     }
@@ -151,17 +167,17 @@ public final class SelectedDatasetsViewTopComponent extends TopComponent impleme
     /**
      * Obtain the SelectedDatasetsViewTopComponent instance. Never call {@link #getDefault} directly!
      */
-    public static synchronized SelectedDatasetsViewTopComponent findInstance() {
+    public static synchronized DatasetsListView findInstance() {
         TopComponent win = WindowManager.getDefault().findTopComponent(PREFERRED_ID);
         if (win == null) {
-            Logger.getLogger(SelectedDatasetsViewTopComponent.class.getName()).warning(
+            Logger.getLogger(DatasetsListView.class.getName()).warning(
                     "Cannot find " + PREFERRED_ID + " component. It will not be located properly in the window system.");
             return getDefault();
         }
-        if (win instanceof SelectedDatasetsViewTopComponent) {
-            return (SelectedDatasetsViewTopComponent) win;
+        if (win instanceof DatasetsListView) {
+            return (DatasetsListView) win;
         }
-        Logger.getLogger(SelectedDatasetsViewTopComponent.class.getName()).warning(
+        Logger.getLogger(DatasetsListView.class.getName()).warning(
                 "There seem to be multiple components with the '" + PREFERRED_ID +
                 "' ID. That is a potential source of errors and unexpected behavior.");
         return getDefault();
@@ -202,7 +218,7 @@ public final class SelectedDatasetsViewTopComponent extends TopComponent impleme
         private static final long serialVersionUID = 1L;
 
         public Object readResolve() {
-            return SelectedDatasetsViewTopComponent.getDefault();
+            return DatasetsListView.getDefault();
         }
     }
 }

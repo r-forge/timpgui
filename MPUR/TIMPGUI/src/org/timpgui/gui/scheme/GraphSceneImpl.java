@@ -32,6 +32,7 @@ import org.netbeans.api.visual.widget.LayerWidget;
 import org.netbeans.api.visual.widget.Widget;
 import org.netbeans.api.visual.widget.general.IconNodeWidget;
 import org.openide.util.Utilities;
+import org.timpgui.projectmanagement.SelectedDatasetsViewTopComponent;
 
 /**
  *
@@ -67,6 +68,7 @@ public class GraphSceneImpl extends GraphScene<MyNode, String> {
                 Image image = getImageFromTransferable(transferable);
                 Widget w = GraphSceneImpl.this.addNode(new MyNode(image));
                 w.setPreferredLocation(widget.convertLocalToScene(point));
+                repaint();
             }
             
         }));
@@ -91,7 +93,8 @@ public class GraphSceneImpl extends GraphScene<MyNode, String> {
     protected Widget attachNodeWidget(MyNode node) {
         ComponentWidget widget = new ComponentWidget(this, new TestCustomComponent());
         TestCustomComponent testCustomComponent = (TestCustomComponent) widget.getComponent();
-        testCustomComponent.jLabel1.setText("test");
+        widget.setPreferredBounds(new Rectangle(200, 200));
+    //    testCustomComponent.jLabel1.setText("test");
         //setImage(node.getImage());
         //widget.setLabel(Long.toString(node.hashCode()));
         

@@ -28,7 +28,7 @@ import org.timpgui.tgproject.nodes.TgdDataNode;
  *
  * @author jsg210
  */
-class DatasetView extends TreeTableView {
+public class DatasetView extends TreeTableView {
 
       public DatasetView() {
       setRootVisible(false);

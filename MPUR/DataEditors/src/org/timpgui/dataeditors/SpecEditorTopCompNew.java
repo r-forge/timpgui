@@ -8,6 +8,7 @@ package org.timpgui.dataeditors;
 import Jama.Matrix;
 import Jama.SingularValueDecomposition;
 import java.awt.BasicStroke;
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.geom.Ellipse2D;
@@ -389,7 +390,7 @@ final public class SpecEditorTopCompNew extends CloneableTopComponent
 
         jPanel5.setLayout(new java.awt.BorderLayout());
 
-        jLabel2.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        jLabel2.setFont(new java.awt.Font("Dialog", 1, 18));
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         org.openide.awt.Mnemonics.setLocalizedText(jLabel2, org.openide.util.NbBundle.getMessage(SpecEditorTopCompNew.class, "SpecEditorTopCompNew.jLabel2.text")); // NOI18N
         jLabel2.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
@@ -421,7 +422,7 @@ final public class SpecEditorTopCompNew extends CloneableTopComponent
                 .addComponent(jLabel4)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jTFtotalNumSV, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(314, Short.MAX_VALUE))
+                .addContainerGap(241, Short.MAX_VALUE))
         );
         jPanel9Layout.setVerticalGroup(
             jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -436,7 +437,6 @@ final public class SpecEditorTopCompNew extends CloneableTopComponent
         );
 
         jPSingValues.setBackground(new java.awt.Color(255, 255, 255));
-        jPSingValues.setMaximumSize(new java.awt.Dimension(32767, 32767));
         jPSingValues.setLayout(new java.awt.BorderLayout());
 
         jPanel4.setPreferredSize(new java.awt.Dimension(0, 0));
@@ -469,12 +469,10 @@ final public class SpecEditorTopCompNew extends CloneableTopComponent
         jPanel7.setLayout(new java.awt.GridLayout(1, 0));
 
         jPLeftSingVectors.setBackground(new java.awt.Color(255, 255, 255));
-        jPLeftSingVectors.setMaximumSize(new java.awt.Dimension(32767, 32767));
         jPLeftSingVectors.setLayout(new java.awt.BorderLayout());
         jPanel7.add(jPLeftSingVectors);
 
         jPRightSingVectors.setBackground(new java.awt.Color(255, 255, 255));
-        jPRightSingVectors.setMaximumSize(new java.awt.Dimension(32767, 32767));
         jPRightSingVectors.setLayout(new java.awt.BorderLayout());
         jPanel7.add(jPRightSingVectors);
 
@@ -484,12 +482,12 @@ final public class SpecEditorTopCompNew extends CloneableTopComponent
             jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel8Layout.createSequentialGroup()
                 .addGap(1, 1, 1)
-                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, 273, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addComponent(jPSingValues, javax.swing.GroupLayout.PREFERRED_SIZE, 365, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, 273, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addGroup(jPanel8Layout.createSequentialGroup()
-                .addGap(1, 1, 1)
-                .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, 911, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel8Layout.createSequentialGroup()
+                        .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, 273, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jPSingValues, javax.swing.GroupLayout.PREFERRED_SIZE, 365, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, 273, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, 911, javax.swing.GroupLayout.PREFERRED_SIZE)))
         );
         jPanel8Layout.setVerticalGroup(
             jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -505,12 +503,16 @@ final public class SpecEditorTopCompNew extends CloneableTopComponent
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, 925, Short.MAX_VALUE)
-            .addComponent(jToolBar2, javax.swing.GroupLayout.DEFAULT_SIZE, 925, Short.MAX_VALUE)
-            .addComponent(jPanel9, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, 983, Short.MAX_VALUE)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addComponent(jPanel8, javax.swing.GroupLayout.DEFAULT_SIZE, 913, Short.MAX_VALUE)
+                .addComponent(jPanel8, javax.swing.GroupLayout.DEFAULT_SIZE, 971, Short.MAX_VALUE)
                 .addContainerGap())
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(73, Short.MAX_VALUE))
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addComponent(jToolBar2, javax.swing.GroupLayout.PREFERRED_SIZE, 908, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(75, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -608,10 +610,10 @@ private void jBMakeDatasetActionPerformed(java.awt.event.ActionEvent evt) {//GEN
 private void jBResampleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBResampleActionPerformed
 // TODO resampling
 //    ResampleSpecDatasetDialog resDiag = new ResampleSpecDatasetDialog(, true);
-    ResampleSpecDataset resamplePanel = new ResampleSpecDataset();
-    resamplePanel.setInitialNumbers(data.GetNl()[0], data.GetNt()[0]);
+    AverageSpecDataset averagePanel = new AverageSpecDataset();
+    averagePanel.setInitialNumbers(data.GetNl()[0], data.GetNt()[0]);
     NotifyDescriptor resampleDatasetDialod = new NotifyDescriptor(
-            resamplePanel,
+            averagePanel,
             "Resample dataset",
             NotifyDescriptor.OK_CANCEL_OPTION,
             NotifyDescriptor.PLAIN_MESSAGE,
@@ -627,9 +629,9 @@ private void jBResampleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FI
 
     if (DialogDisplayer.getDefault().notify(resampleDatasetDialod).equals(NotifyDescriptor.OK_OPTION)){
         DatasetTimp newdataset = new DatasetTimp(); //data;
-        if (resamplePanel.getResampleXState()){
+        if (averagePanel.getAverageXState()){
             //resample x dimention
-            int num = resamplePanel.getResampleXNum();
+            int num = averagePanel.getAverageXNum();
             double sum;
             int imwidth = findataset.GetNl()[0];
             int imheight =findataset.GetNt()[0];
@@ -682,10 +684,10 @@ private void jBResampleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FI
             findataset = newdataset;
         }
 
-        if (resamplePanel.getResampleYState()){
+        if (averagePanel.getAverageYState()){
             //resample y dimention
             newdataset = new DatasetTimp(); //data;
-            int num = resamplePanel.getResampleYNum();
+            int num = averagePanel.getAverageYNum();
             double sum;
             int imwidth = findataset.GetNl()[0];
             int imheight =findataset.GetNt()[0];
@@ -740,7 +742,7 @@ private void jBResampleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FI
          
         }
 
-        if (resamplePanel.getNewDatasetState()){
+        if (averagePanel.getNewDatasetState()){
             NotifyDescriptor.InputLine datasetNameDialod = new NotifyDescriptor.InputLine(
                     "Dataset name",
                     "Please specify the name for a dataset");
@@ -788,6 +790,7 @@ private void jBResampleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FI
             data=findataset;
             MakeImageChart(MakeXYZDataset());
         }
+//        this.repaint();
    }
 }//GEN-LAST:event_jBResampleActionPerformed
 
@@ -1173,8 +1176,9 @@ private void jSnumSVStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST
         chpanImage = new ChartPanel(chartMain);
         chpanImage.setFillZoomRectangle(true);
         chpanImage.setMouseWheelEnabled(true);
-//        jPSpecImage.removeAll();
+        jPSpecImage.removeAll();
 //        chpanImage.setSize(jPSpecImage.getMaximumSize());
+        jPSpecImage.setLayout(new BorderLayout());
         jPSpecImage.add(chpanImage);
         jPSpecImage.repaint();
 
@@ -1215,7 +1219,8 @@ private void jSnumSVStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST
 ////        tracechart.getXYPlot().setDomainZeroBaselineVisible(true);
         ChartPanel chpan = new ChartPanel(subchartTimeTrace,true);
 //        chpan.setSize(jPYTrace.getMaximumSize());
-//        jPYTrace.removeAll();
+        jPYTrace.removeAll();
+        jPYTrace.setLayout(new BorderLayout());
         chpan.setMinimumDrawHeight(0);
         chpan.setMinimumDrawWidth(0);
         jPYTrace.add(chpan);
@@ -1254,7 +1259,8 @@ private void jSnumSVStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST
 
         ChartPanel subchart2Panel = new ChartPanel(subchartWaveTrace,true);
 //        subchart2Panel.setSize(jPXTrace.getMaximumSize());
-//        jPXTrace.removeAll();
+        jPXTrace.removeAll();
+        jPXTrace.setLayout(new BorderLayout());
         subchart2Panel.setMinimumDrawHeight(0);
         subchart2Panel.setMinimumDrawWidth(0);
         jPXTrace.add(subchart2Panel);

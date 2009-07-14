@@ -37,9 +37,9 @@ public class SceneReconnectProvider implements ReconnectProvider {
     private String originalNode;
     private String replacementNode;
     
-    private GraphScene.StringGraph scene;
+    private GraphScene scene;
     
-    public SceneReconnectProvider(GraphScene.StringGraph scene){
+    public SceneReconnectProvider(GraphScene scene){
         this.scene=scene;
     }
     

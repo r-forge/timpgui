@@ -35,14 +35,14 @@ public class SceneMainMenu implements PopupMenuProvider, ActionListener {
     
     private static final String ADD_NEW_NODE_ACTION = "addNewNodeAction"; // NOI18N
 
-    private GraphScene.StringGraph scene;
+    private GraphScene scene;
 
     private JPopupMenu menu;
     private Point point;
     
     private int nodeCount=3;
     
-    public SceneMainMenu(GraphScene.StringGraph scene) {
+    public SceneMainMenu(GraphScene scene) {
         this.scene=scene;
         menu = new JPopupMenu("Scene Menu");
         JMenuItem item;

@@ -40,13 +40,13 @@ public class EdgeMenu implements PopupMenuProvider, ActionListener {
 //    private static final String DELETE_ALL_CP_ACTION = "deleteAllCPAction"; // NOI18N
     private static final String DELETE_TRANSITION = "deleteTransition"; // NOI18N
 
-    private GraphScene.StringGraph scene;
+    private GraphScene scene;
 
     private JPopupMenu menu;
     private ConnectionWidget edge;
     private Point point;
 
-    public EdgeMenu(GraphScene.StringGraph scene) {
+    public EdgeMenu(GraphScene scene) {
         this.scene = scene;
         menu = new JPopupMenu("Transition Menu");
         JMenuItem item;

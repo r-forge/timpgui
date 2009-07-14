@@ -40,9 +40,9 @@ public class NodeMenu implements PopupMenuProvider, ActionListener {
     private IconNodeWidget node;
 
     private Point point;
-    private GraphScene.StringGraph scene;
+    private GraphScene scene;
     
-    public NodeMenu(GraphScene.StringGraph scene) {
+    public NodeMenu(GraphScene scene) {
         this.scene=scene;
         menu = new JPopupMenu("Node Menu");
         JMenuItem item;

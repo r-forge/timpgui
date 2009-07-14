@@ -50,7 +50,7 @@ import org.netbeans.api.visual.action.ConnectorState;
 /**
  * @author Alex
  */
-public class GraphSceneImpl extends GraphScene.StringGraph {
+public class GraphSceneImpl extends GraphScene {
 
     private static final Image IMAGE = Utilities.loadImage("org/timpgui/gui/scheme/resources/node.png"); // NOI18N
 
@@ -123,6 +123,26 @@ public class GraphSceneImpl extends GraphScene.StringGraph {
         ConnectionWidget widget = (ConnectionWidget) findWidget(edge);
         Widget targetNodeWidget = findWidget (targetNode);
         widget.setTargetAnchor(targetNodeWidget != null ? AnchorFactory.createFreeRectangularAnchor(targetNodeWidget, true) : null);
+    }
+
+    @Override
+    protected Widget attachNodeWidget(Object node) {
+        return attachNodeWidget((String) node);
+    }
+
+    @Override
+    protected Widget attachEdgeWidget(Object edge) {
+       return attachEdgeWidget((String) edge);
+    }
+
+    @Override
+    protected void attachEdgeSourceAnchor(Object edge, Object oldSourceNode, Object sourceNode) {
+        attachEdgeSourceAnchor((String) edge, (String) oldSourceNode, (String) sourceNode);
+    }
+
+    @Override
+    protected void attachEdgeTargetAnchor(Object edge, Object oldTargetNode, Object targetNode) {
+         attachEdgeTargetAnchor((String) edge, (String) oldTargetNode,(String) targetNode);
     }
 
     private class ObjectSelectProvider implements SelectProvider {

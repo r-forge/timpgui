@@ -15,6 +15,7 @@ import java.awt.geom.AffineTransform;
 import java.io.IOException;
 import javax.swing.JComponent;
 import org.netbeans.api.visual.action.AcceptProvider;
+import org.netbeans.api.visual.action.ActionFactory;
 import org.netbeans.api.visual.action.ConnectorState;
 import org.netbeans.api.visual.graph.GraphScene;
 import org.netbeans.api.visual.widget.ComponentWidget;
@@ -27,11 +28,11 @@ import org.openide.util.Utilities;
  */
 public class CustomSceneAcceptProvider implements AcceptProvider {
 
-    private GraphScene.StringGraph scene;
+    private GraphScene scene;
     private Point point;
     private int nodeCount=1;
 
-    public CustomSceneAcceptProvider(GraphScene.StringGraph scene) {
+    public CustomSceneAcceptProvider(GraphScene scene) {
         this.scene = scene;
     }
 
@@ -50,11 +51,13 @@ public class CustomSceneAcceptProvider implements AcceptProvider {
 
     public void accept(Widget widget, Point point, Transferable transferable) {
         Image image = getImageFromTransferable(transferable);
-            String hm = "Pallete Node"+(nodeCount++);
-            //ComponentWidget cw = new ComponentWidget(scene, new TestCustomComponent());
-            //scene.addChild(widget);
-            Widget newNode = scene.addNode(hm);
-            scene.getSceneAnimator().animatePreferredLocation(newNode,point);
+            //String hm = "Pallete Node"+(nodeCount++);
+            ComponentWidget cw = new ComponentWidget(scene, new TestCustomComponent());
+            cw.setPreferredLocation(point);
+            cw.getActions().addAction(ActionFactory.createMoveAction());
+            scene.addChild(cw);
+            //Widget newNode = scene.addNode(hm);
+            //scene.getSceneAnimator().animatePreferredLocation(newNode,point);
             scene.validate();
             scene.repaint();
     }

@@ -35,9 +35,9 @@ public class SceneConnectProvider implements ConnectProvider {
     private String source = null;
     private String target = null;
     
-    private GraphScene.StringGraph scene;
+    private GraphScene scene;
     
-    public SceneConnectProvider(GraphScene.StringGraph scene){
+    public SceneConnectProvider(GraphScene scene){
         this.scene=scene;
     }
     

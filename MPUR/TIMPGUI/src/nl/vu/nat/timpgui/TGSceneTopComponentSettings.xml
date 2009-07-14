@@ -3,6 +3,6 @@
 <settings version="1.0">
     <module name="org.timpgui.gui.scheme" spec="1.0"/>
     <instanceof class="org.openide.windows.TopComponent"/>
-    <instanceof class="org.timpgui.gui.scheme.ShapeTopComponent"/>
-    <instance class="org.timpgui.gui.scheme.ShapeTopComponent" method="getDefault"/>
+    <instanceof class="org.timpgui.gui.scheme.TGSceneTopComponent"/>
+    <instance class="org.timpgui.gui.scheme.TGSceneTopComponent" method="getDefault"/>
 </settings>

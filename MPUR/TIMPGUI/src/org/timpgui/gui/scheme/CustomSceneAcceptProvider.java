@@ -21,6 +21,7 @@ import org.netbeans.api.visual.graph.GraphScene;
 import org.netbeans.api.visual.widget.ComponentWidget;
 import org.netbeans.api.visual.widget.Widget;
 import org.openide.util.Utilities;
+import org.timpgui.gui.scheme.components.DatasetContainer;
 
 /**
  *
@@ -52,7 +53,7 @@ public class CustomSceneAcceptProvider implements AcceptProvider {
     public void accept(Widget widget, Point point, Transferable transferable) {
         Image image = getImageFromTransferable(transferable);
             //String hm = "Pallete Node"+(nodeCount++);
-            ComponentWidget cw = new ComponentWidget(scene, new TestCustomComponent());
+            ComponentWidget cw = new ComponentWidget(scene, new DatasetContainer());
             cw.setPreferredLocation(point);
             cw.getActions().addAction(ActionFactory.createMoveAction());
             scene.addChild(cw);

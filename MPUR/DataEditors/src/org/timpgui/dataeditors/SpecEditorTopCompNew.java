@@ -20,6 +20,7 @@ import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.logging.Logger;
 import javax.swing.SpinnerNumberModel;
+import javax.swing.event.ChangeListener;
 import nl.vu.nat.tgmprojectsupport.TGProject;
 import nl.wur.flim.jfreechartcustom.ColorCodedImageDataset;
 import nl.wur.flim.jfreechartcustom.ImageCrosshairLabelGenerator;
@@ -161,14 +162,16 @@ final public class SpecEditorTopCompNew extends CloneableTopComponent
         jScrollPane2 = new javax.swing.JScrollPane();
         jPanel2 = new javax.swing.JPanel();
         jToolBar1 = new javax.swing.JToolBar();
-        jBMakeDataset = new javax.swing.JButton();
-        jBResample = new javax.swing.JButton();
-        jSeparator1 = new javax.swing.JToolBar.Separator();
         jTBZoomX = new javax.swing.JToggleButton();
         jTBZoomY = new javax.swing.JToggleButton();
+        jSeparator1 = new javax.swing.JToolBar.Separator();
+        jBResample = new javax.swing.JButton();
+        jBResample1 = new javax.swing.JButton();
         jSeparator2 = new javax.swing.JToolBar.Separator();
-        jBdoSVD = new javax.swing.JButton();
+        jBMakeDataset = new javax.swing.JButton();
         jSeparator3 = new javax.swing.JToolBar.Separator();
+        jBdoSVD = new javax.swing.JButton();
+        jSeparator4 = new javax.swing.JToolBar.Separator();
         jBSaveIvoFile = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
         jPSpecImage = new javax.swing.JPanel();
@@ -237,23 +240,6 @@ final public class SpecEditorTopCompNew extends CloneableTopComponent
 
         jToolBar1.setRollover(true);
 
-        org.openide.awt.Mnemonics.setLocalizedText(jBMakeDataset, org.openide.util.NbBundle.getMessage(SpecEditorTopCompNew.class, "SpecEditorTopCompNew.jBMakeDataset.text")); // NOI18N
-        jBMakeDataset.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jBMakeDatasetActionPerformed(evt);
-            }
-        });
-        jToolBar1.add(jBMakeDataset);
-
-        org.openide.awt.Mnemonics.setLocalizedText(jBResample, org.openide.util.NbBundle.getMessage(SpecEditorTopCompNew.class, "SpecEditorTopCompNew.jBResample.text")); // NOI18N
-        jBResample.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jBResampleActionPerformed(evt);
-            }
-        });
-        jToolBar1.add(jBResample);
-        jToolBar1.add(jSeparator1);
-
         org.openide.awt.Mnemonics.setLocalizedText(jTBZoomX, org.openide.util.NbBundle.getMessage(SpecEditorTopCompNew.class, "SpecEditorTopCompNew.jTBZoomX.text")); // NOI18N
         jTBZoomX.setFocusable(false);
         jTBZoomX.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
@@ -275,7 +261,36 @@ final public class SpecEditorTopCompNew extends CloneableTopComponent
             }
         });
         jToolBar1.add(jTBZoomY);
+        jToolBar1.add(jSeparator1);
+
+        org.openide.awt.Mnemonics.setLocalizedText(jBResample, org.openide.util.NbBundle.getMessage(SpecEditorTopCompNew.class, "SpecEditorTopCompNew.jBResample.text")); // NOI18N
+        jBResample.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBResampleActionPerformed(evt);
+            }
+        });
+        jToolBar1.add(jBResample);
+
+        org.openide.awt.Mnemonics.setLocalizedText(jBResample1, org.openide.util.NbBundle.getMessage(SpecEditorTopCompNew.class, "SpecEditorTopCompNew.jBResample1.text")); // NOI18N
+        jBResample1.setFocusable(false);
+        jBResample1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jBResample1.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        jBResample1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBResample1ActionPerformed(evt);
+            }
+        });
+        jToolBar1.add(jBResample1);
         jToolBar1.add(jSeparator2);
+
+        org.openide.awt.Mnemonics.setLocalizedText(jBMakeDataset, org.openide.util.NbBundle.getMessage(SpecEditorTopCompNew.class, "SpecEditorTopCompNew.jBMakeDataset.text")); // NOI18N
+        jBMakeDataset.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBMakeDatasetActionPerformed(evt);
+            }
+        });
+        jToolBar1.add(jBMakeDataset);
+        jToolBar1.add(jSeparator3);
 
         org.openide.awt.Mnemonics.setLocalizedText(jBdoSVD, org.openide.util.NbBundle.getMessage(SpecEditorTopCompNew.class, "SpecEditorTopCompNew.jBdoSVD.text")); // NOI18N
         jBdoSVD.setFocusable(false);
@@ -287,7 +302,7 @@ final public class SpecEditorTopCompNew extends CloneableTopComponent
             }
         });
         jToolBar1.add(jBdoSVD);
-        jToolBar1.add(jSeparator3);
+        jToolBar1.add(jSeparator4);
 
         org.openide.awt.Mnemonics.setLocalizedText(jBSaveIvoFile, org.openide.util.NbBundle.getMessage(SpecEditorTopCompNew.class, "SpecEditorTopCompNew.jBSaveIvoFile.text")); // NOI18N
         jBSaveIvoFile.setEnabled(false);
@@ -608,7 +623,7 @@ private void jBMakeDatasetActionPerformed(java.awt.event.ActionEvent evt) {//GEN
 }//GEN-LAST:event_jBMakeDatasetActionPerformed
 
 private void jBResampleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBResampleActionPerformed
-// TODO resampling
+
 //    ResampleSpecDatasetDialog resDiag = new ResampleSpecDatasetDialog(, true);
     AverageSpecDataset averagePanel = new AverageSpecDataset();
     averagePanel.setInitialNumbers(data.GetNl()[0], data.GetNt()[0]);
@@ -678,7 +693,7 @@ private void jBResampleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FI
             newdataset.SetX2(temp);
             newdataset.SetNl(num);
             newdataset.SetNt(findataset.GetNt()[0]);
-            newdataset.SetX(findataset.GetX());
+            newdataset.SetX(findataset.GetX().clone());
             newdataset.CalcRangeInt();
             newdataset.setType("spec");
             findataset = newdataset;
@@ -790,20 +805,20 @@ private void jBResampleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FI
             data=findataset;
             MakeImageChart(MakeXYZDataset());
         }
-//        this.repaint();
+        this.repaint();
    }
 }//GEN-LAST:event_jBResampleActionPerformed
 
 private void jSRowStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jSRowStateChanged
     crosshair2.setValue(dataset.GetImageHeigth()-jSRow.getValue());
-    int xIndex = jSRow.getValue();// - jSRow.getMinimum();
+    int xIndex = jSRow.getValue();
     XYDataset d = ImageUtilities.extractRowFromImageDataset(dataset, xIndex, "Spec");
     subchartWaveTrace.getXYPlot().setDataset(d);
 }//GEN-LAST:event_jSRowStateChanged
 
 private void jSColumStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jSColumStateChanged
     crosshair1.setValue(jSColum.getValue());
-    int xIndex = jSColum.getValue();// - jSColum.getMinimum();
+    int xIndex = jSColum.getValue();
     XYDataset d = ImageUtilities.extractColumnFromImageDataset(dataset, xIndex, "Spec");
     subchartTimeTrace.getXYPlot().setDataset(d);
 }//GEN-LAST:event_jSColumStateChanged
@@ -965,11 +980,16 @@ private void jSnumSVStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST
 
 }//GEN-LAST:event_jSnumSVStateChanged
 
+private void jBResample1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBResample1ActionPerformed
+    // TODO add your handling code here:
+}//GEN-LAST:event_jBResample1ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField inputDatasetName;
     private javax.swing.JButton jBMakeDataset;
     private javax.swing.JButton jBResample;
+    private javax.swing.JButton jBResample1;
     private javax.swing.JButton jBSaveIvoFile;
     private javax.swing.JButton jBdoSVD;
     private javax.swing.JButton jButton3;
@@ -1001,6 +1021,7 @@ private void jSnumSVStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST
     private javax.swing.JToolBar.Separator jSeparator1;
     private javax.swing.JToolBar.Separator jSeparator2;
     private javax.swing.JToolBar.Separator jSeparator3;
+    private javax.swing.JToolBar.Separator jSeparator4;
     private javax.swing.JSpinner jSnumSV;
     private javax.swing.JToggleButton jTBZoomX;
     private javax.swing.JToggleButton jTBZoomY;
@@ -1179,8 +1200,6 @@ private void jSnumSVStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST
         jPSpecImage.removeAll();
 //        chpanImage.setSize(jPSpecImage.getMaximumSize());
         jPSpecImage.setLayout(new BorderLayout());
-        jPSpecImage.add(chpanImage);
-        jPSpecImage.repaint();
 
         ImageCrosshairLabelGenerator crossLabGen1 = new ImageCrosshairLabelGenerator(data.GetX2(),false);
         ImageCrosshairLabelGenerator crossLabGen2 = new ImageCrosshairLabelGenerator(data.GetX(),true);
@@ -1188,7 +1207,7 @@ private void jSnumSVStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST
         CrosshairOverlay overlay = new CrosshairOverlay();
         crosshair1 = new Crosshair(0.0);
         crosshair1.setPaint(Color.red);
-        crosshair2 = new Crosshair(0.0);
+        crosshair2 = new Crosshair(data.GetNt()[0]);
         crosshair2.setPaint(Color.GRAY);
         
         overlay.addDomainCrosshair(crosshair1);
@@ -1203,6 +1222,8 @@ private void jSnumSVStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST
         crosshair2.setLabelGenerator(crossLabGen2);
         crosshair2.setLabelVisible(true);
         crosshair2.setLabelBackgroundPaint(new Color(255, 255, 0, 100));
+
+        jPSpecImage.add(chpanImage);
 
         XYSeriesCollection dataset1 = new XYSeriesCollection();
         subchartTimeTrace = ChartFactory.createXYLineChart(
@@ -1224,7 +1245,6 @@ private void jSnumSVStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST
         chpan.setMinimumDrawHeight(0);
         chpan.setMinimumDrawWidth(0);
         jPYTrace.add(chpan);
-        jPYTrace.repaint();
 
         XYPlot plot1 = (XYPlot) subchartTimeTrace.getPlot();
         plot1.getDomainAxis().setLowerMargin(0.0);
@@ -1264,14 +1284,18 @@ private void jSnumSVStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST
         subchart2Panel.setMinimumDrawHeight(0);
         subchart2Panel.setMinimumDrawWidth(0);
         jPXTrace.add(subchart2Panel);
-        jPXTrace.repaint();
 
+        jSColum.setValueIsAdjusting(true);
         jSColum.setMaximum(dataset.GetImageWidth()-1);
         jSColum.setMinimum(0);
         jSColum.setValue(0);
+        jSColum.setValueIsAdjusting(false);
+
+        jSRow.setValueIsAdjusting(true);
         jSRow.setMaximum(dataset.GetImageHeigth()-1);
         jSRow.setMinimum(0);
         jSRow.setValue(0);
+        jSRow.setValueIsAdjusting(false);
 
         NumberAxis scaleAxis = new NumberAxis();
         scaleAxis.setAxisLinePaint(Color.black);

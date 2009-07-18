@@ -156,19 +156,20 @@ public final class SpecResultsTopComponent extends TopComponent implements Chart
         jPSpecImage = new javax.swing.JPanel();
         jSColum = new javax.swing.JSlider();
         jSRow = new javax.swing.JSlider();
-        jScrollPane5 = new javax.swing.JScrollPane();
-        jList1 = new javax.swing.JList();
-        jScrollPane6 = new javax.swing.JScrollPane();
-        jList2 = new javax.swing.JList();
+        jScrollPane7 = new javax.swing.JScrollPane();
         jPSelTimeTrCollection = new javax.swing.JPanel();
+        jScrollPane8 = new javax.swing.JScrollPane();
         jPSelWavTrCollection = new javax.swing.JPanel();
 
+        setPreferredSize(new java.awt.Dimension(800, 600));
         setLayout(new java.awt.BorderLayout());
 
         jTabbedPane1.setMaximumSize(new java.awt.Dimension(1032, 820));
-        jTabbedPane1.setPreferredSize(new java.awt.Dimension(1032, 820));
+        jTabbedPane1.setPreferredSize(new java.awt.Dimension(1032, 600));
 
-        jPanel6.setPreferredSize(new java.awt.Dimension(960, 800));
+        jScrollPane3.setPreferredSize(new java.awt.Dimension(1000, 700));
+
+        jPanel6.setPreferredSize(new java.awt.Dimension(1000, 1200));
 
         jPanel2.setLayout(new java.awt.GridLayout(0, 2));
 
@@ -275,18 +276,18 @@ public final class SpecResultsTopComponent extends TopComponent implements Chart
         jPanel6.setLayout(jPanel6Layout);
         jPanel6Layout.setHorizontalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jToolBar1, javax.swing.GroupLayout.DEFAULT_SIZE, 960, Short.MAX_VALUE)
+            .addComponent(jToolBar1, javax.swing.GroupLayout.DEFAULT_SIZE, 1000, Short.MAX_VALUE)
             .addGroup(jPanel6Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, 617, Short.MAX_VALUE)
+                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, 637, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanel7, 0, 0, Short.MAX_VALUE)
-                    .addComponent(jPConcentrations, javax.swing.GroupLayout.DEFAULT_SIZE, 313, Short.MAX_VALUE))
+                    .addComponent(jPConcentrations, javax.swing.GroupLayout.DEFAULT_SIZE, 333, Short.MAX_VALUE))
                 .addContainerGap())
             .addGroup(jPanel6Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, 936, Short.MAX_VALUE)
+                .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, 976, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanel6Layout.setVerticalGroup(
@@ -302,12 +303,16 @@ public final class SpecResultsTopComponent extends TopComponent implements Chart
                         .addComponent(jPConcentrations, javax.swing.GroupLayout.PREFERRED_SIZE, 231, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, 263, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(38, Short.MAX_VALUE))
+                .addContainerGap(438, Short.MAX_VALUE))
         );
 
         jScrollPane3.setViewportView(jPanel6);
 
         jTabbedPane1.addTab(org.openide.util.NbBundle.getMessage(SpecResultsTopComponent.class, "SpecResultsTopComponent.jScrollPane3.TabConstraints.tabTitle"), jScrollPane3); // NOI18N
+
+        jScrollPane4.setPreferredSize(new java.awt.Dimension(963, 700));
+
+        jPanel3.setPreferredSize(new java.awt.Dimension(960, 1100));
 
         jToolBar2.setRollover(true);
 
@@ -405,10 +410,6 @@ public final class SpecResultsTopComponent extends TopComponent implements Chart
                 .addContainerGap())
         );
 
-        jScrollPane5.setViewportView(jList1);
-
-        jScrollPane6.setViewportView(jList2);
-
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
@@ -417,13 +418,7 @@ public final class SpecResultsTopComponent extends TopComponent implements Chart
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jToolBar2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 915, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel3Layout.createSequentialGroup()
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(jPanel3Layout.createSequentialGroup()
-                                .addContainerGap()
-                                .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 162, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(70, 70, 70)
-                                .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 491, Short.MAX_VALUE)))
                 .addGap(45, 45, 45))
@@ -434,29 +429,32 @@ public final class SpecResultsTopComponent extends TopComponent implements Chart
                 .addComponent(jToolBar2, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(28, 28, 28)
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jScrollPane6)
-                            .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 198, Short.MAX_VALUE)))
+                    .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 493, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(883, Short.MAX_VALUE))
+                .addContainerGap(576, Short.MAX_VALUE))
         );
 
         jScrollPane4.setViewportView(jPanel3);
 
         jTabbedPane1.addTab(org.openide.util.NbBundle.getMessage(SpecResultsTopComponent.class, "SpecResultsTopComponent.jScrollPane4.TabConstraints.tabTitle"), jScrollPane4); // NOI18N
 
-        jPSelTimeTrCollection.setMaximumSize(new java.awt.Dimension(1024, 768));
-        jPSelTimeTrCollection.setPreferredSize(new java.awt.Dimension(1024, 768));
-        jPSelTimeTrCollection.setLayout(new java.awt.GridLayout(2, 2));
-        jTabbedPane1.addTab(org.openide.util.NbBundle.getMessage(SpecResultsTopComponent.class, "SpecResultsTopComponent.jPSelTimeTrCollection.TabConstraints.tabTitle"), jPSelTimeTrCollection); // NOI18N
+        jScrollPane7.setPreferredSize(new java.awt.Dimension(1020, 600));
 
-        jPSelWavTrCollection.setMaximumSize(new java.awt.Dimension(1032, 820));
-        jPSelWavTrCollection.setPreferredSize(new java.awt.Dimension(1032, 820));
+        jPSelTimeTrCollection.setMaximumSize(new java.awt.Dimension(900, 1000));
+        jPSelTimeTrCollection.setPreferredSize(new java.awt.Dimension(900, 1000));
+        jPSelTimeTrCollection.setLayout(new java.awt.GridLayout(2, 2));
+        jScrollPane7.setViewportView(jPSelTimeTrCollection);
+
+        jTabbedPane1.addTab(org.openide.util.NbBundle.getMessage(SpecResultsTopComponent.class, "SpecResultsTopComponent.jScrollPane7.TabConstraints.tabTitle"), jScrollPane7); // NOI18N
+
+        jScrollPane8.setPreferredSize(new java.awt.Dimension(1020, 600));
+
+        jPSelWavTrCollection.setMaximumSize(new java.awt.Dimension(900, 1000));
+        jPSelWavTrCollection.setPreferredSize(new java.awt.Dimension(900, 1000));
         jPSelWavTrCollection.setLayout(new java.awt.GridLayout(2, 2));
-        jTabbedPane1.addTab(org.openide.util.NbBundle.getMessage(SpecResultsTopComponent.class, "SpecResultsTopComponent.jPSelWavTrCollection.TabConstraints.tabTitle"), jPSelWavTrCollection); // NOI18N
+        jScrollPane8.setViewportView(jPSelWavTrCollection);
+
+        jTabbedPane1.addTab(org.openide.util.NbBundle.getMessage(SpecResultsTopComponent.class, "SpecResultsTopComponent.jScrollPane8.TabConstraints.tabTitle"), jScrollPane8); // NOI18N
 
         add(jTabbedPane1, java.awt.BorderLayout.PAGE_START);
     }// </editor-fold>//GEN-END:initComponents
@@ -629,8 +627,6 @@ public final class SpecResultsTopComponent extends TopComponent implements Chart
     private javax.swing.JList jLKineticParameters;
     private javax.swing.JList jLSpectralParameters;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JList jList1;
-    private javax.swing.JList jList2;
     private javax.swing.JPanel jPConcentrations;
     private javax.swing.JPanel jPDAS;
     private javax.swing.JPanel jPDASnorm;
@@ -659,8 +655,8 @@ public final class SpecResultsTopComponent extends TopComponent implements Chart
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
-    private javax.swing.JScrollPane jScrollPane5;
-    private javax.swing.JScrollPane jScrollPane6;
+    private javax.swing.JScrollPane jScrollPane7;
+    private javax.swing.JScrollPane jScrollPane8;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JToolBar jToolBar1;
     private javax.swing.JToolBar jToolBar2;
@@ -1187,4 +1183,4 @@ public final class SpecResultsTopComponent extends TopComponent implements Chart
         jPSingValues.add(chpan);
     }
 
-}
+    }        

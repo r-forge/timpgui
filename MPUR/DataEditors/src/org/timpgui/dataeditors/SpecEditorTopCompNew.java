@@ -624,7 +624,7 @@ private void jBMakeDatasetActionPerformed(java.awt.event.ActionEvent evt) {//GEN
 
 private void jBResampleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBResampleActionPerformed
 
-//    ResampleSpecDatasetDialog resDiag = new ResampleSpecDatasetDialog(, true);
+//    AverageSpecDatasetDialog resDiag = new ResampleSpecDatasetDialog(, true);
     AverageSpecDataset averagePanel = new AverageSpecDataset();
     averagePanel.setInitialNumbers(data.GetNl()[0], data.GetNt()[0]);
     NotifyDescriptor resampleDatasetDialod = new NotifyDescriptor(
@@ -981,7 +981,137 @@ private void jSnumSVStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST
 }//GEN-LAST:event_jSnumSVStateChanged
 
 private void jBResample1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBResample1ActionPerformed
-    // TODO add your handling code here:
+   
+  
+    ResampleSpecDataset resamplePanel = new ResampleSpecDataset();
+    resamplePanel.setInitialNumbers(data.GetNl()[0], data.GetNt()[0]);
+    NotifyDescriptor resampleDatasetDialod = new NotifyDescriptor(
+            resamplePanel,
+            "Resample dataset",
+            NotifyDescriptor.OK_CANCEL_OPTION,
+            NotifyDescriptor.PLAIN_MESSAGE,
+            null,
+            NotifyDescriptor.CANCEL_OPTION);
+    DatasetTimp findataset = new DatasetTimp();
+    findataset.SetPsisim(data.GetPsisim());
+    findataset.SetX(data.GetX());
+    findataset.SetX2(data.GetX2());
+    findataset.setType("spec");
+    findataset.SetNl(data.GetNl()[0]);
+    findataset.SetNt(data.GetNt()[0]);
+
+    if (DialogDisplayer.getDefault().notify(resampleDatasetDialod).equals(NotifyDescriptor.OK_OPTION)){
+        DatasetTimp newdataset = new DatasetTimp(); //data;
+        if (resamplePanel.getResampleXState()){
+            //resample x dimention
+            int num = resamplePanel.getResampleXNum();
+            int imwidth = findataset.GetNl()[0];
+            int imheight =findataset.GetNt()[0];
+            int w = findataset.GetNl()[0]/num;
+
+            double[] temp = new double[num*imheight];
+
+            for (int i=0; i<imheight; i++){
+                for (int j=0; j<num; j++)
+                    temp[i+j*imheight]=findataset.GetPsisim()[i+(j*w)*imheight];
+            }
+
+            newdataset.SetPsisim(temp);
+            temp = new double[num];
+
+            for (int j=0; j<num; j++)    
+                temp[j]=findataset.GetX2()[j*w];
+
+            newdataset.SetX2(temp);
+            newdataset.SetNl(num);
+            newdataset.SetNt(findataset.GetNt()[0]);
+            newdataset.SetX(findataset.GetX().clone());
+            newdataset.CalcRangeInt();
+            newdataset.setType("spec");
+            findataset = newdataset;
+        }
+
+        if (resamplePanel.getResampleYState()){
+            //resample y dimention
+            newdataset = new DatasetTimp(); //data;
+            int num = resamplePanel.getResampleYNum();
+            int imwidth = findataset.GetNl()[0];
+            int imheight =findataset.GetNt()[0];
+            int w = findataset.GetNt()[0]/num;
+
+            double[] temp = new double[num*imwidth];
+            for (int i = 0; i < imwidth; i++){
+                for (int j = 0; j < num; j++)
+                    temp[i*num+j]=findataset.GetPsisim()[i*imheight+j*w];
+            }
+
+            newdataset.SetPsisim(temp);
+            temp = new double[num];
+
+            for (int j=0; j<num; j++)
+                temp[j]=findataset.GetX()[j*w];
+
+            newdataset.SetX(temp);
+            newdataset.SetNt(num);
+            newdataset.SetNl(findataset.GetNl()[0]);
+            newdataset.SetX2(findataset.GetX2());
+            newdataset.CalcRangeInt();
+            newdataset.setType("spec");
+            findataset = newdataset;
+
+        }
+
+        if (resamplePanel.getNewDatasetState()){
+            NotifyDescriptor.InputLine datasetNameDialod = new NotifyDescriptor.InputLine(
+                    "Dataset name",
+                    "Please specify the name for a dataset");
+            if (DialogDisplayer.getDefault().notify(datasetNameDialod).equals(NotifyDescriptor.OK_OPTION)){
+                findataset.setDatasetName(datasetNameDialod.getInputText());
+                FileObject cachefolder = null;
+                final TGProject proj = (TGProject) OpenProjects.getDefault().getMainProject();
+                if (proj!=null){
+                    cachefolder = proj.getCacheFolder(true);
+                } else {
+                    NotifyDescriptor errorMessage =new NotifyDescriptor.Exception(
+                        new Exception("Please select main project"));
+                    DialogDisplayer.getDefault().notify(errorMessage);
+                }
+                if ((dataObject==null)&&(dataObject2!=null)){
+                    cachefolder = dataObject2.getFolder().getPrimaryFile();
+                }
+                else
+                {
+                    cachefolder = cachefolder.getFileObject(dataObject.getTgd().getCacheFolderName().toString());
+                }
+
+                FileObject writeTo;
+                try {
+                    writeTo = cachefolder.createData(findataset.GetDatasetName(), "timpdataset");
+                    ObjectOutputStream stream = new ObjectOutputStream(writeTo.getOutputStream());
+                    stream.writeObject(findataset);
+                    stream.close();
+                    TgdDataChildren chidrens;
+                    TimpDatasetDataObject dObj = (TimpDatasetDataObject) DataObject.find(writeTo);
+                    if ((dataObject==null)&&(dataObject2!=null)){
+                        chidrens = (TgdDataChildren) dataObject2.getNodeDelegate().getParentNode().getChildren();
+                    }
+                    else
+                    {
+                        chidrens = (TgdDataChildren) dataObject.getNodeDelegate().getChildren();
+                    }
+                    chidrens.addObj(dObj);
+                } catch (IOException ex) {
+                    Exceptions.printStackTrace(ex);
+                }
+            }
+        }
+        else {
+            data=findataset;
+            data.CalcRangeInt();
+            MakeImageChart(MakeXYZDataset());
+        }
+        this.repaint();
+   }
 }//GEN-LAST:event_jBResample1ActionPerformed
 
 

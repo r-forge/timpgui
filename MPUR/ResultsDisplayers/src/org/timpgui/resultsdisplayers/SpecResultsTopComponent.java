@@ -43,6 +43,8 @@ import org.jfree.ui.Layer;
 import org.jfree.ui.RectangleAnchor;
 import org.jfree.ui.RectangleEdge;
 import org.jfree.ui.RectangleInsets;
+import org.openide.DialogDisplayer;
+import org.openide.NotifyDescriptor;
 import org.openide.util.Exceptions;
 import org.openide.util.NbBundle;
 import org.openide.windows.TopComponent;
@@ -156,10 +158,18 @@ public final class SpecResultsTopComponent extends TopComponent implements Chart
         jPSpecImage = new javax.swing.JPanel();
         jSColum = new javax.swing.JSlider();
         jSRow = new javax.swing.JSlider();
-        jScrollPane7 = new javax.swing.JScrollPane();
-        jPSelTimeTrCollection = new javax.swing.JPanel();
         jScrollPane8 = new javax.swing.JScrollPane();
+        jPSelWavTrCollectionTop = new javax.swing.JPanel();
         jPSelWavTrCollection = new javax.swing.JPanel();
+        jToolBar4 = new javax.swing.JToolBar();
+        jButton6 = new javax.swing.JButton();
+        jButton7 = new javax.swing.JButton();
+        jScrollPane7 = new javax.swing.JScrollPane();
+        jPSelTimeTrCollectionTop = new javax.swing.JPanel();
+        jPSelTimeTrCollection = new javax.swing.JPanel();
+        jToolBar3 = new javax.swing.JToolBar();
+        jButton4 = new javax.swing.JButton();
+        jButton5 = new javax.swing.JButton();
 
         setPreferredSize(new java.awt.Dimension(800, 600));
         setLayout(new java.awt.BorderLayout());
@@ -415,13 +425,13 @@ public final class SpecResultsTopComponent extends TopComponent implements Chart
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jToolBar2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 915, Short.MAX_VALUE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel3Layout.createSequentialGroup()
-                        .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 491, Short.MAX_VALUE)))
+                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 491, Short.MAX_VALUE)
                 .addGap(45, 45, 45))
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addComponent(jToolBar2, javax.swing.GroupLayout.PREFERRED_SIZE, 923, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -438,23 +448,97 @@ public final class SpecResultsTopComponent extends TopComponent implements Chart
 
         jTabbedPane1.addTab(org.openide.util.NbBundle.getMessage(SpecResultsTopComponent.class, "SpecResultsTopComponent.jScrollPane4.TabConstraints.tabTitle"), jScrollPane4); // NOI18N
 
-        jScrollPane7.setPreferredSize(new java.awt.Dimension(1020, 600));
-
-        jPSelTimeTrCollection.setMaximumSize(new java.awt.Dimension(900, 1000));
-        jPSelTimeTrCollection.setPreferredSize(new java.awt.Dimension(900, 1000));
-        jPSelTimeTrCollection.setLayout(new java.awt.GridLayout(2, 2));
-        jScrollPane7.setViewportView(jPSelTimeTrCollection);
-
-        jTabbedPane1.addTab(org.openide.util.NbBundle.getMessage(SpecResultsTopComponent.class, "SpecResultsTopComponent.jScrollPane7.TabConstraints.tabTitle"), jScrollPane7); // NOI18N
-
         jScrollPane8.setPreferredSize(new java.awt.Dimension(1020, 600));
 
-        jPSelWavTrCollection.setMaximumSize(new java.awt.Dimension(900, 1000));
-        jPSelWavTrCollection.setPreferredSize(new java.awt.Dimension(900, 1000));
+        jPSelWavTrCollectionTop.setMaximumSize(new java.awt.Dimension(900, 1000));
+        jPSelWavTrCollectionTop.setPreferredSize(new java.awt.Dimension(900, 1000));
+
+        jPSelWavTrCollection.setPreferredSize(new java.awt.Dimension(923, 969));
         jPSelWavTrCollection.setLayout(new java.awt.GridLayout(2, 2));
-        jScrollPane8.setViewportView(jPSelWavTrCollection);
+
+        jToolBar4.setRollover(true);
+
+        org.openide.awt.Mnemonics.setLocalizedText(jButton6, org.openide.util.NbBundle.getMessage(SpecResultsTopComponent.class, "SpecResultsTopComponent.jButton6.text")); // NOI18N
+        jButton6.setFocusable(false);
+        jButton6.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jButton6.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        jButton6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton6ActionPerformed(evt);
+            }
+        });
+        jToolBar4.add(jButton6);
+
+        org.openide.awt.Mnemonics.setLocalizedText(jButton7, org.openide.util.NbBundle.getMessage(SpecResultsTopComponent.class, "SpecResultsTopComponent.jButton7.text")); // NOI18N
+        jButton7.setFocusable(false);
+        jButton7.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jButton7.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        jToolBar4.add(jButton7);
+
+        javax.swing.GroupLayout jPSelWavTrCollectionTopLayout = new javax.swing.GroupLayout(jPSelWavTrCollectionTop);
+        jPSelWavTrCollectionTop.setLayout(jPSelWavTrCollectionTopLayout);
+        jPSelWavTrCollectionTopLayout.setHorizontalGroup(
+            jPSelWavTrCollectionTopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jToolBar4, javax.swing.GroupLayout.DEFAULT_SIZE, 923, Short.MAX_VALUE)
+            .addComponent(jPSelWavTrCollection, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+        jPSelWavTrCollectionTopLayout.setVerticalGroup(
+            jPSelWavTrCollectionTopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPSelWavTrCollectionTopLayout.createSequentialGroup()
+                .addComponent(jToolBar4, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPSelWavTrCollection, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        jScrollPane8.setViewportView(jPSelWavTrCollectionTop);
 
         jTabbedPane1.addTab(org.openide.util.NbBundle.getMessage(SpecResultsTopComponent.class, "SpecResultsTopComponent.jScrollPane8.TabConstraints.tabTitle"), jScrollPane8); // NOI18N
+
+        jScrollPane7.setPreferredSize(new java.awt.Dimension(1020, 600));
+
+        jPSelTimeTrCollectionTop.setMaximumSize(new java.awt.Dimension(900, 1000));
+        jPSelTimeTrCollectionTop.setPreferredSize(new java.awt.Dimension(900, 1000));
+
+        jPSelTimeTrCollection.setLayout(new java.awt.GridLayout(2, 2));
+
+        jToolBar3.setRollover(true);
+
+        org.openide.awt.Mnemonics.setLocalizedText(jButton4, org.openide.util.NbBundle.getMessage(SpecResultsTopComponent.class, "SpecResultsTopComponent.jButton4.text")); // NOI18N
+        jButton4.setFocusable(false);
+        jButton4.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jButton4.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
+        jToolBar3.add(jButton4);
+
+        org.openide.awt.Mnemonics.setLocalizedText(jButton5, org.openide.util.NbBundle.getMessage(SpecResultsTopComponent.class, "SpecResultsTopComponent.jButton5.text")); // NOI18N
+        jButton5.setFocusable(false);
+        jButton5.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jButton5.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        jToolBar3.add(jButton5);
+
+        javax.swing.GroupLayout jPSelTimeTrCollectionTopLayout = new javax.swing.GroupLayout(jPSelTimeTrCollectionTop);
+        jPSelTimeTrCollectionTop.setLayout(jPSelTimeTrCollectionTopLayout);
+        jPSelTimeTrCollectionTopLayout.setHorizontalGroup(
+            jPSelTimeTrCollectionTopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jToolBar3, javax.swing.GroupLayout.DEFAULT_SIZE, 923, Short.MAX_VALUE)
+            .addComponent(jPSelTimeTrCollection, javax.swing.GroupLayout.DEFAULT_SIZE, 923, Short.MAX_VALUE)
+        );
+        jPSelTimeTrCollectionTopLayout.setVerticalGroup(
+            jPSelTimeTrCollectionTopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPSelTimeTrCollectionTopLayout.createSequentialGroup()
+                .addComponent(jToolBar3, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPSelTimeTrCollection, javax.swing.GroupLayout.DEFAULT_SIZE, 969, Short.MAX_VALUE))
+        );
+
+        jScrollPane7.setViewportView(jPSelTimeTrCollectionTop);
+
+        jTabbedPane1.addTab(org.openide.util.NbBundle.getMessage(SpecResultsTopComponent.class, "SpecResultsTopComponent.jScrollPane7.TabConstraints.tabTitle"), jScrollPane7); // NOI18N
 
         add(jTabbedPane1, java.awt.BorderLayout.PAGE_START);
     }// </editor-fold>//GEN-END:initComponents
@@ -462,8 +546,7 @@ public final class SpecResultsTopComponent extends TopComponent implements Chart
     private void jSRowStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jSRowStateChanged
         // TODO add your handling code here:
         crosshair2.setValue(dataset.GetImageHeigth()-jSRow.getValue());
-        int xIndex = jSRow.getValue();// - jSRow.getMinimum();
-
+        int xIndex = jSRow.getValue();
         XYSeriesCollection trace = new XYSeriesCollection();
         XYSeries series1 = new XYSeries("Trace");
         XYSeries series2 = new XYSeries("Fit");
@@ -507,54 +590,114 @@ public final class SpecResultsTopComponent extends TopComponent implements Chart
     }//GEN-LAST:event_jSColumStateChanged
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+//create dialog
+        SelectTracesForPlot selTracePanel = new SelectTracesForPlot();
+        selTracePanel.setMaxNumbers(res.getX().length, res.getX2().length);
+        NotifyDescriptor selTracesDialog = new NotifyDescriptor(
+                selTracePanel,
+                "Select traces for repot plot",
+                NotifyDescriptor.OK_CANCEL_OPTION,
+                NotifyDescriptor.PLAIN_MESSAGE,
+                null,
+                NotifyDescriptor.OK_OPTION);
+//show dialog
+        if (DialogDisplayer.getDefault().notify(selTracesDialog).equals(NotifyDescriptor.OK_OPTION)){
+//create time traces collection
+            if (selTracePanel.getSelectXState()){
+                int numSelTraces = selTracePanel.getSelectXNum();
+                int w = res.getX2().length/numSelTraces;
+                XYSeriesCollection trace;
+                XYSeries series1, series2, series3;
+                int xIndex;
+                NumberAxis xAxis;
+                ChartPanel chpan;
+                jPSelTimeTrCollection.setLayout(new GridLayout(numSelTraces/4+1, 4));
 
-//        selectedTimeTraces.add(jSColum.getValue());
-//        NumberAxis xAxis = new NumberAxis("Time (ns)");
-//        xAxis.setRange(res.getX()[0], res.getX()[res.getX().length - 1]);
-//        xAxis.setUpperBound(res.getX()[res.getX().length-1]);
-//        CombinedDomainXYPlot plot = new CombinedDomainXYPlot(xAxis);
-//        plot.setGap(5.0);
-//        try {
-//            plot.add((XYPlot) subchartTimeTrace.getXYPlot().clone(), 3);
-//            plot.add((XYPlot) subchartResidualsTime.getXYPlot().clone(), 1);
-//        } catch (CloneNotSupportedException ex) {
-//            Exceptions.printStackTrace(ex);
-//        }
-//        plot.setOrientation(PlotOrientation.VERTICAL);
-//        JFreeChart tracechart = new JFreeChart(plot);
-//        tracechart.removeLegend();
-//        ChartPanel chpan = new ChartPanel(tracechart,true);
-//        chpan.setMinimumDrawHeight(0);
-//        chpan.setMinimumDrawWidth(0);
-//        jPSelTimeTrCollection.add(chpan);
-//
-//        selectedWaveTraces.add(jSRow.getValue());
-//        xAxis = new NumberAxis("Time (ns)");
-//        if (res.getX2()[res.getX2().length-1]<res.getX2()[0]){
-//            xAxis.setUpperBound(res.getX2()[0]);
-//            xAxis.setLowerBound(res.getX2()[res.getX2().length-1]);
-//        }
-//        else {
-//            xAxis.setLowerBound(res.getX2()[0]);
-//            xAxis.setUpperBound(res.getX2()[res.getX2().length-1]);
-//        }
-//
-//        plot = new CombinedDomainXYPlot(xAxis);
-//        plot.setGap(5.0);
-//        try {
-//            plot.add((XYPlot) subchartWaveTrace.getXYPlot().clone(), 3);
-//            plot.add((XYPlot) subchartResidualsWave.getXYPlot().clone(), 1);
-//        } catch (CloneNotSupportedException ex) {
-//            Exceptions.printStackTrace(ex);
-//        }
-//        plot.setOrientation(PlotOrientation.VERTICAL);
-//        tracechart = new JFreeChart(plot);
-//        tracechart.removeLegend();
-//        chpan = new ChartPanel(tracechart,true);
-//        chpan.setMinimumDrawHeight(0);
-//        chpan.setMinimumDrawWidth(0);
-//        jPSelWavTrCollection.add(chpan);
+                for (int i = 0; i < numSelTraces; i++) {
+                    xAxis = new NumberAxis("Time (ns)");
+                    xAxis.setRange(res.getX()[0], res.getX()[res.getX().length - 1]);
+                    xAxis.setUpperBound(res.getX()[res.getX().length-1]);
+                    trace = new XYSeriesCollection();
+                    series1 = new XYSeries("Trace");
+                    series2 = new XYSeries("Fit");
+                    series3 = new XYSeries("Residuals");
+                    xIndex = i*w;
+//Add index ot selected trace into list
+                    selectedTimeTraces.add(xIndex);
+//create XYdatasets for charts
+                    for (int j = 0; j < res.getX().length; j++) {
+                            series1.add(res.getX()[j], res.getTraces().get(j, xIndex));
+                            series2.add(res.getX()[j], res.getFittedTraces().get(j, xIndex));
+                            series3.add(res.getX()[j], res.getResiduals().get(j, xIndex));
+                        }
 
+                        trace.addSeries(series1);
+                        trace.addSeries(series2);
+
+//create ChartPanel using xydatasets from above
+                        chpan = makeTimeTraceResidChart(
+                                trace,
+                                new XYSeriesCollection(series3),
+                                xAxis,
+                                String.valueOf(res.getX2()[xIndex]).concat(" nm"));
+//add chartpanel
+                        jPSelTimeTrCollection.add(chpan);
+
+                }
+            }
+
+//create wave traces colection
+            if (selTracePanel.getSelectYState()){
+                int numSelTraces = selTracePanel.getSelectYNum();
+                int w = res.getX().length/numSelTraces;
+                XYSeriesCollection trace;
+                XYSeries series1, series2, series3;
+                int xIndex;
+                NumberAxis xAxis;
+                ChartPanel chpan;
+                jPSelWavTrCollection.setLayout(new GridLayout(numSelTraces/4+1, 4));
+
+                for (int i = 0; i < numSelTraces; i++) {
+//create common X axe for plot
+                    xAxis = new NumberAxis("Wavelength (nm)");
+
+                    if (res.getX2()[res.getX2().length-1]<res.getX2()[0]){
+                        xAxis.setUpperBound(res.getX2()[0]);
+                        xAxis.setLowerBound(res.getX2()[res.getX2().length-1]);
+                    }
+                    else {
+                        xAxis.setLowerBound(res.getX2()[0]);
+                        xAxis.setUpperBound(res.getX2()[res.getX2().length-1]);
+                       }
+
+                    trace = new XYSeriesCollection();
+                    series1 = new XYSeries("Trace");
+                    series2 = new XYSeries("Fit");
+                    series3 = new XYSeries("Residuals");
+                    xIndex = i*w;
+                    selectedTimeTraces.add(xIndex);
+
+                    for (int j = 0; j < res.getX2().length; j++) {
+                        series1.add(res.getX2()[j], res.getTraces().get(xIndex, j));
+                        series2.add(res.getX2()[j], res.getFittedTraces().get(xIndex, j));
+                        series3.add(res.getX2()[j], res.getResiduals().get(xIndex, j));
+                    }
+
+                    trace.addSeries(series1);
+                    trace.addSeries(series2);
+                    chpan = makeTimeTraceResidChart(
+                            trace,
+                            new XYSeriesCollection(series3),
+                            xAxis,
+                            String.valueOf(res.getX()[xIndex]).concat(" ps"));
+
+
+                    jPSelWavTrCollection.add(chpan);
+
+                }
+
+            }
+        }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
@@ -620,10 +763,27 @@ public final class SpecResultsTopComponent extends TopComponent implements Chart
 
     }//GEN-LAST:event_jButton3ActionPerformed
 
+    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
+        jPSelWavTrCollection.removeAll();
+        jPSelWavTrCollection.setLayout(new GridLayout(2, 2));
+        selectedWaveTraces.clear();
+
+    }//GEN-LAST:event_jButton6ActionPerformed
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        jPSelTimeTrCollection.removeAll();
+        jPSelTimeTrCollection.setLayout(new GridLayout(2, 2));
+        selectedTimeTraces.clear();
+    }//GEN-LAST:event_jButton4ActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
+    private javax.swing.JButton jButton4;
+    private javax.swing.JButton jButton5;
+    private javax.swing.JButton jButton6;
+    private javax.swing.JButton jButton7;
     private javax.swing.JList jLKineticParameters;
     private javax.swing.JList jLSpectralParameters;
     private javax.swing.JLabel jLabel1;
@@ -635,7 +795,9 @@ public final class SpecResultsTopComponent extends TopComponent implements Chart
     private javax.swing.JPanel jPSAS;
     private javax.swing.JPanel jPSASnorm;
     private javax.swing.JPanel jPSelTimeTrCollection;
+    private javax.swing.JPanel jPSelTimeTrCollectionTop;
     private javax.swing.JPanel jPSelWavTrCollection;
+    private javax.swing.JPanel jPSelWavTrCollectionTop;
     private javax.swing.JPanel jPSelectedTimeTrace;
     private javax.swing.JPanel jPSelectedWaveTrace;
     private javax.swing.JPanel jPSingValues;
@@ -660,6 +822,8 @@ public final class SpecResultsTopComponent extends TopComponent implements Chart
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JToolBar jToolBar1;
     private javax.swing.JToolBar jToolBar2;
+    private javax.swing.JToolBar jToolBar3;
+    private javax.swing.JToolBar jToolBar4;
     // End of variables declaration//GEN-END:variables
     /**
      * Gets default instance. Do not use directly: reserved for *.settings files only,
@@ -923,7 +1087,7 @@ public final class SpecResultsTopComponent extends TopComponent implements Chart
         chpan.setMinimumDrawHeight(0);
         chpan.setMinimumDrawWidth(0);
         jPSelectedTimeTrace.add(chpan);
-        jPSelectedTimeTrace.repaint();
+//        jPSelectedTimeTrace.repaint();
 
 //make wave chart
         subchartWaveTrace = ChartFactory.createXYLineChart(
@@ -1183,4 +1347,58 @@ public final class SpecResultsTopComponent extends TopComponent implements Chart
         jPSingValues.add(chpan);
     }
 
-    }        
+    private ChartPanel makeTimeTraceResidChart(XYSeriesCollection trace, XYSeriesCollection residuals, NumberAxis xAxis, String name){
+//        XYSeriesCollection dataset1 = new XYSeriesCollection();
+        JFreeChart subchartResiduals = ChartFactory.createXYLineChart(
+            null,
+            null,
+            null,
+            residuals,
+            PlotOrientation.VERTICAL,
+            false,
+            false,
+            false
+        );
+        JFreeChart subchartTrace = ChartFactory.createXYLineChart(
+            null,
+            null,
+            null,
+            trace,
+            PlotOrientation.VERTICAL,
+            false,
+            false,
+            false
+        );
+ //       subchartTrace.getXYPlot().getDomainAxis().setUpperBound(res.getX()[res.getX().length-1]);
+ //       subchartResiduals.getXYPlot().getDomainAxis().setUpperBound(res.getX()[res.getX().length-1]);
+
+
+        XYPlot plot1_1 = subchartTrace.getXYPlot();
+        plot1_1.getDomainAxis().setLowerMargin(0.0);
+        plot1_1.getDomainAxis().setUpperMargin(0.0);
+        plot1_1.setDomainAxisLocation(AxisLocation.BOTTOM_OR_LEFT);
+        plot1_1.getDomainAxis().setInverted(true);
+
+        XYPlot plot1_2 = subchartResiduals.getXYPlot();
+        plot1_2.getDomainAxis().setLowerMargin(0.0);
+        plot1_2.getDomainAxis().setUpperMargin(0.0);
+        plot1_2.setDomainAxisLocation(AxisLocation.BOTTOM_OR_LEFT);
+        plot1_2.getDomainAxis().setInverted(true);
+
+       
+        CombinedDomainXYPlot plot = new CombinedDomainXYPlot(xAxis);
+        plot.setGap(5.0);
+        plot.add(plot1_1, 3);
+        plot.add(plot1_2, 1);
+        plot.setOrientation(PlotOrientation.VERTICAL);
+        JFreeChart tracechart = new JFreeChart(name, JFreeChart.DEFAULT_TITLE_FONT, plot, true);
+        ChartPanel chpan = new ChartPanel(tracechart,true);
+        chpan.setMinimumDrawHeight(0);
+        chpan.setMinimumDrawWidth(0);
+           
+        return chpan;
+
+    }
+
+
+}        

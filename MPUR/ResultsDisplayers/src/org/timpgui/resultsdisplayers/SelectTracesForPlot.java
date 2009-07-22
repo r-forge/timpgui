@@ -169,26 +169,26 @@ public class SelectTracesForPlot extends java.awt.Panel {
     // End of variables declaration//GEN-END:variables
 
 
-    public void setInitialNumbers(int x, int y){
-        jTXnum.setText(Integer.toString(x));
-        jTYnum.setText(Integer.toString(y));
+    public void setMaxNumbers(int x, int y){
+//        jTXnum.setText(Integer.toString(x));
+//        jTYnum.setText(Integer.toString(y));
         numXCh = x;
         numYCh = y;
     }
 
-    public boolean getResampleXState(){
+    public boolean getSelectXState(){
         return jCbTraceColX.isSelected();
     }
 
-    public boolean getResampleYState(){
+    public boolean getSelectYState(){
         return jCbTraceColY.isSelected();
     }
 
-    public int getResampleXNum(){
+    public int getSelectXNum(){
         return Integer.parseInt(jTXnum.getText());
     }
 
-    public int getResampleYNum(){
+    public int getSelectYNum(){
         return Integer.parseInt(jTYnum.getText());
     }
 

@@ -66,8 +66,8 @@ public final class SpecResultsTopComponent extends TopComponent implements Chart
     private JFreeChart subchartResidualsTime;
     private JFreeChart subchartWaveTrace;
     private JFreeChart subchartResidualsWave;
-    ArrayList<Integer> selectedTimeTraces = new ArrayList();
-    ArrayList<Integer> selectedWaveTraces = new ArrayList();
+    ArrayList<Integer> selectedTimeTraces = new ArrayList<Integer>();
+    ArrayList<Integer> selectedWaveTraces = new ArrayList<Integer>();
     private Range lastXRange;
     private Range lastYRange;
     private Range wholeXRange;

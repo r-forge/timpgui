@@ -8,6 +8,7 @@ import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.Point;
 import java.awt.Rectangle;
+import java.awt.Shape;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
 import java.awt.datatransfer.UnsupportedFlavorException;
@@ -20,6 +21,7 @@ import org.netbeans.api.visual.action.ConnectorState;
 import org.netbeans.api.visual.graph.GraphScene;
 import org.netbeans.api.visual.widget.ComponentWidget;
 import org.netbeans.api.visual.widget.Widget;
+import org.openide.nodes.Node;
 import org.openide.util.Utilities;
 import org.timpgui.gui.scheme.components.DatasetContainer;
 
@@ -38,7 +40,11 @@ public class CustomSceneAcceptProvider implements AcceptProvider {
     }
 
     public ConnectorState isAcceptable(Widget widget, Point point, Transferable transferable) {
-        Image dragImage = getImageFromTransferable(transferable);
+        //Image dragImage = getImageFromTransferable(transferable);
+        ConnectorState accept;
+        MyNode node = getNodeFromTransferable(transferable);
+        if (node!=null) {
+        Image dragImage = node.getImage();
         JComponent view = scene.getView();
         Graphics2D g2 = (Graphics2D) view.getGraphics();
         Rectangle visRect = view.getVisibleRect();
@@ -47,11 +53,15 @@ public class CustomSceneAcceptProvider implements AcceptProvider {
                 AffineTransform.getTranslateInstance(point.getLocation().getX(),
                 point.getLocation().getY()),
                 null);
-        return ConnectorState.ACCEPT;
+        accept = ConnectorState.ACCEPT;
+        } else {
+            accept = ConnectorState.REJECT;
+        }
+        return accept;
     }
 
     public void accept(Widget widget, Point point, Transferable transferable) {
-        Image image = getImageFromTransferable(transferable);
+        final MyNode node = getNodeFromTransferable(transferable);
             //String hm = "Pallete Node"+(nodeCount++);
             ComponentWidget cw = new ComponentWidget(scene, new DatasetContainer());
             cw.setPreferredLocation(point);
@@ -61,6 +71,30 @@ public class CustomSceneAcceptProvider implements AcceptProvider {
             //scene.getSceneAnimator().animatePreferredLocation(newNode,point);
             scene.validate();
             scene.repaint();
+    }
+
+    private MyNode getNodeFromTransferable(Transferable transferable) {
+        Object o = null;
+        try {
+            o = transferable.getTransferData(new DataFlavor(Shape.class, "Shape"));
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        } catch (UnsupportedFlavorException ex) {
+            ex.printStackTrace();
+        }
+        return o instanceof MyNode ? (MyNode) o : null; //TODO: not null
+    }
+
+    private String getNameFromTransferable(Transferable transferable) {
+        Object o = null;
+        try {
+            o = transferable.getTransferData(DataFlavor.stringFlavor);
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        } catch (UnsupportedFlavorException ex) {
+            ex.printStackTrace();
+        }
+        return o instanceof String ? (String) o : "unknown";
     }
 
     private Image getImageFromTransferable(Transferable transferable) {

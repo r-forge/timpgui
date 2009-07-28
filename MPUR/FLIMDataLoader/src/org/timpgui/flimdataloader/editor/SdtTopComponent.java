@@ -5,6 +5,7 @@
 
 package org.timpgui.flimdataloader.editor;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Point;
@@ -95,31 +96,31 @@ final public class SdtTopComponent extends CloneableTopComponent implements Char
         setToolTipText(NbBundle.getMessage(SdtTopComponent.class, "HINT_SdtTopComponent"));
     }
 
-    public SdtTopComponent(SdtDataObject dObj) {
-        initComponents();
-        setName(NbBundle.getMessage(SdtTopComponent.class, "CTL_SdtTopComponent"));
-        setToolTipText(NbBundle.getMessage(SdtTopComponent.class, "HINT_SdtTopComponent"));
-
-        flimImage = dObj.getFlimImage();
-        flimImage.buildIntMap(1);
-
-               
-        MakeIntImageChart(MakeXYZDataset());
-        MakeTracesChart(PlotFirstTrace(), false);
-        chpanIntenceImage = new ChartPanel(chart, true);
-        chpanIntenceImage.addChartMouseListener(this);
-        jPIntensImage.add(chpanIntenceImage);
-
-        jLNumSelPix.setText(Integer.toString(numSelPix));
-        jLMaxAmpl.setText(Integer.toString(flimImage.getMaxIntens()));
-        jLChNumm.setText(Integer.toString(flimImage.getCannelN()));
-        jLHeigth.setText(Integer.toString(flimImage.getY()));
-        jLWidth.setText(Integer.toString(flimImage.getX()));
-        jLChWidth.setText(Double.toString(flimImage.getCannelW()).substring(0, 7));
-        buttonGroup1.add(jRBnoBin);
-        buttonGroup1.add(jRBbin);
-        buttonGroup1.add(jRBbinAv);
-    }
+//    public SdtTopComponent(SdtDataObject dObj) {
+//        initComponents();
+//        setName(NbBundle.getMessage(SdtTopComponent.class, "CTL_SdtTopComponent"));
+//        setToolTipText(NbBundle.getMessage(SdtTopComponent.class, "HINT_SdtTopComponent"));
+//
+//        flimImage = dObj.getFlimImage();
+//        flimImage.buildIntMap(1);
+//
+//
+//        MakeIntImageChart(MakeXYZDataset());
+//        MakeTracesChart(PlotFirstTrace(), false);
+//        chpanIntenceImage = new ChartPanel(chart, true);
+//        chpanIntenceImage.addChartMouseListener(this);
+//        jPIntensImage.add(chpanIntenceImage);
+//
+//        jLNumSelPix.setText(Integer.toString(numSelPix));
+//        jLMaxAmpl.setText(Integer.toString(flimImage.getMaxIntens()));
+//        jLChNumm.setText(Integer.toString(flimImage.getCannelN()));
+//        jLHeigth.setText(Integer.toString(flimImage.getY()));
+//        jLWidth.setText(Integer.toString(flimImage.getX()));
+//        jLChWidth.setText(Double.toString(flimImage.getCannelW()).substring(0, 7));
+//        buttonGroup1.add(jRBnoBin);
+//        buttonGroup1.add(jRBbin);
+//        buttonGroup1.add(jRBbinAv);
+//    }
 
     public SdtTopComponent(TgdDataObject dataObj) {
         String filename;
@@ -179,6 +180,16 @@ final public class SdtTopComponent extends CloneableTopComponent implements Char
     private void initComponents() {
 
         buttonGroup1 = new javax.swing.ButtonGroup();
+        jTabbedPane1 = new javax.swing.JTabbedPane();
+        jPanel2 = new javax.swing.JPanel();
+        jToolBar1 = new javax.swing.JToolBar();
+        jBMakeDataset = new javax.swing.JButton();
+        jSeparator1 = new javax.swing.JToolBar.Separator();
+        jBSumSelPix = new javax.swing.JButton();
+        jSeparator3 = new javax.swing.JToolBar.Separator();
+        jButton1 = new javax.swing.JButton();
+        jSeparator2 = new javax.swing.JToolBar.Separator();
+        jBSaveIvoFile = new javax.swing.JButton();
         jPIntensImage = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
@@ -201,17 +212,62 @@ final public class SdtTopComponent extends CloneableTopComponent implements Char
         jBSelect = new javax.swing.JButton();
         jBUnselect = new javax.swing.JButton();
         jPSelectedTrace = new javax.swing.JPanel();
-        jToolBar1 = new javax.swing.JToolBar();
-        jBMakeDataset = new javax.swing.JButton();
-        jSeparator1 = new javax.swing.JToolBar.Separator();
-        jBSumSelPix = new javax.swing.JButton();
-        jBExportPixels = new javax.swing.JButton();
-        jSeparator3 = new javax.swing.JToolBar.Separator();
-        jBSaveIvoFile = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
         jRBnoBin = new javax.swing.JRadioButton();
         jRBbin = new javax.swing.JRadioButton();
         jRBbinAv = new javax.swing.JRadioButton();
+        jPanel4 = new javax.swing.JPanel();
+        jToolBar2 = new javax.swing.JToolBar();
+        jPSumTrace = new javax.swing.JPanel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jPanel7 = new javax.swing.JPanel();
+        jToolBar3 = new javax.swing.JToolBar();
+        jPanel8 = new javax.swing.JPanel();
+        jLabel5 = new javax.swing.JLabel();
+        jPanel9 = new javax.swing.JPanel();
+        jLabel10 = new javax.swing.JLabel();
+        jSnumSV = new javax.swing.JSpinner();
+        jLabel11 = new javax.swing.JLabel();
+        jTFtotalNumSV = new javax.swing.JTextField();
+        jPanel10 = new javax.swing.JPanel();
+        jPSingValues = new javax.swing.JPanel();
+        jPanel11 = new javax.swing.JPanel();
+        jPanel12 = new javax.swing.JPanel();
+        jPanel13 = new javax.swing.JPanel();
+        jPLeftSingVectors = new javax.swing.JPanel();
+        jPRightSingVectors = new javax.swing.JPanel();
+
+        setLayout(new java.awt.BorderLayout());
+
+        jToolBar1.setRollover(true);
+
+        org.openide.awt.Mnemonics.setLocalizedText(jBMakeDataset, org.openide.util.NbBundle.getMessage(SdtTopComponent.class, "SdtTopComponent.jBMakeDataset.text")); // NOI18N
+        jBMakeDataset.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBMakeDatasetActionPerformed(evt);
+            }
+        });
+        jToolBar1.add(jBMakeDataset);
+        jToolBar1.add(jSeparator1);
+
+        org.openide.awt.Mnemonics.setLocalizedText(jBSumSelPix, org.openide.util.NbBundle.getMessage(SdtTopComponent.class, "SdtTopComponent.jBSumSelPix.text")); // NOI18N
+        jBSumSelPix.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBSumSelPixActionPerformed(evt);
+            }
+        });
+        jToolBar1.add(jBSumSelPix);
+        jToolBar1.add(jSeparator3);
+
+        org.openide.awt.Mnemonics.setLocalizedText(jButton1, org.openide.util.NbBundle.getMessage(SdtTopComponent.class, "SdtTopComponent.jButton1.text")); // NOI18N
+        jButton1.setFocusable(false);
+        jButton1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jButton1.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        jToolBar1.add(jButton1);
+        jToolBar1.add(jSeparator2);
+
+        org.openide.awt.Mnemonics.setLocalizedText(jBSaveIvoFile, org.openide.util.NbBundle.getMessage(SdtTopComponent.class, "SdtTopComponent.jBSaveIvoFile.text")); // NOI18N
+        jToolBar1.add(jBSaveIvoFile);
 
         jPIntensImage.setBackground(new java.awt.Color(0, 0, 0));
         jPIntensImage.setMaximumSize(new java.awt.Dimension(500, 400));
@@ -299,7 +355,8 @@ final public class SdtTopComponent extends CloneableTopComponent implements Char
                     .addComponent(jLabel6)
                     .addComponent(jLChNumm)
                     .addComponent(jLabel9)
-                    .addComponent(jLChWidth)))
+                    .addComponent(jLChWidth))
+                .addContainerGap(44, Short.MAX_VALUE))
         );
 
         jPanel5.setMaximumSize(new java.awt.Dimension(418, 105));
@@ -340,27 +397,26 @@ final public class SdtTopComponent extends CloneableTopComponent implements Char
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel5Layout.createSequentialGroup()
-                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel5Layout.createSequentialGroup()
-                                .addComponent(jLabel4)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jLMaxAmpl)
-                                .addGap(18, 18, 18)
-                                .addComponent(jLabel3)
-                                .addGap(18, 18, 18)
-                                .addComponent(jLNumSelPix))
-                            .addGroup(jPanel5Layout.createSequentialGroup()
-                                .addComponent(jLabel2)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jTFPortion, javax.swing.GroupLayout.DEFAULT_SIZE, 176, Short.MAX_VALUE)
-                                .addGap(141, 141, 141)))
-                        .addGap(98, 98, 98))
+                    .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(jPanel5Layout.createSequentialGroup()
+                            .addComponent(jLabel4)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(jLMaxAmpl)
+                            .addGap(18, 18, 18)
+                            .addComponent(jLabel3)
+                            .addGap(18, 18, 18)
+                            .addComponent(jLNumSelPix))
+                        .addGroup(jPanel5Layout.createSequentialGroup()
+                            .addComponent(jLabel2)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(jTFPortion, javax.swing.GroupLayout.DEFAULT_SIZE, 176, Short.MAX_VALUE)
+                            .addGap(141, 141, 141)))
                     .addGroup(jPanel5Layout.createSequentialGroup()
                         .addComponent(jBSelect)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jBUnselect)
-                        .addContainerGap(298, Short.MAX_VALUE))))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 200, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(27, 27, 27))
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -379,7 +435,7 @@ final public class SdtTopComponent extends CloneableTopComponent implements Char
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jBSelect, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jBUnselect, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(19, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jPSelectedTrace.setBackground(new java.awt.Color(255, 255, 255));
@@ -388,27 +444,6 @@ final public class SdtTopComponent extends CloneableTopComponent implements Char
         jPSelectedTrace.setMinimumSize(new java.awt.Dimension(550, 300));
         jPSelectedTrace.setPreferredSize(new java.awt.Dimension(550, 300));
         jPSelectedTrace.setLayout(new java.awt.BorderLayout());
-
-        jToolBar1.setRollover(true);
-
-        org.openide.awt.Mnemonics.setLocalizedText(jBMakeDataset, org.openide.util.NbBundle.getMessage(SdtTopComponent.class, "SdtTopComponent.jBMakeDataset.text")); // NOI18N
-        jBMakeDataset.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jBMakeDatasetActionPerformed(evt);
-            }
-        });
-        jToolBar1.add(jBMakeDataset);
-        jToolBar1.add(jSeparator1);
-
-        org.openide.awt.Mnemonics.setLocalizedText(jBSumSelPix, org.openide.util.NbBundle.getMessage(SdtTopComponent.class, "SdtTopComponent.jBSumSelPix.text")); // NOI18N
-        jToolBar1.add(jBSumSelPix);
-
-        org.openide.awt.Mnemonics.setLocalizedText(jBExportPixels, org.openide.util.NbBundle.getMessage(SdtTopComponent.class, "SdtTopComponent.jBExportPixels.text")); // NOI18N
-        jToolBar1.add(jBExportPixels);
-        jToolBar1.add(jSeparator3);
-
-        org.openide.awt.Mnemonics.setLocalizedText(jBSaveIvoFile, org.openide.util.NbBundle.getMessage(SdtTopComponent.class, "SdtTopComponent.jBSaveIvoFile.text")); // NOI18N
-        jToolBar1.add(jBSaveIvoFile);
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(org.openide.util.NbBundle.getMessage(SdtTopComponent.class, "SdtTopComponent.jPanel1.border.title"))); // NOI18N
 
@@ -429,57 +464,221 @@ final public class SdtTopComponent extends CloneableTopComponent implements Char
                     .addComponent(jRBnoBin)
                     .addComponent(jRBbin)
                     .addComponent(jRBbinAv))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(27, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
                 .addComponent(jRBnoBin)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jRBbin)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jRBbinAv)
-                .addContainerGap(16, Short.MAX_VALUE))
+                .addComponent(jRBbinAv))
         );
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-        this.setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jPIntensImage, javax.swing.GroupLayout.PREFERRED_SIZE, 438, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPSelectedTrace, 0, 491, Short.MAX_VALUE))
-                .addContainerGap())
-            .addComponent(jToolBar1, javax.swing.GroupLayout.DEFAULT_SIZE, 959, Short.MAX_VALUE)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 429, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(349, Short.MAX_VALUE))
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jToolBar1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 926, Short.MAX_VALUE)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jPIntensImage, javax.swing.GroupLayout.PREFERRED_SIZE, 438, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addContainerGap()
+                                .addComponent(jPanel3, 0, 426, Short.MAX_VALUE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jPSelectedTrace, javax.swing.GroupLayout.PREFERRED_SIZE, 482, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addGap(28, 28, 28))
         );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
                 .addComponent(jToolBar1, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jPIntensImage, javax.swing.GroupLayout.PREFERRED_SIZE, 341, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(jPSelectedTrace, 0, 0, Short.MAX_VALUE)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(jPSelectedTrace, javax.swing.GroupLayout.PREFERRED_SIZE, 252, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(12, 12, 12)
+                        .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(79, 79, 79))
+                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(jPIntensImage, javax.swing.GroupLayout.PREFERRED_SIZE, 341, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(182, 182, 182))
         );
+
+        jTabbedPane1.addTab(org.openide.util.NbBundle.getMessage(SdtTopComponent.class, "SdtTopComponent.jPanel2.TabConstraints.tabTitle"), jPanel2); // NOI18N
+
+        jToolBar2.setRollover(true);
+
+        jPSumTrace.setLayout(new java.awt.BorderLayout());
+
+        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
+        jPanel4.setLayout(jPanel4Layout);
+        jPanel4Layout.setHorizontalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jToolBar2, javax.swing.GroupLayout.DEFAULT_SIZE, 938, Short.MAX_VALUE)
+            .addComponent(jPSumTrace, javax.swing.GroupLayout.DEFAULT_SIZE, 938, Short.MAX_VALUE)
+        );
+        jPanel4Layout.setVerticalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addComponent(jToolBar2, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPSumTrace, javax.swing.GroupLayout.DEFAULT_SIZE, 526, Short.MAX_VALUE))
+        );
+
+        jTabbedPane1.addTab(org.openide.util.NbBundle.getMessage(SdtTopComponent.class, "SdtTopComponent.jPanel4.TabConstraints.tabTitle"), jPanel4); // NOI18N
+
+        jToolBar3.setRollover(true);
+
+        jPanel8.setLayout(new java.awt.BorderLayout());
+
+        jLabel5.setFont(new java.awt.Font("Dialog", 1, 18));
+        jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        org.openide.awt.Mnemonics.setLocalizedText(jLabel5, org.openide.util.NbBundle.getMessage(SdtTopComponent.class, "SdtTopComponent.jLabel5.text")); // NOI18N
+        jLabel5.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jPanel8.add(jLabel5, java.awt.BorderLayout.CENTER);
+
+        org.openide.awt.Mnemonics.setLocalizedText(jLabel10, org.openide.util.NbBundle.getMessage(SdtTopComponent.class, "SdtTopComponent.jLabel10.text")); // NOI18N
+
+        jSnumSV.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                jSnumSVStateChanged(evt);
+            }
+        });
+
+        org.openide.awt.Mnemonics.setLocalizedText(jLabel11, org.openide.util.NbBundle.getMessage(SdtTopComponent.class, "SdtTopComponent.jLabel11.text")); // NOI18N
+
+        jTFtotalNumSV.setEditable(false);
+        jTFtotalNumSV.setText(org.openide.util.NbBundle.getMessage(SdtTopComponent.class, "SdtTopComponent.jTFtotalNumSV.text")); // NOI18N
+
+        javax.swing.GroupLayout jPanel9Layout = new javax.swing.GroupLayout(jPanel9);
+        jPanel9.setLayout(jPanel9Layout);
+        jPanel9Layout.setHorizontalGroup(
+            jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel9Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel10)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jSnumSV, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jLabel11)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jTFtotalNumSV, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(241, Short.MAX_VALUE))
+        );
+        jPanel9Layout.setVerticalGroup(
+            jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel9Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel10)
+                    .addComponent(jSnumSV, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel11)
+                    .addComponent(jTFtotalNumSV, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        jPSingValues.setBackground(new java.awt.Color(255, 255, 255));
+        jPSingValues.setLayout(new java.awt.BorderLayout());
+
+        javax.swing.GroupLayout jPanel11Layout = new javax.swing.GroupLayout(jPanel11);
+        jPanel11.setLayout(jPanel11Layout);
+        jPanel11Layout.setHorizontalGroup(
+            jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 273, Short.MAX_VALUE)
+        );
+        jPanel11Layout.setVerticalGroup(
+            jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 268, Short.MAX_VALUE)
+        );
+
+        javax.swing.GroupLayout jPanel12Layout = new javax.swing.GroupLayout(jPanel12);
+        jPanel12.setLayout(jPanel12Layout);
+        jPanel12Layout.setHorizontalGroup(
+            jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 273, Short.MAX_VALUE)
+        );
+        jPanel12Layout.setVerticalGroup(
+            jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 268, Short.MAX_VALUE)
+        );
+
+        jPanel13.setLayout(new java.awt.GridLayout());
+
+        jPLeftSingVectors.setBackground(new java.awt.Color(255, 255, 255));
+        jPLeftSingVectors.setLayout(new java.awt.BorderLayout());
+        jPanel13.add(jPLeftSingVectors);
+
+        jPRightSingVectors.setBackground(new java.awt.Color(255, 255, 255));
+        jPRightSingVectors.setLayout(new java.awt.BorderLayout());
+        jPanel13.add(jPRightSingVectors);
+
+        javax.swing.GroupLayout jPanel10Layout = new javax.swing.GroupLayout(jPanel10);
+        jPanel10.setLayout(jPanel10Layout);
+        jPanel10Layout.setHorizontalGroup(
+            jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel10Layout.createSequentialGroup()
+                .addGap(1, 1, 1)
+                .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel10Layout.createSequentialGroup()
+                        .addComponent(jPanel11, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jPSingValues, javax.swing.GroupLayout.PREFERRED_SIZE, 365, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jPanel12, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jPanel13, javax.swing.GroupLayout.PREFERRED_SIZE, 911, javax.swing.GroupLayout.PREFERRED_SIZE)))
+        );
+        jPanel10Layout.setVerticalGroup(
+            jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel10Layout.createSequentialGroup()
+                .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel11, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jPSingValues, javax.swing.GroupLayout.PREFERRED_SIZE, 268, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jPanel12, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(jPanel13, javax.swing.GroupLayout.PREFERRED_SIZE, 268, javax.swing.GroupLayout.PREFERRED_SIZE))
+        );
+
+        javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
+        jPanel7.setLayout(jPanel7Layout);
+        jPanel7Layout.setHorizontalGroup(
+            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel8, javax.swing.GroupLayout.DEFAULT_SIZE, 983, Short.MAX_VALUE)
+            .addGroup(jPanel7Layout.createSequentialGroup()
+                .addComponent(jPanel10, javax.swing.GroupLayout.DEFAULT_SIZE, 971, Short.MAX_VALUE)
+                .addContainerGap())
+            .addGroup(jPanel7Layout.createSequentialGroup()
+                .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(73, Short.MAX_VALUE))
+            .addGroup(jPanel7Layout.createSequentialGroup()
+                .addComponent(jToolBar3, javax.swing.GroupLayout.PREFERRED_SIZE, 933, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(50, Short.MAX_VALUE))
+        );
+        jPanel7Layout.setVerticalGroup(
+            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel7Layout.createSequentialGroup()
+                .addComponent(jToolBar3, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel10, javax.swing.GroupLayout.PREFERRED_SIZE, 537, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(209, Short.MAX_VALUE))
+        );
+
+        jScrollPane1.setViewportView(jPanel7);
+
+        jTabbedPane1.addTab("SVD", jScrollPane1);
+
+        add(jTabbedPane1, java.awt.BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents
 
 private void jPIntensImageMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPIntensImageMouseClicked
@@ -510,7 +709,7 @@ private void jBMakeDatasetActionPerformed(java.awt.event.ActionEvent evt) {//GEN
         for (int i = 0; i<flimImage.getCannelN(); i++)
             timpDat.GetX()[i] = i*flimImage.getCannelW();
 
-//create serfile file
+//create serfile
         FileObject cachefolder = null;
         final TGProject proj = (TGProject) OpenProjects.getDefault().getMainProject();
         if (proj!=null){
@@ -571,18 +770,85 @@ private void jBUnselectActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FI
         jLNumSelPix.setText(Integer.toString(numSelPix));
 }//GEN-LAST:event_jBUnselectActionPerformed
 
+private void jSnumSVStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jSnumSVStateChanged
+
+//    double n = (Double)jSnumSV.getModel().getValue();
+//
+//    //creare collection with first 2 LSV
+//    XYSeriesCollection lSVCollection = new XYSeriesCollection();
+//    XYSeries seria;
+//    for (int j =0; j < n; j++){
+//        seria = new XYSeries("LSV1"+j+1);
+//        for (int i = 0; i < data.GetX().length; i++) {
+//            seria.add(data.GetX()[i], svdResult.getU().get(i, j));
+//        }
+//        lSVCollection.addSeries(seria);
+//    }
+//    leftSVChart.getXYPlot().setDataset(lSVCollection);
+//
+//    XYSeriesCollection rSVCollection = new XYSeriesCollection();
+//    for (int j = 0; j < n; j++) {
+//        seria = new XYSeries("RSV" + (j + 1));
+//        for (int i = 0; i < data.GetX2().length; i++) {
+//            seria.add(data.GetX2()[i], svdResult.getV().get(i, j));
+//        }
+//        rSVCollection.addSeries(seria);
+//    }
+//
+//    rightSVChart.getXYPlot().setDataset(rSVCollection);
+}//GEN-LAST:event_jSnumSVStateChanged
+
+private void jBSumSelPixActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBSumSelPixActionPerformed
+
+
+    JFreeChart tracechart;
+    XYSeriesCollection trace = new XYSeriesCollection();
+    XYSeries seria = new XYSeries("Trace");
+    double[] sumTrace = new double[flimImage.getCannelN()];
+
+    for (int i = 0; i < sumTrace.length; i++) {
+        sumTrace[i]=0;
+    }
+
+    for (int i=0; i<flimImage.getCurveNum(); i++){
+        if (dataset.getZValue(1,i)==-1){
+            for (int j = 0; j<flimImage.getCannelN(); j++){
+                sumTrace[j]+=flimImage.getData()[i*flimImage.getCannelN()+j];
+            }
+        }
+     }
+     for (int i = 0; i<flimImage.getCannelN(); i++)
+         seria.add(flimImage.getCannelW()*i, sumTrace[i]);
+    trace.addSeries(seria);
+    tracechart = ChartFactory.createXYLineChart(
+        "Sum Trace",
+        "Time (ns)",
+        "Number of counts",
+        trace,
+        PlotOrientation.VERTICAL,
+        false,
+        false,
+        false
+    );
+    tracechart.getXYPlot().getDomainAxis().setUpperBound(flimImage.getTime());
+    ChartPanel chpanSumTrace = new ChartPanel(tracechart,true);
+    jPSumTrace.removeAll();
+    jPSumTrace.setLayout(new BorderLayout());
+    jPSumTrace.add(chpanSumTrace);
+}//GEN-LAST:event_jBSumSelPixActionPerformed
+
 
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel TFfilenam;
     private javax.swing.ButtonGroup buttonGroup1;
-    private javax.swing.JButton jBExportPixels;
     private javax.swing.JButton jBMakeDataset;
     private javax.swing.JButton jBSaveIvoFile;
     private javax.swing.JButton jBSelect;
     private javax.swing.JButton jBSumSelPix;
     private javax.swing.JButton jBUnselect;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLChNumm;
     private javax.swing.JLabel jLChWidth;
     private javax.swing.JLabel jLHeigth;
@@ -590,25 +856,48 @@ private void jBUnselectActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FI
     private javax.swing.JLabel jLNumSelPix;
     private javax.swing.JLabel jLWidth;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPIntensImage;
+    private javax.swing.JPanel jPLeftSingVectors;
+    private javax.swing.JPanel jPRightSingVectors;
     private javax.swing.JPanel jPSelectedTrace;
+    private javax.swing.JPanel jPSingValues;
+    private javax.swing.JPanel jPSumTrace;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel10;
+    private javax.swing.JPanel jPanel11;
+    private javax.swing.JPanel jPanel12;
+    private javax.swing.JPanel jPanel13;
+    private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
+    private javax.swing.JPanel jPanel7;
+    private javax.swing.JPanel jPanel8;
+    private javax.swing.JPanel jPanel9;
     private javax.swing.JRadioButton jRBbin;
     private javax.swing.JRadioButton jRBbinAv;
     private javax.swing.JRadioButton jRBnoBin;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JToolBar.Separator jSeparator1;
+    private javax.swing.JToolBar.Separator jSeparator2;
     private javax.swing.JToolBar.Separator jSeparator3;
+    private javax.swing.JSpinner jSnumSV;
     private javax.swing.JTextField jTFPortion;
+    private javax.swing.JTextField jTFtotalNumSV;
+    private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JToolBar jToolBar1;
+    private javax.swing.JToolBar jToolBar2;
+    private javax.swing.JToolBar jToolBar3;
     // End of variables declaration//GEN-END:variables
     /**
      * Gets default instance. Do not use directly: reserved for *.settings files only,

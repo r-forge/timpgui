@@ -28,7 +28,9 @@ public class ShowFlimEditor implements  DatasetLoaderInterface{
     }
 
     public void openDatasetEditor(TimpDatasetDataObject dataObj) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        SdtTopComponent tc = new SdtTopComponent(dataObj);
+        tc.open();
+        tc.requestActive();
     }
 
 }

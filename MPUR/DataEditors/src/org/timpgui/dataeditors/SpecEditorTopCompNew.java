@@ -20,7 +20,6 @@ import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.logging.Logger;
 import javax.swing.SpinnerNumberModel;
-import javax.swing.event.ChangeListener;
 import nl.vu.nat.tgmprojectsupport.TGProject;
 import nl.wur.flim.jfreechartcustom.ColorCodedImageDataset;
 import nl.wur.flim.jfreechartcustom.ImageCrosshairLabelGenerator;
@@ -114,8 +113,6 @@ final public class SpecEditorTopCompNew extends CloneableTopComponent
         setName(dataObject.getTgd().getFilename());
         filename = dataObject.getTgd().getPath();
         filename = filename.concat("/").concat(dataObject.getTgd().getFilename());
-
-
 //        setName(NbBundle.getMessage(SpecEditorTopCompNew.class, "CTL_StreakLoaderTopComponent"));
         setToolTipText(NbBundle.getMessage(SpecEditorTopCompNew.class, "HINT_StreakLoaderTopComponent"));
 //        setIcon(Utilities.loadImage(ICON_PATH, true));
@@ -1194,7 +1191,7 @@ private void jBResample1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-F
 
     @Override
     public int getPersistenceType() {
-        return CloneableTopComponent.PERSISTENCE_ALWAYS;
+        return CloneableTopComponent.PERSISTENCE_NEVER;
     }
 
     @Override

@@ -54,11 +54,11 @@ import org.openide.loaders.DataObject;
 import org.openide.util.Exceptions;
 import org.openide.windows.CloneableTopComponent;
 import org.timpgui.flimdataloader.FlimImage;
-import org.timpgui.flimdataloader.SdtDataObject;
 import org.timpgui.structures.DatasetTimp;
 import org.timpgui.tgproject.datasets.TgdDataObject;
 import org.timpgui.tgproject.datasets.TimpDatasetDataObject;
 import org.timpgui.tgproject.nodes.TgdDataChildren;
+import org.timpgui.tgproject.nodes.TgdDataNode;
 
 /**
  * Top component which displays something.
@@ -119,18 +119,62 @@ final public class SdtTopComponent extends CloneableTopComponent implements Char
 //        jLChWidth.setText(Double.toString(flimImage.getCannelW()).substring(0, 7));
 //        buttonGroup1.add(jRBnoBin);
 //        buttonGroup1.add(jRBbin);
-//        buttonGroup1.add(jRBbinAv);
 //    }
 
     public SdtTopComponent(TgdDataObject dataObj) {
         String filename;
         dataObject = dataObj;
         initComponents();
-        setName(dataObject.getTgd().getFilename());
+        setName(dataObj.getName());
+        //setName(dataObject.getTgd().getFilename());
         filename = dataObject.getTgd().getPath();
         filename = filename.concat("/").concat(dataObject.getTgd().getFilename());
         setToolTipText(NbBundle.getMessage(SdtTopComponent.class, "HINT_SdtTopComponent"));
 
+        if (flimImage == null) {
+            try {
+                flimImage = new FlimImage(new File(filename));
+            } catch (FileNotFoundException ex) {
+                Exceptions.printStackTrace(ex);
+            } catch (IOException ex) {
+                Exceptions.printStackTrace(ex);
+            } catch (IllegalAccessException ex) {
+                Exceptions.printStackTrace(ex);
+            } catch (InstantiationException ex) {
+                Exceptions.printStackTrace(ex);
+            }
+
+        }
+
+        flimImage.buildIntMap(1);
+        MakeIntImageChart(MakeXYZDataset());
+        MakeTracesChart(PlotFirstTrace(0), false);
+        chpanIntenceImage = new ChartPanel(chart, true);
+        jPIntensImage.removeAll();
+        jPIntensImage.setLayout(new BorderLayout());
+        chpanIntenceImage.addChartMouseListener(this);
+        jPIntensImage.add(chpanIntenceImage);
+        jLNumSelPix.setText(Integer.toString(numSelPix));
+        jLMaxAmpl.setText(Integer.toString(flimImage.getMaxIntens()));
+        jLChNumm.setText(Integer.toString(flimImage.getCannelN()));
+        jLHeigth.setText(Integer.toString(flimImage.getY()));
+        jLWidth.setText(Integer.toString(flimImage.getX()));
+        jLChWidth.setText(Double.toString(flimImage.getCannelW()).substring(0, 7));
+        buttonGroup1.add(jRBnoBin);
+        buttonGroup1.add(jRBbin);
+    }
+
+
+    public SdtTopComponent(TimpDatasetDataObject dataObj) {
+        String filename;
+        DatasetTimp tempData;
+        TgdDataNode tddNode = (TgdDataNode)dataObj.getNodeDelegate().getParentNode();
+        dataObject = tddNode.getLookup().lookup(TgdDataObject.class);
+        initComponents();
+        setName(dataObject.getTgd().getFilename());
+        filename = dataObject.getTgd().getPath();
+        filename = filename.concat("/").concat(dataObject.getTgd().getFilename());
+        setToolTipText(NbBundle.getMessage(SdtTopComponent.class, "HINT_SdtTopComponent"));
 
         if (flimImage == null) {
             try {
@@ -149,16 +193,21 @@ final public class SdtTopComponent extends CloneableTopComponent implements Char
 
         flimImage.buildIntMap(1);
 
-        MakeIntImageChart(MakeXYZDataset());
-        MakeTracesChart(PlotFirstTrace(), false);
+        MakeXYZDataset();
+        tempData = dataObj.getDatasetTimp();
+        for (int i = 1; i < tempData.GetNl()[0]; i++){
+            dataset.SetValue((int)tempData.GetX2()[i], -1);
+        }
+        numSelPix = tempData.GetNl()[0];
+        jLNumSelPix.setText(Integer.toString(numSelPix));
+
+        MakeIntImageChart(dataset);
+        MakeTracesChart(PlotFirstTrace((int)tempData.GetX2()[0]), false);
         chpanIntenceImage = new ChartPanel(chart, true);
         jPIntensImage.removeAll();
-        chpanIntenceImage.setSize(jPIntensImage.getMaximumSize());
+        jPIntensImage.setLayout(new BorderLayout());
         chpanIntenceImage.addChartMouseListener(this);
-
         jPIntensImage.add(chpanIntenceImage);
-        jPIntensImage.repaint();
-
         jLNumSelPix.setText(Integer.toString(numSelPix));
         jLMaxAmpl.setText(Integer.toString(flimImage.getMaxIntens()));
         jLChNumm.setText(Integer.toString(flimImage.getCannelN()));
@@ -167,9 +216,7 @@ final public class SdtTopComponent extends CloneableTopComponent implements Char
         jLChWidth.setText(Double.toString(flimImage.getCannelW()).substring(0, 7));
         buttonGroup1.add(jRBnoBin);
         buttonGroup1.add(jRBbin);
-        buttonGroup1.add(jRBbinAv);
     }
-
 
     /** This method is called from within the constructor to
      * initialize the form.
@@ -215,7 +262,6 @@ final public class SdtTopComponent extends CloneableTopComponent implements Char
         jPanel1 = new javax.swing.JPanel();
         jRBnoBin = new javax.swing.JRadioButton();
         jRBbin = new javax.swing.JRadioButton();
-        jRBbinAv = new javax.swing.JRadioButton();
         jPanel4 = new javax.swing.JPanel();
         jToolBar2 = new javax.swing.JToolBar();
         jPSumTrace = new javax.swing.JPanel();
@@ -330,7 +376,7 @@ final public class SdtTopComponent extends CloneableTopComponent implements Char
                         .addComponent(jLabel6)
                         .addGap(18, 18, 18)
                         .addComponent(jLChNumm)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 37, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 46, Short.MAX_VALUE)
                         .addComponent(jLabel9)
                         .addGap(60, 60, 60)
                         .addComponent(jLChWidth)
@@ -356,7 +402,7 @@ final public class SdtTopComponent extends CloneableTopComponent implements Char
                     .addComponent(jLChNumm)
                     .addComponent(jLabel9)
                     .addComponent(jLChWidth))
-                .addContainerGap(44, Short.MAX_VALUE))
+                .addContainerGap(23, Short.MAX_VALUE))
         );
 
         jPanel5.setMaximumSize(new java.awt.Dimension(418, 105));
@@ -416,7 +462,7 @@ final public class SdtTopComponent extends CloneableTopComponent implements Char
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jBUnselect)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 200, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(27, 27, 27))
+                .addGap(105, 105, 105))
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -435,7 +481,7 @@ final public class SdtTopComponent extends CloneableTopComponent implements Char
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jBSelect, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jBUnselect, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(18, Short.MAX_VALUE))
         );
 
         jPSelectedTrace.setBackground(new java.awt.Color(255, 255, 255));
@@ -452,8 +498,6 @@ final public class SdtTopComponent extends CloneableTopComponent implements Char
 
         org.openide.awt.Mnemonics.setLocalizedText(jRBbin, org.openide.util.NbBundle.getMessage(SdtTopComponent.class, "SdtTopComponent.jRBbin.text")); // NOI18N
 
-        org.openide.awt.Mnemonics.setLocalizedText(jRBbinAv, org.openide.util.NbBundle.getMessage(SdtTopComponent.class, "SdtTopComponent.jRBbinAv.text")); // NOI18N
-
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -462,8 +506,7 @@ final public class SdtTopComponent extends CloneableTopComponent implements Char
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jRBnoBin)
-                    .addComponent(jRBbin)
-                    .addComponent(jRBbinAv))
+                    .addComponent(jRBbin))
                 .addContainerGap(27, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -472,8 +515,7 @@ final public class SdtTopComponent extends CloneableTopComponent implements Char
                 .addComponent(jRBnoBin)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jRBbin)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jRBbinAv))
+                .addGap(27, 27, 27))
         );
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
@@ -481,38 +523,35 @@ final public class SdtTopComponent extends CloneableTopComponent implements Char
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jToolBar1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 926, Short.MAX_VALUE)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jPIntensImage, javax.swing.GroupLayout.PREFERRED_SIZE, 438, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addContainerGap()
-                                .addComponent(jPanel3, 0, 426, Short.MAX_VALUE)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jPSelectedTrace, javax.swing.GroupLayout.PREFERRED_SIZE, 482, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addGap(28, 28, 28))
+                .addContainerGap()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel3, 0, 438, Short.MAX_VALUE)
+                    .addComponent(jPIntensImage, javax.swing.GroupLayout.PREFERRED_SIZE, 438, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jPSelectedTrace, javax.swing.GroupLayout.PREFERRED_SIZE, 498, Short.MAX_VALUE)))
+                .addContainerGap())
+            .addComponent(jToolBar1, javax.swing.GroupLayout.DEFAULT_SIZE, 966, Short.MAX_VALUE)
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addComponent(jToolBar1, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(jPSelectedTrace, javax.swing.GroupLayout.PREFERRED_SIZE, 252, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(12, 12, 12)
-                        .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(jPIntensImage, javax.swing.GroupLayout.PREFERRED_SIZE, 341, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(182, 182, 182))
+                        .addComponent(jPanel5, 0, 103, Short.MAX_VALUE))
+                    .addComponent(jPIntensImage, javax.swing.GroupLayout.Alignment.TRAILING, 0, 0, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 104, Short.MAX_VALUE))
+                .addGap(192, 192, 192))
         );
 
         jTabbedPane1.addTab(org.openide.util.NbBundle.getMessage(SdtTopComponent.class, "SdtTopComponent.jPanel2.TabConstraints.tabTitle"), jPanel2); // NOI18N
@@ -525,15 +564,15 @@ final public class SdtTopComponent extends CloneableTopComponent implements Char
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jToolBar2, javax.swing.GroupLayout.DEFAULT_SIZE, 938, Short.MAX_VALUE)
-            .addComponent(jPSumTrace, javax.swing.GroupLayout.DEFAULT_SIZE, 938, Short.MAX_VALUE)
+            .addComponent(jToolBar2, javax.swing.GroupLayout.DEFAULT_SIZE, 966, Short.MAX_VALUE)
+            .addComponent(jPSumTrace, javax.swing.GroupLayout.DEFAULT_SIZE, 966, Short.MAX_VALUE)
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addComponent(jToolBar2, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPSumTrace, javax.swing.GroupLayout.DEFAULT_SIZE, 526, Short.MAX_VALUE))
+                .addComponent(jPSumTrace, javax.swing.GroupLayout.DEFAULT_SIZE, 669, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab(org.openide.util.NbBundle.getMessage(SdtTopComponent.class, "SdtTopComponent.jPanel4.TabConstraints.tabTitle"), jPanel4); // NOI18N
@@ -613,7 +652,7 @@ final public class SdtTopComponent extends CloneableTopComponent implements Char
             .addGap(0, 268, Short.MAX_VALUE)
         );
 
-        jPanel13.setLayout(new java.awt.GridLayout());
+        jPanel13.setLayout(new java.awt.GridLayout(1, 0));
 
         jPLeftSingVectors.setBackground(new java.awt.Color(255, 255, 255));
         jPLeftSingVectors.setLayout(new java.awt.BorderLayout());
@@ -885,7 +924,6 @@ private void jBSumSelPixActionPerformed(java.awt.event.ActionEvent evt) {//GEN-F
     private javax.swing.JPanel jPanel8;
     private javax.swing.JPanel jPanel9;
     private javax.swing.JRadioButton jRBbin;
-    private javax.swing.JRadioButton jRBbinAv;
     private javax.swing.JRadioButton jRBnoBin;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JToolBar.Separator jSeparator1;
@@ -932,7 +970,7 @@ private void jBSumSelPixActionPerformed(java.awt.event.ActionEvent evt) {//GEN-F
 
     @Override
     public int getPersistenceType() {
-        return TopComponent.PERSISTENCE_ONLY_OPENED;
+        return TopComponent.PERSISTENCE_NEVER;
     }
 
     @Override
@@ -1026,24 +1064,24 @@ private XYZDataset MakeXYZDataset(){
         return dataset;
     }
     
-    private XYSeriesCollection MakeTracesCollection(){
-        tracesCollection = new XYSeriesCollection();
-        for (int i=0; i<flimImage.getCurveNum(); i++){
-            String nam = "Trace "+ Integer.toString(i);
-            XYSeries seria = new XYSeries(nam);
-            for (int j=0; j<flimImage.getCannelN(); j++){
-                seria.add(j*flimImage.getCannelW(), flimImage.getData()[i*flimImage.getCannelN()+j]);
-            }
-            tracesCollection.addSeries(seria);
-        } 
-        return tracesCollection;       
-    }
+//    private XYSeriesCollection MakeTracesCollection(){
+//        tracesCollection = new XYSeriesCollection();
+//        for (int i=0; i<flimImage.getCurveNum(); i++){
+//            String nam = "Trace "+ Integer.toString(i);
+//            XYSeries seria = new XYSeries(nam);
+//            for (int j=0; j<flimImage.getCannelN(); j++){
+//                seria.add(j*flimImage.getCannelW(), flimImage.getData()[i*flimImage.getCannelN()+j]);
+//            }
+//            tracesCollection.addSeries(seria);
+//        }
+//        return tracesCollection;
+//    }
     
-    private XYSeriesCollection PlotFirstTrace(){
+    private XYSeriesCollection PlotFirstTrace(int index){
             tracesCollection = new XYSeriesCollection();
             XYSeries seria = new XYSeries("Trace");
             for (int j=0; j<flimImage.getCannelN(); j++){
-                seria.add(j*flimImage.getCannelW(), flimImage.getData()[j]);
+                seria.add(j*flimImage.getCannelW(), flimImage.getData()[index*flimImage.getCannelN()+j]);
             }
            tracesCollection.addSeries(seria);
         return tracesCollection;         

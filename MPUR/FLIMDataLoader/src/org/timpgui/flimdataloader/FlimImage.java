@@ -34,6 +34,7 @@ import static java.lang.Math.floor;
 public class FlimImage implements TGDatasetService {
     
     private int[] data;
+    private int[] binnedData;
     private int[] intmap;
     private int x,y;
     private int curvenum;
@@ -43,6 +44,15 @@ public class FlimImage implements TGDatasetService {
     private double time;
     private short measmod;
     private int amplmax, amplmin;
+    private int binned;
+
+    public int getBinned() {
+        return binned;
+    }
+
+    public void setBinned(int binned) {
+        this.binned = binned;
+    }
     
     public FlimImage(){
     	cannelN=1;
@@ -103,7 +113,12 @@ public class FlimImage implements TGDatasetService {
     public double getTime(){return time;}
     public int getCannelN(){return cannelN;}
     public double getCannelW(){return cannelW;}
-    public int[] getData(){return data;}
+    public int[] getData(){
+        if (binned==1)
+           return binnedData;
+        else
+           return data;
+    }
     public int[] getIntMap(){return intmap;}
     public int[] getPixTrace(int i, int j){
         int [] result = new int[cannelN];
@@ -140,13 +155,13 @@ public class FlimImage implements TGDatasetService {
         amplmin=65000;
         amplmax=tmp=0;
         for (int i=0; i<curvenum; i++){
-            tmp=data[i*cannelN];
+            tmp=this.getDataPoint(i*cannelN);
             for (int j=1; j<cannelN; j++){
                 if (mode==1)
-                   tmp+=data[i*cannelN+j];
+                   tmp+=this.getDataPoint(i*cannelN+j);
                 else
-                   if (data[i*cannelN+j]>tmp)
-                      tmp=data[i*cannelN+j];
+                   if (this.getDataPoint(i*cannelN+j)>tmp)
+                      tmp=this.getDataPoint(i*cannelN+j);
             }
             intmap[i]=tmp;
             if (amplmin>tmp)
@@ -171,8 +186,36 @@ public class FlimImage implements TGDatasetService {
         }
         w.close();
     }
+
     public void pixTraceToFile(int i, int j, String fileName){
+    
     }
+
+    public int getDataPoint(int index){
+        if (binned==1)
+           return binnedData[index];
+        else
+           return data[index];
+}
+
+    public void makeBinnedImage(int bin){
+       binnedData = new int[curvenum*cannelN];
+       int temp;
+       for (int i = bin; i<y-bin; i++){
+           for (int j = bin; j<x-bin; j++){
+               for (int t = 0; t<cannelN; t++){
+                   temp = 0;
+                   for (int m = i-bin; m <= i+bin; m++ ){
+                       for (int n = j-bin; n <= j+bin; n++ ){
+                           temp+=data[(m*x+n)*cannelN+t];
+                       }
+                   }
+                   binnedData[(i*x+j)*cannelN+t]=temp;
+               }
+           }
+       }
+    }
+
 
     public String getExtention() {
         return "sdt";
@@ -193,41 +236,7 @@ public class FlimImage implements TGDatasetService {
         FileHeader header = new FileHeader();
 //        MeasureInfo measinf = new MeasureInfo();
         header.fread(f);
-//        System.out.println(f.getStreamPosition());
-//        f.seek(header.meas_desc_block_offs);
-//        System.out.println("meas "+f.getStreamPosition());
-//        measinf.fread(f);
 
-//        ByteArrayOutputStream bos = new ByteArrayOutputStream();
-//        DataOutputStream dos = new DataOutputStream(bos);
-//        dos.writeShort(header.revision);
-//        dos.writeInt((int)header.info_offs);
-//        dos.writeShort(header.info_length);
-//        dos.writeInt((int)header.setup_offs);
-//        dos.writeShort(header.setup_length);
-//        dos.writeInt((int)header.data_block_offs);
-//        dos.writeShort(header.no_of_data_blocks);
-//        dos.writeInt((int)header.data_block_length);
-//        dos.writeInt((int)header.meas_desc_block_offs);
-//        dos.writeShort(header.no_of_meas_desc_blocks);
-//        dos.writeShort(header.meas_desc_block_length);
-//        dos.writeShort(header.header_valid);
-//        dos.writeInt((int)header.reserved1);
-//        dos.writeShort((int)header.reserved2);
-//        dos.writeShort((int)header.chksum);
-//
-//        dos.flush();
-//        byte[] bytearr = bos.toByteArray();
-//        CRC32 checksum = new CRC32();
-//        checksum.reset();
-//        checksum.update(bytearr);
-//        long chs = checksum.getValue();
-//
-//        if ((long)header.chksum == chs){
-//            Confirmation msg = new NotifyDescriptor.Confirmation("valid", NotifyDescriptor.OK_CANCEL_OPTION);
-//                DialogDisplayer.getDefault().notify(msg);
-//        }
-//
          if (header.header_valid == 0X5555)
              return true;
          else{

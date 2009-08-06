@@ -146,8 +146,6 @@ final public class SdtTopComponent extends CloneableTopComponent implements Char
         MakeIntImageChart(MakeXYZDataset());
         MakeTracesChart(PlotFirstTrace(0), false);
         chpanIntenceImage = new ChartPanel(chart, true);
-//        jPIntensImage.removeAll();
-//        jPIntensImage.setLayout(new BorderLayout());
         chpanIntenceImage.addChartMouseListener(this);
         jPIntensImage.add(chpanIntenceImage);
         jLNumSelPix.setText(Integer.toString(numSelPix));
@@ -198,8 +196,6 @@ final public class SdtTopComponent extends CloneableTopComponent implements Char
         MakeIntImageChart(dataset);
         MakeTracesChart(PlotFirstTrace((int)tempData.GetX2()[0]), false);
         chpanIntenceImage = new ChartPanel(chart, true);
-//        jPIntensImage.removeAll();
-//        jPIntensImage.setLayout(new BorderLayout());
         chpanIntenceImage.addChartMouseListener(this);
         jPIntensImage.add(chpanIntenceImage);
         jLNumSelPix.setText(Integer.toString(numSelPix));
@@ -232,7 +228,6 @@ final public class SdtTopComponent extends CloneableTopComponent implements Char
         jBSaveIvoFile = new javax.swing.JButton();
         jPIntensImage = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         jLChNumm = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
@@ -241,7 +236,6 @@ final public class SdtTopComponent extends CloneableTopComponent implements Char
         jLabel7 = new javax.swing.JLabel();
         jLWidth = new javax.swing.JLabel();
         jLHeigth = new javax.swing.JLabel();
-        TFfilenam = new javax.swing.JLabel();
         jPanel5 = new javax.swing.JPanel();
         jLabel4 = new javax.swing.JLabel();
         jLMaxAmpl = new javax.swing.JLabel();
@@ -292,6 +286,11 @@ final public class SdtTopComponent extends CloneableTopComponent implements Char
         jTButAmpl.setFocusable(false);
         jTButAmpl.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jTButAmpl.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        jTButAmpl.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTButAmplActionPerformed(evt);
+            }
+        });
         jToolBar1.add(jTButAmpl);
         jToolBar1.add(jSeparator4);
 
@@ -337,8 +336,6 @@ final public class SdtTopComponent extends CloneableTopComponent implements Char
         jPanel3.setMaximumSize(new java.awt.Dimension(460, 85));
         jPanel3.setMinimumSize(new java.awt.Dimension(460, 85));
 
-        org.openide.awt.Mnemonics.setLocalizedText(jLabel1, org.openide.util.NbBundle.getMessage(SdtTopComponent.class, "SdtTopComponent.jLabel1.text")); // NOI18N
-
         org.openide.awt.Mnemonics.setLocalizedText(jLabel6, org.openide.util.NbBundle.getMessage(SdtTopComponent.class, "SdtTopComponent.jLabel6.text")); // NOI18N
 
         org.openide.awt.Mnemonics.setLocalizedText(jLChNumm, org.openide.util.NbBundle.getMessage(SdtTopComponent.class, "SdtTopComponent.jLChNumm.text")); // NOI18N
@@ -355,8 +352,6 @@ final public class SdtTopComponent extends CloneableTopComponent implements Char
 
         org.openide.awt.Mnemonics.setLocalizedText(jLHeigth, org.openide.util.NbBundle.getMessage(SdtTopComponent.class, "SdtTopComponent.jLHeigth.text")); // NOI18N
 
-        org.openide.awt.Mnemonics.setLocalizedText(TFfilenam, org.openide.util.NbBundle.getMessage(SdtTopComponent.class, "SdtTopComponent.TFfilenam.text")); // NOI18N
-
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
@@ -365,19 +360,13 @@ final public class SdtTopComponent extends CloneableTopComponent implements Char
                 .addContainerGap()
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel3Layout.createSequentialGroup()
-                                .addComponent(jLabel1)
-                                .addGap(29, 29, 29)
-                                .addComponent(TFfilenam))
-                            .addGroup(jPanel3Layout.createSequentialGroup()
-                                .addComponent(jLabel7)
-                                .addGap(21, 21, 21)
-                                .addComponent(jLWidth)
-                                .addGap(95, 95, 95)
-                                .addComponent(jLabel8)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jLHeigth)))
+                        .addComponent(jLabel7)
+                        .addGap(21, 21, 21)
+                        .addComponent(jLWidth)
+                        .addGap(95, 95, 95)
+                        .addComponent(jLabel8)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLHeigth)
                         .addGap(170, 170, 170))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                         .addComponent(jLabel6)
@@ -392,10 +381,7 @@ final public class SdtTopComponent extends CloneableTopComponent implements Char
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(TFfilenam))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(21, 21, 21)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                         .addComponent(jLabel7)
@@ -853,19 +839,55 @@ private void jBSumSelPixActionPerformed(java.awt.event.ActionEvent evt) {//GEN-F
 }//GEN-LAST:event_jBSumSelPixActionPerformed
 
 private void jTButBinActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTButBinActionPerformed
+    int[] tempSelectedPixels = new int[flimImage.getCurveNum()];
+    for (int i=0; i<flimImage.getCurveNum(); i++){
+        if (dataset.getZValue(1, i)==-1){
+            tempSelectedPixels[i] = -1;
+        }
+    }
     if (jTButBin.isSelected())
         flimImage.setBinned(1);
     else
         flimImage.setBinned(0);
+    
+    if ( jTButAmpl.isSelected())
+        flimImage.buildIntMap(0);
+    else
+        flimImage.buildIntMap(1);
 
-    flimImage.buildIntMap(1);
     dataset.SetIntenceImage(flimImage.getIntMap());
-    updateIntenceImageChart(0, flimImage.getMaxIntens());
 
+    for (int i=0; i<flimImage.getCurveNum(); i++){
+        if (tempSelectedPixels[i] == -1){
+            dataset.SetValue(i, -1);
+        }
+    }
+
+    updateIntenceImageChart(0, flimImage.getMaxIntens());
 }//GEN-LAST:event_jTButBinActionPerformed
 
+private void jTButAmplActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTButAmplActionPerformed
+    int[] tempSelectedPixels = new int[flimImage.getCurveNum()];
+    for (int i=0; i<flimImage.getCurveNum(); i++){
+        if (dataset.getZValue(1, i)==-1){
+            tempSelectedPixels[i] = -1;
+        }
+    }
+    if ( jTButAmpl.isSelected())
+        flimImage.buildIntMap(0);
+    else
+        flimImage.buildIntMap(1);
+
+    dataset.SetIntenceImage(flimImage.getIntMap());
+    for (int i=0; i<flimImage.getCurveNum(); i++){
+        if (tempSelectedPixels[i] == -1){
+            dataset.SetValue(i, -1);
+        }
+    }
+    updateIntenceImageChart(0, flimImage.getMaxIntens());
+}//GEN-LAST:event_jTButAmplActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel TFfilenam;
     private javax.swing.JButton jBMakeDataset;
     private javax.swing.JButton jBSaveIvoFile;
     private javax.swing.JButton jBSelect;
@@ -878,7 +900,6 @@ private void jTButBinActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
     private javax.swing.JLabel jLMaxAmpl;
     private javax.swing.JLabel jLNumSelPix;
     private javax.swing.JLabel jLWidth;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel2;

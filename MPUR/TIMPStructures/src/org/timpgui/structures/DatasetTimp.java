@@ -74,32 +74,34 @@ public final class DatasetTimp implements Serializable{
         orheigh[0] = 1;
         orwidth = new int [1];
 	orwidth[0] = 1;
-        CalcRangeInt();
+        calcRangeInt();
  }
-    public int[] GetNt(){return nt;}
-    public int[] GetNl(){return nl;}
-    public int[] GetOrigHeigh(){return orheigh;}
-    public int[] GetOrigWidth(){return orwidth;}
-    public double[] GetPsisim(){return psisim;}
-    public double[] GetX(){return x;}
-    public double[] GetX2(){return x2;}
-    public double[] GetIntenceIm(){return intenceIm;}
-    public double GetMaxInt(){return maxInt;}
-    public double GetMinInt(){return minInt;}
-    public String GetDatasetName(){return datasetName;}
+    public int[] getNt(){return nt;}
+    public int[] getNl(){return nl;}
+    public int[] getOrigHeigh(){return orheigh;}
+    public int[] getOrigWidth(){return orwidth;}
+    public double[] getPsisim(){return psisim;}
+    public double[] getX(){return x;}
+    public double[] getX2(){return x2;}
+    public double[] getIntenceIm(){return intenceIm;}
+    public double getMaxInt(){return maxInt;}
+    public double getMinInt(){return minInt;}
+    public String getDatasetName(){return datasetName;}
     public String getType() {return type;}
-    public void SetNt(int ntvalue){this.nt[0] = ntvalue;}
-    public void SetNl(int nlvalue){this.nl[0] = nlvalue;}
-    public void SetOrigHeigh(int orheighValue){orheigh[0] = orheighValue;}
-    public void SetOrigWidth(int orwidthValue){orwidth[0] = orwidthValue;}
-    public void SetPsisim(double[] psisimValue){psisim = psisimValue;}
-    public void SetX(double[] xValue){x = xValue;}
-    public void SetX2(double[] x2Value){x2 = x2Value;}
-    public void SetIntenceIm(double[] x2Value){x2 = x2Value;} 
+    public void setNt(int ntvalue){this.nt[0] = ntvalue;}
+    public void setNl(int nlvalue){this.nl[0] = nlvalue;}
+    public void setOrigHeigh(int orheighValue){orheigh[0] = orheighValue;}
+    public void setOrigWidth(int orwidthValue){orwidth[0] = orwidthValue;}
+    public void setPsisim(double[] psisimValue){psisim = psisimValue;}
+    public void setX(double[] xValue){x = xValue;}
+    public void setX2(double[] x2Value){x2 = x2Value;}
+    public void setIntenceIm(double[] x2Value){x2 = x2Value;}
     public void setDatasetName(String dataName){this.datasetName=dataName;}
     public void setType(String type) {this.type = type;}
+    public void setMaxInt(double maxInt) {this.maxInt = maxInt;}
+    public void setMinInt(double minInt) {this.minInt = minInt;}
 
-    public void LoadASCIIFile(File file) throws FileNotFoundException, IOException, IllegalAccessException, InstantiationException {
+    public void loadASCIIFile(File file) throws FileNotFoundException, IOException, IllegalAccessException, InstantiationException {
         datasetName = file.getName();
         maxInt = 0;
         minInt = 0; 
@@ -180,7 +182,7 @@ public final class DatasetTimp implements Serializable{
             } 
         }
     }    
-    public void CalcRangeInt(){
+    public void calcRangeInt(){
         maxInt = psisim[0];
         minInt = psisim[0];
         for (int i = 0; i < nl[0]*nt[0]; i++){

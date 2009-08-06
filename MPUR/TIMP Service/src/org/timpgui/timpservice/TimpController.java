@@ -41,7 +41,7 @@ public class TimpController implements TimpInterface {
         listOfDatasets = new String[datasets.length];
         for (int i = 0; i < datasets.length; i++) {
             DatasetTimp dataset = datasets[i];
-            listOfDatasets[i] = dataset.GetDatasetName();
+            listOfDatasets[i] = dataset.getDatasetName();
             sendDataset(dataset,i);
         }
 
@@ -110,12 +110,12 @@ public class TimpController implements TimpInterface {
 
          private void sendDataset(DatasetTimp dd, int index) {
         index++;
-        connection.assign("psisim", dd.GetPsisim());
-        connection.assign("x", dd.GetX());
-        connection.assign("x2", dd.GetX2());
-        connection.assign("nl", dd.GetNl());
-        connection.assign("nt", dd.GetNt());
-        connection.assign("intenceIm", dd.GetIntenceIm());
+        connection.assign("psisim", dd.getPsisim());
+        connection.assign("x", dd.getX());
+        connection.assign("x2", dd.getX2());
+        connection.assign("nl", dd.getNl());
+        connection.assign("nt", dd.getNt());
+        connection.assign("intenceIm", dd.getIntenceIm());
 
         connection.eval("psisim <- as.matrix(psisim)");
         connection.eval("if(is.null(intenceIm))  intenceIm <- matrix(1,1,1)");

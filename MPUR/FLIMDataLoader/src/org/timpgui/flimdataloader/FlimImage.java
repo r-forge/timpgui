@@ -1,15 +1,12 @@
 package org.timpgui.flimdataloader;
 
 
-import java.io.ByteArrayOutputStream;
-import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.RandomAccessFile;
 import java.nio.ByteOrder;
-import java.util.zip.CRC32;
 import javax.imageio.stream.FileImageInputStream;
 import javax.imageio.stream.ImageInputStream;
 import org.openide.DialogDisplayer;
@@ -101,8 +98,7 @@ public class FlimImage implements TGDatasetService {
     
         for (int i=0; i<size; ++i){
             data[i] = (int)tmpData[i]/increm;
-        }
-                
+        }        
     }
    
     public int getX(){return x;}

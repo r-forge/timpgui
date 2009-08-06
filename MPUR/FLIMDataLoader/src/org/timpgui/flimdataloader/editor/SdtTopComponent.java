@@ -185,16 +185,22 @@ final public class SdtTopComponent extends CloneableTopComponent implements Char
         }
 
         flimImage.makeBinnedImage(1);
-        flimImage.buildIntMap(1);
-        MakeXYZDataset();
         tempData = dataObj.getDatasetTimp();
-        for (int i = 1; i < tempData.GetNl()[0]; i++){
-            dataset.SetValue((int)tempData.GetX2()[i], -1);
+        flimImage.buildIntMap(1);
+        if (tempData.getMaxInt()>flimImage.getMaxIntens()){
+            flimImage.setBinned(1);
+            jTButBin.setSelected(true);
+            flimImage.buildIntMap(1);
         }
-        numSelPix = tempData.GetNl()[0];
+        
+        MakeXYZDataset();
+        for (int i = 0; i < tempData.getNl()[0]; i++){
+            dataset.SetValue((int)tempData.getX2()[i], -1);
+        }
+        numSelPix = tempData.getNl()[0];
         jLNumSelPix.setText(Integer.toString(numSelPix));
         MakeIntImageChart(dataset);
-        MakeTracesChart(PlotFirstTrace((int)tempData.GetX2()[0]), false);
+        MakeTracesChart(PlotFirstTrace((int)tempData.getX2()[0]), false);
         chpanIntenceImage = new ChartPanel(chart, true);
         chpanIntenceImage.addChartMouseListener(this);
         jPIntensImage.add(chpanIntenceImage);
@@ -698,17 +704,21 @@ private void jBMakeDatasetActionPerformed(java.awt.event.ActionEvent evt) {//GEN
 
         int k=0;
         for (int i=0; i<flimImage.getCurveNum(); i++){
-            timpDat.GetIntenceIm()[i]= flimImage.getIntMap()[i];
+            timpDat.getIntenceIm()[i] = flimImage.getIntMap()[i];
             if (dataset.getZValue(1,i)==-1){
                 for (int j = 0; j<flimImage.getCannelN(); j++){
-                    timpDat.GetPsisim()[k*flimImage.getCannelN()+j]=flimImage.getData()[i*flimImage.getCannelN()+j];
+                    timpDat.getPsisim()[k*flimImage.getCannelN()+j]=flimImage.getData()[i*flimImage.getCannelN()+j];
                 }
-                timpDat.GetX2()[k]=i;
+                timpDat.getX2()[k]=i;
                 k++;
             }
         }
         for (int i = 0; i<flimImage.getCannelN(); i++)
-            timpDat.GetX()[i] = i*flimImage.getCannelW();
+            timpDat.getX()[i] = i*flimImage.getCannelW();
+
+        timpDat.setMaxInt(flimImage.getMaxIntens());
+        timpDat.setMinInt(flimImage.getMinIntens());
+
 
 //create serfile
         FileObject cachefolder = null;
@@ -718,7 +728,7 @@ private void jBMakeDatasetActionPerformed(java.awt.event.ActionEvent evt) {//GEN
             cachefolder = cachefolder.getFileObject(dataObject.getTgd().getCacheFolderName().toString());
             FileObject writeTo;
             try {
-                writeTo = cachefolder.createData(timpDat.GetDatasetName(), "timpdataset");
+                writeTo = cachefolder.createData(timpDat.getDatasetName(), "timpdataset");
                 ObjectOutputStream stream = new ObjectOutputStream(writeTo.getOutputStream());
                 stream.writeObject(timpDat);
                 stream.close();
@@ -855,7 +865,7 @@ private void jTButBinActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
     else
         flimImage.buildIntMap(1);
 
-    dataset.SetIntenceImage(flimImage.getIntMap());
+    dataset.SetIntenceImage(flimImage.getIntMap().clone());
 
     for (int i=0; i<flimImage.getCurveNum(); i++){
         if (tempSelectedPixels[i] == -1){
@@ -878,7 +888,7 @@ private void jTButAmplActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIR
     else
         flimImage.buildIntMap(1);
 
-    dataset.SetIntenceImage(flimImage.getIntMap());
+    dataset.SetIntenceImage(flimImage.getIntMap().clone());
     for (int i=0; i<flimImage.getCurveNum(); i++){
         if (tempSelectedPixels[i] == -1){
             dataset.SetValue(i, -1);
@@ -1045,7 +1055,7 @@ private void jTButAmplActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIR
         int chartX =  (int) round(domainAxis.java2DToValue(p.getX(), dataArea, domainAxisEdge));
         int chartY =  (int) round(rangeAxis.java2DToValue(p.getY(), dataArea, rangeAxisEdge));
         
-        if ((chartX<=flimImage.getX())&&(chartY<=flimImage.getY())){
+        if ((chartX<flimImage.getX())&&(chartY<flimImage.getY())&&(chartX>=0)&&(chartY>=0)){
             if (dataset.getZValue(1, chartY*flimImage.getX()+chartX)==-1){
                 dataset.SetValue(chartY*flimImage.getX()+chartX,flimImage.getIntMap()[chartY*flimImage.getX()+chartX]);
                 numSelPix--;

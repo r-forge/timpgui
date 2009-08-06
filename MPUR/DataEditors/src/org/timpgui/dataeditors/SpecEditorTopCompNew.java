@@ -118,7 +118,7 @@ final public class SpecEditorTopCompNew extends CloneableTopComponent
 //        setIcon(Utilities.loadImage(ICON_PATH, true));
         data = new DatasetTimp();
         try {
-            data.LoadASCIIFile(new File(filename));
+            data.loadASCIIFile(new File(filename));
             MakeImageChart(MakeXYZDataset());
         } catch (FileNotFoundException ex) {
             System.out.println("File not found");
@@ -136,7 +136,7 @@ final public class SpecEditorTopCompNew extends CloneableTopComponent
         initComponents();
         dataObject2 = dataObj;
         data = dataObj.getDatasetTimp();
-        setName(data.GetDatasetName());
+        setName(data.getDatasetName());
         setToolTipText(NbBundle.getMessage(SpecEditorTopCompNew.class, "HINT_StreakLoaderTopComponent"));        
         MakeImageChart(MakeXYZDataset());
         
@@ -570,27 +570,27 @@ private void jBMakeDatasetActionPerformed(java.awt.event.ActionEvent evt) {//GEN
         double[] newvec = new double[newWidth];
    
         for (int i = 0; i<newWidth; i++){
-            newvec[i]=data.GetX2()[i+startX];
+            newvec[i]=data.getX2()[i+startX];
         }
-        newdataset.SetX2(newvec);
-        newdataset.SetNl(newWidth);
+        newdataset.setX2(newvec);
+        newdataset.setNl(newWidth);
 
         newvec = new double[newHeight];
         for (int i = 0; i<newHeight; i++){
-            newvec[i]=data.GetX()[i+startY];
+            newvec[i]=data.getX()[i+startY];
         }
-        newdataset.SetX(newvec);
-        newdataset.SetNt(newHeight);
+        newdataset.setX(newvec);
+        newdataset.setNt(newHeight);
 
         newvec = new double[newHeight*newWidth];
 
         for (int i = 0; i < newWidth; i++){
             for (int j = 0; j < newHeight; j++){
-                newvec[(i)*newHeight+j] = data.GetPsisim()[(startX+i)*data.GetNt()[0]+startY+j];
+                newvec[(i)*newHeight+j] = data.getPsisim()[(startX+i)*data.getNt()[0]+startY+j];
             }
         }
-        newdataset.SetPsisim(newvec);
-        newdataset.CalcRangeInt();
+        newdataset.setPsisim(newvec);
+        newdataset.calcRangeInt();
 
         FileObject cachefolder = null;
         final TGProject proj = (TGProject) OpenProjects.getDefault().getMainProject();
@@ -599,7 +599,7 @@ private void jBMakeDatasetActionPerformed(java.awt.event.ActionEvent evt) {//GEN
             cachefolder = cachefolder.getFileObject(dataObject.getTgd().getCacheFolderName().toString());
             FileObject writeTo;
             try {
-                writeTo = cachefolder.createData(newdataset.GetDatasetName(), "timpdataset");
+                writeTo = cachefolder.createData(newdataset.getDatasetName(), "timpdataset");
                 ObjectOutputStream stream = new ObjectOutputStream(writeTo.getOutputStream());
                 stream.writeObject(newdataset);
                 stream.close();
@@ -623,7 +623,7 @@ private void jBResampleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FI
 
 //    AverageSpecDatasetDialog resDiag = new ResampleSpecDatasetDialog(, true);
     AverageSpecDataset averagePanel = new AverageSpecDataset();
-    averagePanel.setInitialNumbers(data.GetNl()[0], data.GetNt()[0]);
+    averagePanel.setInitialNumbers(data.getNl()[0], data.getNt()[0]);
     NotifyDescriptor resampleDatasetDialod = new NotifyDescriptor(
             averagePanel,
             "Resample dataset",
@@ -632,12 +632,12 @@ private void jBResampleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FI
             null,
             NotifyDescriptor.CANCEL_OPTION);
     DatasetTimp findataset = new DatasetTimp();
-    findataset.SetPsisim(data.GetPsisim());
-    findataset.SetX(data.GetX());
-    findataset.SetX2(data.GetX2());
+    findataset.setPsisim(data.getPsisim());
+    findataset.setX(data.getX());
+    findataset.setX2(data.getX2());
     findataset.setType("spec");
-    findataset.SetNl(data.GetNl()[0]);
-    findataset.SetNt(data.GetNt()[0]);
+    findataset.setNl(data.getNl()[0]);
+    findataset.setNt(data.getNt()[0]);
 
     if (DialogDisplayer.getDefault().notify(resampleDatasetDialod).equals(NotifyDescriptor.OK_OPTION)){
         DatasetTimp newdataset = new DatasetTimp(); //data;
@@ -645,9 +645,9 @@ private void jBResampleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FI
             //resample x dimention
             int num = averagePanel.getAverageXNum();
             double sum;
-            int imwidth = findataset.GetNl()[0];
-            int imheight =findataset.GetNt()[0];
-            int w = findataset.GetNl()[0]/num;
+            int imwidth = findataset.getNl()[0];
+            int imheight =findataset.getNt()[0];
+            int w = findataset.getNl()[0]/num;
 
             double[] temp = new double[num*imheight];
             int count=0;
@@ -656,42 +656,42 @@ private void jBResampleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FI
                 for (int j=0; j<num-1; j++){
                     sum=0;
                     for (int k=0; k<w; k++)
-                        sum+=findataset.GetPsisim()[i+(j*w+k)*imheight];
+                        sum+=findataset.getPsisim()[i+(j*w+k)*imheight];
                     temp[i+j*imheight]=sum/w;
                 }
 
                 sum=0;
                 count=0;
                 for (int k=i+((num-1)*w)*imheight; k<i+(imwidth-1)*imheight; k=k+imheight){
-                    sum+=findataset.GetPsisim()[k];
+                    sum+=findataset.getPsisim()[k];
                     count++;
                 }
                 temp[i+(num-1)*imheight]=sum/count;
             }
 
-            newdataset.SetPsisim(temp);
+            newdataset.setPsisim(temp);
 
             temp = new double[num];
 
             for (int j=0; j<num-1; j++){
                 sum=0;
                 for (int k=j*w; k<(j+1)*w; k++){
-                    sum+=findataset.GetX2()[k];
+                    sum+=findataset.getX2()[k];
                     }
                     temp[j]=sum/w;
                 }
             sum=0;
             count=0;
             for (int k=(num-1)*w; k<imwidth; k++){
-                sum+=findataset.GetX2()[k];
+                sum+=findataset.getX2()[k];
                 count++;
             }
             temp[num-1]=sum/count;    
-            newdataset.SetX2(temp);
-            newdataset.SetNl(num);
-            newdataset.SetNt(findataset.GetNt()[0]);
-            newdataset.SetX(findataset.GetX().clone());
-            newdataset.CalcRangeInt();
+            newdataset.setX2(temp);
+            newdataset.setNl(num);
+            newdataset.setNt(findataset.getNt()[0]);
+            newdataset.setX(findataset.getX().clone());
+            newdataset.calcRangeInt();
             newdataset.setType("spec");
             findataset = newdataset;
         }
@@ -701,9 +701,9 @@ private void jBResampleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FI
             newdataset = new DatasetTimp(); //data;
             int num = averagePanel.getAverageYNum();
             double sum;
-            int imwidth = findataset.GetNl()[0];
-            int imheight =findataset.GetNt()[0];
-            int w = findataset.GetNt()[0]/num;
+            int imwidth = findataset.getNl()[0];
+            int imheight =findataset.getNt()[0];
+            int w = findataset.getNt()[0]/num;
 
             double[] temp = new double[num*imwidth];
             int count=0;
@@ -712,43 +712,43 @@ private void jBResampleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FI
                 for (int j = 0; j < num-1; j++){
                      sum=0;
                      for (int k=0; k<w; k++)
-                         sum+=findataset.GetPsisim()[i*imheight+j*w+k];
+                         sum+=findataset.getPsisim()[i*imheight+j*w+k];
                      temp[i*num+j]=sum/w;
                 }
 
                 sum=0;
                 count=0;
                 for (int k = i*imheight+(num-1)*w; k<(i+1)*imheight; k++){
-                    sum+=findataset.GetPsisim()[k];
+                    sum+=findataset.getPsisim()[k];
                     count++;
                 }
                 temp[(i+1)*num-1]=sum/count;
             }
 
-            newdataset.SetPsisim(temp);
+            newdataset.setPsisim(temp);
 
             temp = new double[num];
 
             for (int j=0; j<num-1; j++){
                 sum=0;
                 for (int k=j*w; k<(j+1)*w; k++){
-                    sum+=findataset.GetX()[k];
+                    sum+=findataset.getX()[k];
                     }
                     temp[j]=sum/w;
                 }
             sum=0;
             count=0;
             for (int k=(num-1)*w; k<imheight; k++){
-                sum+=findataset.GetX()[k];
+                sum+=findataset.getX()[k];
                 count++;
             }
             temp[num-1]=sum/count;
 
-            newdataset.SetX(temp);
-            newdataset.SetNt(num);
-            newdataset.SetNl(findataset.GetNl()[0]);
-            newdataset.SetX2(findataset.GetX2());
-            newdataset.CalcRangeInt();
+            newdataset.setX(temp);
+            newdataset.setNt(num);
+            newdataset.setNl(findataset.getNl()[0]);
+            newdataset.setX2(findataset.getX2());
+            newdataset.calcRangeInt();
             newdataset.setType("spec");
             findataset = newdataset;
          
@@ -779,7 +779,7 @@ private void jBResampleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FI
                 
                 FileObject writeTo;
                 try {
-                    writeTo = cachefolder.createData(findataset.GetDatasetName(), "timpdataset");
+                    writeTo = cachefolder.createData(findataset.getDatasetName(), "timpdataset");
                     ObjectOutputStream stream = new ObjectOutputStream(writeTo.getOutputStream());
                     stream.writeObject(findataset);
                     stream.close();
@@ -844,7 +844,7 @@ private void jTBZoomXActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
 
 private void jBdoSVDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBdoSVDActionPerformed
 
-    Matrix pSIsim = new Matrix(data.GetPsisim(), data.GetNt()[0]);
+    Matrix pSIsim = new Matrix(data.getPsisim(), data.getNt()[0]);
     svdResult =  pSIsim.svd();
     jTFtotalNumSV.setText(String.valueOf(svdResult.getSingularValues().length));
     jSnumSV.setModel(new SpinnerNumberModel(1.0,0.0,svdResult.getSingularValues().length,1.0));
@@ -853,8 +853,8 @@ private void jBdoSVDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST
     XYSeriesCollection lSVCollection = new XYSeriesCollection();
     XYSeries seria;
     seria = new XYSeries("LSV1");
-    for (int i = 0; i < data.GetX().length; i++) {
-        seria.add(data.GetX()[i], svdResult.getU().get(i, 0));
+    for (int i = 0; i < data.getX().length; i++) {
+        seria.add(data.getX()[i], svdResult.getU().get(i, 0));
     }
     lSVCollection.addSeries(seria);
 
@@ -870,7 +870,7 @@ private void jBdoSVDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST
                 false);
     leftSVChart.getTitle().setFont(new Font(leftSVChart.getTitle().getFont().getFontName(), Font.PLAIN, 12));
     leftSVChart.setBackgroundPaint(JFreeChart.DEFAULT_BACKGROUND_PAINT);
-    leftSVChart.getXYPlot().getDomainAxis().setUpperBound(data.GetX()[data.GetX().length - 1]);
+    leftSVChart.getXYPlot().getDomainAxis().setUpperBound(data.getX()[data.getX().length - 1]);
     leftSVChart.getXYPlot().getDomainAxis().setAutoRange(false);
     ChartPanel chpan = new ChartPanel(leftSVChart);
 //add chart with 2 LSV to JPannel
@@ -881,8 +881,8 @@ private void jBdoSVDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST
     XYSeriesCollection rSVCollection = new XYSeriesCollection();
     for (int j = 0; j < n; j++) {
         seria = new XYSeries("RSV" + (j + 1));
-        for (int i = 0; i < data.GetX2().length; i++) {
-            seria.add(data.GetX2()[i], svdResult.getV().get(i, j));
+        for (int i = 0; i < data.getX2().length; i++) {
+            seria.add(data.getX2()[i], svdResult.getV().get(i, j));
         }
         rSVCollection.addSeries(seria);
     }
@@ -899,7 +899,7 @@ private void jBdoSVDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST
                 false);
     rightSVChart.getTitle().setFont(new Font(rightSVChart.getTitle().getFont().getFontName(), Font.PLAIN, 12));
     rightSVChart.setBackgroundPaint(JFreeChart.DEFAULT_BACKGROUND_PAINT);
-    rightSVChart.getXYPlot().getDomainAxis().setUpperBound(data.GetX2()[data.GetX2().length - 1]);
+    rightSVChart.getXYPlot().getDomainAxis().setUpperBound(data.getX2()[data.getX2().length - 1]);
     rightSVChart.getXYPlot().getDomainAxis().setAutoRange(false);
     chpan = new ChartPanel(rightSVChart);
 //add chart with 2 RSV to JPannel
@@ -957,8 +957,8 @@ private void jSnumSVStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST
     XYSeries seria;
     for (int j =0; j < n; j++){
         seria = new XYSeries("LSV1"+j+1);
-        for (int i = 0; i < data.GetX().length; i++) {
-            seria.add(data.GetX()[i], svdResult.getU().get(i, j));
+        for (int i = 0; i < data.getX().length; i++) {
+            seria.add(data.getX()[i], svdResult.getU().get(i, j));
         }
         lSVCollection.addSeries(seria);
     }
@@ -967,8 +967,8 @@ private void jSnumSVStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST
     XYSeriesCollection rSVCollection = new XYSeriesCollection();
     for (int j = 0; j < n; j++) {
         seria = new XYSeries("RSV" + (j + 1));
-        for (int i = 0; i < data.GetX2().length; i++) {
-            seria.add(data.GetX2()[i], svdResult.getV().get(i, j));
+        for (int i = 0; i < data.getX2().length; i++) {
+            seria.add(data.getX2()[i], svdResult.getV().get(i, j));
         }
         rSVCollection.addSeries(seria);
     }
@@ -981,7 +981,7 @@ private void jBResample1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-F
    
   
     ResampleSpecDataset resamplePanel = new ResampleSpecDataset();
-    resamplePanel.setInitialNumbers(data.GetNl()[0], data.GetNt()[0]);
+    resamplePanel.setInitialNumbers(data.getNl()[0], data.getNt()[0]);
     NotifyDescriptor resampleDatasetDialod = new NotifyDescriptor(
             resamplePanel,
             "Resample dataset",
@@ -990,40 +990,40 @@ private void jBResample1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-F
             null,
             NotifyDescriptor.CANCEL_OPTION);
     DatasetTimp findataset = new DatasetTimp();
-    findataset.SetPsisim(data.GetPsisim());
-    findataset.SetX(data.GetX());
-    findataset.SetX2(data.GetX2());
+    findataset.setPsisim(data.getPsisim());
+    findataset.setX(data.getX());
+    findataset.setX2(data.getX2());
     findataset.setType("spec");
-    findataset.SetNl(data.GetNl()[0]);
-    findataset.SetNt(data.GetNt()[0]);
+    findataset.setNl(data.getNl()[0]);
+    findataset.setNt(data.getNt()[0]);
 
     if (DialogDisplayer.getDefault().notify(resampleDatasetDialod).equals(NotifyDescriptor.OK_OPTION)){
         DatasetTimp newdataset = new DatasetTimp(); //data;
         if (resamplePanel.getResampleXState()){
             //resample x dimention
             int num = resamplePanel.getResampleXNum();
-            int imwidth = findataset.GetNl()[0];
-            int imheight =findataset.GetNt()[0];
-            int w = findataset.GetNl()[0]/num;
+            int imwidth = findataset.getNl()[0];
+            int imheight =findataset.getNt()[0];
+            int w = findataset.getNl()[0]/num;
 
             double[] temp = new double[num*imheight];
 
             for (int i=0; i<imheight; i++){
                 for (int j=0; j<num; j++)
-                    temp[i+j*imheight]=findataset.GetPsisim()[i+(j*w)*imheight];
+                    temp[i+j*imheight]=findataset.getPsisim()[i+(j*w)*imheight];
             }
 
-            newdataset.SetPsisim(temp);
+            newdataset.setPsisim(temp);
             temp = new double[num];
 
             for (int j=0; j<num; j++)    
-                temp[j]=findataset.GetX2()[j*w];
+                temp[j]=findataset.getX2()[j*w];
 
-            newdataset.SetX2(temp);
-            newdataset.SetNl(num);
-            newdataset.SetNt(findataset.GetNt()[0]);
-            newdataset.SetX(findataset.GetX().clone());
-            newdataset.CalcRangeInt();
+            newdataset.setX2(temp);
+            newdataset.setNl(num);
+            newdataset.setNt(findataset.getNt()[0]);
+            newdataset.setX(findataset.getX().clone());
+            newdataset.calcRangeInt();
             newdataset.setType("spec");
             findataset = newdataset;
         }
@@ -1032,27 +1032,27 @@ private void jBResample1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-F
             //resample y dimention
             newdataset = new DatasetTimp(); //data;
             int num = resamplePanel.getResampleYNum();
-            int imwidth = findataset.GetNl()[0];
-            int imheight =findataset.GetNt()[0];
-            int w = findataset.GetNt()[0]/num;
+            int imwidth = findataset.getNl()[0];
+            int imheight =findataset.getNt()[0];
+            int w = findataset.getNt()[0]/num;
 
             double[] temp = new double[num*imwidth];
             for (int i = 0; i < imwidth; i++){
                 for (int j = 0; j < num; j++)
-                    temp[i*num+j]=findataset.GetPsisim()[i*imheight+j*w];
+                    temp[i*num+j]=findataset.getPsisim()[i*imheight+j*w];
             }
 
-            newdataset.SetPsisim(temp);
+            newdataset.setPsisim(temp);
             temp = new double[num];
 
             for (int j=0; j<num; j++)
-                temp[j]=findataset.GetX()[j*w];
+                temp[j]=findataset.getX()[j*w];
 
-            newdataset.SetX(temp);
-            newdataset.SetNt(num);
-            newdataset.SetNl(findataset.GetNl()[0]);
-            newdataset.SetX2(findataset.GetX2());
-            newdataset.CalcRangeInt();
+            newdataset.setX(temp);
+            newdataset.setNt(num);
+            newdataset.setNl(findataset.getNl()[0]);
+            newdataset.setX2(findataset.getX2());
+            newdataset.calcRangeInt();
             newdataset.setType("spec");
             findataset = newdataset;
 
@@ -1083,7 +1083,7 @@ private void jBResample1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-F
 
                 FileObject writeTo;
                 try {
-                    writeTo = cachefolder.createData(findataset.GetDatasetName(), "timpdataset");
+                    writeTo = cachefolder.createData(findataset.getDatasetName(), "timpdataset");
                     ObjectOutputStream stream = new ObjectOutputStream(writeTo.getOutputStream());
                     stream.writeObject(findataset);
                     stream.close();
@@ -1104,7 +1104,7 @@ private void jBResample1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-F
         }
         else {
             data=findataset;
-            data.CalcRangeInt();
+            data.calcRangeInt();
             MakeImageChart(MakeXYZDataset());
         }
         this.repaint();
@@ -1226,8 +1226,8 @@ private void jBResample1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-F
     
     
     private ColorCodedImageDataset MakeXYZDataset(){
-        dataset = new ColorCodedImageDataset(data.GetNl()[0],data.GetNt()[0],
-                data.GetPsisim(), data.GetX2(), data.GetX(), true);
+        dataset = new ColorCodedImageDataset(data.getNl()[0],data.getNt()[0],
+                data.getPsisim(), data.getX2(), data.getX(), true);
         return dataset;
     }
 
@@ -1271,7 +1271,7 @@ private void jBResample1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-F
             XYPlot plot2 = (XYPlot) this.subchartWaveTrace.getPlot();
             lowInd = (int)(this.lastXRange.getLowerBound());
             upInd = (int)(this.lastXRange.getUpperBound()-1);
-            plot2.getDomainAxis().setRange(new Range(data.GetX2()[lowInd],data.GetX2()[upInd]));
+            plot2.getDomainAxis().setRange(new Range(data.getX2()[lowInd],data.getX2()[upInd]));
             jSColum.setMinimum(lowInd);
             jSColum.setMaximum(upInd);
         }
@@ -1281,7 +1281,7 @@ private void jBResample1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-F
             XYPlot plot1 = (XYPlot) this.subchartTimeTrace.getPlot();
             lowInd = (int)(this.wholeYRange.getUpperBound() - this.lastYRange.getUpperBound());
             upInd = (int)(this.wholeYRange.getUpperBound() - this.lastYRange.getLowerBound()-1);
-            plot1.getDomainAxis().setRange(new Range(data.GetX()[lowInd],data.GetX()[upInd]));
+            plot1.getDomainAxis().setRange(new Range(data.getX()[lowInd],data.getX()[upInd]));
             jSRow.setMinimum(lowInd);
             jSRow.setMaximum(upInd);
         }
@@ -1292,7 +1292,7 @@ private void jBResample1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-F
                 null, null, dataset1, PlotOrientation.VERTICAL, false, false,
                 false);
 
-        PaintScale ps = new RainbowPaintScale(data.GetMinInt(), data.GetMaxInt());
+        PaintScale ps = new RainbowPaintScale(data.getMinInt(), data.getMaxInt());
         BufferedImage image = ImageUtilities.createColorCodedImage(this.dataset, ps);
 
         XYDataImageAnnotation ann = new XYDataImageAnnotation(image, 0,0, 
@@ -1315,7 +1315,7 @@ private void jBResample1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-F
     }
     
     private void MakeImageChart(ColorCodedImageDataset dataset){
-        PaintScale ps = new RainbowPaintScale(data.GetMinInt(), data.GetMaxInt());
+        PaintScale ps = new RainbowPaintScale(data.getMinInt(), data.getMaxInt());
         this.chartMain = createChart(new XYSeriesCollection());
         this.chartMain.addChangeListener(this);
         XYPlot tempPlot = (XYPlot)this.chartMain.getPlot();
@@ -1328,13 +1328,13 @@ private void jBResample1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-F
 //        chpanImage.setSize(jPSpecImage.getMaximumSize());
         jPSpecImage.setLayout(new BorderLayout());
 
-        ImageCrosshairLabelGenerator crossLabGen1 = new ImageCrosshairLabelGenerator(data.GetX2(),false);
-        ImageCrosshairLabelGenerator crossLabGen2 = new ImageCrosshairLabelGenerator(data.GetX(),true);
+        ImageCrosshairLabelGenerator crossLabGen1 = new ImageCrosshairLabelGenerator(data.getX2(),false);
+        ImageCrosshairLabelGenerator crossLabGen2 = new ImageCrosshairLabelGenerator(data.getX(),true);
 
         CrosshairOverlay overlay = new CrosshairOverlay();
         crosshair1 = new Crosshair(0.0);
         crosshair1.setPaint(Color.red);
-        crosshair2 = new Crosshair(data.GetNt()[0]);
+        crosshair2 = new Crosshair(data.getNt()[0]);
         crosshair2.setPaint(Color.GRAY);
         
         overlay.addDomainCrosshair(crosshair1);
@@ -1363,7 +1363,7 @@ private void jBResample1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-F
             false,
             false
         );
-        subchartTimeTrace.getXYPlot().getDomainAxis().setUpperBound(data.GetX()[data.GetX().length-1]);
+        subchartTimeTrace.getXYPlot().getDomainAxis().setUpperBound(data.getX()[data.getX().length-1]);
 ////        tracechart.getXYPlot().setDomainZeroBaselineVisible(true);
         ChartPanel chpan = new ChartPanel(subchartTimeTrace,true);
 //        chpan.setSize(jPYTrace.getMaximumSize());
@@ -1390,10 +1390,10 @@ private void jBResample1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-F
             false,
             false
         );
-        if (data.GetX2()[data.GetX2().length-1]<data.GetX2()[0])
-            subchartWaveTrace.getXYPlot().getDomainAxis().setUpperBound(data.GetX2()[0]);
+        if (data.getX2()[data.getX2().length-1]<data.getX2()[0])
+            subchartWaveTrace.getXYPlot().getDomainAxis().setUpperBound(data.getX2()[0]);
         else
-            subchartWaveTrace.getXYPlot().getDomainAxis().setUpperBound(data.GetX2()[data.GetX2().length-1]);
+            subchartWaveTrace.getXYPlot().getDomainAxis().setUpperBound(data.getX2()[data.getX2().length-1]);
 
         XYPlot plot2 = (XYPlot) subchartWaveTrace.getPlot();
         plot2.getDomainAxis().setLowerMargin(0.0);
@@ -1427,7 +1427,7 @@ private void jBResample1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-F
         NumberAxis scaleAxis = new NumberAxis();
         scaleAxis.setAxisLinePaint(Color.black);
         scaleAxis.setTickMarkPaint(Color.black);
-        scaleAxis.setRange(data.GetMinInt(),data.GetMaxInt());
+        scaleAxis.setRange(data.getMinInt(),data.getMaxInt());
         scaleAxis.setTickLabelFont(new Font("Dialog", Font.PLAIN, 9));
         PaintScaleLegend legend = new PaintScaleLegend(ps,scaleAxis);
         legend.setAxisLocation(AxisLocation.BOTTOM_OR_RIGHT);

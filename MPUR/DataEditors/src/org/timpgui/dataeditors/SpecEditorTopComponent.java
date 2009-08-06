@@ -78,7 +78,7 @@ final public class SpecEditorTopComponent extends CloneableTopComponent implemen
 //        setIcon(Utilities.loadImage(ICON_PATH, true));
         data = new DatasetTimp();
         try {
-            data.LoadASCIIFile(new File(filename));
+            data.loadASCIIFile(new File(filename));
             MakeImageChart(MakeXYZDataset());
             MakeWaveTraceChart(PlotFirstTrace(false));
             MakeTimeTraceChart(PlotFirstTrace(true));
@@ -89,10 +89,10 @@ final public class SpecEditorTopComponent extends CloneableTopComponent implemen
 
             jPStreakImage.add(chpanImage);
             jPStreakImage.repaint();
-            jLTimsteps.setText(Integer.toString(data.GetNt()[0]));
-            jLWavewind.setText(Double.toString(data.GetX2()[data.GetX2().length-1]-data.GetX2()[0]));
-            jLTimeWind.setText(Double.toString(data.GetX()[data.GetX().length-1]-data.GetX()[0]));
-            jLWavesteps.setText(Integer.toString(data.GetNl()[0]));
+            jLTimsteps.setText(Integer.toString(data.getNt()[0]));
+            jLWavewind.setText(Double.toString(data.getX2()[data.getX2().length-1]-data.getX2()[0]));
+            jLTimeWind.setText(Double.toString(data.getX()[data.getX().length-1]-data.getX()[0]));
+            jLWavesteps.setText(Integer.toString(data.getNl()[0]));
 
 
         } catch (FileNotFoundException ex) {
@@ -572,8 +572,8 @@ private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
         if (mode){
              timeTracesCollection = new XYSeriesCollection();
              XYSeries seria = new XYSeries("TimeTrace");
-             for (int j=0; j<data.GetNt()[0]; j++){
-                 seria.add(data.GetX()[j], data.GetPsisim()[j]);
+             for (int j=0; j<data.getNt()[0]; j++){
+                 seria.add(data.getX()[j], data.getPsisim()[j]);
              }
             timeTracesCollection.addSeries(seria);
             return timeTracesCollection;         
@@ -581,8 +581,8 @@ private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
         else {
             waveTracesCollection = new XYSeriesCollection();
             XYSeries seria = new XYSeries("WaveTrace");
-            for (int j=0; j<data.GetNl()[0]; j++){
-                seria.add(data.GetX2()[j], data.GetPsisim()[j*data.GetNt()[0]]);
+            for (int j=0; j<data.getNl()[0]; j++){
+                seria.add(data.getX2()[j], data.getPsisim()[j*data.getNt()[0]]);
             }
             waveTracesCollection.addSeries(seria);
             return waveTracesCollection;         
@@ -592,15 +592,15 @@ private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
     
     private void UpdateSelectedTimeTrace(int index){
         timeTracesCollection.getSeries(0).clear();
-        for (int j=0; j<data.GetNt()[0]; j++){
-            timeTracesCollection.getSeries(0).add(data.GetX()[j], data.GetPsisim()[index*data.GetNt()[0]+j]);
+        for (int j=0; j<data.getNt()[0]; j++){
+            timeTracesCollection.getSeries(0).add(data.getX()[j], data.getPsisim()[index*data.getNt()[0]+j]);
         }
     }
     
     private void UpdateSelectedWaveTrace(int index){
         waveTracesCollection.getSeries(0).clear();
-        for (int j=0; j<data.GetNl()[0]; j++){
-            waveTracesCollection.getSeries(0).add(data.GetX2()[j], data.GetPsisim()[j*data.GetNt()[0]+index]);
+        for (int j=0; j<data.getNl()[0]; j++){
+            waveTracesCollection.getSeries(0).add(data.getX2()[j], data.getPsisim()[j*data.getNt()[0]+index]);
         }
     }
     
@@ -616,7 +616,7 @@ private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
             false, 
             false
         );
-        tracechart.getXYPlot().getDomainAxis().setUpperBound(data.GetX()[data.GetX().length-1]);
+        tracechart.getXYPlot().getDomainAxis().setUpperBound(data.getX()[data.getX().length-1]);
 //        tracechart.getXYPlot().setDomainZeroBaselineVisible(true);
         ChartPanel chpan = new ChartPanel(tracechart,true);
         chpan.setSize(jPSelectedTimeTrace.getMaximumSize());
@@ -637,10 +637,10 @@ private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
             false, 
             false
         );
-        if (data.GetX2()[data.GetX2().length-1]<data.GetX2()[0])
-            tracechart.getXYPlot().getDomainAxis().setUpperBound(data.GetX2()[0]);
+        if (data.getX2()[data.getX2().length-1]<data.getX2()[0])
+            tracechart.getXYPlot().getDomainAxis().setUpperBound(data.getX2()[0]);
         else 
-            tracechart.getXYPlot().getDomainAxis().setUpperBound(data.GetX2()[data.GetX2().length-1]);
+            tracechart.getXYPlot().getDomainAxis().setUpperBound(data.getX2()[data.getX2().length-1]);
         //tracechart.getXYPlot().setDomainZeroBaselineVisible(true);
         ChartPanel chpan = new ChartPanel(tracechart,true);
         chpan.setSize(jPSelectedWaveTrace.getMaximumSize());
@@ -651,20 +651,20 @@ private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
     
     private XYZDataset MakeXYZDataset(){ 
         DefaultXYZDataset dataset2 = new DefaultXYZDataset();
-        double[] xValues  = new double[data.GetNl()[0]*data.GetNt()[0]];
-        double[] yValues  = new double[data.GetNl()[0]*data.GetNt()[0]];
+        double[] xValues  = new double[data.getNl()[0]*data.getNt()[0]];
+        double[] yValues  = new double[data.getNl()[0]*data.getNt()[0]];
         
-        for (int i = 0; i<data.GetNt()[0]; i++){
-            for (int j = 0; j<data.GetNl()[0]; j++){
-                xValues[j*data.GetNt()[0]+i] = data.GetX2()[j];
-                yValues[j*data.GetNt()[0]+i] = data.GetX()[i];
+        for (int i = 0; i<data.getNt()[0]; i++){
+            for (int j = 0; j<data.getNl()[0]; j++){
+                xValues[j*data.getNt()[0]+i] = data.getX2()[j];
+                yValues[j*data.getNt()[0]+i] = data.getX()[i];
             }
         }
-        double[][] chartdata = {xValues,yValues,data.GetPsisim()};
+        double[][] chartdata = {xValues,yValues,data.getPsisim()};
         dataset2.addSeries("Image", chartdata);
         
-        dataset = new ColorCodedImageDataset(data.GetNl()[0],data.GetNt()[0],
-                data.GetPsisim(), data.GetX2(), data.GetX(), true);
+        dataset = new ColorCodedImageDataset(data.getNl()[0],data.getNt()[0],
+                data.getPsisim(), data.getX2(), data.getX(), true);
         return dataset;
     }
     
@@ -682,7 +682,7 @@ private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
  //       yAxis.setRange(data.GetX()[0],data.GetX()[data.GetX().length-1]);
         yAxis.setVisible(false);
         XYBlockRenderer renderer = new XYBlockRenderer();
-        PaintScale scale = new RainbowPaintScale(data.GetMinInt(), data.GetMaxInt());
+        PaintScale scale = new RainbowPaintScale(data.getMinInt(), data.getMaxInt());
         renderer.setPaintScale(scale);
         XYPlot plot = new XYPlot(dataset, xAxis, yAxis, renderer);        
    
@@ -698,7 +698,7 @@ private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
         NumberAxis scaleAxis = new NumberAxis();
         scaleAxis.setAxisLinePaint(Color.black);
         scaleAxis.setTickMarkPaint(Color.black);
-        scaleAxis.setRange(data.GetMinInt(),data.GetMaxInt());
+        scaleAxis.setRange(data.getMinInt(),data.getMaxInt());
         scaleAxis.setTickLabelFont(new Font("Dialog", Font.PLAIN, 9));
         PaintScaleLegend legend = new PaintScaleLegend(scale,scaleAxis);
         legend.setAxisLocation(AxisLocation.BOTTOM_OR_RIGHT);

@@ -15,7 +15,6 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.logging.Logger;
-import javax.swing.JFileChooser;
 import nl.wur.flim.jfreechartcustom.GrayPaintScalePlus;
 import nl.wur.flim.jfreechartcustom.IntensImageDataset;
 import org.jfree.chart.ChartFactory;
@@ -37,7 +36,6 @@ import org.openide.windows.TopComponent;
 import org.openide.windows.WindowManager;
 import java.io.File;
 import java.io.ObjectOutputStream;
-import javax.swing.filechooser.FileNameExtensionFilter;
 import org.jfree.chart.ChartRenderingInfo;
 import org.jfree.chart.axis.ValueAxis;
 import org.jfree.chart.plot.XYPlot;
@@ -1072,8 +1070,8 @@ private void jTButAmplActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIR
     public void chartMouseMoved(ChartMouseEvent event) {
 //         System.out.println("ChartMouseMoved");
     }
-    
-private XYZDataset MakeXYZDataset(){ 
+
+    private XYZDataset MakeXYZDataset(){
         dataset = new IntensImageDataset(flimImage.getX(),flimImage.getY(),flimImage.getIntMap().clone());
         return dataset;
     }

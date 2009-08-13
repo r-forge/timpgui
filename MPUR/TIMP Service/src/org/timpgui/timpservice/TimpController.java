@@ -155,7 +155,7 @@ public class TimpController implements TimpInterface {
         result.setX2(getdim2(NAME_OF_RESULT_OBJECT));
         result.setResiduals(getResiduals(NAME_OF_RESULT_OBJECT, datasetNumber));
         result.setTraces(getData(NAME_OF_RESULT_OBJECT, datasetNumber)); //if weighted=TRUE then use 3rd argument
-        result.retFittedTraces(getTraces(NAME_OF_RESULT_OBJECT, datasetNumber));
+        result.setFittedTraces(getTraces(NAME_OF_RESULT_OBJECT, datasetNumber));
         result.setKineticParameters(getParEst(NAME_OF_RESULT_OBJECT, datasetNumber, "kinpar"));
         result.setSpectralParameters(getParEst(NAME_OF_RESULT_OBJECT, datasetNumber, "specpar"));
         if (result.getKineticParameters().length > 2) {

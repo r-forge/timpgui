@@ -21,6 +21,9 @@ public class TimpResultDataset  implements Serializable{
     private Matrix traces;
     private Matrix fittedTraces;
     private String type;
+    private int orheigh;      //original hight of flimimage
+    private int orwidth;      //original widht of flimimage
+    private double[] intenceIm; //intensity image FLIM
     
     public void setDatasetName(String datasetNameValue){datasetName = datasetNameValue;}
     public void setKineticParameters(double[] kineticParametersValue){kineticParameters = kineticParametersValue;}
@@ -31,9 +34,15 @@ public class TimpResultDataset  implements Serializable{
     public void setX2(double[] x2Value){x2 = x2Value;}
     public void setResiduals(Matrix residualsValue){residuals = residualsValue;}
     public void setTraces(Matrix tracesValue){traces =tracesValue;}
-    public void retFittedTraces(Matrix fittedTracesValue){fittedTraces = fittedTracesValue;}
+    public void setFittedTraces(Matrix fittedTracesValue){fittedTraces = fittedTracesValue;}
     public void setType(String type) {this.type = type;}
+    public void setIntenceIm(double[] intenceIm) {this.intenceIm = intenceIm;}
+    public void setOrheigh(int orheigh) {this.orheigh = orheigh;}
+    public void setOrwidth(int orwidth) {this.orwidth = orwidth;}
 
+    public double[] getIntenceIm() {return intenceIm;}    
+    public int getOrheigh() {return orheigh;}
+    public int getOrwidth() {return orwidth;}
     public String getType() {return type;}
     public double getMaxInt(){return maxInt;}
     public double getMinInt(){return minInt;}
@@ -50,6 +59,9 @@ public class TimpResultDataset  implements Serializable{
     
     public TimpResultDataset(){
         datasetName = "Dataset1";
+        orheigh = 64;      //original hight of flimimage
+        orwidth = 64;      //original widht of flimimage
+        intenceIm = null; //intensity image FLIM
         kineticParameters = new double[]{10, 3, .5};
         spectralParameters = null;
         concentrations = Matrix.random(15,3);

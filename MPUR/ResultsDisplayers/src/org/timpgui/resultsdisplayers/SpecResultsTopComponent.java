@@ -76,6 +76,7 @@ public final class SpecResultsTopComponent extends TopComponent implements Chart
     private Crosshair crosshair2;
     private JFreeChart chartMain;
     private ColorCodedImageDataset dataset;
+    private int numberOfComponents;
 
 
     public SpecResultsTopComponent(TimpResultDataObject dataObj) {
@@ -84,9 +85,11 @@ public final class SpecResultsTopComponent extends TopComponent implements Chart
         setName(dataObj.getName());
         res = dataObj.getTimpResultDataset();
         res.calcRangeInt();
-        Object[] rates = new Object[res.getKineticParameters().length/2];
-        for (int i = 0; i < res.getKineticParameters().length/2; i++) {
-            rates[i] = "k" + (i + 1) + "=" + String.format(String.valueOf(res.getKineticParameters()[i]), "#.###");
+        numberOfComponents = res.getKineticParameters().length/2;
+        Object[] rates = new Object[res.getKineticParameters().length];
+        for (int i = 0; i < numberOfComponents; i++) {
+            rates[i] = "k" + (i) + "=" + String.format(String.valueOf(res.getKineticParameters()[i]), "#.###");
+            rates[i+numberOfComponents] = "er_k"+ (i) + "=" + String.format(String.valueOf(res.getKineticParameters()[i+numberOfComponents]), "#.###");
         }
         jLKineticParameters.setListData(rates);
 
@@ -256,13 +259,7 @@ public final class SpecResultsTopComponent extends TopComponent implements Chart
 
         jPLeftSingVectors.setBackground(new java.awt.Color(255, 255, 255));
         jPLeftSingVectors.setLayout(new java.awt.BorderLayout());
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.weightx = 0.37;
-        gridBagConstraints.weighty = 1.0;
-        jPanel8.add(jPLeftSingVectors, gridBagConstraints);
+        jPanel8.add(jPLeftSingVectors, new java.awt.GridBagConstraints());
 
         jPRightSingVectors.setBackground(new java.awt.Color(255, 255, 255));
         jPRightSingVectors.setLayout(new java.awt.BorderLayout());
@@ -286,24 +283,24 @@ public final class SpecResultsTopComponent extends TopComponent implements Chart
         jPanel6.setLayout(jPanel6Layout);
         jPanel6Layout.setHorizontalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jToolBar1, javax.swing.GroupLayout.DEFAULT_SIZE, 923, Short.MAX_VALUE)
             .addGroup(jPanel6Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, 597, Short.MAX_VALUE)
+                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, 624, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanel7, 0, 0, Short.MAX_VALUE)
-                    .addComponent(jPConcentrations, javax.swing.GroupLayout.DEFAULT_SIZE, 296, Short.MAX_VALUE))
+                    .addComponent(jPConcentrations, javax.swing.GroupLayout.DEFAULT_SIZE, 323, Short.MAX_VALUE))
                 .addContainerGap())
             .addGroup(jPanel6Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, 899, Short.MAX_VALUE)
+                .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, 953, Short.MAX_VALUE)
                 .addContainerGap())
+            .addComponent(jToolBar1, javax.swing.GroupLayout.DEFAULT_SIZE, 977, Short.MAX_VALUE)
         );
         jPanel6Layout.setVerticalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel6Layout.createSequentialGroup()
-                .addComponent(jToolBar1, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jToolBar1, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jPanel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 462, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -313,7 +310,7 @@ public final class SpecResultsTopComponent extends TopComponent implements Chart
                         .addComponent(jPConcentrations, javax.swing.GroupLayout.PREFERRED_SIZE, 231, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, 263, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(238, Short.MAX_VALUE))
+                .addContainerGap(240, Short.MAX_VALUE))
         );
 
         jScrollPane3.setViewportView(jPanel6);
@@ -427,7 +424,7 @@ public final class SpecResultsTopComponent extends TopComponent implements Chart
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 466, Short.MAX_VALUE)
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 508, Short.MAX_VALUE)
                 .addGap(45, 45, 45))
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addComponent(jToolBar2, javax.swing.GroupLayout.PREFERRED_SIZE, 923, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -479,8 +476,8 @@ public final class SpecResultsTopComponent extends TopComponent implements Chart
         jPSelWavTrCollectionTop.setLayout(jPSelWavTrCollectionTopLayout);
         jPSelWavTrCollectionTopLayout.setHorizontalGroup(
             jPSelWavTrCollectionTopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jToolBar4, javax.swing.GroupLayout.DEFAULT_SIZE, 923, Short.MAX_VALUE)
-            .addComponent(jPSelWavTrCollection, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jToolBar4, javax.swing.GroupLayout.DEFAULT_SIZE, 977, Short.MAX_VALUE)
+            .addComponent(jPSelWavTrCollection, javax.swing.GroupLayout.DEFAULT_SIZE, 977, Short.MAX_VALUE)
         );
         jPSelWavTrCollectionTopLayout.setVerticalGroup(
             jPSelWavTrCollectionTopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -525,8 +522,8 @@ public final class SpecResultsTopComponent extends TopComponent implements Chart
         jPSelTimeTrCollectionTop.setLayout(jPSelTimeTrCollectionTopLayout);
         jPSelTimeTrCollectionTopLayout.setHorizontalGroup(
             jPSelTimeTrCollectionTopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jToolBar3, javax.swing.GroupLayout.DEFAULT_SIZE, 923, Short.MAX_VALUE)
-            .addComponent(jPSelTimeTrCollection, javax.swing.GroupLayout.DEFAULT_SIZE, 923, Short.MAX_VALUE)
+            .addComponent(jToolBar3, javax.swing.GroupLayout.DEFAULT_SIZE, 977, Short.MAX_VALUE)
+            .addComponent(jPSelTimeTrCollection, javax.swing.GroupLayout.DEFAULT_SIZE, 977, Short.MAX_VALUE)
         );
         jPSelTimeTrCollectionTopLayout.setVerticalGroup(
             jPSelTimeTrCollectionTopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -544,11 +541,13 @@ public final class SpecResultsTopComponent extends TopComponent implements Chart
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 946, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 1000, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 798, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -959,7 +958,7 @@ public final class SpecResultsTopComponent extends TopComponent implements Chart
     private void PlotConcentrations(){
         XYSeriesCollection concCollection = new XYSeriesCollection();
         XYSeries seria;
-        for (int j = 0; j < res.getKineticParameters().length/2; j++) {
+        for (int j = 0; j < numberOfComponents; j++) {
             seria = new XYSeries("Conc" + (j + 1));
             for (int i = 0; i < res.getX().length; i++) {
                 seria.add(res.getX()[i], res.getConcentrations().get(i, j));
@@ -992,7 +991,7 @@ public final class SpecResultsTopComponent extends TopComponent implements Chart
         XYSeriesCollection normSasCollection = new XYSeriesCollection();
         XYSeries seria;
 //create collection of real sas and normalizes all of them to max and creates collection with normSAS
-        for (int j = 0; j < res.getKineticParameters().length/2; j++) {
+        for (int j = 0; j < numberOfComponents; j++) {
             seria = new XYSeries("SAS" + (j + 1));
             max = 0;
             for (int i = 0; i < res.getX2().length; i++) {

@@ -73,6 +73,11 @@ public final class StartAnalysis implements ActionListener {
                         for (int i = 0; i < results.length; i++) {
                             TimpResultDataset timpResultDataset = results[i];
                             timpResultDataset.setType(datasets[i].getType());
+                            if (datasets[i].getType().equalsIgnoreCase("flim")){
+                                timpResultDataset.setOrheigh(datasets[i].getOrigHeigh()[0]);
+                                timpResultDataset.setOrwidth(datasets[i].getOrigWidth()[0]);
+                                timpResultDataset.setIntenceIm(datasets[i].getIntenceIm().clone());
+                            }
                             FileObject writeTo;
                                try {
                                    writeTo = resultsfolder.createData("dataset"+(i+1)+"_"+timpResultDataset.getDatasetName(), "timpres");

@@ -385,12 +385,12 @@ private void jListResultObjectsValueChanged(javax.swing.event.ListSelectionEvent
 }//GEN-LAST:event_jListResultObjectsValueChanged
 
 private void formFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_formFocusGained
-// TODO add your handling code here:
+
     System.out.println("test");
 }//GEN-LAST:event_formFocusGained
 
 private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-// TODO add your handling code here:
+
     refreshLists();
 }//GEN-LAST:event_jButton2ActionPerformed
 

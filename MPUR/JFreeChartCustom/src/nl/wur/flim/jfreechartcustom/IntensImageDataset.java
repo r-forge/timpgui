@@ -31,6 +31,17 @@ public class IntensImageDataset implements XYZDataset {
         this.listenerList = new EventListenerList();
         this.active = true;
     }
+
+    public IntensImageDataset(int width, int height, double[] image) {
+        this.imageWidth = width;
+        this.imageHeight = height;
+        this.intenceImage = new int[width*height];
+        for (int i = 0; i < width*height; i++){
+            this.intenceImage[i] = (int)image[i];
+        }
+        this.listenerList = new EventListenerList();
+        this.active = true;
+    }
     
     public IntensImageDataset(int width, int height, int[] image){
         this.imageWidth = width;

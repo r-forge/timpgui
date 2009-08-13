@@ -96,6 +96,29 @@ public abstract class ImageUtilities {
         return image;
     }
 
+    public static BufferedImage createColorCodedImage(IntensImageDataset dataset,
+            PaintScale paintScale) {
+        if (dataset == null) {
+            throw new IllegalArgumentException("Null 'dataset' argument.");
+        }
+        if (paintScale == null) {
+            throw new IllegalArgumentException("Null 'paintScale' argument.");
+        }
+        int xCount = dataset.GetImageWidth();
+        int yCount = dataset.GetImageHeigth();
+        BufferedImage image = new BufferedImage(xCount, yCount,
+                BufferedImage.TYPE_INT_ARGB);
+        Graphics2D g2 = image.createGraphics();
+        for (int yIndex = 0; yIndex < yCount; yIndex++) {
+            for (int xIndex = 0; xIndex < xCount; xIndex++) {
+                double z = dataset.getZValue(0,yIndex*xCount+xIndex);
+                Paint p = paintScale.getPaint(z);
+                g2.setPaint(p);
+                g2.fillRect(xIndex, yIndex, 1, 1);
+            }
+        }
+        return image;
+    }
 }
 
 

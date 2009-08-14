@@ -77,6 +77,8 @@ public final class StartAnalysis implements ActionListener {
                                 timpResultDataset.setOrheigh(datasets[i].getOrigHeigh()[0]);
                                 timpResultDataset.setOrwidth(datasets[i].getOrigWidth()[0]);
                                 timpResultDataset.setIntenceIm(datasets[i].getIntenceIm().clone());
+                                timpResultDataset.setMaxInt(datasets[i].getMaxInt());
+                                timpResultDataset.setMinInt(datasets[i].getMinInt());
                             }
                             FileObject writeTo;
                                try {

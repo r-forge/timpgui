@@ -84,7 +84,7 @@ final class FlimResultsTopComponent extends TopComponent implements ChartMouseLi
         setToolTipText(NbBundle.getMessage(FlimResultsTopComponent.class, "HINT_FlimOutputTopComponent"));
         setName(dataObj.getName());
         res = dataObj.getTimpResultDataset();
-        res.calcRangeInt();
+//        res.calcRangeInt();
         numberOfComponents = res.getKineticParameters().length/2;
         double errTau;
         double tau;

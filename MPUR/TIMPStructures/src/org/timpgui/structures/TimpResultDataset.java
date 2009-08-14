@@ -39,6 +39,8 @@ public class TimpResultDataset  implements Serializable{
     public void setIntenceIm(double[] intenceIm) {this.intenceIm = intenceIm;}
     public void setOrheigh(int orheigh) {this.orheigh = orheigh;}
     public void setOrwidth(int orwidth) {this.orwidth = orwidth;}
+    public void setMaxInt(double maxInt) {this.maxInt = maxInt;}
+    public void setMinInt(double minInt) {this.minInt = minInt;}
 
     public double[] getIntenceIm() {return intenceIm;}    
     public int getOrheigh() {return orheigh;}

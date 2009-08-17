@@ -76,6 +76,8 @@ final class FlimResultsTopComponent extends TopComponent implements ChartMouseLi
     private int selectedietm;
     private ColorCodedImageDataset dataset;
     private int numberOfComponents;
+    private int selImWidth, selImHeight;
+    private int[] selImInd;
     private static DefaultListModel listOfResultObjectNames = new DefaultListModel();
     private static DefaultListModel listOfDatasets = new DefaultListModel();
 
@@ -98,6 +100,7 @@ final class FlimResultsTopComponent extends TopComponent implements ChartMouseLi
                           abs(tau-(1 /(res.getKineticParameters()[i]-res.getKineticParameters()[i+numberOfComponents]))));
             lifetimes[2*i+1] = "er_tau"+ (i + 1) + "=" + String.format(String.valueOf(errTau), "#.###");
         }
+        jLEstimatedLifetimes.setListData(lifetimes);
 
 //find rectangle for selected image
         int firstLine = (int) floor(res.getX2()[0]/res.getOrwidth());
@@ -106,7 +109,7 @@ final class FlimResultsTopComponent extends TopComponent implements ChartMouseLi
         int lastCol = 0;
         int tempnum;
         for (int i = 0; i < res.getX2().length; i++){
-            tempnum = (int)(res.getX2()[i] - floor(res.getX2()[res.getX2().length - 1] / res.getOrwidth()) * res.getOrwidth());
+            tempnum = (int)(res.getX2()[i] - floor(res.getX2()[i] / res.getOrwidth()) * res.getOrwidth());
             if (tempnum<firstCol){
                 firstCol = tempnum;
             }
@@ -114,28 +117,44 @@ final class FlimResultsTopComponent extends TopComponent implements ChartMouseLi
                 lastCol = tempnum;
             }
         }
+        selImWidth = lastCol - firstCol+1;
+        selImHeight = lastLine - firstLine+1;
+        selImInd = new int[res.getX2().length];
+        int indX, indY;
+        for (int i = 0; i< res.getX2().length; i++){
+            indY = (int) floor(res.getX2()[i]/res.getOrwidth())-firstLine;
+            indX = (int)(res.getX2()[i] - floor(res.getX2()[i] / res.getOrwidth()) * res.getOrwidth())-firstCol;
+            selImInd[i] = selImWidth*indY+indX;
+        }
 
-
-
-//TODO create and plot intencity image with selected pixels
+//create intence image with selected pixels
         IntensImageDataset intensutyImageDataset = new IntensImageDataset(res.getOrwidth(),res.getOrheigh(),res.getIntenceIm());
-//        PaintScale ps = new RainbowPaintScale(res.getMinInt(), res.getMaxInt());
+        for (int i = 0; i < res.getX2().length; i++){
+            intensutyImageDataset.SetValue((int)res.getX2()[i], -1);
+        }
         PaintScale ps = new GrayPaintScalePlus(res.getMinInt(), res.getMaxInt(), -1);
         JFreeChart intIm = createScatChart(ImageUtilities.createColorCodedImage(intensutyImageDataset, ps), ps,res.getOrwidth(),res.getOrheigh());
         ChartPanel intImPanel = new ChartPanel(intIm);
+        intImPanel.setFillZoomRectangle(true);
+        intImPanel.setMouseWheelEnabled(true);
         jPIntenceImage.add(intImPanel);
 
-//        listToPlot = new Object[numberOfComponents + 1];
-        aveLifetimes = MakeFlimImage(res.getKineticParameters(), res.getSpectra(), res.getX2().length);        
-//        listToPlot[0] = "Average Lifetime";
-//        jCBToPlot.addItem(listToPlot[0]);
-//        for (int i = 0; i < res.getKineticParameters().length/2; i++) {
-//            listToPlot[i + 1] = "Component " + (i + 1);
-//            jCBToPlot.addItem(listToPlot[i + 1]);
-//   //         lifetimes[i] = "Tau" + (i + 1) + "=" + String.format(String.valueOf(1 / res.getKineticParameters()[2*i]), "#.###") + "ns";
-//        }
+//create lifetime image
+        aveLifetimes = MakeFlimImage(res.getKineticParameters(), res.getSpectra(), res.getX2().length);
+        IntensImageDataset aveLifetimeDataset = new IntensImageDataset(selImHeight,selImWidth,new double[selImWidth*selImHeight]);
+        for (int i = 0; i < res.getX2().length; i++){
+            aveLifetimeDataset.SetValue(selImInd[i], aveLifetimes[i]);
+        }
+        ps = new RainbowPaintScale(0, maxAveLifetime);
+        JFreeChart aveLifetimeChart = createScatChart(ImageUtilities.createColorCodedImage(aveLifetimeDataset, ps), ps,selImWidth,selImHeight);
+        ChartPanel aveLifetimePanel = new ChartPanel(aveLifetimeChart);
+        aveLifetimePanel.setFillZoomRectangle(true);
+        aveLifetimePanel.setMouseWheelEnabled(true);
+        jPImage.add(aveLifetimePanel);
 
-        jLEstimatedLifetimes.setListData(lifetimes);
+// create and plot histogram of average lifetimes
+        CreateHistPanel(0);
+//create and plot SVD of the residuals
         calculateSVDResiduals();
 //        PlotFirstTrace();
 //        MakeTracesChart();
@@ -202,11 +221,12 @@ final class FlimResultsTopComponent extends TopComponent implements ChartMouseLi
 
         jToolBar1.setRollover(true);
 
+        jPanel2.setPreferredSize(new java.awt.Dimension(1200, 597));
+
         jPHist.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         jPHist.setLayout(new java.awt.BorderLayout());
 
         jPImage.setBackground(new java.awt.Color(0, 0, 0));
-        jPImage.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         jPImage.setMaximumSize(new java.awt.Dimension(450, 350));
         jPImage.setMinimumSize(new java.awt.Dimension(450, 350));
         jPImage.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -257,8 +277,7 @@ final class FlimResultsTopComponent extends TopComponent implements ChartMouseLi
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPSingValues, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPRightSingVectors, javax.swing.GroupLayout.DEFAULT_SIZE, 290, Short.MAX_VALUE)
-                .addGap(134, 134, 134))
+                .addComponent(jPRightSingVectors, javax.swing.GroupLayout.DEFAULT_SIZE, 424, Short.MAX_VALUE))
         );
         jPanel8Layout.setVerticalGroup(
             jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -317,7 +336,7 @@ final class FlimResultsTopComponent extends TopComponent implements ChartMouseLi
                             .addComponent(jPHist, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel3)))
                     .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, 974, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(1461, Short.MAX_VALUE))
+                .addContainerGap(226, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -715,15 +734,15 @@ private void jPIntenceImageMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FI
     
     private double[] MakeFlimImage(double[] kinpar, Matrix amplitudes, int numOfSelPix){
         double[] aveLifeTimes = new double[numOfSelPix];
-        normAmpl = new Matrix(kinpar.length/2, numOfSelPix);
+        normAmpl = new Matrix(numberOfComponents, numOfSelPix);
         double sumOfConc;
         for (int i=0; i<numOfSelPix; i++){
             aveLifeTimes[i] = 0;
             sumOfConc = 0;
-            for (int k = 0; k < kinpar.length/2; k++){
+            for (int k = 0; k < numberOfComponents; k++){
                 sumOfConc=sumOfConc+amplitudes.get(k, i);
             }
-            for (int j=0; j<kinpar.length/2; j++){
+            for (int j=0; j<numberOfComponents; j++){
                 aveLifeTimes[i]=aveLifeTimes[i]+1/kinpar[j]*amplitudes.get(j, i)/sumOfConc; 
                 normAmpl.set(j, i, amplitudes.get(j, i)/sumOfConc);
                 if (maxAveLifetime < aveLifeTimes[i])
@@ -914,36 +933,35 @@ private void jPIntenceImageMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FI
         jPLeftSingVectors.add(chpan);
 
 
-
-//create collection with first 2 RSV
-        XYSeriesCollection rSVCollection = new XYSeriesCollection();
+//create images with first 2 RSV
+ 
+        double[] tempRsingVec = null;
+        double minVal = 0;
+        double maxVal = 0;
         for (int j = 0; j < n; j++) {
-            seria = new XYSeries("RSV" + (j + 1));
+//            seria = new XYSeries("RSV" + (j + 1));
+            tempRsingVec = new double[selImWidth*selImHeight];
+            minVal = result.getV().get(0, j);
+            maxVal = result.getV().get(0, j);
             for (int i = 0; i < res.getX2().length; i++) {
-                seria.add(res.getX2()[i], result.getV().get(i, j));
+                tempRsingVec[selImInd[i]] = result.getV().get(i, j);
+                if (tempRsingVec[i] < minVal)
+                    minVal = tempRsingVec[i];
+                if (tempRsingVec[i] > maxVal)
+                    maxVal = tempRsingVec[i];
             }
-            rSVCollection.addSeries(seria);
+
+            IntensImageDataset rSingVec = new IntensImageDataset(selImHeight,selImWidth,tempRsingVec);
+            PaintScale ps = new RainbowPaintScale(minVal, maxVal);
+            JFreeChart rSingVect = createScatChart(ImageUtilities.createColorCodedImage(rSingVec, ps), ps,selImWidth,selImHeight);
+            rSingVect.setTitle("R Singular vector "+String.valueOf(j+1));
+            rSingVect.getTitle().setFont(new Font(tracechart.getTitle().getFont().getFontName(), Font.PLAIN, 12));
+            ChartPanel rSingVectPanel = new ChartPanel(rSingVect);
+            rSingVectPanel.setFillZoomRectangle(true);
+            rSingVectPanel.setMouseWheelEnabled(true);
+            jPRightSingVectors.add(rSingVectPanel);
         }
-
-//creare charts for RSV
-        tracechart = ChartFactory.createXYLineChart(
-                    "Right singular vectors",
-                    "Wavelength (nm)",
-                    null,
-                    rSVCollection,
-                    PlotOrientation.VERTICAL,
-                    false,
-                    false,
-                    false);
-        tracechart.getTitle().setFont(new Font(tracechart.getTitle().getFont().getFontName(), Font.PLAIN, 12));
-        tracechart.setBackgroundPaint(JFreeChart.DEFAULT_BACKGROUND_PAINT);
-        tracechart.getXYPlot().getDomainAxis().setUpperBound(res.getX2()[res.getX2().length - 1]);
-        tracechart.getXYPlot().getDomainAxis().setAutoRange(false);
-        chpan = new ChartPanel(tracechart);
-//add chart with 2 RSV to JPannel
-        jPRightSingVectors.removeAll();
-        jPRightSingVectors.add(chpan);
-
+        
 //creare collection with singular values
         XYSeriesCollection sVCollection = new XYSeriesCollection();
         seria = new XYSeries("SV");
@@ -964,6 +982,7 @@ private void jPIntenceImageMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FI
                     false,
                     false);
         tracechart.getXYPlot().setRangeAxis(new LogAxis("Log(SV)"));
+        tracechart.getTitle().setFont(new Font(tracechart.getTitle().getFont().getFontName(), Font.PLAIN, 12));
         XYLineAndShapeRenderer renderer = (XYLineAndShapeRenderer) tracechart.getXYPlot().getRenderer();
         renderer.setBaseShapesVisible(true);
         renderer.setDrawOutlines(true);
@@ -986,6 +1005,7 @@ private void jPIntenceImageMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FI
         JFreeChart chart_temp = ChartFactory.createScatterPlot(null,
                 null, null, new XYSeriesCollection(), PlotOrientation.VERTICAL, false, false,
                 false);
+        chart_temp.setBackgroundPaint(JFreeChart.DEFAULT_BACKGROUND_PAINT);
         XYDataImageAnnotation ann = new XYDataImageAnnotation(image, 0,0,
                 plotWidth, plotHeigh, true);
         XYPlot plot = (XYPlot) chart_temp.getPlot();
@@ -1014,7 +1034,7 @@ private void jPIntenceImageMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FI
         legend.setMargin(new RectangleInsets(5, 5, 5, 5));
     //        legend.setFrame(new BlockBorder(Color.red));
     //        legend.setPadding(new RectangleInsets(5, 5, 5, 5));
-        legend.setStripWidth(15);
+        legend.setStripWidth(10);
         legend.setPosition(RectangleEdge.RIGHT);
         legend.setBackgroundPaint(chart_temp.getBackgroundPaint());
         chart_temp.addSubtitle(legend);

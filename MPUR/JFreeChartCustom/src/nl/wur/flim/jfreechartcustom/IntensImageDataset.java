@@ -20,30 +20,30 @@ import static java.lang.Math.floor;
 public class IntensImageDataset implements XYZDataset {
     private int imageWidth;
     private int imageHeight;
-    private int[] intenceImage;
+    private double[] intenceImage;
     private transient EventListenerList listenerList;
     private boolean active;    
     
     public IntensImageDataset(){
         this.imageWidth = 1;
         this.imageHeight = 1;
-        this.intenceImage = new int[1];
+        this.intenceImage = new double[1];
         this.listenerList = new EventListenerList();
         this.active = true;
     }
 
-    public IntensImageDataset(int width, int height, double[] image) {
+    public IntensImageDataset(int width, int height, int[] image) {
         this.imageWidth = width;
         this.imageHeight = height;
-        this.intenceImage = new int[width*height];
+        this.intenceImage = new double[width*height];
         for (int i = 0; i < width*height; i++){
-            this.intenceImage[i] = (int)image[i];
+            this.intenceImage[i] = image[i];
         }
         this.listenerList = new EventListenerList();
         this.active = true;
     }
     
-    public IntensImageDataset(int width, int height, int[] image){
+    public IntensImageDataset(int width, int height, double[] image){
         this.imageWidth = width;
         this.imageHeight = height;
         this.intenceImage = image;
@@ -60,24 +60,27 @@ public class IntensImageDataset implements XYZDataset {
         return this.imageWidth;
     }
     
-    public int[] SetIntenceImage(){
+    public double[] SetIntenceImage(){
         return this.intenceImage;
     }
 
     
     public void SetIntenceImage(int[] image){
-        this.intenceImage = image;
+
+        for (int i = 0; i < imageWidth*imageHeight; i++){
+            this.intenceImage[i] = image[i];
+        }
         if (this.active)
             fireDatasetChanged();
     }
     
-    public void SetValue(int x, int y, int value){
+    public void SetValue(int x, int y, double value){
         this.intenceImage[y*this.imageWidth+x]=value;        
         if (this.active)
             fireDatasetChanged();
     }
     
-    public void SetValue(int item, int value){
+    public void SetValue(int item, double value){
         this.intenceImage[item]=value;
         if (this.active)
             fireDatasetChanged();

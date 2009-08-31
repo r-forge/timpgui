@@ -68,6 +68,7 @@ final class FlimResultsTopComponent extends TopComponent implements ChartMouseLi
     private static final String PREFERRED_ID = "FlimOutputTopComponent";
     private JFreeChart chart;
     private double maxAveLifetime;
+    private double minAveLifetime;
     private double[] aveLifetimes;
     private Matrix normAmpl;
     private XYSeriesCollection tracesCollection,  residuals;
@@ -153,7 +154,7 @@ final class FlimResultsTopComponent extends TopComponent implements ChartMouseLi
         jPImage.add(aveLifetimePanel);
 
 // create and plot histogram of average lifetimes
-        CreateHistPanel(0);
+        jPHist.add(CreateHistPanel(0));
 //create and plot SVD of the residuals
         calculateSVDResiduals();
 //        PlotFirstTrace();
@@ -705,7 +706,7 @@ private void jPIntenceImageMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FI
         double[] data;
         if (ind == 0){
             data = aveLifetimes;
-            datasetHist.addSeries("Average lifetime", data, 20, 0.0, maxAveLifetime);
+            datasetHist.addSeries("Average lifetime", data, 20, minAveLifetime, maxAveLifetime);
             name = "Average lifetime";
         }
         else {
@@ -733,6 +734,7 @@ private void jPIntenceImageMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FI
     }
     
     private double[] MakeFlimImage(double[] kinpar, Matrix amplitudes, int numOfSelPix){
+        minAveLifetime = Double.MAX_VALUE;
         double[] aveLifeTimes = new double[numOfSelPix];
         normAmpl = new Matrix(numberOfComponents, numOfSelPix);
         double sumOfConc;
@@ -745,9 +747,11 @@ private void jPIntenceImageMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FI
             for (int j=0; j<numberOfComponents; j++){
                 aveLifeTimes[i]=aveLifeTimes[i]+1/kinpar[j]*amplitudes.get(j, i)/sumOfConc; 
                 normAmpl.set(j, i, amplitudes.get(j, i)/sumOfConc);
-                if (maxAveLifetime < aveLifeTimes[i])
-                    maxAveLifetime = aveLifeTimes[i];
             }
+            if (maxAveLifetime < aveLifeTimes[i])
+                maxAveLifetime = aveLifeTimes[i];
+            if (minAveLifetime > aveLifeTimes[i])
+                minAveLifetime = aveLifeTimes[i];
         }
         return aveLifeTimes;
     }

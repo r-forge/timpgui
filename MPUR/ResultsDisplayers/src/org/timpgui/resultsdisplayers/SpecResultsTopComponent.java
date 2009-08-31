@@ -251,7 +251,8 @@ public final class SpecResultsTopComponent extends TopComponent implements Chart
         jPSingValues.setBackground(new java.awt.Color(255, 255, 255));
         jPSingValues.setLayout(new java.awt.BorderLayout());
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 0;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.weightx = 0.26;
         gridBagConstraints.weighty = 1.0;
@@ -259,7 +260,12 @@ public final class SpecResultsTopComponent extends TopComponent implements Chart
 
         jPLeftSingVectors.setBackground(new java.awt.Color(255, 255, 255));
         jPLeftSingVectors.setLayout(new java.awt.BorderLayout());
-        jPanel8.add(jPLeftSingVectors, new java.awt.GridBagConstraints());
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 0.37;
+        jPanel8.add(jPLeftSingVectors, gridBagConstraints);
 
         jPRightSingVectors.setBackground(new java.awt.Color(255, 255, 255));
         jPRightSingVectors.setLayout(new java.awt.BorderLayout());
@@ -547,7 +553,7 @@ public final class SpecResultsTopComponent extends TopComponent implements Chart
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 798, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(402, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 

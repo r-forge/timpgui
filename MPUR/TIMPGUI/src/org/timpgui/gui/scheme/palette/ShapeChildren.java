@@ -19,10 +19,12 @@ public class ShapeChildren  extends Index.ArrayChildren {
     private Category category;
 
     private String[][] items = new String[][]{
-        {"0", "Preprocessing", "org/timpgui/gui/scheme/resources/image1.png"},
-        {"0", "Data", "org/timpgui/gui/scheme/resources/image2.png"},
-        {"0", "Modelling", "org/timpgui/gui/scheme/resources/image3.png"},
-        {"0", "Plotting", "org/timpgui/gui/scheme/resources/image3.png"},
+        {"0", "Preprocessing", "org/timpgui/gui/scheme/resources/image1.png", "Preprocessing Test 1"},
+        {"0", "Data", "org/timpgui/gui/scheme/resources/image2.png", "Dataset Container"},
+        {"0", "Modelling", "org/timpgui/gui/scheme/resources/image3.png", "Kinetic Model"},
+        {"1", "Modelling", "org/timpgui/gui/scheme/resources/image3.png", "Spectral Model"},
+        {"2", "Modelling", "org/timpgui/gui/scheme/resources/image3.png", "Mass Model"},
+        {"0", "Plotting", "org/timpgui/gui/scheme/resources/image3.png", "SVD Plot"},
     };
 
     public ShapeChildren(Category Category) {
@@ -38,6 +40,7 @@ public class ShapeChildren  extends Index.ArrayChildren {
                 item.setNumber(new Integer(items[i][0]));
                 item.setCategory(items[i][1]);
                 item.setImage(items[i][2]);
+                item.setName(items[i][3]);
                 childrenNodes.add( new ShapeNode( item ) );
             }
         }

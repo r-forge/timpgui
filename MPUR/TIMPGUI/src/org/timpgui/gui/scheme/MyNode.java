@@ -18,12 +18,18 @@ import java.awt.Image;
 public class MyNode {
     
     private Image image;
+    private String name;
     
-    public MyNode(Image image) {
+    public MyNode(String name, Image image) {
         this.image = image;
+        this.name = name;
     }
     
     public Image getImage() {
         return image;
+    }
+
+    public String getName() {
+        return name;
     }
 }

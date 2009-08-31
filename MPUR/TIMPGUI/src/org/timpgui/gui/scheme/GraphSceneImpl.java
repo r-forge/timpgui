@@ -43,8 +43,11 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.Collections;
 import javax.swing.JComponent;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
 import org.netbeans.api.visual.action.AcceptProvider;
 import org.netbeans.api.visual.action.ConnectorState;
+import org.netbeans.api.visual.widget.ComponentWidget;
 
 
 /**
@@ -127,7 +130,11 @@ public class GraphSceneImpl extends GraphScene {
 
     @Override
     protected Widget attachNodeWidget(Object node) {
-        return attachNodeWidget((String) node);
+        //return attachNodeWidget((String) node);
+        ComponentWidget cw = new ComponentWidget(this, new JLabel("test"));
+         mainLayer.addChild(cw);
+        cw.getActions().addAction(ActionFactory.createPopupMenuAction(nodeMenu));
+        return cw;
     }
 
     @Override

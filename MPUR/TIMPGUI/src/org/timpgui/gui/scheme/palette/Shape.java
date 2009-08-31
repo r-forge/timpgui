@@ -13,7 +13,7 @@ public class Shape {
 
     private Integer number;
     private String category;
-    private String title;
+    private String name;
     private String image;
 
     /** Creates a new instance of Instrument */
@@ -42,6 +42,14 @@ public class Shape {
 
     public void setImage(String image) {
         this.image = image;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
 }

@@ -19,6 +19,7 @@ import org.openide.nodes.AbstractNode;
 import org.openide.nodes.Node;
 import org.openide.util.Lookup;
 import org.openide.util.datatransfer.ExTransferable;
+import org.timpgui.gui.scheme.MyNode;
 
 /**
  *
@@ -58,12 +59,12 @@ public class PaletteSupport {
     private static class MyDnDHandler extends DragAndDropHandler {
 
         public void customize(ExTransferable exTransferable, Lookup lookup) {
-            Node node = lookup.lookup(Node.class);
-            final Image image = (Image) node.getIcon(BeanInfo.ICON_COLOR_16x16);
-            exTransferable.put(new ExTransferable.Single (DataFlavor.imageFlavor) {
+            final Shape shape = (Shape) lookup.lookup(Shape.class);
+            //final Image image = (Image) node.getIcon(BeanInfo.ICON_COLOR_16x16);
+            exTransferable.put(new ExTransferable.Single (new DataFlavor(Shape.class, "Shape")) {
 
-                protected Object getData() throws IOException, UnsupportedFlavorException {
-                    return image;
+                protected Shape getData() throws IOException, UnsupportedFlavorException {
+                    return shape;
                 }
 
             });

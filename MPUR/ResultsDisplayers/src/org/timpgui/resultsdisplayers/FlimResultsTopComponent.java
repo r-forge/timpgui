@@ -678,7 +678,9 @@ private void jBUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
         jPHist.add(chpanHist);
         jPHist.repaint();
     } catch (NumberFormatException ex) {
-        System.out.println("Wrong number format");
+        NotifyDescriptor errorMessage =new NotifyDescriptor.Exception(
+                    new Exception("Please specify correct number of channels"));
+        DialogDisplayer.getDefault().notify(errorMessage);
     }
 }//GEN-LAST:event_jBUpdateActionPerformed
 

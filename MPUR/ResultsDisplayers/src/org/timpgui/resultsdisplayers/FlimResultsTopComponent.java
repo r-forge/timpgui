@@ -7,6 +7,7 @@ package org.timpgui.resultsdisplayers;
 import Jama.Matrix;
 import Jama.SingularValueDecomposition;
 import java.awt.BasicStroke;
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.geom.Ellipse2D;
@@ -48,6 +49,8 @@ import org.jfree.data.xy.XYZDataset;
 import org.jfree.ui.Layer;
 import org.jfree.ui.RectangleEdge;
 import org.jfree.ui.RectangleInsets;
+import org.openide.DialogDisplayer;
+import org.openide.NotifyDescriptor;
 import org.openide.util.NbBundle;
 import org.openide.windows.TopComponent;
 import org.openide.windows.WindowManager;
@@ -79,8 +82,6 @@ final class FlimResultsTopComponent extends TopComponent implements ChartMouseLi
     private int numberOfComponents;
     private int selImWidth, selImHeight;
     private int[] selImInd;
-    private static DefaultListModel listOfResultObjectNames = new DefaultListModel();
-    private static DefaultListModel listOfDatasets = new DefaultListModel();
 
     FlimResultsTopComponent(TimpResultDataObject dataObj) {
         initComponents();
@@ -139,6 +140,8 @@ final class FlimResultsTopComponent extends TopComponent implements ChartMouseLi
         intImPanel.setFillZoomRectangle(true);
         intImPanel.setMouseWheelEnabled(true);
         jPIntenceImage.add(intImPanel);
+        jTFMinIntence.setText(String.valueOf(res.getMinInt()));
+        jTFMaxIntence.setText(String.valueOf(res.getMaxInt()));
 
 //create lifetime image
         aveLifetimes = MakeFlimImage(res.getKineticParameters(), res.getSpectra(), res.getX2().length);
@@ -152,9 +155,12 @@ final class FlimResultsTopComponent extends TopComponent implements ChartMouseLi
         aveLifetimePanel.setFillZoomRectangle(true);
         aveLifetimePanel.setMouseWheelEnabled(true);
         jPImage.add(aveLifetimePanel);
+        jTFMinLifetime.setText("0");
+        jTFMaxLifetime.setText(String.valueOf(maxAveLifetime));
 
 // create and plot histogram of average lifetimes
-        jPHist.add(CreateHistPanel(0));
+        jPHist.add(updateHistPanel(aveLifetimes, minAveLifetime, maxAveLifetime, 20));
+        jTFChNumHist.setText("20");
 //create and plot SVD of the residuals
         calculateSVDResiduals();
 //        PlotFirstTrace();
@@ -182,19 +188,14 @@ final class FlimResultsTopComponent extends TopComponent implements ChartMouseLi
      */
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
-        java.awt.GridBagConstraints gridBagConstraints;
 
         jTabbedPane1 = new javax.swing.JTabbedPane();
         jPanel1 = new javax.swing.JPanel();
         jToolBar1 = new javax.swing.JToolBar();
         jScrollPane1 = new javax.swing.JScrollPane();
         jPanel2 = new javax.swing.JPanel();
-        jPHist = new javax.swing.JPanel();
-        jPImage = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         jLEstimatedLifetimes = new javax.swing.JList();
-        jLabel1 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
         jPanel5 = new javax.swing.JPanel();
         jPanel9 = new javax.swing.JPanel();
         jLabel4 = new javax.swing.JLabel();
@@ -203,48 +204,47 @@ final class FlimResultsTopComponent extends TopComponent implements ChartMouseLi
         jPLeftSingVectors = new javax.swing.JPanel();
         jPRightSingVectors = new javax.swing.JPanel();
         jLabel5 = new javax.swing.JLabel();
-        jPIntenceImage = new javax.swing.JPanel();
+        jPanel6 = new javax.swing.JPanel();
         jLabel6 = new javax.swing.JLabel();
+        jPIntenceImage = new javax.swing.JPanel();
+        jPanel4 = new javax.swing.JPanel();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
+        jTFMaxIntence = new javax.swing.JTextField();
+        jTFMinIntence = new javax.swing.JTextField();
+        jPanel7 = new javax.swing.JPanel();
+        jPImage = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
+        jPanel10 = new javax.swing.JPanel();
+        jLabel8 = new javax.swing.JLabel();
+        jLabel9 = new javax.swing.JLabel();
+        jButton2 = new javax.swing.JButton();
+        jTFMaxLifetime = new javax.swing.JTextField();
+        jTFMinLifetime = new javax.swing.JTextField();
+        jPanel11 = new javax.swing.JPanel();
+        jPHist = new javax.swing.JPanel();
+        jLabel3 = new javax.swing.JLabel();
+        jPanel14 = new javax.swing.JPanel();
+        jLabel15 = new javax.swing.JLabel();
+        jButton5 = new javax.swing.JButton();
+        jTFChNumHist = new javax.swing.JTextField();
         jPanel3 = new javax.swing.JPanel();
         jPSelectedTrace = new javax.swing.JPanel();
         jBUpdate = new javax.swing.JButton();
-        jLabel2 = new javax.swing.JLabel();
         jTMin = new javax.swing.JTextField();
         jTMax = new javax.swing.JTextField();
         jCBToPlot = new javax.swing.JComboBox();
 
-        addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusGained(java.awt.event.FocusEvent evt) {
-                formFocusGained(evt);
-            }
-        });
         setLayout(new java.awt.BorderLayout());
 
         jToolBar1.setRollover(true);
 
         jPanel2.setPreferredSize(new java.awt.Dimension(1200, 597));
 
-        jPHist.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-        jPHist.setLayout(new java.awt.BorderLayout());
-
-        jPImage.setBackground(new java.awt.Color(0, 0, 0));
-        jPImage.setMaximumSize(new java.awt.Dimension(450, 350));
-        jPImage.setMinimumSize(new java.awt.Dimension(450, 350));
-        jPImage.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jPImageMouseClicked(evt);
-            }
-        });
-        jPImage.setLayout(new java.awt.BorderLayout());
-
         jScrollPane2.setViewportView(jLEstimatedLifetimes);
 
-        org.openide.awt.Mnemonics.setLocalizedText(jLabel1, org.openide.util.NbBundle.getMessage(FlimResultsTopComponent.class, "FlimResultsTopComponent.jLabel1.text")); // NOI18N
-
-        org.openide.awt.Mnemonics.setLocalizedText(jLabel3, org.openide.util.NbBundle.getMessage(FlimResultsTopComponent.class, "FlimResultsTopComponent.jLabel3.text")); // NOI18N
-
         jPanel5.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-        jPanel5.setLayout(new java.awt.GridBagLayout());
 
         jPanel9.setLayout(new java.awt.BorderLayout());
 
@@ -253,12 +253,6 @@ final class FlimResultsTopComponent extends TopComponent implements ChartMouseLi
         org.openide.awt.Mnemonics.setLocalizedText(jLabel4, org.openide.util.NbBundle.getMessage(FlimResultsTopComponent.class, "FlimResultsTopComponent.jLabel4.text")); // NOI18N
         jLabel4.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jPanel9.add(jLabel4, java.awt.BorderLayout.CENTER);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        jPanel5.add(jPanel9, gridBagConstraints);
 
         jPSingValues.setBackground(new java.awt.Color(255, 255, 255));
         jPSingValues.setLayout(new java.awt.BorderLayout());
@@ -278,90 +272,267 @@ final class FlimResultsTopComponent extends TopComponent implements ChartMouseLi
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPSingValues, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPRightSingVectors, javax.swing.GroupLayout.DEFAULT_SIZE, 424, Short.MAX_VALUE))
+                .addComponent(jPRightSingVectors, javax.swing.GroupLayout.DEFAULT_SIZE, 488, Short.MAX_VALUE))
         );
         jPanel8Layout.setVerticalGroup(
             jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel8Layout.createSequentialGroup()
-                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jPRightSingVectors, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 242, Short.MAX_VALUE)
-                    .addComponent(jPLeftSingVectors, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 242, Short.MAX_VALUE)
-                    .addComponent(jPSingValues, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 242, Short.MAX_VALUE))
-                .addGap(0, 0, 0))
+            .addComponent(jPRightSingVectors, javax.swing.GroupLayout.DEFAULT_SIZE, 242, Short.MAX_VALUE)
+            .addComponent(jPLeftSingVectors, javax.swing.GroupLayout.DEFAULT_SIZE, 242, Short.MAX_VALUE)
+            .addComponent(jPSingValues, javax.swing.GroupLayout.DEFAULT_SIZE, 242, Short.MAX_VALUE)
         );
 
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.weighty = 1.0;
-        jPanel5.add(jPanel8, gridBagConstraints);
+        javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
+        jPanel5.setLayout(jPanel5Layout);
+        jPanel5Layout.setHorizontalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel5Layout.createSequentialGroup()
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, 1034, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel5Layout.setVerticalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel5Layout.createSequentialGroup()
+                .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+        );
 
         org.openide.awt.Mnemonics.setLocalizedText(jLabel5, org.openide.util.NbBundle.getMessage(FlimResultsTopComponent.class, "FlimResultsTopComponent.jLabel5.text")); // NOI18N
+
+        jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        org.openide.awt.Mnemonics.setLocalizedText(jLabel6, org.openide.util.NbBundle.getMessage(FlimResultsTopComponent.class, "FlimResultsTopComponent.jLabel6.text")); // NOI18N
 
         jPIntenceImage.setBackground(new java.awt.Color(0, 0, 0));
         jPIntenceImage.setMaximumSize(new java.awt.Dimension(100, 100));
         jPIntenceImage.setMinimumSize(new java.awt.Dimension(450, 350));
-        jPIntenceImage.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jPIntenceImageMouseClicked(evt);
-            }
-        });
         jPIntenceImage.setLayout(new java.awt.BorderLayout());
 
-        org.openide.awt.Mnemonics.setLocalizedText(jLabel6, org.openide.util.NbBundle.getMessage(FlimResultsTopComponent.class, "FlimResultsTopComponent.jLabel6.text")); // NOI18N
+        org.openide.awt.Mnemonics.setLocalizedText(jLabel2, org.openide.util.NbBundle.getMessage(FlimResultsTopComponent.class, "FlimResultsTopComponent.jLabel2.text")); // NOI18N
+
+        org.openide.awt.Mnemonics.setLocalizedText(jLabel7, org.openide.util.NbBundle.getMessage(FlimResultsTopComponent.class, "FlimResultsTopComponent.jLabel7.text")); // NOI18N
+
+        org.openide.awt.Mnemonics.setLocalizedText(jButton1, org.openide.util.NbBundle.getMessage(FlimResultsTopComponent.class, "FlimResultsTopComponent.jButton1.text")); // NOI18N
+        jButton1.setIconTextGap(2);
+        jButton1.setMargin(new java.awt.Insets(2, 2, 2, 2));
+
+        jTFMaxIntence.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        jTFMaxIntence.setText(org.openide.util.NbBundle.getMessage(FlimResultsTopComponent.class, "FlimResultsTopComponent.jTFMaxIntence.text")); // NOI18N
+
+        jTFMinIntence.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        jTFMinIntence.setText(org.openide.util.NbBundle.getMessage(FlimResultsTopComponent.class, "FlimResultsTopComponent.jTFMinIntence.text")); // NOI18N
+
+        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
+        jPanel4.setLayout(jPanel4Layout);
+        jPanel4Layout.setHorizontalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addComponent(jLabel2)
+                .addGap(11, 11, 11)
+                .addComponent(jTFMinIntence, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jLabel7)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jTFMaxIntence, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jButton1)
+                .addContainerGap(2, Short.MAX_VALUE))
+        );
+        jPanel4Layout.setVerticalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
+                .addComponent(jLabel2)
+                .addComponent(jTFMinIntence, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jButton1)
+                .addComponent(jTFMaxIntence, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jLabel7))
+        );
+
+        javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
+        jPanel6.setLayout(jPanel6Layout);
+        jPanel6Layout.setHorizontalGroup(
+            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel4, 0, 313, Short.MAX_VALUE)
+            .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, 313, Short.MAX_VALUE)
+            .addComponent(jPIntenceImage, javax.swing.GroupLayout.PREFERRED_SIZE, 313, Short.MAX_VALUE)
+        );
+        jPanel6Layout.setVerticalGroup(
+            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel6Layout.createSequentialGroup()
+                .addComponent(jLabel6)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPIntenceImage, javax.swing.GroupLayout.PREFERRED_SIZE, 243, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        jPImage.setBackground(new java.awt.Color(0, 0, 0));
+        jPImage.setMaximumSize(new java.awt.Dimension(450, 350));
+        jPImage.setMinimumSize(new java.awt.Dimension(450, 350));
+        jPImage.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jPImageMouseClicked(evt);
+            }
+        });
+        jPImage.setLayout(new java.awt.BorderLayout());
+
+        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        org.openide.awt.Mnemonics.setLocalizedText(jLabel1, org.openide.util.NbBundle.getMessage(FlimResultsTopComponent.class, "FlimResultsTopComponent.jLabel1.text")); // NOI18N
+
+        org.openide.awt.Mnemonics.setLocalizedText(jLabel8, org.openide.util.NbBundle.getMessage(FlimResultsTopComponent.class, "FlimResultsTopComponent.jLabel8.text")); // NOI18N
+
+        org.openide.awt.Mnemonics.setLocalizedText(jLabel9, org.openide.util.NbBundle.getMessage(FlimResultsTopComponent.class, "FlimResultsTopComponent.jLabel9.text")); // NOI18N
+
+        org.openide.awt.Mnemonics.setLocalizedText(jButton2, org.openide.util.NbBundle.getMessage(FlimResultsTopComponent.class, "FlimResultsTopComponent.jButton2.text")); // NOI18N
+        jButton2.setIconTextGap(2);
+        jButton2.setMargin(new java.awt.Insets(2, 2, 2, 2));
+
+        jTFMaxLifetime.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        jTFMaxLifetime.setText(org.openide.util.NbBundle.getMessage(FlimResultsTopComponent.class, "FlimResultsTopComponent.jTFMaxLifetime.text")); // NOI18N
+
+        jTFMinLifetime.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        jTFMinLifetime.setText(org.openide.util.NbBundle.getMessage(FlimResultsTopComponent.class, "FlimResultsTopComponent.jTFMinLifetime.text")); // NOI18N
+
+        javax.swing.GroupLayout jPanel10Layout = new javax.swing.GroupLayout(jPanel10);
+        jPanel10.setLayout(jPanel10Layout);
+        jPanel10Layout.setHorizontalGroup(
+            jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel10Layout.createSequentialGroup()
+                .addComponent(jLabel8)
+                .addGap(11, 11, 11)
+                .addComponent(jTFMinLifetime, javax.swing.GroupLayout.DEFAULT_SIZE, 84, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel9)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jTFMaxLifetime, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jButton2))
+        );
+        jPanel10Layout.setVerticalGroup(
+            jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
+                .addComponent(jLabel8)
+                .addComponent(jTFMinLifetime, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jButton2)
+                .addComponent(jTFMaxLifetime, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jLabel9))
+        );
+
+        javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
+        jPanel7.setLayout(jPanel7Layout);
+        jPanel7Layout.setHorizontalGroup(
+            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPImage, javax.swing.GroupLayout.PREFERRED_SIZE, 302, Short.MAX_VALUE)
+            .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 302, Short.MAX_VALUE)
+            .addComponent(jPanel10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+        jPanel7Layout.setVerticalGroup(
+            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel7Layout.createSequentialGroup()
+                .addComponent(jLabel1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPImage, javax.swing.GroupLayout.PREFERRED_SIZE, 243, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+
+        jPHist.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        jPHist.setLayout(new java.awt.BorderLayout());
+
+        jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        org.openide.awt.Mnemonics.setLocalizedText(jLabel3, org.openide.util.NbBundle.getMessage(FlimResultsTopComponent.class, "FlimResultsTopComponent.jLabel3.text")); // NOI18N
+
+        org.openide.awt.Mnemonics.setLocalizedText(jLabel15, org.openide.util.NbBundle.getMessage(FlimResultsTopComponent.class, "FlimResultsTopComponent.jLabel15.text")); // NOI18N
+
+        org.openide.awt.Mnemonics.setLocalizedText(jButton5, org.openide.util.NbBundle.getMessage(FlimResultsTopComponent.class, "FlimResultsTopComponent.jButton5.text")); // NOI18N
+        jButton5.setIconTextGap(2);
+        jButton5.setMargin(new java.awt.Insets(2, 2, 2, 2));
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton5ActionPerformed(evt);
+            }
+        });
+
+        jTFChNumHist.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        jTFChNumHist.setText(org.openide.util.NbBundle.getMessage(FlimResultsTopComponent.class, "FlimResultsTopComponent.jTFChNumHist.text")); // NOI18N
+
+        javax.swing.GroupLayout jPanel14Layout = new javax.swing.GroupLayout(jPanel14);
+        jPanel14.setLayout(jPanel14Layout);
+        jPanel14Layout.setHorizontalGroup(
+            jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel14Layout.createSequentialGroup()
+                .addComponent(jLabel15, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(6, 6, 6)
+                .addComponent(jTFChNumHist, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jButton5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(18, 18, 18))
+        );
+        jPanel14Layout.setVerticalGroup(
+            jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
+                .addComponent(jLabel15)
+                .addComponent(jTFChNumHist, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jButton5))
+        );
+
+        javax.swing.GroupLayout jPanel11Layout = new javax.swing.GroupLayout(jPanel11);
+        jPanel11.setLayout(jPanel11Layout);
+        jPanel11Layout.setHorizontalGroup(
+            jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, 221, Short.MAX_VALUE)
+            .addComponent(jPHist, javax.swing.GroupLayout.DEFAULT_SIZE, 221, Short.MAX_VALUE)
+            .addComponent(jPanel14, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+        jPanel11Layout.setVerticalGroup(
+            jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel11Layout.createSequentialGroup()
+                .addComponent(jLabel3)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPHist, javax.swing.GroupLayout.PREFERRED_SIZE, 242, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel14, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(13, Short.MAX_VALUE))
+        );
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(jPanel5, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addContainerGap()
                                 .addComponent(jLabel5))
                             .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
-                            .addComponent(jLabel6)
-                            .addComponent(jPIntenceImage, javax.swing.GroupLayout.PREFERRED_SIZE, 272, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
-                            .addComponent(jLabel1)
-                            .addComponent(jPImage, javax.swing.GroupLayout.PREFERRED_SIZE, 278, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
-                            .addComponent(jPHist, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel3)))
-                    .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, 974, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(226, Short.MAX_VALUE))
+                        .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jPanel11, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(150, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jPanel11, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(jLabel3)
+                        .addComponent(jLabel5)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jPHist, javax.swing.GroupLayout.DEFAULT_SIZE, 243, Short.MAX_VALUE))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(jLabel1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jPImage, javax.swing.GroupLayout.PREFERRED_SIZE, 243, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel5)
-                            .addComponent(jLabel6))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jPIntenceImage, javax.swing.GroupLayout.PREFERRED_SIZE, 243, Short.MAX_VALUE)
-                            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 243, Short.MAX_VALUE))))
-                .addGap(54, 54, 54)
-                .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, 263, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(16, 16, 16))
+                        .addComponent(jScrollPane2))
+                    .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
 
         jScrollPane1.setViewportView(jPanel2);
@@ -370,15 +541,15 @@ final class FlimResultsTopComponent extends TopComponent implements ChartMouseLi
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jToolBar1, javax.swing.GroupLayout.DEFAULT_SIZE, 995, Short.MAX_VALUE)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 995, Short.MAX_VALUE)
+            .addComponent(jToolBar1, javax.swing.GroupLayout.DEFAULT_SIZE, 1059, Short.MAX_VALUE)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 1059, Short.MAX_VALUE)
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addComponent(jToolBar1, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 582, Short.MAX_VALUE))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 612, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab(org.openide.util.NbBundle.getMessage(FlimResultsTopComponent.class, "FlimResultsTopComponent.jPanel1.TabConstraints.tabTitle"), jPanel1); // NOI18N
@@ -394,8 +565,6 @@ final class FlimResultsTopComponent extends TopComponent implements ChartMouseLi
             }
         });
 
-        org.openide.awt.Mnemonics.setLocalizedText(jLabel2, org.openide.util.NbBundle.getMessage(FlimResultsTopComponent.class, "FlimResultsTopComponent.jLabel2.text")); // NOI18N
-
         jCBToPlot.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jCBToPlotActionPerformed(evt);
@@ -409,52 +578,42 @@ final class FlimResultsTopComponent extends TopComponent implements ChartMouseLi
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addContainerGap(43, Short.MAX_VALUE)
-                        .addComponent(jTMax, javax.swing.GroupLayout.PREFERRED_SIZE, 225, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(156, 156, 156))
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGap(59, 59, 59)
-                        .addComponent(jBUpdate)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGap(10, 10, 10)
-                        .addComponent(jTMin, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(193, 193, 193))
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel3Layout.createSequentialGroup()
-                        .addGap(37, 37, 37)
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jCBToPlot, javax.swing.GroupLayout.PREFERRED_SIZE, 206, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 225, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addContainerGap(309, Short.MAX_VALUE))))
-            .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(jPanel3Layout.createSequentialGroup()
-                    .addGap(262, 262, 262)
-                    .addComponent(jPSelectedTrace, javax.swing.GroupLayout.PREFERRED_SIZE, 475, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(258, Short.MAX_VALUE)))
+                            .addGroup(jPanel3Layout.createSequentialGroup()
+                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jTMax, javax.swing.GroupLayout.PREFERRED_SIZE, 225, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(156, 156, 156))
+                            .addGroup(jPanel3Layout.createSequentialGroup()
+                                .addGap(59, 59, 59)
+                                .addComponent(jBUpdate)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jPSelectedTrace, javax.swing.GroupLayout.PREFERRED_SIZE, 305, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(173, 173, 173))
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addGap(48, 48, 48)
+                        .addComponent(jCBToPlot, javax.swing.GroupLayout.PREFERRED_SIZE, 206, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(94, 94, 94)
+                        .addComponent(jTMin, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(616, 616, 616))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGap(104, 104, 104)
-                        .addComponent(jCBToPlot, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(161, 161, 161)
-                        .addComponent(jLabel2))
+                        .addGap(293, 293, 293)
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jCBToPlot, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jTMin, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGap(60, 60, 60)
-                        .addComponent(jBUpdate, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(79, 79, 79)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTMin, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTMax, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(157, Short.MAX_VALUE))
-            .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(jPanel3Layout.createSequentialGroup()
-                    .addGap(141, 141, 141)
-                    .addComponent(jPSelectedTrace, javax.swing.GroupLayout.DEFAULT_SIZE, 330, Short.MAX_VALUE)
-                    .addGap(141, 141, 141)))
+                        .addComponent(jBUpdate, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addGap(23, 23, 23)
+                        .addComponent(jPSelectedTrace, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(82, 82, 82)
+                .addComponent(jTMax, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(176, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab(org.openide.util.NbBundle.getMessage(FlimResultsTopComponent.class, "FlimResultsTopComponent.jPanel3.TabConstraints.tabTitle"), jPanel3); // NOI18N
@@ -523,25 +682,45 @@ private void jBUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
     }
 }//GEN-LAST:event_jBUpdateActionPerformed
 
-private void formFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_formFocusGained
-// TODO add your handling code here:
-    System.out.println("test");
-}//GEN-LAST:event_formFocusGained
-
-private void jPIntenceImageMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPIntenceImageMouseClicked
-    // TODO add your handling code here:
-}//GEN-LAST:event_jPIntenceImageMouseClicked
+private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+    int newNumChHish;
+    try {
+        newNumChHish = Integer.parseInt(jTFChNumHist.getText());
+        jPHist.removeAll();
+        ChartPanel chpanHist = updateHistPanel(aveLifetimes, minAveLifetime, maxAveLifetime, newNumChHish);
+        chpanHist.setSize(jPHist.getSize());
+        jPHist.add(chpanHist);
+        jPHist.repaint();
+    }catch(NumberFormatException ex) {
+        NotifyDescriptor errorMessage =new NotifyDescriptor.Exception(
+                    new Exception("Please specify correct number of channels"));
+        DialogDisplayer.getDefault().notify(errorMessage);
+    }
+}//GEN-LAST:event_jButton5ActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jBUpdate;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
+    private javax.swing.JButton jButton4;
+    private javax.swing.JButton jButton5;
     private javax.swing.JComboBox jCBToPlot;
     private javax.swing.JList jLEstimatedLifetimes;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
+    private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPHist;
     private javax.swing.JPanel jPImage;
     private javax.swing.JPanel jPIntenceImage;
@@ -550,13 +729,30 @@ private void jPIntenceImageMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FI
     private javax.swing.JPanel jPSelectedTrace;
     private javax.swing.JPanel jPSingValues;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel10;
+    private javax.swing.JPanel jPanel11;
+    private javax.swing.JPanel jPanel12;
+    private javax.swing.JPanel jPanel13;
+    private javax.swing.JPanel jPanel14;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
+    private javax.swing.JPanel jPanel6;
+    private javax.swing.JPanel jPanel7;
     private javax.swing.JPanel jPanel8;
     private javax.swing.JPanel jPanel9;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JTextField jTFChNumHist;
+    private javax.swing.JTextField jTFMaxIntence;
+    private javax.swing.JTextField jTFMaxLifetime;
+    private javax.swing.JTextField jTFMaxLifetime2;
+    private javax.swing.JTextField jTFMaxLifetime3;
+    private javax.swing.JTextField jTFMinIntence;
+    private javax.swing.JTextField jTFMinLifetime;
+    private javax.swing.JTextField jTFMinLifetime2;
+    private javax.swing.JTextField jTFMinLifetime3;
     private javax.swing.JTextField jTMax;
     private javax.swing.JTextField jTMin;
     private javax.swing.JTabbedPane jTabbedPane1;
@@ -699,25 +895,12 @@ private void jPIntenceImageMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FI
     public void chartMouseMoved(ChartMouseEvent event) {
 //         System.out.println("ChartMouseMoved");
     }
-    
-     private ChartPanel CreateHistPanel(int ind) {
+
+    private ChartPanel updateHistPanel(double[] data, double minVal, double maxVal, int numPockets) {
         HistogramDataset datasetHist = new HistogramDataset();
-        String name;
-        double[] data;
-        if (ind == 0){
-            data = aveLifetimes;
-            datasetHist.addSeries("Average lifetime", data, 20, minAveLifetime, maxAveLifetime);
-            name = "Average lifetime";
-        }
-        else {
-            name = "Componet "+(ind);
-            data = new double[res.getX2().length];
-            for (int i = 0; i < res.getX2().length; i++)
-                data[i] = normAmpl.get(ind-1, i);
-            datasetHist.addSeries(name, data, 20, 0.0, 1.0);
-        }
+        datasetHist.addSeries("seria1", data, numPockets, minAveLifetime, maxAveLifetime);
         JFreeChart charthist = ChartFactory.createHistogram(
-            name,
+            null,
             null,
             null,
             datasetHist,
@@ -730,7 +913,41 @@ private void jPIntenceImageMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FI
         plot.setForegroundAlpha(0.85f);
         XYBarRenderer renderer = (XYBarRenderer) plot.getRenderer();
         renderer.setDrawBarOutline(false);
-        return new ChartPanel(charthist,true); 
+        return new ChartPanel(charthist,true);
+    }
+
+
+    private ChartPanel CreateHistPanel(int ind) {
+       HistogramDataset datasetHist = new HistogramDataset();
+       String name;
+       double[] data;
+       if (ind == 0){
+           data = aveLifetimes;
+           datasetHist.addSeries("Average lifetime", data, 20, minAveLifetime, maxAveLifetime);
+           name = "Average lifetime";
+       }
+       else {
+           name = "Componet "+(ind);
+           data = new double[res.getX2().length];
+           for (int i = 0; i < res.getX2().length; i++)
+               data[i] = normAmpl.get(ind-1, i);
+           datasetHist.addSeries(name, data, 20, 0.0, 1.0);
+       }
+       JFreeChart charthist = ChartFactory.createHistogram(
+           name,
+           null,
+           null,
+           datasetHist,
+           PlotOrientation.VERTICAL,
+           false,
+           true,
+           false
+       );
+       XYPlot plot = (XYPlot) charthist.getPlot();
+//       plot.setForegroundAlpha(0.85f);
+       XYBarRenderer renderer = (XYBarRenderer) plot.getRenderer();
+       renderer.setDrawBarOutline(false);
+       return new ChartPanel(charthist,true); 
     }
     
     private double[] MakeFlimImage(double[] kinpar, Matrix amplitudes, int numOfSelPix){

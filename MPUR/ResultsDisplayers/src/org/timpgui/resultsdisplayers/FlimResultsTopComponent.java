@@ -82,6 +82,7 @@ final class FlimResultsTopComponent extends TopComponent implements ChartMouseLi
     private int numberOfComponents;
     private int selImWidth, selImHeight;
     private int[] selImInd;
+    private IntensImageDataset intensutyImageDataset;
 
     FlimResultsTopComponent(TimpResultDataObject dataObj) {
         initComponents();
@@ -130,7 +131,7 @@ final class FlimResultsTopComponent extends TopComponent implements ChartMouseLi
         }
 
 //create intence image with selected pixels
-        IntensImageDataset intensutyImageDataset = new IntensImageDataset(res.getOrwidth(),res.getOrheigh(),res.getIntenceIm());
+        intensutyImageDataset = new IntensImageDataset(res.getOrwidth(),res.getOrheigh(),res.getIntenceIm());
         for (int i = 0; i < res.getX2().length; i++){
             intensutyImageDataset.SetValue((int)res.getX2()[i], -1);
         }
@@ -149,7 +150,7 @@ final class FlimResultsTopComponent extends TopComponent implements ChartMouseLi
         for (int i = 0; i < res.getX2().length; i++){
             aveLifetimeDataset.SetValue(selImInd[i], aveLifetimes[i]);
         }
-        ps = new RainbowPaintScale(0, maxAveLifetime);
+        ps = new RainbowPaintScale(0.0000001, maxAveLifetime);
         JFreeChart aveLifetimeChart = createScatChart(ImageUtilities.createColorCodedImage(aveLifetimeDataset, ps), ps,selImWidth,selImHeight);
         ChartPanel aveLifetimePanel = new ChartPanel(aveLifetimeChart);
         aveLifetimePanel.setFillZoomRectangle(true);
@@ -316,6 +317,11 @@ final class FlimResultsTopComponent extends TopComponent implements ChartMouseLi
         org.openide.awt.Mnemonics.setLocalizedText(jButton1, org.openide.util.NbBundle.getMessage(FlimResultsTopComponent.class, "FlimResultsTopComponent.jButton1.text")); // NOI18N
         jButton1.setIconTextGap(2);
         jButton1.setMargin(new java.awt.Insets(2, 2, 2, 2));
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         jTFMaxIntence.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
         jTFMaxIntence.setText(org.openide.util.NbBundle.getMessage(FlimResultsTopComponent.class, "FlimResultsTopComponent.jTFMaxIntence.text")); // NOI18N
@@ -388,6 +394,11 @@ final class FlimResultsTopComponent extends TopComponent implements ChartMouseLi
         org.openide.awt.Mnemonics.setLocalizedText(jButton2, org.openide.util.NbBundle.getMessage(FlimResultsTopComponent.class, "FlimResultsTopComponent.jButton2.text")); // NOI18N
         jButton2.setIconTextGap(2);
         jButton2.setMargin(new java.awt.Insets(2, 2, 2, 2));
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         jTFMaxLifetime.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
         jTFMaxLifetime.setText(org.openide.util.NbBundle.getMessage(FlimResultsTopComponent.class, "FlimResultsTopComponent.jTFMaxLifetime.text")); // NOI18N
@@ -700,20 +711,62 @@ private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
     }
 }//GEN-LAST:event_jButton5ActionPerformed
 
+private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    double newMinAmpl, newMaxAmpl;
+    try {
+        newMinAmpl = Double.parseDouble(jTFMinIntence.getText());
+        newMaxAmpl = Double.parseDouble(jTFMaxIntence.getText());
+        PaintScale ps = new GrayPaintScalePlus(newMinAmpl, newMaxAmpl, -1);
+        JFreeChart intIm = createScatChart(ImageUtilities.createColorCodedImage(intensutyImageDataset, ps), ps,res.getOrwidth(),res.getOrheigh());
+        ChartPanel intImPanel = new ChartPanel(intIm);
+        intImPanel.setFillZoomRectangle(true);
+        intImPanel.setMouseWheelEnabled(true);
+        jPIntenceImage.removeAll();
+        intImPanel.setSize(jPIntenceImage.getSize());
+        jPIntenceImage.add(intImPanel);
+        jPIntenceImage.repaint();
+
+    }catch(NumberFormatException ex) {
+        NotifyDescriptor errorMessage =new NotifyDescriptor.Exception(
+                    new Exception("Please specify correct number of channels"));
+        DialogDisplayer.getDefault().notify(errorMessage);
+    }
+}//GEN-LAST:event_jButton1ActionPerformed
+
+private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+double newMinLifetime, newMaxLifetime;
+    try {
+        newMinLifetime = Double.parseDouble(jTFMinLifetime.getText());
+        newMaxLifetime = Double.parseDouble(jTFMaxLifetime.getText());
+
+        IntensImageDataset aveLifetimeDataset = new IntensImageDataset(selImHeight,selImWidth,new double[selImWidth*selImHeight]);
+        for (int i = 0; i < res.getX2().length; i++){
+            aveLifetimeDataset.SetValue(selImInd[i], aveLifetimes[i]);
+        }
+        PaintScale ps = new RainbowPaintScale(newMinLifetime, newMaxLifetime);
+        JFreeChart aveLifetimeChart = createScatChart(ImageUtilities.createColorCodedImage(aveLifetimeDataset, ps), ps,selImWidth,selImHeight);
+        ChartPanel aveLifetimePanel = new ChartPanel(aveLifetimeChart);
+        aveLifetimePanel.setFillZoomRectangle(true);
+        aveLifetimePanel.setMouseWheelEnabled(true);
+        jPImage.removeAll();
+        aveLifetimePanel.setSize(jPImage.getSize());
+        jPImage.add(aveLifetimePanel);
+        jPImage.repaint();
+    }catch(NumberFormatException ex) {
+        NotifyDescriptor errorMessage =new NotifyDescriptor.Exception(
+                    new Exception("Please specify correct number of channels"));
+        DialogDisplayer.getDefault().notify(errorMessage);
+    }
+}//GEN-LAST:event_jButton2ActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jBUpdate;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
     private javax.swing.JComboBox jCBToPlot;
     private javax.swing.JList jLEstimatedLifetimes;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel10;
-    private javax.swing.JLabel jLabel11;
-    private javax.swing.JLabel jLabel12;
-    private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -733,8 +786,6 @@ private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel10;
     private javax.swing.JPanel jPanel11;
-    private javax.swing.JPanel jPanel12;
-    private javax.swing.JPanel jPanel13;
     private javax.swing.JPanel jPanel14;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
@@ -749,12 +800,8 @@ private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
     private javax.swing.JTextField jTFChNumHist;
     private javax.swing.JTextField jTFMaxIntence;
     private javax.swing.JTextField jTFMaxLifetime;
-    private javax.swing.JTextField jTFMaxLifetime2;
-    private javax.swing.JTextField jTFMaxLifetime3;
     private javax.swing.JTextField jTFMinIntence;
     private javax.swing.JTextField jTFMinLifetime;
-    private javax.swing.JTextField jTFMinLifetime2;
-    private javax.swing.JTextField jTFMinLifetime3;
     private javax.swing.JTextField jTMax;
     private javax.swing.JTextField jTMin;
     private javax.swing.JTabbedPane jTabbedPane1;

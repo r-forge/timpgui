@@ -39,8 +39,8 @@
           <Layout>
             <DimensionLayout dim="0">
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="jToolBar1" alignment="0" pref="1059" max="32767" attributes="0"/>
-                  <Component id="jScrollPane1" alignment="0" pref="1059" max="32767" attributes="0"/>
+                  <Component id="jToolBar1" alignment="0" pref="1064" max="32767" attributes="0"/>
+                  <Component id="jScrollPane1" alignment="0" pref="1064" max="32767" attributes="0"/>
               </Group>
             </DimensionLayout>
             <DimensionLayout dim="1">
@@ -94,7 +94,7 @@
                                       <Component id="jPanel11" min="-2" max="-2" attributes="0"/>
                                   </Group>
                               </Group>
-                              <EmptySpace pref="150" max="32767" attributes="0"/>
+                              <EmptySpace pref="162" max="32767" attributes="0"/>
                           </Group>
                       </Group>
                     </DimensionLayout>
@@ -111,9 +111,9 @@
                                   </Group>
                                   <Component id="jPanel6" alignment="0" max="32767" attributes="1"/>
                               </Group>
-                              <EmptySpace max="32767" attributes="0"/>
-                              <Component id="jPanel5" min="-2" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
+                              <Component id="jPanel5" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace pref="15" max="32767" attributes="0"/>
                           </Group>
                       </Group>
                     </DimensionLayout>
@@ -147,13 +147,8 @@
                       <Layout>
                         <DimensionLayout dim="0">
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Group type="102" attributes="0">
-                                  <Group type="103" groupAlignment="0" attributes="0">
-                                      <Component id="jPanel9" min="-2" pref="1034" max="-2" attributes="0"/>
-                                      <Component id="jPanel8" alignment="0" min="-2" max="-2" attributes="0"/>
-                                  </Group>
-                                  <EmptySpace max="32767" attributes="0"/>
-                              </Group>
+                              <Component id="jPanel9" min="-2" pref="1034" max="-2" attributes="0"/>
+                              <Component id="jPanel8" alignment="0" min="-2" max="-2" attributes="0"/>
                           </Group>
                         </DimensionLayout>
                         <DimensionLayout dim="1">

@@ -29,7 +29,7 @@ import org.timpgui.timpinterface.TimpInterface;
 
 public final class StartAnalysis implements ActionListener {
 
-    final static int NO_OF_ITERATIONS = 5;
+    final static int NO_OF_ITERATIONS = 0;
     Tgm[] models;
     private TimpInterface service;
     private DatasetTimp[] datasets;

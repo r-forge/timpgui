@@ -66,7 +66,7 @@ public class TimpController implements TimpInterface {
          if(listOfDatasets!=null) {
              cmd = cmd.concat("list(");
              for (int i = 0; i < listOfDatasets.length; i++) {
-                 if (i>1) {cmd = cmd +",";}
+                 if (i>0) {cmd = cmd +",";}
                  cmd = cmd.concat("dataset"+String.valueOf(i+1));
              }
              cmd = cmd.concat(")");

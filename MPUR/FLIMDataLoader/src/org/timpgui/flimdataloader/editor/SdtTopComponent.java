@@ -42,6 +42,7 @@ import org.jfree.chart.plot.XYPlot;
 import static java.lang.Math.round;
 import nl.vu.nat.jfreechartcustom.FastXYPlot;
 import nl.vu.nat.tgmprojectsupport.TGProject;
+import nl.wur.flim.jfreechartcustom.ImageUtilities;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.renderer.xy.XYBlockRenderer;
 import org.netbeans.api.project.ui.OpenProjects;
@@ -147,7 +148,7 @@ final public class SdtTopComponent extends CloneableTopComponent implements Char
         chpanIntenceImage.addChartMouseListener(this);
         jPIntensImage.add(chpanIntenceImage);
         jLNumSelPix.setText(Integer.toString(numSelPix));
-        jLMaxAmpl.setText(Integer.toString(flimImage.getMaxIntens()));
+        jTFMaxIntence.setText(Integer.toString(flimImage.getMaxIntens()));
         jLChNumm.setText(Integer.toString(flimImage.getCannelN()));
         jLHeigth.setText(Integer.toString(flimImage.getY()));
         jLWidth.setText(Integer.toString(flimImage.getX()));
@@ -203,7 +204,7 @@ final public class SdtTopComponent extends CloneableTopComponent implements Char
         chpanIntenceImage.addChartMouseListener(this);
         jPIntensImage.add(chpanIntenceImage);
         jLNumSelPix.setText(Integer.toString(numSelPix));
-        jLMaxAmpl.setText(Integer.toString(flimImage.getMaxIntens()));
+        jTFMaxIntence.setText(Integer.toString(flimImage.getMaxIntens()));
         jLChNumm.setText(Integer.toString(flimImage.getCannelN()));
         jLHeigth.setText(Integer.toString(flimImage.getY()));
         jLWidth.setText(Integer.toString(flimImage.getX()));
@@ -241,8 +242,6 @@ final public class SdtTopComponent extends CloneableTopComponent implements Char
         jLWidth = new javax.swing.JLabel();
         jLHeigth = new javax.swing.JLabel();
         jPanel5 = new javax.swing.JPanel();
-        jLabel4 = new javax.swing.JLabel();
-        jLMaxAmpl = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLNumSelPix = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
@@ -250,6 +249,13 @@ final public class SdtTopComponent extends CloneableTopComponent implements Char
         jBSelect = new javax.swing.JButton();
         jBUnselect = new javax.swing.JButton();
         jPSelectedTrace = new javax.swing.JPanel();
+        jPanel6 = new javax.swing.JPanel();
+        jLabel12 = new javax.swing.JLabel();
+        jLabel13 = new javax.swing.JLabel();
+        jButton2 = new javax.swing.JButton();
+        jTFMaxIntence = new javax.swing.JTextField();
+        jTFMinIntence = new javax.swing.JTextField();
+        jLabel4 = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
         jToolBar2 = new javax.swing.JToolBar();
         jPSumTrace = new javax.swing.JPanel();
@@ -323,6 +329,7 @@ final public class SdtTopComponent extends CloneableTopComponent implements Char
         jToolBar1.add(jSeparator1);
 
         org.openide.awt.Mnemonics.setLocalizedText(jBSaveIvoFile, org.openide.util.NbBundle.getMessage(SdtTopComponent.class, "SdtTopComponent.jBSaveIvoFile.text")); // NOI18N
+        jBSaveIvoFile.setEnabled(false);
         jToolBar1.add(jBSaveIvoFile);
 
         jPIntensImage.setBackground(new java.awt.Color(0, 0, 0));
@@ -399,16 +406,11 @@ final public class SdtTopComponent extends CloneableTopComponent implements Char
                     .addComponent(jLChNumm)
                     .addComponent(jLabel9)
                     .addComponent(jLChWidth))
-                .addContainerGap(29, Short.MAX_VALUE))
+                .addContainerGap(30, Short.MAX_VALUE))
         );
 
         jPanel5.setMaximumSize(new java.awt.Dimension(418, 105));
         jPanel5.setMinimumSize(new java.awt.Dimension(418, 105));
-
-        org.openide.awt.Mnemonics.setLocalizedText(jLabel4, org.openide.util.NbBundle.getMessage(SdtTopComponent.class, "SdtTopComponent.jLabel4.text")); // NOI18N
-
-        jLMaxAmpl.setFont(new java.awt.Font("Tahoma", 1, 12));
-        org.openide.awt.Mnemonics.setLocalizedText(jLMaxAmpl, org.openide.util.NbBundle.getMessage(SdtTopComponent.class, "SdtTopComponent.jLMaxAmpl.text")); // NOI18N
 
         org.openide.awt.Mnemonics.setLocalizedText(jLabel3, org.openide.util.NbBundle.getMessage(SdtTopComponent.class, "SdtTopComponent.jLabel3.text")); // NOI18N
 
@@ -442,12 +444,8 @@ final public class SdtTopComponent extends CloneableTopComponent implements Char
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addGroup(jPanel5Layout.createSequentialGroup()
-                            .addComponent(jLabel4)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(jLMaxAmpl)
-                            .addGap(18, 18, 18)
                             .addComponent(jLabel3)
-                            .addGap(18, 18, 18)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                             .addComponent(jLNumSelPix))
                         .addGroup(jPanel5Layout.createSequentialGroup()
                             .addComponent(jLabel2)
@@ -458,7 +456,7 @@ final public class SdtTopComponent extends CloneableTopComponent implements Char
                         .addComponent(jBSelect)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jBUnselect)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 200, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 59, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(105, 105, 105))
         );
         jPanel5Layout.setVerticalGroup(
@@ -466,8 +464,6 @@ final public class SdtTopComponent extends CloneableTopComponent implements Char
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel4)
-                    .addComponent(jLMaxAmpl)
                     .addComponent(jLabel3)
                     .addComponent(jLNumSelPix))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -488,6 +484,62 @@ final public class SdtTopComponent extends CloneableTopComponent implements Char
         jPSelectedTrace.setPreferredSize(new java.awt.Dimension(550, 300));
         jPSelectedTrace.setLayout(new java.awt.BorderLayout());
 
+        org.openide.awt.Mnemonics.setLocalizedText(jLabel12, org.openide.util.NbBundle.getMessage(SdtTopComponent.class, "SdtTopComponent.jLabel12.text")); // NOI18N
+
+        org.openide.awt.Mnemonics.setLocalizedText(jLabel13, org.openide.util.NbBundle.getMessage(SdtTopComponent.class, "SdtTopComponent.jLabel13.text")); // NOI18N
+
+        org.openide.awt.Mnemonics.setLocalizedText(jButton2, org.openide.util.NbBundle.getMessage(SdtTopComponent.class, "SdtTopComponent.jButton2.text")); // NOI18N
+        jButton2.setIconTextGap(2);
+        jButton2.setMargin(new java.awt.Insets(2, 2, 2, 2));
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+
+        jTFMaxIntence.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        jTFMaxIntence.setText(org.openide.util.NbBundle.getMessage(SdtTopComponent.class, "SdtTopComponent.jTFMaxIntence.text")); // NOI18N
+
+        jTFMinIntence.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        jTFMinIntence.setText(org.openide.util.NbBundle.getMessage(SdtTopComponent.class, "SdtTopComponent.jTFMinIntence.text")); // NOI18N
+
+        org.openide.awt.Mnemonics.setLocalizedText(jLabel4, org.openide.util.NbBundle.getMessage(SdtTopComponent.class, "SdtTopComponent.jLabel4.text")); // NOI18N
+
+        javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
+        jPanel6.setLayout(jPanel6Layout);
+        jPanel6Layout.setHorizontalGroup(
+            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel6Layout.createSequentialGroup()
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel6Layout.createSequentialGroup()
+                        .addComponent(jLabel12)
+                        .addGap(11, 11, 11)
+                        .addComponent(jTFMinIntence, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jLabel13)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jTFMaxIntence, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jButton2))
+                    .addGroup(jPanel6Layout.createSequentialGroup()
+                        .addGap(118, 118, 118)
+                        .addComponent(jLabel4)))
+                .addContainerGap(187, Short.MAX_VALUE))
+        );
+        jPanel6Layout.setVerticalGroup(
+            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
+                .addComponent(jLabel4)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 9, Short.MAX_VALUE)
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
+                    .addComponent(jLabel12)
+                    .addComponent(jTFMinIntence, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton2)
+                    .addComponent(jTFMaxIntence, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel13))
+                .addContainerGap())
+        );
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -499,6 +551,7 @@ final public class SdtTopComponent extends CloneableTopComponent implements Char
                     .addComponent(jPIntensImage, javax.swing.GroupLayout.PREFERRED_SIZE, 438, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel6, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPSelectedTrace, javax.swing.GroupLayout.PREFERRED_SIZE, 498, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
@@ -516,7 +569,9 @@ final public class SdtTopComponent extends CloneableTopComponent implements Char
                         .addComponent(jPanel5, 0, 103, Short.MAX_VALUE))
                     .addComponent(jPIntensImage, javax.swing.GroupLayout.Alignment.TRAILING, 0, 0, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(192, 192, 192))
         );
 
@@ -538,7 +593,7 @@ final public class SdtTopComponent extends CloneableTopComponent implements Char
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addComponent(jToolBar2, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPSumTrace, javax.swing.GroupLayout.DEFAULT_SIZE, 675, Short.MAX_VALUE))
+                .addComponent(jPSumTrace, javax.swing.GroupLayout.DEFAULT_SIZE, 679, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab(org.openide.util.NbBundle.getMessage(SdtTopComponent.class, "SdtTopComponent.jPanel4.TabConstraints.tabTitle"), jPanel4); // NOI18N
@@ -870,7 +925,8 @@ private void jTButBinActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
             dataset.SetValue(i, -1);
         }
     }
-
+    jTFMaxIntence.setText(String.valueOf(flimImage.getMaxIntens()));
+    jTFMaxIntence.setText("0");
     updateIntenceImageChart(0, flimImage.getMaxIntens());
 }//GEN-LAST:event_jTButBinActionPerformed
 
@@ -892,8 +948,24 @@ private void jTButAmplActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIR
             dataset.SetValue(i, -1);
         }
     }
+    jTFMaxIntence.setText(String.valueOf(flimImage.getMaxIntens()));
+    jTFMaxIntence.setText("0");
     updateIntenceImageChart(0, flimImage.getMaxIntens());
 }//GEN-LAST:event_jTButAmplActionPerformed
+
+private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    double newMinAmpl, newMaxAmpl;
+    try {
+        newMinAmpl = Double.parseDouble(jTFMinIntence.getText());
+        newMaxAmpl = Double.parseDouble(jTFMaxIntence.getText());
+        updateIntenceImageChart(newMinAmpl, newMaxAmpl);
+    }catch(NumberFormatException ex) {
+        NotifyDescriptor errorMessage =new NotifyDescriptor.Exception(
+                new Exception("Please specify correct number of channels"));
+        DialogDisplayer.getDefault().notify(errorMessage);
+    }
+
+}//GEN-LAST:event_jButton2ActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jBMakeDataset;
@@ -902,14 +974,16 @@ private void jTButAmplActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIR
     private javax.swing.JButton jBSumSelPix;
     private javax.swing.JButton jBUnselect;
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLChNumm;
     private javax.swing.JLabel jLChWidth;
     private javax.swing.JLabel jLHeigth;
-    private javax.swing.JLabel jLMaxAmpl;
     private javax.swing.JLabel jLNumSelPix;
     private javax.swing.JLabel jLWidth;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -932,6 +1006,7 @@ private void jTButAmplActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIR
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
+    private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel7;
     private javax.swing.JPanel jPanel8;
     private javax.swing.JPanel jPanel9;
@@ -942,6 +1017,8 @@ private void jTButAmplActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIR
     private javax.swing.JSpinner jSnumSV;
     private javax.swing.JToggleButton jTButAmpl;
     private javax.swing.JToggleButton jTButBin;
+    private javax.swing.JTextField jTFMaxIntence;
+    private javax.swing.JTextField jTFMinIntence;
     private javax.swing.JTextField jTFPortion;
     private javax.swing.JTextField jTFtotalNumSV;
     private javax.swing.JTabbedPane jTabbedPane1;
@@ -1142,6 +1219,7 @@ private void jTButAmplActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIR
             false
         );
         tracechart.getXYPlot().getDomainAxis().setUpperBound(flimImage.getTime());
+        tracechart.setBackgroundPaint(JFreeChart.DEFAULT_BACKGROUND_PAINT);
 //        tracechart.getXYPlot().setDomainZeroBaselineVisible(true);
         if (compleateSet){
             for (int i = 0; i < flimImage.getCurveNum(); i++)

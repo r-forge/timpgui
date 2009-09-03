@@ -13,8 +13,9 @@ package org.timpgui.gui.scheme.palette;
 import java.util.ArrayList;
 import org.openide.nodes.Index;
 import org.openide.nodes.Node;
+import org.openide.util.Utilities;
 
-public class ShapeChildren  extends Index.ArrayChildren {
+public class TimpguiComponentChildren  extends Index.ArrayChildren {
 
     private Category category;
 
@@ -27,7 +28,7 @@ public class ShapeChildren  extends Index.ArrayChildren {
         {"0", "Plotting", "org/timpgui/gui/scheme/resources/image3.png", "SVD Plot"},
     };
 
-    public ShapeChildren(Category Category) {
+    public TimpguiComponentChildren(Category Category) {
         this.category = Category;
     }
 
@@ -36,12 +37,13 @@ public class ShapeChildren  extends Index.ArrayChildren {
         ArrayList childrenNodes = new ArrayList( items.length );
         for( int i=0; i<items.length; i++ ) {
             if( category.getName().equals( items[i][1] ) ) {
-                Shape item = new Shape();
+                TimpguiComponent item = new TimpguiComponent();
                 item.setNumber(new Integer(items[i][0]));
                 item.setCategory(items[i][1]);
-                item.setImage(items[i][2]);
+                item.setImage(Utilities.loadImage(items[i][2]));
+                item.setImageLocation(items[i][2]);
                 item.setName(items[i][3]);
-                childrenNodes.add( new ShapeNode( item ) );
+                childrenNodes.add( new TimpguiComponentNode( item ) );
             }
         }
         return childrenNodes;

@@ -5,19 +5,22 @@
 
 package org.timpgui.gui.scheme.palette;
 
+import java.awt.Image;
+
 /**
  *
  * @author jsg210
  */
-public class Shape {
+public class TimpguiComponent {
 
     private Integer number;
     private String category;
     private String name;
-    private String image;
+    private Image image;
+    private String imageLocation;
 
     /** Creates a new instance of Instrument */
-    public Shape() {
+    public TimpguiComponent() {
     }
 
     public Integer getNumber() {
@@ -36,11 +39,11 @@ public class Shape {
         this.category = category;
     }
 
-    public String getImage() {
+    public Image getImage() {
         return image;
     }
 
-    public void setImage(String image) {
+    public void setImage(Image image) {
         this.image = image;
     }
 
@@ -50,6 +53,14 @@ public class Shape {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public void setImageLocation(String imageLocation) {
+        this.imageLocation = imageLocation;
+    }
+
+    public String getImageLocation() {
+        return imageLocation;
     }
 
 }

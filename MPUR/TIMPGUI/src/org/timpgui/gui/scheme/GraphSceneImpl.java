@@ -19,7 +19,6 @@
 
 package org.timpgui.gui.scheme;
 
-import java.awt.datatransfer.UnsupportedFlavorException;
 import org.netbeans.api.visual.action.ActionFactory;
 import org.netbeans.api.visual.action.SelectProvider;
 import org.netbeans.api.visual.action.WidgetAction;
@@ -36,18 +35,12 @@ import org.netbeans.api.visual.widget.general.IconNodeWidget;
 import org.openide.util.Utilities;
 
 import java.awt.*;
-import java.awt.datatransfer.DataFlavor;
-import java.awt.datatransfer.Transferable;
-import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
-import java.io.IOException;
 import java.util.Collections;
-import javax.swing.JComponent;
 import javax.swing.JLabel;
-import javax.swing.JPanel;
-import org.netbeans.api.visual.action.AcceptProvider;
-import org.netbeans.api.visual.action.ConnectorState;
 import org.netbeans.api.visual.widget.ComponentWidget;
+import org.timpgui.gui.scheme.components.DatasetContainer;
+import org.timpgui.gui.scheme.palette.TimpguiComponent;
 
 
 /**
@@ -77,27 +70,14 @@ public class GraphSceneImpl extends GraphScene {
     public GraphSceneImpl() {
         mainLayer = new LayerWidget(this);
         addChild(mainLayer);
-
         connectionLayer = new LayerWidget(this);
         addChild(connectionLayer);
         addChild(interractionLayer);
         getActions().addAction(ActionFactory.createRectangularSelectAction(this, backgroundLayer));
         getActions().addAction(ActionFactory.createPopupMenuAction(new SceneMainMenu(this)));
         getActions().addAction(sceneAcceptAction);
-        setToolTipText("Left mouse click for creating a new Node");
+        setToolTipText("Drag components from the palette onto this design pane");
         initGrids();
-    }
-
-    protected Widget attachNodeWidget(String node) {
-        IconNodeWidget label = new IconNodeWidget(this);
-        label.setToolTipText("Hold 'Ctrl'+'Mouse Right Button' to create Edge");
-        label.setLabel(node);
-        label.setImage(IMAGE);
-        label.getActions().addAction(connectAction);
-        label.getActions().addAction(moveAction);
-        mainLayer.addChild(label);
-        label.getActions().addAction(ActionFactory.createPopupMenuAction(nodeMenu));
-        return label;
     }
 
     protected Widget attachEdgeWidget(String edge) {
@@ -130,10 +110,11 @@ public class GraphSceneImpl extends GraphScene {
 
     @Override
     protected Widget attachNodeWidget(Object node) {
-        //return attachNodeWidget((String) node);
-        ComponentWidget cw = new ComponentWidget(this, new JLabel("test"));
-         mainLayer.addChild(cw);
-        cw.getActions().addAction(ActionFactory.createPopupMenuAction(nodeMenu));
+        ComponentWidget cw = new ComponentWidget(this, new DatasetContainer());
+        cw.getActions().addAction(moveAction);
+        cw.getActions().addAction(connectAction);
+        cw.getActions().addAction(reconnectAction);
+        mainLayer.addChild(cw);
         return cw;
     }
 
@@ -187,6 +168,22 @@ public class GraphSceneImpl extends GraphScene {
         repaint();
         revalidate(false);
         validate();
+    }
+
+        public WidgetAction getConnectAction() {
+        return connectAction;
+    }
+
+    public WidgetAction getMoveAction() {
+        return moveAction;
+    }
+
+    public WidgetAction getReconnectAction() {
+        return reconnectAction;
+    }
+
+    public WidgetAction getSelectAction() {
+        return selectAction;
     }
 
 }

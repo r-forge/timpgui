@@ -8,7 +8,6 @@ import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.Point;
 import java.awt.Rectangle;
-import java.awt.Shape;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
 import java.awt.datatransfer.UnsupportedFlavorException;
@@ -24,6 +23,8 @@ import org.netbeans.api.visual.widget.Widget;
 import org.openide.nodes.Node;
 import org.openide.util.Utilities;
 import org.timpgui.gui.scheme.components.DatasetContainer;
+import org.timpgui.gui.scheme.nodes.DatasetContainerNode;
+import org.timpgui.gui.scheme.palette.TimpguiComponent;
 
 /**
  *
@@ -31,20 +32,20 @@ import org.timpgui.gui.scheme.components.DatasetContainer;
  */
 public class CustomSceneAcceptProvider implements AcceptProvider {
 
-    private GraphScene scene;
+    private GraphSceneImpl scene;
     private Point point;
     private int nodeCount=1;
 
     public CustomSceneAcceptProvider(GraphScene scene) {
-        this.scene = scene;
+        this.scene = (GraphSceneImpl) scene;
     }
 
     public ConnectorState isAcceptable(Widget widget, Point point, Transferable transferable) {
         //Image dragImage = getImageFromTransferable(transferable);
         ConnectorState accept;
-        MyNode node = getNodeFromTransferable(transferable);
-        if (node!=null) {
-        Image dragImage = node.getImage();
+        TimpguiComponent shape = getTimpguiComponentFromTransferable(transferable);
+        if (shape!=null) {
+        Image dragImage = shape.getImage();
         JComponent view = scene.getView();
         Graphics2D g2 = (Graphics2D) view.getGraphics();
         Rectangle visRect = view.getVisibleRect();
@@ -61,28 +62,35 @@ public class CustomSceneAcceptProvider implements AcceptProvider {
     }
 
     public void accept(Widget widget, Point point, Transferable transferable) {
-        final MyNode node = getNodeFromTransferable(transferable);
+        final TimpguiComponent tgc = getTimpguiComponentFromTransferable(transferable);
+        System.out.println(tgc.getCategory());
+        System.out.println(tgc.getName());
+        DatasetContainerNode dcn = new DatasetContainerNode("test");
+        Widget newWidget = scene.addNode(dcn);
+        //Widget newWidget2 = scene.attachNodeWidget(dcn);
             //String hm = "Pallete Node"+(nodeCount++);
-            ComponentWidget cw = new ComponentWidget(scene, new DatasetContainer());
-            cw.setPreferredLocation(point);
-            cw.getActions().addAction(ActionFactory.createMoveAction());
-            scene.addChild(cw);
+            //if shape.getCategory()
+            //ComponentWidget cw = new ComponentWidget(scene, new DatasetContainer());
+            //cw.setPreferredLocation(point);
+            //cw.getActions().addAction(scene.getMoveAction());
+            //cw.getActions().addAction(scene.getConnectAction());
+        
             //Widget newNode = scene.addNode(hm);
             //scene.getSceneAnimator().animatePreferredLocation(newNode,point);
-            scene.validate();
-            scene.repaint();
+          scene.validate();
+          scene.repaint();
     }
 
-    private MyNode getNodeFromTransferable(Transferable transferable) {
+    private TimpguiComponent getTimpguiComponentFromTransferable(Transferable transferable) {
         Object o = null;
         try {
-            o = transferable.getTransferData(new DataFlavor(Shape.class, "Shape"));
+            o = transferable.getTransferData(new DataFlavor(TimpguiComponent.class, "TimpguiComponent"));
         } catch (IOException ex) {
             ex.printStackTrace();
         } catch (UnsupportedFlavorException ex) {
             ex.printStackTrace();
         }
-        return o instanceof MyNode ? (MyNode) o : null; //TODO: not null
+        return o instanceof TimpguiComponent ? (TimpguiComponent) o : null; //TODO: not null
     }
 
     private String getNameFromTransferable(Transferable transferable) {

@@ -11,12 +11,30 @@
 
 package org.timpgui.resultsdisplayers;
 
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.image.BufferedImage;
 import nl.wur.flim.jfreechartcustom.ImageUtilities;
 import nl.wur.flim.jfreechartcustom.IntensImageDataset;
 import nl.wur.flim.jfreechartcustom.RainbowPaintScale;
+import org.jfree.chart.ChartFactory;
+import org.jfree.chart.ChartMouseEvent;
+import org.jfree.chart.ChartMouseListener;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
+import org.jfree.chart.annotations.XYDataImageAnnotation;
+import org.jfree.chart.axis.AxisLocation;
+import org.jfree.chart.axis.NumberAxis;
+import org.jfree.chart.plot.PlotOrientation;
+import org.jfree.chart.plot.XYPlot;
 import org.jfree.chart.renderer.PaintScale;
+import org.jfree.chart.renderer.xy.XYBarRenderer;
+import org.jfree.chart.title.PaintScaleLegend;
+import org.jfree.data.statistics.HistogramDataset;
+import org.jfree.data.xy.XYSeriesCollection;
+import org.jfree.ui.Layer;
+import org.jfree.ui.RectangleEdge;
+import org.jfree.ui.RectangleInsets;
 import org.openide.DialogDisplayer;
 import org.openide.NotifyDescriptor;
 
@@ -26,11 +44,47 @@ import org.openide.NotifyDescriptor;
  */
 public class ImageHistPanel extends javax.swing.JPanel {
 
-    private int selImHeight,selImWidth;
+    private int imHeight,imWidth;
+    private double minValue, maxValue;
+    private double[] dataValues;
+    private int[] selImInd;
+    private int numChHist;
+    private ChartMouseListener listener;
 
     /** Creates new form ImageHistPanel */
     public ImageHistPanel() {
         initComponents();
+    }
+
+    public ImageHistPanel(String name, double[] data, int[] selInd, int height, int width, double minVal, double maxVal, ChartMouseListener listen) {
+        initComponents();
+        this.dataValues = data;
+        this.selImInd = selInd;
+        this.imHeight = height;
+        this.imWidth = width;
+        this.minValue = minVal;
+        this.maxValue = maxVal;
+        this.jLName.setText(name);
+        this.numChHist = 20;
+        this.listener = listen;
+
+        jTFChNumHist.setText(String.valueOf(numChHist));
+        jTFMaxValue.setText(String.valueOf(maxValue));
+        jTFMinValue.setText(String.valueOf(minValue));
+
+        jPHist.add(updateHistPanel(data, minValue, maxValue, numChHist));
+
+        IntensImageDataset dataValuesDataset = new IntensImageDataset(imHeight,imWidth,new double[imWidth*imHeight]);
+        for (int i = 0; i < dataValues.length; i++){
+            dataValuesDataset.SetValue(selImInd[i], dataValues[i]);
+        }
+        PaintScale ps = new RainbowPaintScale(0.001, maxValue);
+        JFreeChart aveLifetimeChart = createScatChart(ImageUtilities.createColorCodedImage(dataValuesDataset, ps), ps,imWidth,imHeight);
+        ChartPanel aveLifetimePanel = new ChartPanel(aveLifetimeChart);
+        aveLifetimePanel.setFillZoomRectangle(true);
+        aveLifetimePanel.setMouseWheelEnabled(true);
+        aveLifetimePanel.addChartMouseListener(listener);
+        jPImage.add(aveLifetimePanel);
     }
 
     /** This method is called from within the constructor to
@@ -42,15 +96,6 @@ public class ImageHistPanel extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel7 = new javax.swing.JPanel();
-        jPImage = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
-        jPanel10 = new javax.swing.JPanel();
-        jLabel8 = new javax.swing.JLabel();
-        jLabel9 = new javax.swing.JLabel();
-        jButton2 = new javax.swing.JButton();
-        jTFMaxLifetime = new javax.swing.JTextField();
-        jTFMinLifetime = new javax.swing.JTextField();
         jPanel11 = new javax.swing.JPanel();
         jPHist = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
@@ -58,85 +103,17 @@ public class ImageHistPanel extends javax.swing.JPanel {
         jLabel15 = new javax.swing.JLabel();
         jButton5 = new javax.swing.JButton();
         jTFChNumHist = new javax.swing.JTextField();
-        jLabel2 = new javax.swing.JLabel();
+        jPanel7 = new javax.swing.JPanel();
+        jPImage = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
+        jPanel10 = new javax.swing.JPanel();
+        jLabel8 = new javax.swing.JLabel();
+        jLabel9 = new javax.swing.JLabel();
+        jButton2 = new javax.swing.JButton();
+        jTFMaxValue = new javax.swing.JTextField();
+        jTFMinValue = new javax.swing.JTextField();
+        jLName = new javax.swing.JLabel();
 
-        jPImage.setBackground(new java.awt.Color(0, 0, 0));
-        jPImage.setMaximumSize(new java.awt.Dimension(450, 350));
-        jPImage.setMinimumSize(new java.awt.Dimension(450, 350));
-        jPImage.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jPImageMouseClicked(evt);
-            }
-        });
-        jPImage.setLayout(new java.awt.BorderLayout());
-
-        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setText(org.openide.util.NbBundle.getMessage(ImageHistPanel.class, "ImageHistPanel.jLabel1.text")); // NOI18N
-
-        jLabel8.setText(org.openide.util.NbBundle.getMessage(ImageHistPanel.class, "ImageHistPanel.jLabel8.text")); // NOI18N
-
-        jLabel9.setText(org.openide.util.NbBundle.getMessage(ImageHistPanel.class, "ImageHistPanel.jLabel9.text")); // NOI18N
-
-        jButton2.setText(org.openide.util.NbBundle.getMessage(ImageHistPanel.class, "ImageHistPanel.jButton2.text")); // NOI18N
-        jButton2.setIconTextGap(2);
-        jButton2.setMargin(new java.awt.Insets(2, 2, 2, 2));
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
-            }
-        });
-
-        jTFMaxLifetime.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
-        jTFMaxLifetime.setText(org.openide.util.NbBundle.getMessage(ImageHistPanel.class, "ImageHistPanel.jTFMaxLifetime.text")); // NOI18N
-
-        jTFMinLifetime.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
-        jTFMinLifetime.setText(org.openide.util.NbBundle.getMessage(ImageHistPanel.class, "ImageHistPanel.jTFMinLifetime.text")); // NOI18N
-
-        javax.swing.GroupLayout jPanel10Layout = new javax.swing.GroupLayout(jPanel10);
-        jPanel10.setLayout(jPanel10Layout);
-        jPanel10Layout.setHorizontalGroup(
-            jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel10Layout.createSequentialGroup()
-                .addComponent(jLabel8)
-                .addGap(11, 11, 11)
-                .addComponent(jTFMinLifetime, javax.swing.GroupLayout.DEFAULT_SIZE, 84, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel9)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTFMaxLifetime, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jButton2))
-        );
-        jPanel10Layout.setVerticalGroup(
-            jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
-                .addComponent(jLabel8)
-                .addComponent(jTFMinLifetime, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addComponent(jButton2)
-                .addComponent(jTFMaxLifetime, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addComponent(jLabel9))
-        );
-
-        javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
-        jPanel7.setLayout(jPanel7Layout);
-        jPanel7Layout.setHorizontalGroup(
-            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPImage, javax.swing.GroupLayout.PREFERRED_SIZE, 302, Short.MAX_VALUE)
-            .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 302, Short.MAX_VALUE)
-            .addComponent(jPanel10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
-        jPanel7Layout.setVerticalGroup(
-            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel7Layout.createSequentialGroup()
-                .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPImage, javax.swing.GroupLayout.PREFERRED_SIZE, 243, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
-        );
-
-        jPHist.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         jPHist.setLayout(new java.awt.BorderLayout());
 
         jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -192,11 +169,87 @@ public class ImageHistPanel extends javax.swing.JPanel {
                 .addComponent(jPHist, javax.swing.GroupLayout.PREFERRED_SIZE, 242, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel14, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(13, Short.MAX_VALUE))
+                .addContainerGap(7, Short.MAX_VALUE))
         );
 
-        jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel2.setText(org.openide.util.NbBundle.getMessage(ImageHistPanel.class, "ImageHistPanel.jLabel2.text")); // NOI18N
+        jPImage.setBackground(new java.awt.Color(0, 0, 0));
+        jPImage.setMaximumSize(new java.awt.Dimension(450, 350));
+        jPImage.setMinimumSize(new java.awt.Dimension(450, 350));
+        jPImage.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jPImageMouseClicked(evt);
+            }
+        });
+        jPImage.setLayout(new java.awt.BorderLayout());
+
+        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel1.setText(org.openide.util.NbBundle.getMessage(ImageHistPanel.class, "ImageHistPanel.jLabel1.text")); // NOI18N
+
+        jLabel8.setText(org.openide.util.NbBundle.getMessage(ImageHistPanel.class, "ImageHistPanel.jLabel8.text")); // NOI18N
+
+        jLabel9.setText(org.openide.util.NbBundle.getMessage(ImageHistPanel.class, "ImageHistPanel.jLabel9.text")); // NOI18N
+
+        jButton2.setText(org.openide.util.NbBundle.getMessage(ImageHistPanel.class, "ImageHistPanel.jButton2.text")); // NOI18N
+        jButton2.setIconTextGap(2);
+        jButton2.setMargin(new java.awt.Insets(2, 2, 2, 2));
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+
+        jTFMaxValue.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        jTFMaxValue.setText(org.openide.util.NbBundle.getMessage(ImageHistPanel.class, "ImageHistPanel.jTFMaxValue.text")); // NOI18N
+
+        jTFMinValue.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        jTFMinValue.setText(org.openide.util.NbBundle.getMessage(ImageHistPanel.class, "ImageHistPanel.jTFMinValue.text")); // NOI18N
+
+        javax.swing.GroupLayout jPanel10Layout = new javax.swing.GroupLayout(jPanel10);
+        jPanel10.setLayout(jPanel10Layout);
+        jPanel10Layout.setHorizontalGroup(
+            jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel10Layout.createSequentialGroup()
+                .addComponent(jLabel8)
+                .addGap(11, 11, 11)
+                .addComponent(jTFMinValue, javax.swing.GroupLayout.DEFAULT_SIZE, 67, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel9)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jTFMaxValue, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jButton2))
+        );
+        jPanel10Layout.setVerticalGroup(
+            jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
+                .addComponent(jLabel8)
+                .addComponent(jTFMinValue, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jButton2)
+                .addComponent(jTFMaxValue, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jLabel9))
+        );
+
+        javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
+        jPanel7.setLayout(jPanel7Layout);
+        jPanel7Layout.setHorizontalGroup(
+            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPImage, javax.swing.GroupLayout.PREFERRED_SIZE, 285, Short.MAX_VALUE)
+            .addComponent(jPanel10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 285, Short.MAX_VALUE)
+        );
+        jPanel7Layout.setVerticalGroup(
+            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel7Layout.createSequentialGroup()
+                .addComponent(jLabel1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPImage, javax.swing.GroupLayout.PREFERRED_SIZE, 243, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+
+        jLName.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLName.setText(org.openide.util.NbBundle.getMessage(ImageHistPanel.class, "ImageHistPanel.jLName.text")); // NOI18N
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -204,19 +257,21 @@ public class ImageHistPanel extends javax.swing.JPanel {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 19, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jPanel11, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 542, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(12, 12, 12)
+                .addComponent(jLName, javax.swing.GroupLayout.DEFAULT_SIZE, 500, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel2)
+                .addContainerGap()
+                .addComponent(jLName, javax.swing.GroupLayout.DEFAULT_SIZE, 15, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(jPanel11, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel7, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, 301, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jPanel11, javax.swing.GroupLayout.PREFERRED_SIZE, 301, javax.swing.GroupLayout.PREFERRED_SIZE)))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -227,22 +282,24 @@ public class ImageHistPanel extends javax.swing.JPanel {
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         double newMinLifetime, newMaxLifetime;
         try {
-            newMinLifetime = Double.parseDouble(jTFMinLifetime.getText());
-            newMaxLifetime = Double.parseDouble(jTFMaxLifetime.getText());
+            newMinLifetime = Double.parseDouble(jTFMinValue.getText());
+            newMaxLifetime = Double.parseDouble(jTFMaxValue.getText());
 
-//            IntensImageDataset aveLifetimeDataset = new IntensImageDataset(selImHeight,selImWidth,new double[selImWidth*selImHeight]);
-//            for (int i = 0; i < res.getX2().length; i++){
-//                aveLifetimeDataset.SetValue(selImInd[i], aveLifetimes[i]);
-//            }
-//            PaintScale ps = new RainbowPaintScale(newMinLifetime, newMaxLifetime);
-//            JFreeChart aveLifetimeChart = createScatChart(ImageUtilities.createColorCodedImage(aveLifetimeDataset, ps), ps,selImWidth,selImHeight);
-//            ChartPanel aveLifetimePanel = new ChartPanel(aveLifetimeChart);
-//            aveLifetimePanel.setFillZoomRectangle(true);
-//            aveLifetimePanel.setMouseWheelEnabled(true);
-//            jPImage.removeAll();
-//            aveLifetimePanel.setSize(jPImage.getSize());
-//            jPImage.add(aveLifetimePanel);
-//            jPImage.repaint();
+            IntensImageDataset dataValuesDataset = new IntensImageDataset(imHeight,imWidth,new double[imWidth*imHeight]);
+            for (int i = 0; i < dataValues.length; i++){
+                dataValuesDataset.SetValue(selImInd[i], dataValues[i]);
+            }
+            PaintScale ps = new RainbowPaintScale(newMinLifetime, newMaxLifetime);
+            JFreeChart aveLifetimeChart = createScatChart(ImageUtilities.createColorCodedImage(dataValuesDataset, ps), ps,imWidth,imHeight);
+            aveLifetimeChart.getXYPlot().getRangeAxis().setInverted(true);
+            ChartPanel aveLifetimePanel = new ChartPanel(aveLifetimeChart);
+            aveLifetimePanel.setFillZoomRectangle(true);
+            aveLifetimePanel.setMouseWheelEnabled(true);
+            jPImage.removeAll();
+            aveLifetimePanel.setSize(jPImage.getSize());
+            aveLifetimePanel.addChartMouseListener(listener);
+            jPImage.add(aveLifetimePanel);
+            jPImage.repaint();
         }catch(NumberFormatException ex) {
             NotifyDescriptor errorMessage =new NotifyDescriptor.Exception(
                     new Exception("Please specify correct number of channels"));
@@ -253,12 +310,12 @@ public class ImageHistPanel extends javax.swing.JPanel {
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
         int newNumChHish;
         try {
-//            newNumChHish = Integer.parseInt(jTFChNumHist.getText());
-//            jPHist.removeAll();
-//            ChartPanel chpanHist = updateHistPanel(aveLifetimes, minAveLifetime, maxAveLifetime, newNumChHish);
-//            chpanHist.setSize(jPHist.getSize());
-//            jPHist.add(chpanHist);
-//            jPHist.repaint();
+            newNumChHish = Integer.parseInt(jTFChNumHist.getText());
+            jPHist.removeAll();
+            ChartPanel chpanHist = updateHistPanel(dataValues, minValue, maxValue, newNumChHish);
+            chpanHist.setSize(jPHist.getSize());
+            jPHist.add(chpanHist);
+            jPHist.repaint();
         }catch(NumberFormatException ex) {
             NotifyDescriptor errorMessage = new NotifyDescriptor.Exception(
                     new Exception("Please specify correct number of channels"));
@@ -270,9 +327,9 @@ public class ImageHistPanel extends javax.swing.JPanel {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton5;
+    private javax.swing.JLabel jLName;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel15;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
@@ -283,8 +340,75 @@ public class ImageHistPanel extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel14;
     private javax.swing.JPanel jPanel7;
     private javax.swing.JTextField jTFChNumHist;
-    private javax.swing.JTextField jTFMaxLifetime;
-    private javax.swing.JTextField jTFMinLifetime;
+    private javax.swing.JTextField jTFMaxValue;
+    private javax.swing.JTextField jTFMinValue;
     // End of variables declaration//GEN-END:variables
 
+    private ChartPanel updateHistPanel(double[] data, double minVal, double maxVal, int numPockets) {
+        HistogramDataset datasetHist = new HistogramDataset();
+        datasetHist.addSeries("seria1", data, numPockets, minVal, maxVal);
+        JFreeChart charthist = ChartFactory.createHistogram(
+            null,
+            null,
+            null,
+            datasetHist,
+            PlotOrientation.VERTICAL,
+            false,
+            true,
+            false
+        );
+        charthist.setBackgroundPaint(JFreeChart.DEFAULT_BACKGROUND_PAINT);
+        XYPlot plot = (XYPlot) charthist.getPlot();
+        plot.setForegroundAlpha(0.85f);
+        XYBarRenderer renderer = (XYBarRenderer) plot.getRenderer();
+        renderer.setDrawBarOutline(false);
+        return new ChartPanel(charthist,true);
+    }
+
+    private JFreeChart createScatChart(BufferedImage image, PaintScale ps, int plotWidth, int plotHeigh){
+        JFreeChart chart_temp = ChartFactory.createScatterPlot(null,
+                null, null, new XYSeriesCollection(), PlotOrientation.VERTICAL, false, false,
+                false);
+        chart_temp.getXYPlot().getRangeAxis().setInverted(true);
+        chart_temp.setBackgroundPaint(JFreeChart.DEFAULT_BACKGROUND_PAINT);
+        XYDataImageAnnotation ann = new XYDataImageAnnotation(image, 0,0,
+                plotWidth, plotHeigh, true);
+        XYPlot plot = (XYPlot) chart_temp.getPlot();
+        plot.setDomainPannable(true);
+        plot.setRangePannable(true);
+        plot.getRenderer().addAnnotation(ann, Layer.BACKGROUND);
+        NumberAxis xAxis = (NumberAxis) plot.getDomainAxis();
+        xAxis.setStandardTickUnits(NumberAxis.createIntegerTickUnits());
+        xAxis.setLowerMargin(0.0);
+        xAxis.setUpperMargin(0.0);
+        xAxis.setVisible(false);
+        NumberAxis yAxis = (NumberAxis) plot.getRangeAxis();
+        yAxis.setStandardTickUnits(NumberAxis.createIntegerTickUnits());
+        yAxis.setLowerMargin(0.0);
+        yAxis.setUpperMargin(0.0);
+        yAxis.setVisible(false);
+
+        NumberAxis scaleAxis = new NumberAxis();
+        scaleAxis.setAxisLinePaint(Color.black);
+        scaleAxis.setTickMarkPaint(Color.black);
+        scaleAxis.setRange(ps.getLowerBound(),ps.getUpperBound());
+        scaleAxis.setTickLabelFont(new Font("Dialog", Font.PLAIN, 9));
+        PaintScaleLegend legend = new PaintScaleLegend(ps,scaleAxis);
+        legend.setAxisLocation(AxisLocation.BOTTOM_OR_RIGHT);
+        legend.setMargin(new RectangleInsets(5, 5, 5, 5));
+        legend.setStripWidth(10);
+        legend.setPosition(RectangleEdge.RIGHT);
+        legend.setBackgroundPaint(chart_temp.getBackgroundPaint());
+        chart_temp.addSubtitle(legend);
+
+        return chart_temp;
+    }
+
+    public void chartMouseClicked(ChartMouseEvent event) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    public void chartMouseMoved(ChartMouseEvent event) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
 }

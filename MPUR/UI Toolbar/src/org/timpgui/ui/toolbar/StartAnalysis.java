@@ -29,7 +29,7 @@ import org.timpgui.timpinterface.TimpInterface;
 
 public final class StartAnalysis implements ActionListener {
 
-    final static int NO_OF_ITERATIONS = 0;
+    final static int NO_OF_ITERATIONS = 5;
     Tgm[] models;
     private TimpInterface service;
     private DatasetTimp[] datasets;
@@ -79,6 +79,8 @@ public final class StartAnalysis implements ActionListener {
                                 timpResultDataset.setIntenceIm(datasets[i].getIntenceIm().clone());
                                 timpResultDataset.setMaxInt(datasets[i].getMaxInt());
                                 timpResultDataset.setMinInt(datasets[i].getMinInt());
+                                timpResultDataset.setX(datasets[i].getX().clone());
+                                timpResultDataset.setX2(datasets[i].getX2().clone());
                             }
                             FileObject writeTo;
                                try {

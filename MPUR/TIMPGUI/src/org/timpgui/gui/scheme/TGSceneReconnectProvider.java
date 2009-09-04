@@ -31,7 +31,7 @@ import java.awt.*;
  *
  * @author alex
  */
-public class SceneReconnectProvider implements ReconnectProvider {
+public class TGSceneReconnectProvider implements ReconnectProvider {
     
     private String edge;
     private String originalNode;
@@ -39,7 +39,7 @@ public class SceneReconnectProvider implements ReconnectProvider {
     
     private GraphScene scene;
     
-    public SceneReconnectProvider(GraphScene scene){
+    public TGSceneReconnectProvider(GraphScene scene){
         this.scene=scene;
     }
     

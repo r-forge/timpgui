@@ -31,16 +31,16 @@ import org.netbeans.api.visual.router.RouterFactory;
 import org.netbeans.api.visual.widget.ConnectionWidget;
 import org.netbeans.api.visual.widget.LayerWidget;
 import org.netbeans.api.visual.widget.Widget;
-import org.netbeans.api.visual.widget.general.IconNodeWidget;
 import org.openide.util.Utilities;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.Collections;
-import javax.swing.JLabel;
+import org.netbeans.api.visual.border.BorderFactory;
+import org.netbeans.api.visual.layout.LayoutFactory;
 import org.netbeans.api.visual.widget.ComponentWidget;
+import org.netbeans.api.visual.widget.LabelWidget;
 import org.timpgui.gui.scheme.components.DatasetContainer;
-import org.timpgui.gui.scheme.palette.TimpguiComponent;
 
 
 /**
@@ -57,8 +57,8 @@ public class GraphSceneImpl extends GraphScene {
     private WidgetAction moveAction = ActionFactory.createMoveAction();
     private Router router = RouterFactory.createFreeRouter();
 
-    private WidgetAction connectAction = ActionFactory.createExtendedConnectAction(interractionLayer, new SceneConnectProvider(this));
-    private WidgetAction reconnectAction = ActionFactory.createReconnectAction(new SceneReconnectProvider(this));
+    private WidgetAction connectAction = ActionFactory.createExtendedConnectAction(interractionLayer, new TGSceneConnectProvider(this));
+    private WidgetAction reconnectAction = ActionFactory.createReconnectAction(new TGSceneReconnectProvider(this));
     private WidgetAction moveControlPointAction = ActionFactory.createFreeMoveControlPointAction();
     private WidgetAction selectAction = ActionFactory.createSelectAction(new ObjectSelectProvider());
     private WidgetAction sceneAcceptAction = ActionFactory.createAcceptAction(new CustomSceneAcceptProvider(this));
@@ -72,6 +72,7 @@ public class GraphSceneImpl extends GraphScene {
         addChild(mainLayer);
         connectionLayer = new LayerWidget(this);
         addChild(connectionLayer);
+
         addChild(interractionLayer);
         getActions().addAction(ActionFactory.createRectangularSelectAction(this, backgroundLayer));
         getActions().addAction(ActionFactory.createPopupMenuAction(new SceneMainMenu(this)));
@@ -110,10 +111,11 @@ public class GraphSceneImpl extends GraphScene {
 
     @Override
     protected Widget attachNodeWidget(Object node) {
-        ComponentWidget cw = new ComponentWidget(this, new DatasetContainer());
-        cw.getActions().addAction(moveAction);
+        ComponentWidget cw = new ComponentWidget(this, new DatasetContainer());        
         cw.getActions().addAction(connectAction);
         cw.getActions().addAction(reconnectAction);
+        cw.getActions().addAction(selectAction);
+        cw.getActions().addAction(moveAction);
         mainLayer.addChild(cw);
         return cw;
     }
@@ -184,6 +186,25 @@ public class GraphSceneImpl extends GraphScene {
 
     public WidgetAction getSelectAction() {
         return selectAction;
+    }
+
+        private Widget createMoveableComponent (Component component) {
+        Widget widget = new Widget (this);
+        widget.setLayout (LayoutFactory.createVerticalFlowLayout ());
+        widget.setBorder (BorderFactory.createLineBorder ());
+        widget.getActions ().addAction (moveAction);
+
+        LabelWidget label = new LabelWidget (this, "Drag this to move widget");
+        label.setOpaque (true);
+        label.setBackground (Color.LIGHT_GRAY);
+        widget.addChild (label);
+
+        ComponentWidget componentWidget = new ComponentWidget (this, component);
+        widget.addChild (componentWidget);
+
+//        pos += 100;
+//        widget.setPreferredLocation (new Point (pos, pos));
+        return widget;
     }
 
 }

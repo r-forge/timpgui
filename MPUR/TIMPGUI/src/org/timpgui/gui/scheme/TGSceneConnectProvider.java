@@ -25,31 +25,33 @@ import org.netbeans.api.visual.widget.Scene;
 import org.netbeans.api.visual.widget.Widget;
 
 import java.awt.*;
+import org.timpgui.gui.scheme.nodes.DatasetContainerNode;
+import org.timpgui.gui.scheme.palette.TimpguiComponent;
 
 /**
  *
  * @author alex
  */
-public class SceneConnectProvider implements ConnectProvider {
+public class TGSceneConnectProvider implements ConnectProvider {
     
-    private String source = null;
-    private String target = null;
+    private DatasetContainerNode source = null;
+    private DatasetContainerNode target = null;
     
     private GraphScene scene;
     
-    public SceneConnectProvider(GraphScene scene){
+    public TGSceneConnectProvider(GraphScene scene){
         this.scene=scene;
     }
     
     public boolean isSourceWidget(Widget sourceWidget) {
         Object object = scene.findObject(sourceWidget);
-        source = scene.isNode(object) ? (String) object : null;
+        source = scene.isNode(object) ? (DatasetContainerNode) object : null;
         return source != null;
     }
     
     public ConnectorState isTargetWidget(Widget sourceWidget, Widget targetWidget) {
         Object object = scene.findObject(targetWidget);
-        target = scene.isNode(object) ? (String) object : null;
+        target = scene.isNode(object) ? (DatasetContainerNode) object : null;
         if (target != null)
             return ! source.equals(target) ? ConnectorState.ACCEPT : ConnectorState.REJECT_AND_STOP;
         return object != null ? ConnectorState.REJECT_AND_STOP : ConnectorState.REJECT;

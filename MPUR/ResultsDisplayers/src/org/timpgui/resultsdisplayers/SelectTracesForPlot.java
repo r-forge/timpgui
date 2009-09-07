@@ -192,6 +192,13 @@ public class SelectTracesForPlot extends java.awt.Panel {
         return Integer.parseInt(jTYnum.getText());
     }
 
+    public void setEnabledXDimension(boolean state){
+        jCbTraceColX.setEnabled(state);
+    }
+
+    public void setEnabledYDimension(boolean state){
+        jCbTraceColY.setEnabled(state);
+    }
 
 
 }

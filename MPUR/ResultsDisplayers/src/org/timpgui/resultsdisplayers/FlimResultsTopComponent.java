@@ -18,7 +18,6 @@ import java.awt.image.BufferedImage;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.logging.Logger;
-import nl.wur.flim.jfreechartcustom.ColorCodedImageDataset;
 import nl.wur.flim.jfreechartcustom.GrayPaintScalePlus;
 import nl.wur.flim.jfreechartcustom.ImageUtilities;
 import nl.wur.flim.jfreechartcustom.IntensImageDataset;
@@ -40,14 +39,12 @@ import org.jfree.chart.plot.XYPlot;
 import org.jfree.chart.renderer.PaintScale;
 import org.jfree.chart.renderer.xy.StandardXYItemRenderer;
 import org.jfree.chart.renderer.xy.XYBarRenderer;
-import org.jfree.chart.renderer.xy.XYBlockRenderer;
 import org.jfree.chart.renderer.xy.XYItemRenderer;
 import org.jfree.chart.renderer.xy.XYLineAndShapeRenderer;
 import org.jfree.chart.title.PaintScaleLegend;
 import org.jfree.data.statistics.HistogramDataset;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
-import org.jfree.data.xy.XYZDataset;
 import org.jfree.ui.Layer;
 import org.jfree.ui.RectangleEdge;
 import org.jfree.ui.RectangleInsets;
@@ -172,7 +169,8 @@ final class FlimResultsTopComponent extends TopComponent implements ChartMouseLi
 //================tab 2=================
         for (int i = 0; i < numberOfComponents; i++) {
             jPComponents.add(new ImageHistPanel(
-                "Normalized amplitude comp"+String.valueOf(i),
+                "Normalized amplitude comp"+String.valueOf(i+1)+" tau="+
+                String.format(String.valueOf(1 / res.getKineticParameters()[i]), "#.###") + "ns",
                 normAmpl.getArray()[i], selImInd,
                 selImHeight, selImWidth,
                 0.0, 1.0,

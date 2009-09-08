@@ -223,8 +223,7 @@
                 </dependency>
             </module-dependencies>
             <public-packages>
-                <package>org.timpgui.vtd.api.flow</package>
-                <package>org.timpgui.vtd.api.flow.visual</package>
+                <package>org.timpgui.gui.scheme.nodes</package>
             </public-packages>
         </data>
     </configuration>

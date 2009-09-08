@@ -3,12 +3,12 @@
  * and open the template in the editor.
  */
 
-package org.timpgui.gui.scheme.nodes;
+package org.timpgui.model;
 
 /**
  *
  * @author jsg210
  */
-public class ModelSpecificationNode {
+public class TGModel {
 
 }

@@ -23,7 +23,9 @@ import org.netbeans.api.visual.widget.Widget;
 import org.openide.nodes.Node;
 import org.openide.util.Utilities;
 import org.timpgui.gui.scheme.components.DatasetContainer;
-import org.timpgui.gui.scheme.nodes.DatasetContainerNode;
+import org.timpgui.gui.scheme.components.ModelSpecificationNodeContainer;
+import org.timpgui.gui.scheme.nodes.DatasetComponentNode;
+import org.timpgui.gui.scheme.nodes.ModelComponentNode;
 import org.timpgui.gui.scheme.palette.TimpguiComponent;
 
 /**
@@ -35,6 +37,7 @@ public class CustomSceneAcceptProvider implements AcceptProvider {
     private GraphSceneImpl scene;
     private Point point;
     private int nodeCount=1;
+    private Widget newWidget;
 
     public CustomSceneAcceptProvider(GraphScene scene) {
         this.scene = (GraphSceneImpl) scene;
@@ -62,11 +65,17 @@ public class CustomSceneAcceptProvider implements AcceptProvider {
     }
 
     public void accept(Widget widget, Point point, Transferable transferable) {
+
         final TimpguiComponent tgc = getTimpguiComponentFromTransferable(transferable);
-        System.out.println(tgc.getCategory());
-        System.out.println(tgc.getName());
-        DatasetContainerNode dcn = new DatasetContainerNode("test");
-        Widget newWidget = scene.addNode(dcn);
+        if (tgc.getCategory().compareTo("Data")==1) {
+            DatasetComponentNode newNode = new DatasetComponentNode("test");
+            newWidget = scene.addNode(newNode);
+        }
+        if (tgc.getCategory().compareTo("Modelling")==1) {
+            ModelComponentNode newNode = new ModelComponentNode("test2");
+            newWidget = scene.addNode(newNode);
+        }
+
         //Widget newWidget2 = scene.attachNodeWidget(dcn);
             //String hm = "Pallete Node"+(nodeCount++);
             //if shape.getCategory()

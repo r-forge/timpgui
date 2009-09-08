@@ -37,6 +37,8 @@
             <public-packages>
                 <package>nl.vu.nat.tgmodels.tgm</package>
                 <package>nl.vu.nat.tgmodels.tgo</package>
+                <package>org.timpgui.model</package>
+                <package>org.timpgui.model.support</package>
             </public-packages>
         </data>
     </configuration>

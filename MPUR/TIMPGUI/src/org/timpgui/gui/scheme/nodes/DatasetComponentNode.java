@@ -9,11 +9,11 @@ package org.timpgui.gui.scheme.nodes;
  *
  * @author jsg210
  */
-public class DatasetContainerNode {
+public class DatasetComponentNode {
 
     private String name;
 
-    public DatasetContainerNode(String name) {
+    public DatasetComponentNode(String name) {
         this.name = name;
     }
 

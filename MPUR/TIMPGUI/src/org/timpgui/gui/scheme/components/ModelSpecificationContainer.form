@@ -4,8 +4,8 @@
   <Properties>
     <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
       <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
-        <TitledBorder title="Datasets">
-          <ResourceString PropertyName="titleX" bundle="org/timpgui/gui/scheme/components/Bundle.properties" key="DatasetContainer.border.title" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+        <TitledBorder title="Model Specification">
+          <ResourceString PropertyName="titleX" bundle="org/timpgui/gui/scheme/components/Bundle.properties" key="ModelSpecificationContainer.border.title" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
         </TitledBorder>
       </Border>
     </Property>
@@ -47,7 +47,7 @@
         </Property>
       </Properties>
       <AuxValues>
-        <AuxValue name="JavaCodeGenerator_LayoutCodePre" type="java.lang.String" value="panel.add(datasetView, BorderLayout.CENTER);"/>
+        <AuxValue name="JavaCodeGenerator_LayoutCodePre" type="java.lang.String" value="panel.add(modelSpecificationView, BorderLayout.CENTER);"/>
         <AuxValue name="JavaCodeGenerator_SerializeTo" type="java.lang.String" value="Playlist_panel"/>
       </AuxValues>
       <Constraints>
@@ -61,10 +61,10 @@
     <Component class="javax.swing.JButton" name="remove">
       <Properties>
         <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-          <ResourceString bundle="org/timpgui/gui/scheme/components/Bundle.properties" key="DatasetContainer.remove.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+          <ResourceString bundle="org/timpgui/gui/scheme/components/Bundle.properties" key="ModelSpecificationContainer.remove.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
         </Property>
         <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-          <ResourceString bundle="org/timpgui/gui/scheme/components/Bundle.properties" key="DatasetContainer.remove.toolTipText" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+          <ResourceString bundle="org/timpgui/gui/scheme/components/Bundle.properties" key="ModelSpecificationContainer.remove.toolTipText" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
         </Property>
         <Property name="focusable" type="boolean" value="false"/>
         <Property name="horizontalTextPosition" type="int" value="0"/>

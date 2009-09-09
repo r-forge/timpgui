@@ -32,4 +32,10 @@ public class MyNode {
     public String getCategory() {
         return name;
     }
+
+    public int getId() {
+        return id;
+    }
+
+    
 }

@@ -34,8 +34,8 @@ import org.timpgui.gui.scheme.palette.PaletteItem;
  */
 public class TGSceneConnectProvider implements ConnectProvider {
     
-    private DatasetComponentNode source = null;
-    private DatasetComponentNode target = null;
+    private MyNode source = null;
+    private MyNode target = null;
     
     private GraphScene scene;
     
@@ -45,15 +45,17 @@ public class TGSceneConnectProvider implements ConnectProvider {
     
     public boolean isSourceWidget(Widget sourceWidget) {
         Object object = scene.findObject(sourceWidget);
-        source = scene.isNode(object) ? (DatasetComponentNode) object : null;
+        source = scene.isNode(object) ? (MyNode) object : null;
         return source != null;
     }
     
     public ConnectorState isTargetWidget(Widget sourceWidget, Widget targetWidget) {
         Object object = scene.findObject(targetWidget);
-        target = scene.isNode(object) ? (DatasetComponentNode) object : null;
-        if (target != null)
-            return ! source.equals(target) ? ConnectorState.ACCEPT : ConnectorState.REJECT_AND_STOP;
+        target = scene.isNode(object) ? (MyNode) object : null;
+        if (target != null) {
+            if (target.getName().equalsIgnoreCase("Model Container"))
+            return ! source.getName().equalsIgnoreCase("Dataset Container") ? ConnectorState.ACCEPT : ConnectorState.REJECT_AND_STOP;
+        }
         return object != null ? ConnectorState.REJECT_AND_STOP : ConnectorState.REJECT;
     }
     

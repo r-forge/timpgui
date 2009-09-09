@@ -26,7 +26,7 @@ import org.netbeans.api.visual.widget.Widget;
 
 import java.awt.*;
 import org.timpgui.gui.scheme.nodes.DatasetComponentNode;
-import org.timpgui.gui.scheme.palette.TimpguiComponent;
+import org.timpgui.gui.scheme.palette.PaletteItem;
 
 /**
  *

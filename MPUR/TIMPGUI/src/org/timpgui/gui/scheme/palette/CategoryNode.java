@@ -12,7 +12,7 @@ public class CategoryNode extends AbstractNode {
 
     /** Creates a new instance of CategoryNode */
     public CategoryNode( Category category ) {
-        super( new TimpguiComponentChildren(category), Lookups.singleton(category) );
+        super( new PaletteChildren(category), Lookups.singleton(category) );
         setDisplayName(category.getName());
     }
 }

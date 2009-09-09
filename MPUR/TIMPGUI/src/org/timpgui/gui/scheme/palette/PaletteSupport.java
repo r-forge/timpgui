@@ -59,12 +59,12 @@ public class PaletteSupport {
     private static class MyDnDHandler extends DragAndDropHandler {
 
         public void customize(ExTransferable exTransferable, Lookup lookup) {
-            final TimpguiComponent shape = (TimpguiComponent) lookup.lookup(TimpguiComponent.class);
+            final PaletteItem item = (PaletteItem) lookup.lookup(PaletteItem.class);
             //final Image image = (Image) node.getIcon(BeanInfo.ICON_COLOR_16x16);
-            exTransferable.put(new ExTransferable.Single (new DataFlavor(TimpguiComponent.class, "Shape")) {
+            exTransferable.put(new ExTransferable.Single (new DataFlavor(PaletteItem.class, "PaletteItem")) {
 
-                protected TimpguiComponent getData() throws IOException, UnsupportedFlavorException {
-                    return shape;
+                protected PaletteItem getData() throws IOException, UnsupportedFlavorException {
+                    return item;
                 }
 
             });

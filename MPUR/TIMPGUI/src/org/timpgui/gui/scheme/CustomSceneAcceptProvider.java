@@ -26,7 +26,7 @@ import org.timpgui.gui.scheme.components.DatasetContainer;
 import org.timpgui.gui.scheme.components.ModelSpecificationNodeContainer;
 import org.timpgui.gui.scheme.nodes.DatasetComponentNode;
 import org.timpgui.gui.scheme.nodes.ModelComponentNode;
-import org.timpgui.gui.scheme.palette.TimpguiComponent;
+import org.timpgui.gui.scheme.palette.PaletteItem;
 
 /**
  *
@@ -34,21 +34,21 @@ import org.timpgui.gui.scheme.palette.TimpguiComponent;
  */
 public class CustomSceneAcceptProvider implements AcceptProvider {
 
-    private GraphSceneImpl scene;
+    private GraphScene scene;
     private Point point;
-    private int nodeCount=1;
+    private int nodeCount=0;
     private Widget newWidget;
 
     public CustomSceneAcceptProvider(GraphScene scene) {
-        this.scene = (GraphSceneImpl) scene;
+        this.scene = (GraphScene) scene;
     }
 
     public ConnectorState isAcceptable(Widget widget, Point point, Transferable transferable) {
         //Image dragImage = getImageFromTransferable(transferable);
         ConnectorState accept;
-        TimpguiComponent shape = getTimpguiComponentFromTransferable(transferable);
-        if (shape!=null) {
-        Image dragImage = shape.getImage();
+        PaletteItem item = getPaletteItemTransferable(transferable);
+        if (item.getCategory().compareTo("Containers")==0) {
+        Image dragImage = item.getImage();
         JComponent view = scene.getView();
         Graphics2D g2 = (Graphics2D) view.getGraphics();
         Rectangle visRect = view.getVisibleRect();
@@ -66,15 +66,14 @@ public class CustomSceneAcceptProvider implements AcceptProvider {
 
     public void accept(Widget widget, Point point, Transferable transferable) {
 
-        final TimpguiComponent tgc = getTimpguiComponentFromTransferable(transferable);
-        if (tgc.getCategory().compareTo("Data")==1) {
-            DatasetComponentNode newNode = new DatasetComponentNode("test");
+        final PaletteItem item = getPaletteItemTransferable(transferable);
+            //DatasetComponentNode newNode = new DatasetComponentNode("test");
+            MyNode newNode = new MyNode(item.getName(), item.getCategory(), nodeCount++); //TODO: move Mynode and rename
             newWidget = scene.addNode(newNode);
-        }
-        if (tgc.getCategory().compareTo("Modelling")==1) {
-            ModelComponentNode newNode = new ModelComponentNode("test2");
-            newWidget = scene.addNode(newNode);
-        }
+            newWidget.setPreferredLocation(point);
+            scene.validate();
+            scene.repaint();
+            scene.getSceneAnimator().animatePreferredLocation(newWidget,point);
 
         //Widget newWidget2 = scene.attachNodeWidget(dcn);
             //String hm = "Pallete Node"+(nodeCount++);
@@ -86,43 +85,19 @@ public class CustomSceneAcceptProvider implements AcceptProvider {
         
             //Widget newNode = scene.addNode(hm);
             //scene.getSceneAnimator().animatePreferredLocation(newNode,point);
-          scene.validate();
-          scene.repaint();
+
     }
 
-    private TimpguiComponent getTimpguiComponentFromTransferable(Transferable transferable) {
+    private PaletteItem getPaletteItemTransferable(Transferable transferable) {
         Object o = null;
         try {
-            o = transferable.getTransferData(new DataFlavor(TimpguiComponent.class, "TimpguiComponent"));
+            o = transferable.getTransferData(new DataFlavor(PaletteItem.class, "PaletteItem"));
         } catch (IOException ex) {
             ex.printStackTrace();
         } catch (UnsupportedFlavorException ex) {
             ex.printStackTrace();
         }
-        return o instanceof TimpguiComponent ? (TimpguiComponent) o : null; //TODO: not null
+        return o instanceof PaletteItem ? (PaletteItem) o : null; //TODO: not null
     }
 
-    private String getNameFromTransferable(Transferable transferable) {
-        Object o = null;
-        try {
-            o = transferable.getTransferData(DataFlavor.stringFlavor);
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        } catch (UnsupportedFlavorException ex) {
-            ex.printStackTrace();
-        }
-        return o instanceof String ? (String) o : "unknown";
-    }
-
-    private Image getImageFromTransferable(Transferable transferable) {
-        Object o = null;
-        try {
-            o = transferable.getTransferData(DataFlavor.imageFlavor);
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        } catch (UnsupportedFlavorException ex) {
-            ex.printStackTrace();
-        }
-        return o instanceof Image ? (Image) o : Utilities.loadImage("org/netbeans/shapesample/palette/shape1.png");
-    }
 }

@@ -11,7 +11,7 @@ import java.awt.Image;
  *
  * @author jsg210
  */
-public class TimpguiComponent {
+public class PaletteItem {
 
     private Integer number;
     private String category;
@@ -20,7 +20,7 @@ public class TimpguiComponent {
     private String imageLocation;
 
     /** Creates a new instance of Instrument */
-    public TimpguiComponent() {
+    public PaletteItem() {
     }
 
     public Integer getNumber() {

@@ -111,12 +111,16 @@ public class GraphSceneImpl extends GraphScene {
 
     @Override
     protected Widget attachNodeWidget(Object node) {
-        ComponentWidget cw = new ComponentWidget(this, new DatasetContainer());        
+        MyNode myNode = (MyNode)node;
+        Widget cw = null;
+        if(myNode.getName().equalsIgnoreCase("Dataset Container")) {
+        cw = new ComponentWidget(this, new DatasetContainer());        
         cw.getActions().addAction(connectAction);
         cw.getActions().addAction(reconnectAction);
         cw.getActions().addAction(selectAction);
         cw.getActions().addAction(moveAction);
         mainLayer.addChild(cw);
+        }
         return cw;
     }
 

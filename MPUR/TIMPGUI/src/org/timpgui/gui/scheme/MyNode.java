@@ -9,27 +9,27 @@
 
 package org.timpgui.gui.scheme;
 
-import java.awt.Image;
-
 /**
  *
  * @author gw152771
  */
 public class MyNode {
     
-    private Image image;
+    private int id;
     private String name;
+    private String category;
     
-    public MyNode(String name, Image image) {
-        this.image = image;
+    public MyNode(String name, String category, int id) {
+        this.id = id;
         this.name = name;
+        this.category = category;
     }
-    
-    public Image getImage() {
-        return image;
+   
+    public String getName() {
+        return name;
     }
 
-    public String getName() {
+    public String getCategory() {
         return name;
     }
 }

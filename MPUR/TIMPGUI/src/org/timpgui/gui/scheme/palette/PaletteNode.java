@@ -10,12 +10,12 @@ import org.openide.nodes.Children;
 import org.openide.util.lookup.Lookups;
 
 
-public class TimpguiComponentNode extends AbstractNode {
+public class PaletteNode extends AbstractNode {
 
-    private TimpguiComponent shape;
+    private PaletteItem shape;
 
     /** Creates a new instance of InstrumentNode */
-    public TimpguiComponentNode(TimpguiComponent key) {
+    public PaletteNode(PaletteItem key) {
         super(Children.LEAF, Lookups.fixed( new Object[] {key} ) );
         this.shape = key;
         setIconBaseWithExtension(key.getImageLocation());

@@ -52,19 +52,21 @@ public class DatasetContainer extends javax.swing.JPanel implements ExplorerMana
 
         panel = new javax.swing.JPanel();
         remove = new javax.swing.JButton();
+        jCheckBox1 = new javax.swing.JCheckBox();
+        jCheckBox2 = new javax.swing.JCheckBox();
+        jComboBox1 = new javax.swing.JComboBox();
+        jComboBox2 = new javax.swing.JComboBox();
 
         setBorder(javax.swing.BorderFactory.createTitledBorder(org.openide.util.NbBundle.getMessage(DatasetContainer.class, "DatasetContainer.border.title"))); // NOI18N
         setMaximumSize(new java.awt.Dimension(160, 250));
         setMinimumSize(new java.awt.Dimension(160, 250));
         setPreferredSize(new java.awt.Dimension(160, 250));
-        setLayout(new java.awt.BorderLayout());
 
         panel.setMaximumSize(new java.awt.Dimension(150, 200));
         panel.setMinimumSize(new java.awt.Dimension(150, 200));
         panel.setPreferredSize(new java.awt.Dimension(150, 200));
         panel.setLayout(new java.awt.BorderLayout());
         panel.add(datasetView, BorderLayout.CENTER);
-        add(panel, java.awt.BorderLayout.PAGE_END);
 
         remove.setText(org.openide.util.NbBundle.getMessage(DatasetContainer.class, "DatasetContainer.remove.text")); // NOI18N
         remove.setToolTipText(org.openide.util.NbBundle.getMessage(DatasetContainer.class, "DatasetContainer.remove.toolTipText")); // NOI18N
@@ -76,7 +78,44 @@ public class DatasetContainer extends javax.swing.JPanel implements ExplorerMana
                 removeActionPerformed(evt);
             }
         });
-        add(remove, java.awt.BorderLayout.WEST);
+
+        jCheckBox1.setText(org.openide.util.NbBundle.getMessage(DatasetContainer.class, "DatasetContainer.jCheckBox1.text")); // NOI18N
+
+        jCheckBox2.setText(org.openide.util.NbBundle.getMessage(DatasetContainer.class, "DatasetContainer.jCheckBox2.text")); // NOI18N
+
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
+        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
+        this.setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(remove)
+                    .addComponent(panel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jCheckBox1)
+                    .addComponent(jCheckBox2)
+                    .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(remove, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(panel, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jCheckBox1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jCheckBox2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 26, Short.MAX_VALUE)
+                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+        );
     }// </editor-fold>//GEN-END:initComponents
 
     private void removeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeActionPerformed
@@ -85,6 +124,10 @@ public class DatasetContainer extends javax.swing.JPanel implements ExplorerMana
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JCheckBox jCheckBox1;
+    private javax.swing.JCheckBox jCheckBox2;
+    private javax.swing.JComboBox jComboBox1;
+    private javax.swing.JComboBox jComboBox2;
     private javax.swing.JPanel panel;
     private javax.swing.JButton remove;
     // End of variables declaration//GEN-END:variables

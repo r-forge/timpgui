@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.util.Scanner;
 import java.util.Vector;
+import java.util.regex.Pattern;
 import static java.lang.Math.sqrt;
 
 public final class DatasetTimp implements Serializable{
@@ -113,7 +114,7 @@ public final class DatasetTimp implements Serializable{
         loadedString = sc.nextLine();
         loadedString = sc.nextLine();
         if (loadedString.trim().equalsIgnoreCase("Time explicit")){
-            sc.skip("Intervalnr");
+            sc.skip(Pattern.compile("Intervalnr",2));
             nt[0] = sc.nextInt();
             x = new double[nt[0]];
             for (int i = 0; i < nt[0]; i++){               

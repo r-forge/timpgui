@@ -5,7 +5,9 @@
  */
 package nl.vu.nat.tgmeditor.panels;
 
+import java.util.Vector;
 import javax.swing.JComponent;
+import javax.swing.JScrollPane;
 import nl.vu.nat.tgmfilesupport.TgmDataObject;
 import org.netbeans.modules.xml.multiview.ui.SectionInnerPanel;
 import org.netbeans.modules.xml.multiview.ui.SectionView;
@@ -25,24 +27,33 @@ public class KMatrixPanel extends SectionInnerPanel {
 
     private TgmDataObject dObj;
     private KMatrixPanelModel kMatrixPanelModel;
-    private KinModTableModel model;
+    private KinModTableModel model1, model2;
+    private RowHeader rowHeader1, rowHeader2;
 
-    private Object[] defRow;
-    private Object[] colNames;
-    private Object[] newRow;
+    private int matrixSize = 0;
+
+//    private Object[] defRow;
+//    private Object[] colNames;
+//    private Object[] newRow;
 
     /** Creates new form KinparPanel */
     public KMatrixPanel(SectionView view, TgmDataObject dObj, KMatrixPanelModel kMatrixPanelModel) {
         super(view);
         this.dObj = dObj;
         this.kMatrixPanelModel = kMatrixPanelModel;
+
+        rowHeader1 = new RowHeader(20, 20);
+        rowHeader2 = new  RowHeader(20, 20);
+
+
         initComponents();
         
-        jSNumOfComponents.setModel(new SpinnerNumberModel(kMatrixPanelModel.getK1Matrix().getRow().size(), 1, null, 1));
+        jSNumOfComponents.setModel(new SpinnerNumberModel(kMatrixPanelModel.getK1Matrix().getRow().size(), 0, null, 1));
                     
-        defRow = new Object[]{new Double(0), new Boolean(false), new Boolean(false), new Boolean(false), new Double(0), new Double(0)};
-        colNames = new Object[]{"Starting value", "Fixed", "FreeBetwDatasets", "Constrained", "Min", "Max"};
-        model = new KinModTableModel(colNames, 0);
+//        defRow = new Object[]{new Double(0), new Boolean(false), new Boolean(false), new Boolean(false), new Double(0), new Double(0)};
+//        colNames = new Object[]{"Starting value", "Fixed", "FreeBetwDatasets", "Constrained", "Min", "Max"};
+        model1 = new KinModTableModel(matrixSize);
+        model2 = new KinModTableModel(matrixSize);
         
 //         for (int i = 0; i < kMatrixPanelModel.getKinpar().size(); i++) {
 //            newRow = new Object[]{
@@ -56,10 +67,20 @@ public class KMatrixPanel extends SectionInnerPanel {
 //            model.addRow(newRow);
 //
 //        }
-        jTKMatrix.setModel(model);
-        
+
+        JScrollPane jscpane = (JScrollPane) jTKMatrix.getParent().getParent();
+        jscpane.setRowHeaderView(rowHeader1);
+        jscpane.setCorner(JScrollPane.UPPER_LEFT_CORNER, rowHeader1.getTableHeader());
+        jTKMatrix.setModel(model1);
+
+        JScrollPane jscpane2 = (JScrollPane) jTBranches.getParent().getParent();
+        jscpane2.setRowHeaderView(rowHeader2);
+        jscpane2.setCorner(JScrollPane.UPPER_LEFT_CORNER, rowHeader2.getTableHeader());
+        jTBranches.setModel(model2);
+//        model2.addTableModelListener(model2);
         // Add listerners
-        jTKMatrix.getModel().addTableModelListener(model);
+//        jTKMatrix.getModel().addTableModelListener(model1);
+
     }
 
     @Override
@@ -96,10 +117,12 @@ public class KMatrixPanel extends SectionInnerPanel {
         dObj.modelUpdatedFromUI();
     }
 
+    @Override
     public void linkButtonPressed(Object arg0, String arg1) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
+    @Override
     public JComponent getErrorComponent(String arg0) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
@@ -107,21 +130,21 @@ public class KMatrixPanel extends SectionInnerPanel {
     
     class KinModTableModel extends DefaultTableModel implements TableModelListener {
 
-        private Class[] types = new Class[]{Double.class, Boolean.class, Boolean.class, Boolean.class,Double.class, Double.class};
-
         private KinModTableModel() {
             super();
         }
 
-        private KinModTableModel(Object[] ColNames, int i) {
-            super(ColNames, i);
+        private KinModTableModel(int n) {
+            super(n, n);
+//            jTKMatrix.getColumnModel().getColumn(0).setPreferredWidth(20);
         }
 
         @Override
         public Class getColumnClass(int c) {
-            return types[c];
+            return Integer.class;
         }
 
+        @Override
         public void tableChanged(TableModelEvent event) {
             //if (jTKinParamTable.isValid()) {
             setValue(jTKMatrix, this);
@@ -129,7 +152,7 @@ public class KMatrixPanel extends SectionInnerPanel {
            // }
         }
     }
-
+    
     /** This method is called from within the constructor to
      * initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is
@@ -148,6 +171,8 @@ public class KMatrixPanel extends SectionInnerPanel {
         jScrollPane3 = new javax.swing.JScrollPane();
         jTJVector = new javax.swing.JTable();
         jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
 
         jLabel1.setText("Size of Kmatrix");
 
@@ -157,32 +182,52 @@ public class KMatrixPanel extends SectionInnerPanel {
             }
         });
 
+        jTKMatrix.setToolTipText("Specification of the K-Matrix");
+        jTKMatrix.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_OFF);
+        jTKMatrix.setRowHeight(20);
+        jTKMatrix.getTableHeader().setResizingAllowed(false);
+        jTKMatrix.getTableHeader().setReorderingAllowed(false);
         jScrollPane1.setViewportView(jTKMatrix);
 
+        jTBranches.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_OFF);
+        jTBranches.setRowHeight(20);
         jScrollPane2.setViewportView(jTBranches);
 
         jScrollPane3.setViewportView(jTJVector);
 
         jLabel2.setText("J Vector");
 
+        jLabel3.setText("Kmatrix");
+
+        jLabel4.setText("Branches");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
+                            .addComponent(jLabel3)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 295, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 273, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel4)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(12, 12, 12)
+                        .addComponent(jLabel2))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(12, 12, 12)
+                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 273, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(12, 12, 12)
                         .addComponent(jLabel1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jSNumOfComponents, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 273, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel2)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 273, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 273, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(jSNumOfComponents, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(16, Short.MAX_VALUE))
         );
 
         layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jScrollPane1, jScrollPane2});
@@ -191,13 +236,19 @@ public class KMatrixPanel extends SectionInnerPanel {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(jSNumOfComponents, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(24, 24, 24)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 197, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 209, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel4)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 197, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel1)
+                            .addComponent(jSNumOfComponents, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(3, 3, 3)
+                        .addComponent(jLabel3)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 209, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -213,10 +264,24 @@ private void jSNumOfComponentsStateChanged(javax.swing.event.ChangeEvent evt) {/
 // TODO add your handling code here:]
 //    jSNumOfComponents.getPreviousValue().
 //    for (int i = 0; i < Math.abs((Integer)jSNumOfComponents.getValue()-(Integer)jSNumOfComponents.getPreviousValue()); i++) {
-    if ((Integer) jSNumOfComponents.getValue() > model.getRowCount()) {
-        model.addRow(defRow);
+    if ((Integer) jSNumOfComponents.getValue() > matrixSize) {
+
+        matrixSize = (Integer)jSNumOfComponents.getValue();
+        model1.addColumn(String.valueOf(matrixSize));
+        model2.addColumn(String.valueOf(matrixSize));
+        model1.addRow(new Vector(matrixSize));
+        model2.addRow(new Vector(matrixSize));
+        rowHeader1.addRow(String.valueOf(matrixSize));
+        rowHeader2.addRow(String.valueOf(matrixSize));
+
     } else {
-        model.removeRow(model.getRowCount() - 1);
+        matrixSize = (Integer)jSNumOfComponents.getValue();
+        model1.removeRow(matrixSize);
+        model2.removeRow(matrixSize);
+        rowHeader1.removeRow(matrixSize);
+        rowHeader2.removeRow(matrixSize);
+        model1.setColumnCount(matrixSize);
+        model2.setColumnCount(matrixSize);
         
 //    DefaultTableModel model = (DefaultTableModel) jTKinParamTable.getModel();
 //    model.setRowCount((Integer)jSNumOfComponents.getValue());
@@ -231,6 +296,8 @@ private void jSNumOfComponentsStateChanged(javax.swing.event.ChangeEvent evt) {/
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JSpinner jSNumOfComponents;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;

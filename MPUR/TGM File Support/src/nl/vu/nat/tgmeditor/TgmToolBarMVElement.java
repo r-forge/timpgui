@@ -93,7 +93,7 @@ public class TgmToolBarMVElement extends ToolBarMultiViewElement {
             FlimPanelModel flimPanelModel = dat.getFlimPanel();
             Node flimPanelNode = new FlimPanelNode(flimPanelModel);
 
-            rootChildren.add(new Node[]{tgmNode, datNode, kinparPanelNode, irfparPanelNode, cohspecPanelNode, flimPanelNode});
+            rootChildren.add(new Node[]{tgmNode, datNode, kinparPanelNode, irfparPanelNode, cohspecPanelNode, kMatrixPanelNode, flimPanelNode});
             // add panels
             addSection(new SectionPanel(this, tgmNode, tgm)); //NOI18N
             addSection(new SectionPanel(this, datNode, dat)); //NOI18N

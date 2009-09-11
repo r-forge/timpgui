@@ -39,6 +39,7 @@ public class PanelFactory implements InnerPanelFactory {
         this.editor=editor;
     }
     
+    @Override
     public SectionInnerPanel createInnerPanel(Object key) {
        if (key instanceof Tgm) return new TgmPanel((SectionView)editor.getContentView(), dObj, (Tgm)key);
        else if (key instanceof KinparPanelModel) return new KinparPanel((SectionView)editor.getContentView(), dObj, (KinparPanelModel)key);

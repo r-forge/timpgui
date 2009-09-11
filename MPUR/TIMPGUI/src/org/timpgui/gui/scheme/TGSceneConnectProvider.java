@@ -54,7 +54,7 @@ public class TGSceneConnectProvider implements ConnectProvider {
         target = scene.isNode(object) ? (MyNode) object : null;
         if (target != null) {
             if (target.getName().equalsIgnoreCase("Model Container"))
-            return ! source.getName().equalsIgnoreCase("Dataset Container") ? ConnectorState.ACCEPT : ConnectorState.REJECT_AND_STOP;
+            return (! source.equals(target) && source.getName().equalsIgnoreCase("Dataset Container")) ? ConnectorState.ACCEPT : ConnectorState.REJECT_AND_STOP;
         }
         return object != null ? ConnectorState.REJECT_AND_STOP : ConnectorState.REJECT;
     }

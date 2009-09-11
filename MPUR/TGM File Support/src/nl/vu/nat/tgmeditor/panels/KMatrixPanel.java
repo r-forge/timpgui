@@ -13,8 +13,7 @@ import javax.swing.SpinnerNumberModel;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
-import nl.vu.nat.tgmodels.tgm.KinPar;
-import nl.vu.nat.tgmodels.tgm.KinparPanelModel;
+import nl.vu.nat.tgmodels.tgm.KMatrixPanelModel;
 
 
 
@@ -22,10 +21,10 @@ import nl.vu.nat.tgmodels.tgm.KinparPanelModel;
  *
  * @author  Sergey
  */
-public class KmatrixPanel extends SectionInnerPanel {
+public class KMatrixPanel extends SectionInnerPanel {
 
     private TgmDataObject dObj;
-    private KinparPanelModel kinparPanelModel;
+    private KMatrixPanelModel kMatrixPanelModel;
     private KinModTableModel model;
 
     private Object[] defRow;
@@ -33,30 +32,30 @@ public class KmatrixPanel extends SectionInnerPanel {
     private Object[] newRow;
 
     /** Creates new form KinparPanel */
-    public KmatrixPanel(SectionView view, TgmDataObject dObj, KinparPanelModel kinparPanelModel) {
+    public KMatrixPanel(SectionView view, TgmDataObject dObj, KMatrixPanelModel kMatrixPanelModel) {
         super(view);
         this.dObj = dObj;
-        this.kinparPanelModel = kinparPanelModel;
+        this.kMatrixPanelModel = kMatrixPanelModel;
         initComponents();
         
-        jSNumOfComponents.setModel(new SpinnerNumberModel(kinparPanelModel.getKinpar().size(), 1, null, 1));
+        jSNumOfComponents.setModel(new SpinnerNumberModel(kMatrixPanelModel.getK1Matrix().getRow().size(), 1, null, 1));
                     
         defRow = new Object[]{new Double(0), new Boolean(false), new Boolean(false), new Boolean(false), new Double(0), new Double(0)};
         colNames = new Object[]{"Starting value", "Fixed", "FreeBetwDatasets", "Constrained", "Min", "Max"};
         model = new KinModTableModel(colNames, 0);
         
-         for (int i = 0; i < kinparPanelModel.getKinpar().size(); i++) {
-            newRow = new Object[]{
-                kinparPanelModel.getKinpar().get(i).getStart(),
-                kinparPanelModel.getKinpar().get(i).isFixed(),
-                kinparPanelModel.getKinpar().get(i).isModeldiffsFree(),
-                kinparPanelModel.getKinpar().get(i).isConstrained(),
-                kinparPanelModel.getKinpar().get(i).getMin(),
-                kinparPanelModel.getKinpar().get(i).getMax()
-            };
-            model.addRow(newRow);
-            
-        }
+//         for (int i = 0; i < kMatrixPanelModel.getKinpar().size(); i++) {
+//            newRow = new Object[]{
+//                kMatrixPanelModel.getKinpar().get(i).getStart(),
+//                kMatrixPanelModel.getKinpar().get(i).isFixed(),
+//                kMatrixPanelModel.getKinpar().get(i).isModeldiffsFree(),
+//                kMatrixPanelModel.getKinpar().get(i).isConstrained(),
+//                kMatrixPanelModel.getKinpar().get(i).getMin(),
+//                kMatrixPanelModel.getKinpar().get(i).getMax()
+//            };
+//            model.addRow(newRow);
+//
+//        }
         jTKMatrix.setModel(model);
         
         // Add listerners
@@ -67,27 +66,27 @@ public class KmatrixPanel extends SectionInnerPanel {
     public void setValue(JComponent source, Object value) {
         if (source ==jTKMatrix) {
         
-            if (model.getRowCount()>kinparPanelModel.getKinpar().size()) {
-                KinPar kp = new KinPar();
-                kp.setStart((Double)model.getValueAt((model.getRowCount()-1),0));
-                kp.setFixed((Boolean)model.getValueAt((model.getRowCount()-1),1));
-                kp.setModeldiffsFree((Boolean)model.getValueAt((model.getRowCount()-1),2));
-                kp.setConstrained((Boolean)model.getValueAt((model.getRowCount()-1),3));
-                kp.setMin((Double)model.getValueAt((model.getRowCount()-1),4));
-                kp.setMax((Double)model.getValueAt((model.getRowCount()-1),5));
-                kinparPanelModel.getKinpar().add(kp);
-            } else if (model.getRowCount()<kinparPanelModel.getKinpar().size()) {
-                kinparPanelModel.getKinpar().remove(kinparPanelModel.getKinpar().size()-1);
-            }
+//            if (model.getRowCount()>kMatrixPanelModel.getKinpar().size()) {
+//                KinPar kp = new KinPar();
+//                kp.setStart((Double)model.getValueAt((model.getRowCount()-1),0));
+//                kp.setFixed((Boolean)model.getValueAt((model.getRowCount()-1),1));
+//                kp.setModeldiffsFree((Boolean)model.getValueAt((model.getRowCount()-1),2));
+//                kp.setConstrained((Boolean)model.getValueAt((model.getRowCount()-1),3));
+//                kp.setMin((Double)model.getValueAt((model.getRowCount()-1),4));
+//                kp.setMax((Double)model.getValueAt((model.getRowCount()-1),5));
+//                kMatrixPanelModel.getKinpar().add(kp);
+//            } else if (model.getRowCount()<kMatrixPanelModel.getKinpar().size()) {
+//                kMatrixPanelModel.getKinpar().remove(kMatrixPanelModel.getKinpar().size()-1);
+//            }
          
-        for (int i = 0; i < model.getRowCount(); i++) {
-                kinparPanelModel.getKinpar().get(i).setStart((Double)model.getValueAt(i,0));
-                kinparPanelModel.getKinpar().get(i).setFixed((Boolean)model.getValueAt(i,1));
-                kinparPanelModel.getKinpar().get(i).setModeldiffsFree((Boolean)model.getValueAt(i,2));
-                kinparPanelModel.getKinpar().get(i).setConstrained((Boolean)model.getValueAt(i,3));
-                kinparPanelModel.getKinpar().get(i).setMin((Double)model.getValueAt(i,4));
-                kinparPanelModel.getKinpar().get(i).setMax((Double)model.getValueAt(i,5));
-            }
+//        for (int i = 0; i < model.getRowCount(); i++) {
+//                kMatrixPanelModel.getKinpar().get(i).setStart((Double)model.getValueAt(i,0));
+//                kMatrixPanelModel.getKinpar().get(i).setFixed((Boolean)model.getValueAt(i,1));
+//                kMatrixPanelModel.getKinpar().get(i).setModeldiffsFree((Boolean)model.getValueAt(i,2));
+//                kMatrixPanelModel.getKinpar().get(i).setConstrained((Boolean)model.getValueAt(i,3));
+//                kMatrixPanelModel.getKinpar().get(i).setMin((Double)model.getValueAt(i,4));
+//                kMatrixPanelModel.getKinpar().get(i).setMax((Double)model.getValueAt(i,5));
+//            }
         }
         endUIChange();
     }

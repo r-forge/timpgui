@@ -11,6 +11,7 @@ import nl.vu.nat.tgmodels.tgm.CohspecPanelModel;
 import nl.vu.nat.tgmodels.tgm.Dat;
 import nl.vu.nat.tgmodels.tgm.FlimPanelModel;
 import nl.vu.nat.tgmodels.tgm.IrfparPanelModel;
+import nl.vu.nat.tgmodels.tgm.KMatrixPanelModel;
 import nl.vu.nat.tgmodels.tgm.KinparPanelModel;
 import nl.vu.nat.tgmodels.tgm.Tgm;
 import org.netbeans.modules.xml.multiview.ToolBarMultiViewElement;
@@ -85,6 +86,9 @@ public class TgmToolBarMVElement extends ToolBarMultiViewElement {
             
             CohspecPanelModel cohspecPanelModel = dat.getCohspecPanel();
             Node cohspecPanelNode = new CohspecPanelNode(cohspecPanelModel);
+
+            KMatrixPanelModel kMatrixPanelModel = dat.getKMatrixPanel();
+            Node kMatrixPanelNode = new KMatrixPanelNode(kMatrixPanelModel);
             
             FlimPanelModel flimPanelModel = dat.getFlimPanel();
             Node flimPanelNode = new FlimPanelNode(flimPanelModel);
@@ -96,6 +100,7 @@ public class TgmToolBarMVElement extends ToolBarMultiViewElement {
             addSection(new SectionPanel(this, kinparPanelNode, kinparPanelModel)); //NOI18N
             addSection(new SectionPanel(this, irfparPanelNode, irfparPanelModel)); //NOI18N
             addSection(new SectionPanel(this, cohspecPanelNode, cohspecPanelModel)); //NOI18N
+            addSection(new SectionPanel(this, kMatrixPanelNode, kMatrixPanelModel)); //NOI18N
             addSection(new SectionPanel(this, flimPanelNode, flimPanelModel)); //NOI18N
 
             setRoot(root);
@@ -143,6 +148,15 @@ public class TgmToolBarMVElement extends ToolBarMultiViewElement {
         CohspecPanelNode(CohspecPanelModel cohspecPanelModel) {
             super(org.openide.nodes.Children.LEAF);
             setDisplayName("Model for coherent artifact:");
+            setIconBaseWithExtension("nl/vu/nat/tgmfilesupport/povicon.gif"); //NOI18N
+        }
+    }
+
+        private class KMatrixPanelNode extends org.openide.nodes.AbstractNode {
+
+        KMatrixPanelNode(KMatrixPanelModel kMatrixPanelModel) {
+            super(org.openide.nodes.Children.LEAF);
+            setDisplayName("Model for K Matrix:");
             setIconBaseWithExtension("nl/vu/nat/tgmfilesupport/povicon.gif"); //NOI18N
         }
     }

@@ -45,7 +45,7 @@ import org.timpgui.gui.scheme.components.ModelSpecificationContainer;
 /**
  * @author Alex
  */
-public class GraphSceneImpl extends GraphScene {
+public class GraphSceneImpl extends GraphScene { //TODO: implement <MyNode, MyEdge>
 
     private static final Image IMAGE = Utilities.loadImage("org/timpgui/gui/scheme/resources/node.png"); // NOI18N
     private LayerWidget mainLayer;
@@ -126,6 +126,8 @@ public class GraphSceneImpl extends GraphScene {
 
     @Override
     protected void attachEdgeSourceAnchor(Object edge, Object oldSourceNode, Object sourceNode) {
+//        MyNode sourceMyNode = (MyNode) sourceNode;
+//        MyNode oldSourceMyNode = (MyNode) oldSourceNode;
         attachEdgeSourceAnchor((String) edge, (String) oldSourceNode, (String) sourceNode);
     }
 

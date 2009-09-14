@@ -40,11 +40,17 @@ public class TGModelsNode extends FilterNode {
 
     @Override
     public String getDisplayName() {
+        if (this.getParentNode() instanceof TGModelsNode){
+            return this.getName();
+        }
         return Utilities.getString("models");
     }
 
     @Override
     public boolean canRename() {
+        if (this.getParentNode() instanceof TGModelsNode){
+            return true;
+        }
         return false;
     }
 

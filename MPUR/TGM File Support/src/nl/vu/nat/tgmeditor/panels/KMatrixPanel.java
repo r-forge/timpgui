@@ -27,7 +27,7 @@ public class KMatrixPanel extends SectionInnerPanel {
 
     private TgmDataObject dObj;
     private KMatrixPanelModel kMatrixPanelModel;
-    private KinModTableModel model1, model2;
+    private KMatrixTableModel model1, model2;
     private RowHeader rowHeader1, rowHeader2;
 
     private int matrixSize = 0;
@@ -41,19 +41,16 @@ public class KMatrixPanel extends SectionInnerPanel {
         super(view);
         this.dObj = dObj;
         this.kMatrixPanelModel = kMatrixPanelModel;
-
         rowHeader1 = new RowHeader(20, 20);
         rowHeader2 = new  RowHeader(20, 20);
-
-
         initComponents();
         
         jSNumOfComponents.setModel(new SpinnerNumberModel(kMatrixPanelModel.getK1Matrix().getRow().size(), 0, null, 1));
                     
 //        defRow = new Object[]{new Double(0), new Boolean(false), new Boolean(false), new Boolean(false), new Double(0), new Double(0)};
 //        colNames = new Object[]{"Starting value", "Fixed", "FreeBetwDatasets", "Constrained", "Min", "Max"};
-        model1 = new KinModTableModel(matrixSize);
-        model2 = new KinModTableModel(matrixSize);
+        model1 = new KMatrixTableModel(matrixSize);
+        model2 = new KMatrixTableModel(matrixSize);
         
 //         for (int i = 0; i < kMatrixPanelModel.getKinpar().size(); i++) {
 //            newRow = new Object[]{
@@ -127,14 +124,13 @@ public class KMatrixPanel extends SectionInnerPanel {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
-    
-    class KinModTableModel extends DefaultTableModel implements TableModelListener {
+    class KMatrixTableModel extends DefaultTableModel implements TableModelListener {
 
-        private KinModTableModel() {
+        private KMatrixTableModel() {
             super();
         }
 
-        private KinModTableModel(int n) {
+        private KMatrixTableModel(int n) {
             super(n, n);
 //            jTKMatrix.getColumnModel().getColumn(0).setPreferredWidth(20);
         }

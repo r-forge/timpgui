@@ -46,7 +46,7 @@ public class KMatrixPanel extends SectionInnerPanel {
         rowHeaderJVec = new  RowHeader(30, 30);
         initComponents();
         
-        jSNumOfComponents.setModel(new SpinnerNumberModel(kMatrixPanelModel.getK1Matrix().getRow().size(), 0, null, 1));
+        //jSNumOfComponents.setModel(new SpinnerNumberModel(kMatrixPanelModel.getK1Matrix().getRow().size(), 0, null, 1));
                     
 //        defRow = new Object[]{new Double(0), new Boolean(false), new Boolean(false), new Boolean(false), new Double(0), new Double(0)};
 //        colNames = new Object[]{"Starting value", "Fixed", "FreeBetwDatasets", "Constrained", "Min", "Max"};

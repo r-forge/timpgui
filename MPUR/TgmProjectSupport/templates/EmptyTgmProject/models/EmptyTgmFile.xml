@@ -2,7 +2,7 @@
 
 <!--
     Document   : TgmSchema.xml
-    Created on : September 11, 2009, 10:26 AM
+    Created on : September 15, 2009, 1:18 PM
     Author     : jsg210
     Description:
         Purpose of the document follows.
@@ -14,13 +14,6 @@
     <ns0:dat>
         <ns0:kinparPanel>
             <ns0:positivepar>false</ns0:positivepar>
-            <ns0:kinpar>
-                <ns0:start>NaN</ns0:start>
-                <ns0:fixed>false</ns0:fixed>
-                <ns0:modeldiffs_free>false</ns0:modeldiffs_free>
-                <ns0:constrained>false</ns0:constrained>
-                <ns0:max>NaN</ns0:max>
-            </ns0:kinpar>
             <ns0:seqmod>false</ns0:seqmod>
         </ns0:kinparPanel>
         <ns0:modelName>SpecifyModelName</ns0:modelName>
@@ -33,7 +26,6 @@
             <ns0:dispmu>false</ns0:dispmu>
             <ns0:disptau>false</ns0:disptau>
             <ns0:lamda>NaN</ns0:lamda>
-            <ns0:irf>0</ns0:irf>
         </ns0:irfparPanel>
         <ns0:cohspecPanel>
             <ns0:cohspec>
@@ -49,16 +41,9 @@
         </ns0:flimPanel>
         <ns0:kMatrixPanel>
             <ns0:k1matrix>
-                <ns0:row>
-                    <ns0:column></ns0:column>
-                </ns0:row>
             </ns0:k1matrix>
             <ns0:k2matrix>
-                <ns0:row>
-                    <ns0:column></ns0:column>
-                </ns0:row>
             </ns0:k2matrix>
-            <ns0:jVector></ns0:jVector>
         </ns0:kMatrixPanel>
     </ns0:dat>
 

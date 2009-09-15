@@ -27,8 +27,8 @@ public class KMatrixPanel extends SectionInnerPanel {
 
     private TgmDataObject dObj;
     private KMatrixPanelModel kMatrixPanelModel;
-    private KMatrixTableModel model1, model2;
-    private RowHeader rowHeader1, rowHeader2;
+    private KMatrixTableModel model1, model2, jVec;
+    private RowHeader rowHeader1, rowHeader2, rowHeaderJVec;
 
     private int matrixSize = 0;
 
@@ -41,17 +41,20 @@ public class KMatrixPanel extends SectionInnerPanel {
         super(view);
         this.dObj = dObj;
         this.kMatrixPanelModel = kMatrixPanelModel;
-        rowHeader1 = new RowHeader(20, 20);
-        rowHeader2 = new  RowHeader(20, 20);
+        rowHeader1 = new RowHeader(30, 30);
+        rowHeader2 = new  RowHeader(30, 30);
+        rowHeaderJVec = new  RowHeader(30, 30);
         initComponents();
         
         jSNumOfComponents.setModel(new SpinnerNumberModel(kMatrixPanelModel.getK1Matrix().getRow().size(), 0, null, 1));
                     
 //        defRow = new Object[]{new Double(0), new Boolean(false), new Boolean(false), new Boolean(false), new Double(0), new Double(0)};
 //        colNames = new Object[]{"Starting value", "Fixed", "FreeBetwDatasets", "Constrained", "Min", "Max"};
-        model1 = new KMatrixTableModel(matrixSize);
-        model2 = new KMatrixTableModel(matrixSize);
-        
+
+        model1 = new KMatrixTableModel(matrixSize, matrixSize);
+        model2 = new KMatrixTableModel(matrixSize, matrixSize);
+        jVec = new KMatrixTableModel(1, matrixSize);
+
 //         for (int i = 0; i < kMatrixPanelModel.getKinpar().size(); i++) {
 //            newRow = new Object[]{
 //                kMatrixPanelModel.getKinpar().get(i).getStart(),
@@ -65,15 +68,23 @@ public class KMatrixPanel extends SectionInnerPanel {
 //
 //        }
 
+        jTKMatrix.setModel(model1);
         JScrollPane jscpane = (JScrollPane) jTKMatrix.getParent().getParent();
         jscpane.setRowHeaderView(rowHeader1);
         jscpane.setCorner(JScrollPane.UPPER_LEFT_CORNER, rowHeader1.getTableHeader());
-        jTKMatrix.setModel(model1);
-
+        
+        jTBranches.setModel(model2);
         JScrollPane jscpane2 = (JScrollPane) jTBranches.getParent().getParent();
         jscpane2.setRowHeaderView(rowHeader2);
         jscpane2.setCorner(JScrollPane.UPPER_LEFT_CORNER, rowHeader2.getTableHeader());
-        jTBranches.setModel(model2);
+
+        jTJVector.setModel(jVec);
+        JScrollPane jscpane3 = (JScrollPane) jTJVector.getParent().getParent();
+        rowHeaderJVec.addRow("1");
+        jscpane3.setRowHeaderView(rowHeaderJVec);
+        jscpane3.setCorner(JScrollPane.UPPER_LEFT_CORNER, rowHeaderJVec.getTableHeader());
+
+
 //        model2.addTableModelListener(model2);
         // Add listerners
 //        jTKMatrix.getModel().addTableModelListener(model1);
@@ -130,9 +141,8 @@ public class KMatrixPanel extends SectionInnerPanel {
             super();
         }
 
-        private KMatrixTableModel(int n) {
-            super(n, n);
-//            jTKMatrix.getColumnModel().getColumn(0).setPreferredWidth(20);
+        private KMatrixTableModel(int n, int m) {
+            super(n, m);
         }
 
         @Override
@@ -178,17 +188,22 @@ public class KMatrixPanel extends SectionInnerPanel {
             }
         });
 
+        jTKMatrix.setAutoCreateColumnsFromModel(false);
         jTKMatrix.setToolTipText("Specification of the K-Matrix");
         jTKMatrix.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_OFF);
-        jTKMatrix.setRowHeight(20);
+        jTKMatrix.setRowHeight(30);
         jTKMatrix.getTableHeader().setResizingAllowed(false);
         jTKMatrix.getTableHeader().setReorderingAllowed(false);
         jScrollPane1.setViewportView(jTKMatrix);
 
+        jTBranches.setAutoCreateColumnsFromModel(false);
         jTBranches.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_OFF);
-        jTBranches.setRowHeight(20);
+        jTBranches.setRowHeight(30);
         jScrollPane2.setViewportView(jTBranches);
 
+        jTJVector.setAutoCreateColumnsFromModel(false);
+        jTJVector.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_OFF);
+        jTJVector.setRowHeight(30);
         jScrollPane3.setViewportView(jTJVector);
 
         jLabel2.setText("J Vector");
@@ -217,16 +232,16 @@ public class KMatrixPanel extends SectionInnerPanel {
                         .addComponent(jLabel2))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(12, 12, 12)
-                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 273, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(12, 12, 12)
                         .addComponent(jLabel1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jSNumOfComponents, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(jSNumOfComponents, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 273, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(16, Short.MAX_VALUE))
         );
 
-        layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jScrollPane1, jScrollPane2});
+        layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jScrollPane1, jScrollPane2, jScrollPane3});
 
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -248,8 +263,8 @@ public class KMatrixPanel extends SectionInnerPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 66, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {jScrollPane1, jScrollPane2});
@@ -265,20 +280,30 @@ private void jSNumOfComponentsStateChanged(javax.swing.event.ChangeEvent evt) {/
         matrixSize = (Integer)jSNumOfComponents.getValue();
         model1.addColumn(String.valueOf(matrixSize));
         model2.addColumn(String.valueOf(matrixSize));
+        jVec.addColumn(String.valueOf(matrixSize));
+        jTKMatrix.getColumnModel().addColumn(new KMatrColumn(matrixSize-1, 30));
+        jTBranches.getColumnModel().addColumn(new KMatrColumn(matrixSize-1, 30));
+        jTJVector.getColumnModel().addColumn(new KMatrColumn(matrixSize-1, 30));
         model1.addRow(new Vector(matrixSize));
         model2.addRow(new Vector(matrixSize));
         rowHeader1.addRow(String.valueOf(matrixSize));
         rowHeader2.addRow(String.valueOf(matrixSize));
-
+ 
     } else {
+
         matrixSize = (Integer)jSNumOfComponents.getValue();
         model1.removeRow(matrixSize);
         model2.removeRow(matrixSize);
         rowHeader1.removeRow(matrixSize);
         rowHeader2.removeRow(matrixSize);
+        jTKMatrix.getColumnModel().removeColumn(jTKMatrix.getColumnModel().getColumn(matrixSize));
+        jTBranches.getColumnModel().removeColumn(jTBranches.getColumnModel().getColumn(matrixSize));
+        jTJVector.getColumnModel().removeColumn(jTJVector.getColumnModel().getColumn(matrixSize));
         model1.setColumnCount(matrixSize);
         model2.setColumnCount(matrixSize);
-        
+        jVec.setColumnCount(matrixSize);
+
+
 //    DefaultTableModel model = (DefaultTableModel) jTKinParamTable.getModel();
 //    model.setRowCount((Integer)jSNumOfComponents.getValue());
 //    model.addRow(new Object[]{"v1", "v2","v3"});

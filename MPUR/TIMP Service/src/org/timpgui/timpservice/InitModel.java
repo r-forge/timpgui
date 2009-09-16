@@ -9,6 +9,7 @@ import nl.vu.nat.tgmodels.tgm.CohspecPanelModel;
 import nl.vu.nat.tgmodels.tgm.Dat;
 import nl.vu.nat.tgmodels.tgm.FlimPanelModel;
 import nl.vu.nat.tgmodels.tgm.IrfparPanelModel;
+import nl.vu.nat.tgmodels.tgm.KMatrixPanelModel;
 import nl.vu.nat.tgmodels.tgm.KinparPanelModel;
 import nl.vu.nat.tgmodels.tgm.Tgm;
 
@@ -21,14 +22,14 @@ public class InitModel {
 
 
 // Public classes
-      public static String parseModel(Tgm tgm) {
-       //TODO: "temp" was  Current.getNameOfCurrentModel()
+  public static String parseModel(Tgm tgm) {
        String initModel = "initModel(" +
                           get_kinpar(tgm) + "," +
                           get_constrained(tgm) + "," +
                           get_fixed(tgm) + "," +
                           get_seqmod(tgm) + "," +
                           get_positivepar(tgm) + "," +
+                          get_kmatrix(tgm) + "," +
                           get_mod_type(tgm) + "," +
                           get_measured_irf(tgm) + "," +
                           get_parmu(tgm) + "," +
@@ -43,6 +44,40 @@ public class InitModel {
 
 
       // Private classes
+   private static String get_kmatrix(Tgm tgm) {
+       String kMatrixCall = null;
+
+       KMatrixPanelModel kMatrix = tgm.getDat().getKMatrixPanel();
+
+       int matrixSize = kMatrix.getJVector().size();
+       if (matrixSize > 0){
+           kMatrixCall = "kmat = array(c(";
+           kMatrixCall=kMatrixCall.concat(String.valueOf(kMatrix.getK1Matrix().getData().get(0).getRow().get(0)));
+           for (int j = 1; j< matrixSize; j++){
+               kMatrixCall=kMatrixCall.concat(","+String.valueOf(kMatrix.getK1Matrix().getData().get(j).getRow().get(0)));
+           }
+           for (int i=1; i<matrixSize; i++ ){
+               for (int j = 0; j< matrixSize; j++){
+                   kMatrixCall=kMatrixCall.concat(","+String.valueOf(kMatrix.getK1Matrix().getData().get(j).getRow().get(i)));
+               }
+           }
+           for (int i=0; i<matrixSize; i++ ){
+               for (int j = 0; j< matrixSize; j++){
+                   kMatrixCall=kMatrixCall.concat(","+String.valueOf(kMatrix.getK2Matrix().getData().get(j).getRow().get(i)));
+               }
+           }
+
+           kMatrixCall=kMatrixCall.concat("), dim = c(");
+           kMatrixCall=kMatrixCall.concat(String.valueOf(matrixSize)+","+String.valueOf(matrixSize)+",2))");
+           kMatrixCall=kMatrixCall.concat(", jvec = c(");
+           kMatrixCall=kMatrixCall.concat(String.valueOf(kMatrix.getJVector().get(0)));
+            for (int j = 1; j< matrixSize; j++){
+               kMatrixCall=kMatrixCall.concat(","+String.valueOf(kMatrix.getJVector().get(j)));
+           }
+           kMatrixCall=kMatrixCall.concat(")");
+       }
+       return kMatrixCall;
+   }
    private static String get_kinpar(Tgm tgm) {
        Dat dat = tgm.getDat();
        KinparPanelModel kinparPanelModel = dat.getKinparPanel();

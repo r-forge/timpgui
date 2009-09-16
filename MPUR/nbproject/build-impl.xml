@@ -23,5 +23,5 @@
             </not>
         </condition>
     </fail>
-    <import file="${harness.dir}/suite.xml"/>
+    <import file="${harness.dir}/suite.xml"/>   
 </project>

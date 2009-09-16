@@ -4,8 +4,8 @@
  */
 package nl.vu.nat.tgmeditor;
 
-
-
+import java.util.ArrayList;
+import java.util.Iterator;
 import nl.vu.nat.tgmfilesupport.TgmDataObject;
 import nl.vu.nat.tgmodels.tgm.CohspecPanelModel;
 import nl.vu.nat.tgmodels.tgm.Dat;
@@ -29,9 +29,10 @@ import org.openide.nodes.Node;
 public class TgmToolBarMVElement extends ToolBarMultiViewElement {
 
     private TgmDataObject dObj;
-    private SectionView view;
+    private TgmView view;
     private ToolBarDesignEditor comp;
     private PanelFactory factory;
+    private ArrayList<Boolean> activeSectionViewPanels = new ArrayList<Boolean>();
 
     public TgmToolBarMVElement(TgmDataObject dObj) {
 
@@ -43,10 +44,9 @@ public class TgmToolBarMVElement extends ToolBarMultiViewElement {
 
     }
 
+    @Override
     public SectionView getSectionView() {
-
         return view;
-
     }
 
     @Override
@@ -57,13 +57,39 @@ public class TgmToolBarMVElement extends ToolBarMultiViewElement {
         comp.setContentView(view);
         //This determines what view is opened by default:
         //try {
-        view.openPanel(dObj.getTgm());
+        Node[] nodeArray = view.getNodeArray();
         //} //catch(java.io.IOException ex){}
+        if (!activeSectionViewPanels.isEmpty()) {
+            for (int i = 0; i < nodeArray.length; i++) {
+                if (activeSectionViewPanels.get(i)) {
+                    view.openPanel(nodeArray[i]);
+                }
+            }
+        }
         view.checkValidity();
 
     }
 
+    @Override
+    public void componentClosed() {
+        super.componentClosed();
+    }
+
+    @Override
+    public void componentHidden() {
+        // this is called before componentClosed
+        super.componentHidden();
+        Node[] nodeArray = view.getNodeArray();
+        ArrayList<Boolean> tempBooleanArrayList = new ArrayList<Boolean>();
+        for (Node node : nodeArray) {
+            tempBooleanArrayList.add(view.getSection(node).isActive());
+        }
+        activeSectionViewPanels = tempBooleanArrayList;
+    }
+
     private class TgmView extends SectionView {
+
+        private Node[] nodeArray;
 
         TgmView(TgmDataObject dObj) {//throws IOException {
             super(factory);
@@ -73,27 +99,29 @@ public class TgmToolBarMVElement extends ToolBarMultiViewElement {
             Node root = new AbstractNode(rootChildren);
 
             Tgm tgm = dObj.getTgm();
-            Node tgmNode = new TgmNode(tgm);
+            TgmNode tgmNode = new TgmNode(tgm);
 
             Dat dat = tgm.getDat();
             Node datNode = new DatNode(dat);
 
             KinparPanelModel kinparPanelModel = dat.getKinparPanel();
             Node kinparPanelNode = new KinparPanelNode(kinparPanelModel);
-            
+
             IrfparPanelModel irfparPanelModel = dat.getIrfparPanel();
             Node irfparPanelNode = new IrfparPanelNode(irfparPanelModel);
-            
+
             CohspecPanelModel cohspecPanelModel = dat.getCohspecPanel();
             Node cohspecPanelNode = new CohspecPanelNode(cohspecPanelModel);
 
             KMatrixPanelModel kMatrixPanelModel = dat.getKMatrixPanel();
             Node kMatrixPanelNode = new KMatrixPanelNode(kMatrixPanelModel);
-            
+
             FlimPanelModel flimPanelModel = dat.getFlimPanel();
             Node flimPanelNode = new FlimPanelNode(flimPanelModel);
 
-            rootChildren.add(new Node[]{tgmNode, datNode, kinparPanelNode, irfparPanelNode, cohspecPanelNode, kMatrixPanelNode, flimPanelNode});
+            nodeArray = new Node[]{tgmNode, datNode, kinparPanelNode, irfparPanelNode, cohspecPanelNode, kMatrixPanelNode, flimPanelNode};
+            rootChildren.add(nodeArray);
+
             // add panels
             addSection(new SectionPanel(this, tgmNode, tgm)); //NOI18N
             addSection(new SectionPanel(this, datNode, dat)); //NOI18N
@@ -104,6 +132,10 @@ public class TgmToolBarMVElement extends ToolBarMultiViewElement {
             addSection(new SectionPanel(this, flimPanelNode, flimPanelModel)); //NOI18N
 
             setRoot(root);
+        }
+
+        public Node[] getNodeArray() {
+            return nodeArray;
         }
     }
 
@@ -133,7 +165,7 @@ public class TgmToolBarMVElement extends ToolBarMultiViewElement {
             setIconBaseWithExtension("nl/vu/nat/tgmfilesupport/povicon.gif"); //NOI18N
         }
     }
-    
+
     private class IrfparPanelNode extends org.openide.nodes.AbstractNode {
 
         IrfparPanelNode(IrfparPanelModel irfparPanelModel) {
@@ -142,7 +174,7 @@ public class TgmToolBarMVElement extends ToolBarMultiViewElement {
             setIconBaseWithExtension("nl/vu/nat/tgmfilesupport/povicon.gif"); //NOI18N
         }
     }
-    
+
     private class CohspecPanelNode extends org.openide.nodes.AbstractNode {
 
         CohspecPanelNode(CohspecPanelModel cohspecPanelModel) {
@@ -152,7 +184,7 @@ public class TgmToolBarMVElement extends ToolBarMultiViewElement {
         }
     }
 
-        private class KMatrixPanelNode extends org.openide.nodes.AbstractNode {
+    private class KMatrixPanelNode extends org.openide.nodes.AbstractNode {
 
         KMatrixPanelNode(KMatrixPanelModel kMatrixPanelModel) {
             super(org.openide.nodes.Children.LEAF);
@@ -160,8 +192,8 @@ public class TgmToolBarMVElement extends ToolBarMultiViewElement {
             setIconBaseWithExtension("nl/vu/nat/tgmfilesupport/povicon.gif"); //NOI18N
         }
     }
-    
-        private class FlimPanelNode extends org.openide.nodes.AbstractNode {
+
+    private class FlimPanelNode extends org.openide.nodes.AbstractNode {
 
         FlimPanelNode(FlimPanelModel flimPanelModel) {
             super(org.openide.nodes.Children.LEAF);

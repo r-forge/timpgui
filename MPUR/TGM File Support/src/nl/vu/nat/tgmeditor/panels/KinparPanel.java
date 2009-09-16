@@ -38,7 +38,7 @@ public class KinparPanel extends SectionInnerPanel {
         this.kinparPanelModel = kinparPanelModel;
         initComponents();
         
-        jSNumOfComponents.setModel(new SpinnerNumberModel(kinparPanelModel.getKinpar().size(), 1, null, 1));
+        jSNumOfComponents.setModel(new SpinnerNumberModel(kinparPanelModel.getKinpar().size(), 0, null, 1));
                     
         defRow = new Object[]{new Double(0), new Boolean(false), new Boolean(false), new Boolean(false), new Double(0), new Double(0)};
         colNames = new Object[]{"Starting value", "Fixed", "FreeBetwDatasets", "Constrained", "Min", "Max"};

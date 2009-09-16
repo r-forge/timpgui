@@ -1,10 +1,8 @@
-/*
- * KinparPanel.java
- *
- * Created on аўторак, 5, жніўня 2008, 19.49
- */
+
 package nl.vu.nat.tgmeditor.panels;
 
+import java.math.BigInteger;
+import java.util.List;
 import java.util.Vector;
 import javax.swing.JComponent;
 import javax.swing.JScrollPane;
@@ -15,15 +13,16 @@ import javax.swing.SpinnerNumberModel;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
+import nl.vu.nat.tgmodels.tgm.DoubleMatrix;
+import nl.vu.nat.tgmodels.tgm.DoubleMatrix.Data;
 import nl.vu.nat.tgmodels.tgm.KMatrixPanelModel;
-
-
+import nl.vu.nat.tgmodels.tgm.KinPar;
 
 /**
  *
  * @author  Sergey
  */
-public class KMatrixPanel extends SectionInnerPanel {
+public class KMatrixPanel extends SectionInnerPanel {//implements TableModelListener {
 
     private TgmDataObject dObj;
     private KMatrixPanelModel kMatrixPanelModel;
@@ -32,11 +31,7 @@ public class KMatrixPanel extends SectionInnerPanel {
 
     private int matrixSize = 0;
 
-//    private Object[] defRow;
-//    private Object[] colNames;
-//    private Object[] newRow;
-
-    /** Creates new form KinparPanel */
+    /** Creates new form KMatrixPanel */
     public KMatrixPanel(SectionView view, TgmDataObject dObj, KMatrixPanelModel kMatrixPanelModel) {
         super(view);
         this.dObj = dObj;
@@ -45,15 +40,37 @@ public class KMatrixPanel extends SectionInnerPanel {
         rowHeader2 = new  RowHeader(30, 30);
         rowHeaderJVec = new  RowHeader(30, 30);
         initComponents();
-        
-        //jSNumOfComponents.setModel(new SpinnerNumberModel(kMatrixPanelModel.getK1Matrix().getRow().size(), 0, null, 1));
-                    
-//        defRow = new Object[]{new Double(0), new Boolean(false), new Boolean(false), new Boolean(false), new Double(0), new Double(0)};
-//        colNames = new Object[]{"Starting value", "Fixed", "FreeBetwDatasets", "Constrained", "Min", "Max"};
 
-        model1 = new KMatrixTableModel(matrixSize, matrixSize);
-        model2 = new KMatrixTableModel(matrixSize, matrixSize);
-        jVec = new KMatrixTableModel(1, matrixSize);
+        matrixSize = kMatrixPanelModel.getJVector().size();
+        jSNumOfComponents.setModel(new SpinnerNumberModel(matrixSize, 0, null, 1));
+
+        model1 = new KMatrixTableModel(0, 0);
+        model2 = new KMatrixTableModel(0, 0);
+        jVec = new KMatrixTableModel(0, 0);
+
+
+            for (int i = 0; i <matrixSize; i++){
+                model1.addColumn(String.valueOf(i+1));
+                model2.addColumn(String.valueOf(i+1));
+                jVec.addColumn(String.valueOf(i+1));
+                jTKMatrix.getColumnModel().addColumn(new KMatrColumn(i, 30));
+                jTBranches.getColumnModel().addColumn(new KMatrColumn(i, 30));
+                jTJVector.getColumnModel().addColumn(new KMatrColumn(i, 30));
+
+            }
+            jVec.addRow(kMatrixPanelModel.getJVector().toArray().clone());
+            for (int i = 0; i <matrixSize; i++){
+                //model1.addRow(kMatrixPanelModel.getK1Matrix().getRow()[i].toArray().clone());
+                model1.addRow(kMatrixPanelModel.getK1Matrix().getData().get(i).getRow().toArray().clone());
+                model2.addRow(kMatrixPanelModel.getK2Matrix().getData().get(i).getRow().toArray().clone());
+                rowHeader1.addRow(String.valueOf(i));
+                rowHeader2.addRow(String.valueOf(i));
+            }
+        
+
+        model1.addTableModelListener(model1);
+        model2.addTableModelListener(model2);
+        jVec.addTableModelListener(jVec);
 
 //         for (int i = 0; i < kMatrixPanelModel.getKinpar().size(); i++) {
 //            newRow = new Object[]{
@@ -85,6 +102,8 @@ public class KMatrixPanel extends SectionInnerPanel {
         jscpane3.setCorner(JScrollPane.UPPER_LEFT_CORNER, rowHeaderJVec.getTableHeader());
 
 
+        
+
 //        model2.addTableModelListener(model2);
         // Add listerners
 //        jTKMatrix.getModel().addTableModelListener(model1);
@@ -93,7 +112,23 @@ public class KMatrixPanel extends SectionInnerPanel {
 
     @Override
     public void setValue(JComponent source, Object value) {
+
         if (source ==jTKMatrix) {
+            int val;
+            kMatrixPanelModel.getK1Matrix().getData().clear();
+            Data tempData;
+            for (int j=0; j<matrixSize; j++){
+                tempData = new Data();
+                for (int i=0; i<matrixSize; i++){
+                    if (model1.getValueAt(j, i) == null)
+                        val = 0;
+                    else
+                        val =(Integer)model1.getValueAt(j, i);
+                   tempData.getRow().add(BigInteger.valueOf(val));
+                }
+                kMatrixPanelModel.getK1Matrix().getData().add(tempData);
+            }
+        
         
 //            if (model.getRowCount()>kMatrixPanelModel.getKinpar().size()) {
 //                KinPar kp = new KinPar();
@@ -117,6 +152,35 @@ public class KMatrixPanel extends SectionInnerPanel {
 //                kMatrixPanelModel.getKinpar().get(i).setMax((Double)model.getValueAt(i,5));
 //            }
         }
+        if (source ==jTBranches) {
+            int val;
+            kMatrixPanelModel.getK2Matrix().getData().clear();
+            Data tempData;
+            for (int j=0; j<matrixSize; j++){
+                tempData = new Data();
+                for (int i=0; i<matrixSize; i++){
+                    if (model2.getValueAt(j, i) == null)
+                        val = 0;
+                    else
+                        val =(Integer)model2.getValueAt(j, i);
+                   tempData.getRow().add(BigInteger.valueOf(val));
+                }
+                kMatrixPanelModel.getK2Matrix().getData().add(tempData);
+            }
+        }
+
+        if (source ==jTJVector) {
+            kMatrixPanelModel.getJVector().clear();
+            int val;
+            for (int i=0; i<matrixSize; i++){
+                if (jVec.getValueAt(0, i) == null)
+                    val = 0;
+                else
+                    val =(Integer)jVec.getValueAt(0, i);
+                kMatrixPanelModel.getJVector().add((double)val);
+            }
+        }
+
         endUIChange();
     }
     
@@ -135,6 +199,12 @@ public class KMatrixPanel extends SectionInnerPanel {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
+//    @Override
+//    public void tableChanged(TableModelEvent e) {
+//
+//         setValue(jTKMatrix, this);
+//    }
+
     class KMatrixTableModel extends DefaultTableModel implements TableModelListener {
 
         private KMatrixTableModel() {
@@ -152,10 +222,17 @@ public class KMatrixPanel extends SectionInnerPanel {
 
         @Override
         public void tableChanged(TableModelEvent event) {
-            //if (jTKinParamTable.isValid()) {
-            setValue(jTKMatrix, this);
-            endUIChange();
-           // }
+            if (event.getSource().equals(model1)) {
+                setValue(jTKMatrix, this);
+            }
+            else
+                if (event.getSource().equals(model2)) {
+                    setValue(jTBranches, this);
+                }
+                else
+                    if (event.getSource().equals(jVec)) {
+                    setValue(jTJVector, this);
+                }
         }
     }
     
@@ -263,7 +340,7 @@ public class KMatrixPanel extends SectionInnerPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 66, Short.MAX_VALUE)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 62, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -272,9 +349,11 @@ public class KMatrixPanel extends SectionInnerPanel {
     }// </editor-fold>//GEN-END:initComponents
 
 private void jSNumOfComponentsStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jSNumOfComponentsStateChanged
-// TODO add your handling code here:]
-//    jSNumOfComponents.getPreviousValue().
-//    for (int i = 0; i < Math.abs((Integer)jSNumOfComponents.getValue()-(Integer)jSNumOfComponents.getPreviousValue()); i++) {
+
+    model1.removeTableModelListener(model1);
+    model2.removeTableModelListener(model2);
+    jVec.removeTableModelListener(jVec);
+
     if ((Integer) jSNumOfComponents.getValue() > matrixSize) {
 
         matrixSize = (Integer)jSNumOfComponents.getValue();
@@ -302,16 +381,15 @@ private void jSNumOfComponentsStateChanged(javax.swing.event.ChangeEvent evt) {/
         model1.setColumnCount(matrixSize);
         model2.setColumnCount(matrixSize);
         jVec.setColumnCount(matrixSize);
-
-
-//    DefaultTableModel model = (DefaultTableModel) jTKinParamTable.getModel();
-//    model.setRowCount((Integer)jSNumOfComponents.getValue());
-//    model.addRow(new Object[]{"v1", "v2","v3"});
-    //   jTKinParamTable.
-//    }
     
     }
-    endUIChange();
+    model1.addTableModelListener(model1);
+    model2.addTableModelListener(model2);
+    jVec.addTableModelListener(jVec);
+    model1.fireTableStructureChanged();
+    model2.fireTableStructureChanged();
+    jVec.fireTableStructureChanged();
+//    endUIChange();
 }//GEN-LAST:event_jSNumOfComponentsStateChanged
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

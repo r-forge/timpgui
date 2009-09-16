@@ -124,7 +124,7 @@ public class KMatrixPanel extends SectionInnerPanel {//implements TableModelList
                         val = 0;
                     else
                         val =(Integer)model1.getValueAt(j, i);
-                   tempData.getRow().add(BigInteger.valueOf(val));
+                   tempData.getRow().add(val);
                 }
                 kMatrixPanelModel.getK1Matrix().getData().add(tempData);
             }
@@ -163,7 +163,7 @@ public class KMatrixPanel extends SectionInnerPanel {//implements TableModelList
                         val = 0;
                     else
                         val =(Integer)model2.getValueAt(j, i);
-                   tempData.getRow().add(BigInteger.valueOf(val));
+                   tempData.getRow().add(val);
                 }
                 kMatrixPanelModel.getK2Matrix().getData().add(tempData);
             }
@@ -177,7 +177,7 @@ public class KMatrixPanel extends SectionInnerPanel {//implements TableModelList
                     val = 0;
                 else
                     val =(Integer)jVec.getValueAt(0, i);
-                kMatrixPanelModel.getJVector().add((double)val);
+                kMatrixPanelModel.getJVector().add(val);
             }
         }
 

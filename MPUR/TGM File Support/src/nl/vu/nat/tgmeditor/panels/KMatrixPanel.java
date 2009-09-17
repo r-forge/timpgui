@@ -1,8 +1,6 @@
 
 package nl.vu.nat.tgmeditor.panels;
 
-import java.math.BigInteger;
-import java.util.List;
 import java.util.Vector;
 import javax.swing.JComponent;
 import javax.swing.JScrollPane;
@@ -13,10 +11,8 @@ import javax.swing.SpinnerNumberModel;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
-import nl.vu.nat.tgmodels.tgm.DoubleMatrix;
 import nl.vu.nat.tgmodels.tgm.DoubleMatrix.Data;
 import nl.vu.nat.tgmodels.tgm.KMatrixPanelModel;
-import nl.vu.nat.tgmodels.tgm.KinPar;
 
 /**
  *

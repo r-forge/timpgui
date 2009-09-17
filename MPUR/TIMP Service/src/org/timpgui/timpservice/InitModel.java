@@ -23,25 +23,88 @@ public class InitModel {
 
 // Public classes
   public static String parseModel(Tgm tgm) {
-       String initModel = "initModel(" +
-                          get_kinpar(tgm) + "," +
-                          get_constrained(tgm) + "," +
-                          get_fixed(tgm) + "," +
-                          get_seqmod(tgm) + "," +
-                          get_positivepar(tgm) + "," +
-                          get_kmatrix(tgm) + "," +
-                          get_mod_type(tgm) + "," +
-                          get_measured_irf(tgm) + "," +
-                          get_parmu(tgm) + "," +
-                          get_dispmufun(tgm) + "," +
-                          get_partau(tgm) + "," +
-                          get_disptaufun(tgm) + "," +
-                          get_convalg(tgm) + "," +
-                          get_irf(tgm) +
-                          ")";
+       String initModel = "initModel(";
+       String tempStr = null;
+       
+       tempStr = get_mod_type(tgm);
+       initModel=initModel.concat(tempStr+",");
+       
+       tempStr = get_kinpar(tgm);
+       if (tempStr!=null)
+           initModel=initModel.concat(tempStr+",");
+
+       tempStr = get_kmatrix(tgm);
+       if (tempStr!=null)
+           initModel=initModel.concat(tempStr+",");
+
+       tempStr = get_irf(tgm);
+       if (tempStr!=null)
+           initModel=initModel.concat(tempStr+",");
+
+       tempStr = get_measured_irf(tgm);
+       if (tempStr!=null)
+           initModel=initModel.concat(tempStr+",");
+
+       tempStr = get_parmu(tgm);
+       if (tempStr!=null)
+           initModel=initModel.concat(tempStr+",");
+
+//       tempStr = get_dispmufun(tgm);
+//       if (tempStr!=null)
+//           initModel=initModel.concat(tempStr+",");
+//       tempStr = get_partau(tgm);
+//       if (tempStr!=null)
+//           initModel=initModel.concat(tempStr+",");
+//       tempStr = get_disptaufun(tgm);
+//       if (tempStr!=null)
+//           initModel=initModel.concat(tempStr+",");
+
+       tempStr = get_fixed(tgm);
+       if (tempStr!=null)
+           initModel=initModel.concat(tempStr+",");
+
+
+       tempStr = get_positivepar(tgm);
+       if (tempStr!=null)
+           initModel=initModel.concat(tempStr+",");
+
+       tempStr = get_cohArtefact(tgm);
+       if (tempStr!=null)
+           initModel=initModel.concat(tempStr+",");
+
+       tempStr = get_seqmod(tgm);
+       initModel=initModel.concat(tempStr+")");
+
+
+
+
+//                          get_constrained(tgm) + "," +
+//                           + "," +
+//                           + "," +
+//                           + "," +
+//                           + "," +
+//                           + "," +
+//                           + "," +
+//                           + "," +
+//                           + "," +
+//                           + "," +
+//                           + "," +
+//
+//                           +
+//                          ")";
        return initModel;
    }
 
+    private static String get_cohArtefact(Tgm tgm) {
+        String cohSpecStr = null;
+        CohspecPanelModel cohspecPanel = tgm.getDat().getCohspecPanel();
+        String typeCoh = cohspecPanel.getCohspec().getType();
+        cohspecPanel.getCoh();
+        if (typeCoh != null){
+            cohSpecStr = "cohspec = list(type = \""+typeCoh+"\") ";
+        }
+        return cohSpecStr;
+    }
 
       // Private classes
    private static String get_kmatrix(Tgm tgm) {
@@ -79,55 +142,50 @@ public class InitModel {
        return kMatrixCall;
    }
    private static String get_kinpar(Tgm tgm) {
-       Dat dat = tgm.getDat();
-       KinparPanelModel kinparPanelModel = dat.getKinparPanel();
-       
-       String kinpar = "kinpar = c("; 
-       double k; 
-       for (int i = 0; i < kinparPanelModel.getKinpar().size(); i++) {
-           if(i>0)
-               kinpar = kinpar + ",";
-           k = kinparPanelModel.getKinpar().get(i).getStart();
-           kinpar = kinpar + Double.toString(k);
+       KinparPanelModel kinparPanelModel = tgm.getDat().getKinparPanel();
+       String kinpar = null;
+       int size = kinparPanelModel.getKinpar().size();
+       if (size >0 ){
+           kinpar = "kinpar = c(";
+           double k;
+           for (int i = 0; i < size; i++) {
+               if(i>0)
+                   kinpar = kinpar + ",";
+               k = kinparPanelModel.getKinpar().get(i).getStart();
+               kinpar = kinpar + Double.toString(k);
+           }
+           kinpar = kinpar + ")";
        }
-       kinpar = kinpar + ")";
        return kinpar;
    }
+
    private static String get_measured_irf(Tgm tgm) {
-      Dat dat = tgm.getDat();
-      String m = "measured_irf=";
-      FlimPanelModel ff = dat.getFlimPanel();
+      String meaIrfString = null;
+      FlimPanelModel flimPanel = tgm.getDat().getFlimPanel();
       //System.out.println("DDD"+Current.GetcurrMIRF());
-      if(ff.isMirf()) { 
-          
-          m = m; //+ Current.GetcurrMIRF();
+      if(flimPanel.isMirf()) {
+          int conv = flimPanel.getConvalg();
+          meaIrfString = "measured_irf= vector( "; //+ Current.GetcurrMIRF();
+          meaIrfString = meaIrfString + " ), convalg= ";
+          meaIrfString = meaIrfString.concat(String.valueOf(conv));
+          if(conv == 3) {
+              meaIrfString = meaIrfString.concat(", reftau = ");
+              meaIrfString = meaIrfString.concat(String.valueOf(flimPanel.getReftau()));
+          }
       }
-      else m = m + "vector()"; 
-       
-       return m; 
-       
-   }
-   private static String get_convalg(Tgm tgm) {
-      Dat dat = tgm.getDat();
-      String m = "convalg= ";
-      FlimPanelModel ff = dat.getFlimPanel();
-      m = m + Integer.toString(ff.getConvalg());
-      if(ff.getConvalg() == 3) 
-          m = m + ", reftau = " + Double.toString(ff.getReftau());
-      return m; 
-       
+      return meaIrfString;
    }
    
    private static String get_irf(Tgm tgm) {
-      Dat dat = tgm.getDat(); 
+
       String m = "irfpar = ";
-      IrfparPanelModel ff = dat.getIrfparPanel();
+      IrfparPanelModel irfPanel = tgm.getDat().getIrfparPanel();
       int count = 0;
-       for (int i = 0; i < ff.getIrf().size(); i++) {
+      for (int i = 0; i < irfPanel.getIrf().size(); i++) {
            if(count>0) 
                m = m  + ",";
            else m = m + "c("; 
-           m = m + Double.toString(ff.getIrf().get(i));
+           m = m + Double.toString(irfPanel.getIrf().get(i));
            count++;
        }
        if(count>0)
@@ -136,65 +194,99 @@ public class InitModel {
            m = m + "vector()";
        return m;  
    }
-   
-   private static String get_dispmufun(Tgm tgm) {
-      Dat dat = tgm.getDat();
-      String m = "dispmufun = \"poly\"";
-      IrfparPanelModel ff = dat.getIrfparPanel();
-                
-       int count=0;
-       if(ff.getDispmufun().equals("poly")) {
-            m = "dispmufun = \"poly\"";
-       }
-       else if (ff.getDispmufun().equals("discrete")) {
-            m = "dispmufun = \"discrete\"";  
-       }
-       return m;  
-   }
-   private static String get_disptaufun(Tgm tgm) {
-      Dat dat = tgm.getDat();
-      String m = "disptaufun = \"poly\"";
-      IrfparPanelModel ff = dat.getIrfparPanel();
-                
-       int count=0;
-       if(ff.getDisptaufun().equals("poly")) {
-            m = "disptaufun = \"poly\"";
-       }
-       else if (ff.getDisptaufun().equals("discrete")) {
-             m = "disptaufun = \"discrete\"";  
-       }
-       return m;  
-   }
+//
+//   private static String get_dispmufun(Tgm tgm) {
+//       String dispStr = null;
+//       IrfparPanelModel irfPanel = tgm.getDat().getIrfparPanel();
+//
+//       if(irfPanel.getDispmufun().equals("poly")) {
+//            dispStr = "dispmufun = \"poly\"";
+//       }
+//       else if (irfPanel.getDispmufun().equals("discrete")) {
+//            dispStr = "dispmufun = \"discrete\"";
+//       }
+//
+//       return dispStr;
+//   }
+//
+//   private static String get_disptaufun(Tgm tgm) {
+//       String dispStr = null;
+//       IrfparPanelModel irfPanel = tgm.getDat().getIrfparPanel();
+//
+//       if(irfPanel.getDispmufun().equals("poly")) {
+//            dispStr = "disptaufun = \"poly\"";
+//       }
+//       else if (irfPanel.getDispmufun().equals("discrete")) {
+//            dispStr = "disptaufun = \"discrete\"";
+//       }
+//       return dispStr;
+//   }
+
    private static String get_parmu(Tgm tgm) {
-      Dat dat = tgm.getDat();
-      String m = "parmu = list(";
-      IrfparPanelModel ff = dat.getIrfparPanel();
-      
-       if(ff.getParmu().trim().length()!=0) {
-           m = m + "c(" + ff.getParmu() + ")";  
-      }   
-       m = m + ")";
-       return m;  
-   }
-    private static String get_partau(Tgm tgm) {
-      Dat dat = tgm.getDat();
-      String m = "partau=";
-      IrfparPanelModel ff = dat.getIrfparPanel();
-           
-       int count=0;
-       
-       if(ff.getPartau().trim().length() != 0) {
-               if(count>0) 
-                    m = m  + ",";
-               else m = m + "c(" + ff.getPartau();
-               count++;
-      }   
-      if(count>0) 
-         m = m + ")";
-       else m = m + "vector()";
-       return m;  
-   }
-   private static String get_fixed(Tgm tgm) {
+       String parmuStr = null;
+       IrfparPanelModel irfPanel = tgm.getDat().getIrfparPanel();
+
+       if (irfPanel.getLamda() > 0){
+           parmuStr = "lambdac = "+String.valueOf(irfPanel.getLamda());
+       }
+
+       if(irfPanel.getParmu().trim().length()!=0) {
+           if (parmuStr == null)
+               parmuStr = "parmu = list(";
+           else
+               parmuStr = parmuStr.concat(", parmu = list(");
+            
+            parmuStr = parmuStr + "c(" + irfPanel.getParmu() + "))";
+       }
+
+       if (parmuStr != null){
+           if(irfPanel.getDispmufun().equals("poly")) {
+                parmuStr = parmuStr.concat(", dispmufun = \"poly\"");
+           }
+           else if (irfPanel.getDispmufun().equals("discrete")) {
+                parmuStr = parmuStr.concat(", dispmufun = \"discrete\"");
+           }
+       }
+       else {
+           if(irfPanel.getDispmufun().equals("poly")) {
+                parmuStr = "dispmufun = \"poly\"";
+           }
+           else if (irfPanel.getDispmufun().equals("discrete")) {
+                parmuStr = "dispmufun = \"discrete\"";
+           }
+       }
+
+       if(irfPanel.getPartau().trim().length()!=0) {
+           if (parmuStr == null)
+               parmuStr = "partau= list(";
+           else
+               parmuStr = parmuStr.concat(", partau= list(");
+
+           parmuStr = parmuStr + "c(" + irfPanel.getPartau() + "))";
+       }
+
+       if (parmuStr != null){
+           if(irfPanel.getDisptaufun().equals("poly")) {
+                parmuStr = parmuStr.concat(", dispmufun = \"poly\"");
+           }
+           else if (irfPanel.getDisptaufun().equals("discrete")) {
+                parmuStr = parmuStr.concat(", dispmufun = \"discrete\"");
+           }
+       }
+       else{
+           if(irfPanel.getDisptaufun().equals("poly")) {
+                parmuStr = "dispmufun = \"poly\"";
+           }
+           else if (irfPanel.getDisptaufun().equals("discrete")) {
+                parmuStr = "dispmufun = \"discrete\"";
+           }
+       }
+
+       return parmuStr;
+    }
+
+
+    private static String get_fixed(Tgm tgm) {
        Dat dat = tgm.getDat();
        KinparPanelModel kinparPanelModel = dat.getKinparPanel();
        String fixed = "fixed = list(";
@@ -214,6 +306,7 @@ public class InitModel {
        // need to fill in other parameters here, once we have panels for them 
        return fixed;
    }
+
    private static String get_constrained(Tgm tgm) {
        Dat dat = tgm.getDat();
        KinparPanelModel kinparPanelModel = dat.getKinparPanel();
@@ -244,25 +337,22 @@ public class InitModel {
         // need to fill in other parameters here, once we have panels for them 
        return constrained;
    }
+
    private static String get_seqmod(Tgm tgm) {
-       Dat dat = tgm.getDat();
-       KinparPanelModel kinparPanelModel = dat.getKinparPanel();  
-       String x;
-       if(kinparPanelModel.isSeqmod()) x = "TRUE";
-       else x = "FALSE";
-       return "seqmod ="  + x; 
-   } 
+       KinparPanelModel kinparPanelModel = tgm.getDat().getKinparPanel();
+       if(kinparPanelModel.isSeqmod())
+           return "seqmod = TRUE";
+       else
+           return "seqmod = FALSE";
+   }
+
    private static String get_positivepar(Tgm tgm) {
-       Dat dat = tgm.getDat();
-       KinparPanelModel kinparPanelModel = dat.getKinparPanel();
+       KinparPanelModel kinparPanelModel = tgm.getDat().getKinparPanel();
        int count = 0;
-       String positivepar = "";
-     
+       String positivepar = null;
        if(kinparPanelModel.isPositivepar()) {
-           
            count++;
-           
-           positivepar = "positivepar=c(\"kinpar\"";
+           positivepar = "positivepar = c(\"kinpar\"";
        }
        // need to fill in other parameters here, once we have panels for them 
        //if(count>0) 
@@ -271,6 +361,7 @@ public class InitModel {
            positivepar="positivepar=vector()";
        else 
            positivepar = positivepar + ")";
+
        return positivepar;
    }
    private static String get_cohspec(Tgm tgm) {
@@ -288,9 +379,9 @@ public class InitModel {
       cc = cc + ")";
       return cc;
    }
+
    private static String get_mod_type(Tgm tgm) {
-       Dat dat = tgm.getDat();
-       String mod_type = "mod_type = \"" + dat.getModType() + "\""; 
+       String mod_type = "mod_type = \"" + tgm.getDat().getModType() + "\"";
        return mod_type;
    }
 

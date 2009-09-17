@@ -73,6 +73,8 @@ public class IrfparPanel extends SectionInnerPanel {
         }
         jPartauTextfield.setText(irfparPanelModel.getPartau());
 
+        jTPolyDispersion.setText(String.valueOf(irfparPanelModel.getLamda()));
+
 
         // Add listerners
         jTIrfparTable.getModel().addTableModelListener(model);
@@ -342,6 +344,10 @@ private void jSNumOfComponents2StateChanged(javax.swing.event.ChangeEvent evt) {
         if (source == jPartauTextfield) {
             irfparPanelModel.setPartau((String) value);
         }
+        if (source == jTPolyDispersion) {
+            irfparPanelModel.setLamda((Double) value);
+        }
+
         endUIChange();
     }
 
@@ -350,10 +356,12 @@ private void jSNumOfComponents2StateChanged(javax.swing.event.ChangeEvent evt) {
         dObj.modelUpdatedFromUI();
     }
 
+    @Override
     public void linkButtonPressed(Object arg0, String arg1) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
+    @Override
     public JComponent getErrorComponent(String arg0) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
@@ -375,6 +383,7 @@ private void jSNumOfComponents2StateChanged(javax.swing.event.ChangeEvent evt) {
             return types[c];
         }
 
+        @Override
         public void tableChanged(TableModelEvent event) {
             setValue(jTIrfparTable, this);
             jTIrfparTable.repaint();

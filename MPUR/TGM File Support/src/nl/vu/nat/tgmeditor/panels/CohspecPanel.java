@@ -87,11 +87,6 @@ public class CohspecPanel extends SectionInnerPanel {
         cohspec_buttonGroup.add(cohspec_irf);
         cohspec_irf.setText("irf");
         cohspec_irf.setToolTipText("cohspec: *** Object of class \"list\" describing the model for coherent artifact/scatter com-\n    ponent(s) containing the element type and optionally the element numdatasets. The\n    element type can be set as follows:\n\n\"irf\": if type=\"irf\", the coherent artifact/scatter has the time proﬁle of the IRF.\n        \n\"freeirfdisp\": if type=\"freeirfdisp\", the coherent artifact/scatter has a Gaus-\n        sian time proﬁle whose location and width are parameterized in the vector coh.\n\n\"irfmulti\": if type=\"irfmulti\" the time proﬁle of the IRF is used for the coherent\n          artifact/scatter model, but the IRF parameters are taken per dataset (for the multidataset\n          case), and the integer argument numdatasets must be equal to the number of datasets\n          modeled.\n\n\"seq\": if type=\"seq\" a sequential exponential decay model is applied, whose starting\n          value are contained in an additional list element start. This often models oscillating\n          behavior well, where the number of oscillations is the number of parameter starting values\n          given in start. The starting values after optimization will be found in the slot coh of\n          the object of class theta corresponding to each dataset modeled.\n\n \"mix\": if type=\"mix\" if type=\"mix\" a sequential exponential decay model is applied\n          along with a model that follows the time proﬁle of the IRF; the coherent artifact/scatter\n          is then a linear superposition of these two models; see the above description of seq for\n          how to supply the starting values.");
-        cohspec_irf.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cohspec_irfActionPerformed(evt);
-            }
-        });
 
         cohspec_buttonGroup.add(cohspec_freeirfdisp);
         cohspec_freeirfdisp.setText("freeirfdisp");
@@ -113,11 +108,6 @@ public class CohspecPanel extends SectionInnerPanel {
 
         cohspec_start.setColumns(10);
         cohspec_start.setEnabled(false);
-        cohspec_start.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cohspec_startActionPerformed(evt);
-            }
-        });
 
         jLabel3.setText("Comma seperated list of numbers");
 
@@ -174,14 +164,6 @@ public class CohspecPanel extends SectionInnerPanel {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
-
-private void cohspec_irfActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cohspec_irfActionPerformed
-// TODO add your handling code here:
-}//GEN-LAST:event_cohspec_irfActionPerformed
-
-private void cohspec_startActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cohspec_startActionPerformed
-// TODO add your handling code here:
-}//GEN-LAST:event_cohspec_startActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

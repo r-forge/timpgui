@@ -8,6 +8,7 @@
   <AuxValues>
     <AuxValue name="FormSettings_autoResourcing" type="java.lang.Integer" value="0"/>
     <AuxValue name="FormSettings_autoSetComponentName" type="java.lang.Boolean" value="false"/>
+    <AuxValue name="FormSettings_generateFQN" type="java.lang.Boolean" value="true"/>
     <AuxValue name="FormSettings_generateMnemonicsCode" type="java.lang.Boolean" value="false"/>
     <AuxValue name="FormSettings_i18nAutoMode" type="java.lang.Boolean" value="false"/>
     <AuxValue name="FormSettings_layoutCodeTarget" type="java.lang.Integer" value="1"/>
@@ -106,9 +107,6 @@
         <Property name="text" type="java.lang.String" value="irf"/>
         <Property name="toolTipText" type="java.lang.String" value="cohspec: *** Object of class &quot;list&quot; describing the model for coherent artifact/scatter com-&#xa;    ponent(s) containing the element type and optionally the element numdatasets. The&#xa;    element type can be set as follows:&#xa;&#xa;&quot;irf&quot;: if type=&quot;irf&quot;, the coherent artifact/scatter has the time pro&#xfb01;le of the IRF.&#xa;        &#xa;&quot;freeirfdisp&quot;: if type=&quot;freeirfdisp&quot;, the coherent artifact/scatter has a Gaus-&#xa;        sian time pro&#xfb01;le whose location and width are parameterized in the vector coh.&#xa;&#xa;&quot;irfmulti&quot;: if type=&quot;irfmulti&quot; the time pro&#xfb01;le of the IRF is used for the coherent&#xa;          artifact/scatter model, but the IRF parameters are taken per dataset (for the multidataset&#xa;          case), and the integer argument numdatasets must be equal to the number of datasets&#xa;          modeled.&#xa;&#xa;&quot;seq&quot;: if type=&quot;seq&quot; a sequential exponential decay model is applied, whose starting&#xa;          value are contained in an additional list element start. This often models oscillating&#xa;          behavior well, where the number of oscillations is the number of parameter starting values&#xa;          given in start. The starting values after optimization will be found in the slot coh of&#xa;          the object of class theta corresponding to each dataset modeled.&#xa;&#xa; &quot;mix&quot;: if type=&quot;mix&quot; if type=&quot;mix&quot; a sequential exponential decay model is applied&#xa;          along with a model that follows the time pro&#xfb01;le of the IRF; the coherent artifact/scatter&#xa;          is then a linear superposition of these two models; see the above description of seq for&#xa;          how to supply the starting values."/>
       </Properties>
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="cohspec_irfActionPerformed"/>
-      </Events>
     </Component>
     <Component class="javax.swing.JRadioButton" name="cohspec_freeirfdisp">
       <Properties>
@@ -156,9 +154,6 @@
         <Property name="columns" type="int" value="10"/>
         <Property name="enabled" type="boolean" value="false"/>
       </Properties>
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="cohspec_startActionPerformed"/>
-      </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel3">
       <Properties>

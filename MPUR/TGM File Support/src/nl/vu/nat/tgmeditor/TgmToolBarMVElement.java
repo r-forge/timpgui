@@ -4,6 +4,7 @@
  */
 package nl.vu.nat.tgmeditor;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
 import nl.vu.nat.tgmfilesupport.TgmDataObject;
@@ -53,7 +54,7 @@ public class TgmToolBarMVElement extends ToolBarMultiViewElement {
     public void componentShowing() {
 
         super.componentShowing();
-        view = new TgmView(dObj);
+        view = new TgmView(this.dObj);
         comp.setContentView(view);
         //This determines what view is opened by default:
         //try {

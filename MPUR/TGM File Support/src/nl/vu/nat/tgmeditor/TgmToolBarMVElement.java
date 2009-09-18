@@ -15,6 +15,7 @@ import nl.vu.nat.tgmodels.tgm.IrfparPanelModel;
 import nl.vu.nat.tgmodels.tgm.KMatrixPanelModel;
 import nl.vu.nat.tgmodels.tgm.KinparPanelModel;
 import nl.vu.nat.tgmodels.tgm.Tgm;
+import nl.vu.nat.tgmodels.tgm.WeightParPanelModel;
 import org.netbeans.modules.xml.multiview.ToolBarMultiViewElement;
 import org.netbeans.modules.xml.multiview.ui.SectionPanel;
 import org.netbeans.modules.xml.multiview.ui.SectionView;
@@ -111,6 +112,9 @@ public class TgmToolBarMVElement extends ToolBarMultiViewElement {
             IrfparPanelModel irfparPanelModel = dat.getIrfparPanel();
             Node irfparPanelNode = new IrfparPanelNode(irfparPanelModel);
 
+            WeightParPanelModel weightParPanelModel = dat.getWeightParPanel();
+            Node weightparPanelNode = new WeightparPanelNode(weightParPanelModel);
+
             CohspecPanelModel cohspecPanelModel = dat.getCohspecPanel();
             Node cohspecPanelNode = new CohspecPanelNode(cohspecPanelModel);
 
@@ -120,7 +124,7 @@ public class TgmToolBarMVElement extends ToolBarMultiViewElement {
             FlimPanelModel flimPanelModel = dat.getFlimPanel();
             Node flimPanelNode = new FlimPanelNode(flimPanelModel);
 
-            nodeArray = new Node[]{tgmNode, datNode, kinparPanelNode, irfparPanelNode, cohspecPanelNode, kMatrixPanelNode, flimPanelNode};
+            nodeArray = new Node[]{tgmNode, datNode, kinparPanelNode, irfparPanelNode, weightparPanelNode, cohspecPanelNode, kMatrixPanelNode, flimPanelNode};
             rootChildren.add(nodeArray);
 
             // add panels
@@ -128,6 +132,7 @@ public class TgmToolBarMVElement extends ToolBarMultiViewElement {
             addSection(new SectionPanel(this, datNode, dat)); //NOI18N
             addSection(new SectionPanel(this, kinparPanelNode, kinparPanelModel)); //NOI18N
             addSection(new SectionPanel(this, irfparPanelNode, irfparPanelModel)); //NOI18N
+            addSection(new SectionPanel(this, weightparPanelNode, weightParPanelModel)); //NOI18N
             addSection(new SectionPanel(this, cohspecPanelNode, cohspecPanelModel)); //NOI18N
             addSection(new SectionPanel(this, kMatrixPanelNode, kMatrixPanelModel)); //NOI18N
             addSection(new SectionPanel(this, flimPanelNode, flimPanelModel)); //NOI18N
@@ -172,6 +177,15 @@ public class TgmToolBarMVElement extends ToolBarMultiViewElement {
         IrfparPanelNode(IrfparPanelModel irfparPanelModel) {
             super(org.openide.nodes.Children.LEAF);
             setDisplayName("Model specification for instrument response:");
+            setIconBaseWithExtension("nl/vu/nat/tgmfilesupport/povicon.gif"); //NOI18N
+        }
+    }
+
+    private class WeightparPanelNode extends org.openide.nodes.AbstractNode {
+
+        WeightparPanelNode(WeightParPanelModel weightParPanelModel) {
+            super(org.openide.nodes.Children.LEAF);
+            setDisplayName("Weighting parameters specification:");
             setIconBaseWithExtension("nl/vu/nat/tgmfilesupport/povicon.gif"); //NOI18N
         }
     }

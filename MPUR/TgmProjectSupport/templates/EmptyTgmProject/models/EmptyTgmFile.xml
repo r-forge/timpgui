@@ -2,7 +2,7 @@
 
 <!--
     Document   : TgmSchema.xml
-    Created on : September 18, 2009, 11:33 AM
+    Created on : September 18, 2009, 4:38 PM
     Author     : jsg210
     Description:
         Purpose of the document follows.
@@ -45,6 +45,8 @@
             <ns0:k2matrix>
             </ns0:k2matrix>
         </ns0:kMatrixPanel>
+        <ns0:weightParPanel>
+        </ns0:weightParPanel>
     </ns0:dat>
 
 </ns0:tgm>

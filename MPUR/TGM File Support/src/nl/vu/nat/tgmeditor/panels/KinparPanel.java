@@ -40,15 +40,14 @@ public class KinparPanel extends SectionInnerPanel {
         
         jSNumOfComponents.setModel(new SpinnerNumberModel(kinparPanelModel.getKinpar().size(), 0, null, 1));
                     
-        defRow = new Object[]{new Double(0), new Boolean(false), new Boolean(false), new Boolean(false), new Double(0), new Double(0)};
-        colNames = new Object[]{"Starting value", "Fixed", "FreeBetwDatasets", "Constrained", "Min", "Max"};
+        defRow = new Object[]{new Double(0), new Boolean(false), new Boolean(false), new Double(0), new Double(0)};
+        colNames = new Object[]{"Starting value", "Fixed", "Constrained", "Min", "Max"};
         model = new KinModTableModel(colNames, 0);
         
          for (int i = 0; i < kinparPanelModel.getKinpar().size(); i++) {
             newRow = new Object[]{
                 kinparPanelModel.getKinpar().get(i).getStart(),
                 kinparPanelModel.getKinpar().get(i).isFixed(),
-                kinparPanelModel.getKinpar().get(i).isModeldiffsFree(),
                 kinparPanelModel.getKinpar().get(i).isConstrained(),
                 kinparPanelModel.getKinpar().get(i).getMin(),
                 kinparPanelModel.getKinpar().get(i).getMax()
@@ -74,10 +73,9 @@ public class KinparPanel extends SectionInnerPanel {
                 KinPar kp = new KinPar();
                 kp.setStart((Double)model.getValueAt((model.getRowCount()-1),0));
                 kp.setFixed((Boolean)model.getValueAt((model.getRowCount()-1),1));
-                kp.setModeldiffsFree((Boolean)model.getValueAt((model.getRowCount()-1),2));
-                kp.setConstrained((Boolean)model.getValueAt((model.getRowCount()-1),3));
-                kp.setMin((Double)model.getValueAt((model.getRowCount()-1),4));
-                kp.setMax((Double)model.getValueAt((model.getRowCount()-1),5));
+                kp.setConstrained((Boolean)model.getValueAt((model.getRowCount()-1),2));
+                kp.setMin((Double)model.getValueAt((model.getRowCount()-1),3));
+                kp.setMax((Double)model.getValueAt((model.getRowCount()-1),4));
                 kinparPanelModel.getKinpar().add(kp);
             } else if (model.getRowCount()<kinparPanelModel.getKinpar().size()) {
                 kinparPanelModel.getKinpar().remove(kinparPanelModel.getKinpar().size()-1);
@@ -86,10 +84,9 @@ public class KinparPanel extends SectionInnerPanel {
         for (int i = 0; i < model.getRowCount(); i++) {
                 kinparPanelModel.getKinpar().get(i).setStart((Double)model.getValueAt(i,0));
                 kinparPanelModel.getKinpar().get(i).setFixed((Boolean)model.getValueAt(i,1));
-                kinparPanelModel.getKinpar().get(i).setModeldiffsFree((Boolean)model.getValueAt(i,2));
-                kinparPanelModel.getKinpar().get(i).setConstrained((Boolean)model.getValueAt(i,3));
-                kinparPanelModel.getKinpar().get(i).setMin((Double)model.getValueAt(i,4));
-                kinparPanelModel.getKinpar().get(i).setMax((Double)model.getValueAt(i,5));
+                kinparPanelModel.getKinpar().get(i).setConstrained((Boolean)model.getValueAt(i,2));
+                kinparPanelModel.getKinpar().get(i).setMin((Double)model.getValueAt(i,3));
+                kinparPanelModel.getKinpar().get(i).setMax((Double)model.getValueAt(i,4));
             }
         }
         if (source == jCPositivepar) {
@@ -117,7 +114,7 @@ public class KinparPanel extends SectionInnerPanel {
     
     class KinModTableModel extends DefaultTableModel implements TableModelListener {
 
-        private Class[] types = new Class[]{Double.class, Boolean.class, Boolean.class, Boolean.class,Double.class, Double.class};
+        private Class[] types = new Class[]{Double.class, Boolean.class, Boolean.class,Double.class, Double.class};
 
         private KinModTableModel() {
             super();

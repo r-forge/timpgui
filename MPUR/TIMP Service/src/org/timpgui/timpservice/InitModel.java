@@ -76,22 +76,6 @@ public class InitModel {
        initModel=initModel.concat(tempStr+")");
 
 
-
-
-//                          get_constrained(tgm) + "," +
-//                           + "," +
-//                           + "," +
-//                           + "," +
-//                           + "," +
-//                           + "," +
-//                           + "," +
-//                           + "," +
-//                           + "," +
-//                           + "," +
-//                           + "," +
-//
-//                           +
-//                          ")";
        return initModel;
    }
 
@@ -287,6 +271,7 @@ public class InitModel {
 
 
     private static String get_fixed(Tgm tgm) {
+
        Dat dat = tgm.getDat();
        KinparPanelModel kinparPanelModel = dat.getKinparPanel();
        String fixed = "fixed = list(";
@@ -307,36 +292,36 @@ public class InitModel {
        return fixed;
    }
 
-   private static String get_constrained(Tgm tgm) {
-       Dat dat = tgm.getDat();
-       KinparPanelModel kinparPanelModel = dat.getKinparPanel();
-       String constrained = "constrained = list("; 
-       double cc;
-       int count=0;
-       for (int i = 0; i < kinparPanelModel.getKinpar().size(); i++) {
-           if(kinparPanelModel.getKinpar().get(i).isConstrained()){
-               if(kinparPanelModel.getKinpar().get(i).getMin() != null) {
-                   if(count > 0)
-                       constrained = constrained + ",";
-                   cc = kinparPanelModel.getKinpar().get(i).getMin();
-                   constrained = constrained + "list(what=\"kinpar\", ind = "+ 
-                                  Integer.toString(i+1) +", low=" + cc + ")";
-                   count++;
-               }
-               else if(kinparPanelModel.getKinpar().get(i).getMax() != null) {
-                    if(count > 0)
-                       constrained = constrained + ",";
-                    cc = kinparPanelModel.getKinpar().get(i).getMax();
-                    constrained = constrained + "list(what=\"kinpar\", ind = "+ 
-                                  Integer.toString(i+1) +", high=" + cc + ")";
-                    count++;
-               }
-           }
-       }
-       constrained = constrained + ")";
-        // need to fill in other parameters here, once we have panels for them 
-       return constrained;
-   }
+//   private static String get_constrained(Tgm tgm) {
+//       Dat dat = tgm.getDat();
+//       KinparPanelModel kinparPanelModel = dat.getKinparPanel();
+//       String constrained = "constrained = list(";
+//       double cc;
+//       int count=0;
+//       for (int i = 0; i < kinparPanelModel.getKinpar().size(); i++) {
+//           if(kinparPanelModel.getKinpar().get(i).isConstrained()){
+//               if(kinparPanelModel.getKinpar().get(i).getMin() != null) {
+//                   if(count > 0)
+//                       constrained = constrained + ",";
+//                   cc = kinparPanelModel.getKinpar().get(i).getMin();
+//                   constrained = constrained + "list(what=\"kinpar\", ind = "+
+//                                  Integer.toString(i+1) +", low=" + cc + ")";
+//                   count++;
+//               }
+//               else if(kinparPanelModel.getKinpar().get(i).getMax() != null) {
+//                    if(count > 0)
+//                       constrained = constrained + ",";
+//                    cc = kinparPanelModel.getKinpar().get(i).getMax();
+//                    constrained = constrained + "list(what=\"kinpar\", ind = "+
+//                                  Integer.toString(i+1) +", high=" + cc + ")";
+//                    count++;
+//               }
+//           }
+//       }
+//       constrained = constrained + ")";
+//        // need to fill in other parameters here, once we have panels for them
+//       return constrained;
+//   }
 
    private static String get_seqmod(Tgm tgm) {
        KinparPanelModel kinparPanelModel = tgm.getDat().getKinparPanel();

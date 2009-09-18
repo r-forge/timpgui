@@ -29,7 +29,7 @@ import org.timpgui.timpinterface.TimpInterface;
 
 public final class StartAnalysis implements ActionListener {
 
-    final static int NO_OF_ITERATIONS = 0;
+    private int NO_OF_ITERATIONS = 5;
     Tgm[] models;
     private TimpInterface service;
     private DatasetTimp[] datasets;
@@ -37,79 +37,88 @@ public final class StartAnalysis implements ActionListener {
 
     public void actionPerformed(ActionEvent e) {
 
-        // TODO implement action body
-        final TGProject proj = (TGProject)OpenProjects.getDefault().getMainProject();
-        FileObject resultsfolder;
-        if (proj!=null){
-            service = Lookup.getDefault().lookup(TimpInterface.class);
-            SelectedDatasetsViewTopComponent tcd = (SelectedDatasetsViewTopComponent)WindowManager.getDefault().findTopComponent("SelectedDatasetsViewTopComponent");
-            Node[] nsd = tcd.getExplorerManager().getRootContext().getChildren().getNodes();
-            datasets = new DatasetTimp[nsd.length];
-             for (int i = 0; i < nsd.length; i++) {
-                TimpDatasetNode node = (TimpDatasetNode) nsd[i];
-                 TimpDatasetDataObject dataObject = node.getLookup().lookup(TimpDatasetDataObject.class);
-                 datasets[i] = dataObject.getDatasetTimp();
-             }
 
-             SelectedModelsViewTopComponent tcm = (SelectedModelsViewTopComponent)WindowManager.getDefault().findTopComponent("SelectedModelsViewTopComponent");
-             Node[] nsm = tcm.getExplorerManager().getRootContext().getChildren().getNodes();
-             models = new Tgm[nsm.length];
-             for (int i = 0; i < nsm.length; i++) {
-                 TgmDataNode node = (TgmDataNode) nsm[i];
-                 models[i] = node.getObject().getTgm();
-            }
-            TimpResultDataset[] results = service.runAnalysis(datasets, models, NO_OF_ITERATIONS);
-            if (results != null){
-                NotifyDescriptor.InputLine resultNameDialog = new NotifyDescriptor.InputLine(
-                     "Analysys name",
-                     "Please specify the name for results folder");
-                Object res = DialogDisplayer.getDefault().notify(resultNameDialog);
-                if (res.equals(NotifyDescriptor.OK_OPTION)){
-                    //get results directory
-                    resultsfolder = proj.getResultsFolder(true);
-                    try {
-                        //todo resove problem with same name for directory
-                        resultsfolder = resultsfolder.createFolder(resultNameDialog.getInputText());
-                        for (int i = 0; i < results.length; i++) {
-                            TimpResultDataset timpResultDataset = results[i];
-                            timpResultDataset.setType(datasets[i].getType());
-                            if (datasets[i].getType().equalsIgnoreCase("flim")){
-                                timpResultDataset.setOrheigh(datasets[i].getOrigHeigh()[0]);
-                                timpResultDataset.setOrwidth(datasets[i].getOrigWidth()[0]);
-                                timpResultDataset.setIntenceIm(datasets[i].getIntenceIm().clone());
-                                timpResultDataset.setMaxInt(datasets[i].getMaxInt());
-                                timpResultDataset.setMinInt(datasets[i].getMinInt());
-                                timpResultDataset.setX(datasets[i].getX().clone());
-                                timpResultDataset.setX2(datasets[i].getX2().clone());
-                            }
-                            FileObject writeTo;
-                               try {
-                                   writeTo = resultsfolder.createData("dataset"+(i+1)+"_"+timpResultDataset.getDatasetName(), "timpres");
-                                   ObjectOutputStream stream = new ObjectOutputStream(writeTo.getOutputStream());
-                                   stream.writeObject(timpResultDataset);
-                                   stream.close();
-                               } catch (IOException ex) {
-                                   Exceptions.printStackTrace(ex);
-                               }
-                        }
-                    }
-                    catch (IOException ex) {
-                        Exceptions.printStackTrace(ex);
-                    }
+        NotifyDescriptor.InputLine numIterations = new NotifyDescriptor.InputLine(
+               "N umber of iterations",
+               "Please specify number of iterations for analyssis");
+        Object res1 = DialogDisplayer.getDefault().notify(numIterations);
+        if (res1.equals(NotifyDescriptor.OK_OPTION)){
+                NO_OF_ITERATIONS = Integer.parseInt(numIterations.getInputText());
 
+
+            final TGProject proj = (TGProject)OpenProjects.getDefault().getMainProject();
+            FileObject resultsfolder;
+            if (proj!=null){
+                service = Lookup.getDefault().lookup(TimpInterface.class);
+                SelectedDatasetsViewTopComponent tcd = (SelectedDatasetsViewTopComponent)WindowManager.getDefault().findTopComponent("SelectedDatasetsViewTopComponent");
+                Node[] nsd = tcd.getExplorerManager().getRootContext().getChildren().getNodes();
+                datasets = new DatasetTimp[nsd.length];
+                 for (int i = 0; i < nsd.length; i++) {
+                    TimpDatasetNode node = (TimpDatasetNode) nsd[i];
+                     TimpDatasetDataObject dataObject = node.getLookup().lookup(TimpDatasetDataObject.class);
+                     datasets[i] = dataObject.getDatasetTimp();
+                 }
+
+                 SelectedModelsViewTopComponent tcm = (SelectedModelsViewTopComponent)WindowManager.getDefault().findTopComponent("SelectedModelsViewTopComponent");
+                 Node[] nsm = tcm.getExplorerManager().getRootContext().getChildren().getNodes();
+                 models = new Tgm[nsm.length];
+                 for (int i = 0; i < nsm.length; i++) {
+                     TgmDataNode node = (TgmDataNode) nsm[i];
+                     models[i] = node.getObject().getTgm();
                 }
-           }
-           else {
-               NotifyDescriptor errorMessage =new NotifyDescriptor.Exception(
-                        new Exception("Analysis didn't returne anything try onece again :)"));
-               DialogDisplayer.getDefault().notify(errorMessage);
-           }
+                TimpResultDataset[] results = service.runAnalysis(datasets, models, NO_OF_ITERATIONS);
+                if (results != null){
+                    NotifyDescriptor.InputLine resultNameDialog = new NotifyDescriptor.InputLine(
+                         "Analysys name",
+                         "Please specify the name for results folder");
+                    Object res = DialogDisplayer.getDefault().notify(resultNameDialog);
+                    if (res.equals(NotifyDescriptor.OK_OPTION)){
+                        //get results directory
+                        resultsfolder = proj.getResultsFolder(true);
+                        try {
+                            //todo resove problem with same name for directory
+                            resultsfolder = resultsfolder.createFolder(resultNameDialog.getInputText());
+                            for (int i = 0; i < results.length; i++) {
+                                TimpResultDataset timpResultDataset = results[i];
+                                timpResultDataset.setType(datasets[i].getType());
+                                if (datasets[i].getType().equalsIgnoreCase("flim")){
+                                    timpResultDataset.setOrheigh(datasets[i].getOrigHeigh()[0]);
+                                    timpResultDataset.setOrwidth(datasets[i].getOrigWidth()[0]);
+                                    timpResultDataset.setIntenceIm(datasets[i].getIntenceIm().clone());
+                                    timpResultDataset.setMaxInt(datasets[i].getMaxInt());
+                                    timpResultDataset.setMinInt(datasets[i].getMinInt());
+                                    timpResultDataset.setX(datasets[i].getX().clone());
+                                    timpResultDataset.setX2(datasets[i].getX2().clone());
+                                }
+                                FileObject writeTo;
+                                   try {
+                                       writeTo = resultsfolder.createData("dataset"+(i+1)+"_"+timpResultDataset.getDatasetName(), "timpres");
+                                       ObjectOutputStream stream = new ObjectOutputStream(writeTo.getOutputStream());
+                                       stream.writeObject(timpResultDataset);
+                                       stream.close();
+                                   } catch (IOException ex) {
+                                       Exceptions.printStackTrace(ex);
+                                   }
+                            }
+                        }
+                        catch (IOException ex) {
+                            Exceptions.printStackTrace(ex);
+                        }
 
+                    }
+               }
+               else {
+                   NotifyDescriptor errorMessage =new NotifyDescriptor.Exception(
+                            new Exception("Analysis didn't returne anything try onece again :)"));
+                   DialogDisplayer.getDefault().notify(errorMessage);
+               }
+
+            }
+            else {
+                NotifyDescriptor errorMessage =new NotifyDescriptor.Exception(
+                        new Exception("Please select main project"));
+                DialogDisplayer.getDefault().notify(errorMessage);
+            }
         }
-        else {
-            NotifyDescriptor errorMessage =new NotifyDescriptor.Exception(
-                    new Exception("Please select main project"));
-            DialogDisplayer.getDefault().notify(errorMessage);
-        }
-     }
+    }
 }

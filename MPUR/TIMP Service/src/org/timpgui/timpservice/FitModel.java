@@ -68,32 +68,32 @@ public class FitModel {
         return opt;
     }
 
-    public static String get_modeldiffs(Tgm tgm, int numDat) {
-        Dat dat = tgm.getDat();
-        KinparPanelModel kinparPanelModel = dat.getKinparPanel();
-        String free = "";
-        int count = 0;
-        for (int i = 0; i < kinparPanelModel.getKinpar().size(); i++) {
-            if (kinparPanelModel.getKinpar().get(i).isModeldiffsFree()) {
-                if (count > 0) {
-                    free = free + ",";
-                } else {
-                    free = free + "free=list(";
-                }
-                for (int j = 0; j < numDat; j++) {
-                    free = free + "list(what = \"kinpar\", ind=" + Integer.toString(i + 1) + ", dataset=" +
-                            Integer.toString(j + 1) + ",start=" +
-                            Double.toString(kinparPanelModel.getKinpar().get(i).getStart()) + ")";
-                    count++;
-                }
-            }
-        }
-        if (count > 0) {
-            free = free + ")";
-        }
-        String modeldiffs = "list(" + free + ")";
-        return modeldiffs;
-    }
+//    public static String get_modeldiffs(Tgm tgm, int numDat) {
+//        Dat dat = tgm.getDat();
+//        KinparPanelModel kinparPanelModel = dat.getKinparPanel();
+//        String free = "";
+//        int count = 0;
+//        for (int i = 0; i < kinparPanelModel.getKinpar().size(); i++) {
+//            if (kinparPanelModel.getKinpar().get(i).isModeldiffsFree()) {
+//                if (count > 0) {
+//                    free = free + ",";
+//                } else {
+//                    free = free + "free=list(";
+//                }
+//                for (int j = 0; j < numDat; j++) {
+//                    free = free + "list(what = \"kinpar\", ind=" + Integer.toString(i + 1) + ", dataset=" +
+//                            Integer.toString(j + 1) + ",start=" +
+//                            Double.toString(kinparPanelModel.getKinpar().get(i).getStart()) + ")";
+//                    count++;
+//                }
+//            }
+//        }
+//        if (count > 0) {
+//            free = free + ")";
+//        }
+//        String modeldiffs = "list(" + free + ")";
+//        return modeldiffs;
+//    }
 
     private static String get_stderrclp(Tgo tgo) {
         OptPanelElements opt = tgo.getOpt();

@@ -37,6 +37,8 @@ public class WeightparPanel extends SectionInnerPanel {
         this.weightparPanelModel = weightparPanelModel;
         initComponents();
 
+        jSNumOfComponents.setModel(new SpinnerNumberModel(weightparPanelModel.getWeightpar().size(), 0, null, 1));
+
     }
 
     @Override

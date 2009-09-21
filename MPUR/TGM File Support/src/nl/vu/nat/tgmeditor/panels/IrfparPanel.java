@@ -33,8 +33,8 @@ public class IrfparPanel extends SectionInnerPanel {
 
         jSNumOfIrfParameters.setModel(new SpinnerNumberModel(irfparPanelModel.getIrf().size(), 0, null, 1));
 
-        defRow = new Object[]{new Double(0)};
-        colNames = new Object[]{"Irf parameters (location, width, ...)."};
+        defRow = new Object[]{new Double(0), new Boolean(false)};
+        colNames = new Object[]{"Irf parameters (location, width, ...).", "Fixed"};
         model = new IrfparTableModel(colNames, 0);
         for (int i = 0; i < irfparPanelModel.getIrf().size(); i++) {
             if (irfparPanelModel.getIrf().get(i) != null) {
@@ -368,7 +368,7 @@ private void jSNumOfComponents2StateChanged(javax.swing.event.ChangeEvent evt) {
 
     class IrfparTableModel extends DefaultTableModel implements TableModelListener {
 
-        private Class[] types = new Class[]{Double.class};
+        private Class[] types = new Class[]{Double.class, Boolean.class};
 
         private IrfparTableModel() {
             super();

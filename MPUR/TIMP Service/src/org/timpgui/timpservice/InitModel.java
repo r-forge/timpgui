@@ -180,6 +180,9 @@ public class InitModel {
                     }
                 }
                 weightpar = weightpar + ")";
+                if (i < size - 1) {
+                    weightpar = weightpar + ",";
+                }
             }
             weightpar = weightpar + ")";
         }

@@ -50,7 +50,7 @@
             <ns0:irf>0</ns0:irf>
             <ns0:irf>0</ns0:irf>
             <ns0:irf>0</ns0:irf>
-            <ns0:fixed></ns0:fixed>
+            <ns0:fixed>false</ns0:fixed>
         </ns0:irfparPanel>
         <ns0:cohspecPanel>
             <ns0:cohspec>

@@ -307,13 +307,16 @@ private void jSNumOfComponents2StateChanged(javax.swing.event.ChangeEvent evt) {
             //Adds or removes a colum
             if (model.getRowCount() > irfparPanelModel.getIrf().size()) {
                 irfparPanelModel.getIrf().add(new Double(0));
+                irfparPanelModel.getFixed().add(new Boolean(false));
                 endUIChange();
             } else if (model.getRowCount() < irfparPanelModel.getIrf().size()) {
                 irfparPanelModel.getIrf().remove(irfparPanelModel.getIrf().size() - 1);
+                irfparPanelModel.getFixed().remove(irfparPanelModel.getFixed().size() - 1);
                 endUIChange();
             }
             for (int i = 0; i < model.getRowCount(); i++) {
                 irfparPanelModel.getIrf().set(i, (Double) model.getValueAt(i, 0));
+                irfparPanelModel.getFixed().set(i, (Boolean) model.getValueAt(i, 1));
             }
         }
         if (source == jRDispmufun_no) {

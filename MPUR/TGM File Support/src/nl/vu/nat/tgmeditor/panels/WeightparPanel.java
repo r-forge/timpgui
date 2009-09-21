@@ -15,6 +15,7 @@ import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 import nl.vu.nat.tgmodels.tgm.KinPar;
 import nl.vu.nat.tgmodels.tgm.KinparPanelModel;
+import nl.vu.nat.tgmodels.tgm.WeightPar;
 import nl.vu.nat.tgmodels.tgm.WeightParPanelModel;
 
 /**
@@ -25,7 +26,7 @@ public class WeightparPanel extends SectionInnerPanel {
 
     private TgmDataObject dObj;
     private WeightParPanelModel weightparPanelModel;
-    private WeightParMatrixModel model;
+    private WeightparTableModel model;
     private Object[] defRow;
     private Object[] colNames;
     private Object[] newRow;
@@ -39,10 +40,53 @@ public class WeightparPanel extends SectionInnerPanel {
 
         jSNumOfComponents.setModel(new SpinnerNumberModel(weightparPanelModel.getWeightpar().size(), 0, null, 1));
 
+        defRow = new Object[]{new Double(0), new Double(0), new Double(0), new Double(0), new Double(0)};
+        colNames = new Object[]{"Min 1", "Max 1", "Min 2", "Max 2", "Weight"};
+        model = new WeightparTableModel(colNames, 0);
+
+        int weightparSize = weightparPanelModel.getWeightpar().size();
+         for (int i = 0; i < weightparSize; i++) {
+            newRow = new Object[]{
+                weightparPanelModel.getWeightpar().get(i).getMin1(),
+                weightparPanelModel.getWeightpar().get(i).getMax1(),
+                weightparPanelModel.getWeightpar().get(i).getMin2(),
+                weightparPanelModel.getWeightpar().get(i).getMax2(),
+                weightparPanelModel.getWeightpar().get(i).getWeight()
+            };
+            model.addRow(newRow);
+
+        }
+        jTKinParamTable.setModel(model);
+        // Add listerners
+        jTKinParamTable.getModel().addTableModelListener(model);
     }
 
     @Override
     public void setValue(JComponent source, Object value) {
+
+          if (source ==jTKinParamTable) {
+          int weightparSize = weightparPanelModel.getWeightpar().size();
+            if (model.getRowCount()>weightparSize) {
+                WeightPar wp = new WeightPar();
+                wp.setMin1((Double)model.getValueAt((model.getRowCount()-1),0));
+                wp.setMax1((Double)model.getValueAt((model.getRowCount()-1),1));
+                wp.setMin2((Double)model.getValueAt((model.getRowCount()-1),2));
+                wp.setMax2((Double)model.getValueAt((model.getRowCount()-1),3));
+                wp.setWeight((Double)model.getValueAt((model.getRowCount()-1),4));
+                weightparPanelModel.getWeightpar().add(wp);
+            } else if (model.getRowCount()<weightparSize) {
+                weightparPanelModel.getWeightpar().remove(weightparSize-1);
+            }
+
+        for (int i = 0; i < model.getRowCount(); i++) {
+                weightparPanelModel.getWeightpar().get(i).setMin1((Double)model.getValueAt(i,0));
+                weightparPanelModel.getWeightpar().get(i).setMax1((Double)model.getValueAt(i,1));
+                weightparPanelModel.getWeightpar().get(i).setMin1((Double)model.getValueAt(i,2));
+                weightparPanelModel.getWeightpar().get(i).setMax2((Double)model.getValueAt(i,3));
+                weightparPanelModel.getWeightpar().get(i).setWeight((Double)model.getValueAt(i,4));
+            }
+        }
+      
 
         endUIChange();
     }
@@ -60,19 +104,29 @@ public class WeightparPanel extends SectionInnerPanel {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
-    class WeightParMatrixModel extends DefaultTableModel implements TableModelListener {
+class WeightparTableModel extends DefaultTableModel implements TableModelListener {
 
-        private WeightParMatrixModel() {
+        private Class[] types = new Class[]{Double.class, Double.class, Double.class,Double.class, Double.class};
+
+        private WeightparTableModel() {
             super();
+        }
+
+        private WeightparTableModel(Object[] ColNames, int i) {
+            super(ColNames, i);
         }
 
         @Override
         public Class getColumnClass(int c) {
-            return Double.class;
+            return types[c];
         }
 
         @Override
         public void tableChanged(TableModelEvent event) {
+            //if (jTKinParamTable.isValid()) {
+            setValue(jTKinParamTable, this);
+            endUIChange();
+           // }
         }
     }
 
@@ -130,11 +184,11 @@ public class WeightparPanel extends SectionInnerPanel {
 
 private void jSNumOfComponentsStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jSNumOfComponentsStateChanged
 // TODO add your handling code here:]
-//    if ((Integer) jSNumOfComponents.getValue() > model.getRowCount()) {
-//        model.addRow(defRow);
-//    } else {
-//        model.removeRow(model.getRowCount() - 1);
-//    }
+    if ((Integer) jSNumOfComponents.getValue() > model.getRowCount()) {
+        model.addRow(defRow);
+    } else {
+        model.removeRow(model.getRowCount() - 1);
+    }
     endUIChange();
 }//GEN-LAST:event_jSNumOfComponentsStateChanged
 

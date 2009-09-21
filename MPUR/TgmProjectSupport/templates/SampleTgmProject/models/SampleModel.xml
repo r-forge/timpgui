@@ -2,7 +2,7 @@
 
 <!--
     Document   : TgmSchema.xml
-    Created on : September 21, 2009, 11:21 AM
+    Created on : September 21, 2009, 1:40 PM
     Author     : jsg210
     Description:
         Purpose of the document follows.
@@ -50,6 +50,8 @@
             <ns0:irf>0</ns0:irf>
             <ns0:irf>0</ns0:irf>
             <ns0:irf>0</ns0:irf>
+            <ns0:fixed>false</ns0:fixed>
+            <ns0:fixed>false</ns0:fixed>
             <ns0:fixed>false</ns0:fixed>
         </ns0:irfparPanel>
         <ns0:cohspecPanel>
@@ -105,25 +107,25 @@
         </ns0:kMatrixPanel>
         <ns0:weightParPanel>
             <ns0:weightpar>
-                <ns0:min1></ns0:min1>
-                <ns0:min2></ns0:min2>
-                <ns0:max1></ns0:max1>
-                <ns0:max2></ns0:max2>
-                <ns0:weight></ns0:weight>
+                <ns0:min1>NaN</ns0:min1>
+                <ns0:min2>NaN</ns0:min2>
+                <ns0:max1>NaN</ns0:max1>
+                <ns0:max2>NaN</ns0:max2>
+                <ns0:weight>NaN</ns0:weight>
             </ns0:weightpar>
             <ns0:weightpar>
-                <ns0:min1></ns0:min1>
-                <ns0:min2></ns0:min2>
-                <ns0:max1></ns0:max1>
-                <ns0:max2></ns0:max2>
-                <ns0:weight></ns0:weight>
+                <ns0:min1>NaN</ns0:min1>
+                <ns0:min2>NaN</ns0:min2>
+                <ns0:max1>NaN</ns0:max1>
+                <ns0:max2>NaN</ns0:max2>
+                <ns0:weight>NaN</ns0:weight>
             </ns0:weightpar>
             <ns0:weightpar>
-                <ns0:min1></ns0:min1>
-                <ns0:min2></ns0:min2>
-                <ns0:max1></ns0:max1>
-                <ns0:max2></ns0:max2>
-                <ns0:weight></ns0:weight>
+                <ns0:min1>NaN</ns0:min1>
+                <ns0:min2>NaN</ns0:min2>
+                <ns0:max1>NaN</ns0:max1>
+                <ns0:max2>NaN</ns0:max2>
+                <ns0:weight>NaN</ns0:weight>
             </ns0:weightpar>
         </ns0:weightParPanel>
     </ns0:dat>

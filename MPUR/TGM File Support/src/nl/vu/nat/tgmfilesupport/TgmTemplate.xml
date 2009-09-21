@@ -2,7 +2,7 @@
 
 <!--
     Document   : TgmSchema.xml
-    Created on : September 21, 2009, 11:33 AM
+    Created on : September 21, 2009, 1:45 PM
     Author     : jsg210
     Description:
         Purpose of the document follows.
@@ -26,7 +26,6 @@
             <ns0:dispmu>false</ns0:dispmu>
             <ns0:disptau>false</ns0:disptau>
             <ns0:lamda>NaN</ns0:lamda>
-            <ns0:fixed>false</ns0:fixed>
         </ns0:irfparPanel>
         <ns0:cohspecPanel>
             <ns0:cohspec>

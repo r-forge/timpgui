@@ -81,7 +81,7 @@ public class WeightparPanel extends SectionInnerPanel {
         for (int i = 0; i < model.getRowCount(); i++) {
                 weightparPanelModel.getWeightpar().get(i).setMin1((Double)model.getValueAt(i,0));
                 weightparPanelModel.getWeightpar().get(i).setMax1((Double)model.getValueAt(i,1));
-                weightparPanelModel.getWeightpar().get(i).setMin1((Double)model.getValueAt(i,2));
+                weightparPanelModel.getWeightpar().get(i).setMin2((Double)model.getValueAt(i,2));
                 weightparPanelModel.getWeightpar().get(i).setMax2((Double)model.getValueAt(i,3));
                 weightparPanelModel.getWeightpar().get(i).setWeight((Double)model.getValueAt(i,4));
             }

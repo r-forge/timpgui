@@ -40,6 +40,7 @@ public class IrfparPanel extends SectionInnerPanel {
             if (irfparPanelModel.getIrf().get(i) != null) {
                 newRow = new Object[]{
                             irfparPanelModel.getIrf().get(i),
+                            irfparPanelModel.getFixed().get(i)
                         };
                 model.addRow(newRow);
             } else {

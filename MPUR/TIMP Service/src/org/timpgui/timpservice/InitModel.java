@@ -166,6 +166,8 @@ public class InitModel {
         if (size > 0) {
             weightpar = "weightpar = list(";
             for (int i = 0; i < size; i++) {
+                if ((i>0)&&(i<size))
+                    weightpar = weightpar + ",";
                 weightpar = weightpar + "c(";
                 WeightPar wp = weightParPanelModel.getWeightpar().get(i);
                 Double[] temparray = {wp.getMin1(), wp.getMax1(), wp.getMin2(), wp.getMax2(), wp.getWeight()};
@@ -316,27 +318,47 @@ public class InitModel {
 
     private static String get_fixed(Tgm tgm) {
 
-        Dat dat = tgm.getDat();
-        KinparPanelModel kinparPanelModel = dat.getKinparPanel();
-        String fixed = "fixed = list(";
+        String fixedStr = null;
+        KinparPanelModel kinparPanelModel = tgm.getDat().getKinparPanel();
         int count = 0;
         for (int i = 0; i < kinparPanelModel.getKinpar().size(); i++) {
             if (kinparPanelModel.getKinpar().get(i).isFixed()) {
                 if (count > 0) {
-                    fixed = fixed + ",";
+                    fixedStr = fixedStr + ",";
                 } else {
-                    fixed = fixed + "kinpar=c(";
+                    fixedStr = "fixed = list(kinpar=c(";
                 }
-                fixed = fixed + Integer.toString(i + 1);
+                fixedStr = fixedStr + String.valueOf(i + 1);
                 count++;
             }
         }
         if (count > 0) {
-            fixed = fixed + ")";
+            fixedStr = fixedStr + ")";
         }
-        fixed = fixed + ")";
+        count = 0;
+        IrfparPanelModel irfPanel = tgm.getDat().getIrfparPanel();
+        for (int i = 0; i < irfPanel.getFixed().size(); i++) {
+            if (irfPanel.getFixed().get(i)) {
+                if (count > 0) {
+                    fixedStr = fixedStr + ",";
+                } else {
+                    if (fixedStr!= null)
+                        fixedStr = fixedStr + ", irfpar=c(";
+                    else
+                        fixedStr = "fixed = list(irfpar=c(";
+                }
+                fixedStr = fixedStr + String.valueOf(i + 1);
+                count++;
+            }
+        }
+        if (count > 0) {
+            fixedStr = fixedStr + ")";
+        }
+
+        if (fixedStr!= null)
+            fixedStr = fixedStr + ")";
         // need to fill in other parameters here, once we have panels for them
-        return fixed;
+        return fixedStr;
     }
 
 //   private static String get_constrained(Tgm tgm) {

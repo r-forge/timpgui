@@ -56,6 +56,7 @@ import org.openide.windows.WindowManager;
 import org.timpgui.structures.TimpResultDataset;
 import org.timpgui.tgproject.datasets.TimpResultDataObject;
 import static java.lang.Math.pow;
+import static java.lang.Math.abs;
 /**
  * Top component which displays something.
  */
@@ -482,7 +483,7 @@ public final class SpecResultsTopComponent extends TopComponent implements Chart
                 .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
                     .addComponent(jTFCurvParam, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(18, Short.MAX_VALUE))
+                .addContainerGap(19, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
@@ -509,7 +510,7 @@ public final class SpecResultsTopComponent extends TopComponent implements Chart
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jPanel10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 493, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(476, Short.MAX_VALUE))
+                .addContainerGap(475, Short.MAX_VALUE))
         );
 
         jScrollPane4.setViewportView(jPanel3);
@@ -855,25 +856,32 @@ public final class SpecResultsTopComponent extends TopComponent implements Chart
 
     private void jCBDispCurveShowActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCBDispCurveShowActionPerformed
         //switch off/on the dispersion curve on top of image
-        //if (jCBDispCurveShow.isSelected()){
-        double centrWave;
-        double[] dispParam;
-        double timeZero;
-        dispParam = new double[]{0.046, 0.31, -0.13};
-        centrWave = 550;
-        timeZero = 1.2;
-        //calculate curve;
-        XYDataset dispCurve = calculateDispersionCurve(centrWave, dispParam, timeZero, dispParam.length);
-        LineAndShapeRenderer rendererDisp = new LineAndShapeRenderer();
- //       rendererDisp.setDrawOutlines(true);
-        rendererDisp.setBasePaint(Color.BLACK);
-        rendererDisp.setBaseOutlinePaint(Color.BLACK);
-        chartMain.getXYPlot().setDataset(1, dispCurve);
-        chartMain.getXYPlot().setRenderer(1,(XYItemRenderer)rendererDisp);
-        chartMain.getXYPlot().setDatasetRenderingOrder(DatasetRenderingOrder.FORWARD);
-       // }
-        jPSpecImage.repaint();
+        if (jCBDispCurveShow.isSelected()){
+            double centrWave;
+            double[] dispParam;
+            double timeZero;
+            dispParam = new double[]{0.027, -0.13, 0.31};
+            centrWave = 550;
+            timeZero = 1.2;
+            //calculate curve;
+            XYDataset dispCurve = calculateDispersionCurve(centrWave, dispParam, timeZero, dispParam.length);
+            XYLineAndShapeRenderer rendererDisp = new  XYLineAndShapeRenderer();
 
+//            XYPlot plot = rendererDisp.getPlot();
+//            chartMain.getXYPlot().getRangeAxis().setInverted(true);
+
+            rendererDisp.setSeriesShapesVisible(0,false);
+            rendererDisp.setSeriesPaint(0, Color.BLACK);
+
+            chartMain.getXYPlot().setDataset(1, dispCurve);
+            chartMain.getXYPlot().setRenderer(1,(XYItemRenderer)rendererDisp);
+//            chartMain.getXYPlot().mapDatasetToRangeAxis(1, 1);
+            chartMain.getXYPlot().setDatasetRenderingOrder(DatasetRenderingOrder.FORWARD);
+        } else {
+            chartMain.getXYPlot().setDataset(1, null);
+            chartMain.getXYPlot().setRenderer(1,null);
+        }
+        //jPSpecImage.repaint();
     }//GEN-LAST:event_jCBDispCurveShowActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -1297,6 +1305,15 @@ public final class SpecResultsTopComponent extends TopComponent implements Chart
         yAxis.setLowerMargin(0.0);
         yAxis.setUpperMargin(0.0);
         yAxis.setVisible(false);
+//        NumberAxis yAxis2 = new NumberAxis("dispersion");
+//        yAxis2.setLowerBound(0);
+//        yAxis2.setUpperBound(res.getX().length);
+//        yAxis2.setVisible(true);
+//        yAxis2.setInverted(true);
+//        yAxis2.setAutoRange(false);
+//        yAxis2.setAutoRangeIncludesZero(false);
+//        plot.setRangeAxis(1, yAxis2);
+
         return chart_temp;
     }
 
@@ -1508,13 +1525,17 @@ public final class SpecResultsTopComponent extends TopComponent implements Chart
     private XYDataset calculateDispersionCurve(double centrW, double[] param, double time0, int order){
         XYSeries curve = new XYSeries("dispersion");
         double point = 0;
+        int k=0;
         for(int i = 0; i<res.getX2().length; i++){
             point = 0;
             for (int j = 0; j < order; j++){
                 point = point + param[j]*pow((res.getX2()[i]-centrW)/100,order-j);
             }
+            k=0;
             point = point + time0;
-            curve.add(i, point);
+            while (point > res.getX()[k])
+                k++;
+            curve.add(i,res.getX().length-k);
         }
         XYDataset curveDataset = new XYSeriesCollection(curve);
         return curveDataset;

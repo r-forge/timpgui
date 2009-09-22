@@ -182,9 +182,9 @@ public class InitModel {
                     }
                 }
                 weightpar = weightpar + ")";
-                if (i < size - 1) {
-                    weightpar = weightpar + ",";
-                }
+//                if (i < size - 1) {
+//                    weightpar = weightpar + ",";
+//                }
             }
             weightpar = weightpar + ")";
         }
@@ -301,15 +301,15 @@ public class InitModel {
 
         if (parmuStr != null) {
             if (irfPanel.getDisptaufun().equals("poly")) {
-                parmuStr = parmuStr.concat(", dispmufun = \"poly\"");
+                parmuStr = parmuStr.concat(", disptaufun = \"poly\"");
             } else if (irfPanel.getDisptaufun().equals("discrete")) {
-                parmuStr = parmuStr.concat(", dispmufun = \"discrete\"");
+                parmuStr = parmuStr.concat(", disptaufun = \"discrete\"");
             }
         } else {
             if (irfPanel.getDisptaufun().equals("poly")) {
-                parmuStr = "dispmufun = \"poly\"";
+                parmuStr = "disptaufun = \"poly\"";
             } else if (irfPanel.getDisptaufun().equals("discrete")) {
-                parmuStr = "dispmufun = \"discrete\"";
+                parmuStr = "disptaufun = \"discrete\"";
             }
         }
 

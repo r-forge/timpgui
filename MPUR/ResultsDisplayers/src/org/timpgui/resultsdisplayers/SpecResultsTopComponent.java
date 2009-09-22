@@ -860,9 +860,15 @@ public final class SpecResultsTopComponent extends TopComponent implements Chart
             double centrWave;
             double[] dispParam;
             double timeZero;
-            dispParam = new double[]{0.027, -0.13, 0.31};
-            centrWave = 550;
-            timeZero = 1.2;
+            centrWave = res.getLamdac();
+            if (res.getParmu()!=null)
+                dispParam = res.getParmu();
+            else
+                dispParam = new double[]{0};
+            if (res.getIrfpar()!=null)
+                timeZero = res.getIrfpar()[0];
+            else
+                timeZero = 0;
             //calculate curve;
             XYDataset dispCurve = calculateDispersionCurve(centrWave, dispParam, timeZero, dispParam.length);
             XYLineAndShapeRenderer rendererDisp = new  XYLineAndShapeRenderer();
@@ -1529,7 +1535,7 @@ public final class SpecResultsTopComponent extends TopComponent implements Chart
         for(int i = 0; i<res.getX2().length; i++){
             point = 0;
             for (int j = 0; j < order; j++){
-                point = point + param[j]*pow((res.getX2()[i]-centrW)/100,order-j);
+                point = point + param[j]*pow((res.getX2()[i]-centrW)/100,j+1);
             }
             k=0;
             point = point + time0;

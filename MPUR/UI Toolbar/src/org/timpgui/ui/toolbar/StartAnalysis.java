@@ -81,6 +81,8 @@ public final class StartAnalysis implements ActionListener {
                             for (int i = 0; i < results.length; i++) {
                                 TimpResultDataset timpResultDataset = results[i];
                                 timpResultDataset.setType(datasets[i].getType());
+                                //TODO: change this
+                                timpResultDataset.setLamdac(models[0].getDat().getIrfparPanel().getLamda());
                                 if (datasets[i].getType().equalsIgnoreCase("flim")){
                                     timpResultDataset.setOrheigh(datasets[i].getOrigHeigh()[0]);
                                     timpResultDataset.setOrwidth(datasets[i].getOrigWidth()[0]);

@@ -71,7 +71,9 @@ public final class OpenDataset extends CookieAction {
 
                                             String filenamepath = FileUtil.toFile(d).getAbsolutePath();
                                             String filename = FileUtil.toFileObject(f).getName().concat(".xml");
+                                            if(cachefolder.isValid()) {
                                             cachefolder = cachefolder.getFileObject(".cache");
+                                            } else {cachefolder = cachefolder.createFolder(".cache");}
                                             String foldername = filename.concat("_".concat(String.valueOf(System.currentTimeMillis())));
                                             cachefolder.createFolder(foldername);
                                             tgd.setCacheFolderName(foldername);

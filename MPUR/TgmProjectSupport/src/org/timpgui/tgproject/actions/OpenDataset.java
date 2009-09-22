@@ -16,9 +16,7 @@ import org.openide.NotifyDescriptor;
 import org.openide.NotifyDescriptor.Confirmation;
 import org.openide.WizardDescriptor;
 import org.openide.filesystems.FileObject;
-import org.openide.filesystems.FileSystem;
 import org.openide.filesystems.FileUtil;
-import org.openide.loaders.DataFolder;
 import org.openide.loaders.DataObject;
 import org.openide.nodes.Node;
 import org.openide.util.Exceptions;
@@ -28,7 +26,6 @@ import org.openide.util.NbBundle;
 import org.openide.util.actions.CookieAction;
 import org.timpgui.tgproject.datasets.TGDatasetService;
 import org.timpgui.tgproject.datasets.Tgd;
-import sun.util.calendar.BaseCalendar.Date;
 
 public final class OpenDataset extends CookieAction {
     private final Collection<? extends TGDatasetService> services;

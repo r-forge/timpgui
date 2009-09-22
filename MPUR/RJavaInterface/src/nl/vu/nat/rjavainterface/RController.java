@@ -499,7 +499,7 @@ public class RController implements RMainLoopCallbacks {
         
     } 
     public static void setIntArray(int[] xx, String n) {
-       long inr = re.rniPutIntArray((int[])xx);
+       long inr = re.rniPutIntArray(xx);
         re.rniAssign(n, inr, 0);   
     } 
     public static void setInt(int xx, String n) {

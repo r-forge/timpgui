@@ -29,9 +29,9 @@ public final class ShowDataset extends CookieAction {
         String filename, filetype;
         TgdDataObject dataObject = activatedNodes[0].getLookup().lookup(TgdDataObject.class);
         if (!(dataObject==null)){
-            filename = (String)dataObject.getTgd().getPath();
+            filename = dataObject.getTgd().getPath();
             filename = filename.concat("/").concat((String)dataObject.getTgd().getFilename());
-            filetype = (String)dataObject.getTgd().getFiletype();
+            filetype = dataObject.getTgd().getFiletype();
 
             for (final DatasetLoaderInterface service : services) {
                 if (service.getType().equalsIgnoreCase(filetype)){

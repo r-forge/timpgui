@@ -117,6 +117,16 @@ public final class StartAnalysis implements ActionListener {
                                        writeTo = resultsfolder.createData("dataset"+(i+1)+"_"+timpResultDataset.getDatasetName()+"_summary", "txt");
                                        BufferedWriter output = new BufferedWriter(new FileWriter(FileUtil.toFile(writeTo)));
                                        //TODO: Complete the summary here:
+                                       output.append("Summary");
+                                       
+                                       output.newLine();
+                                       output.append("Used dataset(s)");
+                                        String[] listOfDatasets = new String[datasets.length];
+                                        for (int j = 0; j < datasets.length; j++) {
+                                        DatasetTimp dataset = datasets[i];
+                                        output.append(dataset.getDatasetName());
+                                        output.newLine();
+                                        }
                                        ArrayList<String> list = service.getInitModelCalls();
                                        for (String string : list) {
                                            output.append(string);

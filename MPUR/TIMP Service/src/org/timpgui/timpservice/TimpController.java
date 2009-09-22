@@ -94,6 +94,8 @@ public class TimpController implements TimpInterface {
         cmd = cmd.concat(")");
         addFitModelCall(cmd);
         connection.eval(cmd);
+        //TODO: store this somewhere, possible as private variable
+        String test = connection.eval(NAME_OF_RESULT_OBJECT+"$currModel@fit@nlsres").asString();
 
         if (listOfDatasets != null) {
             timpResults = new TimpResultDataset[listOfDatasets.length];

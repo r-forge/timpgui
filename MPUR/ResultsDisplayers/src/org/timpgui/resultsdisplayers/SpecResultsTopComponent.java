@@ -30,9 +30,13 @@ import org.jfree.chart.event.ChartChangeListener;
 import org.jfree.chart.panel.CrosshairOverlay;
 import org.jfree.chart.plot.CombinedDomainXYPlot;
 import org.jfree.chart.plot.Crosshair;
+import org.jfree.chart.plot.DatasetRenderingOrder;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.plot.XYPlot;
 import org.jfree.chart.renderer.PaintScale;
+import org.jfree.chart.renderer.category.LineAndShapeRenderer;
+import org.jfree.chart.renderer.xy.StandardXYItemRenderer;
+import org.jfree.chart.renderer.xy.XYItemRenderer;
 import org.jfree.chart.renderer.xy.XYLineAndShapeRenderer;
 import org.jfree.chart.title.PaintScaleLegend;
 import org.jfree.data.Range;
@@ -51,6 +55,7 @@ import org.openide.windows.TopComponent;
 import org.openide.windows.WindowManager;
 import org.timpgui.structures.TimpResultDataset;
 import org.timpgui.tgproject.datasets.TimpResultDataObject;
+import static java.lang.Math.pow;
 /**
  * Top component which displays something.
  */
@@ -161,6 +166,12 @@ public final class SpecResultsTopComponent extends TopComponent implements Chart
         jPSpecImage = new javax.swing.JPanel();
         jSColum = new javax.swing.JSlider();
         jSRow = new javax.swing.JSlider();
+        jPanel10 = new javax.swing.JPanel();
+        jLabel2 = new javax.swing.JLabel();
+        jCBDispCurveShow = new javax.swing.JCheckBox();
+        jTFCentrWave = new javax.swing.JTextField();
+        jLabel3 = new javax.swing.JLabel();
+        jTFCurvParam = new javax.swing.JTextField();
         jScrollPane8 = new javax.swing.JScrollPane();
         jPSelWavTrCollectionTop = new javax.swing.JPanel();
         jPSelWavTrCollection = new javax.swing.JPanel();
@@ -291,17 +302,17 @@ public final class SpecResultsTopComponent extends TopComponent implements Chart
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel6Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, 624, Short.MAX_VALUE)
+                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, 612, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanel7, 0, 0, Short.MAX_VALUE)
-                    .addComponent(jPConcentrations, javax.swing.GroupLayout.DEFAULT_SIZE, 323, Short.MAX_VALUE))
+                    .addComponent(jPConcentrations, javax.swing.GroupLayout.DEFAULT_SIZE, 311, Short.MAX_VALUE))
                 .addContainerGap())
             .addGroup(jPanel6Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, 953, Short.MAX_VALUE)
+                .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, 929, Short.MAX_VALUE)
                 .addContainerGap())
-            .addComponent(jToolBar1, javax.swing.GroupLayout.DEFAULT_SIZE, 977, Short.MAX_VALUE)
+            .addComponent(jToolBar1, javax.swing.GroupLayout.DEFAULT_SIZE, 953, Short.MAX_VALUE)
         );
         jPanel6Layout.setVerticalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -423,26 +434,80 @@ public final class SpecResultsTopComponent extends TopComponent implements Chart
                 .addContainerGap())
         );
 
+        jPanel10.setBorder(javax.swing.BorderFactory.createTitledBorder(org.openide.util.NbBundle.getMessage(SpecResultsTopComponent.class, "SpecResultsTopComponent.jPanel10.border.title"))); // NOI18N
+
+        org.openide.awt.Mnemonics.setLocalizedText(jLabel2, org.openide.util.NbBundle.getMessage(SpecResultsTopComponent.class, "SpecResultsTopComponent.jLabel2.text")); // NOI18N
+
+        org.openide.awt.Mnemonics.setLocalizedText(jCBDispCurveShow, org.openide.util.NbBundle.getMessage(SpecResultsTopComponent.class, "SpecResultsTopComponent.jCBDispCurveShow.text")); // NOI18N
+        jCBDispCurveShow.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jCBDispCurveShowActionPerformed(evt);
+            }
+        });
+
+        jTFCentrWave.setEditable(false);
+        jTFCentrWave.setText(org.openide.util.NbBundle.getMessage(SpecResultsTopComponent.class, "SpecResultsTopComponent.jTFCentrWave.text")); // NOI18N
+
+        org.openide.awt.Mnemonics.setLocalizedText(jLabel3, org.openide.util.NbBundle.getMessage(SpecResultsTopComponent.class, "SpecResultsTopComponent.jLabel3.text")); // NOI18N
+
+        jTFCurvParam.setEditable(false);
+        jTFCurvParam.setText(org.openide.util.NbBundle.getMessage(SpecResultsTopComponent.class, "SpecResultsTopComponent.jTFCurvParam.text")); // NOI18N
+
+        javax.swing.GroupLayout jPanel10Layout = new javax.swing.GroupLayout(jPanel10);
+        jPanel10.setLayout(jPanel10Layout);
+        jPanel10Layout.setHorizontalGroup(
+            jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel10Layout.createSequentialGroup()
+                .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jCBDispCurveShow)
+                    .addGroup(jPanel10Layout.createSequentialGroup()
+                        .addComponent(jLabel2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jTFCentrWave, javax.swing.GroupLayout.DEFAULT_SIZE, 141, Short.MAX_VALUE))
+                    .addGroup(jPanel10Layout.createSequentialGroup()
+                        .addComponent(jLabel3)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jTFCurvParam, javax.swing.GroupLayout.DEFAULT_SIZE, 221, Short.MAX_VALUE)))
+                .addContainerGap())
+        );
+        jPanel10Layout.setVerticalGroup(
+            jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel10Layout.createSequentialGroup()
+                .addComponent(jCBDispCurveShow)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel2)
+                    .addComponent(jTFCentrWave, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel3)
+                    .addComponent(jTFCurvParam, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(18, Short.MAX_VALUE))
+        );
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 508, Short.MAX_VALUE)
-                .addGap(45, 45, 45))
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addComponent(jToolBar2, javax.swing.GroupLayout.PREFERRED_SIZE, 923, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 523, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
+            .addComponent(jToolBar2, javax.swing.GroupLayout.DEFAULT_SIZE, 959, Short.MAX_VALUE)
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addComponent(jToolBar2, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jPanel10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 493, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(476, Short.MAX_VALUE))
         );
@@ -482,8 +547,8 @@ public final class SpecResultsTopComponent extends TopComponent implements Chart
         jPSelWavTrCollectionTop.setLayout(jPSelWavTrCollectionTopLayout);
         jPSelWavTrCollectionTopLayout.setHorizontalGroup(
             jPSelWavTrCollectionTopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jToolBar4, javax.swing.GroupLayout.DEFAULT_SIZE, 977, Short.MAX_VALUE)
-            .addComponent(jPSelWavTrCollection, javax.swing.GroupLayout.DEFAULT_SIZE, 977, Short.MAX_VALUE)
+            .addComponent(jToolBar4, javax.swing.GroupLayout.DEFAULT_SIZE, 953, Short.MAX_VALUE)
+            .addComponent(jPSelWavTrCollection, javax.swing.GroupLayout.DEFAULT_SIZE, 953, Short.MAX_VALUE)
         );
         jPSelWavTrCollectionTopLayout.setVerticalGroup(
             jPSelWavTrCollectionTopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -528,8 +593,8 @@ public final class SpecResultsTopComponent extends TopComponent implements Chart
         jPSelTimeTrCollectionTop.setLayout(jPSelTimeTrCollectionTopLayout);
         jPSelTimeTrCollectionTopLayout.setHorizontalGroup(
             jPSelTimeTrCollectionTopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jToolBar3, javax.swing.GroupLayout.DEFAULT_SIZE, 977, Short.MAX_VALUE)
-            .addComponent(jPSelTimeTrCollection, javax.swing.GroupLayout.DEFAULT_SIZE, 977, Short.MAX_VALUE)
+            .addComponent(jToolBar3, javax.swing.GroupLayout.DEFAULT_SIZE, 953, Short.MAX_VALUE)
+            .addComponent(jPSelTimeTrCollection, javax.swing.GroupLayout.DEFAULT_SIZE, 953, Short.MAX_VALUE)
         );
         jPSelTimeTrCollectionTopLayout.setVerticalGroup(
             jPSelTimeTrCollectionTopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -547,13 +612,11 @@ public final class SpecResultsTopComponent extends TopComponent implements Chart
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 1000, Short.MAX_VALUE)
+            .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 976, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 798, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(402, Short.MAX_VALUE))
+            .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 796, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -790,6 +853,29 @@ public final class SpecResultsTopComponent extends TopComponent implements Chart
         selectedTimeTraces.clear();
     }//GEN-LAST:event_jButton4ActionPerformed
 
+    private void jCBDispCurveShowActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCBDispCurveShowActionPerformed
+        //switch off/on the dispersion curve on top of image
+        //if (jCBDispCurveShow.isSelected()){
+        double centrWave;
+        double[] dispParam;
+        double timeZero;
+        dispParam = new double[]{0.046, 0.31, -0.13};
+        centrWave = 550;
+        timeZero = 1.2;
+        //calculate curve;
+        XYDataset dispCurve = calculateDispersionCurve(centrWave, dispParam, timeZero, dispParam.length);
+        LineAndShapeRenderer rendererDisp = new LineAndShapeRenderer();
+ //       rendererDisp.setDrawOutlines(true);
+        rendererDisp.setBasePaint(Color.BLACK);
+        rendererDisp.setBaseOutlinePaint(Color.BLACK);
+        chartMain.getXYPlot().setDataset(1, dispCurve);
+        chartMain.getXYPlot().setRenderer(1,(XYItemRenderer)rendererDisp);
+        chartMain.getXYPlot().setDatasetRenderingOrder(DatasetRenderingOrder.FORWARD);
+       // }
+        jPSpecImage.repaint();
+
+    }//GEN-LAST:event_jCBDispCurveShowActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
@@ -798,9 +884,12 @@ public final class SpecResultsTopComponent extends TopComponent implements Chart
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
     private javax.swing.JButton jButton7;
+    private javax.swing.JCheckBox jCBDispCurveShow;
     private javax.swing.JList jLKineticParameters;
     private javax.swing.JList jLSpectralParameters;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPConcentrations;
     private javax.swing.JPanel jPDAS;
     private javax.swing.JPanel jPDASnorm;
@@ -817,6 +906,7 @@ public final class SpecResultsTopComponent extends TopComponent implements Chart
     private javax.swing.JPanel jPSingValues;
     private javax.swing.JPanel jPSpecImage;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel10;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
@@ -833,6 +923,8 @@ public final class SpecResultsTopComponent extends TopComponent implements Chart
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JScrollPane jScrollPane7;
     private javax.swing.JScrollPane jScrollPane8;
+    private javax.swing.JTextField jTFCentrWave;
+    private javax.swing.JTextField jTFCurvParam;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JToolBar jToolBar1;
     private javax.swing.JToolBar jToolBar2;
@@ -1413,6 +1505,18 @@ public final class SpecResultsTopComponent extends TopComponent implements Chart
         return chpan;
 
     }
-
-
+    private XYDataset calculateDispersionCurve(double centrW, double[] param, double time0, int order){
+        XYSeries curve = new XYSeries("dispersion");
+        double point = 0;
+        for(int i = 0; i<res.getX2().length; i++){
+            point = 0;
+            for (int j = 0; j < order; j++){
+                point = point + param[j]*pow((res.getX2()[i]-centrW)/100,order-j);
+            }
+            point = point + time0;
+            curve.add(i, point);
+        }
+        XYDataset curveDataset = new XYSeriesCollection(curve);
+        return curveDataset;
+    }
 }        

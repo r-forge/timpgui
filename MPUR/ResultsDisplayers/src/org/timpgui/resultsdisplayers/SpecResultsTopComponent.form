@@ -21,15 +21,12 @@
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Component id="jTabbedPane1" alignment="0" pref="1000" max="32767" attributes="0"/>
+          <Component id="jTabbedPane1" min="-2" pref="976" max="-2" attributes="0"/>
       </Group>
     </DimensionLayout>
     <DimensionLayout dim="1">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Group type="102" alignment="0" attributes="0">
-              <Component id="jTabbedPane1" min="-2" pref="798" max="-2" attributes="0"/>
-              <EmptySpace pref="402" max="32767" attributes="0"/>
-          </Group>
+          <Component id="jTabbedPane1" min="-2" pref="796" max="-2" attributes="0"/>
       </Group>
     </DimensionLayout>
   </Layout>
@@ -77,20 +74,20 @@
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" alignment="0" attributes="0">
                           <EmptySpace max="-2" attributes="0"/>
-                          <Component id="jPanel2" pref="624" max="32767" attributes="1"/>
+                          <Component id="jPanel2" pref="612" max="32767" attributes="1"/>
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Component id="jPanel7" min="0" pref="0" max="32767" attributes="1"/>
-                              <Component id="jPConcentrations" pref="323" max="32767" attributes="1"/>
+                              <Component id="jPConcentrations" pref="311" max="32767" attributes="1"/>
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
                       </Group>
                       <Group type="102" alignment="0" attributes="0">
                           <EmptySpace max="-2" attributes="0"/>
-                          <Component id="jPanel5" pref="953" max="32767" attributes="0"/>
+                          <Component id="jPanel5" pref="929" max="32767" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
                       </Group>
-                      <Component id="jToolBar1" alignment="0" pref="977" max="32767" attributes="0"/>
+                      <Component id="jToolBar1" alignment="0" pref="953" max="32767" attributes="0"/>
                   </Group>
                 </DimensionLayout>
                 <DimensionLayout dim="1">
@@ -392,16 +389,16 @@
               <Layout>
                 <DimensionLayout dim="0">
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Group type="102" alignment="0" attributes="0">
-                          <Component id="jPanel4" min="-2" max="-2" attributes="0"/>
+                      <Group type="102" attributes="0">
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Component id="jPanel10" max="32767" attributes="1"/>
+                              <Component id="jPanel4" alignment="0" min="-2" max="-2" attributes="1"/>
+                          </Group>
                           <EmptySpace max="-2" attributes="0"/>
-                          <Component id="jPanel1" pref="508" max="32767" attributes="1"/>
-                          <EmptySpace min="-2" pref="45" max="-2" attributes="0"/>
-                      </Group>
-                      <Group type="102" alignment="0" attributes="0">
-                          <Component id="jToolBar2" min="-2" pref="923" max="-2" attributes="0"/>
+                          <Component id="jPanel1" min="-2" pref="523" max="-2" attributes="1"/>
                           <EmptySpace max="-2" attributes="0"/>
                       </Group>
+                      <Component id="jToolBar2" alignment="0" pref="959" max="32767" attributes="0"/>
                   </Group>
                 </DimensionLayout>
                 <DimensionLayout dim="1">
@@ -409,8 +406,12 @@
                       <Group type="102" attributes="0">
                           <Component id="jToolBar2" min="-2" pref="25" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
-                          <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="jPanel4" min="-2" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                              <Group type="102" attributes="1">
+                                  <Component id="jPanel4" min="-2" max="-2" attributes="0"/>
+                                  <EmptySpace max="-2" attributes="0"/>
+                                  <Component id="jPanel10" max="32767" attributes="0"/>
+                              </Group>
                               <Component id="jPanel1" min="-2" pref="493" max="-2" attributes="1"/>
                           </Group>
                           <EmptySpace pref="476" max="32767" attributes="0"/>
@@ -584,6 +585,100 @@
                     </Component>
                   </SubComponents>
                 </Container>
+                <Container class="javax.swing.JPanel" name="jPanel10">
+                  <Properties>
+                    <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+                      <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
+                        <TitledBorder title="Dispersion parameters">
+                          <ResourceString PropertyName="titleX" bundle="org/timpgui/resultsdisplayers/Bundle.properties" key="SpecResultsTopComponent.jPanel10.border.title" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+                        </TitledBorder>
+                      </Border>
+                    </Property>
+                  </Properties>
+
+                  <Layout>
+                    <DimensionLayout dim="0">
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Group type="102" attributes="0">
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Component id="jCBDispCurveShow" min="-2" max="-2" attributes="0"/>
+                                  <Group type="102" alignment="0" attributes="0">
+                                      <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
+                                      <EmptySpace max="-2" attributes="0"/>
+                                      <Component id="jTFCentrWave" pref="141" max="32767" attributes="0"/>
+                                  </Group>
+                                  <Group type="102" alignment="0" attributes="0">
+                                      <Component id="jLabel3" min="-2" max="-2" attributes="0"/>
+                                      <EmptySpace max="-2" attributes="0"/>
+                                      <Component id="jTFCurvParam" pref="221" max="32767" attributes="0"/>
+                                  </Group>
+                              </Group>
+                              <EmptySpace max="-2" attributes="0"/>
+                          </Group>
+                      </Group>
+                    </DimensionLayout>
+                    <DimensionLayout dim="1">
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Group type="102" alignment="0" attributes="0">
+                              <Component id="jCBDispCurveShow" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="3" attributes="0">
+                                  <Component id="jLabel2" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="jTFCentrWave" alignment="3" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="3" attributes="0">
+                                  <Component id="jLabel3" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="jTFCurvParam" alignment="3" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                              <EmptySpace pref="18" max="32767" attributes="0"/>
+                          </Group>
+                      </Group>
+                    </DimensionLayout>
+                  </Layout>
+                  <SubComponents>
+                    <Component class="javax.swing.JLabel" name="jLabel2">
+                      <Properties>
+                        <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+                          <ResourceString bundle="org/timpgui/resultsdisplayers/Bundle.properties" key="SpecResultsTopComponent.jLabel2.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+                        </Property>
+                      </Properties>
+                    </Component>
+                    <Component class="javax.swing.JCheckBox" name="jCBDispCurveShow">
+                      <Properties>
+                        <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+                          <ResourceString bundle="org/timpgui/resultsdisplayers/Bundle.properties" key="SpecResultsTopComponent.jCBDispCurveShow.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+                        </Property>
+                      </Properties>
+                      <Events>
+                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jCBDispCurveShowActionPerformed"/>
+                      </Events>
+                    </Component>
+                    <Component class="javax.swing.JTextField" name="jTFCentrWave">
+                      <Properties>
+                        <Property name="editable" type="boolean" value="false"/>
+                        <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+                          <ResourceString bundle="org/timpgui/resultsdisplayers/Bundle.properties" key="SpecResultsTopComponent.jTFCentrWave.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+                        </Property>
+                      </Properties>
+                    </Component>
+                    <Component class="javax.swing.JLabel" name="jLabel3">
+                      <Properties>
+                        <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+                          <ResourceString bundle="org/timpgui/resultsdisplayers/Bundle.properties" key="SpecResultsTopComponent.jLabel3.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+                        </Property>
+                      </Properties>
+                    </Component>
+                    <Component class="javax.swing.JTextField" name="jTFCurvParam">
+                      <Properties>
+                        <Property name="editable" type="boolean" value="false"/>
+                        <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+                          <ResourceString bundle="org/timpgui/resultsdisplayers/Bundle.properties" key="SpecResultsTopComponent.jTFCurvParam.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+                        </Property>
+                      </Properties>
+                    </Component>
+                  </SubComponents>
+                </Container>
               </SubComponents>
             </Container>
           </SubComponents>
@@ -619,8 +714,8 @@
               <Layout>
                 <DimensionLayout dim="0">
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="jToolBar4" alignment="0" pref="977" max="32767" attributes="0"/>
-                      <Component id="jPSelWavTrCollection" alignment="0" pref="977" max="32767" attributes="0"/>
+                      <Component id="jToolBar4" alignment="0" pref="953" max="32767" attributes="0"/>
+                      <Component id="jPSelWavTrCollection" alignment="0" pref="953" max="32767" attributes="0"/>
                   </Group>
                 </DimensionLayout>
                 <DimensionLayout dim="1">
@@ -714,8 +809,8 @@
               <Layout>
                 <DimensionLayout dim="0">
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="jToolBar3" alignment="0" pref="977" max="32767" attributes="0"/>
-                      <Component id="jPSelTimeTrCollection" alignment="0" pref="977" max="32767" attributes="0"/>
+                      <Component id="jToolBar3" alignment="0" pref="953" max="32767" attributes="0"/>
+                      <Component id="jPSelTimeTrCollection" alignment="0" pref="953" max="32767" attributes="0"/>
                   </Group>
                 </DimensionLayout>
                 <DimensionLayout dim="1">

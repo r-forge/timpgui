@@ -5,6 +5,7 @@
 package org.timpgui.timpservice;
 
 import Jama.Matrix;
+import java.util.ArrayList;
 import java.util.List;
 import nl.vu.nat.tgmodels.tgm.Tgm;
 import org.timpgui.timpinterface.TimpInterface;
@@ -21,6 +22,8 @@ public class TimpController implements TimpInterface {
 
     private static ITwoWayConnection connection;
     private static final String NAME_OF_RESULT_OBJECT = "fitResult";
+    private ArrayList<String> initModelCall;
+    private String fitModelCall;
 
     public TimpController() {
         connection = JRIConnectionFactory.getInstance().createTwoWayConnection(null);
@@ -36,7 +39,7 @@ public class TimpController implements TimpInterface {
         String modelType = null;
         String options = null;
 
-        listOfDatasets = new String[datasets.length];
+         listOfDatasets = new String[datasets.length];
         for (int i = 0; i < datasets.length; i++) {
             DatasetTimp dataset = datasets[i];
             listOfDatasets[i] = dataset.getDatasetName();
@@ -89,7 +92,7 @@ public class TimpController implements TimpInterface {
         }
 
         cmd = cmd.concat(")");
-
+        addFitModelCall(cmd);
         connection.eval(cmd);
 
         if (listOfDatasets != null) {
@@ -132,9 +135,8 @@ public class TimpController implements TimpInterface {
     private void sendModel(Tgm tgm, int index) {
         index++;
         String modelString = InitModel.parseModel(tgm);
+        addInitModelCall(modelString);
         connection.eval("model" + String.valueOf(index) + " <- " + modelString);
-
-
     }
 
     private String getOptions(String modelType, int iterations) {
@@ -566,5 +568,28 @@ public class TimpController implements TimpInterface {
 
     public void getVector(String cmd) {
         throw new UnsupportedOperationException("Not yet implemented");
+    }
+
+    @Override
+    public void addInitModelCall(String call) {
+       getInitModelCalls().add(call);
+    }
+
+    @Override
+    public void addFitModelCall(String call) {
+        this.fitModelCall=call;
+    }
+
+    @Override
+    public ArrayList<String> getInitModelCalls() {
+        if (initModelCall == null) {
+            initModelCall = new ArrayList<String>();
+        }
+        return this.initModelCall;
+    }
+
+    @Override
+    public String getFitModelCall() {
+        return fitModelCall;
     }
 }

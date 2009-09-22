@@ -4,10 +4,17 @@
  */
 package org.timpgui.ui.toolbar;
 
+import java.awt.Cursor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
+import java.io.Writer;
+import java.util.ArrayList;
 import nl.vu.nat.tgmfilesupport.TgmDataNode;
 import nl.vu.nat.tgmodels.tgm.Tgm;
 import nl.vu.nat.tgmprojectsupport.TGProject;
@@ -15,9 +22,11 @@ import org.netbeans.api.project.ui.OpenProjects;
 import org.openide.DialogDisplayer;
 import org.openide.NotifyDescriptor;
 import org.openide.filesystems.FileObject;
+import org.openide.filesystems.FileUtil;
 import org.openide.nodes.Node;
 import org.openide.util.Exceptions;
 import org.openide.util.Lookup;
+import org.openide.windows.TopComponent;
 import org.openide.windows.WindowManager;
 import org.timpgui.projectmanagement.SelectedDatasetsViewTopComponent;
 import org.timpgui.projectmanagement.SelectedModelsViewTopComponent;
@@ -33,6 +42,7 @@ public final class StartAnalysis implements ActionListener {
     Tgm[] models;
     private TimpInterface service;
     private DatasetTimp[] datasets;
+    private TimpResultDataset[] results = null;
 
 
     public void actionPerformed(ActionEvent e) {
@@ -66,7 +76,13 @@ public final class StartAnalysis implements ActionListener {
                      TgmDataNode node = (TgmDataNode) nsm[i];
                      models[i] = node.getObject().getTgm();
                 }
-                TimpResultDataset[] results = service.runAnalysis(datasets, models, NO_OF_ITERATIONS);
+               try {
+                   //TODO: implement a working busy cursor, or progress indicator
+                TopComponent.getRegistry().getActivated().setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+                results = service.runAnalysis(datasets, models, NO_OF_ITERATIONS);
+                } finally {
+                TopComponent.getRegistry().getActivated().setCursor(Cursor.getDefaultCursor());
+                }
                 if (results != null){
                     NotifyDescriptor.InputLine resultNameDialog = new NotifyDescriptor.InputLine(
                          "Analysys name",
@@ -98,6 +114,16 @@ public final class StartAnalysis implements ActionListener {
                                        ObjectOutputStream stream = new ObjectOutputStream(writeTo.getOutputStream());
                                        stream.writeObject(timpResultDataset);
                                        stream.close();
+                                       writeTo = resultsfolder.createData("dataset"+(i+1)+"_"+timpResultDataset.getDatasetName()+"_summary", "txt");
+                                       BufferedWriter output = new BufferedWriter(new FileWriter(FileUtil.toFile(writeTo)));
+                                       //TODO: Complete the summary here:
+                                       ArrayList<String> list = service.getInitModelCalls();
+                                       for (String string : list) {
+                                           output.append(string);
+                                           output.newLine();
+                                       }
+                                       output.write(service.getFitModelCall());
+                                       output.close();
                                    } catch (IOException ex) {
                                        Exceptions.printStackTrace(ex);
                                    }
@@ -111,14 +137,14 @@ public final class StartAnalysis implements ActionListener {
                }
                else {
                    NotifyDescriptor errorMessage =new NotifyDescriptor.Exception(
-                            new Exception("Analysis didn't returne anything try onece again :)"));
+                            new Exception("The analysis did not return valid results. Try again with different paramters please."));
                    DialogDisplayer.getDefault().notify(errorMessage);
                }
 
             }
             else {
                 NotifyDescriptor errorMessage =new NotifyDescriptor.Exception(
-                        new Exception("Please select main project"));
+                        new Exception("Please select your main project."));
                 DialogDisplayer.getDefault().notify(errorMessage);
             }
         }

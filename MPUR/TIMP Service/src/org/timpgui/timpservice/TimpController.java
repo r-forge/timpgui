@@ -95,7 +95,6 @@ public class TimpController implements TimpInterface {
         addFitModelCall(cmd);
         connection.eval(cmd);
         //TODO: store this somewhere, possible as private variable
-        String test = connection.eval(NAME_OF_RESULT_OBJECT+"$currModel@fit@nlsres").asString();
 
         if (listOfDatasets != null) {
             timpResults = new TimpResultDataset[listOfDatasets.length];
@@ -183,7 +182,7 @@ public class TimpController implements TimpInterface {
     }
 
     public double[] getParmu(String resultVariable, int dataset) {
-        return connection.eval(resultVariable + "$currTheta[[" + dataset + "]]@parmu").asDoubleArray();
+        return connection.eval("matrix(unlist("+resultVariable + "$currTheta[[" + dataset + "]]@parmu),ncol=3)").asDoubleArray();
     }
 
     public double[] getSpecdisppar(String resultVariable, int dataset) {

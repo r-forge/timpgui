@@ -349,7 +349,7 @@ private void jSNumOfComponents2StateChanged(javax.swing.event.ChangeEvent evt) {
             irfparPanelModel.setPartau((String) value);
         }
         if (source == jTPolyDispersion) {
-            irfparPanelModel.setLamda((Double) value);
+            irfparPanelModel.setLamda(Double.valueOf((String) value));
         }
 
         endUIChange();

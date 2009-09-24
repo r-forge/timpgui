@@ -161,6 +161,7 @@ public class TimpController implements TimpInterface {
         result.setResiduals(getResiduals(NAME_OF_RESULT_OBJECT, datasetNumber));
         result.setTraces(getData(NAME_OF_RESULT_OBJECT, datasetNumber)); //if weighted=TRUE then use 3rd argument
         result.setFittedTraces(getTraces(NAME_OF_RESULT_OBJECT, datasetNumber));
+
         result.setKineticParameters(getParEst(NAME_OF_RESULT_OBJECT, datasetNumber, "kinpar"));
         result.setSpectralParameters(getParEst(NAME_OF_RESULT_OBJECT, datasetNumber, "specpar"));
         if (result.getKineticParameters().length > 2) {
@@ -357,7 +358,17 @@ public class TimpController implements TimpInterface {
     public Matrix getTraces(String resultVariable, int dataset) {
         //getCLP(cmd, group = vector(), dataset=1)
         //return getDoubleMatrix("getTraces(" + resultVariable + ", dataset =" + dataset + ")");
-        return getTempMatrix("getTraces(" + resultVariable + ", dataset =" + dataset + ")");
+        
+        if (getBool(resultVariable+"$currModel@modellist[["+dataset+"]]@weight")){
+            connection.eval("w <- "+resultVariable+"$currModel@modellist[["+dataset+"]]@weightM");
+            connection.eval("f <- "+resultVariable+"$currModel@fit@resultlist[["+dataset+"]]@fitted");
+            connection.eval("f2 = matrix(unlist(f), ncol=ncol(w))/w");
+            double[] dim = connection.eval("dim(f2)").asDoubleArray();
+            double[] temp = connection.eval("f2").asDoubleArray();
+            return new Matrix(temp, (int) dim[0]);
+        }
+        else
+            return getTempMatrix("getTraces(" + resultVariable + ", dataset =" + dataset + ")");
     }
 
     public double[] getdim1(String resultVariable) {

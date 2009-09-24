@@ -21,12 +21,12 @@
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Component id="jTabbedPane1" alignment="0" pref="976" max="32767" attributes="0"/>
+          <Component id="jTabbedPane1" alignment="0" max="32767" attributes="0"/>
       </Group>
     </DimensionLayout>
     <DimensionLayout dim="1">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Component id="jTabbedPane1" alignment="0" pref="796" max="32767" attributes="0"/>
+          <Component id="jTabbedPane1" alignment="0" pref="1200" max="32767" attributes="0"/>
       </Group>
     </DimensionLayout>
   </Layout>
@@ -74,20 +74,20 @@
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" alignment="0" attributes="0">
                           <EmptySpace max="-2" attributes="0"/>
-                          <Component id="jPanel2" pref="612" max="32767" attributes="1"/>
+                          <Component id="jPanel2" pref="631" max="32767" attributes="1"/>
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Component id="jPanel7" min="0" pref="0" max="32767" attributes="1"/>
-                              <Component id="jPConcentrations" pref="311" max="32767" attributes="1"/>
+                              <Component id="jPConcentrations" pref="331" max="32767" attributes="1"/>
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
                       </Group>
                       <Group type="102" alignment="0" attributes="0">
                           <EmptySpace max="-2" attributes="0"/>
-                          <Component id="jPanel5" pref="929" max="32767" attributes="0"/>
+                          <Component id="jPanel5" pref="968" max="32767" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
                       </Group>
-                      <Component id="jToolBar1" alignment="0" pref="953" max="32767" attributes="0"/>
+                      <Component id="jToolBar1" alignment="0" pref="992" max="32767" attributes="0"/>
                   </Group>
                 </DimensionLayout>
                 <DimensionLayout dim="1">
@@ -105,7 +105,7 @@
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
                           <Component id="jPanel5" min="-2" pref="263" max="-2" attributes="0"/>
-                          <EmptySpace pref="240" max="32767" attributes="0"/>
+                          <EmptySpace pref="410" max="32767" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
@@ -390,15 +390,15 @@
                 <DimensionLayout dim="0">
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" attributes="0">
-                          <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                              <Component id="jPanel4" min="-2" max="-2" attributes="1"/>
+                          <Group type="103" groupAlignment="0" attributes="0">
                               <Component id="jPanel10" max="32767" attributes="1"/>
+                              <Component id="jPanel4" alignment="0" min="-2" max="-2" attributes="1"/>
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
-                          <Component id="jPanel1" pref="546" max="32767" attributes="2"/>
+                          <Component id="jPanel1" pref="556" max="32767" attributes="2"/>
                           <EmptySpace max="-2" attributes="0"/>
                       </Group>
-                      <Component id="jToolBar2" alignment="0" pref="982" max="32767" attributes="0"/>
+                      <Component id="jToolBar2" alignment="0" pref="992" max="32767" attributes="0"/>
                   </Group>
                 </DimensionLayout>
                 <DimensionLayout dim="1">
@@ -406,18 +406,15 @@
                       <Group type="102" attributes="0">
                           <Component id="jToolBar2" min="-2" pref="25" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
-                          <Group type="103" groupAlignment="0" attributes="0">
-                              <Group type="102" attributes="0">
+                          <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                              <Group type="102" attributes="1">
                                   <Component id="jPanel4" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace max="-2" attributes="0"/>
                                   <Component id="jPanel10" max="32767" attributes="0"/>
-                                  <EmptySpace pref="475" max="-2" attributes="0"/>
                               </Group>
-                              <Group type="102" attributes="0">
-                                  <Component id="jPanel1" min="-2" pref="493" max="-2" attributes="1"/>
-                                  <EmptySpace max="-2" attributes="0"/>
-                              </Group>
+                              <Component id="jPanel1" alignment="0" min="-2" pref="493" max="-2" attributes="1"/>
                           </Group>
+                          <EmptySpace max="-2" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
@@ -472,6 +469,15 @@
                   </SubComponents>
                 </Container>
                 <Container class="javax.swing.JPanel" name="jPanel1">
+                  <Properties>
+                    <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+                      <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
+                        <TitledBorder title="Selected spectrum and timetrace">
+                          <ResourceString PropertyName="titleX" bundle="org/timpgui/resultsdisplayers/Bundle.properties" key="SpecResultsTopComponent.jPanel1.border.title" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+                        </TitledBorder>
+                      </Border>
+                    </Property>
+                  </Properties>
 
                   <Layout class="org.netbeans.modules.form.compat2.layouts.DesignGridLayout">
                     <Property name="columns" type="int" value="0"/>
@@ -717,8 +723,8 @@
               <Layout>
                 <DimensionLayout dim="0">
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="jToolBar4" alignment="0" pref="953" max="32767" attributes="0"/>
-                      <Component id="jPSelWavTrCollection" alignment="0" pref="953" max="32767" attributes="0"/>
+                      <Component id="jToolBar4" alignment="0" pref="992" max="32767" attributes="0"/>
+                      <Component id="jPSelWavTrCollection" alignment="0" pref="992" max="32767" attributes="0"/>
                   </Group>
                 </DimensionLayout>
                 <DimensionLayout dim="1">
@@ -727,7 +733,7 @@
                           <Component id="jToolBar4" min="-2" pref="25" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
                           <Component id="jPSelWavTrCollection" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace max="32767" attributes="0"/>
+                          <EmptySpace pref="170" max="32767" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
@@ -812,8 +818,8 @@
               <Layout>
                 <DimensionLayout dim="0">
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="jToolBar3" alignment="0" pref="953" max="32767" attributes="0"/>
-                      <Component id="jPSelTimeTrCollection" alignment="0" pref="953" max="32767" attributes="0"/>
+                      <Component id="jToolBar3" alignment="0" pref="992" max="32767" attributes="0"/>
+                      <Component id="jPSelTimeTrCollection" alignment="0" pref="992" max="32767" attributes="0"/>
                   </Group>
                 </DimensionLayout>
                 <DimensionLayout dim="1">
@@ -821,7 +827,7 @@
                       <Group type="102" alignment="0" attributes="0">
                           <Component id="jToolBar3" min="-2" pref="25" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
-                          <Component id="jPSelTimeTrCollection" pref="969" max="32767" attributes="0"/>
+                          <Component id="jPSelTimeTrCollection" pref="1139" max="32767" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>

@@ -34,7 +34,7 @@ public class JRIConnectionFactory implements IConnectionFactory{
     }
 
     private StringBuffer console = new StringBuffer();
-    private static InputOutput io = IOProvider.getDefault().getIO("R Output", false);
+    private static InputOutput io = IOProvider.getDefault().getIO("R Output", true);
     private static OutputWriter output;
     private static OutputWriter error;
 
@@ -116,6 +116,8 @@ public class JRIConnectionFactory implements IConnectionFactory{
             }
         }
         return new JRIConnection(new Rengine(rargs, runMainLoop, callback));
+        //TODO: in order to add default callback uncomment the next line
+        //return new JRIConnection(new Rengine(rargs, runMainLoop, defaultCallback));
     }
 
     public ITwoWayConnection createTwoWayConnection(final Properties configuration) {
@@ -125,3 +127,4 @@ public class JRIConnectionFactory implements IConnectionFactory{
 
 
 }
+

@@ -10,7 +10,6 @@ import java.net.URISyntaxException;
 import java.net.URL;
 import junit.framework.TestCase;
 import org.netbeans.api.java.classpath.ClassPath;
-import org.netbeans.junit.NbTestCase;
 import org.openide.filesystems.FileObject;
 import org.rosuda.irconnect.ITwoWayConnection;
 import org.rosuda.jri.JRIConnectionFactory;

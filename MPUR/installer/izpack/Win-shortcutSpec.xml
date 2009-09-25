@@ -5,16 +5,16 @@
     <programGroup defaultName="Sketsa $APP-VERSION" location="applications"/>
 
     <shortcut
-        name="Sketsa $APP-VERSION"
+        name="TIMPGUI $APP-VERSION"
         programGroup="yes"
         desktop="yes"
         applications="no"
         startMenu="no"
         startup="no"
-        target="$INSTALL_PATH\bin\sketsa.exe"
+        target="$INSTALL_PATH\bin\timpgui.exe"
         commandLine=""
-        description="Sketsa launcher"
-        iconFile="$INSTALL_PATH\sketsa\sketsa.ico"
+        description="TIMPGUI launcher"
+        iconFile="$INSTALL_PATH\timpgui\timpgui.png"
         iconIndex="0"
         initialState="noShow">
     </shortcut>
@@ -28,19 +28,19 @@
         startup="no"
         target="$INSTALL_PATH\readme.html"
         commandLine=""
-        description="Sketsa Readme">
+        description="TIMPGUI Readme">
     </shortcut>
 
-    <shortcut
+    <!-- shortcut
         name="Uninstaller"
         programGroup="yes"
         desktop="no"
         applications="no"
         startMenu="no"
         startup="no"
-        target="$INSTALL_PATH\Uninstaller\uninstaller.exe"
+        target="$INSTALL_PATH\Uninstaller\uninstaller.jar"
         commandLine=""
         description="Sketsa uninstaller">
-    </shortcut>
+    </shortcut -->
 
 </shortcuts>

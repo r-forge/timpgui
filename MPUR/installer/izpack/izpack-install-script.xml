@@ -8,9 +8,10 @@
         <appname>$APP-NAME</appname>
         <appversion>$APP-VERSION</appversion>
         <appsubpath>$APP-PATH</appsubpath>
-        <url>http://www.kiyut.com</url>
+        <url>http://timpgui.org</url>
         <authors>
-            <author email="support@kiyut.com" name="Kiyut Software"/>
+            <author email="j.snellenburg@few.vu.nl" name="Joris Snellenburg"/>
+            <author email="s.laptenok@few.vu.nl" name="Sergey Laptenok"/>
         </authors>
         <uninstaller>yes</uninstaller>
         <javaversion>1.5</javaversion>
@@ -53,12 +54,12 @@
         The ids must be these ones if you want to use the LicencePanel and/or the InfoPanel.
     -->
     <resources>
-        <res id="LicencePanel.licence" src="legal/LICENSE-sketsa.txt"/>
+        <res id="LicencePanel.licence" src="legal/LICENSE-timpgui.txt"/>
         <res id="shortcutSpec.xml" src="Win-shortcutSpec.xml"/>
         <res id="Unix_shortcutSpec.xml" src="Unix-shortcutSpec.xml"/>
-        <res id="Installer.image" src="installer-image.png"/>
+        <res id="Installer.image" src="splash.gif"/>
         <res id="XInfoPanel.info" src="XInfoPanel.txt"/>
-        <res id="Heading.image" src="heading-image.png"/>
+        <!-- <res id="Heading.image" src="splash.gif"/> -->
     </resources>
 
     <!-- The native libraries to add -->
@@ -87,18 +88,23 @@
     <packs>
         <pack name="$APP-NAME" required="yes">
             <description>Core Files</description>
+            <file targetdir="$INSTALL_PATH" src="apisupport1" override="true" />
             <file targetdir="$INSTALL_PATH" src="bin" override="true" />
             <file targetdir="$INSTALL_PATH" src="etc" override="true" />
             <file targetdir="$INSTALL_PATH" src="harness" override="true" />
-            <file targetdir="$INSTALL_PATH" src="ide8" override="true" />
+            <file targetdir="$INSTALL_PATH" src="ide11" override="true" />
+            <file targetdir="$INSTALL_PATH" src="java2" override="true" />
+            <file targetdir="$INSTALL_PATH" src="platform10" override="true" />
+            <file targetdir="$INSTALL_PATH" src="profiler3" override="true" />
+            <file targetdir="$INSTALL_PATH" src="websvccommon1" override="true" />
+            <file targetdir="$INSTALL_PATH" src="timpgui" override="true" />
             <file targetdir="$INSTALL_PATH" src="legal" override="true" />
-            <file targetdir="$INSTALL_PATH" src="platform7" override="true" />
-            <file targetdir="$INSTALL_PATH" src="sketsa" override="true" />
             <file targetdir="$INSTALL_PATH" src="readme.html" override="true" />
-            <file targetdir="$INSTALL_PATH/Uninstaller" src="uninstaller.exe" override="true" />
-            <file targetdir="$INSTALL_PATH/Uninstaller" src="uninstaller" override="true" />
-            <executable targetfile="$INSTALL_PATH/bin/sketsa" stage="never"/>
-            <executable targetfile="$INSTALL_PATH/Uninstaller/uninstaller" stage="never"/>
+            <!-- <file targetdir="$INSTALL_PATH/Uninstaller" src="uninstaller.jar" override="true" /> -->
+            <!-- <file targetdir="$INSTALL_PATH/Uninstaller" src="uninstaller" override="true" /> -->
+            <executable targetfile="$INSTALL_PATH/bin/timpgui" stage="never"/>
+            <!-- <executable targetfile="$INSTALL_PATH/Uninstaller/uninstaller" stage="never"/> -->
+            
         </pack>
     </packs>
 </installation>

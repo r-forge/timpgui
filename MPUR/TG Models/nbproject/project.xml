@@ -17,8 +17,6 @@
                 </dependency>
                 <dependency>
                     <code-name-base>org.netbeans.modules.websvc.jaxws21</code-name-base>
-                    <build-prerequisite/>
-                    <compile-dependency/>
                     <run-dependency>
                         <release-version>1</release-version>
                         <implementation-version/>

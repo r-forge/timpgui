@@ -1,4 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE filesystem PUBLIC "-//NetBeans//DTD Filesystem 1.1//EN" "http://www.netbeans.org/dtds/filesystem-1_1.dtd">
+<!DOCTYPE filesystem PUBLIC "-//NetBeans//DTD Filesystem 1.2//EN" "http://www.netbeans.org/dtds/filesystem-1_2.dtd">
 <filesystem>
+    <folder name="OptionsDialog">
+        <file name="ExternalOptionsCategory.instance">
+            <attr name="categoryName" bundlevalue="org.timpgui.options.Bundle#OptionsCategory_Name_External"/>
+            <attr name="controller" newvalue="org.timpgui.options.ExternalOptionsPanelController"/>
+            <attr name="iconBase" stringvalue="org/timpgui/options/drive-harddisk.png"/>
+            <attr name="instanceCreate" methodvalue="org.netbeans.spi.options.OptionsCategory.createCategory"/>
+            <attr name="keywords" bundlevalue="org.timpgui.options.Bundle#OptionsCategory_Keywords_External"/>
+            <attr name="keywordsCategory" stringvalue="External"/>
+            <attr name="title" bundlevalue="org.timpgui.options.Bundle#OptionsCategory_Title_External"/>
+        </file>
+    </folder>
 </filesystem>

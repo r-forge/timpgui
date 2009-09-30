@@ -1,0 +1,655 @@
+#
+# A fatal error has been detected by the Java Runtime Environment:
+#
+#  SIGSEGV (0xb) at pc=0x00007fe6963f87a8, pid=30115, tid=140628359026960
+#
+# JRE version: 6.0_15-b03
+# Java VM: Java HotSpot(TM) 64-Bit Server VM (14.1-b02 mixed mode linux-amd64 )
+# Problematic frame:
+# C  [libR.so+0xf17a8]
+#
+# If you would like to submit a bug report, please visit:
+#   http://java.sun.com/webapps/bugreport/crash.jsp
+# The crash happened outside the Java Virtual Machine in native code.
+# See problematic frame for where to report the bug.
+#
+
+---------------  T H R E A D  ---------------
+
+Current thread (0x0000000040fbd000):  JavaThread "AWT-EventQueue-1" [_thread_in_native, id=30138, stack(0x00007fe697529000,0x00007fe69762a000)]
+
+siginfo:si_signo=SIGSEGV: si_errno=0, si_code=1 (SEGV_MAPERR), si_addr=0x0000000000000018
+
+Registers:
+RAX=0x0000000000000170, RBX=0x0000000000000020, RCX=0x0000000044eff778, RDX=0x000000000000000b
+RSP=0x00007fe697626340, RBP=0x0000000000000028, RSI=0x0000000000000000, RDI=0x0000000000000170
+R8 =0x0000000000000000, R9 =0x0000000000000160, R10=0x0000000000000000, R11=0x00007fe6967d6ed0
+R12=0x0000000000000030, R13=0x00007fe6967d6d80, R14=0x0000000000000001, R15=0x0000000000000001
+RIP=0x00007fe6963f87a8, EFL=0x0000000000010212, CSGSFS=0x0000000000000033, ERR=0x0000000000000004
+  TRAPNO=0x000000000000000e
+
+Top of Stack: (sp=0x00007fe697626340)
+0x00007fe697626340:   0000000000000170 0000000000000001
+0x00007fe697626350:   0000000000000001 0000000000000001
+0x00007fe697626360:   00007fe6967d6d80 00007fe6963f9672
+0x00007fe697626370:   00007fe6976264c8 00007fe7215bf025
+0x00007fe697626380:   00000010401b5680 0000000000600000
+0x00007fe697626390:   00007fe720ce4748 0000000040fbd1b8
+0x00007fe6976263a0:   00007fe6976264c8 0000000040fbd000
+0x00007fe6976263b0:   00000000401b5680 00007fe6976264d0
+0x00007fe6976263c0:   0000000040fbd000 00007fe697122df9
+0x00007fe6976263d0:   0000000040fbd1b8 00007fe69e3e3cb0
+0x00007fe6976263e0:   0000000000000001 0000000040fbd000
+0x00007fe6976263f0:   00007fe69e3e3cb0 00007fe6971220b0
+0x00007fe697626400:   00007fe69e3e3cb0 0000000040fbd000
+0x00007fe697626410:   00007fe6976264a0 00007fe69e3e3cb0
+0x00007fe697626420:   00007fe6976264a0 00007fe71c23b8b7
+0x00007fe697626430:   0000000040ed4000 0000000040fbd000
+0x00007fe697626440:   0000000040578d20 00000000405790f8
+0x00007fe697626450:   0000000000000000 00007fe6f3864918
+0x00007fe697626460:   00007fe697626450 00007fe69e3e3cb0
+0x00007fe697626470:   00007fe6976264d0 00007fe69e3e7f98
+0x00007fe697626480:   0000000000000000 00007fe69e3e3cb0
+0x00007fe697626490:   0000000000000000 00007fe6976264c0
+0x00007fe6976264a0:   00007fe697626528 00007fe71c22f953
+0x00007fe6976264b0:   0000000000000000 00007fe71c237a57
+0x00007fe6976264c0:   0000000000000001 00007fe69e3f5d80
+0x00007fe6976264d0:   00007fe6f3864918 0000000000000000
+0x00007fe6976264e0:   00007fe6f3864918 00007fe6976264d8
+0x00007fe6976264f0:   00007fe69e3e66b5 00007fe697626588
+0x00007fe697626500:   00007fe69e3e7f98 0000000000000000
+0x00007fe697626510:   00007fe69e3e67d8 00007fe6976264c0
+0x00007fe697626520:   00007fe697626578 00007fe6976265e0
+0x00007fe697626530:   00007fe71c22f8c9 0000000000000000 
+
+Instructions: (pc=0x00007fe6963f87a8)
+0x00007fe6963f8798:   f3 49 89 f9 45 31 c0 c1 e3 05 48 89 c7 0f 1f 00
+0x00007fe6963f87a8:   48 8b 46 18 48 89 71 10 41 83 c0 01 48 89 4e 18 
+
+Stack: [0x00007fe697529000,0x00007fe69762a000],  sp=0x00007fe697626340,  free space=1012k
+Native frames: (J=compiled Java code, j=interpreted, Vv=VM code, C=native code)
+C  [libR.so+0xf17a8]
+
+[error occurred during error reporting (printing native stack), id 0xb]
+
+Java frames: (J=compiled Java code, j=interpreted, Vv=VM code)
+j  org.rosuda.JRI.Rengine.rniParse(Ljava/lang/String;I)J+0
+j  org.rosuda.JRI.Rengine.eval(Ljava/lang/String;Z)Lorg/rosuda/JRI/REXP;+53
+j  org.rosuda.JRI.Rengine.eval(Ljava/lang/String;)Lorg/rosuda/JRI/REXP;+3
+j  org.rosuda.jri.JRIConnection.eval(Ljava/lang/String;)Lorg/rosuda/irconnect/IREXP;+9
+v  ~StubRoutines::call_stub
+j  sun.reflect.NativeMethodAccessorImpl.invoke0(Ljava/lang/reflect/Method;Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;+0
+j  sun.reflect.NativeMethodAccessorImpl.invoke(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;+87
+j  sun.reflect.DelegatingMethodAccessorImpl.invoke(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;+6
+j  java.lang.reflect.Method.invoke(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;+161
+j  org.rosuda.irconnect.proxy.RConnectionProxy.invoke(Ljava/lang/Object;Ljava/lang/reflect/Method;[Ljava/lang/Object;)Ljava/lang/Object;+127
+j  $Proxy22.eval(Ljava/lang/String;)Lorg/rosuda/irconnect/IREXP;+16
+j  org.timpgui.timpservice.TimpController.<init>()V+21
+v  ~StubRoutines::call_stub
+j  sun.reflect.NativeConstructorAccessorImpl.newInstance0(Ljava/lang/reflect/Constructor;[Ljava/lang/Object;)Ljava/lang/Object;+0
+j  sun.reflect.NativeConstructorAccessorImpl.newInstance([Ljava/lang/Object;)Ljava/lang/Object;+72
+j  sun.reflect.DelegatingConstructorAccessorImpl.newInstance([Ljava/lang/Object;)Ljava/lang/Object;+5
+j  java.lang.reflect.Constructor.newInstance([Ljava/lang/Object;)Ljava/lang/Object;+92
+j  java.lang.Class.newInstance0()Ljava/lang/Object;+118
+j  java.lang.Class.newInstance()Ljava/lang/Object;+15
+j  org.openide.util.lookup.MetaInfServicesLookup$P.createInstance(Ljava/lang/Class;)Ljava/lang/Object;+116
+j  org.openide.util.lookup.MetaInfServicesLookup$P.getInstance()Ljava/lang/Object;+151
+j  org.openide.util.lookup.AbstractLookup.lookup(Ljava/lang/Class;)Ljava/lang/Object;+22
+j  org.openide.util.lookup.ProxyLookup.lookup(Ljava/lang/Class;)Ljava/lang/Object;+49
+j  org.timpgui.ui.toolbar.StartAnalysis.actionPerformed(Ljava/awt/event/ActionEvent;)V+114
+j  org.openide.awt.AlwaysEnabledAction.actionPerformed(Ljava/awt/event/ActionEvent;)V+64
+j  javax.swing.AbstractButton.fireActionPerformed(Ljava/awt/event/ActionEvent;)V+84
+j  javax.swing.AbstractButton$Handler.actionPerformed(Ljava/awt/event/ActionEvent;)V+5
+j  javax.swing.DefaultButtonModel.fireActionPerformed(Ljava/awt/event/ActionEvent;)V+35
+j  javax.swing.DefaultButtonModel.setPressed(Z)V+117
+j  javax.swing.plaf.basic.BasicButtonListener.mouseReleased(Ljava/awt/event/MouseEvent;)V+35
+j  java.awt.AWTEventMulticaster.mouseReleased(Ljava/awt/event/MouseEvent;)V+21
+j  java.awt.AWTEventMulticaster.mouseReleased(Ljava/awt/event/MouseEvent;)V+8
+j  java.awt.Component.processMouseEvent(Ljava/awt/event/MouseEvent;)V+64
+j  javax.swing.JComponent.processMouseEvent(Ljava/awt/event/MouseEvent;)V+23
+j  java.awt.Component.processEvent(Ljava/awt/AWTEvent;)V+81
+j  java.awt.Container.processEvent(Ljava/awt/AWTEvent;)V+18
+j  java.awt.Component.dispatchEventImpl(Ljava/awt/AWTEvent;)V+562
+j  java.awt.Container.dispatchEventImpl(Ljava/awt/AWTEvent;)V+42
+j  java.awt.Component.dispatchEvent(Ljava/awt/AWTEvent;)V+2
+j  java.awt.LightweightDispatcher.retargetMouseEvent(Ljava/awt/Component;ILjava/awt/event/MouseEvent;)V+320
+j  java.awt.LightweightDispatcher.processMouseEvent(Ljava/awt/event/MouseEvent;)Z+139
+j  java.awt.LightweightDispatcher.dispatchEvent(Ljava/awt/AWTEvent;)Z+50
+j  java.awt.Container.dispatchEventImpl(Ljava/awt/AWTEvent;)V+12
+j  java.awt.Window.dispatchEventImpl(Ljava/awt/AWTEvent;)V+19
+j  java.awt.Component.dispatchEvent(Ljava/awt/AWTEvent;)V+2
+j  java.awt.EventQueue.dispatchEvent(Ljava/awt/AWTEvent;)V+46
+j  org.netbeans.core.TimableEventQueue.dispatchEvent(Ljava/awt/AWTEvent;)V+6
+j  java.awt.EventDispatchThread.pumpOneEventForFilters(I)Z+204
+j  java.awt.EventDispatchThread.pumpEventsForFilter(ILjava/awt/Conditional;Ljava/awt/EventFilter;)V+30
+j  java.awt.EventDispatchThread.pumpEventsForHierarchy(ILjava/awt/Conditional;Ljava/awt/Component;)V+11
+j  java.awt.EventDispatchThread.pumpEvents(ILjava/awt/Conditional;)V+4
+j  java.awt.EventDispatchThread.pumpEvents(Ljava/awt/Conditional;)V+3
+j  java.awt.EventDispatchThread.run()V+9
+v  ~StubRoutines::call_stub
+
+---------------  P R O C E S S  ---------------
+
+Java Threads: ( => current thread )
+  0x0000000041587800 JavaThread "Inactive RequestProcessor thread [Was:Default RequestProcessor/org.netbeans.core.windows.FloatingWindowTransparencyManager$2]" daemon [_thread_blocked, id=30146, stack(0x00007fe696d3d000,0x00007fe696e3e000)]
+  0x0000000040276800 JavaThread "DestroyJavaVM" [_thread_blocked, id=30116, stack(0x00007fe7200c8000,0x00007fe7201c9000)]
+  0x0000000040ce5800 JavaThread "Flushing caches" [_thread_blocked, id=30141, stack(0x00007fe697428000,0x00007fe697529000)]
+  0x00000000408fe000 JavaThread "Inactive RequestProcessor thread [Was:Folder recognizer/org.openide.loaders.FolderList$ListTask]" daemon [_thread_blocked, id=30140, stack(0x00007fe69775b000,0x00007fe69785c000)]
+=>0x0000000040fbd000 JavaThread "AWT-EventQueue-1" [_thread_in_native, id=30138, stack(0x00007fe697529000,0x00007fe69762a000)]
+  0x000000004066e000 JavaThread "TimerQueue" daemon [_thread_blocked, id=30137, stack(0x00007fe697e36000,0x00007fe697f37000)]
+  0x0000000040fbc800 JavaThread "Thread-3" daemon [_thread_blocked, id=30136, stack(0x00007fe69762a000,0x00007fe69772b000)]
+  0x000000004066d000 JavaThread "AWT-Shutdown" [_thread_blocked, id=30134, stack(0x00007fe697f37000,0x00007fe698038000)]
+  0x0000000040543000 JavaThread "AWT-XAWT" daemon [_thread_in_native, id=30133, stack(0x00007fe698038000,0x00007fe698139000)]
+  0x0000000040607800 JavaThread "Java2D Disposer" daemon [_thread_blocked, id=30132, stack(0x00007fe69885c000,0x00007fe69895d000)]
+  0x0000000040457800 JavaThread "Inactive RequestProcessor thread [Was:System clipboard synchronizer/org.netbeans.core.NbClipboard]" daemon [_thread_blocked, id=30130, stack(0x00007fe69a2dc000,0x00007fe69a3dd000)]
+  0x00000000401c9800 JavaThread "Timer-0" daemon [_thread_blocked, id=30129, stack(0x00007fe69a3dd000,0x00007fe69a4de000)]
+  0x0000000040354800 JavaThread "CLI Requests Server" daemon [_thread_in_native, id=30128, stack(0x00007fe69a4de000,0x00007fe69a5df000)]
+  0x000000004040e000 JavaThread "Active Reference Queue Daemon" daemon [_thread_blocked, id=30127, stack(0x00007fe69a7c3000,0x00007fe69a8c4000)]
+  0x00000000401a3800 JavaThread "Low Memory Detector" daemon [_thread_blocked, id=30125, stack(0x00007fe69a9c5000,0x00007fe69aac6000)]
+  0x00000000401a0800 JavaThread "CompilerThread1" daemon [_thread_blocked, id=30124, stack(0x00007fe69aac6000,0x00007fe69abc7000)]
+  0x000000004019c000 JavaThread "CompilerThread0" daemon [_thread_blocked, id=30123, stack(0x00007fe69abc7000,0x00007fe69acc8000)]
+  0x000000004019a000 JavaThread "Signal Dispatcher" daemon [_thread_blocked, id=30122, stack(0x00007fe69acc8000,0x00007fe69adc9000)]
+  0x000000004017b800 JavaThread "Finalizer" daemon [_thread_blocked, id=30121, stack(0x00007fe69ae08000,0x00007fe69af09000)]
+  0x0000000040174000 JavaThread "Reference Handler" daemon [_thread_blocked, id=30120, stack(0x00007fe69af09000,0x00007fe69b00a000)]
+
+Other Threads:
+  0x000000004016d000 VMThread [stack: 0x00007fe69b00a000,0x00007fe69b10b000] [id=30119]
+  0x00000000401a6000 WatcherThread [stack: 0x00007fe69a8c4000,0x00007fe69a9c5000] [id=30126]
+
+VM state:not at safepoint (normal execution)
+
+VM Mutex/Monitor currently owned by a thread: None
+
+Heap
+ PSYoungGen      total 131200K, used 13754K [0x00007fe6f3180000, 0x00007fe6fb6c0000, 0x00007fe71c220000)
+  eden space 125952K, 6% used [0x00007fe6f3180000,0x00007fe6f39d5cb0,0x00007fe6fac80000)
+  from space 5248K, 99% used [0x00007fe6fb1a0000,0x00007fe6fb6b8d70,0x00007fe6fb6c0000)
+  to   space 5248K, 0% used [0x00007fe6fac80000,0x00007fe6fac80000,0x00007fe6fb1a0000)
+ PSOldGen        total 84032K, used 16479K [0x00007fe6a1020000, 0x00007fe6a6230000, 0x00007fe6f3180000)
+  object space 84032K, 19% used [0x00007fe6a1020000,0x00007fe6a2037cd8,0x00007fe6a6230000)
+ PSPermGen       total 40832K, used 40814K [0x00007fe69bc20000, 0x00007fe69e400000, 0x00007fe6a1020000)
+  object space 40832K, 99% used [0x00007fe69bc20000,0x00007fe69e3fb838,0x00007fe69e400000)
+
+Dynamic libraries:
+40000000-40009000 r-xp 00000000 08:07 90111                              /usr/lib64/jvm/java-1.6.0-sun-1.6.0/bin/java
+40108000-4010a000 rwxp 00008000 08:07 90111                              /usr/lib64/jvm/java-1.6.0-sun-1.6.0/bin/java
+4010a000-45233000 rwxp 00000000 00:00 0                                  [heap]
+7fe695964000-7fe6959a2000 r-xp 00000000 08:07 141256                     /lib64/libncurses.so.5.6
+7fe6959a2000-7fe695ba1000 ---p 0003e000 08:07 141256                     /lib64/libncurses.so.5.6
+7fe695ba1000-7fe695ba5000 r-xp 0003d000 08:07 141256                     /lib64/libncurses.so.5.6
+7fe695ba5000-7fe695bab000 rwxp 00041000 08:07 141256                     /lib64/libncurses.so.5.6
+7fe695bab000-7fe695be4000 r-xp 00000000 08:07 151499                     /lib64/libreadline.so.5.2
+7fe695be4000-7fe695de3000 ---p 00039000 08:07 151499                     /lib64/libreadline.so.5.2
+7fe695de3000-7fe695de5000 r-xp 00038000 08:07 151499                     /lib64/libreadline.so.5.2
+7fe695de5000-7fe695deb000 rwxp 0003a000 08:07 151499                     /lib64/libreadline.so.5.2
+7fe695deb000-7fe695ded000 rwxp 00000000 00:00 0 
+7fe695ded000-7fe695ed6000 r-xp 00000000 08:07 16941                      /usr/lib64/libgfortran.so.3.0.0
+7fe695ed6000-7fe6960d6000 ---p 000e9000 08:07 16941                      /usr/lib64/libgfortran.so.3.0.0
+7fe6960d6000-7fe6960d7000 r-xp 000e9000 08:07 16941                      /usr/lib64/libgfortran.so.3.0.0
+7fe6960d7000-7fe6960d8000 rwxp 000ea000 08:07 16941                      /usr/lib64/libgfortran.so.3.0.0
+7fe6960d8000-7fe6960d9000 rwxp 00000000 00:00 0 
+7fe6960d9000-7fe696106000 r-xp 00000000 08:07 151760                     /usr/lib64/R/lib/libRblas.so
+7fe696106000-7fe696305000 ---p 0002d000 08:07 151760                     /usr/lib64/R/lib/libRblas.so
+7fe696305000-7fe696306000 r-xp 0002c000 08:07 151760                     /usr/lib64/R/lib/libRblas.so
+7fe696306000-7fe696307000 rwxp 0002d000 08:07 151760                     /usr/lib64/R/lib/libRblas.so
+7fe696307000-7fe696595000 r-xp 00000000 08:07 151759                     /usr/lib64/R/lib/libR.so
+7fe696595000-7fe696794000 ---p 0028e000 08:07 151759                     /usr/lib64/R/lib/libR.so
+7fe696794000-7fe696799000 r-xp 0028d000 08:07 151759                     /usr/lib64/R/lib/libR.so
+7fe696799000-7fe6967a9000 rwxp 00292000 08:07 151759                     /usr/lib64/R/lib/libR.so
+7fe6967a9000-7fe696842000 rwxp 00000000 00:00 0 
+7fe696842000-7fe696c24000 rwxs 00000000 00:04 71532565                   /SYSV00000000 (deleted)
+7fe696c24000-7fe696c3c000 r-xp 00000000 08:07 105268                     /tmp/jna4599216235837536304.tmp
+7fe696c3c000-7fe696d3b000 ---p 00018000 08:07 105268                     /tmp/jna4599216235837536304.tmp
+7fe696d3b000-7fe696d3c000 rwxp 00017000 08:07 105268                     /tmp/jna4599216235837536304.tmp
+7fe696d3c000-7fe696d3d000 rwxp 00000000 00:00 0 
+7fe696d3d000-7fe696d40000 ---p 00000000 00:00 0 
+7fe696d40000-7fe696e3e000 rwxp 00000000 00:00 0 
+7fe696e3e000-7fe696e41000 rwxp 00000000 00:00 0 
+7fe696e41000-7fe696f3f000 rwxp 00000000 00:00 0 
+7fe696f3f000-7fe696f45000 r-xp 00000000 08:07 83158                      /usr/lib64/jvm/java-1.6.0-sun-1.6.0/jre/lib/amd64/libmanagement.so
+7fe696f45000-7fe697044000 ---p 00006000 08:07 83158                      /usr/lib64/jvm/java-1.6.0-sun-1.6.0/jre/lib/amd64/libmanagement.so
+7fe697044000-7fe697046000 rwxp 00005000 08:07 83158                      /usr/lib64/jvm/java-1.6.0-sun-1.6.0/jre/lib/amd64/libmanagement.so
+7fe69711d000-7fe697126000 r-xp 00000000 08:07 163706                     /usr/lib64/R/library/rJava/jri/libjri.so
+7fe697126000-7fe697325000 ---p 00009000 08:07 163706                     /usr/lib64/R/library/rJava/jri/libjri.so
+7fe697325000-7fe697326000 r-xp 00008000 08:07 163706                     /usr/lib64/R/library/rJava/jri/libjri.so
+7fe697326000-7fe697327000 rwxp 00009000 08:07 163706                     /usr/lib64/R/library/rJava/jri/libjri.so
+7fe697327000-7fe69732a000 rwxp 00000000 00:00 0 
+7fe69732a000-7fe697428000 rwxp 00000000 00:00 0 
+7fe697428000-7fe69742b000 ---p 00000000 00:00 0 
+7fe69742b000-7fe697529000 rwxp 00000000 00:00 0 
+7fe697529000-7fe69752c000 ---p 00000000 00:00 0 
+7fe69752c000-7fe69762a000 rwxp 00000000 00:00 0 
+7fe69762a000-7fe69762d000 ---p 00000000 00:00 0 
+7fe69762d000-7fe69772b000 rwxp 00000000 00:00 0 
+7fe69775b000-7fe69775e000 ---p 00000000 00:00 0 
+7fe69775e000-7fe69785c000 rwxp 00000000 00:00 0 
+7fe69785c000-7fe69785f000 rwxp 00000000 00:00 0 
+7fe69785f000-7fe69795d000 rwxp 00000000 00:00 0 
+7fe69795d000-7fe6979ba000 r-xs 00000000 08:07 90664                      /var/cache/fontconfig/df311e82a1a24c41a75c2c930223552e-x86-64.cache-2
+7fe697a0b000-7fe697a68000 r-xs 00000000 08:07 90665                      /var/cache/fontconfig/17090aa38d5c6f09fb8c5c354938f1d7-x86-64.cache-2
+7fe697a95000-7fe697a9f000 r-xs 00000000 08:07 90667                      /var/cache/fontconfig/77e41c5059666d75f92e318d4be8c21e-x86-64.cache-2
+7fe697a9f000-7fe697ab6000 r-xs 00000000 08:07 105192                     /var/cache/fontconfig/7ef2298fde41cc6eeb7af42e48b7d293-x86-64.cache-2
+7fe697abb000-7fe697adf000 rwxs 00000000 00:04 71499795                   /SYSV00000000 (deleted)
+7fe697b00000-7fe697b20000 rwxs 00000000 00:04 71565327                   /SYSV00000000 (deleted)
+7fe697b20000-7fe697b24000 rwxs 00000000 00:04 71368722                   /SYSV00000000 (deleted)
+7fe697b24000-7fe697b28000 rwxs 00000000 00:04 71335953                   /SYSV00000000 (deleted)
+7fe697b28000-7fe697b2e000 rwxs 00000000 00:04 71303184                   /SYSV00000000 (deleted)
+7fe697b2e000-7fe697b35000 r-xs 00111000 08:07 83378                      /usr/lib64/jvm/java-1.6.0-sun-1.6.0/jre/lib/resources.jar
+7fe697b35000-7fe697b3b000 r-xs 00000000 08:07 90670                      /var/cache/fontconfig/c16af864172909159ced9a806109b5c1-x86-64.cache-2
+7fe697b3b000-7fe697b3e000 r-xs 00000000 08:07 90669                      /var/cache/fontconfig/c952848b32a83a3db68a27ab871288f2-x86-64.cache-2
+7fe697b3e000-7fe697b45000 r-xs 00000000 08:07 90663                      /var/cache/fontconfig/d62e99ef547d1d24cdb1bd22ec1a2976-x86-64.cache-2
+7fe697b45000-7fe697b74000 r-xs 00000000 08:07 42050                      /var/cache/fontconfig/8d4af663993b81a124ee82e610bb31f9-x86-64.cache-2
+7fe697b74000-7fe697b77000 r-xs 000cb000 08:07 83262                      /usr/lib64/jvm/java-1.6.0-sun-1.6.0/jre/lib/ext/localedata.jar
+7fe697b77000-7fe697b79000 r-xs 0004f000 08:05 15008192                   /home/programs/Netbeans/netbeans-6.7.1/websvccommon1/modules/org-netbeans-modules-websvc-saas-services-flickr.jar
+7fe697b79000-7fe697b7b000 r-xs 0000f000 08:05 15008191                   /home/programs/Netbeans/netbeans-6.7.1/websvccommon1/modules/org-netbeans-modules-websvc-saas-services-google.jar
+7fe697b7b000-7fe697b7f000 r-xs 0005e000 08:05 15008300                   /home/programs/Netbeans/netbeans-6.7.1/nb6.7/modules/org-netbeans-modules-welcome.jar
+7fe697b7f000-7fe697b80000 r-xs 00001000 08:05 13356306                   /home/jsg210/NetBeansProjects/MPUR/build/cluster/modules/org-timpgui-asciidataloader.jar
+7fe697b80000-7fe697b98000 r-xs 00116000 08:05 15009385                   /home/programs/Netbeans/netbeans-6.7.1/ide11/modules/ext/swingx-0.9.5.jar
+7fe697b98000-7fe697b99000 r-xs 00001000 08:05 15009320                   /home/programs/Netbeans/netbeans-6.7.1/ide11/modules/org-netbeans-libs-swingx.jar
+7fe697b99000-7fe697b9e000 r-xs 00033000 08:05 15007923                   /home/programs/Netbeans/netbeans-6.7.1/platform10/modules/org-netbeans-core-nativeaccess.jar
+7fe697b9e000-7fe697ba1000 r-xs 000be000 08:05 15008099                   /home/programs/Netbeans/netbeans-6.7.1/platform10/modules/ext/jna-3.0.9.jar
+7fe697ba1000-7fe697ba2000 r-xs 00000000 08:05 15008042                   /home/programs/Netbeans/netbeans-6.7.1/platform10/modules/org-netbeans-libs-jna.jar
+7fe697ba2000-7fe697ba4000 r-xs 00017000 08:05 15008188                   /home/programs/Netbeans/netbeans-6.7.1/websvccommon1/modules/org-netbeans-modules-websvc-saas-services-zillow.jar
+7fe697ba4000-7fe697ba6000 r-xs 0004c000 08:05 15008176                   /home/programs/Netbeans/netbeans-6.7.1/websvccommon1/modules/org-netbeans-modules-websvc-saas-services-facebook.jar
+7fe697ba6000-7fe697baa000 r-xs 00036000 08:05 13356149                   /home/jsg210/NetBeansProjects/MPUR/build/cluster/modules/nl-vu-nat-timpgui.jar
+7fe697baa000-7fe697bac000 r-xs 00008000 08:05 15009362                   /home/programs/Netbeans/netbeans-6.7.1/ide11/modules/org-netbeans-core-ide.jar
+7fe697bac000-7fe697bad000 r-xs 00000000 08:05 13355822                   /home/jsg210/NetBeansProjects/MPUR/build/cluster/modules/org-timpgui-streakdataloader.jar
+7fe697bad000-7fe697baf000 r-xs 00020000 08:05 13355826                   /home/jsg210/NetBeansProjects/MPUR/build/cluster/modules/org-timpgui-resultsdisplayers.jar
+7fe697baf000-7fe697bb4000 r-xs 00051000 08:05 15009317                   /home/programs/Netbeans/netbeans-6.7.1/ide11/modules/org-netbeans-spi-palette.jar
+7fe697bb4000-7fe697bc1000 r-xs 000fb000 08:05 15008028                   /home/programs/Netbeans/netbeans-6.7.1/platform10/modules/org-netbeans-api-visual.jar
+7fe697bc1000-7fe697bc2000 r-xs 00000000 08:05 15007942                   /home/programs/Netbeans/netbeans-6.7.1/platform10/modules/org-netbeans-modules-core-kit.jar
+7fe697bc2000-7fe697bc6000 r-xs 0003b000 08:05 15007866                   /home/programs/Netbeans/netbeans-6.7.1/platform10/modules/org-netbeans-modules-options-keymap.jar
+7fe697bc6000-7fe697bce000 r-xs 000b5000 08:05 15007875                   /home/programs/Netbeans/netbeans-6.7.1/platform10/modules/org-netbeans-modules-autoupdate-ui.jar
+7fe697bce000-7fe697bcf000 r-xs 00004000 08:05 13356495                   /home/jsg210/NetBeansProjects/MPUR/build/cluster/modules/org-timpgui-ui-toolbar.jar
+7fe697bcf000-7fe697bd1000 r-xs 00008000 08:05 13356357                   /home/jsg210/NetBeansProjects/MPUR/build/cluster/modules/org-timpgui-timpservice.jar
+7fe697bd1000-7fe697bd7000 r-xs 0002b000 08:05 15008098                   /home/programs/Netbeans/netbeans-6.7.1/platform10/modules/ext/junit-4.5.jar
+7fe697bd7000-7fe697bd8000 r-xs 00000000 08:05 15008015                   /home/programs/Netbeans/netbeans-6.7.1/platform10/modules/org-netbeans-libs-junit4.jar
+7fe697bd8000-7fe697bd9000 r-xs 00001000 08:05 15007922                   /home/programs/Netbeans/netbeans-6.7.1/platform10/modules/org-netbeans-modules-templates.jar
+7fe697bd9000-7fe697bda000 r-xs 00008000 08:05 15008094                   /home/programs/Netbeans/netbeans-6.7.1/platform10/modules/ext/script-api.jar
+7fe697bda000-7fe697bdb000 r-xs 00000000 08:05 15008017                   /home/programs/Netbeans/netbeans-6.7.1/platform10/modules/org-netbeans-libs-jsr223.jar
+7fe697bdb000-7fe697bde000 r-xs 00025000 08:05 13355917                   /home/jsg210/NetBeansProjects/MPUR/build/cluster/modules/nl-wur-flimdataloader.jar
+7fe697bde000-7fe697be0000 r-xs 0000c000 08:05 15007781                   /home/programs/Netbeans/netbeans-6.7.1/platform10/modules/org-netbeans-modules-editor-mimelookup-impl.jar
+7fe697be0000-7fe697be1000 r-xs 00002000 08:05 15008215                   /home/programs/Netbeans/netbeans-6.7.1/websvccommon1/modules/org-netbeans-modules-websvc-jaxwsmodelapi.jar
+7fe697be1000-7fe697bea000 r-xs 000be000 08:05 15009147                   /home/programs/Netbeans/netbeans-6.7.1/ide11/modules/org-netbeans-modules-projectui.jar
+7fe697bea000-7fe697bee000 r-xs 0003b000 08:05 15007940                   /home/programs/Netbeans/netbeans-6.7.1/platform10/modules/org-netbeans-modules-masterfs.jar
+7fe697bee000-7fe697bf0000 r-xs 0000c000 08:05 15009376                   /home/programs/Netbeans/netbeans-6.7.1/ide11/modules/org-openidex-util.jar
+7fe697bf0000-7fe697bf1000 r-xs 00009000 08:05 15008171                   /home/programs/Netbeans/netbeans-6.7.1/websvccommon1/modules/org-netbeans-modules-websvc-saas-services-delicious.jar
+7fe697bf1000-7fe697bf2000 r-xs 00001000 08:05 13356359                   /home/jsg210/NetBeansProjects/MPUR/build/cluster/modules/org-timpgui-ui.jar
+7fe697bf2000-7fe697bf5000 r-xs 00043000 08:05 15008049                   /home/programs/Netbeans/netbeans-6.7.1/platform10/modules/org-netbeans-core-ui.jar
+7fe697bf5000-7fe697bf7000 r-xs 00012000 08:05 13355808                   /home/jsg210/NetBeansProjects/MPUR/build/cluster/modules/org-timpgui-flimdataloader.jar
+7fe697bf7000-7fe697bf9000 r-xs 00008000 08:05 13355377                   /home/jsg210/NetBeansProjects/MPUR/build/cluster/modules/nl-wur-flim-jfreechartcustom.jar
+7fe697bf9000-7fe697bfb000 r-xs 00011000 08:05 13355833                   /home/jsg210/NetBeansProjects/MPUR/build/cluster/modules/org-timpgui-projectmanagement.jar
+7fe697bfb000-7fe697bfd000 r-xs 00011000 08:05 13355829                   /home/jsg210/NetBeansProjects/MPUR/build/cluster/modules/nl-vu-nat-tgofilesupport.jar
+7fe697bfd000-7fe697c01000 r-xs 0003a000 08:05 13355804                   /home/jsg210/NetBeansProjects/MPUR/build/cluster/modules/nl-vu-nat-tgmprojectsupport.jar
+7fe697c01000-7fe697c03000 r-xs 00024000 08:05 13355665                   /home/jsg210/NetBeansProjects/MPUR/build/cluster/modules/nl-vu-nat-tgmfilesupport.jar
+7fe697c03000-7fe697c05000 r-xs 00000000 08:05 13355274                   /home/jsg210/NetBeansProjects/MPUR/build/cluster/modules/nl-vu-nat-api-tgm.jar
+7fe697c05000-7fe697c0a000 r-xs 0004a000 08:05 15008992                   /home/programs/Netbeans/netbeans-6.7.1/ide11/modules/org-netbeans-modules-xml-multiview.jar
+7fe697c0a000-7fe697c0c000 r-xs 0001b000 08:05 15009181                   /home/programs/Netbeans/netbeans-6.7.1/ide11/modules/org-netbeans-modules-xml-core.jar
+7fe697c0c000-7fe697c0e000 r-xs 00013000 08:05 15009365                   /home/programs/Netbeans/netbeans-6.7.1/ide11/modules/org-netbeans-api-xml.jar
+7fe697c0e000-7fe697c0f000 r-xs 00002000 08:05 13355527                   /home/jsg210/NetBeansProjects/MPUR/build/cluster/modules/org-timpgui-timpinterface.jar
+7fe697c0f000-7fe697c10000 r-xs 00004000 08:05 13355407                   /home/jsg210/NetBeansProjects/MPUR/build/cluster/modules/nl-vu-nat-rjavainterface.jar
+7fe697c10000-7fe697c12000 r-xs 00019000 08:05 13355507                   /home/jsg210/NetBeansProjects/MPUR/build/cluster/modules/org-rosuda.jar
+7fe697c12000-7fe697c13000 r-xs 00006000 08:05 13355421                   /home/jsg210/NetBeansProjects/MPUR/build/cluster/modules/ext/JRclient-RDA22-X.zip
+7fe697c13000-7fe697c14000 r-xs 00000000 08:05 13355420                   /home/jsg210/NetBeansProjects/MPUR/build/cluster/modules/org-rosuda-jrclient.jar
+7fe697c14000-7fe697c15000 r-xs 00008000 08:05 13355388                   /home/jsg210/NetBeansProjects/MPUR/build/cluster/modules/ext/JRI.jar
+7fe697c15000-7fe697c16000 r-xs 00000000 08:05 13355387                   /home/jsg210/NetBeansProjects/MPUR/build/cluster/modules/org-rosuda-JRI.jar
+7fe697c16000-7fe697c18000 r-xs 0001a000 08:05 13355418                   /home/jsg210/NetBeansProjects/MPUR/build/cluster/modules/ext/REngine-0.52.zip
+7fe697c18000-7fe697c19000 r-xs 00000000 08:05 13355417                   /home/jsg210/NetBeansProjects/MPUR/build/cluster/modules/org-rosuda-REngine.jar
+7fe697c19000-7fe697c1b000 r-xs 00009000 08:05 13354970                   /home/jsg210/NetBeansProjects/MPUR/build/cluster/modules/nl-vu-nat-tgmodels.jar
+7fe697c1b000-7fe697c1e000 r-xs 00011000 08:05 15091865                   /home/programs/Netbeans/netbeans-6.7.1/java2/modules/ext/jaxws21/http.jar
+7fe697c1e000-7fe697c23000 r-xs 0003e000 08:05 15091837                   /home/programs/Netbeans/netbeans-6.7.1/java2/modules/ext/jaxws21/saaj-impl.jar
+7fe697c23000-7fe697c25000 r-xs 00008000 08:05 15091847                   /home/programs/Netbeans/netbeans-6.7.1/java2/modules/ext/jaxws21/mimepull.jar
+7fe697c25000-7fe697c26000 r-xs 0000d000 08:05 15091821                   /home/programs/Netbeans/netbeans-6.7.1/java2/modules/ext/jaxws21/streambuffer.jar
+7fe697c26000-7fe697c27000 r-xs 00002000 08:05 15091852                   /home/programs/Netbeans/netbeans-6.7.1/java2/modules/ext/jaxws21/stax-ex.jar
+7fe697c27000-7fe697c2c000 r-xs 00042000 08:05 15091825                   /home/programs/Netbeans/netbeans-6.7.1/java2/modules/ext/jaxws21/FastInfoset.jar
+7fe697c2c000-7fe697c44000 r-xs 0011e000 08:05 15091848                   /home/programs/Netbeans/netbeans-6.7.1/java2/modules/ext/jaxws21/jaxws-rt.jar
+7fe697c44000-7fe697c4c000 r-xs 00073000 08:05 15091826                   /home/programs/Netbeans/netbeans-6.7.1/java2/modules/ext/jaxws21/jaxws-tools.jar
+7fe697c4c000-7fe697c51000 r-xs 0004c000 08:05 15091861                   /home/programs/Netbeans/netbeans-6.7.1/java2/modules/ext/jaxws21/sjsxp.jar
+7fe697c51000-7fe697c52000 r-xs 00003000 08:05 15091621                   /home/programs/Netbeans/netbeans-6.7.1/java2/modules/org-netbeans-modules-websvc-jaxws21.jar
+7fe697c52000-7fe697c63000 r-xs 0014c000 08:05 13355350                   /home/jsg210/NetBeansProjects/MPUR/build/cluster/modules/ext/jfreechart-1.0.13.jar
+7fe697c63000-7fe697c64000 r-xs 00000000 08:05 13355343                   /home/jsg210/NetBeansProjects/MPUR/build/cluster/modules/org-jfree-data.jar
+7fe697c64000-7fe697c6a000 r-xs 00046000 08:05 13355340                   /home/jsg210/NetBeansProjects/MPUR/build/cluster/modules/ext/jcommon-1.0.16.jar
+7fe697c6a000-7fe697c6b000 r-xs 00000000 08:05 13355338                   /home/jsg210/NetBeansProjects/MPUR/build/cluster/modules/org-jfree.jar
+7fe697c6b000-7fe697c6c000 r-xs 00003000 08:05 13355522                   /home/jsg210/NetBeansProjects/MPUR/build/cluster/modules/org-timpgui-structures.jar
+7fe697c6c000-7fe697c6e000 r-xs 00007000 08:05 13354963                   /home/jsg210/NetBeansProjects/MPUR/build/cluster/modules/ext/Jama-1.0.2.jar
+7fe697c6e000-7fe697c6f000 r-xs 00000000 08:05 13354961                   /home/jsg210/NetBeansProjects/MPUR/build/cluster/modules/Jama.jar
+7fe697c6f000-7fe697c71000 r-xs 0000a000 08:05 15008160                   /home/programs/Netbeans/netbeans-6.7.1/websvccommon1/modules/org-netbeans-modules-websvc-saas-services-weatherbug.jar
+7fe697c71000-7fe697c73000 r-xs 0002e000 08:05 15008107                   /home/programs/Netbeans/netbeans-6.7.1/platform10/modules/ext/updater.jar
+7fe697c73000-7fe697c78000 r-xs 0007f000 08:05 15007816                   /home/programs/Netbeans/netbeans-6.7.1/platform10/modules/org-netbeans-modules-autoupdate-services.jar
+7fe697c78000-7fe697c79000 r-xs 00007000 08:05 15008029                   /home/programs/Netbeans/netbeans-6.7.1/platform10/modules/org-netbeans-core-io-ui.jar
+7fe697c79000-7fe697c7b000 r-xs 00003000 08:05 13356974                   /home/jsg210/NetBeansProjects/MPUR/build/cluster/modules/org-timpgui-options.jar
+7fe697c7b000-7fe697c7f000 r-xs 00034000 08:05 15007993                   /home/programs/Netbeans/netbeans-6.7.1/platform10/modules/org-netbeans-modules-print.jar
+7fe697c7f000-7fe697c80000 r-xs 0000c000 08:05 15008180                   /home/programs/Netbeans/netbeans-6.7.1/websvccommon1/modules/org-netbeans-modules-websvc-saas-services-twitter.jar
+7fe697c80000-7fe697c82000 r-xs 00010000 08:05 15007896                   /home/programs/Netbeans/netbeans-6.7.1/platform10/modules/org-netbeans-modules-progress-ui.jar
+7fe697c82000-7fe697c84000 r-xs 0000e000 08:05 15008205                   /home/programs/Netbeans/netbeans-6.7.1/websvccommon1/modules/org-netbeans-modules-websvc-saas-services-yahoo.jar
+7fe697c84000-7fe697c86000 r-xs 00017000 08:05 15009099                   /home/programs/Netbeans/netbeans-6.7.1/ide11/modules/org-netbeans-api-java-classpath.jar
+7fe697c86000-7fe697c87000 r-xs 0000d000 08:05 15008189                   /home/programs/Netbeans/netbeans-6.7.1/websvccommon1/modules/org-netbeans-modules-websvc-saas-services-zvents.jar
+7fe697c87000-7fe697c88000 r-xs 00001000 08:05 15091795                   /home/programs/Netbeans/netbeans-6.7.1/java2/modules/ext/jaxws21/api/jsr250-api.jar
+7fe697c88000-7fe697c8a000 r-xs 00003000 08:05 15091820                   /home/programs/Netbeans/netbeans-6.7.1/java2/modules/ext/jaxws21/api/saaj-api.jar
+7fe697c8a000-7fe697c8c000 r-xs 00007000 08:05 15091810                   /home/programs/Netbeans/netbeans-6.7.1/java2/modules/ext/jaxws21/api/jaxws-api.jar
+7fe697c8c000-7fe697c8d000 r-xs 00001000 08:05 15091794                   /home/programs/Netbeans/netbeans-6.7.1/java2/modules/ext/jaxws21/api/jsr181-api.jar
+7fe697c8d000-7fe697c8f000 r-xs 00000000 08:05 15091552                   /home/programs/Netbeans/netbeans-6.7.1/java2/modules/org-netbeans-modules-websvc-jaxws21api.jar
+7fe697c8f000-7fe697c92000 r-xs 00013000 08:05 15009360                   /home/programs/Netbeans/netbeans-6.7.1/ide11/modules/ext/jaxb/api/jaxb-api.jar
+7fe697c92000-7fe697c94000 r-xs 0000e000 08:05 15009374                   /home/programs/Netbeans/netbeans-6.7.1/ide11/modules/ext/jaxb/activation.jar
+7fe697c94000-7fe697ca6000 r-xs 000bd000 08:05 15009375                   /home/programs/Netbeans/netbeans-6.7.1/ide11/modules/ext/jaxb/jaxb-impl.jar
+7fe697ca6000-7fe697ce0000 r-xs 002b9000 08:05 15009379                   /home/programs/Netbeans/netbeans-6.7.1/ide11/modules/ext/jaxb/jaxb-xjc.jar
+7fe697ce0000-7fe697ce2000 r-xs 00004000 08:05 15009343                   /home/programs/Netbeans/netbeans-6.7.1/ide11/modules/ext/jaxb/api/jsr173_api.jar
+7fe697ce2000-7fe697ce4000 r-xs 00002000 08:05 15009352                   /home/programs/Netbeans/netbeans-6.7.1/ide11/modules/org-netbeans-libs-jaxb.jar
+7fe697ce4000-7fe697ce6000 r-xs 0001f000 08:05 15008190                   /home/programs/Netbeans/netbeans-6.7.1/websvccommon1/modules/org-netbeans-modules-websvc-saas-services-amazon.jar
+7fe697ce6000-7fe697cea000 r-xs 00033000 08:05 15009021                   /home/programs/Netbeans/netbeans-6.7.1/ide11/modules/org-netbeans-modules-projectuiapi.jar
+7fe697cea000-7fe697cee000 r-xs 00032000 08:05 15009102                   /home/programs/Netbeans/netbeans-6.7.1/ide11/modules/org-netbeans-modules-projectapi.jar
+7fe697cee000-7fe697cf1000 r-xs 00020000 08:05 15007982                   /home/programs/Netbeans/netbeans-6.7.1/platform10/modules/org-netbeans-core-multiview.jar
+7fe697cf1000-7fe697cf3000 r-xs 0001a000 08:05 15007983                   /home/programs/Netbeans/netbeans-6.7.1/platform10/modules/org-netbeans-core-execution.jar
+7fe697cf3000-7fe697cf4000 r-xs 00000000 08:05 13354853                   /home/jsg210/NetBeansProjects/MPUR/build/cluster/modules/locale/org-netbeans-core-windows_timpgui.jar
+7fe697cf4000-7fe697d00000 r-xs 00169000 08:05 15008004                   /home/programs/Netbeans/netbeans-6.7.1/platform10/modules/org-netbeans-core-windows.jar
+7fe697d00000-7fe697d0d000 r-xs 000b8000 08:05 15007945                   /home/programs/Netbeans/netbeans-6.7.1/platform10/modules/org-netbeans-swing-tabcontrol.jar
+7fe697d0d000-7fe697d0f000 r-xs 00030000 08:05 15007939                   /home/programs/Netbeans/netbeans-6.7.1/platform10/modules/org-netbeans-modules-settings.jar
+7fe697d0f000-7fe697d14000 r-xs 0004b000 08:05 15007909                   /home/programs/Netbeans/netbeans-6.7.1/platform10/modules/org-netbeans-modules-options-api.jar
+7fe697d14000-7fe697d1b000 r-xs 0007f000 08:05 15008077                   /home/programs/Netbeans/netbeans-6.7.1/platform10/modules/org-netbeans-core.jar
+7fe697d1b000-7fe697d1e000 r-xs 0002e000 08:05 15008027                   /home/programs/Netbeans/netbeans-6.7.1/platform10/modules/org-netbeans-swing-plaf.jar
+7fe697d1e000-7fe697d21000 r-xs 0001c000 08:05 15007968                   /home/programs/Netbeans/netbeans-6.7.1/platform10/modules/org-netbeans-spi-quicksearch.jar
+7fe697d21000-7fe697d22000 r-xs 00006000 08:05 15008041                   /home/programs/Netbeans/netbeans-6.7.1/platform10/modules/org-openide-execution.jar
+7fe697d22000-7fe697d24000 r-xs 00023000 08:05 15007930                   /home/programs/Netbeans/netbeans-6.7.1/platform10/modules/org-netbeans-modules-favorites.jar
+7fe697d24000-7fe697d2d000 r-xs 000f8000 08:05 15008056                   /home/programs/Netbeans/netbeans-6.7.1/platform10/modules/org-openide-loaders.jar
+7fe697d2d000-7fe697d2e000 r-xs 00009000 08:05 15007969                   /home/programs/Netbeans/netbeans-6.7.1/platform10/modules/org-netbeans-modules-queries.jar
+7fe697d2e000-7fe697d30000 r-xs 0003a000 08:05 15008001                   /home/programs/Netbeans/netbeans-6.7.1/platform10/modules/org-netbeans-core-output2.jar
+7fe697d30000-7fe697d32000 r-xs 00007000 08:05 15008093                   /home/programs/Netbeans/netbeans-6.7.1/platform10/modules/org-openide-io.jar
+7fe697d32000-7fe697d3e000 r-xs 00144000 08:05 15008050                   /home/programs/Netbeans/netbeans-6.7.1/platform10/modules/org-openide-explorer.jar
+7fe697d3e000-7fe697db4000 rwxs 00000000 00:04 71237646                   /SYSV00000000 (deleted)
+7fe697db4000-7fe697ddb000 rwxs 00000000 00:04 71204871                   /SYSV00000000 (deleted)
+7fe697ddb000-7fe697e36000 r-xp 00000000 08:07 16271                      /var/cache/libx11/compose/l4_030_313cb605_00280cc0
+7fe697e36000-7fe697e39000 ---p 00000000 00:00 0 
+7fe697e39000-7fe697f37000 rwxp 00000000 00:00 0 
+7fe697f37000-7fe697f3a000 ---p 00000000 00:00 0 
+7fe697f3a000-7fe698038000 rwxp 00000000 00:00 0 
+7fe698038000-7fe69803b000 ---p 00000000 00:00 0 
+7fe69803b000-7fe698139000 rwxp 00000000 00:00 0 
+7fe698139000-7fe69813e000 r-xp 00000000 08:07 21068                      /usr/lib64/libXfixes.so.3.1.0
+7fe69813e000-7fe69833d000 ---p 00005000 08:07 21068                      /usr/lib64/libXfixes.so.3.1.0
+7fe69833d000-7fe69833e000 r-xp 00004000 08:07 21068                      /usr/lib64/libXfixes.so.3.1.0
+7fe69833e000-7fe69833f000 rwxp 00005000 08:07 21068                      /usr/lib64/libXfixes.so.3.1.0
+7fe69833f000-7fe698348000 r-xp 00000000 08:07 22556                      /usr/lib64/libXrender.so.1.3.0
+7fe698348000-7fe698547000 ---p 00009000 08:07 22556                      /usr/lib64/libXrender.so.1.3.0
+7fe698547000-7fe698548000 r-xp 00008000 08:07 22556                      /usr/lib64/libXrender.so.1.3.0
+7fe698548000-7fe698549000 rwxp 00009000 08:07 22556                      /usr/lib64/libXrender.so.1.3.0
+7fe698549000-7fe698552000 r-xp 00000000 08:07 20837                      /usr/lib64/libXcursor.so.1.0.2
+7fe698552000-7fe698752000 ---p 00009000 08:07 20837                      /usr/lib64/libXcursor.so.1.0.2
+7fe698752000-7fe698753000 r-xp 00009000 08:07 20837                      /usr/lib64/libXcursor.so.1.0.2
+7fe698753000-7fe698754000 rwxp 0000a000 08:07 20837                      /usr/lib64/libXcursor.so.1.0.2
+7fe698754000-7fe69875b000 r-xp 00000000 08:07 83163                      /usr/lib64/jvm/java-1.6.0-sun-1.6.0/jre/lib/amd64/libnio.so
+7fe69875b000-7fe69885a000 ---p 00007000 08:07 83163                      /usr/lib64/jvm/java-1.6.0-sun-1.6.0/jre/lib/amd64/libnio.so
+7fe69885a000-7fe69885c000 rwxp 00006000 08:07 83163                      /usr/lib64/jvm/java-1.6.0-sun-1.6.0/jre/lib/amd64/libnio.so
+7fe69885c000-7fe69885f000 ---p 00000000 00:00 0 
+7fe69885f000-7fe69895d000 rwxp 00000000 00:00 0 
+7fe69895d000-7fe6989db000 r-xp 00000000 08:07 83137                      /usr/lib64/jvm/java-1.6.0-sun-1.6.0/jre/lib/amd64/libfontmanager.so
+7fe6989db000-7fe698ada000 ---p 0007e000 08:07 83137                      /usr/lib64/jvm/java-1.6.0-sun-1.6.0/jre/lib/amd64/libfontmanager.so
+7fe698ada000-7fe698af0000 rwxp 0007d000 08:07 83137                      /usr/lib64/jvm/java-1.6.0-sun-1.6.0/jre/lib/amd64/libfontmanager.so
+7fe698af0000-7fe698b01000 rwxp 00000000 00:00 0 
+7fe698b01000-7fe698b03000 r-xp 00000000 08:07 20510                      /usr/lib64/libXau.so.6.0.0
+7fe698b03000-7fe698d03000 ---p 00002000 08:07 20510                      /usr/lib64/libXau.so.6.0.0
+7fe698d03000-7fe698d04000 r-xp 00002000 08:07 20510                      /usr/lib64/libXau.so.6.0.0
+7fe698d04000-7fe698d05000 rwxp 00003000 08:07 20510                      /usr/lib64/libXau.so.6.0.0
+7fe698d05000-7fe698d20000 r-xp 00000000 08:07 21187                      /usr/lib64/libxcb.so.1.1.0
+7fe698d20000-7fe698f20000 ---p 0001b000 08:07 21187                      /usr/lib64/libxcb.so.1.1.0
+7fe698f20000-7fe698f21000 r-xp 0001b000 08:07 21187                      /usr/lib64/libxcb.so.1.1.0
+7fe698f21000-7fe698f22000 rwxp 0001c000 08:07 21187                      /usr/lib64/libxcb.so.1.1.0
+7fe698f22000-7fe698f2b000 r-xp 00000000 08:07 21318                      /usr/lib64/libXi.so.6.0.0
+7fe698f2b000-7fe69912b000 ---p 00009000 08:07 21318                      /usr/lib64/libXi.so.6.0.0
+7fe69912b000-7fe69912c000 r-xp 00009000 08:07 21318                      /usr/lib64/libXi.so.6.0.0
+7fe69912c000-7fe69912d000 rwxp 0000a000 08:07 21318                      /usr/lib64/libXi.so.6.0.0
+7fe69912d000-7fe699132000 r-xp 00000000 08:07 22540                      /usr/lib64/libXtst.so.6.1.0
+7fe699132000-7fe699332000 ---p 00005000 08:07 22540                      /usr/lib64/libXtst.so.6.1.0
+7fe699332000-7fe699333000 r-xp 00005000 08:07 22540                      /usr/lib64/libXtst.so.6.1.0
+7fe699333000-7fe699334000 rwxp 00006000 08:07 22540                      /usr/lib64/libXtst.so.6.1.0
+7fe699334000-7fe69946a000 r-xp 00000000 08:07 21155                      /usr/lib64/libX11.so.6.2.0
+7fe69946a000-7fe69966a000 ---p 00136000 08:07 21155                      /usr/lib64/libX11.so.6.2.0
+7fe69966a000-7fe69966b000 r-xp 00136000 08:07 21155                      /usr/lib64/libX11.so.6.2.0
+7fe69966b000-7fe699670000 rwxp 00137000 08:07 21155                      /usr/lib64/libX11.so.6.2.0
+7fe699670000-7fe699681000 r-xp 00000000 08:07 21184                      /usr/lib64/libXext.so.6.4.0
+7fe699681000-7fe699880000 ---p 00011000 08:07 21184                      /usr/lib64/libXext.so.6.4.0
+7fe699880000-7fe699881000 r-xp 00010000 08:07 21184                      /usr/lib64/libXext.so.6.4.0
+7fe699881000-7fe699882000 rwxp 00011000 08:07 21184                      /usr/lib64/libXext.so.6.4.0
+7fe699882000-7fe6998c4000 r-xp 00000000 08:07 83176                      /usr/lib64/jvm/java-1.6.0-sun-1.6.0/jre/lib/amd64/xawt/libmawt.so
+7fe6998c4000-7fe6999c3000 ---p 00042000 08:07 83176                      /usr/lib64/jvm/java-1.6.0-sun-1.6.0/jre/lib/amd64/xawt/libmawt.so
+7fe6999c3000-7fe6999ce000 rwxp 00041000 08:07 83176                      /usr/lib64/jvm/java-1.6.0-sun-1.6.0/jre/lib/amd64/xawt/libmawt.so
+7fe6999ce000-7fe6999d0000 rwxp 00000000 00:00 0 
+7fe6999d0000-7fe699a62000 r-xp 00000000 08:07 83128                      /usr/lib64/jvm/java-1.6.0-sun-1.6.0/jre/lib/amd64/libawt.so
+7fe699a62000-7fe699b61000 ---p 00092000 08:07 83128                      /usr/lib64/jvm/java-1.6.0-sun-1.6.0/jre/lib/amd64/libawt.so
+7fe699b61000-7fe699b7a000 rwxp 00091000 08:07 83128                      /usr/lib64/jvm/java-1.6.0-sun-1.6.0/jre/lib/amd64/libawt.so
+7fe699b7a000-7fe699b9f000 rwxp 00000000 00:00 0 
+7fe699b9f000-7fe699bb2000 r-xp 00000000 08:07 141266                     /lib64/libresolv-2.10.1.so
+7fe699bb2000-7fe699db1000 ---p 00013000 08:07 141266                     /lib64/libresolv-2.10.1.so
+7fe699db1000-7fe699db2000 r-xp 00012000 08:07 141266                     /lib64/libresolv-2.10.1.so
+7fe699db2000-7fe699db3000 rwxp 00013000 08:07 141266                     /lib64/libresolv-2.10.1.so
+7fe699db3000-7fe699db5000 rwxp 00000000 00:00 0 
+7fe699db5000-7fe699dba000 r-xp 00000000 08:07 141295                     /lib64/libnss_dns-2.10.1.so
+7fe699dba000-7fe699fb9000 ---p 00005000 08:07 141295                     /lib64/libnss_dns-2.10.1.so
+7fe699fb9000-7fe699fba000 r-xp 00004000 08:07 141295                     /lib64/libnss_dns-2.10.1.so
+7fe699fba000-7fe699fbb000 rwxp 00005000 08:07 141295                     /lib64/libnss_dns-2.10.1.so
+7fe699fbb000-7fe699fbd000 r-xp 00000000 08:07 139841                     /lib64/libnss_mdns4_minimal.so.2
+7fe699fbd000-7fe69a1bc000 ---p 00002000 08:07 139841                     /lib64/libnss_mdns4_minimal.so.2
+7fe69a1bc000-7fe69a1bd000 r-xp 00001000 08:07 139841                     /lib64/libnss_mdns4_minimal.so.2
+7fe69a1bd000-7fe69a1be000 rwxp 00002000 08:07 139841                     /lib64/libnss_mdns4_minimal.so.2
+7fe69a1be000-7fe69a1c2000 r-xs 00026000 08:05 15008059                   /home/programs/Netbeans/netbeans-6.7.1/platform10/modules/org-openide-actions.jar
+7fe69a1c2000-7fe69a1c6000 r-xs 0004a000 08:05 15008083                   /home/programs/Netbeans/netbeans-6.7.1/platform10/modules/org-openide-text.jar
+7fe69a1c6000-7fe69a1c7000 r-xs 00005000 08:05 15007840                   /home/programs/Netbeans/netbeans-6.7.1/platform10/modules/org-netbeans-modules-editor-mimelookup.jar
+7fe69a1c7000-7fe69a1c9000 r-xs 0001b000 08:05 15008057                   /home/programs/Netbeans/netbeans-6.7.1/platform10/modules/org-openide-windows.jar
+7fe69a1c9000-7fe69a1ce000 r-xs 00065000 08:05 15008078                   /home/programs/Netbeans/netbeans-6.7.1/platform10/modules/org-openide-nodes.jar
+7fe69a1ce000-7fe69a1d0000 r-xs 0002a000 08:05 15007994                   /home/programs/Netbeans/netbeans-6.7.1/platform10/modules/org-netbeans-swing-outline.jar
+7fe69a1d0000-7fe69a1d2000 r-xs 00028000 08:05 15008058                   /home/programs/Netbeans/netbeans-6.7.1/platform10/modules/org-openide-dialogs.jar
+7fe69a1d2000-7fe69a1d4000 r-xs 0000c000 08:05 15008002                   /home/programs/Netbeans/netbeans-6.7.1/platform10/modules/org-netbeans-api-progress.jar
+7fe69a1d4000-7fe69a1d5000 r-xs 0001c000 08:05 15008038                   /home/programs/Netbeans/netbeans-6.7.1/platform10/modules/ext/swing-layout-1.0.3.jar
+7fe69a1d5000-7fe69a1d6000 r-xs 00000000 08:05 15008060                   /home/programs/Netbeans/netbeans-6.7.1/platform10/modules/org-jdesktop-layout.jar
+7fe69a1d6000-7fe69a1db000 r-xs 00059000 08:05 15008087                   /home/programs/Netbeans/netbeans-6.7.1/platform10/modules/org-openide-awt.jar
+7fe69a1db000-7fe69a1de000 rwxp 00000000 00:00 0 
+7fe69a1de000-7fe69a2dc000 rwxp 00000000 00:00 0 
+7fe69a2dc000-7fe69a2df000 ---p 00000000 00:00 0 
+7fe69a2df000-7fe69a3dd000 rwxp 00000000 00:00 0 
+7fe69a3dd000-7fe69a3e0000 ---p 00000000 00:00 0 
+7fe69a3e0000-7fe69a4de000 rwxp 00000000 00:00 0 
+7fe69a4de000-7fe69a4e1000 ---p 00000000 00:00 0 
+7fe69a4e1000-7fe69a640000 rwxp 00000000 00:00 0 
+7fe69a640000-7fe69a653000 r-xp 00000000 08:07 83162                      /usr/lib64/jvm/java-1.6.0-sun-1.6.0/jre/lib/amd64/libnet.so
+7fe69a653000-7fe69a754000 ---p 00013000 08:07 83162                      /usr/lib64/jvm/java-1.6.0-sun-1.6.0/jre/lib/amd64/libnet.so
+7fe69a754000-7fe69a757000 rwxp 00014000 08:07 83162                      /usr/lib64/jvm/java-1.6.0-sun-1.6.0/jre/lib/amd64/libnet.so
+7fe69a757000-7fe69a7b6000 r-xs 00ba3000 08:07 90262                      /usr/lib64/jvm/java-1.6.0-sun-1.6.0/lib/tools.jar
+7fe69a7b6000-7fe69a7bc000 r-xs 0001e000 08:07 90255                      /usr/lib64/jvm/java-1.6.0-sun-1.6.0/lib/dt.jar
+7fe69a7bc000-7fe69a7bd000 r-xs 00001000 08:05 15008005                   /home/programs/Netbeans/netbeans-6.7.1/platform10/lib/locale/org-openide-util_zh_CN.jar
+7fe69a7bd000-7fe69a7bf000 r-xs 00000000 08:05 15008006                   /home/programs/Netbeans/netbeans-6.7.1/platform10/lib/locale/org-openide-util_pt_BR.jar
+7fe69a7bf000-7fe69a7c0000 r-xs 00001000 08:05 15008039                   /home/programs/Netbeans/netbeans-6.7.1/platform10/lib/locale/org-openide-util_ja.jar
+7fe69a7c0000-7fe69a7c1000 r-xs 00000000 08:05 15007976                   /home/programs/Netbeans/netbeans-6.7.1/platform10/lib/locale/org-openide-modules_zh_CN.jar
+7fe69a7c1000-7fe69a7c2000 r-xs 00000000 08:05 15007975                   /home/programs/Netbeans/netbeans-6.7.1/platform10/lib/locale/org-openide-modules_pt_BR.jar
+7fe69a7c2000-7fe69a7c3000 r-xs 00000000 08:05 15008007                   /home/programs/Netbeans/netbeans-6.7.1/platform10/lib/locale/org-openide-modules_ja.jar
+7fe69a7c3000-7fe69a7c6000 ---p 00000000 00:00 0 
+7fe69a7c6000-7fe69a8c4000 rwxp 00000000 00:00 0 
+7fe69a8c4000-7fe69a8c5000 ---p 00000000 00:00 0 
+7fe69a8c5000-7fe69a9c5000 rwxp 00000000 00:00 0 
+7fe69a9c5000-7fe69a9c8000 ---p 00000000 00:00 0 
+7fe69a9c8000-7fe69aac6000 rwxp 00000000 00:00 0 
+7fe69aac6000-7fe69aac9000 ---p 00000000 00:00 0 
+7fe69aac9000-7fe69abc7000 rwxp 00000000 00:00 0 
+7fe69abc7000-7fe69abca000 ---p 00000000 00:00 0 
+7fe69abca000-7fe69acc8000 rwxp 00000000 00:00 0 
+7fe69acc8000-7fe69accb000 ---p 00000000 00:00 0 
+7fe69accb000-7fe69adc9000 rwxp 00000000 00:00 0 
+7fe69adc9000-7fe69ae08000 r-xp 00000000 08:07 265496                     /usr/lib/locale/en_US.utf8/LC_CTYPE
+7fe69ae08000-7fe69ae0b000 ---p 00000000 00:00 0 
+7fe69ae0b000-7fe69af09000 rwxp 00000000 00:00 0 
+7fe69af09000-7fe69af0c000 ---p 00000000 00:00 0 
+7fe69af0c000-7fe69b00a000 rwxp 00000000 00:00 0 
+7fe69b00a000-7fe69b00b000 ---p 00000000 00:00 0 
+7fe69b00b000-7fe69b1a1000 rwxp 00000000 00:00 0 
+7fe69b1a1000-7fe69b337000 r-xs 02fb3000 08:07 83379                      /usr/lib64/jvm/java-1.6.0-sun-1.6.0/jre/lib/rt.jar
+7fe69b337000-7fe69b35f000 rwxp 00000000 00:00 0 
+7fe69b35f000-7fe69b360000 ---p 00000000 00:00 0 
+7fe69b360000-7fe69b460000 rwxp 00000000 00:00 0 
+7fe69b460000-7fe69b461000 ---p 00000000 00:00 0 
+7fe69b461000-7fe69b575000 rwxp 00000000 00:00 0 
+7fe69b575000-7fe69b58b000 rwxp 00000000 00:00 0 
+7fe69b58b000-7fe69b5b5000 rwxp 00000000 00:00 0 
+7fe69b5b5000-7fe69b81c000 rwxp 00000000 00:00 0 
+7fe69b81c000-7fe69b830000 rwxp 00000000 00:00 0 
+7fe69b830000-7fe69b846000 rwxp 00000000 00:00 0 
+7fe69b846000-7fe69b870000 rwxp 00000000 00:00 0 
+7fe69b870000-7fe69bad6000 rwxp 00000000 00:00 0 
+7fe69bad6000-7fe69bb1a000 rwxp 00000000 00:00 0 
+7fe69bb1a000-7fe69bc1f000 rwxp 00000000 00:00 0 
+7fe69bc1f000-7fe69e400000 rwxp 00000000 00:00 0 
+7fe69e400000-7fe6a1020000 rwxp 00000000 00:00 0 
+7fe6a1020000-7fe6a6230000 rwxp 00000000 00:00 0 
+7fe6a6230000-7fe6f3180000 rwxp 00000000 00:00 0 
+7fe6f3180000-7fe6fb6c0000 rwxp 00000000 00:00 0 
+7fe6fb6c0000-7fe71c220000 rwxp 00000000 00:00 0 
+7fe71c220000-7fe71c221000 r-xs 00000000 08:05 15008100                   /home/programs/Netbeans/netbeans-6.7.1/platform10/lib/locale/boot_zh_CN.jar
+7fe71c221000-7fe71c222000 r-xs 00000000 08:05 15008101                   /home/programs/Netbeans/netbeans-6.7.1/platform10/lib/locale/boot_pt_BR.jar
+7fe71c222000-7fe71c223000 r-xs 00000000 08:05 15008108                   /home/programs/Netbeans/netbeans-6.7.1/platform10/lib/locale/boot_ja.jar
+7fe71c223000-7fe71c224000 r-xs 00039000 08:05 15008328                   /home/programs/Netbeans/netbeans-6.7.1/nb6.7/core/locale/core_nb.jar
+7fe71c224000-7fe71c225000 r-xs 00000000 08:05 15008324                   /home/programs/Netbeans/netbeans-6.7.1/nb6.7/core/locale/core_nb_ja.jar
+7fe71c225000-7fe71c226000 r-xs 00000000 08:05 15008291                   /home/programs/Netbeans/netbeans-6.7.1/nb6.7/core/locale/org-netbeans-upgrader_pt_BR.jar
+7fe71c226000-7fe71c227000 r-xs 00000000 08:05 15008299                   /home/programs/Netbeans/netbeans-6.7.1/nb6.7/core/locale/org-netbeans-upgrader_ja.jar
+7fe71c227000-7fe71c22a000 r-xs 00046000 08:05 15008317                   /home/programs/Netbeans/netbeans-6.7.1/nb6.7/core/org-netbeans-upgrader.jar
+7fe71c22a000-7fe71c49a000 rwxp 00000000 00:00 0 
+7fe71c49a000-7fe71f22a000 rwxp 00000000 00:00 0 
+7fe71f22a000-7fe71f238000 r-xp 00000000 08:07 83170                      /usr/lib64/jvm/java-1.6.0-sun-1.6.0/jre/lib/amd64/libzip.so
+7fe71f238000-7fe71f33a000 ---p 0000e000 08:07 83170                      /usr/lib64/jvm/java-1.6.0-sun-1.6.0/jre/lib/amd64/libzip.so
+7fe71f33a000-7fe71f33d000 rwxp 00010000 08:07 83170                      /usr/lib64/jvm/java-1.6.0-sun-1.6.0/jre/lib/amd64/libzip.so
+7fe71f33d000-7fe71f33e000 rwxp 00000000 00:00 0 
+7fe71f33e000-7fe71f349000 r-xp 00000000 08:07 141249                     /lib64/libnss_files-2.10.1.so
+7fe71f349000-7fe71f549000 ---p 0000b000 08:07 141249                     /lib64/libnss_files-2.10.1.so
+7fe71f549000-7fe71f54a000 r-xp 0000b000 08:07 141249                     /lib64/libnss_files-2.10.1.so
+7fe71f54a000-7fe71f54b000 rwxp 0000c000 08:07 141249                     /lib64/libnss_files-2.10.1.so
+7fe71f54b000-7fe71f555000 r-xp 00000000 08:07 141307                     /lib64/libnss_nis-2.10.1.so
+7fe71f555000-7fe71f754000 ---p 0000a000 08:07 141307                     /lib64/libnss_nis-2.10.1.so
+7fe71f754000-7fe71f755000 r-xp 00009000 08:07 141307                     /lib64/libnss_nis-2.10.1.so
+7fe71f755000-7fe71f756000 rwxp 0000a000 08:07 141307                     /lib64/libnss_nis-2.10.1.so
+7fe71f756000-7fe71f75d000 r-xp 00000000 08:07 141310                     /lib64/libnss_compat-2.10.1.so
+7fe71f75d000-7fe71f95c000 ---p 00007000 08:07 141310                     /lib64/libnss_compat-2.10.1.so
+7fe71f95c000-7fe71f95d000 r-xp 00006000 08:07 141310                     /lib64/libnss_compat-2.10.1.so
+7fe71f95d000-7fe71f95e000 rwxp 00007000 08:07 141310                     /lib64/libnss_compat-2.10.1.so
+7fe71f95e000-7fe71f965000 r-xp 00000000 08:07 83172                      /usr/lib64/jvm/java-1.6.0-sun-1.6.0/jre/lib/amd64/native_threads/libhpi.so
+7fe71f965000-7fe71fa66000 ---p 00007000 08:07 83172                      /usr/lib64/jvm/java-1.6.0-sun-1.6.0/jre/lib/amd64/native_threads/libhpi.so
+7fe71fa66000-7fe71fa68000 rwxp 00008000 08:07 83172                      /usr/lib64/jvm/java-1.6.0-sun-1.6.0/jre/lib/amd64/native_threads/libhpi.so
+7fe71fa68000-7fe71fa69000 rwxp 00000000 00:00 0 
+7fe71fa69000-7fe71fa7e000 r-xp 00000000 08:07 131700                     /lib64/libnsl-2.10.1.so
+7fe71fa7e000-7fe71fc7d000 ---p 00015000 08:07 131700                     /lib64/libnsl-2.10.1.so
+7fe71fc7d000-7fe71fc7e000 r-xp 00014000 08:07 131700                     /lib64/libnsl-2.10.1.so
+7fe71fc7e000-7fe71fc7f000 rwxp 00015000 08:07 131700                     /lib64/libnsl-2.10.1.so
+7fe71fc7f000-7fe71fc81000 rwxp 00000000 00:00 0 
+7fe71fc81000-7fe71fcaa000 r-xp 00000000 08:07 83150                      /usr/lib64/jvm/java-1.6.0-sun-1.6.0/jre/lib/amd64/libjava.so
+7fe71fcaa000-7fe71fda9000 ---p 00029000 08:07 83150                      /usr/lib64/jvm/java-1.6.0-sun-1.6.0/jre/lib/amd64/libjava.so
+7fe71fda9000-7fe71fdb0000 rwxp 00028000 08:07 83150                      /usr/lib64/jvm/java-1.6.0-sun-1.6.0/jre/lib/amd64/libjava.so
+7fe71fdb0000-7fe71fdbd000 r-xp 00000000 08:07 83169                      /usr/lib64/jvm/java-1.6.0-sun-1.6.0/jre/lib/amd64/libverify.so
+7fe71fdbd000-7fe71febc000 ---p 0000d000 08:07 83169                      /usr/lib64/jvm/java-1.6.0-sun-1.6.0/jre/lib/amd64/libverify.so
+7fe71febc000-7fe71febf000 rwxp 0000c000 08:07 83169                      /usr/lib64/jvm/java-1.6.0-sun-1.6.0/jre/lib/amd64/libverify.so
+7fe71febf000-7fe71fec7000 r-xp 00000000 08:07 141318                     /lib64/librt-2.10.1.so
+7fe71fec7000-7fe7200c6000 ---p 00008000 08:07 141318                     /lib64/librt-2.10.1.so
+7fe7200c6000-7fe7200c7000 r-xp 00007000 08:07 141318                     /lib64/librt-2.10.1.so
+7fe7200c7000-7fe7200c8000 rwxp 00008000 08:07 141318                     /lib64/librt-2.10.1.so
+7fe7200c8000-7fe7200cb000 ---p 00000000 00:00 0 
+7fe7200cb000-7fe7201c9000 rwxp 00000000 00:00 0 
+7fe7201c9000-7fe72021d000 r-xp 00000000 08:07 141260                     /lib64/libm-2.10.1.so
+7fe72021d000-7fe72041c000 ---p 00054000 08:07 141260                     /lib64/libm-2.10.1.so
+7fe72041c000-7fe72041d000 r-xp 00053000 08:07 141260                     /lib64/libm-2.10.1.so
+7fe72041d000-7fe72041e000 rwxp 00054000 08:07 141260                     /lib64/libm-2.10.1.so
+7fe72041e000-7fe720b7c000 r-xp 00000000 08:07 83175                      /usr/lib64/jvm/java-1.6.0-sun-1.6.0/jre/lib/amd64/server/libjvm.so
+7fe720b7c000-7fe720c7b000 ---p 0075e000 08:07 83175                      /usr/lib64/jvm/java-1.6.0-sun-1.6.0/jre/lib/amd64/server/libjvm.so
+7fe720c7b000-7fe720df3000 rwxp 0075d000 08:07 83175                      /usr/lib64/jvm/java-1.6.0-sun-1.6.0/jre/lib/amd64/server/libjvm.so
+7fe720df3000-7fe720e31000 rwxp 00000000 00:00 0 
+7fe720e31000-7fe720f82000 r-xp 00000000 08:07 141282                     /lib64/libc-2.10.1.so
+7fe720f82000-7fe721182000 ---p 00151000 08:07 141282                     /lib64/libc-2.10.1.so
+7fe721182000-7fe721186000 r-xp 00151000 08:07 141282                     /lib64/libc-2.10.1.so
+7fe721186000-7fe721187000 rwxp 00155000 08:07 141282                     /lib64/libc-2.10.1.so
+7fe721187000-7fe72118c000 rwxp 00000000 00:00 0 
+7fe72118c000-7fe72118e000 r-xp 00000000 08:07 141250                     /lib64/libdl-2.10.1.so
+7fe72118e000-7fe72138e000 ---p 00002000 08:07 141250                     /lib64/libdl-2.10.1.so
+7fe72138e000-7fe72138f000 r-xp 00002000 08:07 141250                     /lib64/libdl-2.10.1.so
+7fe72138f000-7fe721390000 rwxp 00003000 08:07 141250                     /lib64/libdl-2.10.1.so
+7fe721390000-7fe7213a6000 r-xp 00000000 08:07 131786                     /lib64/libpthread-2.10.1.so
+7fe7213a6000-7fe7215a6000 ---p 00016000 08:07 131786                     /lib64/libpthread-2.10.1.so
+7fe7215a6000-7fe7215a7000 r-xp 00016000 08:07 131786                     /lib64/libpthread-2.10.1.so
+7fe7215a7000-7fe7215a8000 rwxp 00017000 08:07 131786                     /lib64/libpthread-2.10.1.so
+7fe7215a8000-7fe7215ac000 rwxp 00000000 00:00 0 
+7fe7215ac000-7fe7215ca000 r-xp 00000000 08:07 131393                     /lib64/ld-2.10.1.so
+7fe7215ca000-7fe7215cb000 r-xs 00000000 08:05 15008321                   /home/programs/Netbeans/netbeans-6.7.1/nb6.7/core/locale/core_nb_pt_BR.jar
+7fe7215cb000-7fe7215cc000 r-xs 00000000 08:05 15008322                   /home/programs/Netbeans/netbeans-6.7.1/nb6.7/core/locale/core_nb_zh_CN.jar
+7fe7215cc000-7fe7215cd000 r-xs 00002000 08:05 13336716                   /home/jsg210/NetBeansProjects/MPUR/build/cluster/core/locale/core_timpgui.jar
+7fe7215cd000-7fe7215ce000 r-xs 00001000 08:05 15007885                   /home/programs/Netbeans/netbeans-6.7.1/platform10/core/locale/org-openide-filesystems_pt_BR.jar
+7fe7215ce000-7fe7215cf000 r-xs 00001000 08:05 15008091                   /home/programs/Netbeans/netbeans-6.7.1/platform10/core/locale/core_zh_CN.jar
+7fe7215cf000-7fe7215d0000 r-xs 00001000 08:05 15007886                   /home/programs/Netbeans/netbeans-6.7.1/platform10/core/locale/org-openide-filesystems_zh_CN.jar
+7fe7215d0000-7fe7215d1000 r-xs 00001000 08:05 15008090                   /home/programs/Netbeans/netbeans-6.7.1/platform10/core/locale/core_pt_BR.jar
+7fe7215d1000-7fe7215d2000 r-xs 00001000 08:05 15008103                   /home/programs/Netbeans/netbeans-6.7.1/platform10/core/locale/core_ja.jar
+7fe7215d2000-7fe7215d3000 r-xs 00001000 08:05 15007920                   /home/programs/Netbeans/netbeans-6.7.1/platform10/core/locale/org-openide-filesystems_ja.jar
+7fe7215d3000-7fe7215d8000 r-xs 00095000 08:05 15008109                   /home/programs/Netbeans/netbeans-6.7.1/platform10/core/core.jar
+7fe7215d8000-7fe7215dd000 r-xs 00099000 08:05 15008046                   /home/programs/Netbeans/netbeans-6.7.1/platform10/core/org-openide-filesystems.jar
+7fe7215dd000-7fe7215e7000 rwxp 00000000 00:00 0 
+7fe7215e7000-7fe72169d000 rwxp 00000000 00:00 0 
+7fe72169d000-7fe72169f000 rwxp 00000000 00:00 0 
+7fe72169f000-7fe7216a6000 r-xp 00000000 08:07 83124                      /usr/lib64/jvm/java-1.6.0-sun-1.6.0/jre/lib/amd64/jli/libjli.so
+7fe7216a6000-7fe7217a7000 ---p 00007000 08:07 83124                      /usr/lib64/jvm/java-1.6.0-sun-1.6.0/jre/lib/amd64/jli/libjli.so
+7fe7217a7000-7fe7217a9000 rwxp 00008000 08:07 83124                      /usr/lib64/jvm/java-1.6.0-sun-1.6.0/jre/lib/amd64/jli/libjli.so
+7fe7217a9000-7fe7217aa000 rwxp 00000000 00:00 0 
+7fe7217aa000-7fe7217ab000 r-xs 00000000 08:05 15008290                   /home/programs/Netbeans/netbeans-6.7.1/nb6.7/core/locale/org-netbeans-upgrader_zh_CN.jar
+7fe7217ab000-7fe7217b2000 r-xs 00097000 08:05 15008102                   /home/programs/Netbeans/netbeans-6.7.1/platform10/lib/org-openide-util.jar
+7fe7217b2000-7fe7217b4000 r-xs 00006000 08:05 15008088                   /home/programs/Netbeans/netbeans-6.7.1/platform10/lib/org-openide-modules.jar
+7fe7217b4000-7fe7217b6000 r-xs 0003e000 08:05 15008110                   /home/programs/Netbeans/netbeans-6.7.1/platform10/lib/boot.jar
+7fe7217b6000-7fe7217bd000 r-xs 00000000 08:07 2000                       /usr/lib64/gconv/gconv-modules.cache
+7fe7217bd000-7fe7217c5000 rwxs 00000000 08:07 22356                      /tmp/hsperfdata_jsg210/30115
+7fe7217c5000-7fe7217c6000 rwxp 00000000 00:00 0 
+7fe7217c6000-7fe7217c7000 r-xp 00000000 00:00 0 
+7fe7217c7000-7fe7217c9000 rwxp 00000000 00:00 0 
+7fe7217c9000-7fe7217ca000 r-xp 0001d000 08:07 131393                     /lib64/ld-2.10.1.so
+7fe7217ca000-7fe7217cb000 rwxp 0001e000 08:07 131393                     /lib64/ld-2.10.1.so
+7fff17d43000-7fff17d59000 rwxp 00000000 00:00 0                          [stack]
+7fff17dff000-7fff17e00000 r-xp 00000000 00:00 0                          [vdso]
+ffffffffff600000-ffffffffff601000 r-xp 00000000 00:00 0                  [vsyscall]
+
+VM Arguments:
+jvm_args: -Djdk.home=/usr/lib64/jvm/java-1.6.0-sun-1.6.0 -Dnetbeans.dirs=/home/jsg210/NetBeansProjects/MPUR/build/cluster:/home/programs/Netbeans/netbeans-6.7.1/apisupport1:/home/programs/Netbeans/netbeans-6.7.1/harness:/home/programs/Netbeans/netbeans-6.7.1/ide11:/home/programs/Netbeans/netbeans-6.7.1/java2:/home/programs/Netbeans/netbeans-6.7.1/nb6.7:/home/programs/Netbeans/netbeans-6.7.1/platform10:/home/programs/Netbeans/netbeans-6.7.1/profiler3:/home/programs/Netbeans/netbeans-6.7.1/websvccommon1 -Dnetbeans.home=/home/programs/Netbeans/netbeans-6.7.1/platform10 -Dnetbeans.logger.console=true -ea -XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=build/testuserdir/var/log/heapdump.hprof 
+java_command: org.netbeans.Main --userdir build/testuserdir --branding timpgui
+Launcher Type: SUN_STANDARD
+
+Environment Variables:
+JAVA_HOME=/usr/lib64/jvm/java
+JRE_HOME=/usr//jvm/jre
+PATH=/home/jsg210/bin:/usr/local/bin:/usr/bin:/bin:/usr/bin/X11:/usr/X11R6/bin:/usr/games:/opt/kde3/bin:/usr/lib/mit/bin:/usr/lib/mit/sbin
+LD_LIBRARY_PATH=/usr/lib64/jvm/java-1.6.0-sun-1.6.0/jre/lib/amd64/server:/usr/lib64/jvm/java-1.6.0-sun-1.6.0/jre/lib/amd64:/usr/lib64/jvm/java-1.6.0-sun-1.6.0/jre/../lib/amd64
+SHELL=/bin/bash
+DISPLAY=:0.0
+HOSTTYPE=x86_64
+OSTYPE=linux
+MACHTYPE=x86_64-suse-linux
+
+Signal Handlers:
+SIGSEGV: [libjvm.so+0x6bdd00], sa_mask[0]=0x7ffbfeff, sa_flags=0x10000004
+SIGBUS: [libjvm.so+0x6bdd00], sa_mask[0]=0x7ffbfeff, sa_flags=0x10000004
+SIGFPE: [libjvm.so+0x594ed0], sa_mask[0]=0x7ffbfeff, sa_flags=0x10000004
+SIGPIPE: [libjvm.so+0x594ed0], sa_mask[0]=0x7ffbfeff, sa_flags=0x10000004
+SIGXFSZ: [libjvm.so+0x594ed0], sa_mask[0]=0x7ffbfeff, sa_flags=0x10000004
+SIGILL: [libjvm.so+0x594ed0], sa_mask[0]=0x7ffbfeff, sa_flags=0x10000004
+SIGUSR1: SIG_DFL, sa_mask[0]=0x00000000, sa_flags=0x00000000
+SIGUSR2: [libjvm.so+0x597690], sa_mask[0]=0x00000004, sa_flags=0x10000004
+SIGHUP: [libjvm.so+0x5973e0], sa_mask[0]=0x7ffbfeff, sa_flags=0x10000004
+SIGINT: SIG_IGN, sa_mask[0]=0x00000000, sa_flags=0x00000000
+SIGTERM: [libjvm.so+0x5973e0], sa_mask[0]=0x7ffbfeff, sa_flags=0x10000004
+SIGQUIT: [libjvm.so+0x5973e0], sa_mask[0]=0x7ffbfeff, sa_flags=0x10000004
+
+
+---------------  S Y S T E M  ---------------
+
+OS:openSUSE 11.2 Milestone 7 (x86_64)
+VERSION = 11.2
+
+uname:Linux 2.6.31-rc9-7-desktop #1 SMP PREEMPT 2009-09-08 18:49:15 +0200 x86_64
+libc:glibc 2.10.1 NPTL 2.10.1 
+rlimit: STACK 8192k, CORE 0k, NPROC 62940, NOFILE 8192, AS 13165760k
+load average:1.29 0.85 0.54
+
+CPU:total 2 (2 cores per cpu, 1 threads per core) family 15 model 107 stepping 1, cmov, cx8, fxsr, mmx, sse, sse2, sse3, mmxext, 3dnow, 3dnowext
+
+Memory: 4k page, physical 8063296k(1384972k free), swap 8393888k(8391340k free)
+
+vm_info: Java HotSpot(TM) 64-Bit Server VM (14.1-b02) for linux-amd64 JRE (1.6.0_15-b03), built on Jul  2 2009 15:26:16 by "java_re" with gcc 3.2.2 (SuSE Linux)
+
+time: Wed Sep 30 15:42:03 2009
+elapsed time: 21 seconds
+

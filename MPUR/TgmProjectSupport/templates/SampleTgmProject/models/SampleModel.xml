@@ -53,7 +53,7 @@
             <ns0:fixed>false</ns0:fixed>
             <ns0:fixed>false</ns0:fixed>
             <ns0:fixed>false</ns0:fixed>
-            <ns0:backsweepEnabled></ns0:backsweepEnabled>
+            <ns0:backsweepEnabled>false</ns0:backsweepEnabled>
             <ns0:backsweepPeriod></ns0:backsweepPeriod>
         </ns0:irfparPanel>
         <ns0:cohspecPanel>

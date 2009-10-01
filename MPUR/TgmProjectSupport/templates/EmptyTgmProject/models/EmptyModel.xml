@@ -26,7 +26,7 @@
             <ns0:dispmu>false</ns0:dispmu>
             <ns0:disptau>false</ns0:disptau>
             <ns0:lamda>NaN</ns0:lamda>
-            <ns0:backsweepEnabled></ns0:backsweepEnabled>
+            <ns0:backsweepEnabled>false</ns0:backsweepEnabled>
             <ns0:backsweepPeriod></ns0:backsweepPeriod>
         </ns0:irfparPanel>
         <ns0:cohspecPanel>

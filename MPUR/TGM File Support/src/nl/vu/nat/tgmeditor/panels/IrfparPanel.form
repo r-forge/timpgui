@@ -48,7 +48,7 @@
                   <Component id="jSNumOfIrfParameters" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="jScrollPane3" pref="110" max="32767" attributes="0"/>
+              <Component id="jScrollPane3" pref="109" max="32767" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
               <Component id="jPanel3" min="-2" pref="221" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
@@ -66,7 +66,7 @@
     </Component>
     <Component class="javax.swing.JSpinner" name="jSNumOfIrfParameters">
       <Events>
-        <EventHandler event="stateChanged" listener="javax.swing.event.ChangeListener" parameters="javax.swing.event.ChangeEvent" handler="jSNumOfIrfParametersStateChanged,jSNumOfComponents2StateChanged"/>
+        <EventHandler event="stateChanged" listener="javax.swing.event.ChangeListener" parameters="javax.swing.event.ChangeEvent" handler="jSNumOfIrfParametersStateChanged"/>
       </Events>
     </Component>
     <Container class="javax.swing.JScrollPane" name="jScrollPane3">
@@ -77,6 +77,9 @@
       <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
       <SubComponents>
         <Component class="javax.swing.JTable" name="jTIrfparTable">
+          <Properties>
+            <Property name="rowHeight" type="int" value="20"/>
+          </Properties>
         </Component>
       </SubComponents>
     </Container>
@@ -200,9 +203,6 @@
                 <Property name="text" type="java.lang.String" value="&quot;discrete&quot; (with one parameter per-wavelength)"/>
                 <Property name="toolTipText" type="java.lang.String" value="disptaufun: *** Object of class &quot;character&quot; describing the functional form of the disper-&#xa;    sion of the IRF width parameter; if equal to &quot;discrete&quot; then the IRF width is parame-&#xa;    terized per element of x2 and partau should have the same length as x2. defaults to a&#xa;    polynomial description&#xa;"/>
               </Properties>
-              <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jRDispmufun_discreteActionPerformed"/>
-              </Events>
             </Component>
             <Component class="javax.swing.JLabel" name="jLabel5">
               <Properties>
@@ -280,18 +280,12 @@
                 </Property>
                 <Property name="text" type="java.lang.String" value="&quot;discrete&quot; (with one parameter per-wavelength)"/>
               </Properties>
-              <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jRDisptaufun_discreteActionPerformed"/>
-              </Events>
             </Component>
             <Component class="javax.swing.JTextField" name="jPartauTextfield">
               <Properties>
                 <Property name="columns" type="int" value="10"/>
                 <Property name="toolTipText" type="java.lang.String" value="partau: *** Object of class &quot;vector&quot; of starting values for the dispersion model for the IRF FWHM&#xa;[Enter as R string]&#xa;"/>
               </Properties>
-              <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jPartauTextfieldActionPerformed"/>
-              </Events>
             </Component>
             <Component class="javax.swing.JLabel" name="jLabel7">
               <Properties>
@@ -349,7 +343,7 @@
                       <Component id="jLabel2" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="jTFLaserPeriod" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
-                  <EmptySpace pref="13" max="32767" attributes="0"/>
+                  <EmptySpace pref="15" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>

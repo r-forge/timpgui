@@ -1,6 +1,7 @@
 package nl.vu.nat.tgmeditor.panels;
 
 import javax.swing.JComponent;
+import javax.swing.JScrollPane;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
@@ -21,9 +22,10 @@ public class IrfparPanel extends SectionInnerPanel {
     private TgmDataObject dObj;
     private IrfparPanelModel irfparPanelModel;
     private IrfparTableModel model;
+    private RowHeader rowHeader;
     private Object[] defRow;
-    private Object[] colNames;
     private Object[] newRow;
+    private String[] rowNames;
 
     public IrfparPanel(SectionView view, TgmDataObject dObj, IrfparPanelModel irfparPanelModel) {
         super(view);
@@ -31,11 +33,13 @@ public class IrfparPanel extends SectionInnerPanel {
         this.irfparPanelModel = irfparPanelModel;
         initComponents();
 
-        jSNumOfIrfParameters.setModel(new SpinnerNumberModel(irfparPanelModel.getIrf().size(), 0, null, 1));
+        jSNumOfIrfParameters.setModel(new SpinnerNumberModel(irfparPanelModel.getIrf().size(), 0, 4, 2));
+
+        rowHeader = new RowHeader(20,50);
+        rowNames = new String[]{"Position", "Width", "Width2", "Relation"};
 
         defRow = new Object[]{new Double(0), new Boolean(false)};
-        colNames = new Object[]{"Irf parameters (location, width, ...).", "Fixed"};
-        model = new IrfparTableModel(colNames, 0);
+        model = new IrfparTableModel(new Object[]{"Irf parameters", "Fixed"}, 0);
         for (int i = 0; i < irfparPanelModel.getIrf().size(); i++) {
             if (irfparPanelModel.getIrf().get(i) != null) {
                 newRow = new Object[]{
@@ -46,10 +50,14 @@ public class IrfparPanel extends SectionInnerPanel {
             } else {
                 model.addRow(defRow);
             }
-
-            jTIrfparTable.setModel(model);
         }
 
+        jTIrfparTable.setModel(model);
+        JScrollPane jscpane = (JScrollPane) jTIrfparTable.getParent().getParent();
+        jscpane.setRowHeaderView(rowHeader);
+        jscpane.setCorner(JScrollPane.UPPER_LEFT_CORNER, rowHeader.getTableHeader());
+
+        
         if (irfparPanelModel.isDispmu()) {
             if (irfparPanelModel.getDispmufun().compareTo("poly") == 0) {
                 jRDispmufun_poly.setSelected(true);
@@ -76,6 +84,12 @@ public class IrfparPanel extends SectionInnerPanel {
 
         jTPolyDispersion.setText(String.valueOf(irfparPanelModel.getLamda()));
 
+        jTFLaserPeriod.setText(String.valueOf(irfparPanelModel.getBacksweepPeriod()));
+
+        jCBStreak.setSelected(irfparPanelModel.isBacksweepEnabled());
+
+        jTFLaserPeriod.setEnabled(jCBStreak.isSelected());
+        jLabel2.setEnabled(jCBStreak.isSelected());
 
         // Add listerners
         jTIrfparTable.getModel().addTableModelListener(model);
@@ -86,10 +100,12 @@ public class IrfparPanel extends SectionInnerPanel {
         addModifier(jRDisptaufun_no);
         addModifier(jRDisptaufun_poly);
         addModifier(jRDisptaufun_discrete);
+        addModifier(jCBStreak);
         // Textfields:
         addModifier(jParmuTextfield);
         addModifier(jPartauTextfield);
         addModifier(jTPolyDispersion);
+        addModifier(jTFLaserPeriod);
 
     }
 
@@ -135,10 +151,10 @@ public class IrfparPanel extends SectionInnerPanel {
         jSNumOfIrfParameters.addChangeListener(new javax.swing.event.ChangeListener() {
             public void stateChanged(javax.swing.event.ChangeEvent evt) {
                 jSNumOfIrfParametersStateChanged(evt);
-                jSNumOfComponents2StateChanged(evt);
             }
         });
 
+        jTIrfparTable.setRowHeight(20);
         jScrollPane3.setViewportView(jTIrfparTable);
 
         jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder("Parameters to model IRF dispersion"));
@@ -160,11 +176,6 @@ public class IrfparPanel extends SectionInnerPanel {
         buttonGroup1.add(jRDispmufun_discrete);
         jRDispmufun_discrete.setText("\"discrete\" (with one parameter per-wavelength)");
         jRDispmufun_discrete.setToolTipText("disptaufun: *** Object of class \"character\" describing the functional form of the disper-\n    sion of the IRF width parameter; if equal to \"discrete\" then the IRF width is parame-\n    terized per element of x2 and partau should have the same length as x2. defaults to a\n    polynomial description\n");
-        jRDispmufun_discrete.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jRDispmufun_discreteActionPerformed(evt);
-            }
-        });
 
         jLabel5.setText("parameters for dispersion of IRF location");
 
@@ -212,19 +223,9 @@ public class IrfparPanel extends SectionInnerPanel {
 
         buttonGroup2.add(jRDisptaufun_discrete);
         jRDisptaufun_discrete.setText("\"discrete\" (with one parameter per-wavelength)");
-        jRDisptaufun_discrete.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jRDisptaufun_discreteActionPerformed(evt);
-            }
-        });
 
         jPartauTextfield.setColumns(10);
         jPartauTextfield.setToolTipText("partau: *** Object of class \"vector\" of starting values for the dispersion model for the IRF FWHM\n[Enter as R string]\n");
-        jPartauTextfield.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jPartauTextfieldActionPerformed(evt);
-            }
-        });
 
         jLabel7.setText("parameters for dispersion of IRF width");
 
@@ -327,7 +328,7 @@ public class IrfparPanel extends SectionInnerPanel {
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
                     .addComponent(jTFLaserPeriod, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(13, Short.MAX_VALUE))
+                .addContainerGap(15, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -355,7 +356,7 @@ public class IrfparPanel extends SectionInnerPanel {
                     .addComponent(jLabel4)
                     .addComponent(jSNumOfIrfParameters, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 110, Short.MAX_VALUE)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 109, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 221, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -368,39 +369,24 @@ private void jSNumOfIrfParametersStateChanged(javax.swing.event.ChangeEvent evt)
 // TODO add your handling code here:]
     if ((Integer) jSNumOfIrfParameters.getValue() > model.getRowCount()) {
         model.addRow(defRow);
+        model.addRow(defRow);
+        rowHeader.addRow(rowNames[(Integer)jSNumOfIrfParameters.getValue()-2]);
+        rowHeader.addRow(rowNames[(Integer)jSNumOfIrfParameters.getValue()-1]);
     } else {
         model.removeRow(model.getRowCount() - 1);
+        model.removeRow(model.getRowCount() - 1);
+        rowHeader.removeRow(rowHeader.getRowCount() - 1);
+        rowHeader.removeRow(rowHeader.getRowCount() - 1);
+
     }
-    jTIrfparTable.setModel(model);
+//    jTIrfparTable.setModel(model);
     setValue(jTIrfparTable,this);    
 }//GEN-LAST:event_jSNumOfIrfParametersStateChanged
 
-private void jRDispmufun_discreteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRDispmufun_discreteActionPerformed
-// TODO add your handling code here:
-}//GEN-LAST:event_jRDispmufun_discreteActionPerformed
-
-private void jPartauTextfieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jPartauTextfieldActionPerformed
-// TODO add your handling code here:
-}//GEN-LAST:event_jPartauTextfieldActionPerformed
-
-private void jRDisptaufun_discreteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRDisptaufun_discreteActionPerformed
-// TODO add your handling code here:
-}//GEN-LAST:event_jRDisptaufun_discreteActionPerformed
-
-private void jSNumOfComponents2StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jSNumOfComponents2StateChanged
-// TODO add your handling code here:
-}//GEN-LAST:event_jSNumOfComponents2StateChanged
-
 private void jCBStreakActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCBStreakActionPerformed
-
-    if (jCBStreak.isSelected()){
-        jTFLaserPeriod.setEnabled(true);
-        jLabel2.setEnabled(true);
-    }
-    else {
-        jTFLaserPeriod.setEnabled(false);
-        jLabel2.setEnabled(false);
-    }
+        jTFLaserPeriod.setEnabled(jCBStreak.isSelected());
+        jLabel2.setEnabled(jCBStreak.isSelected());
+    
 }//GEN-LAST:event_jCBStreakActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -435,21 +421,15 @@ private void jCBStreakActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIR
     @Override
     public void setValue(JComponent source, Object value) {
         if (source == jTIrfparTable) {
-            //Adds or removes a colum
-            if (model.getRowCount() > irfparPanelModel.getIrf().size()) {
-                irfparPanelModel.getIrf().add(new Double(0));
-                irfparPanelModel.getFixed().add(new Boolean(false));
-                endUIChange();
-            } else if (model.getRowCount() < irfparPanelModel.getIrf().size()) {
-                irfparPanelModel.getIrf().remove(irfparPanelModel.getIrf().size() - 1);
-                irfparPanelModel.getFixed().remove(irfparPanelModel.getFixed().size() - 1);
-                endUIChange();
-            }
+            irfparPanelModel.getIrf().clear();
+            irfparPanelModel.getFixed().clear();
+
             for (int i = 0; i < model.getRowCount(); i++) {
-                irfparPanelModel.getIrf().set(i, (Double) model.getValueAt(i, 0));
-                irfparPanelModel.getFixed().set(i, (Boolean) model.getValueAt(i, 1));
+                irfparPanelModel.getIrf().add((Double) model.getValueAt(i, 0));
+                irfparPanelModel.getFixed().add((Boolean) model.getValueAt(i, 1));
             }
         }
+
         if (source == jRDispmufun_no) {
             irfparPanelModel.setDispmu(false);
         }
@@ -481,6 +461,15 @@ private void jCBStreakActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIR
         if (source == jTPolyDispersion) {
             irfparPanelModel.setLamda(Double.valueOf((String) value));
         }
+
+        if (source == jCBStreak) {
+            irfparPanelModel.setBacksweepEnabled(jCBStreak.isSelected());
+        }
+
+        if (source == jTFLaserPeriod) {
+            irfparPanelModel.setBacksweepPeriod(Double.valueOf(jTFLaserPeriod.getText()));
+        }
+
 
         endUIChange();
     }

@@ -211,25 +211,29 @@ public class InitModel {
     }
 
     private static String get_irf(Tgm tgm) {
-
-        String m = "irfpar = ";
+        String irfStr = null;
         IrfparPanelModel irfPanel = tgm.getDat().getIrfparPanel();
         int count = 0;
-        for (int i = 0; i < irfPanel.getIrf().size(); i++) {
-            if (count > 0) {
-                m = m + ",";
-            } else {
-                m = m + "c(";
+        if (irfPanel.getIrf().size()>0){
+            irfStr = "irfpar = ";
+            for (int i = 0; i < irfPanel.getIrf().size(); i++) {
+                if (count > 0) {
+                    irfStr = irfStr + ",";
+                } else {
+                    irfStr = irfStr + "c(";
+                }
+                irfStr = irfStr + Double.toString(irfPanel.getIrf().get(i));
+                count++;
             }
-            m = m + Double.toString(irfPanel.getIrf().get(i));
-            count++;
+            irfStr = irfStr + ")";
+        
+            if (irfPanel.getIrf().size()==4)
+                irfStr = irfStr+", doublegaus = TRUE";
+            if (irfPanel.isBacksweepEnabled()){
+                irfStr = irfStr+", streak = TRUE, streakT = "+String.valueOf(irfPanel.getBacksweepPeriod())+")";
+            }
         }
-        if (count > 0) {
-            m = m + ")";
-        } else {
-            m = m + "vector()";
-        }
-        return m;
+        return irfStr;
     }
 //
 //   private static String get_dispmufun(Tgm tgm) {
@@ -314,12 +318,10 @@ public class InitModel {
                 parmuStr = "disptaufun = \"discrete\"";
             }
         }
-
         return parmuStr;
     }
 
     private static String get_fixed(Tgm tgm) {
-
         String fixedStr = null;
         KinparPanelModel kinparPanelModel = tgm.getDat().getKinparPanel();
         int count = 0;

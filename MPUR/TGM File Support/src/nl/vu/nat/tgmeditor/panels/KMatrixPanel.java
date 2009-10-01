@@ -11,7 +11,7 @@ import javax.swing.SpinnerNumberModel;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
-import nl.vu.nat.tgmodels.tgm.DoubleMatrix.Data;
+import nl.vu.nat.tgmodels.tgm.IntMatrix.Data;
 import nl.vu.nat.tgmodels.tgm.KMatrixPanelModel;
 
 /**
@@ -41,7 +41,7 @@ public class KMatrixPanel extends SectionInnerPanel implements TableModelListene
         rowHeaderCLP0 = new  RowHeader(20, 30);
         initComponents();
 
-        matrixSize = kMatrixPanelModel.getJVector().size();
+        matrixSize = kMatrixPanelModel.getJVector().getVector().size();
         jSNumOfComponents.setModel(new SpinnerNumberModel(matrixSize, 0, null, 1));
 
         model1 = new KMatrixTableModel(0, 0);
@@ -75,8 +75,9 @@ public class KMatrixPanel extends SectionInnerPanel implements TableModelListene
 
         for (int i = 0; i <matrixSize; i++){
             //model1.addRow(kMatrixPanelModel.getK1Matrix().getRow()[i].toArray().clone());
-            model1.addRow(kMatrixPanelModel.getK1Matrix().getData().get(i).getRow().toArray().clone());
-            model2.addRow(kMatrixPanelModel.getK2Matrix().getData().get(i).getRow().toArray().clone());
+            model1.addRow(kMatrixPanelModel.getKMatrix().getData().get(i).getRow().toArray().clone());
+            //TODO: fix this. add code for contrains matrix
+            //model2.addRow(kMatrixPanelModel.getK2Matrix().getData().get(i).getRow().toArray().clone());
             rowHeader1.addRow(String.valueOf(i));
             rowHeader2.addRow(String.valueOf(i));
         }
@@ -135,7 +136,7 @@ public class KMatrixPanel extends SectionInnerPanel implements TableModelListene
 
         if (source ==jTKMatrix) {
             int val;
-            kMatrixPanelModel.getK1Matrix().getData().clear();
+            kMatrixPanelModel.getKMatrix().getData().clear();
             Data tempData;
             for (int j=0; j<matrixSize; j++){
                 tempData = new Data();
@@ -146,7 +147,7 @@ public class KMatrixPanel extends SectionInnerPanel implements TableModelListene
                         val =(Integer)model1.getValueAt(j, i);
                    tempData.getRow().add(val);
                 }
-                kMatrixPanelModel.getK1Matrix().getData().add(tempData);
+                kMatrixPanelModel.getKMatrix().getData().add(tempData);
             }
         
         
@@ -173,20 +174,20 @@ public class KMatrixPanel extends SectionInnerPanel implements TableModelListene
 //            }
         }
         if (source ==jTBranches) {
-            int val;
-            kMatrixPanelModel.getK2Matrix().getData().clear();
-            Data tempData;
-            for (int j=0; j<matrixSize; j++){
-                tempData = new Data();
-                for (int i=0; i<matrixSize; i++){
-                    if (model2.getValueAt(j, i) == null)
-                        val = 0;
-                    else
-                        val =(Integer)model2.getValueAt(j, i);
-                   tempData.getRow().add(val);
-                }
-                kMatrixPanelModel.getK2Matrix().getData().add(tempData);
-            }
+//            int val;
+//            kMatrixPanelModel.getK2Matrix().getData().clear();
+//            Data tempData;
+//            for (int j=0; j<matrixSize; j++){
+//                tempData = new Data();
+//                for (int i=0; i<matrixSize; i++){
+//                    if (model2.getValueAt(j, i) == null)
+//                        val = 0;
+//                    else
+//                        val =(Integer)model2.getValueAt(j, i);
+//                   tempData.getRow().add(val);
+//                }
+//                kMatrixPanelModel.getK2Matrix().getData().add(tempData);
+//            }
         }
 
         if (source ==jTJVector) {

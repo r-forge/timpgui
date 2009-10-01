@@ -2,7 +2,7 @@
 
 <!--
     Document   : TgmSchema.xml
-    Created on : September 21, 2009, 1:40 PM
+    Created on : October 1, 2009, 10:09 AM
     Author     : jsg210
     Description:
         Purpose of the document follows.
@@ -53,6 +53,8 @@
             <ns0:fixed>false</ns0:fixed>
             <ns0:fixed>false</ns0:fixed>
             <ns0:fixed>false</ns0:fixed>
+            <ns0:backsweepEnabled></ns0:backsweepEnabled>
+            <ns0:backsweepPeriod></ns0:backsweepPeriod>
         </ns0:irfparPanel>
         <ns0:cohspecPanel>
             <ns0:cohspec>
@@ -60,6 +62,9 @@
                 <ns0:set>false</ns0:set>
             </ns0:cohspec>
             <ns0:coh></ns0:coh>
+            <ns0:clp0Enabled></ns0:clp0Enabled>
+            <ns0:clp0Min></ns0:clp0Min>
+            <ns0:clp0Max></ns0:clp0Max>
         </ns0:cohspecPanel>
         <ns0:flimPanel>
             <ns0:mirf>false</ns0:mirf>
@@ -67,7 +72,7 @@
             <ns0:reftau>NaN</ns0:reftau>
         </ns0:flimPanel>
         <ns0:kMatrixPanel>
-            <ns0:k1matrix>
+            <ns0:kMatrix>
                 <ns0:data>
                     <ns0:row></ns0:row>
                     <ns0:row></ns0:row>
@@ -83,27 +88,49 @@
                     <ns0:row></ns0:row>
                     <ns0:row></ns0:row>
                 </ns0:data>
-            </ns0:k1matrix>
-            <ns0:k2matrix>
+            </ns0:kMatrix>
+            <ns0:relationsMatrix>
                 <ns0:data>
-                    <ns0:row></ns0:row>
-                    <ns0:row></ns0:row>
-                    <ns0:row></ns0:row>
+                    <ns0:c0></ns0:c0>
+                    <ns0:c0></ns0:c0>
+                    <ns0:c0></ns0:c0>
+                    <ns0:c1></ns0:c1>
+                    <ns0:c1></ns0:c1>
+                    <ns0:c1></ns0:c1>
+                    <ns0:c0fixed></ns0:c0fixed>
+                    <ns0:c0fixed></ns0:c0fixed>
+                    <ns0:c0fixed></ns0:c0fixed>
+                    <ns0:c1fixed></ns0:c1fixed>
+                    <ns0:c1fixed></ns0:c1fixed>
+                    <ns0:c1fixed></ns0:c1fixed>
                 </ns0:data>
+            </ns0:relationsMatrix>
+            <ns0:jVector>
+                <ns0:vector></ns0:vector>
+                <ns0:vector></ns0:vector>
+                <ns0:vector></ns0:vector>
+                <ns0:fixed></ns0:fixed>
+                <ns0:fixed></ns0:fixed>
+                <ns0:fixed></ns0:fixed>
+            </ns0:jVector>
+            <ns0:spectralContraints>
+                <ns0:min></ns0:min>
+                <ns0:min></ns0:min>
+                <ns0:min></ns0:min>
+                <ns0:max></ns0:max>
+                <ns0:max></ns0:max>
+                <ns0:max></ns0:max>
+            </ns0:spectralContraints>
+            <ns0:contrainsMatrix>
                 <ns0:data>
-                    <ns0:row></ns0:row>
-                    <ns0:row></ns0:row>
-                    <ns0:row></ns0:row>
+                    <ns0:min></ns0:min>
+                    <ns0:min></ns0:min>
+                    <ns0:min></ns0:min>
+                    <ns0:max></ns0:max>
+                    <ns0:max></ns0:max>
+                    <ns0:max></ns0:max>
                 </ns0:data>
-                <ns0:data>
-                    <ns0:row></ns0:row>
-                    <ns0:row></ns0:row>
-                    <ns0:row></ns0:row>
-                </ns0:data>
-            </ns0:k2matrix>
-            <ns0:jVector></ns0:jVector>
-            <ns0:jVector></ns0:jVector>
-            <ns0:jVector></ns0:jVector>
+            </ns0:contrainsMatrix>
         </ns0:kMatrixPanel>
         <ns0:weightParPanel>
             <ns0:weightpar>

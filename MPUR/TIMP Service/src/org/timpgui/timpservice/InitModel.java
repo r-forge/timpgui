@@ -110,30 +110,32 @@ public class InitModel {
 
         KMatrixPanelModel kMatrix = tgm.getDat().getKMatrixPanel();
 
-        int matrixSize = kMatrix.getJVector().size();
+        int matrixSize = kMatrix.getJVector().getVector().size();
         if (matrixSize > 0) {
             kMatrixCall = "kmat = array(c(";
-            kMatrixCall = kMatrixCall.concat(String.valueOf(kMatrix.getK1Matrix().getData().get(0).getRow().get(0)));
+            kMatrixCall = kMatrixCall.concat(String.valueOf(kMatrix.getKMatrix().getData().get(0).getRow().get(0)));
             for (int j = 1; j < matrixSize; j++) {
-                kMatrixCall = kMatrixCall.concat("," + String.valueOf(kMatrix.getK1Matrix().getData().get(j).getRow().get(0)));
+                kMatrixCall = kMatrixCall.concat("," + String.valueOf(kMatrix.getKMatrix().getData().get(j).getRow().get(0)));
             }
             for (int i = 1; i < matrixSize; i++) {
                 for (int j = 0; j < matrixSize; j++) {
-                    kMatrixCall = kMatrixCall.concat("," + String.valueOf(kMatrix.getK1Matrix().getData().get(j).getRow().get(i)));
+                    kMatrixCall = kMatrixCall.concat("," + String.valueOf(kMatrix.getKMatrix().getData().get(j).getRow().get(i)));
                 }
             }
-            for (int i = 0; i < matrixSize; i++) {
-                for (int j = 0; j < matrixSize; j++) {
-                    kMatrixCall = kMatrixCall.concat("," + String.valueOf(kMatrix.getK2Matrix().getData().get(j).getRow().get(i)));
-                }
-            }
+            //TODO: fix relations matrix
+//            for (int i = 0; i < matrixSize; i++) {
+//                for (int j = 0; j < matrixSize; j++) {
+//                    kMatrixCall = kMatrixCall.concat("," + String.valueOf(kMatrix.getK2Matrix().getData().get(j).getRow().get(i)));
+//                }
+//            }
 
             kMatrixCall = kMatrixCall.concat("), dim = c(");
             kMatrixCall = kMatrixCall.concat(String.valueOf(matrixSize) + "," + String.valueOf(matrixSize) + ",2))");
             kMatrixCall = kMatrixCall.concat(", jvec = c(");
-            kMatrixCall = kMatrixCall.concat(String.valueOf(kMatrix.getJVector().get(0)));
+            //TODO: verify jVector
+            kMatrixCall = kMatrixCall.concat(String.valueOf(kMatrix.getJVector().getVector().get(0)));
             for (int j = 1; j < matrixSize; j++) {
-                kMatrixCall = kMatrixCall.concat("," + String.valueOf(kMatrix.getJVector().get(j)));
+                kMatrixCall = kMatrixCall.concat("," + String.valueOf(kMatrix.getJVector().getVector().get(j)));
             }
             kMatrixCall = kMatrixCall.concat(")");
         }

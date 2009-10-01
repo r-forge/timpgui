@@ -17,14 +17,14 @@ public class RelationColumn extends TableColumn{
             super();
             super.width = 30;
             super.setPreferredWidth(30);
-            super.setCellEditor(new JVectorCellEditor());
+            super.setCellEditor(new RelationCellEditor());
             super.setCellRenderer(new RelationCellRenderer());
         }
 
         RelationColumn(int modelIndex){
             super(modelIndex, 30);
             headerValue = String.valueOf(modelIndex+1);
-            super.setCellEditor(new JVectorCellEditor());
+            super.setCellEditor(new RelationCellEditor());
             super.setCellRenderer(new RelationCellRenderer());
 
         }
@@ -32,7 +32,7 @@ public class RelationColumn extends TableColumn{
         RelationColumn(int modelIndex, int width){
             super(modelIndex, width);
             headerValue = String.valueOf(modelIndex+1);
-            super.setCellEditor(new JVectorCellEditor());
+            super.setCellEditor(new RelationCellEditor());
             super.setCellRenderer(new RelationCellRenderer());
         }
 

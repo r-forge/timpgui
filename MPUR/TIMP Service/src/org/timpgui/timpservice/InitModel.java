@@ -500,8 +500,52 @@ public class InitModel {
     }
 
     private static String get_clpequspec(Tgm tgm) {
-        throw new UnsupportedOperationException("Not yet implemented");
+        String clpequspecCall = null;
+        int count =0;
+        KMatrixPanelModel kMatrixPanel = tgm.getDat().getKMatrixPanel();
+        int size = kMatrixPanel.getContrainsMatrix().getData().size();
+         for (int i = 0; i < size; i++) { // to
+            for(int j =0; j< size; j++) { // from
+                Double min = kMatrixPanel.getContrainsMatrix().getData().get(i).getMin().get(j);
+                Double max = kMatrixPanel.getContrainsMatrix().getData().get(i).getMax().get(j);
+                if(min!=null && max!=null) {
+                    if (count==0) {
+                        clpequspecCall = "clpequspec = list(";
+                    }
+                    clpequspecCall = clpequspecCall + "list(" +
+                            "to=" + String.valueOf(i) +
+                            "from=" + String.valueOf(j) +
+                            "low=" + String.valueOf(min) +
+                            "high=" + String.valueOf(max) + ")";
+                    count++;
+                }
+                if (count>0){
+                    clpequspecCall = clpequspecCall + ")";
+                    clpequspecCall = clpequspecCall + get_clpequ(tgm, count);
+                }
+            }
+
+         }
+        return clpequspecCall;
     }
 
+    private static String get_clpequ(Tgm tgm, int count) {
+        String clpequCall = null;
+        for (int i = 0; i < count; i++) {
+            if (i ==0) {
+                clpequCall = "clpequ = c(";
+            } else {
+                clpequCall = clpequCall + ",";                
+            }
+            clpequCall = clpequCall + 1;
+        }
+        if(count>0) {
+            clpequCall = clpequCall +")";
+        }
+        if (clpequCall != null) {
+            clpequCall = clpequCall.concat("," + clpequCall);
+        }
+        return clpequCall;
+    }
 
 }

@@ -128,7 +128,7 @@ public class RelationCellPanel extends javax.swing.JPanel{
     public Double getC0Value() {
         Double value = null;
         try {
-           value = Double.valueOf(jTextField1.getText());
+            value = Double.valueOf(jTextField1.getText());
         } catch (Exception e) {
             value = new Double(Double.NaN);
         }

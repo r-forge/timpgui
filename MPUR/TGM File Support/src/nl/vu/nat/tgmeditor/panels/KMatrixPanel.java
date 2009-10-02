@@ -84,14 +84,14 @@ public class KMatrixPanel extends SectionInnerPanel implements TableModelListene
 //initialization of kMatr
         for (int i = 0; i <matrixSize; i++){
             model1.addRow(kMatrixPanelModel.getKMatrix().getData().get(i).getRow().toArray().clone());
-            rowHeader1.addRow(String.valueOf(i));
+            rowHeader1.addRow(String.valueOf(i+1));
         }
 
 //initialization of clpeq
         for (int i = 0; i <matrixSize; i++){
             modelClpEq.addRow(kMatrixPanelModel.getContrainsMatrix().getData().get(i).getMin().toArray().clone());
             modelClpEq.addRow(kMatrixPanelModel.getContrainsMatrix().getData().get(i).getMax().toArray().clone());
-            rowHeaderClpEq.addRow(String.valueOf(i));
+            rowHeaderClpEq.addRow(String.valueOf(i+1));
         }
 
 //initialization of relations
@@ -107,7 +107,7 @@ public class KMatrixPanel extends SectionInnerPanel implements TableModelListene
                             i, j);
                 }
             }
-            rowHeaderRelations.addRow(String.valueOf(i));
+            rowHeaderRelations.addRow(String.valueOf(i+1));
         }
 
 //add listeners
@@ -173,15 +173,21 @@ public class KMatrixPanel extends SectionInnerPanel implements TableModelListene
 //            int val;
             kMatrixPanelModel.getRelationsMatrix().getData().clear();
             Double2BoolMatrix.Data tempData;
-            for (int j=0; j<matrixSize; j++){
+            RelationValueClass val;
+            for (int i=0; i<matrixSize; i++){
                 tempData = new Double2BoolMatrix.Data();
-                for (int i=0; i<matrixSize; i++){
-          //        tempData.getC0().add(Re(jTRelations.getValueAt(j, i));
-//                   tempData.getC1().add((Double)jTRelations.getValueAt(j, i));
-//                   tempData.getC0().add((Double)jTRelations.getValueAt(j, i));
-//                   tempData.getC0().add((Double)jTRelations.getValueAt(j, i));
+                for (int j=0; j<matrixSize; j++){
+                    val = (RelationValueClass) relationsModel.getValueAt(i, j);
+                    if (val==null) {
+                        val = new RelationValueClass();
+                    }
+                        tempData.getC0().add(val.getC0());
+                        tempData.getC1().add(val.getC1());
+                        tempData.getC0Fixed().add(val.isFixedC0());
+                        tempData.getC1Fixed().add(val.isFixedC1());
+                    
                 }
-              //  kMatrixPanelModel.getK2Matrix().getData().add(tempData);
+                kMatrixPanelModel.getRelationsMatrix().getData().add(tempData);
             }
         }
 

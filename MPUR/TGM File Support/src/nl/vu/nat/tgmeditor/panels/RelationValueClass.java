@@ -18,8 +18,8 @@ public class RelationValueClass {
     RelationValueClass(){
         c0 = new Double(Double.NaN);
         c1 = new Double(Double.NaN);
-        fixedC0 = new Boolean(null);
-        fixedC1 = new Boolean(null);
+        fixedC0 = new Boolean(false);
+        fixedC1 = new Boolean(false);
     }
 
     RelationValueClass(double c0val, double c1val, boolean fixC0, boolean fixC1){

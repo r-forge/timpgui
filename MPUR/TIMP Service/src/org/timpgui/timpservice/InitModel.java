@@ -20,7 +20,7 @@ import nl.vu.nat.tgmodels.tgm.WeightParPanelModel;
  * @author Joris Snellenburg
  */
 public class InitModel {
-
+    private static String addToFixed=null;
 
 // Public classes
     public static String parseModel(Tgm tgm) {
@@ -70,12 +70,6 @@ public class InitModel {
 //       if (tempStr!=null)
 //           initModel=initModel.concat(tempStr+",");
 
-        tempStr = get_fixed(tgm);
-        if (tempStr != null) {
-            initModel = initModel.concat(tempStr + ",");
-        }
-
-
         tempStr = get_positivepar(tgm);
         if (tempStr != null) {
             initModel = initModel.concat(tempStr + ",");
@@ -96,6 +90,15 @@ public class InitModel {
             initModel = initModel.concat(tempStr + ",");
         }
 
+        tempStr = get_relations(tgm);
+        if (tempStr != null) {
+            initModel = initModel.concat(tempStr + ",");
+        }
+
+        tempStr = get_fixed(tgm);
+        if (tempStr != null) {
+            initModel = initModel.concat(tempStr + ",");
+        }
 
         tempStr = get_seqmod(tgm);
         initModel = initModel.concat(tempStr + ")");
@@ -392,9 +395,16 @@ public class InitModel {
         // TODO: add additional paramters for fixed here:
 
         // This closes the "fixed" argument
-        if (fixedStr!= null)
-            fixedStr = fixedStr + ")";
+        
 
+        if (fixedStr!= null){
+            if (addToFixed!=null)
+            fixedStr = fixedStr+"," + addToFixed + ")";
+        } else {
+            if (addToFixed!=null)
+            fixedStr = "fixed = list("+ addToFixed + ")";
+        }
+           
         return fixedStr;
     }
 
@@ -524,8 +534,9 @@ public class InitModel {
             }
          }
         // Removes last comma:
-        clpequspecCall = clpequspecCall.substring(0, clpequspecCall.length()-1);
+        
          if (count>0){
+                    clpequspecCall = clpequspecCall.substring(0, clpequspecCall.length()-1);
                     clpequspecCall = clpequspecCall + ")";
                     clpequspecCall = clpequspecCall + get_clpequ(tgm, count);
                 }
@@ -548,7 +559,68 @@ public class InitModel {
         if (clpequCall != null) {
             clpequCall =  "," + clpequCall;
         }
+        if (addToFixed!=null)
+            addToFixed = "clpequ=1:"+count;
         return clpequCall;
+    }
+
+    private static String get_relations(Tgm tgm) {
+        String relationsCall = null;
+        String fixed = null;
+        KMatrixPanelModel kMatrixPanel = tgm.getDat().getKMatrixPanel();
+        int size = kMatrixPanel.getRelationsMatrix().getData().size();
+//prelspec = list(list(what1="kinpar", what2="kinpar",ind1=6,ind2=1, start=c(0.05,0))),
+        Double c0, c1;
+        Boolean fc0, fc1;
+        int count = 0;
+        for (int i = 0; i< size; i++){
+            for (int j = 0; j< size; j++){
+                c0 = kMatrixPanel.getRelationsMatrix().getData().get(i).getC0().get(j);
+                c1 = kMatrixPanel.getRelationsMatrix().getData().get(i).getC1().get(j);
+                fc0 = kMatrixPanel.getRelationsMatrix().getData().get(i).getC0Fixed().get(j);
+                fc1 = kMatrixPanel.getRelationsMatrix().getData().get(i).getC1Fixed().get(j);
+                if((!Double.isNaN(c0))&&(!Double.isNaN(c1))){
+                    if (count==0)
+                        relationsCall = "prelspec = list(";
+                    else
+                        relationsCall = relationsCall+",";
+                    relationsCall = relationsCall + "list(what1=\"kinpar\", what2=\"kinpar\",ind1="+(i+1)+
+                            ", ind2="+(j+1)+", start=c("+c1+","+c0+"))";
+
+                    if (fc1){
+                        if (fixed == null)
+                            fixed = "prel = c(";
+                        else
+                            if (count != 0)
+                                fixed = fixed+",";
+                        fixed = fixed+(2*count+1);
+                    }
+
+                    if (fc0){
+                        if (fixed == null){
+                            fixed = "prel = c(";
+                        }
+                        else
+                        {
+                            if ((count != 0)||((count==0)&&(fc0)))
+                                fixed = fixed+",";
+                        }
+
+                        fixed = fixed+(2*count+2);
+                    }
+                    count++;
+                }
+            }
+        }
+        if (relationsCall!=null)
+            relationsCall = relationsCall+")";
+        if (fixed!= null)
+            fixed = fixed+")";
+
+        if (addToFixed!=null)
+            addToFixed = addToFixed+","+fixed;
+        else addToFixed = fixed;
+        return relationsCall;
     }
 
 }

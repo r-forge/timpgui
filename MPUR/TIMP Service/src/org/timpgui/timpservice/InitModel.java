@@ -136,12 +136,11 @@ public class InitModel {
                     kMatrixCall = kMatrixCall.concat("," + String.valueOf(kMatrix.getKMatrix().getData().get(j).getRow().get(i)));
                 }
             }
-            //TODO: fix relations matrix
-//            for (int i = 0; i < matrixSize; i++) {
-//                for (int j = 0; j < matrixSize; j++) {
-//                    kMatrixCall = kMatrixCall.concat("," + String.valueOf(kMatrix.getK2Matrix().getData().get(j).getRow().get(i)));
-//                }
-//            }
+            for (int i = 0; i < matrixSize; i++) {
+                for (int j = 0; j < matrixSize; j++) {
+                    kMatrixCall = kMatrixCall.concat(", 0");
+                }
+            }
 
             kMatrixCall = kMatrixCall.concat("), dim = c(");
             kMatrixCall = kMatrixCall.concat(String.valueOf(matrixSize) + "," + String.valueOf(matrixSize) + ",2))");

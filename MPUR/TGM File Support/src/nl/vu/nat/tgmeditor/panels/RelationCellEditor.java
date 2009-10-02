@@ -6,6 +6,7 @@ import javax.swing.JComponent;
 import javax.swing.JTable;
 import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableCellRenderer;
+import nl.vu.nat.tgmeditor.panels.RelationCellPanel;
 
 /*
  * To change this template, choose Tools | Templates
@@ -37,16 +38,30 @@ public class RelationCellEditor extends  AbstractCellEditor implements TableCell
         // cell (and perhaps other cells) are selected
     }
     // Configure the component with the specified value
-    ((RelationCellPanel)relCell).setC0Fixed(((RelationValueClass)value).isFixedC0());
-    ((RelationCellPanel)relCell).setC1Fixed(((RelationValueClass)value).isFixedC1());
-    ((RelationCellPanel)relCell).setC0Value(((RelationValueClass)value).getC0());
-    ((RelationCellPanel)relCell).setC1Value(((RelationValueClass)value).getC1());
+     if (value!=null){
+        ((RelationCellPanel)relCell).setC0Fixed(((RelationValueClass)value).isFixedC0());
+        ((RelationCellPanel)relCell).setC1Fixed(((RelationValueClass)value).isFixedC1());
+        ((RelationCellPanel)relCell).setC0Value(((RelationValueClass)value).getC0());
+        ((RelationCellPanel)relCell).setC1Value(((RelationValueClass)value).getC1());
+
+     }
+     else
+        relCell = new RelationCellPanel();
         // Return the configured component
     return relCell;
     }
     
     @Override
     public boolean stopCellEditing() {
+        RelationValueClass vlue = (RelationValueClass) getCellEditorValue();
+        try {
+            vlue.getC0();
+            vlue.getC1();
+            return super.stopCellEditing();
+        } catch (Exception e) {
+            return false;
+        }
+
 //TODO check if the values are correct        
 //        String s = (String)getCellEditorValue();
 //
@@ -54,7 +69,7 @@ public class RelationCellEditor extends  AbstractCellEditor implements TableCell
 //            // Should display an error message at this point
 //            return false;
 //        }
-        return super.stopCellEditing();
+        
     }
 }
 class RelationCellRenderer extends RelationCellPanel implements TableCellRenderer {

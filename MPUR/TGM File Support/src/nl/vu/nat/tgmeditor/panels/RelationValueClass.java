@@ -10,23 +10,23 @@ package nl.vu.nat.tgmeditor.panels;
  * @author slapten
  */
 public class RelationValueClass {
-    private double c0;
-    private double c1;
-    private boolean fixedC0;
-    private boolean fixedC1;
+    private Double c0;
+    private Double c1;
+    private Boolean fixedC0;
+    private Boolean fixedC1;
 
     RelationValueClass(){
-        c0 = 0;
-        c1 = 0;
-        fixedC0 = false;
-        fixedC1 = false;
+        c0 = new Double(Double.NaN);
+        c1 = new Double(Double.NaN);
+        fixedC0 = new Boolean(null);
+        fixedC1 = new Boolean(null);
     }
 
     RelationValueClass(double c0val, double c1val, boolean fixC0, boolean fixC1){
-        c0 = c0val;
-        c1 = c1val;
-        fixedC0 = fixC0;
-        fixedC1 = fixC1;
+        c0 = new Double(c0val);
+        c1 = new Double(c1val);
+        fixedC0 = new Boolean(fixC0);
+        fixedC1 = new Boolean(fixC1);
     }
 
     public boolean isFixedC0() {

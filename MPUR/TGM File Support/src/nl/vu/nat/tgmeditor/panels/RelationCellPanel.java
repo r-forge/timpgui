@@ -26,8 +26,15 @@ public class RelationCellPanel extends javax.swing.JPanel{
         initComponents();
         jCheckBox1.setEnabled(relVal.isFixedC0());
         jCheckBox2.setEnabled(relVal.isFixedC1());
-        jTextField1.setText(String.valueOf(relVal.getC1()));
-        jTextField2.setText(String.valueOf(relVal.getC0()));
+        if (relVal.getC1()!=Double.NaN)
+            jTextField1.setText(String.valueOf(relVal.getC1()));
+        else
+            jTextField1.setText("");
+
+        if (relVal.getC1()!=Double.NaN)
+            jTextField2.setText(String.valueOf(relVal.getC1()));
+        else
+            jTextField2.setText("");
     }
 
     /** This method is called from within the constructor to
@@ -118,19 +125,37 @@ public class RelationCellPanel extends javax.swing.JPanel{
         jCheckBox2.setSelected(fixedVal);
     }
 
-    public double getC0Value() {
-        return Double.parseDouble(jTextField1.getText());
+    public Double getC0Value() {
+        Double value = null;
+        try {
+           value = Double.valueOf(jTextField1.getText());
+        } catch (Exception e) {
+            value = new Double(Double.NaN);
+        }
+        return value;
     }
 
     public void setC0Value(double val) {
-        jTextField1.setText(String.valueOf(val));
+        if (val!=Double.NaN)
+            jTextField1.setText(String.valueOf(val));
+        else
+            jTextField1.setText("");
     }
 
-    public double getC1Value() {
-        return Double.parseDouble(jTextField2.getText());
+    public Double getC1Value() {
+        Double value = null;
+        try {
+            value = Double.valueOf(jTextField2.getText());
+        } catch (Exception e) {
+            value = new Double(Double.NaN);
+        }
+        return value;
     }
 
     public void setC1Value(double val) {
-        jTextField2.setText(String.valueOf(val));
+        if (val!=Double.NaN)
+            jTextField2.setText(String.valueOf(val));
+        else
+            jTextField2.setText("");
     }
 }

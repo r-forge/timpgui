@@ -70,8 +70,8 @@ public class KMatrixPanel extends SectionInnerPanel implements TableModelListene
 
 //fill in fixed to 0 spectra parameters
         
-        modelCLP0.addRow(kMatrixPanelModel.getContrainsMatrix().getData().getMax().toArray().clone());
-        modelCLP0.addRow(kMatrixPanelModel.getContrainsMatrix().getData().getMin().toArray().clone());
+        modelCLP0.addRow(kMatrixPanelModel.getSpectralContraints().getMax().toArray().clone());
+        modelCLP0.addRow(kMatrixPanelModel.getSpectralContraints().getMin().toArray().clone());
         
 //inicialisation of kMatr
         for (int i = 0; i <matrixSize; i++){
@@ -191,12 +191,12 @@ public class KMatrixPanel extends SectionInnerPanel implements TableModelListene
         }
 
         if (source ==jTClp0) {
-            kMatrixPanelModel.getContrainsMatrix().getData().getMax().clear();
-            kMatrixPanelModel.getContrainsMatrix().getData().getMin().clear();
+            kMatrixPanelModel.getSpectralContraints().getMax().clear();
+            kMatrixPanelModel.getSpectralContraints().getMin().clear();
 
             for (int i=0; i<matrixSize; i++){
-                kMatrixPanelModel.getContrainsMatrix().getData().getMax().add((Double) modelCLP0.getValueAt(0, i));
-                kMatrixPanelModel.getContrainsMatrix().getData().getMin().add((Double) modelCLP0.getValueAt(1, i));
+                kMatrixPanelModel.getSpectralContraints().getMax().add((Double) modelCLP0.getValueAt(0, i));
+                kMatrixPanelModel.getSpectralContraints().getMin().add((Double) modelCLP0.getValueAt(1, i));
             }
         }
 

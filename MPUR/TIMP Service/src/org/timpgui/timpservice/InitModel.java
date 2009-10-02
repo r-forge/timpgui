@@ -478,7 +478,8 @@ public class InitModel {
                 }
             }
 
-            if (tgm.getDat().getCohspecPanel().isClp0Enabled()){
+            if (tgm.getDat().getCohspecPanel().isClp0Enabled()!=null){
+                if (tgm.getDat().getCohspecPanel().isClp0Enabled()) {
                 if (clp0Call!=null)
                     clp0Call = clp0Call+",";
                 else
@@ -487,6 +488,7 @@ public class InitModel {
                 clp0Call = clp0Call + "list(" + tgm.getDat().getCohspecPanel().getClp0Min() + "," +
                              tgm.getDat().getCohspecPanel().getClp0Min() + "," +
                              (tgm.getDat().getKinparPanel().getKinpar().size()+1) + ")";
+            }
             }
             if (clp0Call!=null)
                 clp0Call = clp0Call + ")";
@@ -514,18 +516,19 @@ public class InitModel {
                     }
                     clpequspecCall = clpequspecCall + "list(" +
                             "to=" + String.valueOf(i) +
-                            "from=" + String.valueOf(j) +
-                            "low=" + String.valueOf(min) +
-                            "high=" + String.valueOf(max) + ")";
+                            ",from=" + String.valueOf(j) +
+                            ",low=" + String.valueOf(min) +
+                            ",high=" + String.valueOf(max) + "),";
                     count++;
-                }
-                if (count>0){
+                }               
+            }
+         }
+        // Removes last comma:
+        clpequspecCall = clpequspecCall.substring(0, clpequspecCall.length()-1);
+         if (count>0){
                     clpequspecCall = clpequspecCall + ")";
                     clpequspecCall = clpequspecCall + get_clpequ(tgm, count);
                 }
-            }
-
-         }
         return clpequspecCall;
     }
 
@@ -543,7 +546,7 @@ public class InitModel {
             clpequCall = clpequCall +")";
         }
         if (clpequCall != null) {
-            clpequCall = clpequCall.concat("," + clpequCall);
+            clpequCall =  "," + clpequCall;
         }
         return clpequCall;
     }

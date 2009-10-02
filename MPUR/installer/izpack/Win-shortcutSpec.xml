@@ -2,7 +2,7 @@
 
 <shortcuts>
     <skipIfNotSupported/>
-    <programGroup defaultName="Sketsa $APP-VERSION" location="applications"/>
+    <programGroup defaultName="TIMPGUI $APP-VERSION" location="applications"/>
 
     <shortcut
         name="TIMPGUI $APP-VERSION"
@@ -40,7 +40,7 @@
         startup="no"
         target="$INSTALL_PATH\Uninstaller\uninstaller.jar"
         commandLine=""
-        description="Sketsa uninstaller">
+        description="TIMPGUI uninstaller">
     </shortcut -->
 
 </shortcuts>

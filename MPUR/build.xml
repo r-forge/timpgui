@@ -41,7 +41,7 @@
     <replace file="${nbdist-app.dir}/izpack-install-script.xml">
         <replacefilter token="$APP-NAME" value="${app.title.full}" />
         <replacefilter token="$APP-VERSION" value="${app.version}" />
-        <replacefilter token="$APP-PATH" value="Kiyut/${app.title}-${app.version.dash}" />
+        <replacefilter token="$APP-PATH" value="${app.title}-${app.version.dash}" />
     </replace>
     <replace file="${nbdist-app.dir}/Win-shortcutSpec.xml">
         <replacefilter token="$APP-VERSION" value="${app.version}" />

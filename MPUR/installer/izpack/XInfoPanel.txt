@@ -1,1 +1,2 @@
-XInfo test
+Here some installation instructions
+could be added.

@@ -28,7 +28,7 @@
         The gui preferences indication.
         Sets the installer window to 640x480. It will not be able to change the size.
     -->
-    <guiprefs width="640" height="480" resizable="no">
+    <guiprefs width="800" height="600" resizable="yes">
         <modifier key="useButtonIcons" value="no"/>
         <modifier key="useLabelIcons" value="no"/>
         <modifier key="allYGap" value="3"/>

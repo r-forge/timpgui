@@ -10,33 +10,54 @@ package nl.vu.nat.tgmeditor.panels;
  * @author slapten
  */
 public class RelationValueClass {
-    private double value;
-    private boolean fixed;
+    private double c0;
+    private double c1;
+    private boolean fixedC0;
+    private boolean fixedC1;
 
     RelationValueClass(){
-        value = 0;
-        fixed = false;
+        c0 = 0;
+        c1 = 0;
+        fixedC0 = false;
+        fixedC1 = false;
     }
 
-    RelationValueClass(double val, boolean fix){
-        value = val;
-        fixed = fix;
+    RelationValueClass(double c0val, double c1val, boolean fixC0, boolean fixC1){
+        c0 = c0val;
+        c1 = c1val;
+        fixedC0 = fixC0;
+        fixedC1 = fixC1;
     }
 
-    public boolean isFixed() {
-        return fixed;
+    public boolean isFixedC0() {
+        return fixedC0;
     }
 
-    public void setFixed(boolean fixed) {
-        this.fixed = fixed;
+    public void setFixedC0(boolean fixedC0) {
+        this.fixedC0 = fixedC0;
     }
 
-    public double getValue() {
-        return value;
+    public boolean isFixedC1() {
+        return fixedC1;
     }
 
-    public void setValue(double value) {
-        this.value = value;
+    public void setFixedC1(boolean fixedC1) {
+        this.fixedC1 = fixedC1;
     }
 
+    public double getC0() {
+        return c0;
+    }
+
+    public void setC0(double c0) {
+        this.c0 = c0;
+    }
+
+    public double getC1() {
+        return c1;
+    }
+
+    public void setC1(double c1) {
+        this.c1 = c1;
+    }
 }

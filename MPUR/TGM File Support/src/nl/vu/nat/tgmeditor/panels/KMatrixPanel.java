@@ -22,10 +22,9 @@ public class KMatrixPanel extends SectionInnerPanel implements TableModelListene
 
     private TgmDataObject dObj;
     private KMatrixPanelModel kMatrixPanelModel;
-    private NumberTableModel model1, model2, modelCLP0;
-//    private JVectorTableModel jVec;
-    private DefaultTableModel jVec;
-    private RowHeader rowHeader1, rowHeader2, rowHeaderJVec, rowHeaderCLP0;
+    private NumberTableModel model1, modelCLP0;
+    private DefaultTableModel jVec, relationsModel;
+    private RowHeader rowHeader1, rowHeaderRelations, rowHeaderJVec, rowHeaderCLP0;
 
     private int matrixSize = 0;
 
@@ -35,34 +34,34 @@ public class KMatrixPanel extends SectionInnerPanel implements TableModelListene
         this.dObj = dObj;
         this.kMatrixPanelModel = kMatrixPanelModel;
         rowHeader1 = new RowHeader(30, 30);
-        rowHeader2 = new  RowHeader(30, 30);
+        rowHeaderRelations = new  RowHeader(30, 30);
         rowHeaderJVec = new  RowHeader(40, 30);
         rowHeaderCLP0 = new  RowHeader(20, 30);
         initComponents();
 
         matrixSize = kMatrixPanelModel.getJVector().getVector().size();
         jSNumOfComponents.setModel(new SpinnerNumberModel(matrixSize, 0, null, 1));
-
-        model1 = new NumberTableModel(0, 0, Integer.class);
-        model2 = new NumberTableModel(0, 0, Integer.class);
+        
+        relationsModel = new DefaultTableModel();
         jVec = new DefaultTableModel();
         jVec.addRow(new Vector());
-
+        
+        model1 = new NumberTableModel(0, 0, Integer.class);
         modelCLP0 = new NumberTableModel(0, 0, Double.class);
 
-//initialisation from tgm file sizes of the matrices:
+//initialization from tgm file sizes of the matrices:
         for (int i = 0; i <matrixSize; i++){
             model1.addColumn(String.valueOf(i+1));
-            model2.addColumn(String.valueOf(i+1));
+            relationsModel.addColumn(String.valueOf(i+1));
             jVec.addColumn(String.valueOf(i+1));
             modelCLP0.addColumn(String.valueOf(i+1));
 
             jTKMatrix.getColumnModel().addColumn(new KMatrColumn(i, 30));
-            jTBranches.getColumnModel().addColumn(new KMatrColumn(i, 30));
+            jTRelations.getColumnModel().addColumn(new RelationColumn(i));
             jTJVector.getColumnModel().addColumn(new JVectorColumn(i, 30));
             jTClp0.getColumnModel().addColumn(new KMatrColumn(i, 30));
         }
-//inicialisation of jVec
+//initialization of jVec
         for (int i=0; i < matrixSize; i++){
             jVec.setValueAt(new JVectorValueClass(kMatrixPanelModel.getJVector().getVector().get(i),
                                                   kMatrixPanelModel.getJVector().getFixed().get(i)) , 0, i);
@@ -73,19 +72,29 @@ public class KMatrixPanel extends SectionInnerPanel implements TableModelListene
         modelCLP0.addRow(kMatrixPanelModel.getSpectralContraints().getMax().toArray().clone());
         modelCLP0.addRow(kMatrixPanelModel.getSpectralContraints().getMin().toArray().clone());
         
-//inicialisation of kMatr
+//initialization of kMatr
         for (int i = 0; i <matrixSize; i++){
-            //model1.addRow(kMatrixPanelModel.getK1Matrix().getRow()[i].toArray().clone());
             model1.addRow(kMatrixPanelModel.getKMatrix().getData().get(i).getRow().toArray().clone());
-            //TODO: fix this. add code for contrains matrix
-            //model2.addRow(kMatrixPanelModel.getK2Matrix().getData().get(i).getRow().toArray().clone());
             rowHeader1.addRow(String.valueOf(i));
-            rowHeader2.addRow(String.valueOf(i));
         }
-        
+
+//initialization of relations
+        for (int i = 0; i <matrixSize; i++){
+            relationsModel.addRow(new Vector(matrixSize));
+            for (int j = 0; j <matrixSize; j++){
+                relationsModel.setValueAt(new RelationValueClass(
+                        kMatrixPanelModel.getRelationsMatrix().getData().get(i).getC0().get(j),
+                        kMatrixPanelModel.getRelationsMatrix().getData().get(i).getC1().get(j),
+                        kMatrixPanelModel.getRelationsMatrix().getData().get(i).getC0Fixed().get(j),
+                        kMatrixPanelModel.getRelationsMatrix().getData().get(i).getC1Fixed().get(j)),
+                        i, j);
+            }
+            rowHeaderRelations.addRow(String.valueOf(i));
+        }
+
 //add listeners
         model1.addTableModelListener(this);
-        model2.addTableModelListener(this);
+        relationsModel.addTableModelListener(this);
         jVec.addTableModelListener(this);
         modelCLP0.addTableModelListener(this);
 
@@ -95,10 +104,10 @@ public class KMatrixPanel extends SectionInnerPanel implements TableModelListene
         jscpane.setRowHeaderView(rowHeader1);
         jscpane.setCorner(JScrollPane.UPPER_LEFT_CORNER, rowHeader1.getTableHeader());
         
-        jTBranches.setModel(model2);
-        JScrollPane jscpane2 = (JScrollPane) jTBranches.getParent().getParent();
-        jscpane2.setRowHeaderView(rowHeader2);
-        jscpane2.setCorner(JScrollPane.UPPER_LEFT_CORNER, rowHeader2.getTableHeader());
+        jTRelations.setModel(relationsModel);
+        JScrollPane jscpane2 = (JScrollPane) jTRelations.getParent().getParent();
+        jscpane2.setRowHeaderView(rowHeaderRelations);
+        jscpane2.setCorner(JScrollPane.UPPER_LEFT_CORNER, rowHeaderRelations.getTableHeader());
 
         jTJVector.setModel(jVec);
         JScrollPane jscpane3 = (JScrollPane) jTJVector.getParent().getParent();
@@ -162,7 +171,7 @@ public class KMatrixPanel extends SectionInnerPanel implements TableModelListene
 //                kMatrixPanelModel.getKinpar().get(i).setMax((Double)model.getValueAt(i,5));
 //            }
         }
-        if (source ==jTBranches) {
+        if (source ==jTRelations) {
 //            int val;
 //            kMatrixPanelModel.getK2Matrix().getData().clear();
 //            Data tempData;
@@ -225,8 +234,8 @@ public class KMatrixPanel extends SectionInnerPanel implements TableModelListene
                 setValue(jTKMatrix, this);
          }
          else {
-             if (event.getSource().equals(model2)) {
-                 setValue(jTBranches, this);
+             if (event.getSource().equals(relationsModel)) {
+//                 setValue(jTRelations, this);
              }
              else {
                  if (event.getSource().equals(jVec)) {
@@ -273,7 +282,7 @@ public class KMatrixPanel extends SectionInnerPanel implements TableModelListene
         jScrollPane1 = new javax.swing.JScrollPane();
         jTKMatrix = new javax.swing.JTable();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTBranches = new javax.swing.JTable();
+        jTRelations = new javax.swing.JTable();
         jScrollPane3 = new javax.swing.JScrollPane();
         jTJVector = new javax.swing.JTable();
         jLabel2 = new javax.swing.JLabel();
@@ -299,10 +308,10 @@ public class KMatrixPanel extends SectionInnerPanel implements TableModelListene
         jTKMatrix.getTableHeader().setReorderingAllowed(false);
         jScrollPane1.setViewportView(jTKMatrix);
 
-        jTBranches.setAutoCreateColumnsFromModel(false);
-        jTBranches.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_OFF);
-        jTBranches.setRowHeight(30);
-        jScrollPane2.setViewportView(jTBranches);
+        jTRelations.setAutoCreateColumnsFromModel(false);
+        jTRelations.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_OFF);
+        jTRelations.setRowHeight(30);
+        jScrollPane2.setViewportView(jTRelations);
 
         jTJVector.setAutoCreateColumnsFromModel(false);
         jTJVector.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_OFF);
@@ -396,7 +405,7 @@ public class KMatrixPanel extends SectionInnerPanel implements TableModelListene
 private void jSNumOfComponentsStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jSNumOfComponentsStateChanged
 
     model1.removeTableModelListener(this);
-    model2.removeTableModelListener(this);
+    relationsModel.removeTableModelListener(this);
     jVec.removeTableModelListener(this);
     modelCLP0.removeTableModelListener(this);
 
@@ -404,19 +413,23 @@ private void jSNumOfComponentsStateChanged(javax.swing.event.ChangeEvent evt) {/
 
         matrixSize = (Integer)jSNumOfComponents.getValue();
         model1.addColumn(String.valueOf(matrixSize));
-        model2.addColumn(String.valueOf(matrixSize));
+        relationsModel.addColumn(String.valueOf(matrixSize));
         jVec.addColumn(String.valueOf(matrixSize));
         modelCLP0.addColumn(String.valueOf(matrixSize));
 
         jTKMatrix.getColumnModel().addColumn(new KMatrColumn(matrixSize-1, 30));
-        jTBranches.getColumnModel().addColumn(new KMatrColumn(matrixSize-1, 30));
+        jTRelations.getColumnModel().addColumn(new RelationColumn(matrixSize-1));
         jTJVector.getColumnModel().addColumn(new JVectorColumn(matrixSize-1, 30));
         jTClp0.getColumnModel().addColumn(new KMatrColumn(matrixSize-1, 30));
 
         model1.addRow(new Vector(matrixSize));
-        model2.addRow(new Vector(matrixSize));
+        relationsModel.addRow(new Vector(matrixSize));
+        for (int i = 0; i<matrixSize; i++){
+            relationsModel.setValueAt(new RelationValueClass(), matrixSize-1, i);
+            relationsModel.setValueAt(new RelationValueClass(), i, matrixSize-1);
+        }
         rowHeader1.addRow(String.valueOf(matrixSize));
-        rowHeader2.addRow(String.valueOf(matrixSize));
+        rowHeaderRelations.addRow(String.valueOf(matrixSize));
         jVec.setValueAt(new JVectorValueClass(), 0, matrixSize-1);
 
  
@@ -424,25 +437,25 @@ private void jSNumOfComponentsStateChanged(javax.swing.event.ChangeEvent evt) {/
 
         matrixSize = (Integer)jSNumOfComponents.getValue();
         model1.removeRow(matrixSize);
-        model2.removeRow(matrixSize);
+        relationsModel.removeRow(matrixSize);
         rowHeader1.removeRow(matrixSize);
-        rowHeader2.removeRow(matrixSize);
+        rowHeaderRelations.removeRow(matrixSize);
         jTKMatrix.getColumnModel().removeColumn(jTKMatrix.getColumnModel().getColumn(matrixSize));
-        jTBranches.getColumnModel().removeColumn(jTBranches.getColumnModel().getColumn(matrixSize));
+        jTRelations.getColumnModel().removeColumn(jTRelations.getColumnModel().getColumn(matrixSize));
         jTJVector.getColumnModel().removeColumn(jTJVector.getColumnModel().getColumn(matrixSize));
         jTClp0.getColumnModel().removeColumn(jTClp0.getColumnModel().getColumn(matrixSize));
         model1.setColumnCount(matrixSize);
-        model2.setColumnCount(matrixSize);
+        relationsModel.setColumnCount(matrixSize);
         jVec.setColumnCount(matrixSize);
         modelCLP0.setColumnCount(matrixSize);
     
     }
     model1.addTableModelListener(this);
-    model2.addTableModelListener(this);
+    relationsModel.addTableModelListener(this);
     jVec.addTableModelListener(this);
     modelCLP0.addTableModelListener(this);
     model1.fireTableStructureChanged();
-    model2.fireTableStructureChanged();
+    relationsModel.fireTableStructureChanged();
     jVec.fireTableStructureChanged();
     modelCLP0.fireTableStructureChanged();
 
@@ -460,10 +473,10 @@ private void jSNumOfComponentsStateChanged(javax.swing.event.ChangeEvent evt) {/
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
-    private javax.swing.JTable jTBranches;
     private javax.swing.JTable jTClp0;
     private javax.swing.JTable jTJVector;
     private javax.swing.JTable jTKMatrix;
+    private javax.swing.JTable jTRelations;
     // End of variables declaration//GEN-END:variables
 
 }

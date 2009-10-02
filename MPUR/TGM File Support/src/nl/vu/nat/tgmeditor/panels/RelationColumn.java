@@ -13,28 +13,26 @@ import javax.swing.table.TableColumn;
  */
 
 public class RelationColumn extends TableColumn{
-        RelationColumn(){
-            super();
-            super.width = 30;
-            super.setPreferredWidth(30);
-            super.setCellEditor(new RelationCellEditor());
-            super.setCellRenderer(new RelationCellRenderer());
-        }
+    RelationColumn(){
+        super();
+        super.width = 55;
+        super.setPreferredWidth(55);
+        super.setCellEditor(new RelationCellEditor());
+        super.setCellRenderer(new RelationCellRenderer());
+    }
 
-        RelationColumn(int modelIndex){
-            super(modelIndex, 30);
-            headerValue = String.valueOf(modelIndex+1);
-            super.setCellEditor(new RelationCellEditor());
-            super.setCellRenderer(new RelationCellRenderer());
+    RelationColumn(int modelIndex){
+        super(modelIndex, 55);
+        headerValue = String.valueOf(modelIndex+1);
+        super.setCellEditor(new RelationCellEditor());
+        super.setCellRenderer(new RelationCellRenderer());
 
-        }
+    }
 
-        RelationColumn(int modelIndex, int width){
-            super(modelIndex, width);
-            headerValue = String.valueOf(modelIndex+1);
-            super.setCellEditor(new RelationCellEditor());
-            super.setCellRenderer(new RelationCellRenderer());
-        }
-
-        
+    RelationColumn(int modelIndex, int width){
+        super(modelIndex, width);
+        headerValue = String.valueOf(modelIndex+1);
+        super.setCellEditor(new RelationCellEditor());
+        super.setCellRenderer(new RelationCellRenderer());
+    }
 }

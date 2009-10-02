@@ -18,11 +18,15 @@ import javax.swing.table.TableCellRenderer;
  * @author slapten
  */
 public class RelationCellEditor extends  AbstractCellEditor implements TableCellEditor {
-    JComponent jVecCell = new JVectorCellPanel();
+    JComponent relCell = new RelationCellPanel();
 
     @Override
     public Object getCellEditorValue() {
-        JVectorValueClass cellVal = new JVectorValueClass(((JVectorCellPanel)jVecCell).getValueNumber(), ((JVectorCellPanel)jVecCell).isValueFixed());
+        RelationValueClass cellVal = new RelationValueClass(
+                ((RelationCellPanel)relCell).getC0Value(),
+                ((RelationCellPanel)relCell).getC1Value(), 
+                ((RelationCellPanel)relCell).isC0Fixed(),
+                ((RelationCellPanel)relCell).isC1Fixed());
         return cellVal;
     }
 
@@ -33,10 +37,12 @@ public class RelationCellEditor extends  AbstractCellEditor implements TableCell
         // cell (and perhaps other cells) are selected
     }
     // Configure the component with the specified value
-    ((JVectorCellPanel)jVecCell).setValueFixed(((JVectorValueClass)value).isFixed());
-    ((JVectorCellPanel)jVecCell).setValueNumber(((JVectorValueClass)value).getValue());
+    ((RelationCellPanel)relCell).setC0Fixed(((RelationValueClass)value).isFixedC0());
+    ((RelationCellPanel)relCell).setC1Fixed(((RelationValueClass)value).isFixedC1());
+    ((RelationCellPanel)relCell).setC0Value(((RelationValueClass)value).getC0());
+    ((RelationCellPanel)relCell).setC1Value(((RelationValueClass)value).getC1());
         // Return the configured component
-    return jVecCell;
+    return relCell;
     }
     
     @Override
@@ -51,18 +57,22 @@ public class RelationCellEditor extends  AbstractCellEditor implements TableCell
         return super.stopCellEditing();
     }
 }
-class RelationCellRenderer extends JVectorCellPanel implements TableCellRenderer {
+class RelationCellRenderer extends RelationCellPanel implements TableCellRenderer {
     @Override
     public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected,
     boolean hasFocus, int rowIndex, int vColIndex) {
 
         if (value!=null){
-            JVectorValueClass val = (JVectorValueClass)value;
-            setValueNumber(val.getValue());
-            setValueFixed(val.isFixed());
+            RelationValueClass val = (RelationValueClass)value;
+            setC0Value(val.getC0());
+            setC1Value(val.getC1());
+            setC0Fixed(val.isFixedC0());
+            setC1Fixed(val.isFixedC1());
         } else {
-            setValueNumber(0);
-            setValueFixed(false);
+            setC0Value(0);
+            setC1Value(0);
+            setC0Fixed(false);
+            setC1Fixed(false);
         }
         return this;
     }

@@ -135,7 +135,7 @@
 
       <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
       <SubComponents>
-        <Component class="javax.swing.JTable" name="jTBranches">
+        <Component class="javax.swing.JTable" name="jTRelations">
           <Properties>
             <Property name="autoCreateColumnsFromModel" type="boolean" value="false"/>
             <Property name="autoResizeMode" type="int" value="0"/>

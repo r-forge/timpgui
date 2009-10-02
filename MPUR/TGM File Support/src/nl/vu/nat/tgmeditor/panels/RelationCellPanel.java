@@ -22,10 +22,12 @@ public class RelationCellPanel extends javax.swing.JPanel{
         initComponents();
     }
 
-    public RelationCellPanel(JVectorValueClass jVecVal) {
+    public RelationCellPanel(RelationValueClass relVal) {
         initComponents();
-        jCheckBox1.setEnabled(jVecVal.isFixed());
-        jTextField1.setText(String.valueOf(jVecVal.getValue()));
+        jCheckBox1.setEnabled(relVal.isFixedC0());
+        jCheckBox2.setEnabled(relVal.isFixedC1());
+        jTextField1.setText(String.valueOf(relVal.getC1()));
+        jTextField2.setText(String.valueOf(relVal.getC0()));
     }
 
     /** This method is called from within the constructor to
@@ -36,54 +38,99 @@ public class RelationCellPanel extends javax.swing.JPanel{
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
+        java.awt.GridBagConstraints gridBagConstraints;
 
         jTextField1 = new javax.swing.JTextField();
         jCheckBox1 = new javax.swing.JCheckBox();
+        jTextField2 = new javax.swing.JTextField();
+        jCheckBox2 = new javax.swing.JCheckBox();
 
         setName("Form"); // NOI18N
         setPreferredSize(new java.awt.Dimension(40, 40));
+        setLayout(new java.awt.GridBagLayout());
 
         jTextField1.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        jTextField1.setMinimumSize(new java.awt.Dimension(4, 16));
         jTextField1.setName("jTextField1"); // NOI18N
+        jTextField1.setPreferredSize(new java.awt.Dimension(4, 16));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 0.8;
+        add(jTextField1, gridBagConstraints);
 
+        jCheckBox1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jCheckBox1.setMaximumSize(new java.awt.Dimension(16, 16));
+        jCheckBox1.setMinimumSize(new java.awt.Dimension(16, 16));
         jCheckBox1.setName("jCheckBox1"); // NOI18N
+        jCheckBox1.setPreferredSize(new java.awt.Dimension(16, 16));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.weightx = 0.2;
+        add(jCheckBox1, gridBagConstraints);
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-        this.setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
-                .addComponent(jTextField1, javax.swing.GroupLayout.DEFAULT_SIZE, 34, Short.MAX_VALUE)
-                .addComponent(jCheckBox1))
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jCheckBox1))
-        );
+        jTextField2.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        jTextField2.setMinimumSize(new java.awt.Dimension(4, 16));
+        jTextField2.setName("jTextField2"); // NOI18N
+        jTextField2.setPreferredSize(new java.awt.Dimension(4, 16));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 0.8;
+        add(jTextField2, gridBagConstraints);
+
+        jCheckBox2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jCheckBox2.setMaximumSize(new java.awt.Dimension(16, 16));
+        jCheckBox2.setMinimumSize(new java.awt.Dimension(16, 16));
+        jCheckBox2.setName("jCheckBox2"); // NOI18N
+        jCheckBox2.setPreferredSize(new java.awt.Dimension(16, 16));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.weightx = 0.2;
+        add(jCheckBox2, gridBagConstraints);
     }// </editor-fold>//GEN-END:initComponents
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JCheckBox jCheckBox1;
+    private javax.swing.JCheckBox jCheckBox2;
     private javax.swing.JTextField jTextField1;
+    private javax.swing.JTextField jTextField2;
     // End of variables declaration//GEN-END:variables
 
-    public boolean isValueFixed() {
+    public boolean isC0Fixed() {
         return jCheckBox1.isSelected();
     }
 
-    public void setValueFixed(boolean fixedVal) {
+    public boolean isC1Fixed() {
+        return jCheckBox2.isSelected();
+    }
+
+    public void setC0Fixed(boolean fixedVal) {
         jCheckBox1.setSelected(fixedVal);
     }
 
-    public double getValueNumber() {
+    public void setC1Fixed(boolean fixedVal) {
+        jCheckBox2.setSelected(fixedVal);
+    }
+
+    public double getC0Value() {
         return Double.parseDouble(jTextField1.getText());
     }
 
-    public void setValueNumber(double val) {
+    public void setC0Value(double val) {
         jTextField1.setText(String.valueOf(val));
+    }
+
+    public double getC1Value() {
+        return Double.parseDouble(jTextField2.getText());
+    }
+
+    public void setC1Value(double val) {
+        jTextField2.setText(String.valueOf(val));
     }
 }

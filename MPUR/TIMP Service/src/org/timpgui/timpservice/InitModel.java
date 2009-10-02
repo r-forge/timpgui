@@ -86,6 +86,17 @@ public class InitModel {
             initModel = initModel.concat(tempStr + ",");
         }
 
+        tempStr = get_clp0(tgm);
+        if (tempStr != null) {
+            initModel = initModel.concat(tempStr + ",");
+        }
+
+        tempStr = get_clpequspec(tgm);
+        if (tempStr != null) {
+            initModel = initModel.concat(tempStr + ",");
+        }
+
+
         tempStr = get_seqmod(tgm);
         initModel = initModel.concat(tempStr + ")");
 
@@ -230,7 +241,7 @@ public class InitModel {
             if (irfPanel.getIrf().size()==4)
                 irfStr = irfStr+", doublegaus = TRUE";
             if (irfPanel.isBacksweepEnabled()){
-                irfStr = irfStr+", streak = TRUE, streakT = "+String.valueOf(irfPanel.getBacksweepPeriod())+")";
+                irfStr = irfStr+", streak = TRUE, streakT = "+String.valueOf(irfPanel.getBacksweepPeriod());
             }
         }
         return irfStr;
@@ -359,9 +370,31 @@ public class InitModel {
             fixedStr = fixedStr + ")";
         }
 
+        count = 0;
+        KMatrixPanelModel kMatrix = tgm.getDat().getKMatrixPanel();
+        for (int i = 0; i < kMatrix.getJVector().getFixed().size(); i++) {
+            if (kMatrix.getJVector().getFixed().get(i)) {
+                if (count > 0) {
+                    fixedStr = fixedStr + ",";
+                } else {
+                    if (fixedStr!= null)
+                        fixedStr = fixedStr + ", jvec=c(";
+                    else
+                        fixedStr = "fixed = list(jvec=c(";
+                }
+                fixedStr = fixedStr + String.valueOf(i + 1);
+                count++;
+            }
+        }
+        if (count > 0) {
+            fixedStr = fixedStr + ")";
+        }
+        // TODO: add additional paramters for fixed here:
+
+        // This closes the "fixed" argument
         if (fixedStr!= null)
             fixedStr = fixedStr + ")";
-        // need to fill in other parameters here, once we have panels for them
+
         return fixedStr;
     }
 
@@ -424,24 +457,51 @@ public class InitModel {
         return positivepar;
     }
 
-    private static String get_cohspec(Tgm tgm) {
-        Dat dat = tgm.getDat();
-        CohspecPanelModel cohspecPanelModel = dat.getCohspecPanel();
-        String cc = "cohspec=list(";
+    private static String get_clp0(Tgm tgm) {
+        String clp0Call = null;
+        KMatrixPanelModel kMatrix = tgm.getDat().getKMatrixPanel();
+        int size = kMatrix.getSpectralContraints().getMax().size();
+        if (size > 0) {
+            int count = 0;
+            for (int i = 0; i < size; i++) {
+                Double min = kMatrix.getSpectralContraints().getMin().get(i);
+                Double max = kMatrix.getSpectralContraints().getMax().get(i);
+                if (min!=null && max!=null) {
+                    if (count==0)
+                        clp0Call = "clp0 = list(";
+                    else
+                        clp0Call=clp0Call+",";
 
-        if (cohspecPanelModel.getCohspec().isSet()) {
-            cc = cc + "type =" + cohspecPanelModel.getCoh();
-            if (cohspecPanelModel.getCoh().trim().length() != 0) {
-                cc = cc + ", start=" + cohspecPanelModel.getCoh();
+                    clp0Call = clp0Call + "list(" + Double.valueOf(min) + "," +
+                            Double.valueOf(max) + "," + (i+1) + ")";
+                    count++;
+                }
             }
-        }
 
-        cc = cc + ")";
-        return cc;
+            if (tgm.getDat().getCohspecPanel().isClp0Enabled()){
+                if (clp0Call!=null)
+                    clp0Call = clp0Call+",";
+                else
+                    clp0Call = "clp0 = list(";
+
+                clp0Call = clp0Call + "list(" + tgm.getDat().getCohspecPanel().getClp0Min() + "," +
+                             tgm.getDat().getCohspecPanel().getClp0Min() + "," +
+                             (tgm.getDat().getKinparPanel().getKinpar().size()+1) + ")";
+            }
+            if (clp0Call!=null)
+                clp0Call = clp0Call + ")";
+        }
+        return clp0Call;
     }
 
     private static String get_mod_type(Tgm tgm) {
         String mod_type = "mod_type = \"" + tgm.getDat().getModType() + "\"";
         return mod_type;
     }
+
+    private static String get_clpequspec(Tgm tgm) {
+        throw new UnsupportedOperationException("Not yet implemented");
+    }
+
+
 }

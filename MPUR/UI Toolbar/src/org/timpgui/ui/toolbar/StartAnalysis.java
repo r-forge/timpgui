@@ -8,12 +8,9 @@ import java.awt.Cursor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
-import java.io.Writer;
 import java.util.ArrayList;
 import java.util.prefs.Preferences;
 import nl.vu.nat.tgmfilesupport.TgmDataNode;
@@ -61,7 +58,6 @@ public final class StartAnalysis implements ActionListener {
         } catch (IOException ex) {
             Exceptions.printStackTrace(ex);
         }
-        System.getenv();
 
             NotifyDescriptor.InputLine numIterations = new NotifyDescriptor.InputLine(
                     "Number of iterations",

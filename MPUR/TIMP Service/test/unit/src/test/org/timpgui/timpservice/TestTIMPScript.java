@@ -5,12 +5,9 @@
 package test.org.timpgui.timpservice;
 
 import java.io.File;
-import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
 import junit.framework.TestCase;
-import org.netbeans.api.java.classpath.ClassPath;
-import org.openide.filesystems.FileObject;
 import org.rosuda.irconnect.ITwoWayConnection;
 import org.rosuda.jri.JRIConnectionFactory;
 

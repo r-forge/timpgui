@@ -99,6 +99,13 @@ public final class SpecResultsTopComponent extends TopComponent implements Chart
         }
         jLKineticParameters.setListData(rates);
 
+        Object[] irfpar = new Object[res.getIrfpar().length];
+        for (int i = 0; i < irfpar.length ; i++) {
+            irfpar[i] = "irf" + (i) + "=" + String.format(String.valueOf(res.getIrfpar()[i]), "#.###");
+//            irfpar[i+numberOfComponents] = "er_k"+ (i) + "=" + String.format(String.valueOf(res.getKineticParameters()[i+numberOfComponents]), "#.###");
+        }
+        jLSpectralParameters.setListData(irfpar);
+
 
 //first tab
         PlotSpectrTrace(); //TODO calculate das from eas

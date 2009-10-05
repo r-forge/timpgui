@@ -47,8 +47,10 @@ public class IrfparPanel extends SectionInnerPanel {
                             irfparPanelModel.getFixed().get(i)
                         };
                 model.addRow(newRow);
+                rowHeader.addRow(rowNames[i]);
             } else {
                 model.addRow(defRow);
+                rowHeader.addRow(rowNames[i]);
             }
         }
 

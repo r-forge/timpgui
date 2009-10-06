@@ -94,6 +94,7 @@
             <file targetdir="$INSTALL_PATH" src="harness" override="true" />
             <file targetdir="$INSTALL_PATH" src="ide11" override="true" />
             <file targetdir="$INSTALL_PATH" src="java2" override="true" />
+            <file targetdir="$INSTALL_PATH" src="nb6.7" override="true" />
             <file targetdir="$INSTALL_PATH" src="platform10" override="true" />
             <file targetdir="$INSTALL_PATH" src="profiler3" override="true" />
             <file targetdir="$INSTALL_PATH" src="websvccommon1" override="true" />

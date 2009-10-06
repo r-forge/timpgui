@@ -161,6 +161,15 @@ public class TestWrappedEngine extends TestCase {
 		assertEquals(1.0/7.0, dArray[1], EPS);
 	}
 
+                     public void testBigDoubleArray() {
+               final IREXP testREXP = connection.eval(new StringBuffer().append(
+               "try(").append("rnorm(n=50000000)").append(")").toString());
+               assertNotNull(testREXP);
+               assertEquals(IREXP.XT_ARRAY_DOUBLE, testREXP.getType());
+               final double[] dArray = testREXP.asDoubleArray();
+               assertEquals(dArray.length,50000000);
+       }
+
 	public void testIntArray() {
 		final IREXP libraryREXP = connection.eval(new StringBuffer().append(
 		"try(").append("c(as.integer(1+4),as.integer(1+5))").append(")").toString());

@@ -122,7 +122,7 @@
                       <Component id="jToolBar1" alignment="0" pref="2772" max="32767" attributes="0"/>
                       <Group type="102" alignment="0" attributes="0">
                           <Component id="jPanel1" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace pref="2020" max="32767" attributes="0"/>
+                          <EmptySpace pref="2064" max="32767" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
@@ -551,7 +551,7 @@
                           <Component id="jPanel9" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
                           <Component id="jPanel8" min="-2" pref="537" max="-2" attributes="0"/>
-                          <EmptySpace pref="764" max="32767" attributes="0"/>
+                          <EmptySpace pref="770" max="32767" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>

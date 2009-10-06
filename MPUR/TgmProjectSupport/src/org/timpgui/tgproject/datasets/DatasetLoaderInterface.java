@@ -5,9 +5,6 @@
 
 package org.timpgui.tgproject.datasets;
 
-import org.timpgui.structures.DatasetTimp;
-
-
 /**
  *
  * @author lsp

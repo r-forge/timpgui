@@ -4,6 +4,7 @@
  */
 package org.timpgui.resultsdisplayers;
 
+import Jama.Matrix;
 import Jama.SingularValueDecomposition;
 import java.awt.BasicStroke;
 import java.awt.Color;
@@ -29,15 +30,16 @@ import org.jfree.chart.event.ChartChangeEvent;
 import org.jfree.chart.event.ChartChangeListener;
 import org.jfree.chart.panel.CrosshairOverlay;
 import org.jfree.chart.plot.CombinedDomainXYPlot;
+import org.jfree.chart.plot.CombinedRangeXYPlot;
 import org.jfree.chart.plot.Crosshair;
 import org.jfree.chart.plot.DatasetRenderingOrder;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.plot.XYPlot;
+import org.jfree.chart.renderer.AbstractRenderer;
 import org.jfree.chart.renderer.PaintScale;
-import org.jfree.chart.renderer.category.LineAndShapeRenderer;
-import org.jfree.chart.renderer.xy.StandardXYItemRenderer;
 import org.jfree.chart.renderer.xy.XYItemRenderer;
 import org.jfree.chart.renderer.xy.XYLineAndShapeRenderer;
+import org.jfree.chart.title.LegendTitle;
 import org.jfree.chart.title.PaintScaleLegend;
 import org.jfree.data.Range;
 import org.jfree.data.xy.XYDataset;
@@ -56,7 +58,6 @@ import org.openide.windows.WindowManager;
 import org.timpgui.structures.TimpResultDataset;
 import org.timpgui.tgproject.datasets.TimpResultDataObject;
 import static java.lang.Math.pow;
-import static java.lang.Math.abs;
 /**
  * Top component which displays something.
  */
@@ -109,7 +110,10 @@ public final class SpecResultsTopComponent extends TopComponent implements Chart
 
 //first tab
         PlotSpectrTrace(); //TODO calculate das from eas
-        PlotConcentrations();
+        ChartPanel conc = createLinTimePlot(res.getConcentrations(), res.getX());
+        jPConcentrations.removeAll();
+        jPConcentrations.add(conc);
+
         calculateSVDResiduals();
 
 //second tab (can be done in BG)
@@ -162,6 +166,9 @@ public final class SpecResultsTopComponent extends TopComponent implements Chart
         jLSpectralParameters = new javax.swing.JList();
         jPConcentrations = new javax.swing.JPanel();
         jToolBar1 = new javax.swing.JToolBar();
+        jTBLinLog = new javax.swing.JToggleButton();
+        jTFLinPart = new javax.swing.JTextField();
+        jSeparator1 = new javax.swing.JToolBar.Separator();
         jPanel5 = new javax.swing.JPanel();
         jPanel9 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
@@ -255,6 +262,22 @@ public final class SpecResultsTopComponent extends TopComponent implements Chart
         jPConcentrations.setLayout(new java.awt.BorderLayout());
 
         jToolBar1.setRollover(true);
+
+        org.openide.awt.Mnemonics.setLocalizedText(jTBLinLog, org.openide.util.NbBundle.getMessage(SpecResultsTopComponent.class, "SpecResultsTopComponent.jTBLinLog.text")); // NOI18N
+        jTBLinLog.setFocusable(false);
+        jTBLinLog.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jTBLinLog.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        jTBLinLog.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTBLinLogActionPerformed(evt);
+            }
+        });
+        jToolBar1.add(jTBLinLog);
+
+        jTFLinPart.setText(org.openide.util.NbBundle.getMessage(SpecResultsTopComponent.class, "SpecResultsTopComponent.jTFLinPart.text")); // NOI18N
+        jTFLinPart.setMaximumSize(new java.awt.Dimension(70, 19));
+        jToolBar1.add(jTFLinPart);
+        jToolBar1.add(jSeparator1);
 
         jPanel5.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         jPanel5.setLayout(new java.awt.GridBagLayout());
@@ -499,7 +522,7 @@ public final class SpecResultsTopComponent extends TopComponent implements Chart
                 .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
                     .addComponent(jTFCurvParam, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(19, Short.MAX_VALUE))
+                .addContainerGap(28, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
@@ -906,6 +929,32 @@ public final class SpecResultsTopComponent extends TopComponent implements Chart
         //jPSpecImage.repaint();
     }//GEN-LAST:event_jCBDispCurveShowActionPerformed
 
+    private void jTBLinLogActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTBLinLogActionPerformed
+
+        if (jTBLinLog.isSelected()){
+            try {
+                double linPortion = Double.valueOf(jTFLinPart.getText());
+                    ChartPanel conc = createLinLogTimePlot(res.getIrfpar()[0], linPortion, res.getConcentrations(), res.getX());
+                    jPConcentrations.removeAll();
+                    conc.setSize(jPConcentrations.getSize());
+                    jPConcentrations.add(conc);
+                    jPConcentrations.repaint();
+
+
+            }
+            catch (Exception e) {
+            }
+        } else {
+            ChartPanel conc = createLinTimePlot(res.getConcentrations(), res.getX());
+            jPConcentrations.removeAll();
+            conc.setSize(jPConcentrations.getSize());
+            jPConcentrations.add(conc);
+            jPConcentrations.repaint();
+
+
+        }
+    }//GEN-LAST:event_jTBLinLogActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
@@ -953,8 +1002,11 @@ public final class SpecResultsTopComponent extends TopComponent implements Chart
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JScrollPane jScrollPane7;
     private javax.swing.JScrollPane jScrollPane8;
+    private javax.swing.JToolBar.Separator jSeparator1;
+    private javax.swing.JToggleButton jTBLinLog;
     private javax.swing.JTextField jTFCentrWave;
     private javax.swing.JTextField jTFCurvParam;
+    private javax.swing.JTextField jTFLinPart;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JToolBar jToolBar1;
     private javax.swing.JToolBar jToolBar2;
@@ -1083,10 +1135,96 @@ public final class SpecResultsTopComponent extends TopComponent implements Chart
         }
     }
 
-    private void PlotConcentrations(){
+    private ChartPanel createLinLogTimePlot(double timeZero, double portion, Matrix data, double[] timesteps){
+
+        XYSeriesCollection linCollection = new XYSeriesCollection();
+        XYSeries seria;
+        int index = 0;
+        int traceNumber = data.getColumnDimension();
+        for (int j = 0; j < traceNumber; j++) {
+            seria = new XYSeries("Comp" + (j + 1));
+            index = 0;
+            while (timesteps[index]<timeZero+portion){
+                seria.add(timesteps[index], data.get(index, j));
+                index++;
+            }
+            linCollection.addSeries(seria);
+        }
+
+        XYSeriesCollection logCollection = new XYSeriesCollection();
+        for (int j = 0; j < traceNumber; j++) {
+            seria = new XYSeries("Comp" + (j + 1));
+            for (int i = index-1; i<timesteps.length; i++){
+                seria.add(timesteps[i], data.get(i, j));
+            }
+            logCollection.addSeries(seria);
+        }
+
+//============================combined plot
+        JFreeChart linePart, logPart;
+        linePart = ChartFactory.createXYLineChart(
+            null,
+            null,
+            null,
+            linCollection,
+            PlotOrientation.VERTICAL,
+            false,
+            false,
+            false
+        );
+        logPart = ChartFactory.createXYLineChart(
+            null,
+            null,
+            null,
+            logCollection,
+            PlotOrientation.VERTICAL,
+            false,
+            false,
+            false
+        );
+
+        XYPlot linPlot = linePart.getXYPlot();
+//        linPlot.getDomainAxis().setRange(timesteps[0], timeZero+portion);
+        linPlot.getDomainAxis().setLowerMargin(0.0);
+        linPlot.getDomainAxis().setUpperMargin(0.0);
+
+        XYPlot logPlot =logPart.getXYPlot();// new XYPlot(logCollection,new LogAxis(),null,linPlot.getRenderer());
+//        logPlot.setAxisOffset(new RectangleInsets(2,2,2,2));
+
+        logPlot.setDomainAxis(new LogAxis());
+        logPlot.getDomainAxis().setLowerMargin(0.0);
+        logPlot.getDomainAxis().setUpperMargin(0.0);
+//        logPlot.setRenderer(new XYLineAndShapeRenderer(true, false));
+
+        NumberAxis yAxis = new NumberAxis();
+        yAxis.setAutoRange(true);
+//        yAxis.setRange(res.getX()[0], res.getX()[res.getX().length - 1]);
+//        yAxis.setUpperBound(res.getX()[res.getX().length-1]);
+
+
+        for (int i = 0; i < traceNumber; i++)
+            logPlot.getRenderer().setSeriesPaint(i, ((AbstractRenderer) linPlot.getRenderer()).lookupSeriesPaint(i));
+
+        CombinedRangeXYPlot plot = new CombinedRangeXYPlot(yAxis);
+        plot.setGap(-7.5);
+        plot.add(linPlot);
+        plot.add(logPlot);
+
+        JFreeChart tracechart = new JFreeChart(null, JFreeChart.DEFAULT_TITLE_FONT, plot, true);
+        LegendTitle legend = new LegendTitle(linPlot);
+        legend.setPosition(RectangleEdge.BOTTOM);
+        tracechart.removeLegend();
+        tracechart.addLegend(legend);
+        return new ChartPanel(tracechart,true);
+//        jPConcentrations.add(chpan);
+    }
+
+    private ChartPanel createLinTimePlot(Matrix data, double[] timesteps){
+
+        int traceNumber = data.getColumnDimension();
         XYSeriesCollection concCollection = new XYSeriesCollection();
         XYSeries seria;
-        for (int j = 0; j < numberOfComponents; j++) {
+        for (int j = 0; j < traceNumber; j++) {
             seria = new XYSeries("Conc" + (j + 1));
             for (int i = 0; i < res.getX().length; i++) {
                 seria.add(res.getX()[i], res.getConcentrations().get(i, j));
@@ -1095,7 +1233,7 @@ public final class SpecResultsTopComponent extends TopComponent implements Chart
         }
 
         JFreeChart tracechart = ChartFactory.createXYLineChart(
-                    "Concentration",
+                    null,
                     "Time (ns)",
                     null,
                     concCollection,
@@ -1107,11 +1245,10 @@ public final class SpecResultsTopComponent extends TopComponent implements Chart
         tracechart.getXYPlot().getDomainAxis().setUpperBound(res.getX()[res.getX().length - 1]);
         ChartPanel chpan = new ChartPanel(tracechart);
         chpan.getChartRenderingInfo().setEntityCollection(null);
-        jPConcentrations.removeAll();
-        jPConcentrations.add(chpan);
-//        jPConcentrations.repaint();
-
+        return chpan;
     }
+
+
     private void PlotSpectrTrace() {
 
         double max=0;

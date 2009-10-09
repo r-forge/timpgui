@@ -26,11 +26,11 @@ public class ModelContainer extends javax.swing.JPanel implements ExplorerManage
 /** path to the icon used by the component and its open action */
 //    static final String ICON_PATH = "SET/PATH/TO/ICON/HERE";
 
-    private static final String PREFERRED_ID = "DatasetsListView";
+    private static final String PREFERRED_ID = "ModelSpecificationView";
 
     private ExplorerManager manager   = new ExplorerManager();
-    private DatasetView    datasetView  = new DatasetView();
-    private DatasetNodeContainer   container = new DatasetNodeContainer();
+    private ModelSpecificationView    modelSpecificationView  = new ModelSpecificationView();
+    private ModelSpecificationNodeContainer   container = new ModelSpecificationNodeContainer();
     private Lookup lookup;
     /** Creates new form DatasetContainer */
     public ModelContainer() {
@@ -64,7 +64,7 @@ public class ModelContainer extends javax.swing.JPanel implements ExplorerManage
         panel.setMinimumSize(new java.awt.Dimension(150, 200));
         panel.setPreferredSize(new java.awt.Dimension(150, 200));
         panel.setLayout(new java.awt.BorderLayout());
-        panel.add(datasetView, BorderLayout.CENTER);
+        panel.add(modelSpecificationView, BorderLayout.CENTER);
 
         remove.setText(org.openide.util.NbBundle.getMessage(ModelContainer.class, "ModelContainer.remove.text")); // NOI18N
         remove.setToolTipText(org.openide.util.NbBundle.getMessage(ModelContainer.class, "ModelContainer.remove.toolTipText")); // NOI18N

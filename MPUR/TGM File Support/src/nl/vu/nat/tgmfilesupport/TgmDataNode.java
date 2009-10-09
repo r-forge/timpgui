@@ -7,14 +7,19 @@ package nl.vu.nat.tgmfilesupport;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
 import java.awt.datatransfer.UnsupportedFlavorException;
+import java.awt.dnd.DropTargetDragEvent;
+import java.awt.dnd.DropTargetDropEvent;
+import java.awt.dnd.DropTargetEvent;
+import java.awt.dnd.DropTargetListener;
 import org.netbeans.api.project.FileOwnerQuery;
 import org.netbeans.api.project.Project;
 import org.openide.filesystems.FileObject;
 import org.openide.loaders.DataNode;
 import org.openide.nodes.Children;
 import org.openide.util.Lookup;
+import org.timpgui.tgproject.nodes.TimpResultsNode;
 
-public class TgmDataNode extends DataNode implements Transferable {
+public class TgmDataNode extends DataNode implements Transferable, DropTargetListener {
 
     private static final String IMAGE_ICON_BASE = "nl/vu/nat/tgmfilesupport/povicon.gif";
     public static final DataFlavor DATA_FLAVOR = new DataFlavor(TgmDataNode.class, "TgmDataNode");
@@ -51,7 +56,7 @@ public class TgmDataNode extends DataNode implements Transferable {
 
     public TgmDataObject getObject() {
         return obj;
-    }    
+    }
 
     private Object getFromProject(Class clazz) {
         // TODO: fix unchecked conversion here
@@ -87,5 +92,32 @@ public class TgmDataNode extends DataNode implements Transferable {
         } else {
             throw new UnsupportedFlavorException(flavor);
         }
+    }
+
+    @Override
+    public void dragEnter(DropTargetDragEvent dtde) {
+        if(!dtde.isDataFlavorSupported(TimpResultsNode.DATA_FLAVOR)) {
+               dtde.rejectDrag();
+        }
+    }
+
+    @Override
+    public void drop(DropTargetDropEvent dtde) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public void dragOver(DropTargetDragEvent dtde) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public void dropActionChanged(DropTargetDragEvent dtde) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public void dragExit(DropTargetEvent dte) {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 }

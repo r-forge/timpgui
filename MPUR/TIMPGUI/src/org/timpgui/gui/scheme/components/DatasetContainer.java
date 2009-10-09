@@ -26,10 +26,13 @@ public class DatasetContainer extends javax.swing.JPanel implements ExplorerMana
 /** path to the icon used by the component and its open action */
 //    static final String ICON_PATH = "SET/PATH/TO/ICON/HERE";
 
+    private static final String PREFERRED_ID = "DatasetsListView";
+
     private ExplorerManager manager   = new ExplorerManager();
-    private ModelSpecificationView    modelSpecificationView  = new ModelSpecificationView();
-    private ModelSpecificationNodeContainer   container = new ModelSpecificationNodeContainer();
+    private DatasetView    datasetView  = new DatasetView();
+    private DatasetNodeContainer   container = new DatasetNodeContainer();
     private Lookup lookup;
+
     /** Creates new form DatasetContainer */
     public DatasetContainer() {
         initComponents();
@@ -59,7 +62,7 @@ public class DatasetContainer extends javax.swing.JPanel implements ExplorerMana
         panel.setMinimumSize(new java.awt.Dimension(150, 200));
         panel.setPreferredSize(new java.awt.Dimension(150, 200));
         panel.setLayout(new java.awt.BorderLayout());
-        panel.add(modelSpecificationView, BorderLayout.CENTER);
+        panel.add(datasetView, BorderLayout.CENTER);
         add(panel, java.awt.BorderLayout.PAGE_END);
 
         remove.setText(org.openide.util.NbBundle.getMessage(DatasetContainer.class, "DatasetContainer.remove.text")); // NOI18N

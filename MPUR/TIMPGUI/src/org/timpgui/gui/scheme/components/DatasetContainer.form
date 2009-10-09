@@ -4,7 +4,7 @@
   <Properties>
     <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
       <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
-        <TitledBorder title="Model Specification">
+        <TitledBorder title="Datasets">
           <ResourceString PropertyName="titleX" bundle="org/timpgui/gui/scheme/components/Bundle.properties" key="DatasetContainer.border.title" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
         </TitledBorder>
       </Border>
@@ -47,7 +47,7 @@
         </Property>
       </Properties>
       <AuxValues>
-        <AuxValue name="JavaCodeGenerator_LayoutCodePre" type="java.lang.String" value="panel.add(modelSpecificationView, BorderLayout.CENTER);"/>
+        <AuxValue name="JavaCodeGenerator_LayoutCodePre" type="java.lang.String" value="panel.add(datasetView, BorderLayout.CENTER);"/>
         <AuxValue name="JavaCodeGenerator_SerializeTo" type="java.lang.String" value="Playlist_panel"/>
       </AuxValues>
       <Constraints>

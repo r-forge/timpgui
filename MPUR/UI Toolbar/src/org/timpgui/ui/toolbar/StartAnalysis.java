@@ -97,16 +97,17 @@ public final class StartAnalysis implements ActionListener {
                     validateModel(models[i]);
                 }
 
-                try {
-                    //TODO: implement a working busy cursor, or progress indicator
-                    TopComponent.getRegistry().getActivated().setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+//                try {
+//                    //TODO: implement a working busy cursor, or progress indicator
+//                    TopComponent.getRegistry().getActivated().setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
                     if (run) {
                         results = service.runAnalysis(datasets, models, NO_OF_ITERATIONS);
                     } else {
+                        return;
                     }
-                    } finally {
-                        TopComponent.getRegistry().getActivated().setCursor(Cursor.getDefaultCursor());
-                    }
+//                    } finally {
+////                        TopComponent.getRegistry().getActivated().setCursor(Cursor.getDefaultCursor());
+//                    }
                     if (results != null) {
                         NotifyDescriptor.InputLine resultNameDialog = new NotifyDescriptor.InputLine(
                                 "Analysys name",
@@ -200,7 +201,9 @@ public final class StartAnalysis implements ActionListener {
         }
         if (feedback != null) {
             NotifyDescriptor errorMessage = new NotifyDescriptor.Exception(
-                    new Exception("Invalid Model. " + feedback));
+                    new Exception("Invalid Model: \n" +
+                    "" + feedback+"\n" +
+                    "Analysis was not started."));
             DialogDisplayer.getDefault().notify(errorMessage);
         }
     }

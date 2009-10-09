@@ -27,16 +27,15 @@ import org.timpgui.tgproject.datasets.TimpDatasetDataObject;
 
 public class TgdDataChildren extends Children.Keys {
 
-    private TgdDataObject obj;
+//    private TgdDataObject obj;
 
     private final List <TimpDatasetDataObject> datasets = new ArrayList<TimpDatasetDataObject>();
-    private TimpDatasetDataObject dataset;
     private FileObject cachefolder;
     private FileObject datasetfolder;
     private FileObject[] files;
 
     public TgdDataChildren(TgdDataObject obj) {
-        this.obj=obj;
+//        this.obj=obj;
         DataObject dObj = null;
         final TGProject proj = (TGProject) OpenProjects.getDefault().getMainProject();
         cachefolder = proj.getCacheFolder(true);

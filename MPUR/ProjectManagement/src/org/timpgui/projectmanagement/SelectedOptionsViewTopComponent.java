@@ -50,25 +50,12 @@ final class SelectedOptionsViewTopComponent extends TopComponent implements Expl
     private void initComponents() {
 
         toolbar = new javax.swing.JToolBar();
-        add = new javax.swing.JButton();
         remove = new javax.swing.JButton();
-        rename = new javax.swing.JButton();
         panel = new javax.swing.JPanel();
 
         toolbar.setRollover(true);
 
-        org.openide.awt.Mnemonics.setLocalizedText(add, org.openide.util.NbBundle.getMessage(SelectedOptionsViewTopComponent.class, "SelectedDatasetsViewTopComponent.add.text")); // NOI18N
-        add.setToolTipText(org.openide.util.NbBundle.getMessage(SelectedOptionsViewTopComponent.class, "SelectedDatasetsViewTopComponent.add.toolTipText")); // NOI18N
-        add.setFocusable(false);
-        add.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        add.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        add.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                addActionPerformed(evt);
-            }
-        });
-        toolbar.add(add);
-
+        remove.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/timpgui/projectmanagement/delete.png"))); // NOI18N
         org.openide.awt.Mnemonics.setLocalizedText(remove, org.openide.util.NbBundle.getMessage(SelectedOptionsViewTopComponent.class, "SelectedDatasetsViewTopComponent.remove.text")); // NOI18N
         remove.setToolTipText(org.openide.util.NbBundle.getMessage(SelectedOptionsViewTopComponent.class, "SelectedDatasetsViewTopComponent.remove.toolTipText")); // NOI18N
         remove.setFocusable(false);
@@ -80,18 +67,6 @@ final class SelectedOptionsViewTopComponent extends TopComponent implements Expl
             }
         });
         toolbar.add(remove);
-
-        org.openide.awt.Mnemonics.setLocalizedText(rename, org.openide.util.NbBundle.getMessage(SelectedOptionsViewTopComponent.class, "SelectedDatasetsViewTopComponent.rename.text")); // NOI18N
-        rename.setToolTipText(org.openide.util.NbBundle.getMessage(SelectedOptionsViewTopComponent.class, "SelectedDatasetsViewTopComponent.rename.toolTipText")); // NOI18N
-        rename.setFocusable(false);
-        rename.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        rename.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        rename.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                renameActionPerformed(evt);
-            }
-        });
-        toolbar.add(rename);
 
         panel.setLayout(new java.awt.BorderLayout());
         panel.add(optionsView, BorderLayout.CENTER);
@@ -112,24 +87,14 @@ final class SelectedOptionsViewTopComponent extends TopComponent implements Expl
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void addActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addActionPerformed
-
-}//GEN-LAST:event_addActionPerformed
-
     private void removeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeActionPerformed
         container.remove(manager.getSelectedNodes());
 }//GEN-LAST:event_removeActionPerformed
 
-    private void renameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_renameActionPerformed
-
-}//GEN-LAST:event_renameActionPerformed
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton add;
     private javax.swing.JPanel panel;
     private javax.swing.JButton remove;
-    private javax.swing.JButton rename;
     private javax.swing.JToolBar toolbar;
     // End of variables declaration//GEN-END:variables
     /**

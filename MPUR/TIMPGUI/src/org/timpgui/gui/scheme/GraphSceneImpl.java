@@ -39,8 +39,8 @@ import org.netbeans.api.visual.border.BorderFactory;
 import org.netbeans.api.visual.layout.LayoutFactory;
 import org.netbeans.api.visual.widget.ComponentWidget;
 import org.netbeans.api.visual.widget.LabelWidget;
+import org.timpgui.gui.scheme.components.ModelContainer;
 import org.timpgui.gui.scheme.components.DatasetContainer;
-import org.timpgui.gui.scheme.components.ModelSpecificationContainer;
 
 /**
  * @author Alex
@@ -109,11 +109,11 @@ public class GraphSceneImpl extends GraphScene { //TODO: implement <MyNode, MyEd
         MyNode myNode = (MyNode) node;
         Widget cw = null;
         if (myNode.getName().equalsIgnoreCase("Dataset Container")) {
-            cw = createMoveableComponent(new DatasetContainer(), myNode.getName(), myNode.getId());
+            cw = createMoveableComponent(new ModelContainer(), myNode.getName(), myNode.getId());
             mainLayer.addChild(cw);
         }
         if (myNode.getName().equalsIgnoreCase("Model Container")) {
-            cw = createMoveableComponent(new ModelSpecificationContainer(), myNode.getName(), myNode.getId());
+            cw = createMoveableComponent(new DatasetContainer(), myNode.getName(), myNode.getId());
             mainLayer.addChild(cw);
         }
         return cw;

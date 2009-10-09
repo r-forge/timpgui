@@ -22,7 +22,7 @@ import org.netbeans.api.visual.widget.ComponentWidget;
 import org.netbeans.api.visual.widget.Widget;
 import org.openide.nodes.Node;
 import org.openide.util.Utilities;
-import org.timpgui.gui.scheme.components.DatasetContainer;
+import org.timpgui.gui.scheme.components.ModelContainer;
 import org.timpgui.gui.scheme.components.ModelSpecificationNodeContainer;
 import org.timpgui.gui.scheme.nodes.DatasetComponentNode;
 import org.timpgui.gui.scheme.nodes.ModelComponentNode;

@@ -98,18 +98,17 @@ public class TimpController implements TimpInterface {
 
         cmd = cmd.concat(")");
         addFitModelCall(cmd);
-        connection.voidEval(cmd);
+        connection.voidEval("try("+cmd+")");
         //TODO: store this somewhere, possible as private variable
-
+        if (getBool("exists(\""+NAME_OF_RESULT_OBJECT+"\")")) {
         if (listOfDatasets != null) {
             timpResults = new TimpResultDataset[listOfDatasets.length];
             for (int i = 0; i < listOfDatasets.length; i++) {
                 timpResults[i] = getTimpResultDataset(listOfDatasets[i], i);
             }
         }
-
+        } else {return null;}
         return timpResults;
-
     }
 
     private Matrix getTempMatrix(String cmd) {

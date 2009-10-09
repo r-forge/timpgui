@@ -7,19 +7,20 @@ package nl.vu.nat.tgmfilesupport;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
 import java.awt.datatransfer.UnsupportedFlavorException;
+import java.awt.dnd.DropTargetAdapter;
 import java.awt.dnd.DropTargetDragEvent;
 import java.awt.dnd.DropTargetDropEvent;
-import java.awt.dnd.DropTargetEvent;
-import java.awt.dnd.DropTargetListener;
 import org.netbeans.api.project.FileOwnerQuery;
 import org.netbeans.api.project.Project;
+import org.openide.DialogDisplayer;
+import org.openide.NotifyDescriptor;
 import org.openide.filesystems.FileObject;
 import org.openide.loaders.DataNode;
 import org.openide.nodes.Children;
 import org.openide.util.Lookup;
 import org.timpgui.tgproject.nodes.TimpResultsNode;
 
-public class TgmDataNode extends DataNode implements Transferable, DropTargetListener {
+public class TgmDataNode extends DataNode implements Transferable{
 
     private static final String IMAGE_ICON_BASE = "nl/vu/nat/tgmfilesupport/povicon.gif";
     public static final DataFlavor DATA_FLAVOR = new DataFlavor(TgmDataNode.class, "TgmDataNode");
@@ -29,12 +30,14 @@ public class TgmDataNode extends DataNode implements Transferable, DropTargetLis
         super(obj, Children.LEAF);
         this.obj=obj;
         setIconBaseWithExtension(IMAGE_ICON_BASE);
+        setDropTarget();
     }
 
     TgmDataNode(TgmDataObject obj, Lookup lookup) {
         super(obj, Children.LEAF, lookup);
         this.obj=obj;
         setIconBaseWithExtension(IMAGE_ICON_BASE);
+        setDropTarget();
     }
 
     /** Creates a property sheet. */
@@ -94,30 +97,25 @@ public class TgmDataNode extends DataNode implements Transferable, DropTargetLis
         }
     }
 
-    @Override
-    public void dragEnter(DropTargetDragEvent dtde) {
-        if(!dtde.isDataFlavorSupported(TimpResultsNode.DATA_FLAVOR)) {
+
+    private void setDropTarget() {
+         DropTargetAdapter dt = new DropTargetAdapter() {
+
+            @Override
+            public void dragEnter(DropTargetDragEvent dtde) {
+                if(!dtde.isDataFlavorSupported(TimpResultsNode.DATA_FLAVOR)) {
                dtde.rejectDrag();
-        }
-    }
+            }
+            }
 
-    @Override
-    public void drop(DropTargetDropEvent dtde) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
+            @Override
+            public void drop(DropTargetDropEvent dtde) {
+                NotifyDescriptor noNumItMessage = new NotifyDescriptor.Message(
+                                "Incorrect number of iterations. 0 iterations will be done.");
+                        DialogDisplayer.getDefault().notify(noNumItMessage);
 
-    @Override
-    public void dragOver(DropTargetDragEvent dtde) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
+            }
+        };
 
-    @Override
-    public void dropActionChanged(DropTargetDragEvent dtde) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public void dragExit(DropTargetEvent dte) {
-        throw new UnsupportedOperationException("Not supported yet.");
     }
 }

@@ -2,7 +2,7 @@
 
 <!--
     Document   : TgmSchema.xml
-    Created on : October 1, 2009, 10:09 AM
+    Created on : October 9, 2009, 9:52 AM
     Author     : jsg210
     Description:
         Purpose of the document follows.
@@ -104,6 +104,34 @@
                     <ns0:c1fixed></ns0:c1fixed>
                     <ns0:c1fixed></ns0:c1fixed>
                 </ns0:data>
+                <ns0:data>
+                    <ns0:c0></ns0:c0>
+                    <ns0:c0></ns0:c0>
+                    <ns0:c0></ns0:c0>
+                    <ns0:c1></ns0:c1>
+                    <ns0:c1></ns0:c1>
+                    <ns0:c1></ns0:c1>
+                    <ns0:c0fixed></ns0:c0fixed>
+                    <ns0:c0fixed></ns0:c0fixed>
+                    <ns0:c0fixed></ns0:c0fixed>
+                    <ns0:c1fixed></ns0:c1fixed>
+                    <ns0:c1fixed></ns0:c1fixed>
+                    <ns0:c1fixed></ns0:c1fixed>
+                </ns0:data>
+                <ns0:data>
+                    <ns0:c0></ns0:c0>
+                    <ns0:c0></ns0:c0>
+                    <ns0:c0></ns0:c0>
+                    <ns0:c1></ns0:c1>
+                    <ns0:c1></ns0:c1>
+                    <ns0:c1></ns0:c1>
+                    <ns0:c0fixed></ns0:c0fixed>
+                    <ns0:c0fixed></ns0:c0fixed>
+                    <ns0:c0fixed></ns0:c0fixed>
+                    <ns0:c1fixed></ns0:c1fixed>
+                    <ns0:c1fixed></ns0:c1fixed>
+                    <ns0:c1fixed></ns0:c1fixed>
+                </ns0:data>
             </ns0:relationsMatrix>
             <ns0:jVector>
                 <ns0:vector></ns0:vector>
@@ -122,6 +150,22 @@
                 <ns0:max></ns0:max>
             </ns0:spectralContraints>
             <ns0:contrainsMatrix>
+                <ns0:data>
+                    <ns0:min></ns0:min>
+                    <ns0:min></ns0:min>
+                    <ns0:min></ns0:min>
+                    <ns0:max></ns0:max>
+                    <ns0:max></ns0:max>
+                    <ns0:max></ns0:max>
+                </ns0:data>
+                <ns0:data>
+                    <ns0:min></ns0:min>
+                    <ns0:min></ns0:min>
+                    <ns0:min></ns0:min>
+                    <ns0:max></ns0:max>
+                    <ns0:max></ns0:max>
+                    <ns0:max></ns0:max>
+                </ns0:data>
                 <ns0:data>
                     <ns0:min></ns0:min>
                     <ns0:min></ns0:min>

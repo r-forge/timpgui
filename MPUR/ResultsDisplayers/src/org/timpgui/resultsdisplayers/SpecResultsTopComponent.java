@@ -112,15 +112,6 @@ public final class SpecResultsTopComponent extends TopComponent implements Chart
 
 
 //first tab
-        PlotSpectrTrace(); //TODO calculate das from eas
-        ChartPanel conc = createLinTimePlot(res.getConcentrations(), res.getX());
-        jPConcentrations.removeAll();
-        jPConcentrations.add(conc);
-
-        calculateSVDResiduals();
-
-//=====================second tab (can be done in BG)
-//calculate dispersion curve
         double centrWave;
         double[] dispParam;
         double timeZero;
@@ -136,6 +127,17 @@ public final class SpecResultsTopComponent extends TopComponent implements Chart
         //calculate curve;
 
         calculateDispersionCurve(centrWave, dispParam, timeZero, dispParam.length);
+
+
+        PlotSpectrTrace(); //TODO calculate das from eas
+        ChartPanel conc = createLinTimePlot(res.getConcentrations(), res.getX());
+        jPConcentrations.removeAll();
+        jPConcentrations.add(conc);
+
+        calculateSVDResiduals();
+
+//=====================second tab (can be done in BG)
+//calculate dispersion curve
 
         makeImageChart();
         MakeTracesChart();
@@ -1778,8 +1780,8 @@ public final class SpecResultsTopComponent extends TopComponent implements Chart
 
     private void updateLinLogPlotSumary(){
         double linPortion = Double.valueOf(jTFLinPart.getText());
-        ChartPanel conc = createLinLogTimePlot(res.getIrfpar()[0], linPortion, res.getConcentrations(), res.getX());
-        ChartPanel lsv = createLinLogTimePlot(res.getIrfpar()[0], linPortion, leftSingVec, res.getX());
+        ChartPanel conc = createLinLogTimePlot(t0Curve[0], linPortion, res.getConcentrations(), res.getX());
+        ChartPanel lsv = createLinLogTimePlot(t0Curve[0], linPortion, leftSingVec, res.getX());
         lsv.getChart().setTitle("Left singular vectors");
         lsv.getChart().getTitle().setFont(new Font(lsv.getChart().getTitle().getFont().getFontName(), Font.PLAIN, 12));
 

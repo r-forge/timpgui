@@ -71,6 +71,7 @@ public final class StartAnalysis implements ActionListener {
                                 "Incorrect number of iterations. 0 iterations will be done.");
                         DialogDisplayer.getDefault().notify(noNumItMessage);
                 }
+
                 final TGProject proj = (TGProject) OpenProjects.getDefault().getMainProject();
                 FileObject resultsfolder;
                 if (proj != null) {

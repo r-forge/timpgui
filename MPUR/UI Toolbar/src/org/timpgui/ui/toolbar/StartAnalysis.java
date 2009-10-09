@@ -38,7 +38,7 @@ import org.timpgui.timpinterface.TimpInterface;
 
 public final class StartAnalysis implements ActionListener {
 
-    private int NO_OF_ITERATIONS = 5;
+    private int NO_OF_ITERATIONS = 0;
     Tgm[] models;
     private TimpInterface service;
     private DatasetTimp[] datasets;
@@ -64,9 +64,13 @@ public final class StartAnalysis implements ActionListener {
                     "Please specify the number of iterations for this analysis");
             Object res1 = DialogDisplayer.getDefault().notify(numIterations);
             if (res1.equals(NotifyDescriptor.OK_OPTION)) {
-                NO_OF_ITERATIONS = Integer.parseInt(numIterations.getInputText());
-
-
+                try {
+                    NO_OF_ITERATIONS = Integer.parseInt(numIterations.getInputText());
+                }catch (Exception exept) {
+                    NotifyDescriptor noNumItMessage = new NotifyDescriptor.Message(
+                                "Incorrect number of iterations. 0 iterations will be done.");
+                        DialogDisplayer.getDefault().notify(noNumItMessage);
+                }
                 final TGProject proj = (TGProject) OpenProjects.getDefault().getMainProject();
                 FileObject resultsfolder;
                 if (proj != null) {
@@ -125,19 +129,26 @@ public final class StartAnalysis implements ActionListener {
                                         ObjectOutputStream stream = new ObjectOutputStream(writeTo.getOutputStream());
                                         stream.writeObject(timpResultDataset);
                                         stream.close();
-                                        writeTo = resultsfolder.createData("dataset" + (i + 1) + "_" + timpResultDataset.getDatasetName() + "_summary", "txt");
+                                        writeTo = resultsfolder.createData(resultsfolder.getName() + "_summary", "txt");
                                         BufferedWriter output = new BufferedWriter(new FileWriter(FileUtil.toFile(writeTo)));
                                         //TODO: Complete the summary here:
-                                        output.append("Summary");
 
+                                        output.append("Summary");
                                         output.newLine();
-                                        output.append("Used dataset(s)");
-                                        String[] listOfDatasets = new String[datasets.length];
+                                        output.append("Used dataset(s): ");
                                         for (int j = 0; j < datasets.length; j++) {
                                             DatasetTimp dataset = datasets[i];
                                             output.append(dataset.getDatasetName());
                                             output.newLine();
                                         }
+                                        output.append("Used model(s): ");
+                                        for (int j = 0; j < nsm.length; j++) {
+                                            output.append(nsm[i].getName());
+                                            output.newLine();
+                                        }
+                                        output.append("Number of iterations: ");
+                                        output.append(String.valueOf(NO_OF_ITERATIONS));
+                                        output.newLine();
                                         ArrayList<String> list = service.getInitModelCalls();
                                         for (String string : list) {
                                             output.append(string);

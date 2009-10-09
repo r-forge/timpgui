@@ -1703,7 +1703,8 @@ public final class SpecResultsTopComponent extends TopComponent implements Chart
         while (res.getX()[index]<timeZero+portion){
             index++;
         }
-
+        if (index == 0)
+            index = 1;
         XYSeriesCollection trace = createFitRawTraceCollection(xIndex, 0, index);
         XYSeriesCollection resid = createResidTraceCollection(xIndex, 0, index);
         ChartPanel linTime = makeLinTimeTraceResidChart(trace, resid, new NumberAxis("Time"), null);

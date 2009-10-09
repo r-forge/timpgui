@@ -398,7 +398,8 @@ public class InitModel {
 
         if (fixedStr!= null){
             if (addToFixed!=null)
-            fixedStr = fixedStr+"," + addToFixed + ")";
+                fixedStr = fixedStr+"," + addToFixed + ")";
+            fixedStr = fixedStr + ")";
         } else {
             if (addToFixed!=null)
             fixedStr = "fixed = list("+ addToFixed + ")";

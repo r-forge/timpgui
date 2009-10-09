@@ -106,8 +106,12 @@ public class TimpController implements TimpInterface {
             for (int i = 0; i < listOfDatasets.length; i++) {
                 timpResults[i] = getTimpResultDataset(listOfDatasets[i], i);
             }
+            connection.voidEval("try(rm(list=ls()))");
+            connection.voidEval("try(gc())");
         }
-        } else {return null;}
+        } else {
+            return null;
+        }
         return timpResults;
     }
 

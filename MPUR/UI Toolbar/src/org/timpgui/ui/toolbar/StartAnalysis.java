@@ -44,6 +44,7 @@ public final class StartAnalysis implements ActionListener {
     private DatasetTimp[] datasets;
     private TimpResultDataset[] results = null;
     private Object resultFromDialog = null;
+    private boolean run;
 
     public void actionPerformed(ActionEvent e) {
 
@@ -92,10 +93,17 @@ public final class StartAnalysis implements ActionListener {
                         TgmDataNode node = (TgmDataNode) nsm[i];
                         models[i] = node.getObject().getTgm();
                     }
-                    try {
-                        //TODO: implement a working busy cursor, or progress indicator
-                        TopComponent.getRegistry().getActivated().setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+                         for (int i = 0; i < models.length; i++) {
+                    validateModel(models[i]);
+                }
+
+                try {
+                    //TODO: implement a working busy cursor, or progress indicator
+                    TopComponent.getRegistry().getActivated().setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+                    if (run) {
                         results = service.runAnalysis(datasets, models, NO_OF_ITERATIONS);
+                    } else {
+                    }
                     } finally {
                         TopComponent.getRegistry().getActivated().setCursor(Cursor.getDefaultCursor());
                     }
@@ -179,4 +187,21 @@ public final class StartAnalysis implements ActionListener {
                 }
             }
         }
+
+    private void validateModel(Tgm tgm) {
+        String feedback = null;
+        run = true;
+        if (tgm.getDat().getIrfparPanel().getParmu() != null || tgm.getDat().getIrfparPanel().getPartau() != null) {
+            Double test = tgm.getDat().getIrfparPanel().getLamda();
+            if (test == null || test.isNaN()) {
+                run = false;
+                feedback = "Parmu or Partau was specified but no center wavelength was specified.";
+            }
+        }
+        if (feedback != null) {
+            NotifyDescriptor errorMessage = new NotifyDescriptor.Exception(
+                    new Exception("Invalid Model. " + feedback));
+            DialogDisplayer.getDefault().notify(errorMessage);
+        }
+    }
     }

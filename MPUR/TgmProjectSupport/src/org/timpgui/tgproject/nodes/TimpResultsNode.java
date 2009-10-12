@@ -74,4 +74,10 @@ public class TimpResultsNode extends DataNode implements Transferable{
          throw new UnsupportedFlavorException(flavor);
       }
     }
+
+    @Override
+    public Transferable drag() throws IOException {
+        return this;
+    }
+
 }

@@ -56,8 +56,6 @@ public class TgmDataObject extends XmlMultiViewDataObject {
         }
     }
 
-
-
     @Override
     protected Node createNodeDelegate() {
         return new TgmDataNode(this); // removed: getLookup()
@@ -141,15 +139,18 @@ public class TgmDataObject extends XmlMultiViewDataObject {
             this.type = type;
         }
 
+        @Override
         public org.netbeans.core.spi.multiview.MultiViewElement createElement() {
             TgmDataObject dObj = (TgmDataObject) getDataObject();
             return new TgmToolBarMVElement(dObj);
         }
 
+        @Override
         public java.awt.Image getIcon() {
             return org.openide.util.Utilities.loadImage("nl/vu/nat/tgmfilesupport/povicon.gif"); //NOI18N
         }
 
+        @Override
         public String preferredID() {
             return "Tgm_multiview_design" + String.valueOf(type);
         }

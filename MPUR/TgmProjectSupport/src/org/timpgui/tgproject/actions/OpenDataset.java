@@ -110,6 +110,8 @@ public final class OpenDataset extends CookieAction {
         final WizardDescriptor wdesc = WizardUtilities.createSimplewWizard(pane, Utilities.getString("openFile"));
             wdesc.setButtonListener(lst);
             DialogDisplayer.getDefault().notify(wdesc);
+
+
     }
 
     protected int mode() {

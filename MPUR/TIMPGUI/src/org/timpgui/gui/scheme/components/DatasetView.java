@@ -73,7 +73,6 @@ public class DatasetView extends TreeTableView {
          }
 
       });
-
       setDropTarget(dt);
    }
 }

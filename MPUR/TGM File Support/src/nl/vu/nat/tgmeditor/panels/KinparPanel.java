@@ -129,6 +129,7 @@ public class KinparPanel extends SectionInnerPanel {
             return types[c];
         }
 
+        @Override
         public void tableChanged(TableModelEvent event) {
             //if (jTKinParamTable.isValid()) {
             setValue(jTKinParamTable, this);

@@ -13,6 +13,7 @@ import java.awt.GridLayout;
 import java.awt.geom.Ellipse2D;
 import java.awt.image.BufferedImage;
 import java.io.Serializable;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.logging.Logger;
 import nl.wur.flim.jfreechartcustom.ColorCodedImageDataset;
@@ -97,15 +98,21 @@ public final class SpecResultsTopComponent extends TopComponent implements Chart
         res.calcRangeInt();
         numberOfComponents = res.getKineticParameters().length/2;
         Object[] rates = new Object[res.getKineticParameters().length];
+
+        DecimalFormat paramFormat = new DecimalFormat("##0.0000");
+        DecimalFormat errFormat = new DecimalFormat("##0.0000");
+
         for (int i = 0; i < numberOfComponents; i++) {
-            rates[i] = "k" + (i) + "=" + String.format(String.valueOf(res.getKineticParameters()[i]), "##0.#####E0");
-            rates[i+numberOfComponents] = "er_k"+ (i) + "=" + String.format(String.valueOf(res.getKineticParameters()[i+numberOfComponents]), "##0.#####E0");
+//            rates[i] = "k" + (i) + "=" + String.format(String.valueOf(res.getKineticParameters()[i]), "##0.#####E0");
+            rates[i] = "k" + (i) + "=" +  paramFormat.format(res.getKineticParameters()[i]);
+//            rates[i+numberOfComponents] = "er_k"+ (i) + "=" + String.format(String.valueOf(res.getKineticParameters()[i+numberOfComponents]), "##0.#####E0");
+            rates[i+numberOfComponents] = "er_k"+ (i) + "=" + errFormat.format(res.getKineticParameters()[i+numberOfComponents]);
         }
         jLKineticParameters.setListData(rates);
 
         Object[] irfpar = new Object[res.getIrfpar().length];
         for (int i = 0; i < irfpar.length ; i++) {
-            irfpar[i] = "irf" + (i) + "=" + String.format(String.valueOf(res.getIrfpar()[i]), "##0.#####E0");
+            irfpar[i] = "irf" + (i) + "=" + paramFormat.format(res.getIrfpar()[i]);
 //            irfpar[i+numberOfComponents] = "er_k"+ (i) + "=" + String.format(String.valueOf(res.getKineticParameters()[i+numberOfComponents]), "#.###");
         }
         jLSpectralParameters.setListData(irfpar);
@@ -153,7 +160,7 @@ public final class SpecResultsTopComponent extends TopComponent implements Chart
         for (int i = 0; i < res.getParmu().length; i++){
             if (i > 0)
                 parmuStr = parmuStr+",";
-            parmuStr += String.valueOf(res.getParmu()[i]);
+            parmuStr += paramFormat.format(res.getParmu()[i]);
         }
         jTFCurvParam.setText(parmuStr);
     }

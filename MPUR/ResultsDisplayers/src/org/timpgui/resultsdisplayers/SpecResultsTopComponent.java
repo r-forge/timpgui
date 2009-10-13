@@ -98,14 +98,14 @@ public final class SpecResultsTopComponent extends TopComponent implements Chart
         numberOfComponents = res.getKineticParameters().length/2;
         Object[] rates = new Object[res.getKineticParameters().length];
         for (int i = 0; i < numberOfComponents; i++) {
-            rates[i] = "k" + (i) + "=" + String.format(String.valueOf(res.getKineticParameters()[i]), "#.###");
-            rates[i+numberOfComponents] = "er_k"+ (i) + "=" + String.format(String.valueOf(res.getKineticParameters()[i+numberOfComponents]), "#.###");
+            rates[i] = "k" + (i) + "=" + String.format(String.valueOf(res.getKineticParameters()[i]), "##0.#####E0");
+            rates[i+numberOfComponents] = "er_k"+ (i) + "=" + String.format(String.valueOf(res.getKineticParameters()[i+numberOfComponents]), "##0.#####E0");
         }
         jLKineticParameters.setListData(rates);
 
         Object[] irfpar = new Object[res.getIrfpar().length];
         for (int i = 0; i < irfpar.length ; i++) {
-            irfpar[i] = "irf" + (i) + "=" + String.format(String.valueOf(res.getIrfpar()[i]), "#.###");
+            irfpar[i] = "irf" + (i) + "=" + String.format(String.valueOf(res.getIrfpar()[i]), "##0.#####E0");
 //            irfpar[i+numberOfComponents] = "er_k"+ (i) + "=" + String.format(String.valueOf(res.getKineticParameters()[i+numberOfComponents]), "#.###");
         }
         jLSpectralParameters.setListData(irfpar);
@@ -1247,7 +1247,7 @@ public final class SpecResultsTopComponent extends TopComponent implements Chart
             }
             concCollection.addSeries(seria);
         }
-
+        
         JFreeChart tracechart = ChartFactory.createXYLineChart(
                     null,
                     "Time",
@@ -1259,6 +1259,10 @@ public final class SpecResultsTopComponent extends TopComponent implements Chart
                     false);
         tracechart.setBackgroundPaint(JFreeChart.DEFAULT_BACKGROUND_PAINT);
         tracechart.getXYPlot().getDomainAxis().setUpperBound(res.getX()[res.getX().length - 1]);
+
+        for (int i = 0; i < traceNumber; i++)
+            tracechart.getXYPlot().getRenderer().setSeriesPaint(i, ((AbstractRenderer) tracechart.getXYPlot().getRenderer()).lookupSeriesPaint(i));
+
         ChartPanel chpan = new ChartPanel(tracechart);
         chpan.getChartRenderingInfo().setEntityCollection(null);
         return chpan;
@@ -1299,6 +1303,8 @@ public final class SpecResultsTopComponent extends TopComponent implements Chart
                 false);
         tracechart.setBackgroundPaint(JFreeChart.DEFAULT_BACKGROUND_PAINT);
         tracechart.getXYPlot().getDomainAxis().setUpperBound(res.getX2()[res.getX2().length - 1]);
+        for (int i = 0; i < numberOfComponents; i++)
+            tracechart.getXYPlot().getRenderer().setSeriesPaint(i, ((AbstractRenderer) tracechart.getXYPlot().getRenderer()).lookupSeriesPaint(i));
         ChartPanel chpan = new ChartPanel(tracechart);
 //        chpan.getChartRenderingInfo().setEntityCollection(null);
         jPSAS.removeAll();
@@ -1315,6 +1321,8 @@ public final class SpecResultsTopComponent extends TopComponent implements Chart
                 false);
         tracechart.setBackgroundPaint(JFreeChart.DEFAULT_BACKGROUND_PAINT);
         tracechart.getXYPlot().getDomainAxis().setUpperBound(res.getX2()[res.getX2().length - 1]);
+        for (int i = 0; i < numberOfComponents; i++)
+            tracechart.getXYPlot().getRenderer().setSeriesPaint(i, ((AbstractRenderer) tracechart.getXYPlot().getRenderer()).lookupSeriesPaint(i));
         chpan = new ChartPanel(tracechart);
         jPSASnorm.removeAll();
         jPSASnorm.add(chpan);
@@ -1626,6 +1634,12 @@ public final class SpecResultsTopComponent extends TopComponent implements Chart
                     false,
                     false);
         tracechart.getXYPlot().setRangeAxis(new LogAxis("Log(SV)"));
+        int index = result.getSingularValues().length-1;
+        while (result.getSingularValues()[index]<=0){
+            index--;
+        }
+
+        tracechart.getXYPlot().getRangeAxis().setRange(result.getSingularValues()[index], result.getSingularValues()[0]);
         XYLineAndShapeRenderer renderer = (XYLineAndShapeRenderer) tracechart.getXYPlot().getRenderer();
         renderer.setBaseShapesVisible(true);
         renderer.setDrawOutlines(true);

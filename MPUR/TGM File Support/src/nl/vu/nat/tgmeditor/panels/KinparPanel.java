@@ -103,10 +103,12 @@ public class KinparPanel extends SectionInnerPanel {
         dObj.modelUpdatedFromUI();
     }
 
+    @Override
     public void linkButtonPressed(Object arg0, String arg1) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
+    @Override
     public JComponent getErrorComponent(String arg0) {
         throw new UnsupportedOperationException("Not supported yet.");
     }

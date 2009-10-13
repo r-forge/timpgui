@@ -110,7 +110,7 @@ public final class StartAnalysis implements ActionListener {
 //                    }
                     if (results != null) {
                         NotifyDescriptor.InputLine resultNameDialog = new NotifyDescriptor.InputLine(
-                                "Analysys name",
+                                "Analysis name",
                                 "Please specify the name for results folder");
                         Object res = DialogDisplayer.getDefault().notify(resultNameDialog);
                         if (res.equals(NotifyDescriptor.OK_OPTION)) {

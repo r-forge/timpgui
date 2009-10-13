@@ -782,6 +782,7 @@ public final class SpecResultsTopComponent extends TopComponent implements Chart
                         XYSeriesCollection trace = createFitRawTraceCollection(xIndex, 0, res.getX().length);
                         XYSeriesCollection resid = createResidTraceCollection(xIndex, 0, res.getX().length);
                         ChartPanel linTime = makeLinTimeTraceResidChart(trace, resid, new NumberAxis("Time"), String.valueOf(res.getX2()[xIndex]));
+                        linTime.getChart().setTitle(String.valueOf(res.getX2()[xIndex]));
                         jPSelTimeTrCollection.add(linTime);
                     }
                     else {
@@ -1707,7 +1708,8 @@ public final class SpecResultsTopComponent extends TopComponent implements Chart
         plot.setOrientation(PlotOrientation.VERTICAL);
         plot.getDomainAxis().setLowerMargin(0.0);
         plot.getDomainAxis().setUpperMargin(0.0);
-        JFreeChart tracechart = new JFreeChart(name, JFreeChart.DEFAULT_TITLE_FONT, plot, true);
+        Font titleFont = new Font(JFreeChart.DEFAULT_TITLE_FONT.getFontName(),JFreeChart.DEFAULT_TITLE_FONT.getStyle(),12);
+        JFreeChart tracechart = new JFreeChart(name, titleFont, plot, true);
         tracechart.getLegend().setVisible(false);
         ChartPanel chpan = new ChartPanel(tracechart,true);
         chpan.setMinimumDrawHeight(0);
@@ -1742,13 +1744,10 @@ public final class SpecResultsTopComponent extends TopComponent implements Chart
 
         ((XYPlot)logPlot.getSubplots().get(0)).getRenderer().setSeriesPaint(1,Color.red);
         ((XYPlot)linPlot.getSubplots().get(0)).getRenderer().setSeriesPaint(1,Color.red);
-//                    ((AbstractRenderer)((XYPlot)linPlot.getSubplots().get(0)).getRenderer()).lookupSeriesPaint(0));
         ((XYPlot)linPlot.getSubplots().get(0)).getRenderer().setSeriesPaint(0,Color.blue);
         ((XYPlot)logPlot.getSubplots().get(0)).getRenderer().setSeriesPaint(0,Color.blue);
-//                    ((AbstractRenderer)((XYPlot)linPlot.getSubplots().get(0)).getRenderer()).lookupSeriesPaint(1));
         ((XYPlot)logPlot.getSubplots().get(1)).getRenderer().setSeriesPaint(0,Color.green);
         ((XYPlot)linPlot.getSubplots().get(1)).getRenderer().setSeriesPaint(0,Color.green);
-//                    ((AbstractRenderer)((XYPlot)linPlot.getSubplots().get(1)).getRenderer()).lookupSeriesPaint(0));
 
         CombinedRangeXYPlot plot = new CombinedRangeXYPlot(yAxis);
         plot.setGap(-7.5);
@@ -1759,8 +1758,9 @@ public final class SpecResultsTopComponent extends TopComponent implements Chart
         ((XYPlot)logPlot.getSubplots().get(0)).getRangeAxis().setRange(yAxis.getRange());
         ((XYPlot)logPlot.getSubplots().get(0)).getRangeAxis().setVisible(false);
         ((XYPlot)logPlot.getSubplots().get(1)).getRangeAxis().setVisible(false);
-
-        JFreeChart tracechart = new JFreeChart(null, JFreeChart.DEFAULT_TITLE_FONT, plot, true);
+        
+        Font titleFont = new Font(JFreeChart.DEFAULT_TITLE_FONT.getFontName(),JFreeChart.DEFAULT_TITLE_FONT.getStyle(),12);
+        JFreeChart tracechart = new JFreeChart(null, titleFont, plot, true);
         LegendTitle legend = new LegendTitle(linPlot);
         legend.setPosition(RectangleEdge.BOTTOM);
         tracechart.removeLegend();

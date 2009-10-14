@@ -60,6 +60,7 @@ import org.openide.windows.CloneableTopComponent;
 import org.openide.windows.TopComponent;
 import org.openide.windows.WindowManager;
 import org.timpgui.structures.DatasetTimp;
+import org.timpgui.structures.FormatedASCIIFileLoader;
 import org.timpgui.tgproject.datasets.TgdDataObject;
 import org.timpgui.tgproject.datasets.TimpDatasetDataObject;
 import org.timpgui.tgproject.nodes.TgdDataChildren;
@@ -117,7 +118,7 @@ final public class SpecEditorTopCompNew extends CloneableTopComponent
 //        setIcon(Utilities.loadImage(ICON_PATH, true));
         data = new DatasetTimp();
         try {
-            data.loadASCIIFile(new File(filename));
+            data = FormatedASCIIFileLoader.loadASCIIFile(new File(filename));//.loadASCIIFile(new File(filename));
             MakeImageChart(MakeXYZDataset());
             updateFileInfo();
         } catch (FileNotFoundException ex) {
@@ -242,7 +243,8 @@ final public class SpecEditorTopCompNew extends CloneableTopComponent
 
         setAutoscrolls(true);
         setPreferredSize(new java.awt.Dimension(800, 600));
-        setLayout(new java.awt.BorderLayout());
+
+        jScrollPane2.setPreferredSize(new java.awt.Dimension(1200, 800));
 
         jToolBar1.setRollover(true);
 
@@ -463,7 +465,7 @@ final public class SpecEditorTopCompNew extends CloneableTopComponent
             .addComponent(jToolBar1, javax.swing.GroupLayout.DEFAULT_SIZE, 2772, Short.MAX_VALUE)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(2020, Short.MAX_VALUE))
+                .addContainerGap(2064, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -471,7 +473,7 @@ final public class SpecEditorTopCompNew extends CloneableTopComponent
                 .addComponent(jToolBar1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(778, Short.MAX_VALUE))
+                .addContainerGap(800, Short.MAX_VALUE))
         );
 
         jScrollPane2.setViewportView(jPanel2);
@@ -616,14 +618,23 @@ final public class SpecEditorTopCompNew extends CloneableTopComponent
                 .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, 537, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(764, Short.MAX_VALUE))
+                .addContainerGap(807, Short.MAX_VALUE))
         );
 
         jScrollPane1.setViewportView(jPanel3);
 
         jTabbedPane1.addTab(org.openide.util.NbBundle.getMessage(SpecEditorTopCompNew.class, "SpecEditorTopCompNew.jScrollPane1.TabConstraints.tabTitle"), jScrollPane1); // NOI18N
 
-        add(jTabbedPane1, java.awt.BorderLayout.PAGE_START);
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
+        this.setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 985, Short.MAX_VALUE)
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 584, Short.MAX_VALUE)
+        );
     }// </editor-fold>//GEN-END:initComponents
 
 private void jBMakeDatasetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBMakeDatasetActionPerformed

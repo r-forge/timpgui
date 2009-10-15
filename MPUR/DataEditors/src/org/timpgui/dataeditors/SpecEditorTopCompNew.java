@@ -747,7 +747,12 @@ final public class SpecEditorTopCompNew extends CloneableTopComponent
                 false,
                 false);
         LogAxis logAxe = new LogAxis("Log(SV)");
-        logAxe.setAutoRange(true);
+//        logAxe.setAutoRange(true);
+        int index = svdResult.getSingularValues().length-1;
+        while (svdResult.getSingularValues()[index]<=0){
+            index--;
+        }
+        logAxe.setRange(svdResult.getSingularValues()[index], svdResult.getSingularValues()[0]);
         //  logAxe.setLowerBound(svdResult.getSingularValues()[svdResult.getSingularValues().length-2]);
         tracechart.getXYPlot().setRangeAxis(logAxe);
         XYLineAndShapeRenderer renderer = (XYLineAndShapeRenderer) tracechart.getXYPlot().getRenderer();

@@ -194,7 +194,7 @@ public class TimpController implements TimpInterface {
 
     public double[] getParmu(String resultVariable, int dataset) {
         return getDoubleArray("as.vector(matrix(unlist(" + resultVariable +
-                "$currTheta[[" + dataset + "]]@parmu),ncol=3))");
+                "$currTheta[[" + dataset + "]]@parmu),nrow=1))");
     }
 
     public double[] getSpecdisppar(String resultVariable, int dataset) {

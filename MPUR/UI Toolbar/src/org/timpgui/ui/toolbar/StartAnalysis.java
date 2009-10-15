@@ -4,7 +4,6 @@
  */
 package org.timpgui.ui.toolbar;
 
-import java.awt.Cursor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.BufferedWriter;
@@ -25,7 +24,6 @@ import org.openide.nodes.Node;
 import org.openide.util.Exceptions;
 import org.openide.util.Lookup;
 import org.openide.util.NbPreferences;
-import org.openide.windows.TopComponent;
 import org.openide.windows.WindowManager;
 import org.timpgui.options.ExternalPanel;
 import org.timpgui.projectmanagement.SelectedDatasetsViewTopComponent;
@@ -177,7 +175,8 @@ public final class StartAnalysis implements ActionListener {
                         }
                     } else {
                         NotifyDescriptor errorMessage = new NotifyDescriptor.Exception(
-                                new Exception("The analysis did not return valid results. Try again with different paramters please."));
+                                new Exception("The analysis did not return valid results. " +
+                                "Try again with different paramters please, or try less iterations"));
                         DialogDisplayer.getDefault().notify(errorMessage);
                     }
 
@@ -196,7 +195,7 @@ public final class StartAnalysis implements ActionListener {
             Double test = tgm.getDat().getIrfparPanel().getLamda();
             if (test == null || test.isNaN()) {
                 run = false;
-                feedback = "Parmu or Partau was specified but no center wavelength was specified.";
+                feedback = "Parmu or Partau specified but no center wavelength was specified.";
             }
         }
         if (feedback != null) {

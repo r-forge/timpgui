@@ -42,7 +42,7 @@ public final class ShowResultsDataset extends CookieAction {
                 }
             }
         } else {
-            Confirmation msg = new NotifyDescriptor.Confirmation("2Bla 2bla 2bla", NotifyDescriptor.OK_CANCEL_OPTION);
+            Confirmation msg = new NotifyDescriptor.Confirmation("Bla bla bla", NotifyDescriptor.OK_CANCEL_OPTION);
             DialogDisplayer.getDefault().notify(msg);
         }
 

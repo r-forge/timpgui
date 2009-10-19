@@ -31,15 +31,20 @@ public class ASCIIImage implements TGDatasetService{
     public String getType(File file) throws FileNotFoundException {
        String loadedString;
         Scanner sc = new Scanner(file);
-        loadedString = sc.nextLine();
-        loadedString = sc.nextLine();
-        loadedString = sc.nextLine();
-        if (loadedString.trim().equalsIgnoreCase("Time explicit") | loadedString.trim().equalsIgnoreCase("Wavelength explicit")) {
-            return "spec";
-        } else {
-           if (loadedString.trim().equalsIgnoreCase("FLIM image")) {
-                return "FLIMascii";
-           } else return "error";
+        try {
+            loadedString = sc.nextLine();
+            loadedString = sc.nextLine();
+            loadedString = sc.nextLine();
+            if (loadedString.trim().equalsIgnoreCase("Time explicit") | loadedString.trim().equalsIgnoreCase("Wavelength explicit")) {
+                return "spec";
+            } else {
+               if (loadedString.trim().equalsIgnoreCase("FLIM image")) {
+                    return "FLIMascii";
+            } else return "error";
+
+            }
+        } catch (Exception e) {
+            return "error";
         }
     }
 

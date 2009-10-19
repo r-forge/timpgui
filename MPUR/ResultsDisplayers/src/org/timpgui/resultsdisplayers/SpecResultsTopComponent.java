@@ -15,12 +15,15 @@ import java.awt.image.BufferedImage;
 import java.io.Serializable;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Formatter;
 import java.util.logging.Logger;
 import nl.wur.flim.jfreechartcustom.ColorCodedImageDataset;
 import nl.wur.flim.jfreechartcustom.ImageCrosshairLabelGenerator;
 import nl.wur.flim.jfreechartcustom.ImageUtilities;
 import nl.wur.flim.jfreechartcustom.RainbowPaintScale;
 import org.jfree.chart.ChartFactory;
+import org.jfree.chart.ChartMouseEvent;
+import org.jfree.chart.ChartMouseListener;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.annotations.XYDataImageAnnotation;
@@ -64,7 +67,7 @@ import static java.lang.Math.abs;
 /**
  * Top component which displays something.
  */
-public final class SpecResultsTopComponent extends TopComponent implements ChartChangeListener {
+public final class SpecResultsTopComponent extends TopComponent implements ChartChangeListener, ChartMouseListener {
 
     private static SpecResultsTopComponent instance;
     /** path to the icon used by the component and its open action */
@@ -105,15 +108,18 @@ public final class SpecResultsTopComponent extends TopComponent implements Chart
 
         for (int i = 0; i < numberOfComponents; i++) {
 //            rates[i] = "k" + (i) + "=" + String.format(String.valueOf(res.getKineticParameters()[i]), "##0.#####E0");
-            rates[i] = "k" + (i) + "=" +  paramFormat.format(res.getKineticParameters()[i]);
+//            rates[i] = "k" + (i) + "=" +  paramFormat.format(res.getKineticParameters()[i]);
+            rates[i] = "k" + (i) + "=" +  new Formatter().format("%g",res.getKineticParameters()[i]);
 //            rates[i+numberOfComponents] = "er_k"+ (i) + "=" + String.format(String.valueOf(res.getKineticParameters()[i+numberOfComponents]), "##0.#####E0");
-            rates[i+numberOfComponents] = "er_k"+ (i) + "=" + errFormat.format(res.getKineticParameters()[i+numberOfComponents]);
+//            rates[i+numberOfComponents] = "er_k"+ (i) + "=" + errFormat.format(res.getKineticParameters()[i+numberOfComponents]);
+            rates[i+numberOfComponents] = "er_k"+ (i) + "=" + new Formatter().format("%g",res.getKineticParameters()[i+numberOfComponents]);
         }
         jLKineticParameters.setListData(rates);
 
         Object[] irfpar = new Object[res.getIrfpar().length];
         for (int i = 0; i < irfpar.length ; i++) {
-            irfpar[i] = "irf" + (i) + "=" + paramFormat.format(res.getIrfpar()[i]);
+//            irfpar[i] = "irf" + (i) + "=" + paramFormat.format(res.getIrfpar()[i]);
+            irfpar[i] = "irf" + (i) + "=" + new Formatter().format("%g",res.getIrfpar()[i]);
 //            irfpar[i+numberOfComponents] = "er_k"+ (i) + "=" + String.format(String.valueOf(res.getKineticParameters()[i+numberOfComponents]), "#.###");
         }
         jLSpectralParameters.setListData(irfpar);
@@ -219,6 +225,8 @@ public final class SpecResultsTopComponent extends TopComponent implements Chart
         jTBLinLogTraces = new javax.swing.JToggleButton();
         jTFLinPartTraces = new javax.swing.JTextField();
         jSeparator3 = new javax.swing.JToolBar.Separator();
+        jToggleButton1 = new javax.swing.JToggleButton();
+        jSeparator4 = new javax.swing.JToolBar.Separator();
         jScrollPane6 = new javax.swing.JScrollPane();
         jPanel3 = new javax.swing.JPanel();
         jPanel1 = new javax.swing.JPanel();
@@ -234,6 +242,13 @@ public final class SpecResultsTopComponent extends TopComponent implements Chart
         jTFCentrWave = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
         jTFCurvParam = new javax.swing.JTextField();
+        jPanel15 = new javax.swing.JPanel();
+        jPanel16 = new javax.swing.JPanel();
+        jLabel4 = new javax.swing.JLabel();
+        jPanel17 = new javax.swing.JPanel();
+        jPSingValues1 = new javax.swing.JPanel();
+        jPLeftSingVectors1 = new javax.swing.JPanel();
+        jPRightSingVectors1 = new javax.swing.JPanel();
         jPanel12 = new javax.swing.JPanel();
         jToolBar3 = new javax.swing.JToolBar();
         jButton4 = new javax.swing.JButton();
@@ -420,7 +435,7 @@ public final class SpecResultsTopComponent extends TopComponent implements Chart
                             .addComponent(jPanel7, 0, 0, Short.MAX_VALUE)
                             .addComponent(jPConcentrations, javax.swing.GroupLayout.DEFAULT_SIZE, 327, Short.MAX_VALUE)))
                     .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, 956, Short.MAX_VALUE))
-                .addGap(39, 39, 39))
+                .addGap(42, 42, 42))
         );
         jPanel6Layout.setVerticalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -442,8 +457,8 @@ public final class SpecResultsTopComponent extends TopComponent implements Chart
         jPanel14.setLayout(jPanel14Layout);
         jPanel14Layout.setHorizontalGroup(
             jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jToolBar1, javax.swing.GroupLayout.DEFAULT_SIZE, 995, Short.MAX_VALUE)
-            .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 995, Short.MAX_VALUE)
+            .addComponent(jToolBar1, javax.swing.GroupLayout.DEFAULT_SIZE, 974, Short.MAX_VALUE)
+            .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 974, Short.MAX_VALUE)
         );
         jPanel14Layout.setVerticalGroup(
             jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -508,11 +523,25 @@ public final class SpecResultsTopComponent extends TopComponent implements Chart
         jToolBar2.add(jTFLinPartTraces);
         jToolBar2.add(jSeparator3);
 
+        org.openide.awt.Mnemonics.setLocalizedText(jToggleButton1, org.openide.util.NbBundle.getMessage(SpecResultsTopComponent.class, "SpecResultsTopComponent.jToggleButton1.text")); // NOI18N
+        jToggleButton1.setFocusable(false);
+        jToggleButton1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jToggleButton1.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        jToggleButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jToggleButton1ActionPerformed(evt);
+            }
+        });
+        jToolBar2.add(jToggleButton1);
+        jToolBar2.add(jSeparator4);
+
         jScrollPane6.setBorder(null);
+        jScrollPane6.setPreferredSize(new java.awt.Dimension(1000, 700));
 
         jPanel3.setPreferredSize(new java.awt.Dimension(900, 1000));
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(org.openide.util.NbBundle.getMessage(SpecResultsTopComponent.class, "SpecResultsTopComponent.jPanel1.border.title"))); // NOI18N
+        jPanel1.setMinimumSize(new java.awt.Dimension(10, 10));
         jPanel1.setLayout(new java.awt.GridLayout(2, 0));
 
         jPSelectedWaveTrace.setBackground(new java.awt.Color(255, 255, 255));
@@ -622,30 +651,89 @@ public final class SpecResultsTopComponent extends TopComponent implements Chart
                 .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
                     .addComponent(jTFCurvParam, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(14, Short.MAX_VALUE))
         );
+
+        jPanel15.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        jPanel15.setLayout(new java.awt.GridBagLayout());
+
+        jPanel16.setLayout(new java.awt.BorderLayout());
+
+        jLabel4.setFont(new java.awt.Font("Dialog", 1, 14));
+        jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        org.openide.awt.Mnemonics.setLocalizedText(jLabel4, org.openide.util.NbBundle.getMessage(SpecResultsTopComponent.class, "SpecResultsTopComponent.jLabel4.text")); // NOI18N
+        jLabel4.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jPanel16.add(jLabel4, java.awt.BorderLayout.CENTER);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        jPanel15.add(jPanel16, gridBagConstraints);
+
+        jPanel17.setLayout(new java.awt.GridBagLayout());
+
+        jPSingValues1.setBackground(new java.awt.Color(255, 255, 255));
+        jPSingValues1.setLayout(new java.awt.BorderLayout());
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 0.26;
+        gridBagConstraints.weighty = 1.0;
+        jPanel17.add(jPSingValues1, gridBagConstraints);
+
+        jPLeftSingVectors1.setBackground(new java.awt.Color(255, 255, 255));
+        jPLeftSingVectors1.setLayout(new java.awt.BorderLayout());
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 0.37;
+        jPanel17.add(jPLeftSingVectors1, gridBagConstraints);
+
+        jPRightSingVectors1.setBackground(new java.awt.Color(255, 255, 255));
+        jPRightSingVectors1.setLayout(new java.awt.BorderLayout());
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 0.37;
+        gridBagConstraints.weighty = 1.0;
+        jPanel17.add(jPRightSingVectors1, gridBagConstraints);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 1.0;
+        jPanel15.add(jPanel17, gridBagConstraints);
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addComponent(jPanel10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 582, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 550, Short.MAX_VALUE))
+            .addComponent(jPanel15, javax.swing.GroupLayout.DEFAULT_SIZE, 974, Short.MAX_VALUE)
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(9, 9, 9)
+                        .addComponent(jPanel10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 493, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap(655, Short.MAX_VALUE))
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 493, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addComponent(jPanel15, javax.swing.GroupLayout.PREFERRED_SIZE, 263, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(380, Short.MAX_VALUE))
         );
 
         jScrollPane6.setViewportView(jPanel3);
@@ -654,8 +742,8 @@ public final class SpecResultsTopComponent extends TopComponent implements Chart
         jPanel13.setLayout(jPanel13Layout);
         jPanel13Layout.setHorizontalGroup(
             jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jToolBar2, javax.swing.GroupLayout.DEFAULT_SIZE, 995, Short.MAX_VALUE)
-            .addComponent(jScrollPane6, javax.swing.GroupLayout.DEFAULT_SIZE, 995, Short.MAX_VALUE)
+            .addComponent(jToolBar2, javax.swing.GroupLayout.DEFAULT_SIZE, 974, Short.MAX_VALUE)
+            .addComponent(jScrollPane6, javax.swing.GroupLayout.DEFAULT_SIZE, 974, Short.MAX_VALUE)
         );
         jPanel13Layout.setVerticalGroup(
             jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -687,7 +775,9 @@ public final class SpecResultsTopComponent extends TopComponent implements Chart
         jToolBar3.add(jButton5);
 
         jScrollPane5.setBorder(null);
+        jScrollPane5.setPreferredSize(new java.awt.Dimension(1000, 700));
 
+        jPSelTimeTrCollection.setPreferredSize(new java.awt.Dimension(923, 969));
         jPSelTimeTrCollection.setLayout(new java.awt.GridLayout(2, 2));
         jScrollPane5.setViewportView(jPSelTimeTrCollection);
 
@@ -695,8 +785,8 @@ public final class SpecResultsTopComponent extends TopComponent implements Chart
         jPanel12.setLayout(jPanel12Layout);
         jPanel12Layout.setHorizontalGroup(
             jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jToolBar3, javax.swing.GroupLayout.DEFAULT_SIZE, 995, Short.MAX_VALUE)
-            .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 995, Short.MAX_VALUE)
+            .addComponent(jToolBar3, javax.swing.GroupLayout.DEFAULT_SIZE, 974, Short.MAX_VALUE)
+            .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 974, Short.MAX_VALUE)
         );
         jPanel12Layout.setVerticalGroup(
             jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -738,8 +828,8 @@ public final class SpecResultsTopComponent extends TopComponent implements Chart
         jPanel11.setLayout(jPanel11Layout);
         jPanel11Layout.setHorizontalGroup(
             jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jToolBar4, javax.swing.GroupLayout.DEFAULT_SIZE, 995, Short.MAX_VALUE)
-            .addComponent(jScrollPane8, javax.swing.GroupLayout.DEFAULT_SIZE, 995, Short.MAX_VALUE)
+            .addComponent(jToolBar4, javax.swing.GroupLayout.DEFAULT_SIZE, 974, Short.MAX_VALUE)
+            .addComponent(jScrollPane8, javax.swing.GroupLayout.DEFAULT_SIZE, 974, Short.MAX_VALUE)
         );
         jPanel11Layout.setVerticalGroup(
             jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -755,7 +845,7 @@ public final class SpecResultsTopComponent extends TopComponent implements Chart
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 979, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -916,7 +1006,7 @@ public final class SpecResultsTopComponent extends TopComponent implements Chart
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
 
         selectedWaveTraces.add(jSRow.getValue());
-        NumberAxis xAxis = new NumberAxis("Time (ns)");
+        NumberAxis xAxis = new NumberAxis("Wavelenth (nm)");
         if (res.getX2()[res.getX2().length-1]<res.getX2()[0]){
             xAxis.setUpperBound(res.getX2()[0]);
             xAxis.setLowerBound(res.getX2()[res.getX2().length-1]);
@@ -925,7 +1015,10 @@ public final class SpecResultsTopComponent extends TopComponent implements Chart
             xAxis.setLowerBound(res.getX2()[0]);
             xAxis.setUpperBound(res.getX2()[res.getX2().length-1]);
         }
-
+        xAxis.setAutoRangeIncludesZero(false);
+        xAxis.setAutoRange(false);
+        xAxis.setLowerMargin(0.0);
+        xAxis.setUpperMargin(0.0);
         CombinedDomainXYPlot plot = new CombinedDomainXYPlot(xAxis);
         plot.setGap(5.0);
         try {
@@ -935,7 +1028,8 @@ public final class SpecResultsTopComponent extends TopComponent implements Chart
             Exceptions.printStackTrace(ex);
         }
         plot.setOrientation(PlotOrientation.VERTICAL);
-        JFreeChart tracechart = new JFreeChart(plot);
+        Font titleFont = new Font(JFreeChart.DEFAULT_TITLE_FONT.getFontName(),JFreeChart.DEFAULT_TITLE_FONT.getStyle(),12);
+        JFreeChart tracechart = new JFreeChart(String.valueOf(res.getX()[jSRow.getValue()]), titleFont, plot, true);
         tracechart.removeLegend();
         ChartPanel chpan = new ChartPanel(tracechart,true);
         chpan.setMinimumDrawHeight(0);
@@ -1035,6 +1129,16 @@ public final class SpecResultsTopComponent extends TopComponent implements Chart
         jPSASnorm.repaint();
     }//GEN-LAST:event_jTBNormToMaxActionPerformed
 
+    private void jToggleButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton1ActionPerformed
+
+//        chpanImage.setDomainZoomable(false);
+//        chpanImage.setRangeZoomable(false);
+//        chpanImage.addChartMouseListener(this);
+
+
+
+    }//GEN-LAST:event_jToggleButton1ActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jBUpdLinLog;
     private javax.swing.JButton jButton1;
@@ -1050,11 +1154,14 @@ public final class SpecResultsTopComponent extends TopComponent implements Chart
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel jPConcentrations;
     private javax.swing.JPanel jPDAS;
     private javax.swing.JPanel jPDASnorm;
     private javax.swing.JPanel jPLeftSingVectors;
+    private javax.swing.JPanel jPLeftSingVectors1;
     private javax.swing.JPanel jPRightSingVectors;
+    private javax.swing.JPanel jPRightSingVectors1;
     private javax.swing.JPanel jPSAS;
     private javax.swing.JPanel jPSASnorm;
     private javax.swing.JPanel jPSelTimeTrCollection;
@@ -1062,6 +1169,7 @@ public final class SpecResultsTopComponent extends TopComponent implements Chart
     private javax.swing.JPanel jPSelectedTimeTrace;
     private javax.swing.JPanel jPSelectedWaveTrace;
     private javax.swing.JPanel jPSingValues;
+    private javax.swing.JPanel jPSingValues1;
     private javax.swing.JPanel jPSpecImage;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel10;
@@ -1069,6 +1177,9 @@ public final class SpecResultsTopComponent extends TopComponent implements Chart
     private javax.swing.JPanel jPanel12;
     private javax.swing.JPanel jPanel13;
     private javax.swing.JPanel jPanel14;
+    private javax.swing.JPanel jPanel15;
+    private javax.swing.JPanel jPanel16;
+    private javax.swing.JPanel jPanel17;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
@@ -1088,6 +1199,7 @@ public final class SpecResultsTopComponent extends TopComponent implements Chart
     private javax.swing.JToolBar.Separator jSeparator1;
     private javax.swing.JToolBar.Separator jSeparator2;
     private javax.swing.JToolBar.Separator jSeparator3;
+    private javax.swing.JToolBar.Separator jSeparator4;
     private javax.swing.JToggleButton jTBLinLog;
     private javax.swing.JToggleButton jTBLinLogTraces;
     private javax.swing.JToggleButton jTBNormToMax;
@@ -1097,6 +1209,7 @@ public final class SpecResultsTopComponent extends TopComponent implements Chart
     private javax.swing.JTextField jTFLinPart;
     private javax.swing.JTextField jTFLinPartTraces;
     private javax.swing.JTabbedPane jTabbedPane1;
+    private javax.swing.JToggleButton jToggleButton1;
     private javax.swing.JToolBar jToolBar1;
     private javax.swing.JToolBar jToolBar2;
     private javax.swing.JToolBar jToolBar3;
@@ -1213,6 +1326,14 @@ public final class SpecResultsTopComponent extends TopComponent implements Chart
 //            jSRow.setMinimum(lowInd);
 //            jSRow.setMaximum(upInd);
 //        }
+    }
+
+    public void chartMouseClicked(ChartMouseEvent event) {
+
+    }
+
+    public void chartMouseMoved(ChartMouseEvent event) {
+
     }
 
     final static class ResolvableHelper implements Serializable {

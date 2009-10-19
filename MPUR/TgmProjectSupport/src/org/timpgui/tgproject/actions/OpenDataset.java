@@ -49,7 +49,7 @@ public final class OpenDataset extends CookieAction {
                     files = pane.getSelectedFiles();
                     for (File f : files) {
                         for (final TGDatasetService service : services) {
-                            if (f.getName().endsWith(service.getExtention())) {
+                           if (f.getName().endsWith(service.getExtention())) {
                                     try {
                                         if (service.Validator(f)) {
                                             FileObject cachefolder = null;
@@ -99,7 +99,6 @@ public final class OpenDataset extends CookieAction {
                                     } catch (InstantiationException ex) {
                                         Exceptions.printStackTrace(ex);
                                     }
-
                             }
                         }
                     }

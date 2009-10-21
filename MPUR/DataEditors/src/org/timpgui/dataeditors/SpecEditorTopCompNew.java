@@ -22,6 +22,7 @@ import java.util.logging.Logger;
 import javax.swing.SpinnerNumberModel;
 import nl.vu.nat.tgmprojectsupport.TGProject;
 import nl.wur.flim.jfreechartcustom.ColorCodedImageDataset;
+import nl.wur.flim.jfreechartcustom.GraphPanel;
 import nl.wur.flim.jfreechartcustom.ImageCrosshairLabelGenerator;
 import nl.wur.flim.jfreechartcustom.RainbowPaintScale;
 import nl.wur.flim.jfreechartcustom.ImageUtilities;
@@ -693,7 +694,7 @@ final public class SpecEditorTopCompNew extends CloneableTopComponent
         leftSVChart.setBackgroundPaint(JFreeChart.DEFAULT_BACKGROUND_PAINT);
         leftSVChart.getXYPlot().getDomainAxis().setUpperBound(data.getX()[data.getX().length - 1]);
         leftSVChart.getXYPlot().getDomainAxis().setAutoRange(false);
-        ChartPanel chpan = new ChartPanel(leftSVChart);
+        GraphPanel chpan = new GraphPanel(leftSVChart);
         //add chart with 2 LSV to JPannel
         jPLeftSingVectors.removeAll();
         jPLeftSingVectors.add(chpan);
@@ -722,7 +723,7 @@ final public class SpecEditorTopCompNew extends CloneableTopComponent
         rightSVChart.setBackgroundPaint(JFreeChart.DEFAULT_BACKGROUND_PAINT);
         rightSVChart.getXYPlot().getDomainAxis().setUpperBound(data.getX2()[data.getX2().length - 1]);
         rightSVChart.getXYPlot().getDomainAxis().setAutoRange(false);
-        chpan = new ChartPanel(rightSVChart);
+        chpan = new GraphPanel(rightSVChart);
         //add chart with 2 RSV to JPannel
         jPRightSingVectors.removeAll();
         jPRightSingVectors.add(chpan);
@@ -767,7 +768,7 @@ final public class SpecEditorTopCompNew extends CloneableTopComponent
         tracechart.getTitle().setFont(new Font(tracechart.getTitle().getFont().getFontName(), Font.PLAIN, 12));
         tracechart.setBackgroundPaint(JFreeChart.DEFAULT_BACKGROUND_PAINT);
 
-        chpan = new ChartPanel(tracechart);
+        chpan = new GraphPanel(tracechart);
         //add chart with 2 RSV to JPannel
         jPSingValues.removeAll();
         jPSingValues.add(chpan);
@@ -1437,6 +1438,7 @@ final public class SpecEditorTopCompNew extends CloneableTopComponent
         chpanImage = new ChartPanel(chartMain);
         chpanImage.setFillZoomRectangle(true);
         chpanImage.setMouseWheelEnabled(true);
+        chpanImage.setZoomFillPaint(new Color(68, 68, 78, 63));
         jPSpecImage.removeAll();
 //        chpanImage.setSize(jPSpecImage.getMaximumSize());
         jPSpecImage.setLayout(new BorderLayout());
@@ -1479,7 +1481,7 @@ final public class SpecEditorTopCompNew extends CloneableTopComponent
         subchartTimeTrace.getXYPlot().getDomainAxis().setUpperBound(data.getX()[data.getX().length-1]);
         subchartTimeTrace.setBackgroundPaint(JFreeChart.DEFAULT_BACKGROUND_PAINT);
 ////        tracechart.getXYPlot().setDomainZeroBaselineVisible(true);
-        ChartPanel chpan = new ChartPanel(subchartTimeTrace,true);
+        GraphPanel chpan = new GraphPanel(subchartTimeTrace,true);
 //        chpan.setSize(jPYTrace.getMaximumSize());
         jPYTrace.removeAll();
         jPYTrace.setLayout(new BorderLayout());
@@ -1519,7 +1521,7 @@ final public class SpecEditorTopCompNew extends CloneableTopComponent
         plot2.setDomainAxisLocation(AxisLocation.TOP_OR_RIGHT);
         plot2.setRangeAxisLocation(AxisLocation.TOP_OR_RIGHT);
 
-        ChartPanel subchart2Panel = new ChartPanel(subchartWaveTrace,true);
+        GraphPanel subchart2Panel = new GraphPanel(subchartWaveTrace,true);
 //        subchart2Panel.setSize(jPXTrace.getMaximumSize());
         jPXTrace.removeAll();
         jPXTrace.setLayout(new BorderLayout());

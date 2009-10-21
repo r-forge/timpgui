@@ -42,6 +42,7 @@ import org.jfree.chart.plot.XYPlot;
 import static java.lang.Math.round;
 import nl.vu.nat.jfreechartcustom.FastXYPlot;
 import nl.vu.nat.tgmprojectsupport.TGProject;
+import nl.wur.flim.jfreechartcustom.GraphPanel;
 import nl.wur.flim.jfreechartcustom.ImageUtilities;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.renderer.xy.XYBlockRenderer;
@@ -66,7 +67,8 @@ final public class SdtTopComponent extends CloneableTopComponent implements Char
     
     private FlimImage flimImage;
     private JFreeChart chart;
-    private ChartPanel chpanIntenceImage, chpanSelectedTrace;
+    private ChartPanel chpanIntenceImage;
+    private GraphPanel chpanSelectedTrace;
     private IntensImageDataset dataset;
     private XYSeriesCollection tracesCollection;
     private int numSelPix;
@@ -378,21 +380,20 @@ final public class SdtTopComponent extends CloneableTopComponent implements Char
                         .addComponent(jLabel8)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLHeigth)
-                        .addGap(170, 170, 170))
+                        .addGap(99, 99, 99))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                         .addComponent(jLabel6)
                         .addGap(18, 18, 18)
                         .addComponent(jLChNumm)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 46, Short.MAX_VALUE)
-                        .addComponent(jLabel9)
-                        .addGap(60, 60, 60)
-                        .addComponent(jLChWidth)
-                        .addContainerGap())))
+                        .addComponent(jLabel9)))
+                .addGap(60, 60, 60)
+                .addComponent(jLChWidth, javax.swing.GroupLayout.PREFERRED_SIZE, 8, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGap(21, 21, 21)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                         .addComponent(jLabel7)
@@ -404,9 +405,10 @@ final public class SdtTopComponent extends CloneableTopComponent implements Char
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel6)
                     .addComponent(jLChNumm)
-                    .addComponent(jLabel9)
-                    .addComponent(jLChWidth))
-                .addContainerGap(30, Short.MAX_VALUE))
+                    .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel9)
+                        .addComponent(jLChWidth)))
+                .addContainerGap(1, Short.MAX_VALUE))
         );
 
         jPanel5.setMaximumSize(new java.awt.Dimension(418, 105));
@@ -524,7 +526,7 @@ final public class SdtTopComponent extends CloneableTopComponent implements Char
                     .addGroup(jPanel6Layout.createSequentialGroup()
                         .addGap(118, 118, 118)
                         .addComponent(jLabel4)))
-                .addContainerGap(187, Short.MAX_VALUE))
+                .addContainerGap(167, Short.MAX_VALUE))
         );
         jPanel6Layout.setVerticalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -551,11 +553,11 @@ final public class SdtTopComponent extends CloneableTopComponent implements Char
                     .addComponent(jPIntensImage, javax.swing.GroupLayout.PREFERRED_SIZE, 438, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel6, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPSelectedTrace, javax.swing.GroupLayout.PREFERRED_SIZE, 498, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jPanel6, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jPSelectedTrace, javax.swing.GroupLayout.PREFERRED_SIZE, 478, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
-            .addComponent(jToolBar1, javax.swing.GroupLayout.DEFAULT_SIZE, 966, Short.MAX_VALUE)
+            .addComponent(jToolBar1, javax.swing.GroupLayout.DEFAULT_SIZE, 946, Short.MAX_VALUE)
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -569,10 +571,10 @@ final public class SdtTopComponent extends CloneableTopComponent implements Char
                         .addComponent(jPanel5, 0, 103, Short.MAX_VALUE))
                     .addComponent(jPIntensImage, javax.swing.GroupLayout.Alignment.TRAILING, 0, 0, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(192, 192, 192))
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 61, Short.MAX_VALUE))
+                .addGap(242, 242, 242))
         );
 
         jTabbedPane1.addTab(org.openide.util.NbBundle.getMessage(SdtTopComponent.class, "SdtTopComponent.jPanel2.TabConstraints.tabTitle"), jPanel2); // NOI18N
@@ -585,8 +587,8 @@ final public class SdtTopComponent extends CloneableTopComponent implements Char
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jToolBar2, javax.swing.GroupLayout.DEFAULT_SIZE, 966, Short.MAX_VALUE)
-            .addComponent(jPSumTrace, javax.swing.GroupLayout.DEFAULT_SIZE, 966, Short.MAX_VALUE)
+            .addComponent(jToolBar2, javax.swing.GroupLayout.DEFAULT_SIZE, 946, Short.MAX_VALUE)
+            .addComponent(jPSumTrace, javax.swing.GroupLayout.DEFAULT_SIZE, 946, Short.MAX_VALUE)
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -899,7 +901,7 @@ private void jBSumSelPixActionPerformed(java.awt.event.ActionEvent evt) {//GEN-F
         false
     );
     tracechart.getXYPlot().getDomainAxis().setUpperBound(flimImage.getTime());
-    ChartPanel chpanSumTrace = new ChartPanel(tracechart,true);
+    GraphPanel chpanSumTrace = new GraphPanel(tracechart,true);
     jPSumTrace.removeAll();
     jPSumTrace.setLayout(new BorderLayout());
     jPSumTrace.add(chpanSumTrace);
@@ -1229,7 +1231,7 @@ private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
             for (int i = 0; i < flimImage.getCurveNum(); i++)
                 tracechart.getXYPlot().getRenderer().setSeriesVisible(i, false);
         }
-        chpanSelectedTrace = new ChartPanel(tracechart,true);
+        chpanSelectedTrace = new GraphPanel(tracechart,true);
         chpanSelectedTrace.setSize(jPSelectedTrace.getMaximumSize());
         jPSelectedTrace.removeAll();
         jPSelectedTrace.add(chpanSelectedTrace);

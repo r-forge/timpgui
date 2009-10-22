@@ -46,6 +46,7 @@ public class JVectorCellPanel extends javax.swing.JPanel{
         jTextField1.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
         jTextField1.setName("jTextField1"); // NOI18N
 
+        jCheckBox1.setSelected(true);
         jCheckBox1.setName("jCheckBox1"); // NOI18N
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -53,7 +54,7 @@ public class JVectorCellPanel extends javax.swing.JPanel{
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
-                .addComponent(jTextField1, javax.swing.GroupLayout.DEFAULT_SIZE, 34, Short.MAX_VALUE)
+                .addComponent(jTextField1, javax.swing.GroupLayout.DEFAULT_SIZE, 40, Short.MAX_VALUE)
                 .addComponent(jCheckBox1))
         );
         layout.setVerticalGroup(

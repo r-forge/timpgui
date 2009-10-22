@@ -24,6 +24,7 @@ public class InitModel {
 
 // Public classes
     public static String parseModel(Tgm tgm) {
+ //       addToFixed=null;
         String initModel = "initModel(";
         String tempStr = null;
 
@@ -397,12 +398,12 @@ public class InitModel {
         
 
         if (fixedStr!= null){
-            if (addToFixed!=null)
+            if (addToFixed!=null){
                 fixedStr = fixedStr+"," + addToFixed + ")";
-            fixedStr = fixedStr + ")";
+            }
         } else {
             if (addToFixed!=null)
-            fixedStr = "fixed = list("+ addToFixed + ")";
+                fixedStr = "fixed = list("+ addToFixed + ")";
         }
            
         return fixedStr;
@@ -507,6 +508,7 @@ public class InitModel {
     }
 
     private static String get_mod_type(Tgm tgm) {
+        addToFixed = null;
         String mod_type = "mod_type = \"" + tgm.getDat().getModType() + "\"";
         return mod_type;
     }
@@ -525,8 +527,8 @@ public class InitModel {
                         clpequspecCall = "clpequspec = list(";
                     }
                     clpequspecCall = clpequspecCall + "list(" +
-                            "to=" + String.valueOf(i) +
-                            ",from=" + String.valueOf(j) +
+                            "to=" + String.valueOf(i+1) +
+                            ",from=" + String.valueOf(j+1) +
                             ",low=" + String.valueOf(min) +
                             ",high=" + String.valueOf(max) + "),";
                     count++;
@@ -546,12 +548,12 @@ public class InitModel {
     private static String get_clpequ(Tgm tgm, int count) {
         String clpequCall = null;
         for (int i = 0; i < count; i++) {
-            if (i ==0) {
+            if (i==0) {
                 clpequCall = "clpequ = c(";
             } else {
                 clpequCall = clpequCall + ",";                
             }
-            clpequCall = clpequCall + 1;
+            clpequCall = clpequCall + "1";
         }
         if(count>0) {
             clpequCall = clpequCall +")";
@@ -559,8 +561,10 @@ public class InitModel {
         if (clpequCall != null) {
             clpequCall =  "," + clpequCall;
         }
-        if (addToFixed!=null)
+        if (addToFixed==null)
             addToFixed = "clpequ=1:"+count;
+        else
+            addToFixed = addToFixed + ", clpequ=1:"+count;
         return clpequCall;
     }
 
@@ -614,12 +618,13 @@ public class InitModel {
         }
         if (relationsCall!=null)
             relationsCall = relationsCall+")";
-        if (fixed!= null)
+        if (fixed!= null){
             fixed = fixed+")";
-
-        if (addToFixed!=null)
-            addToFixed = addToFixed+","+fixed;
-        else addToFixed = fixed;
+            if (addToFixed!=null)
+                addToFixed = addToFixed+","+fixed;
+            else
+                addToFixed = fixed;
+        }
         return relationsCall;
     }
 

@@ -114,17 +114,17 @@ public final class SpecResultsTopComponent extends TopComponent implements Chart
         for (int i = 0; i < numberOfComponents; i++) {
 //            rates[i] = "k" + (i) + "=" + String.format(String.valueOf(res.getKineticParameters()[i]), "##0.#####E0");
 //            rates[i] = "k" + (i) + "=" +  paramFormat.format(res.getKineticParameters()[i]);
-            rates[i] = "k" + (i) + "=" +  new Formatter().format("%g",res.getKineticParameters()[i]);
+            rates[i] = "k" + (i+1) + "=" +  new Formatter().format("%g",res.getKineticParameters()[i]);
 //            rates[i+numberOfComponents] = "er_k"+ (i) + "=" + String.format(String.valueOf(res.getKineticParameters()[i+numberOfComponents]), "##0.#####E0");
 //            rates[i+numberOfComponents] = "er_k"+ (i) + "=" + errFormat.format(res.getKineticParameters()[i+numberOfComponents]);
-            rates[i+numberOfComponents] = "er_k"+ (i) + "=" + new Formatter().format("%g",res.getKineticParameters()[i+numberOfComponents]);
+            rates[i+numberOfComponents] = "er_k"+ (i+1) + "=" + new Formatter().format("%g",res.getKineticParameters()[i+numberOfComponents]);
         }
         jLKineticParameters.setListData(rates);
 
         Object[] irfpar = new Object[res.getIrfpar().length];
         for (int i = 0; i < irfpar.length ; i++) {
 //            irfpar[i] = "irf" + (i) + "=" + paramFormat.format(res.getIrfpar()[i]);
-            irfpar[i] = "irf" + (i) + "=" + new Formatter().format("%g",res.getIrfpar()[i]);
+            irfpar[i] = "irf" + (i+1) + "=" + new Formatter().format("%g",res.getIrfpar()[i]);
 //            irfpar[i+numberOfComponents] = "er_k"+ (i) + "=" + String.format(String.valueOf(res.getKineticParameters()[i+numberOfComponents]), "#.###");
         }
         jLSpectralParameters.setListData(irfpar);
@@ -433,12 +433,12 @@ public final class SpecResultsTopComponent extends TopComponent implements Chart
             .addGroup(jPanel6Layout.createSequentialGroup()
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel6Layout.createSequentialGroup()
-                        .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, 623, Short.MAX_VALUE)
+                        .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, 621, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jPanel7, 0, 0, Short.MAX_VALUE)
-                            .addComponent(jPConcentrations, javax.swing.GroupLayout.DEFAULT_SIZE, 327, Short.MAX_VALUE)))
-                    .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, 956, Short.MAX_VALUE))
+                            .addComponent(jPConcentrations, javax.swing.GroupLayout.DEFAULT_SIZE, 326, Short.MAX_VALUE)))
+                    .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, 953, Short.MAX_VALUE))
                 .addGap(42, 42, 42))
         );
         jPanel6Layout.setVerticalGroup(
@@ -461,8 +461,8 @@ public final class SpecResultsTopComponent extends TopComponent implements Chart
         jPanel14.setLayout(jPanel14Layout);
         jPanel14Layout.setHorizontalGroup(
             jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jToolBar1, javax.swing.GroupLayout.DEFAULT_SIZE, 974, Short.MAX_VALUE)
-            .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 974, Short.MAX_VALUE)
+            .addComponent(jToolBar1, javax.swing.GroupLayout.DEFAULT_SIZE, 995, Short.MAX_VALUE)
+            .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 995, Short.MAX_VALUE)
         );
         jPanel14Layout.setVerticalGroup(
             jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -545,7 +545,6 @@ public final class SpecResultsTopComponent extends TopComponent implements Chart
         jPanel3.setPreferredSize(new java.awt.Dimension(900, 1000));
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(org.openide.util.NbBundle.getMessage(SpecResultsTopComponent.class, "SpecResultsTopComponent.jPanel1.border.title"))); // NOI18N
-        jPanel1.setMinimumSize(new java.awt.Dimension(10, 10));
         jPanel1.setLayout(new java.awt.GridLayout(2, 0));
 
         jPSelectedWaveTrace.setBackground(new java.awt.Color(255, 255, 255));
@@ -611,6 +610,7 @@ public final class SpecResultsTopComponent extends TopComponent implements Chart
 
         org.openide.awt.Mnemonics.setLocalizedText(jLabel2, org.openide.util.NbBundle.getMessage(SpecResultsTopComponent.class, "SpecResultsTopComponent.jLabel2.text")); // NOI18N
 
+        jCBDispCurveShow.setSelected(true);
         org.openide.awt.Mnemonics.setLocalizedText(jCBDispCurveShow, org.openide.util.NbBundle.getMessage(SpecResultsTopComponent.class, "SpecResultsTopComponent.jCBDispCurveShow.text")); // NOI18N
         jCBDispCurveShow.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -723,8 +723,8 @@ public final class SpecResultsTopComponent extends TopComponent implements Chart
                     .addComponent(jPanel10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 550, Short.MAX_VALUE))
-            .addComponent(jPanel15, javax.swing.GroupLayout.DEFAULT_SIZE, 974, Short.MAX_VALUE)
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 571, Short.MAX_VALUE))
+            .addComponent(jPanel15, javax.swing.GroupLayout.DEFAULT_SIZE, 995, Short.MAX_VALUE)
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -737,7 +737,7 @@ public final class SpecResultsTopComponent extends TopComponent implements Chart
                     .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 493, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel15, javax.swing.GroupLayout.PREFERRED_SIZE, 263, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(379, Short.MAX_VALUE))
+                .addContainerGap(378, Short.MAX_VALUE))
         );
 
         jScrollPane6.setViewportView(jPanel3);
@@ -746,8 +746,8 @@ public final class SpecResultsTopComponent extends TopComponent implements Chart
         jPanel13.setLayout(jPanel13Layout);
         jPanel13Layout.setHorizontalGroup(
             jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jToolBar2, javax.swing.GroupLayout.DEFAULT_SIZE, 974, Short.MAX_VALUE)
-            .addComponent(jScrollPane6, javax.swing.GroupLayout.DEFAULT_SIZE, 974, Short.MAX_VALUE)
+            .addComponent(jToolBar2, javax.swing.GroupLayout.DEFAULT_SIZE, 995, Short.MAX_VALUE)
+            .addComponent(jScrollPane6, javax.swing.GroupLayout.DEFAULT_SIZE, 995, Short.MAX_VALUE)
         );
         jPanel13Layout.setVerticalGroup(
             jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -789,8 +789,8 @@ public final class SpecResultsTopComponent extends TopComponent implements Chart
         jPanel12.setLayout(jPanel12Layout);
         jPanel12Layout.setHorizontalGroup(
             jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jToolBar3, javax.swing.GroupLayout.DEFAULT_SIZE, 974, Short.MAX_VALUE)
-            .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 974, Short.MAX_VALUE)
+            .addComponent(jToolBar3, javax.swing.GroupLayout.DEFAULT_SIZE, 995, Short.MAX_VALUE)
+            .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 995, Short.MAX_VALUE)
         );
         jPanel12Layout.setVerticalGroup(
             jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -832,8 +832,8 @@ public final class SpecResultsTopComponent extends TopComponent implements Chart
         jPanel11.setLayout(jPanel11Layout);
         jPanel11Layout.setHorizontalGroup(
             jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jToolBar4, javax.swing.GroupLayout.DEFAULT_SIZE, 974, Short.MAX_VALUE)
-            .addComponent(jScrollPane8, javax.swing.GroupLayout.DEFAULT_SIZE, 974, Short.MAX_VALUE)
+            .addComponent(jToolBar4, javax.swing.GroupLayout.DEFAULT_SIZE, 995, Short.MAX_VALUE)
+            .addComponent(jScrollPane8, javax.swing.GroupLayout.DEFAULT_SIZE, 995, Short.MAX_VALUE)
         );
         jPanel11Layout.setVerticalGroup(
             jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -849,7 +849,7 @@ public final class SpecResultsTopComponent extends TopComponent implements Chart
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 979, Short.MAX_VALUE)
+            .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -879,10 +879,8 @@ public final class SpecResultsTopComponent extends TopComponent implements Chart
     }//GEN-LAST:event_jSRowStateChanged
 
     private void jSColumStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jSColumStateChanged
-
         crosshair1.setValue(jSColum.getValue());
         updateTrace(jSColum.getValue());
-
     }//GEN-LAST:event_jSColumStateChanged
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
@@ -1060,22 +1058,7 @@ public final class SpecResultsTopComponent extends TopComponent implements Chart
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jCBDispCurveShowActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCBDispCurveShowActionPerformed
-        //switch off/on the dispersion curve on top of image
-        if (jCBDispCurveShow.isSelected()){
-            XYDataset dispCurve = createDispersionCurve();
-            XYLineAndShapeRenderer rendererDisp = new  XYLineAndShapeRenderer();
-
-            rendererDisp.setSeriesShapesVisible(0,false);
-            rendererDisp.setSeriesPaint(0, Color.BLACK);
-
-            chartMain.getXYPlot().setDataset(1, dispCurve);
-            chartMain.getXYPlot().setRenderer(1,(XYItemRenderer)rendererDisp);
-            chartMain.getXYPlot().setDatasetRenderingOrder(DatasetRenderingOrder.FORWARD);
-        } else {
-            chartMain.getXYPlot().setDataset(1, null);
-            chartMain.getXYPlot().setRenderer(1,null);
-        }
-        //jPSpecImage.repaint();
+        showDispCurve();
     }//GEN-LAST:event_jCBDispCurveShowActionPerformed
 
     private void jTBLinLogActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTBLinLogActionPerformed
@@ -1154,8 +1137,8 @@ public final class SpecResultsTopComponent extends TopComponent implements Chart
         }
         timePart = tempX;
         leftSingVecPart = calculateSVDresid(tempResidMatrix,tempX,tempX2,jPRightSingVectorsPart, jPLeftSingVectorsPart, jPSingValuesPart);
+        updateTrace(jSColum.getValue());
         jPRightSingVectorsPart.validate();
-        jPLeftSingVectorsPart.validate();
         jPSingValuesPart.validate();
     }//GEN-LAST:event_jButton8ActionPerformed
 
@@ -1273,12 +1256,12 @@ public final class SpecResultsTopComponent extends TopComponent implements Chart
 
     @Override
     public void componentOpened() {
-        // TODO add custom code on component opening
+        
     }
 
     @Override
     public void componentClosed() {
-        // TODO add custom code on component closing
+        
     }
 
     /** replaces this in object stream */
@@ -1416,6 +1399,7 @@ public final class SpecResultsTopComponent extends TopComponent implements Chart
         XYPlot linPlot = linePart.getXYPlot();
         linPlot.getDomainAxis().setLowerMargin(0.0);
         linPlot.getDomainAxis().setUpperMargin(0.0);
+        linPlot.setRangeZeroBaselineVisible(true);
 
         XYPlot logPlot =logPart.getXYPlot();// new XYPlot(logCollection,new LogAxis(),null,linPlot.getRenderer());
 
@@ -1423,6 +1407,7 @@ public final class SpecResultsTopComponent extends TopComponent implements Chart
         logPlot.getDomainAxis().setLabelFont(linPlot.getDomainAxis().getLabelFont());
         logPlot.getDomainAxis().setLowerMargin(0.0);
         logPlot.getDomainAxis().setUpperMargin(0.0);
+        logPlot.setRangeZeroBaselineVisible(true);
 
         NumberAxis yAxis = new NumberAxis();
 
@@ -1466,6 +1451,7 @@ public final class SpecResultsTopComponent extends TopComponent implements Chart
                     false);
         tracechart.setBackgroundPaint(JFreeChart.DEFAULT_BACKGROUND_PAINT);
         tracechart.getXYPlot().getDomainAxis().setUpperBound(res.getX()[res.getX().length - 1]);
+        tracechart.getXYPlot().setRangeZeroBaselineVisible(true);
 
         for (int i = 0; i < traceNumber; i++)
             tracechart.getXYPlot().getRenderer().setSeriesPaint(i, ((AbstractRenderer) tracechart.getXYPlot().getRenderer()).lookupSeriesPaint(i));
@@ -1525,6 +1511,7 @@ public final class SpecResultsTopComponent extends TopComponent implements Chart
                 false);
         tracechart.setBackgroundPaint(JFreeChart.DEFAULT_BACKGROUND_PAINT);
         tracechart.getXYPlot().getDomainAxis().setUpperBound(res.getX2()[res.getX2().length - 1]);
+        tracechart.getXYPlot().setRangeZeroBaselineVisible(true);
         for (int i = 0; i < compNum; i++)
             tracechart.getXYPlot().getRenderer().setSeriesPaint(i, ((AbstractRenderer) tracechart.getXYPlot().getRenderer()).lookupSeriesPaint(i));
         GraphPanel chpan = new GraphPanel(tracechart);
@@ -1544,6 +1531,7 @@ public final class SpecResultsTopComponent extends TopComponent implements Chart
                 false);
         tracechart.setBackgroundPaint(JFreeChart.DEFAULT_BACKGROUND_PAINT);
         tracechart.getXYPlot().getDomainAxis().setUpperBound(res.getX2()[res.getX2().length - 1]);
+        tracechart.getXYPlot().setRangeZeroBaselineVisible(true);
         for (int i = 0; i < compNum; i++)
             tracechart.getXYPlot().getRenderer().setSeriesPaint(i, ((AbstractRenderer) tracechart.getXYPlot().getRenderer()).lookupSeriesPaint(i));
         chpan = new GraphPanel(tracechart);
@@ -1562,6 +1550,7 @@ public final class SpecResultsTopComponent extends TopComponent implements Chart
                 false);
         tracechart.setBackgroundPaint(JFreeChart.DEFAULT_BACKGROUND_PAINT);
         tracechart.getXYPlot().getDomainAxis().setUpperBound(res.getX2()[res.getX2().length - 1]);
+        tracechart.getXYPlot().setRangeZeroBaselineVisible(true);
 //        for (int i = 0; i < numberOfComponents; i++)
 //            tracechart.getXYPlot().getRenderer().setSeriesPaint(i, ((AbstractRenderer) tracechart.getXYPlot().getRenderer()).lookupSeriesPaint(i));
         chpan = new GraphPanel(tracechart);
@@ -1580,6 +1569,7 @@ public final class SpecResultsTopComponent extends TopComponent implements Chart
                 false);
         tracechart.setBackgroundPaint(JFreeChart.DEFAULT_BACKGROUND_PAINT);
         tracechart.getXYPlot().getDomainAxis().setUpperBound(res.getX2()[res.getX2().length - 1]);
+        tracechart.getXYPlot().setRangeZeroBaselineVisible(true);
 //        for (int i = 0; i < compNum; i++)
 //            tracechart.getXYPlot().getRenderer().setSeriesPaint(i, ((AbstractRenderer) tracechart.getXYPlot().getRenderer()).lookupSeriesPaint(i));
         chpan = new GraphPanel(tracechart);
@@ -1622,12 +1612,14 @@ public final class SpecResultsTopComponent extends TopComponent implements Chart
         plot1_1.getDomainAxis().setUpperMargin(0.0);
         plot1_1.setDomainAxisLocation(AxisLocation.BOTTOM_OR_LEFT);
         plot1_1.getDomainAxis().setInverted(true);
+        plot1_1.setRangeZeroBaselineVisible(true);
 
         XYPlot plot1_2 = subchartResidualsTime.getXYPlot();
         plot1_2.getDomainAxis().setLowerMargin(0.0);
         plot1_2.getDomainAxis().setUpperMargin(0.0);
         plot1_2.setDomainAxisLocation(AxisLocation.BOTTOM_OR_LEFT);
         plot1_2.getDomainAxis().setInverted(true);
+        plot1_2.setRangeZeroBaselineVisible(true);
 
         NumberAxis xAxis = new NumberAxis("Time (ns)");
         xAxis.setRange(res.getX()[0], res.getX()[res.getX().length - 1]);
@@ -1684,6 +1676,7 @@ public final class SpecResultsTopComponent extends TopComponent implements Chart
         plot2_1.getDomainAxis().setAutoRange(false);
         plot2_1.setDomainAxisLocation(AxisLocation.BOTTOM_OR_LEFT);
         plot2_1.setRangeAxisLocation(AxisLocation.BOTTOM_OR_LEFT);
+        plot2_1.setRangeZeroBaselineVisible(true);
 
         XYPlot plot2_2 = (XYPlot) subchartResidualsWave.getPlot();
         plot2_2.getDomainAxis().setLowerMargin(0.0);
@@ -1691,6 +1684,7 @@ public final class SpecResultsTopComponent extends TopComponent implements Chart
         plot2_2.getDomainAxis().setAutoRange(false);
         plot2_2.setDomainAxisLocation(AxisLocation.BOTTOM_OR_LEFT);
         plot2_2.setRangeAxisLocation(AxisLocation.BOTTOM_OR_LEFT);
+        plot2_2.setRangeZeroBaselineVisible(true);
 
         NumberAxis xAxisWave = new NumberAxis("Wavelength (ns)");
         xAxisWave.setAutoRangeIncludesZero(false);
@@ -1805,9 +1799,8 @@ public final class SpecResultsTopComponent extends TopComponent implements Chart
         chartMain.setBackgroundPaint(JFreeChart.DEFAULT_BACKGROUND_PAINT);
         legend.setBackgroundPaint(chartMain.getBackgroundPaint());
         chartMain.addSubtitle(legend);
-
         jPSpecImage.add(chpanImage);
-//        jPSpecImage.repaint();
+        showDispCurve();
     }
 
     private Matrix calculateSVDresid(Matrix rezid, double[] x, double[] x2, JPanel jPRSV, JPanel jPLSV, JPanel jPSV){
@@ -1867,6 +1860,7 @@ public final class SpecResultsTopComponent extends TopComponent implements Chart
         tracechart.getXYPlot().getDomainAxis().setAutoRange(false);
         tracechart.getXYPlot().getDomainAxis().setUpperMargin(0.0);
         tracechart.getXYPlot().getDomainAxis().setLowerMargin(0.0);
+        tracechart.getXYPlot().setRangeZeroBaselineVisible(true);
         ChartPanel chpan = new ChartPanel(tracechart);
 //add chart with 2 LSV to JPannel
         jPLSV.removeAll();
@@ -1887,6 +1881,7 @@ public final class SpecResultsTopComponent extends TopComponent implements Chart
         tracechart.getXYPlot().getDomainAxis().setUpperMargin(0.0);
         tracechart.getXYPlot().getDomainAxis().setLowerMargin(0.0);
         tracechart.getXYPlot().getDomainAxis().setAutoRange(false);
+        tracechart.getXYPlot().setRangeZeroBaselineVisible(true);
         chpan = new ChartPanel(tracechart);
 //add chart with 2 RSV to JPannel
         jPRSV.removeAll();
@@ -1955,12 +1950,14 @@ public final class SpecResultsTopComponent extends TopComponent implements Chart
         plot1_1.getDomainAxis().setUpperMargin(0.0);
         plot1_1.setDomainAxisLocation(AxisLocation.BOTTOM_OR_LEFT);
         plot1_1.getDomainAxis().setInverted(true);
+        plot1_1.setRangeZeroBaselineVisible(true);
 
         XYPlot plot1_2 = subchartResiduals.getXYPlot();
         plot1_2.getDomainAxis().setLowerMargin(0.0);
         plot1_2.getDomainAxis().setUpperMargin(0.0);
         plot1_2.setDomainAxisLocation(AxisLocation.BOTTOM_OR_LEFT);
         plot1_2.getDomainAxis().setInverted(true);
+        plot1_2.setRangeZeroBaselineVisible(true);
 
         CombinedDomainXYPlot plot = new CombinedDomainXYPlot(xAxis);
         plot.setGap(5.0);
@@ -2015,8 +2012,14 @@ public final class SpecResultsTopComponent extends TopComponent implements Chart
         plot.add(linPlot);
         plot.add(logPlot);
 
+        Range residRange = Range.combine(
+                ((XYPlot)linPlot.getSubplots().get(1)).getRangeAxis().getRange(),
+                ((XYPlot)logPlot.getSubplots().get(1)).getRangeAxis().getRange());
+
         ((XYPlot)linPlot.getSubplots().get(0)).getRangeAxis().setRange(yAxis.getRange());
         ((XYPlot)logPlot.getSubplots().get(0)).getRangeAxis().setRange(yAxis.getRange());
+        ((XYPlot)linPlot.getSubplots().get(1)).getRangeAxis().setRange(residRange);
+        ((XYPlot)logPlot.getSubplots().get(1)).getRangeAxis().setRange(residRange);
         ((XYPlot)logPlot.getSubplots().get(0)).getRangeAxis().setVisible(false);
         ((XYPlot)logPlot.getSubplots().get(1)).getRangeAxis().setVisible(false);
         
@@ -2136,5 +2139,22 @@ public final class SpecResultsTopComponent extends TopComponent implements Chart
             }
         }     
 
+    }
+    
+    private void showDispCurve(){
+        if (jCBDispCurveShow.isSelected()){
+            XYDataset dispCurve = createDispersionCurve();
+            XYLineAndShapeRenderer rendererDisp = new  XYLineAndShapeRenderer();
+
+            rendererDisp.setSeriesShapesVisible(0,false);
+            rendererDisp.setSeriesPaint(0, Color.BLACK);
+
+            chartMain.getXYPlot().setDataset(1, dispCurve);
+            chartMain.getXYPlot().setRenderer(1,(XYItemRenderer)rendererDisp);
+            chartMain.getXYPlot().setDatasetRenderingOrder(DatasetRenderingOrder.FORWARD);
+        } else {
+            chartMain.getXYPlot().setDataset(1, null);
+            chartMain.getXYPlot().setRenderer(1,null);
+        }
     }
 }        

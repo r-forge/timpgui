@@ -15,7 +15,7 @@ public class JVectorValueClass {
 
     JVectorValueClass(){
         value = 0;
-        fixed = false;
+        fixed = true;
     }
 
     JVectorValueClass(double val, boolean fix){

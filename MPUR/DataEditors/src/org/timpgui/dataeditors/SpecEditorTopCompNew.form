@@ -92,7 +92,7 @@
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Component id="jTabbedPane1" alignment="0" pref="800" max="32767" attributes="0"/>
+          <Component id="jTabbedPane1" alignment="0" pref="821" max="32767" attributes="0"/>
       </Group>
     </DimensionLayout>
     <DimensionLayout dim="1">
@@ -124,8 +124,8 @@
           <Layout>
             <DimensionLayout dim="0">
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="jToolBar1" alignment="0" pref="795" max="32767" attributes="0"/>
-                  <Component id="jScrollPane4" alignment="0" pref="795" max="32767" attributes="0"/>
+                  <Component id="jToolBar1" alignment="0" pref="816" max="32767" attributes="0"/>
+                  <Component id="jScrollPane4" alignment="0" pref="816" max="32767" attributes="0"/>
               </Group>
             </DimensionLayout>
             <DimensionLayout dim="1">
@@ -259,26 +259,25 @@
                   <Layout>
                     <DimensionLayout dim="0">
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Group type="102" alignment="0" attributes="0">
-                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                          <Group type="102" attributes="0">
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Component id="jSColum" alignment="0" min="-2" pref="371" max="-2" attributes="1"/>
                                   <Group type="102" alignment="0" attributes="0">
-                                      <Component id="jPSpecImage" min="-2" pref="423" max="-2" attributes="1"/>
+                                      <Group type="103" groupAlignment="1" max="-2" attributes="0">
+                                          <Component id="jPXTrace" alignment="0" max="32767" attributes="1"/>
+                                          <Component id="jPSpecImage" alignment="0" pref="423" max="32767" attributes="1"/>
+                                      </Group>
                                       <EmptySpace max="-2" attributes="0"/>
                                       <Component id="jSRow" min="-2" max="-2" attributes="0"/>
                                   </Group>
-                                  <Group type="102" alignment="0" attributes="0">
-                                      <EmptySpace max="-2" attributes="0"/>
-                                      <Component id="jSColum" min="-2" pref="345" max="-2" attributes="1"/>
-                                  </Group>
-                                  <Component id="jPXTrace" alignment="0" max="32767" attributes="1"/>
                               </Group>
                               <EmptySpace max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                  <Component id="jScrollPane3" alignment="0" pref="302" max="32767" attributes="1"/>
-                                  <Component id="jPanel10" alignment="0" max="32767" attributes="3"/>
-                                  <Component id="jPYTrace" alignment="0" max="32767" attributes="1"/>
+                                  <Component id="jPanel10" max="32767" attributes="3"/>
+                                  <Component id="jScrollPane3" max="32767" attributes="1"/>
+                                  <Component id="jPYTrace" alignment="0" pref="277" max="32767" attributes="1"/>
                               </Group>
-                              <EmptySpace pref="234" max="32767" attributes="0"/>
+                              <EmptySpace pref="88" max="32767" attributes="0"/>
                           </Group>
                       </Group>
                     </DimensionLayout>
@@ -286,24 +285,29 @@
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" attributes="0">
                               <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="jPYTrace" min="0" pref="392" max="32767" attributes="1"/>
-                                  <Component id="jPSpecImage" alignment="0" pref="392" max="32767" attributes="1"/>
-                                  <Component id="jSRow" alignment="0" pref="392" max="32767" attributes="1"/>
-                              </Group>
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="0" attributes="0">
-                                  <Group type="102" attributes="0">
-                                      <Component id="jSColum" min="-2" max="-2" attributes="0"/>
+                                  <Group type="102" alignment="0" attributes="0">
+                                      <Group type="103" groupAlignment="0" attributes="0">
+                                          <Group type="102" alignment="0" attributes="0">
+                                              <EmptySpace min="400" pref="400" max="400" attributes="0"/>
+                                              <Component id="jSColum" min="-2" max="-2" attributes="0"/>
+                                          </Group>
+                                          <Group type="103" alignment="0" groupAlignment="0" max="-2" attributes="0">
+                                              <Component id="jSRow" alignment="0" max="32767" attributes="1"/>
+                                              <Component id="jPSpecImage" alignment="0" pref="394" max="32767" attributes="1"/>
+                                          </Group>
+                                      </Group>
                                       <EmptySpace max="-2" attributes="0"/>
-                                      <Component id="jPXTrace" pref="228" max="32767" attributes="1"/>
+                                      <Component id="jPXTrace" min="-2" pref="232" max="-2" attributes="1"/>
                                   </Group>
-                                  <Group type="102" alignment="1" attributes="0">
-                                      <Component id="jScrollPane3" pref="170" max="32767" attributes="0"/>
+                                  <Group type="102" alignment="1" attributes="1">
+                                      <Component id="jPYTrace" pref="394" max="32767" attributes="1"/>
+                                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                                      <Component id="jScrollPane3" min="-2" pref="145" max="-2" attributes="0"/>
                                       <EmptySpace max="-2" attributes="0"/>
-                                      <Component id="jPanel10" min="-2" pref="74" max="-2" attributes="0"/>
+                                      <Component id="jPanel10" min="-2" max="-2" attributes="0"/>
                                   </Group>
                               </Group>
-                              <EmptySpace min="-2" max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="218" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                     </DimensionLayout>
@@ -440,8 +444,8 @@
                                   </Group>
                                   <EmptySpace max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="0" attributes="0">
-                                      <Component id="jTFMaxIntence" alignment="0" pref="160" max="32767" attributes="1"/>
-                                      <Component id="jTFMinIntence" alignment="0" pref="160" max="32767" attributes="1"/>
+                                      <Component id="jTFMaxIntence" alignment="0" pref="135" max="32767" attributes="1"/>
+                                      <Component id="jTFMinIntence" alignment="0" pref="135" max="32767" attributes="1"/>
                                   </Group>
                                   <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
                                   <Component id="jButton1" min="-2" pref="50" max="-2" attributes="0"/>
@@ -466,7 +470,7 @@
                                       </Group>
                                       <Component id="jButton1" alignment="0" min="-2" pref="29" max="-2" attributes="0"/>
                                   </Group>
-                                  <EmptySpace max="32767" attributes="0"/>
+                                  <EmptySpace pref="23" max="32767" attributes="0"/>
                               </Group>
                           </Group>
                         </DimensionLayout>
@@ -538,8 +542,8 @@
           <Layout>
             <DimensionLayout dim="0">
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="jToolBar2" alignment="0" pref="795" max="32767" attributes="1"/>
-                  <Component id="jScrollPane1" alignment="0" pref="795" max="32767" attributes="0"/>
+                  <Component id="jToolBar2" alignment="0" pref="816" max="32767" attributes="1"/>
+                  <Component id="jScrollPane1" alignment="0" pref="816" max="32767" attributes="0"/>
               </Group>
             </DimensionLayout>
             <DimensionLayout dim="1">

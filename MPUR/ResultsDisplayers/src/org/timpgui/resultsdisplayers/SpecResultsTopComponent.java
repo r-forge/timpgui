@@ -149,7 +149,7 @@ public final class SpecResultsTopComponent extends TopComponent implements Chart
             jTBShowChohSpec.setEnabled(true);
         }
         plotSpectrTrace();
-        ChartPanel conc = createLinTimePlot(res.getConcentrations(), res.getX());
+        GraphPanel conc = createLinTimePlot(res.getConcentrations(), res.getX());
         jPConcentrations.removeAll();
         jPConcentrations.add(conc);
 
@@ -367,7 +367,6 @@ public final class SpecResultsTopComponent extends TopComponent implements Chart
         jPanel7.add(jScrollPane2);
 
         jPConcentrations.setBackground(new java.awt.Color(255, 255, 255));
-        jPConcentrations.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         jPConcentrations.setPreferredSize(new java.awt.Dimension(230, 110));
         jPConcentrations.setLayout(new java.awt.BorderLayout());
 
@@ -656,7 +655,7 @@ public final class SpecResultsTopComponent extends TopComponent implements Chart
                 .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
                     .addComponent(jTFCurvParam, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(15, Short.MAX_VALUE))
+                .addContainerGap(16, Short.MAX_VALUE))
         );
 
         jPanel15.setBorder(javax.swing.BorderFactory.createEtchedBorder());
@@ -738,7 +737,7 @@ public final class SpecResultsTopComponent extends TopComponent implements Chart
                     .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 493, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel15, javax.swing.GroupLayout.PREFERRED_SIZE, 263, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(380, Short.MAX_VALUE))
+                .addContainerGap(379, Short.MAX_VALUE))
         );
 
         jScrollPane6.setViewportView(jPanel3);
@@ -1444,7 +1443,7 @@ public final class SpecResultsTopComponent extends TopComponent implements Chart
         return new ChartPanel(tracechart,true);
     }
 
-    private ChartPanel createLinTimePlot(Matrix data, double[] timesteps){
+    private GraphPanel createLinTimePlot(Matrix data, double[] timesteps){
         int traceNumber = data.getColumnDimension();
         XYSeriesCollection concCollection = new XYSeriesCollection();
         XYSeries seria;
@@ -1471,7 +1470,7 @@ public final class SpecResultsTopComponent extends TopComponent implements Chart
         for (int i = 0; i < traceNumber; i++)
             tracechart.getXYPlot().getRenderer().setSeriesPaint(i, ((AbstractRenderer) tracechart.getXYPlot().getRenderer()).lookupSeriesPaint(i));
 
-        ChartPanel chpan = new ChartPanel(tracechart);
+        GraphPanel chpan = new GraphPanel(tracechart);
         chpan.getChartRenderingInfo().setEntityCollection(null);
         return chpan;
     }

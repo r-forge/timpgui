@@ -72,7 +72,7 @@ public final class StartAnalysis implements ActionListener {
                 }
 
                 final TGProject proj = (TGProject) OpenProjects.getDefault().getMainProject();
-                FileObject resultsfolder;
+                FileObject resultsfolder = null;
                 if (proj != null) {
                     service = Lookup.getDefault().lookup(TimpInterface.class);
                     SelectedDatasetsViewTopComponent tcd = (SelectedDatasetsViewTopComponent) WindowManager.getDefault().findTopComponent("SelectedDatasetsViewTopComponent");
@@ -107,76 +107,81 @@ public final class StartAnalysis implements ActionListener {
 ////                        TopComponent.getRegistry().getActivated().setCursor(Cursor.getDefaultCursor());
 //                    }
                     if (results != null) {
+                        boolean folderOK = false;
                         NotifyDescriptor.InputLine resultNameDialog = new NotifyDescriptor.InputLine(
                                 "Analysis name",
                                 "Please specify the name for results folder");
-                        Object res = DialogDisplayer.getDefault().notify(resultNameDialog);
-                        if (res.equals(NotifyDescriptor.OK_OPTION)) {
-                            //get results directory
-                            resultsfolder = proj.getResultsFolder(true);
-                            try {
-                                if (!resultsfolder.getFileObject(resultNameDialog.getInputText()).isVirtual()){
-                                   // resultsfolder.getFileObject(resultNameDialog.getInputText()).delete();
+                        NotifyDescriptor.Confirmation foldExistsDialog = new NotifyDescriptor.Confirmation(
+                                        "Folder with this name already exists! Override?");
+                        Object res = null;
+                        Object res2;
+                        try {
+                            while (!folderOK){
+                            res = DialogDisplayer.getDefault().notify(resultNameDialog);
+                            if (res.equals(NotifyDescriptor.OK_OPTION)) {
+                                //get results directory
+                                resultsfolder = proj.getResultsFolder(true);
+                                if (resultsfolder.getFileObject(resultNameDialog.getInputText())!=null){
+                                   res2 = DialogDisplayer.getDefault().notify(foldExistsDialog);
+                                   if (res2.equals(NotifyDescriptor.OK_OPTION)) {
+                                       resultsfolder.getFileObject(resultNameDialog.getInputText()).delete();
+                                       folderOK = true;
+                                   }
+                                } else
+                                     folderOK = true;
                                 }
-                                else {
-                                    //todo resove problem with same name for directory
-                                    resultsfolder = resultsfolder.createFolder(resultNameDialog.getInputText());
-                                    for (int i = 0; i < results.length; i++) {
-                                        TimpResultDataset timpResultDataset = results[i];
-                                        timpResultDataset.setType(datasets[i].getType());
-                                        //TODO: change this
-                                        timpResultDataset.setLamdac(models[0].getDat().getIrfparPanel().getLamda());
-                                        if (datasets[i].getType().equalsIgnoreCase("flim")) {
-                                            timpResultDataset.setOrheigh(datasets[i].getOrigHeigh()[0]);
-                                            timpResultDataset.setOrwidth(datasets[i].getOrigWidth()[0]);
-                                            timpResultDataset.setIntenceIm(datasets[i].getIntenceIm().clone());
-                                            timpResultDataset.setMaxInt(datasets[i].getMaxInt());
-                                            timpResultDataset.setMinInt(datasets[i].getMinInt());
-                                            timpResultDataset.setX(datasets[i].getX().clone());
-                                            timpResultDataset.setX2(datasets[i].getX2().clone());
-                                        }
-                                        FileObject writeTo;
-                                        try {
-                                            writeTo = resultsfolder.createData("dataset" + (i + 1) + "_" + timpResultDataset.getDatasetName(), "timpres");
-                                            ObjectOutputStream stream = new ObjectOutputStream(writeTo.getOutputStream());
-                                            stream.writeObject(timpResultDataset);
-                                            stream.close();
-                                            writeTo = resultsfolder.createData(resultsfolder.getName() + "_summary", "txt");
-                                            BufferedWriter output = new BufferedWriter(new FileWriter(FileUtil.toFile(writeTo)));
-                                            //TODO: Complete the summary here:
-
-                                            output.append("Summary");
-                                            output.newLine();
-                                            output.append("Used dataset(s): ");
-                                            for (int j = 0; j < datasets.length; j++) {
-                                                DatasetTimp dataset = datasets[i];
-                                                output.append(dataset.getDatasetName());
-                                                output.newLine();
-                                            }
-                                            output.append("Used model(s): ");
-                                            for (int j = 0; j < nsm.length; j++) {
-                                                output.append(nsm[i].getName());
-                                                output.newLine();
-                                            }
-                                            output.append("Number of iterations: ");
-                                            output.append(String.valueOf(NO_OF_ITERATIONS));
-                                            output.newLine();
-                                            ArrayList<String> list = service.getInitModelCalls();
-                                            for (String string : list) {
-                                                output.append(string);
-                                                output.newLine();
-                                            }
-                                            output.write(service.getFitModelCall());
-                                            output.close();
-                                        } catch (IOException ex) {
-                                            Exceptions.printStackTrace(ex);
-                                        }
-                                }
-                                }
-                            } catch (IOException ex) {
-                                Exceptions.printStackTrace(ex);
                             }
-
+                            if (res.equals(NotifyDescriptor.OK_OPTION)) {
+                                resultsfolder = resultsfolder.createFolder(resultNameDialog.getInputText());
+                                for (int i = 0; i < results.length; i++) {
+                                    TimpResultDataset timpResultDataset = results[i];
+                                    timpResultDataset.setType(datasets[i].getType());
+                                    //TODO: change this
+                                    timpResultDataset.setLamdac(models[0].getDat().getIrfparPanel().getLamda());
+                                    if (datasets[i].getType().equalsIgnoreCase("flim")) {
+                                        timpResultDataset.setOrheigh(datasets[i].getOrigHeigh()[0]);
+                                        timpResultDataset.setOrwidth(datasets[i].getOrigWidth()[0]);
+                                        timpResultDataset.setIntenceIm(datasets[i].getIntenceIm().clone());
+                                        timpResultDataset.setMaxInt(datasets[i].getMaxInt());
+                                        timpResultDataset.setMinInt(datasets[i].getMinInt());
+                                        timpResultDataset.setX(datasets[i].getX().clone());
+                                        timpResultDataset.setX2(datasets[i].getX2().clone());
+                                    }
+                                    FileObject writeTo;
+                                    writeTo = resultsfolder.createData("dataset" + (i + 1) + "_" + timpResultDataset.getDatasetName(), "timpres");
+                                    ObjectOutputStream stream = new ObjectOutputStream(writeTo.getOutputStream());
+                                    stream.writeObject(timpResultDataset);
+                                    stream.close();
+                                    writeTo = resultsfolder.createData(resultsfolder.getName() + "_summary", "txt");
+                                    BufferedWriter output = new BufferedWriter(new FileWriter(FileUtil.toFile(writeTo)));
+                                    //TODO: Complete the summary here:
+                                    output.append("Summary");
+                                    output.newLine();
+                                    output.append("Used dataset(s): ");
+                                    for (int j = 0; j < datasets.length; j++) {
+                                        DatasetTimp dataset = datasets[i];
+                                        output.append(dataset.getDatasetName());
+                                        output.newLine();
+                                    }
+                                    output.append("Used model(s): ");
+                                    for (int j = 0; j < nsm.length; j++) {
+                                        output.append(nsm[i].getName());
+                                        output.newLine();
+                                    }
+                                    output.append("Number of iterations: ");
+                                    output.append(String.valueOf(NO_OF_ITERATIONS));
+                                    output.newLine();
+                                    ArrayList<String> list = service.getInitModelCalls();
+                                    for (String string : list) {
+                                        output.append(string);
+                                        output.newLine();
+                                    }
+                                    output.write(service.getFitModelCall());
+                                    output.close();
+                                }
+                            }
+                        } catch (IOException ex) {
+                            Exceptions.printStackTrace(ex);
                         }
                     } else {
                         NotifyDescriptor errorMessage = new NotifyDescriptor.Exception(
@@ -184,7 +189,6 @@ public final class StartAnalysis implements ActionListener {
                                 "Try again with different paramters please, or try less iterations"));
                         DialogDisplayer.getDefault().notify(errorMessage);
                     }
-
                 } else {
                     NotifyDescriptor errorMessage = new NotifyDescriptor.Exception(
                             new Exception("Please select your main project."));

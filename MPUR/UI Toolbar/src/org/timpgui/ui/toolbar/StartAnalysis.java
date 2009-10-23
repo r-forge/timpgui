@@ -41,11 +41,9 @@ public final class StartAnalysis implements ActionListener {
     private TimpInterface service;
     private DatasetTimp[] datasets;
     private TimpResultDataset[] results = null;
-    private Object resultFromDialog = null;
     private boolean run;
 
     public void actionPerformed(ActionEvent e) {
-
         //Add JRI to library path
         Preferences pref = NbPreferences.forModule(ExternalPanel.class);
         String pathToR = pref.get("pathToRInstallation", "");

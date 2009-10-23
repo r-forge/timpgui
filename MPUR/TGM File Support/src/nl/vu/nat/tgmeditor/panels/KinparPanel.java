@@ -6,6 +6,7 @@
 package nl.vu.nat.tgmeditor.panels;
 
 import javax.swing.JComponent;
+import javax.swing.JScrollPane;
 import nl.vu.nat.tgmfilesupport.TgmDataObject;
 import org.netbeans.modules.xml.multiview.ui.SectionInnerPanel;
 import org.netbeans.modules.xml.multiview.ui.SectionView;
@@ -22,14 +23,13 @@ import nl.vu.nat.tgmodels.tgm.KinparPanelModel;
  *
  * @author  Sergey
  */
-public class KinparPanel extends SectionInnerPanel {
+public class KinparPanel extends SectionInnerPanel implements TableModelListener {
 
     private TgmDataObject dObj;
     private KinparPanelModel kinparPanelModel;
-    private KinModTableModel model;
-    private Object[] defRow;
-    private Object[] colNames;
+    private ParameterTableModel model;
     private Object[] newRow;
+    private RowHeader rowHeader;
 
     /** Creates new form KinparPanel */
     public KinparPanel(SectionView view, TgmDataObject dObj, KinparPanelModel kinparPanelModel) {
@@ -39,12 +39,9 @@ public class KinparPanel extends SectionInnerPanel {
         initComponents();
         
         jSNumOfComponents.setModel(new SpinnerNumberModel(kinparPanelModel.getKinpar().size(), 0, null, 1));
-                    
-        defRow = new Object[]{new Double(0), new Boolean(false), new Boolean(false), new Double(0), new Double(0)};
-        colNames = new Object[]{"Starting value", "Fixed", "Constrained", "Min", "Max"};
-        model = new KinModTableModel(colNames, 0);
-        
-         for (int i = 0; i < kinparPanelModel.getKinpar().size(); i++) {
+        model = new ParameterTableModel(0);
+        rowHeader = new RowHeader(16, 20);
+        for (int i = 0; i < kinparPanelModel.getKinpar().size(); i++) {
             newRow = new Object[]{
                 kinparPanelModel.getKinpar().get(i).getStart(),
                 kinparPanelModel.getKinpar().get(i).isFixed(),
@@ -53,14 +50,18 @@ public class KinparPanel extends SectionInnerPanel {
                 kinparPanelModel.getKinpar().get(i).getMax()
             };
             model.addRow(newRow);
-            
+            rowHeader.addRow(String.valueOf(i+1));
         }
         jTKinParamTable.setModel(model);
+        JScrollPane jscpane = (JScrollPane) jTKinParamTable.getParent().getParent();
+        jscpane.setRowHeaderView(rowHeader);
+        jscpane.setCorner(JScrollPane.UPPER_LEFT_CORNER, rowHeader.getTableHeader());
+
         jCSeqmod.setSelected(kinparPanelModel.isSeqmod());
         jCPositivepar.setSelected(kinparPanelModel.isPositivepar());
         
         // Add listerners
-        jTKinParamTable.getModel().addTableModelListener(model);
+        jTKinParamTable.getModel().addTableModelListener(this);
         addModifier(jCSeqmod);
         addModifier(jCPositivepar);
     }
@@ -113,30 +114,10 @@ public class KinparPanel extends SectionInnerPanel {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
-    
-    class KinModTableModel extends DefaultTableModel implements TableModelListener {
-
-        private Class[] types = new Class[]{Double.class, Boolean.class, Boolean.class,Double.class, Double.class};
-
-        private KinModTableModel() {
-            super();
-        }
-
-        private KinModTableModel(Object[] ColNames, int i) {
-            super(ColNames, i);
-        }
-
-        @Override
-        public Class getColumnClass(int c) {
-            return types[c];
-        }
-
-        @Override
-        public void tableChanged(TableModelEvent event) {
-            //if (jTKinParamTable.isValid()) {
+    @Override
+    public void tableChanged(TableModelEvent e) {
+        if (e.getSource().equals(model)) {
             setValue(jTKinParamTable, this);
-            endUIChange();
-           // }
         }
     }
 
@@ -207,20 +188,17 @@ public class KinparPanel extends SectionInnerPanel {
     }// </editor-fold>//GEN-END:initComponents
 
 private void jSNumOfComponentsStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jSNumOfComponentsStateChanged
-// TODO add your handling code here:]
-//    jSNumOfComponents.getPreviousValue().
-//    for (int i = 0; i < Math.abs((Integer)jSNumOfComponents.getValue()-(Integer)jSNumOfComponents.getPreviousValue()); i++) {
-    if ((Integer) jSNumOfComponents.getValue() > model.getRowCount()) {
-        model.addRow(defRow);
+    int oldRowCount = model.getRowCount();
+    if ((Integer) jSNumOfComponents.getValue() > oldRowCount) {
+        for (int i = 0; i < (Integer)jSNumOfComponents.getValue()-oldRowCount; i++){
+            model.addRow();
+            rowHeader.addRow(String.valueOf(model.getRowCount()));
+        }
     } else {
-        model.removeRow(model.getRowCount() - 1);
-        
-//    DefaultTableModel model = (DefaultTableModel) jTKinParamTable.getModel();
-//    model.setRowCount((Integer)jSNumOfComponents.getValue());
-//    model.addRow(new Object[]{"v1", "v2","v3"});
-    //   jTKinParamTable.
-//    }
-    
+        for (int i = 0; i < oldRowCount-(Integer)jSNumOfComponents.getValue(); i++){
+            rowHeader.removeRow(model.getRowCount() - 1);
+            model.removeRow(model.getRowCount() - 1);
+        }
     }
     endUIChange();
 }//GEN-LAST:event_jSNumOfComponentsStateChanged

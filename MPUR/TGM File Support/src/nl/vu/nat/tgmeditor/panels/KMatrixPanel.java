@@ -15,6 +15,7 @@ import javax.swing.event.TableModelListener;
 import nl.vu.nat.tgmodels.tgm.Double2Matrix;
 import nl.vu.nat.tgmodels.tgm.IntMatrix;
 import nl.vu.nat.tgmodels.tgm.KMatrixPanelModel;
+import nl.vu.nat.tgmodels.tgm.KinPar;
 
 /**
  *
@@ -84,7 +85,7 @@ public class KMatrixPanel extends SectionInnerPanel implements TableModelListene
                                                   kMatrixPanelModel.getJVector().getFixed().get(i)) , 0, i);
         }
 
-//fill in fixed to 0 spectra parameters
+//fill in fixed to 0 spectra parametersstar
         modelCLP0.addRow(kMatrixPanelModel.getSpectralContraints().getMin().toArray().clone());
         modelCLP0.addRow(kMatrixPanelModel.getSpectralContraints().getMax().toArray().clone());
         
@@ -131,7 +132,7 @@ public class KMatrixPanel extends SectionInnerPanel implements TableModelListene
 //        for (int i = 0; i <matrixSize; i++){
 //            relationsModel.addRow(new Vector(matrixSize));
 //            for (int j = 0; j <matrixSize; j++){
-//                if (kMatrixPanelModel.getRelationsMatrix().getData().size()==matrixSize){
+//                if (kMatrixPanelModel.getRelatiostarnsMatrix().getData().size()==matrixSize){
 //                    relationsModel.setValueAt(new RelationValueClass(
 //                            kMatrixPanelModel.getRelationsMatrix().getData().get(i).getC0().get(j),
 //                            kMatrixPanelModel.getRelationsMatrix().getData().get(i).getC1().get(j),
@@ -150,6 +151,8 @@ public class KMatrixPanel extends SectionInnerPanel implements TableModelListene
         jVec.addTableModelListener(this);
         modelCLP0.addTableModelListener(this);
         modelClpEq.addTableModelListener(this);
+        kinparModel.addTableModelListener(this);
+        kinscalModel.addTableModelListener(this);
 
 //add row names
         jTKMatrix1.setModel(model1);
@@ -234,6 +237,35 @@ public class KMatrixPanel extends SectionInnerPanel implements TableModelListene
 
         }
 
+        if (source == jTStartingKinpar) {
+            KinparPanelModel kinparPanelModel = dObj.getTgm().getDat().getKinparPanel();
+            kinparPanelModel.getKinpar().clear();
+            for (int i = 0; i < kinparModel.getRowCount(); i++) {
+                KinPar kp = new KinPar();
+                kp.setStart((Double)kinparModel.getValueAt(i,0));
+                kp.setFixed((Boolean)kinparModel.getValueAt(i,1));
+                kp.setConstrained((Boolean)kinparModel.getValueAt(i,2));
+                kp.setMin((Double)kinparModel.getValueAt(i,3));
+                kp.setMax((Double)kinparModel.getValueAt(i,4));
+                kinparPanelModel.getKinpar().add(kp);
+            }
+        }
+
+        if (source == jTStartingKinscal) {
+//            KinparPanelModel kinparPanelModel = dObj.getTgm().getDat().getKinparPanel();
+//            kinparPanelModel.getKinpar().clear();
+            for (int i = 0; i < kinparModel.getRowCount(); i++) {
+                KinPar kp = new KinPar();
+                kp.setStart((Double)kinparModel.getValueAt(i,0));
+                kp.setFixed((Boolean)kinparModel.getValueAt(i,1));
+                kp.setConstrained((Boolean)kinparModel.getValueAt(i,2));
+                kp.setMin((Double)kinparModel.getValueAt(i,3));
+                kp.setMax((Double)kinparModel.getValueAt(i,4));
+//                kinparPanelModel.getKinpar().add(kp);
+            }
+        }
+
+
 //      if (source ==jTRealations) {
 //            kMatrixPanelModel.getRelationsMatrix().getData().clear();
 //            Double2BoolMatrix.Data tempData;
@@ -310,24 +342,53 @@ public class KMatrixPanel extends SectionInnerPanel implements TableModelListene
     @Override
     public void tableChanged(TableModelEvent event) {
          if (event.getSource().equals(model1)) {
-            setValue(jTKMatrix1, this);
-            if (event.getType() == TableModelEvent.UPDATE){
-            int row = event.getFirstRow();
-            int column = event.getColumn();
-            int data = (Integer)model1.getValueAt(row, column);
-            int kinparNum = kinparModel.getRowCount();
-            if (data > kinparNum){
-                for (int i = 0; i < data - kinparNum; i++){
-                    kinparModel.addRow();
-                    rowHeaderKinpar.addRow(String.valueOf(kinparModel.getRowCount()));
-                }
-            }
-            }
-
+             setValue(jTKMatrix1, this);
+             int data = getParamNuber(model1);
+             int kinparNum = kinparModel.getRowCount();
+             if (data > kinparNum){
+                 kinparModel.removeTableModelListener(this);
+                 for (int i = 0; i < data - kinparNum; i++){
+                     kinparModel.addRow();
+                     rowHeaderKinpar.addRow(String.valueOf(kinparModel.getRowCount()));
+                 }
+                 kinparModel.addTableModelListener(this);
+                 kinparModel.fireTableStructureChanged();
+             }
+             else {
+                 if (data < kinparNum){
+                     kinparModel.removeTableModelListener(this);
+                     for (int i = 0; i < kinparNum -data; i++){
+                         rowHeaderKinpar.removeRow(kinparModel.getRowCount() - 1);
+                         kinparModel.removeRow(kinparModel.getRowCount() - 1);
+                     }
+                     kinparModel.addTableModelListener(this);
+                     kinparModel.fireTableStructureChanged();
+                 }
+             }
          }
          else {
              if (event.getSource().equals(model2)) {
                  setValue(jTKMatrix1, this);
+                 int data = getParamNuber(model2);
+                 int kinparNum = kinscalModel.getRowCount();
+                 if (data > kinparNum){
+                     kinscalModel.removeTableModelListener(this);
+                     for (int i = 0; i < data - kinparNum; i++){
+                          kinscalModel.addRow();
+                          rowHeaderKinscal.addRow(String.valueOf(kinscalModel.getRowCount()));
+                     }
+                     kinscalModel.addTableModelListener(this);
+                     kinscalModel.fireTableStructureChanged();
+                 }
+                 if (data < kinparNum){
+                     kinscalModel.removeTableModelListener(this);
+                     for (int i = 0; i < kinparNum -data; i++){
+                          rowHeaderKinscal.removeRow(kinscalModel.getRowCount() - 1);
+                          kinscalModel.removeRow(kinscalModel.getRowCount() - 1);
+                     }
+                     kinscalModel.addTableModelListener(this);
+                     kinscalModel.fireTableStructureChanged();
+                 }
 //                 setValue(jTRelations, this);
              }
              else {
@@ -341,6 +402,16 @@ public class KMatrixPanel extends SectionInnerPanel implements TableModelListene
                      else {
                          if (event.getSource().equals(modelClpEq)){
                              setValue(jTClpEq, this);
+                         }
+                         else{
+                             if (event.getSource().equals(kinparModel)){
+                                setValue(jTStartingKinpar, this);
+                             }
+                             else {
+                                 if (event.getSource().equals(kinscalModel)){
+                                     setValue(jTStartingKinscal, this);
+                                 }
+                             }
                          }
                      }
                  }
@@ -546,69 +617,66 @@ private void jSNumOfComponentsStateChanged(javax.swing.event.ChangeEvent evt) {/
     jVec.removeTableModelListener(this);
     modelCLP0.removeTableModelListener(this);
     modelClpEq.removeTableModelListener(this);
-
+    int oldRowCount = matrixSize;
     if ((Integer) jSNumOfComponents.getValue() > matrixSize) {
+        for (int i = 0; i < (Integer)jSNumOfComponents.getValue()-oldRowCount; i++){
+            matrixSize = oldRowCount+i+1;
+            model1.addColumn(String.valueOf(matrixSize));
+            model2.addColumn(String.valueOf(matrixSize));
+    //        relationsModel.addColumn(String.valueOf(matrixSize));
+            jVec.addColumn(String.valueOf(matrixSize));
+            modelCLP0.addColumn(String.valueOf(matrixSize));
+            modelClpEq.addColumn(String.valueOf(matrixSize));
 
-        matrixSize = (Integer)jSNumOfComponents.getValue();
-        model1.addColumn(String.valueOf(matrixSize));
-        model2.addColumn(String.valueOf(matrixSize));
-//        relationsModel.addColumn(String.valueOf(matrixSize));
-        jVec.addColumn(String.valueOf(matrixSize));
-        modelCLP0.addColumn(String.valueOf(matrixSize));
-        modelClpEq.addColumn(String.valueOf(matrixSize));
+            jTKMatrix1.getColumnModel().addColumn(new KMatrColumn(matrixSize-1, 30));
+            jTKMatrix2.getColumnModel().addColumn(new KMatrColumn(matrixSize-1, 30));
+    //        jTRelations.getColumnModel().addColumn(new RelationColumn(matrixSize-1));
+            jTJVector.getColumnModel().addColumn(new JVectorColumn(matrixSize-1, 40));
+            jTClp0.getColumnModel().addColumn(new KMatrColumn(matrixSize-1, 40));
+            jTClpEq.getColumnModel().addColumn(new KMatrColumn(matrixSize-1, 40));
 
-        jTKMatrix1.getColumnModel().addColumn(new KMatrColumn(matrixSize-1, 30));
-        jTKMatrix2.getColumnModel().addColumn(new KMatrColumn(matrixSize-1, 30));
-//        jTRelations.getColumnModel().addColumn(new RelationColumn(matrixSize-1));
-        jTJVector.getColumnModel().addColumn(new JVectorColumn(matrixSize-1, 40));
-        jTClp0.getColumnModel().addColumn(new KMatrColumn(matrixSize-1, 40));
-        jTClpEq.getColumnModel().addColumn(new KMatrColumn(matrixSize-1, 40));
-
-        model1.addRow(new Vector(matrixSize));
-        model2.addRow(new Vector(matrixSize));
-        modelClpEq.addRow(new Vector(matrixSize));
-        modelClpEq.addRow(new Vector(matrixSize));
-
-//        relationsModel.addRow(new Vector(matrixSize));
-//        for (int i = 0; i<matrixSize; i++){
-//            relationsModel.setValueAt(new RelationValueClass(), matrixSize-1, i);
-//            relationsModel.setValueAt(new RelationValueClass(), i, matrixSize-1);
-//        }
-        rowHeader1.addRow(String.valueOf(matrixSize));
-        rowHeader2.addRow(String.valueOf(matrixSize));
-//        rowHeaderRelations.addRow(String.valueOf(matrixSize));
-        rowHeaderClpEq.addRow(String.valueOf(matrixSize));
-        jVec.setValueAt(new JVectorValueClass(), 0, matrixSize-1);
-
+            model1.addRow(new Vector(matrixSize));
+            model2.addRow(new Vector(matrixSize));
+            modelClpEq.addRow(new Vector(matrixSize));
+            modelClpEq.addRow(new Vector(matrixSize));
+    //        relationsModel.addRow(new Vector(matrixSize));
+    //        for (int i = 0; i<matrixSize; i++){
+    //            relationsModel.setValueAt(new RelationValueClass(), matrixSize-1, i);
+    //            relationsModel.setValueAt(new RelationValueClass(), i, matrixSize-1);
+    //        }
+            rowHeader1.addRow(String.valueOf(matrixSize));
+            rowHeader2.addRow(String.valueOf(matrixSize));
+    //        rowHeaderRelations.addRow(String.valueOf(matrixSize));
+            rowHeaderClpEq.addRow(String.valueOf(matrixSize));
+            jVec.setValueAt(new JVectorValueClass(), 0, matrixSize-1);
+        }
  
     } else {
+        for (int i = 0; i <oldRowCount -(Integer)jSNumOfComponents.getValue(); i++){
+            matrixSize = oldRowCount-i-1;
+            model1.removeRow(matrixSize);
+            model2.removeRow(matrixSize);
+            modelClpEq.removeRow(modelClpEq.getRowCount()-1);
+            modelClpEq.removeRow(modelClpEq.getRowCount()-1);
+    //        relationsModel.removeRow(matrixSize);
 
-        matrixSize = (Integer)jSNumOfComponents.getValue();
-        model1.removeRow(matrixSize);
-        model2.removeRow(matrixSize);
-        modelClpEq.removeRow(modelClpEq.getRowCount()-1);
-        modelClpEq.removeRow(modelClpEq.getRowCount()-1);
-//        relationsModel.removeRow(matrixSize);
-
-        rowHeader1.removeRow(matrixSize);
-        rowHeader2.removeRow(matrixSize);
-//        rowHeaderRelations.removeRow(matrixSize);
-        rowHeaderClpEq.removeRow(matrixSize);
-
-        jTKMatrix1.getColumnModel().removeColumn(jTKMatrix1.getColumnModel().getColumn(matrixSize));
-        jTKMatrix2.getColumnModel().removeColumn(jTKMatrix2.getColumnModel().getColumn(matrixSize));
-//        jTRelations.getColumnModel().removeColumn(jTRelations.getColumnModel().getColumn(matrixSize));
-        jTJVector.getColumnModel().removeColumn(jTJVector.getColumnModel().getColumn(matrixSize));
-        jTClp0.getColumnModel().removeColumn(jTClp0.getColumnModel().getColumn(matrixSize));
-        jTClpEq.getColumnModel().removeColumn(jTClpEq.getColumnModel().getColumn(matrixSize));
-
-        model1.setColumnCount(matrixSize);
-        model2.setColumnCount(matrixSize);
-//        relationsModel.setColumnCount(matrixSize);
-        jVec.setColumnCount(matrixSize);
-        modelCLP0.setColumnCount(matrixSize);
-        modelClpEq.setColumnCount(matrixSize);
-    
+            rowHeader1.removeRow(matrixSize);
+            rowHeader2.removeRow(matrixSize);
+    //        rowHeaderRelations.removeRow(matrixSize);
+            rowHeaderClpEq.removeRow(matrixSize);
+            jTKMatrix1.getColumnModel().removeColumn(jTKMatrix1.getColumnModel().getColumn(matrixSize));
+            jTKMatrix2.getColumnModel().removeColumn(jTKMatrix2.getColumnModel().getColumn(matrixSize));
+    //        jTRelations.getColumnModel().removeColumn(jTRelations.getColumnModel().getColumn(matrixSize));
+            jTJVector.getColumnModel().removeColumn(jTJVector.getColumnModel().getColumn(matrixSize));
+            jTClp0.getColumnModel().removeColumn(jTClp0.getColumnModel().getColumn(matrixSize));
+            jTClpEq.getColumnModel().removeColumn(jTClpEq.getColumnModel().getColumn(matrixSize));
+            model1.setColumnCount(matrixSize);
+            model2.setColumnCount(matrixSize);
+    //        relationsModel.setColumnCount(matrixSize);
+            jVec.setColumnCount(matrixSize);
+            modelCLP0.setColumnCount(matrixSize);
+            modelClpEq.setColumnCount(matrixSize);
+        }
     }
     model1.addTableModelListener(this);
     model2.addTableModelListener(this);
@@ -622,7 +690,6 @@ private void jSNumOfComponentsStateChanged(javax.swing.event.ChangeEvent evt) {/
     jVec.fireTableStructureChanged();
     modelCLP0.fireTableStructureChanged();
     modelClpEq.fireTableStructureChanged();
-
 //    endUIChange();
 }//GEN-LAST:event_jSNumOfComponentsStateChanged
 
@@ -650,4 +717,15 @@ private void jSNumOfComponentsStateChanged(javax.swing.event.ChangeEvent evt) {/
     private javax.swing.JTable jTStartingKinscal;
     // End of variables declaration//GEN-END:variables
 
+    private int getParamNuber(NumberTableModel tableModel){
+        int number = 0;
+        for (int i = 0; i < tableModel.getRowCount(); i++){
+            for (int j = 0; j < tableModel.getColumnCount(); j++){
+                if (tableModel.getValueAt(i, j)!= null)
+                    if ((Integer)tableModel.getValueAt(i, j)>number)
+                        number = (Integer)tableModel.getValueAt(i, j);
+            }
+        }
+        return number;
+    }
 }

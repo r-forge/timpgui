@@ -11,7 +11,6 @@ import nl.vu.nat.tgmfilesupport.TgmDataObject;
 import org.netbeans.modules.xml.multiview.ui.SectionInnerPanel;
 import org.netbeans.modules.xml.multiview.ui.SectionView;
 import javax.swing.SpinnerNumberModel;
-import javax.swing.table.DefaultTableModel;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 import nl.vu.nat.tgmodels.tgm.KinPar;
@@ -81,8 +80,7 @@ public class KinparPanel extends SectionInnerPanel implements TableModelListener
             } else if (model.getRowCount()<kinparPanelModel.getKinpar().size()) {
                 kinparPanelModel.getKinpar().remove(kinparPanelModel.getKinpar().size()-1);
             }
-         
-        for (int i = 0; i < model.getRowCount(); i++) {
+            for (int i = 0; i < model.getRowCount(); i++) {
                 kinparPanelModel.getKinpar().get(i).setStart((Double)model.getValueAt(i,0));
                 kinparPanelModel.getKinpar().get(i).setFixed((Boolean)model.getValueAt(i,1));
                 kinparPanelModel.getKinpar().get(i).setConstrained((Boolean)model.getValueAt(i,2));

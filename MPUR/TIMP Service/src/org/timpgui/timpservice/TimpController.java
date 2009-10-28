@@ -145,7 +145,10 @@ public class TimpController implements TimpInterface {
     private void sendModel(Tgm tgm, int index) {
         index++;
         String modelString = InitModel.parseModel(tgm);
-        addInitModelCall(modelString);
+        if (index < 2){
+            getInitModelCalls().clear();
+        }
+        addInitModelCall("model" + String.valueOf(index) + " <- " + modelString);
         connection.eval("model" + String.valueOf(index) + " <- " + modelString);
     }
 

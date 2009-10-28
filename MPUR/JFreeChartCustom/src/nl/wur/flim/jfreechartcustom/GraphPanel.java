@@ -28,6 +28,7 @@ import org.jfree.ui.ExtensionFileFilter;
  */
 public class GraphPanel extends ChartPanel{
     public static final String SAVE_ASCII_COMMAND = "SAVE_ASCII";
+    public static final String OPEN_IN_NEW_WINDOW_COMMAND = "OPEN_IN_NEW_WINDOW";
 
     public GraphPanel(JFreeChart chart){
         this(chart, true);
@@ -57,6 +58,9 @@ public class GraphPanel extends ChartPanel{
     public void actionPerformed(ActionEvent event) {
         super.actionPerformed(event);
         String command = event.getActionCommand();
+        if (command.equals(OPEN_IN_NEW_WINDOW_COMMAND)){
+            doOpenInSeparateWindow();
+        }
         if (command.equals(SAVE_ASCII_COMMAND)){
             try {
                 doSaveTracesToAscii();
@@ -75,6 +79,11 @@ public class GraphPanel extends ChartPanel{
         saveToASCIIItem.addActionListener(this);
         popmenu.insert(saveToASCIIItem,4);
 
+        JMenuItem openInSepWindItem = new JMenuItem("Open in new window");
+        openInSepWindItem.setActionCommand(OPEN_IN_NEW_WINDOW_COMMAND);
+        openInSepWindItem.addActionListener(this);
+        popmenu.insert(openInSepWindItem,0);
+        popmenu.insert(new JPopupMenu.Separator(),1);
     }
 
     private void updateSelectRectangle(){
@@ -119,6 +128,12 @@ public class GraphPanel extends ChartPanel{
             }
             output.close();
         }
+    }
+
+    private void doOpenInSeparateWindow() {
+//        TopComponent win = new MeasuredIrfTopComponent();
+//        win.open();
+//        win.requestActive();
     }
 
 }

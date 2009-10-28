@@ -14,6 +14,7 @@ import java.util.Vector;
 import java.util.logging.Logger;
 import javax.swing.JFileChooser;
 import javax.swing.SpinnerNumberModel;
+import nl.wur.flim.jfreechartcustom.GraphPanel;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
@@ -30,9 +31,9 @@ import org.openide.windows.WindowManager;
 /**
  * Top component which displays something.
  */
-final class MeasuredIrfTopComponent extends TopComponent {
+final public class MeasuredIrfTopComponent extends TopComponent {
     
-        private JFileChooser fc;
+    private JFileChooser fc;
     private int length;
     private int from, till;
     private float maxInt;
@@ -48,8 +49,8 @@ final class MeasuredIrfTopComponent extends TopComponent {
 
     private static final String PREFERRED_ID = "MeasuredIrfTopComponent";
 
-    private MeasuredIrfTopComponent() {
-                fc = new JFileChooser();
+    public MeasuredIrfTopComponent() {
+        fc = new JFileChooser();
         chpan=null;
         chart=null;
         marker=null;
@@ -83,9 +84,6 @@ final class MeasuredIrfTopComponent extends TopComponent {
         jLabel4 = new javax.swing.JLabel();
         jBCalculateBG = new javax.swing.JButton();
         jCBNegToZer = new javax.swing.JCheckBox();
-        jLabel5 = new javax.swing.JLabel();
-        tTFIrfVariableName = new javax.swing.JTextField();
-        jBMakeMeasIrfVariable = new javax.swing.JButton();
 
         org.openide.awt.Mnemonics.setLocalizedText(jLabel2, org.openide.util.NbBundle.getMessage(MeasuredIrfTopComponent.class, "MeasuredIrfTopComponent.jLabel2.text")); // NOI18N
 
@@ -105,17 +103,7 @@ final class MeasuredIrfTopComponent extends TopComponent {
                 jPanel2ComponentResized(evt);
             }
         });
-
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 650, Short.MAX_VALUE)
-        );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 190, Short.MAX_VALUE)
-        );
+        jPanel2.setLayout(new java.awt.BorderLayout());
 
         org.openide.awt.Mnemonics.setLocalizedText(jCBEstimateBG, org.openide.util.NbBundle.getMessage(MeasuredIrfTopComponent.class, "MeasuredIrfTopComponent.jCBEstimateBG.text")); // NOI18N
         jCBEstimateBG.setEnabled(false);
@@ -136,11 +124,6 @@ final class MeasuredIrfTopComponent extends TopComponent {
         jSTill.addChangeListener(new javax.swing.event.ChangeListener() {
             public void stateChanged(javax.swing.event.ChangeEvent evt) {
                 jSTillStateChanged(evt);
-            }
-        });
-        jSTill.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
-            public void propertyChange(java.beans.PropertyChangeEvent evt) {
-                jSTillPropertyChange(evt);
             }
         });
 
@@ -176,17 +159,6 @@ final class MeasuredIrfTopComponent extends TopComponent {
         org.openide.awt.Mnemonics.setLocalizedText(jCBNegToZer, org.openide.util.NbBundle.getMessage(MeasuredIrfTopComponent.class, "MeasuredIrfTopComponent.jCBNegToZer.text")); // NOI18N
         jCBNegToZer.setEnabled(false);
 
-        org.openide.awt.Mnemonics.setLocalizedText(jLabel5, org.openide.util.NbBundle.getMessage(MeasuredIrfTopComponent.class, "MeasuredIrfTopComponent.jLabel5.text")); // NOI18N
-
-        tTFIrfVariableName.setText(org.openide.util.NbBundle.getMessage(MeasuredIrfTopComponent.class, "MeasuredIrfTopComponent.tTFIrfVariableName.text")); // NOI18N
-
-        org.openide.awt.Mnemonics.setLocalizedText(jBMakeMeasIrfVariable, org.openide.util.NbBundle.getMessage(MeasuredIrfTopComponent.class, "MeasuredIrfTopComponent.jBMakeMeasIrfVariable.text")); // NOI18N
-        jBMakeMeasIrfVariable.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jBMakeMeasIrfVariableActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -194,7 +166,7 @@ final class MeasuredIrfTopComponent extends TopComponent {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, 709, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jCBEstimateBG, javax.swing.GroupLayout.PREFERRED_SIZE, 148, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -205,7 +177,7 @@ final class MeasuredIrfTopComponent extends TopComponent {
                         .addComponent(jLabel3)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jSTill, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 67, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 87, Short.MAX_VALUE)
                         .addComponent(jBCalculateBG)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jLabel4)
@@ -218,18 +190,10 @@ final class MeasuredIrfTopComponent extends TopComponent {
                                 .addGap(10, 10, 10)
                                 .addComponent(tFRefFilename, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(Bloadref, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(29, 29, 29)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jBMakeMeasIrfVariable)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jCBNegToZer, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(jBSubtrBG))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel5)
-                                .addGap(10, 10, 10)
-                                .addComponent(tTFIrfVariableName, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 199, Short.MAX_VALUE)
+                        .addComponent(jCBNegToZer, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jBSubtrBG)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -238,17 +202,14 @@ final class MeasuredIrfTopComponent extends TopComponent {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
-                    .addComponent(tFRefFilename, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel5)
-                    .addComponent(tTFIrfVariableName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(tFRefFilename, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(Bloadref)
                     .addComponent(jBSubtrBG)
-                    .addComponent(jCBNegToZer)
-                    .addComponent(jBMakeMeasIrfVariable))
+                    .addComponent(jCBNegToZer))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, 192, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
@@ -316,13 +277,11 @@ private void BloadrefActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
 }//GEN-LAST:event_BloadrefActionPerformed
 
 private void jPanel2ComponentResized(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_jPanel2ComponentResized
-// TODO add your handling code here:
         if (chpan!=null)
             chpan.setSize(jPanel2.getSize());
 }//GEN-LAST:event_jPanel2ComponentResized
 
 private void jCBEstimateBGActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCBEstimateBGActionPerformed
-// TODO add your handling code here:
         jTFBGvalue.setEditable(!jTFBGvalue.isEditable());
         jLabel1.setEnabled(!jLabel1.isEnabled());
         jLabel3.setEnabled(!jLabel3.isEnabled());
@@ -336,8 +295,6 @@ private void jCBEstimateBGActionPerformed(java.awt.event.ActionEvent evt) {//GEN
 }//GEN-LAST:event_jCBEstimateBGActionPerformed
 
 private void jSFromStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jSFromStateChanged
-// TODO add your handling code here:
-
         Integer fr = (Integer)jSFrom.getValue();
         Integer tl = (Integer)jSTill.getValue();
         from = (int)fr;
@@ -351,7 +308,6 @@ private void jSFromStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:
 }//GEN-LAST:event_jSFromStateChanged
 
 private void jSTillStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jSTillStateChanged
-// TODO add your handling code here:
         Integer fr = (Integer)jSFrom.getValue();
         Integer tl = (Integer)jSTill.getValue();
         from = (int)fr;
@@ -365,12 +321,7 @@ private void jSTillStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:
         marker.setEndValue(till);
 }//GEN-LAST:event_jSTillStateChanged
 
-private void jSTillPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_jSTillPropertyChange
-// TODO add your handling code here:
-}//GEN-LAST:event_jSTillPropertyChange
-
 private void jBSubtrBGActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBSubtrBGActionPerformed
-// TODO add your handling code here:
         float val = 0;
         try{
                 val = Float.parseFloat(jTFBGvalue.getText());
@@ -389,7 +340,6 @@ private void jBSubtrBGActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIR
 }//GEN-LAST:event_jBSubtrBGActionPerformed
 
 private void jBCalculateBGActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBCalculateBGActionPerformed
-// TODO add your handling code here:
        float sum = 0;  
        for(int i = from; i<till; i++){
            sum += refArray[i];
@@ -398,17 +348,10 @@ private void jBCalculateBGActionPerformed(java.awt.event.ActionEvent evt) {//GEN
        jTFBGvalue.setText(val.toString());
 }//GEN-LAST:event_jBCalculateBGActionPerformed
 
-private void jBMakeMeasIrfVariableActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBMakeMeasIrfVariableActionPerformed
-// TODO add your handling code here:
-    //Current.SetcurrMIRF(tTFIrfVariableName.getText());
-   // Register.RegisterMeasuredIRF(tTFIrfVariableName.getText(), refArray);
-}//GEN-LAST:event_jBMakeMeasIrfVariableActionPerformed
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton Bloadref;
     private javax.swing.JButton jBCalculateBG;
-    private javax.swing.JButton jBMakeMeasIrfVariable;
     private javax.swing.JButton jBSubtrBG;
     private javax.swing.JCheckBox jCBEstimateBG;
     private javax.swing.JCheckBox jCBNegToZer;
@@ -416,13 +359,11 @@ private void jBMakeMeasIrfVariableActionPerformed(java.awt.event.ActionEvent evt
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JSpinner jSFrom;
     private javax.swing.JSpinner jSTill;
     private javax.swing.JTextField jTFBGvalue;
     private javax.swing.JTextField tFRefFilename;
-    private javax.swing.JTextField tTFIrfVariableName;
     // End of variables declaration//GEN-END:variables
     /**
      * Gets default instance. Do not use directly: reserved for *.settings files only,
@@ -457,17 +398,17 @@ private void jBMakeMeasIrfVariableActionPerformed(java.awt.event.ActionEvent evt
 
     @Override
     public int getPersistenceType() {
-        return TopComponent.PERSISTENCE_ALWAYS;
+        return TopComponent.PERSISTENCE_NEVER;
     }
 
     @Override
     public void componentOpened() {
-        // TODO add custom code on component opening
+        
     }
 
     @Override
     public void componentClosed() {
-        // TODO add custom code on component closing
+        
     }
 
     /** replaces this in object stream */
@@ -492,8 +433,8 @@ private void jBMakeMeasIrfVariableActionPerformed(java.awt.event.ActionEvent evt
     
      private void MakeChart(XYDataset dat){
         chart = ChartFactory.createXYLineChart(
-            "Reference compound", 
-            "Chanel number",
+            "Measured IRF",
+            "Time",
             "Number of counts", 
             dat, 
             PlotOrientation.VERTICAL, 
@@ -503,10 +444,9 @@ private void jBMakeMeasIrfVariableActionPerformed(java.awt.event.ActionEvent evt
         );
         chart.getXYPlot().getDomainAxis().setUpperBound(length);
         chart.getXYPlot().setDomainZeroBaselineVisible(true);
-        chpan = new ChartPanel(chart,true);
-        chpan.setSize(jPanel2.getSize());
+        chpan = new GraphPanel(chart,true);
         jPanel2.removeAll();
         jPanel2.add(chpan);
-        jPanel2.repaint(); 
+        jPanel2.validate();
     }
 }

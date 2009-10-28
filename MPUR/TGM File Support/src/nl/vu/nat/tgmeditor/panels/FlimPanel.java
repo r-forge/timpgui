@@ -174,19 +174,19 @@ public class FlimPanel extends SectionInnerPanel {
     }// </editor-fold>//GEN-END:initComponents
 
 private void jRbConvalg_3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRbConvalg_3ActionPerformed
-// TODO add your handling code here:
+
 }//GEN-LAST:event_jRbConvalg_3ActionPerformed
 
 private void jTReftauTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTReftauTextFieldActionPerformed
-// TODO add your handling code here:
+
 }//GEN-LAST:event_jTReftauTextFieldActionPerformed
 
 private void JRbMirf_FalseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JRbMirf_FalseActionPerformed
-// TODO add your handling code here:
+
 }//GEN-LAST:event_JRbMirf_FalseActionPerformed
 
 private void JRbMirf_TrueActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JRbMirf_TrueActionPerformed
-// TODO add your handling code here:
+
 }//GEN-LAST:event_JRbMirf_TrueActionPerformed
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JRadioButton JRbMirf_False;

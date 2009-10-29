@@ -152,20 +152,20 @@ public class InitModel {
                 kMatrixCall = kMatrixCall.concat("," + String.valueOf(kMatrix.getJVector().getVector().get(j)));
             }
             kMatrixCall = kMatrixCall.concat(")");
-// todo implement kinscal
-//            int size = kMatrix.getKinscal().size();
-//            if (size > 0) {
-//                kMatrixCall = kMatrixCall.concat(", kinscal = c(");
-//                double k;
-//                for (int i = 0; i < size; i++) {
-//                    if (i > 0) {
-//                        kMatrixCall = kMatrixCall + ",";
-//                    }
-//                    k = kMatrix.getKinscal().get(i).getStart();
-//                    kMatrixCall = kMatrixCall + Double.toString(k);
-//                }
-//                kMatrixCall = kMatrixCall + ")";
-//            }
+
+            int size = kMatrix.getKinScal().size();
+            if (size > 0) {
+                kMatrixCall = kMatrixCall.concat(", kinscal = c(");
+                double k;
+                for (int i = 0; i < size; i++) {
+                    if (i > 0) {
+                        kMatrixCall = kMatrixCall + ",";
+                    }
+                    k = kMatrix.getKinScal().get(i).getStart();
+                    kMatrixCall = kMatrixCall + Double.toString(k);
+                }
+                kMatrixCall = kMatrixCall + ")";
+            }
         }
         return kMatrixCall;
     }
@@ -367,25 +367,24 @@ public class InitModel {
 
         count = 0;
 
-// TODO implement get kinscalfixed
-//      KMatrixPanelModel kmatPanel = tgm.getDat().getKMatrixPanel();
-//        for (int i = 0; i < kmatPanel.getKinscal().size(); i++) {; i++) {
-//            if (kmatPanel.getKinscal().get(i).isFixed()) {
-//                if (count > 0) {
-//                    fixedStr = fixedStr + ",";
-//                } else {
-//                    if (fixedStr!= null)
-//                        fixedStr = fixedStr + ", kinscal=c(";
-//                    else
-//                        fixedStr = "fixed = list(kinscal=c(";
-//                }
-//                fixedStr = fixedStr + String.valueOf(i + 1);
-//                count++;
-//            }
-//        }
-//        if (count > 0) {
-//            fixedStr = fixedStr + ")";
-//        }
+      KMatrixPanelModel kmatPanel = tgm.getDat().getKMatrixPanel();
+        for (int i = 0; i < kmatPanel.getKinScal().size(); i++) {
+            if (kmatPanel.getKinScal().get(i).isFixed()) {
+                if (count > 0) {
+                    fixedStr = fixedStr + ",";
+                } else {
+                    if (fixedStr!= null)
+                        fixedStr = fixedStr + ", kinscal=c(";
+                    else
+                        fixedStr = "fixed = list(kinscal=c(";
+                }
+                fixedStr = fixedStr + String.valueOf(i + 1);
+                count++;
+            }
+        }
+        if (count > 0) {
+            fixedStr = fixedStr + ")";
+        }
 
         count = 0;
         IrfparPanelModel irfPanel = tgm.getDat().getIrfparPanel();

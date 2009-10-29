@@ -105,7 +105,10 @@ public final class SpecResultsTopComponent extends TopComponent implements Chart
         setName(dataObj.getName());
         res = dataObj.getTimpResultDataset();
         res.calcRangeInt();
-        numberOfComponents = res.getKineticParameters().length/2;
+        if (res.getJvec()!=null)
+            numberOfComponents = res.getJvec().length;
+        else
+            numberOfComponents = res.getKineticParameters().length/2;
         Object[] rates = new Object[res.getKineticParameters().length];
 
         DecimalFormat paramFormat = new DecimalFormat("##0.0000");

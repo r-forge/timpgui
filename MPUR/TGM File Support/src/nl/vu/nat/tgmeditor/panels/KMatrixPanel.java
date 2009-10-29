@@ -115,16 +115,16 @@ public class KMatrixPanel extends SectionInnerPanel implements TableModelListene
             rowHeaderKinpar.addRow(String.valueOf(i+1));
         }
         
-//        for (int i = 0; i < kMatrixPanelModel.getKinscal().size(); i++) {
-//            kinscalModel.addRow( new Object[]{
-//                kMatrixPanelModel.getKinscal().get(i).getStart(),
-//                kMatrixPanelModel.getKinscal().get(i).isFixed(),
-//                kMatrixPanelModel.getKinscal().get(i).isConstrained(),
-//                kMatrixPanelModel.getKinscal().get(i).getMin(),
-//                kMatrixPanelModel.getKinscal().get(i).getMax()
-//            });
-//            rowHeaderKinscal.addRow(String.valueOf(i+1));
-//        }
+        for (int i = 0; i < kMatrixPanelModel.getKinScal().size(); i++) {
+            kinscalModel.addRow( new Object[]{
+                kMatrixPanelModel.getKinScal().get(i).getStart(),
+                kMatrixPanelModel.getKinScal().get(i).isFixed(),
+                kMatrixPanelModel.getKinScal().get(i).isConstrained(),
+                kMatrixPanelModel.getKinScal().get(i).getMin(),
+                kMatrixPanelModel.getKinScal().get(i).getMax()
+            });
+            rowHeaderKinscal.addRow(String.valueOf(i+1));
+        }
    
 
 
@@ -179,8 +179,6 @@ public class KMatrixPanel extends SectionInnerPanel implements TableModelListene
 //        JScrollPane jscpane2 = (JScrollPane) jTRelations.getParent().getParent();
 //        jscpane2.setRowHeaderView(rowHeaderRelations);
 //        jscpane2.setCorner(JScrollPane.UPPER_LEFT_CORNER, rowHeaderRelations.getTableHeader());
-
-
 
         jTClpEq.setModel(modelClpEq);
         JScrollPane jscpane5 = (JScrollPane) jTClpEq.getParent().getParent();
@@ -252,16 +250,15 @@ public class KMatrixPanel extends SectionInnerPanel implements TableModelListene
         }
 
         if (source == jTStartingKinscal) {
-//            KinparPanelModel kinparPanelModel = dObj.getTgm().getDat().getKinparPanel();
-//            kinparPanelModel.getKinpar().clear();
-            for (int i = 0; i < kinparModel.getRowCount(); i++) {
+            kMatrixPanelModel.getKinScal().clear();
+            for (int i = 0; i < kinscalModel.getRowCount(); i++) {
                 KinPar kp = new KinPar();
-                kp.setStart((Double)kinparModel.getValueAt(i,0));
-                kp.setFixed((Boolean)kinparModel.getValueAt(i,1));
-                kp.setConstrained((Boolean)kinparModel.getValueAt(i,2));
-                kp.setMin((Double)kinparModel.getValueAt(i,3));
-                kp.setMax((Double)kinparModel.getValueAt(i,4));
-//                kinparPanelModel.getKinpar().add(kp);
+                kp.setStart((Double)kinscalModel.getValueAt(i,0));
+                kp.setFixed((Boolean)kinscalModel.getValueAt(i,1));
+                kp.setConstrained((Boolean)kinscalModel.getValueAt(i,2));
+                kp.setMin((Double)kinscalModel.getValueAt(i,3));
+                kp.setMax((Double)kinscalModel.getValueAt(i,4));
+                kMatrixPanelModel.getKinScal().add(kp);
             }
         }
 

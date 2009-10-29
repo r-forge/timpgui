@@ -35,8 +35,6 @@ import org.openide.util.ImageUtilities;
 import org.openide.util.lookup.Lookups;
 
 import nl.vu.nat.tgmprojectsupport.TGProject;
-import org.netbeans.spi.project.ui.support.NodeFactorySupport;
-import org.openide.nodes.Children;
 
 
 /**
@@ -119,8 +117,8 @@ class TGProjectNodeFilter extends FilterNode.Children{
             return new TGPreprocessingNode(node);
         }else if(file.equals(project.getModelsFolder(true))){
             return new TGModelsNode(node);
-        }else if(file.equals(project.getOptionsFolder(true))){
-            return new TGOptionsNode(node);
+//        }else if(file.equals(project.getOptionsFolder(true))){
+//            return new TGOptionsNode(node);
         }else if(file.equals(project.getResultsFolder(true))){
             return new TGResultsNode(node);
         }else{

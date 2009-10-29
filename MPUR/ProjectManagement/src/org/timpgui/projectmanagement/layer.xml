@@ -2,6 +2,22 @@
 <!DOCTYPE filesystem PUBLIC "-//NetBeans//DTD Filesystem 1.2//EN" "http://www.netbeans.org/dtds/filesystem-1_2.dtd">
 <filesystem>
     <folder name="Actions">
+        <folder name="Project">
+            <file name="org-timpgui-projectmanagement-ShowDatasetNodeContainer.instance">
+                <attr name="SystemFileSystem.localizingBundle" stringvalue="org.timpgui.projectmanagement.Bundle"/>
+                <attr name="delegate" newvalue="org.timpgui.projectmanagement.ShowDatasetNodeContainer"/>
+                <attr name="displayName" bundlevalue="org.timpgui.projectmanagement.Bundle#CTL_ShowDatasetNodeContainer"/>
+                <attr name="instanceCreate" methodvalue="org.openide.awt.Actions.alwaysEnabled"/>
+                <attr name="noIconInMenu" boolvalue="false"/>
+            </file>
+            <file name="org-timpgui-projectmanagement-ShowModelsNodeContainer.instance">
+                <attr name="SystemFileSystem.localizingBundle" stringvalue="org.timpgui.projectmanagement.Bundle"/>
+                <attr name="delegate" newvalue="org.timpgui.projectmanagement.ShowModelsNodeContainer"/>
+                <attr name="displayName" bundlevalue="org.timpgui.projectmanagement.Bundle#CTL_ShowModelsNodeContainer"/>
+                <attr name="instanceCreate" methodvalue="org.openide.awt.Actions.alwaysEnabled"/>
+                <attr name="noIconInMenu" boolvalue="false"/>
+            </file>
+        </folder>
         <folder name="Window">
             <file name="org-timpgui-projectmanagement-SelectedDatasetsViewAction.instance">
                 <attr name="SystemFileSystem.localizingBundle" stringvalue="org.timpgui.projectmanagement.Bundle"/>
@@ -25,8 +41,16 @@
     </folder>
     <folder name="Menu">
         <folder name="Window">
+            <attr name="org-timpgui-projectmanagement-ShowDatasetNodeContainer.shadow/Debug" boolvalue="true"/>
+            <attr name="org-timpgui-projectmanagement-ShowModelsNodeContainer.shadow/Other" boolvalue="true"/>
             <file name="SelectedDatasetsViewAction.shadow">
                 <attr name="originalFile" stringvalue="Actions/Window/org-timpgui-projectmanagement-SelectedDatasetsViewAction.instance"/>
+            </file>
+            <file name="org-timpgui-projectmanagement-ShowDatasetNodeContainer.shadow">
+                <attr name="originalFile" stringvalue="Actions/Project/org-timpgui-projectmanagement-ShowDatasetNodeContainer.instance"/>
+            </file>
+            <file name="org-timpgui-projectmanagement-ShowModelsNodeContainer.shadow">
+                <attr name="originalFile" stringvalue="Actions/Project/org-timpgui-projectmanagement-ShowModelsNodeContainer.instance"/>
             </file>
         </folder>
     </folder>

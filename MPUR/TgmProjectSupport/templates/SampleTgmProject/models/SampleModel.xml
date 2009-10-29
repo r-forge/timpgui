@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <!--
-    Document   : TgmSchema.xml
-    Created on : October 9, 2009, 9:52 AM
+    Document   : TgmSchema1.xml
+    Created on : October 29, 2009, 11:55 AM
     Author     : jsg210
     Description:
         Purpose of the document follows.
@@ -14,13 +14,6 @@
     <ns0:dat>
         <ns0:kinparPanel>
             <ns0:positivepar>false</ns0:positivepar>
-            <ns0:kinpar>
-                <ns0:start>NaN</ns0:start>
-                <ns0:fixed>false</ns0:fixed>
-                <ns0:constrained>false</ns0:constrained>
-                <ns0:max>NaN</ns0:max>
-                <ns0:min>NaN</ns0:min>
-            </ns0:kinpar>
             <ns0:kinpar>
                 <ns0:start>NaN</ns0:start>
                 <ns0:fixed>false</ns0:fixed>
@@ -49,8 +42,6 @@
             <ns0:lamda>NaN</ns0:lamda>
             <ns0:irf>0</ns0:irf>
             <ns0:irf>0</ns0:irf>
-            <ns0:irf>0</ns0:irf>
-            <ns0:fixed>false</ns0:fixed>
             <ns0:fixed>false</ns0:fixed>
             <ns0:fixed>false</ns0:fixed>
             <ns0:backsweepEnabled>false</ns0:backsweepEnabled>
@@ -76,15 +67,8 @@
                 <ns0:data>
                     <ns0:row></ns0:row>
                     <ns0:row></ns0:row>
-                    <ns0:row></ns0:row>
                 </ns0:data>
                 <ns0:data>
-                    <ns0:row></ns0:row>
-                    <ns0:row></ns0:row>
-                    <ns0:row></ns0:row>
-                </ns0:data>
-                <ns0:data>
-                    <ns0:row></ns0:row>
                     <ns0:row></ns0:row>
                     <ns0:row></ns0:row>
                 </ns0:data>
@@ -93,42 +77,20 @@
                 <ns0:data>
                     <ns0:c0></ns0:c0>
                     <ns0:c0></ns0:c0>
-                    <ns0:c0></ns0:c0>
-                    <ns0:c1></ns0:c1>
                     <ns0:c1></ns0:c1>
                     <ns0:c1></ns0:c1>
                     <ns0:c0fixed></ns0:c0fixed>
                     <ns0:c0fixed></ns0:c0fixed>
-                    <ns0:c0fixed></ns0:c0fixed>
-                    <ns0:c1fixed></ns0:c1fixed>
                     <ns0:c1fixed></ns0:c1fixed>
                     <ns0:c1fixed></ns0:c1fixed>
                 </ns0:data>
                 <ns0:data>
                     <ns0:c0></ns0:c0>
                     <ns0:c0></ns0:c0>
-                    <ns0:c0></ns0:c0>
-                    <ns0:c1></ns0:c1>
-                    <ns0:c1></ns0:c1>
-                    <ns0:c1></ns0:c1>
-                    <ns0:c0fixed></ns0:c0fixed>
-                    <ns0:c0fixed></ns0:c0fixed>
-                    <ns0:c0fixed></ns0:c0fixed>
-                    <ns0:c1fixed></ns0:c1fixed>
-                    <ns0:c1fixed></ns0:c1fixed>
-                    <ns0:c1fixed></ns0:c1fixed>
-                </ns0:data>
-                <ns0:data>
-                    <ns0:c0></ns0:c0>
-                    <ns0:c0></ns0:c0>
-                    <ns0:c0></ns0:c0>
-                    <ns0:c1></ns0:c1>
                     <ns0:c1></ns0:c1>
                     <ns0:c1></ns0:c1>
                     <ns0:c0fixed></ns0:c0fixed>
                     <ns0:c0fixed></ns0:c0fixed>
-                    <ns0:c0fixed></ns0:c0fixed>
-                    <ns0:c1fixed></ns0:c1fixed>
                     <ns0:c1fixed></ns0:c1fixed>
                     <ns0:c1fixed></ns0:c1fixed>
                 </ns0:data>
@@ -136,16 +98,12 @@
             <ns0:jVector>
                 <ns0:vector></ns0:vector>
                 <ns0:vector></ns0:vector>
-                <ns0:vector></ns0:vector>
-                <ns0:fixed></ns0:fixed>
                 <ns0:fixed></ns0:fixed>
                 <ns0:fixed></ns0:fixed>
             </ns0:jVector>
             <ns0:spectralContraints>
                 <ns0:min></ns0:min>
                 <ns0:min></ns0:min>
-                <ns0:min></ns0:min>
-                <ns0:max></ns0:max>
                 <ns0:max></ns0:max>
                 <ns0:max></ns0:max>
             </ns0:spectralContraints>
@@ -153,37 +111,32 @@
                 <ns0:data>
                     <ns0:min></ns0:min>
                     <ns0:min></ns0:min>
-                    <ns0:min></ns0:min>
-                    <ns0:max></ns0:max>
-                    <ns0:max></ns0:max>
-                    <ns0:max></ns0:max>
-                </ns0:data>
-                <ns0:data>
-                    <ns0:min></ns0:min>
-                    <ns0:min></ns0:min>
-                    <ns0:min></ns0:min>
-                    <ns0:max></ns0:max>
                     <ns0:max></ns0:max>
                     <ns0:max></ns0:max>
                 </ns0:data>
                 <ns0:data>
                     <ns0:min></ns0:min>
                     <ns0:min></ns0:min>
-                    <ns0:min></ns0:min>
-                    <ns0:max></ns0:max>
                     <ns0:max></ns0:max>
                     <ns0:max></ns0:max>
                 </ns0:data>
             </ns0:contrainsMatrix>
+            <ns0:KinScal>
+                <ns0:start>NaN</ns0:start>
+                <ns0:fixed>false</ns0:fixed>
+                <ns0:constrained>false</ns0:constrained>
+                <ns0:max>NaN</ns0:max>
+                <ns0:min>NaN</ns0:min>
+            </ns0:KinScal>
+            <ns0:KinScal>
+                <ns0:start>NaN</ns0:start>
+                <ns0:fixed>false</ns0:fixed>
+                <ns0:constrained>false</ns0:constrained>
+                <ns0:max>NaN</ns0:max>
+                <ns0:min>NaN</ns0:min>
+            </ns0:KinScal>
         </ns0:kMatrixPanel>
         <ns0:weightParPanel>
-            <ns0:weightpar>
-                <ns0:min1>NaN</ns0:min1>
-                <ns0:min2>NaN</ns0:min2>
-                <ns0:max1>NaN</ns0:max1>
-                <ns0:max2>NaN</ns0:max2>
-                <ns0:weight>NaN</ns0:weight>
-            </ns0:weightpar>
             <ns0:weightpar>
                 <ns0:min1>NaN</ns0:min1>
                 <ns0:min2>NaN</ns0:min2>

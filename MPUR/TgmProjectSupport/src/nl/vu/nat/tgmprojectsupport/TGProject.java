@@ -78,7 +78,7 @@ public class TGProject implements Project {
     /** The name of the folder containing output files. */
     public static final String RESULTS_DIR = "results";
     /** The name of the folder containing dataset files. */
-    public static final String CACHE_DIR = ".cache";
+    public static final String CACHE_DIR = "cache";
     private final FileObject projectDir;
     private final ProjectState state;
     private final LogicalViewProvider logicalView = new TGLogicalView(this);

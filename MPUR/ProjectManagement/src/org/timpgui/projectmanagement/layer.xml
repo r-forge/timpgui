@@ -61,18 +61,16 @@
             <file name="SelectedOptionsViewTopComponent.settings" url="SelectedOptionsViewTopComponentSettings.xml"/>
         </folder>
         <folder name="Modes">
-            <folder name="anonymousMode_1">
-                <file name="SelectedOptionsViewTopComponent.wstcref" url="SelectedOptionsViewTopComponentWstcref.xml"/>
-            </folder>
-            <file name="anonymousMode_1.wsmode" url="anonymousMode_1Wsmode.xml"/>
-            <folder name="anonymousMode_3">
+            <folder name="datasetContainerMode">
                 <file name="SelectedDatasetsViewTopComponent.wstcref" url="SelectedDatasetsViewTopComponentWstcref.xml"/>
             </folder>
-            <file name="anonymousMode_3.wsmode" url="anonymousMode_3Wsmode.xml"/>
-            <folder name="anonymousMode_4">
+            <file name="datasetContainerMode.wsmode" url="modes/datasetContainerMode.wsmode"/>
+            <folder name="modelContainerMode">
                 <file name="SelectedModelsViewTopComponent.wstcref" url="SelectedModelsViewTopComponentWstcref.xml"/>
             </folder>
-            <file name="anonymousMode_4.wsmode" url="anonymousMode_4Wsmode.xml"/>
+            <file name="modelContainerMode.wsmode" url="modes/modelContainerMode.wsmode"/>
+            <file name="editor.wsmode" url="modes/editor.wsmode"/>
+            <file name="explorer.wsmode" url="modes/explorer.wsmode"/>
             <folder name="explorer"/>
         </folder>
     </folder>

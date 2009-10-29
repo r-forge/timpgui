@@ -35,6 +35,7 @@ import org.openide.util.ImageUtilities;
 import org.openide.util.lookup.Lookups;
 
 import nl.vu.nat.tgmprojectsupport.TGProject;
+import org.openide.util.Lookup;
 
 
 /**
@@ -69,6 +70,7 @@ public class TGProjectNode extends FilterNode{
                     //Make a merge of both
                     Lookups.singleton(project));
         this.project = project;
+        //this.getChildren().remove(node.getLookup().lookup(new Lookup));
     }
 
     @Override
@@ -106,38 +108,23 @@ class TGProjectNodeFilter extends FilterNode.Children{
         this.project = project;
     }
 
-    @Override
-    protected Node copyNode(Node node) {
-        final DataObject dob = node.getLookup().lookup (DataObject.class);
-        final FileObject file = dob.getPrimaryFile();
-
-        if(file.equals(project.getDatasetsFolder(true))){
-            return new TGDatasetNode(node);
-        } else if(file.equals(project.getPreprocessingFolder(true))){
-            return new TGPreprocessingNode(node);
-        }else if(file.equals(project.getModelsFolder(true))){
-            return new TGModelsNode(node);
-//        }else if(file.equals(project.getOptionsFolder(true))){
-//            return new TGOptionsNode(node);
-        }else if(file.equals(project.getResultsFolder(true))){
-            return new TGResultsNode(node);
-        }else{
-           return new FilterNode(node);
-        }
-
-    }
+ 
 
 
     @Override
     protected Node[] createNodes(Node node) {
         final String name = node.getName();
-        if(name.equals("tgproject")){
-            return new Node[0];
-        } else if(name.equals(".cache")) {
-            return new Node[0];
-        } else {
-            return super.createNodes(node);
+        
+        final DataObject dob = node.getLookup().lookup (DataObject.class);
+        final FileObject file = dob.getPrimaryFile();
+        if(file.equals(project.getDatasetsFolder(true))){
+            return new Node[] {new TGDatasetNode(node)};
+        }else if(file.equals(project.getModelsFolder(true))){
+            return new Node[] {new TGModelsNode(node)};
+        }else if(file.equals(project.getResultsFolder(true))){
+            return new Node[] {new TGResultsNode(node)};
         }
+        return new Node[] {};
     }
 
 }

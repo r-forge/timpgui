@@ -5,6 +5,7 @@
 
 package nl.wur.flim.jfreechartcustom;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.io.BufferedWriter;
@@ -21,6 +22,7 @@ import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
 import org.jfree.data.xy.XYSeriesCollection;
 import org.jfree.ui.ExtensionFileFilter;
+import org.openide.windows.TopComponent;
 
 /**
  *
@@ -59,7 +61,11 @@ public class GraphPanel extends ChartPanel{
         super.actionPerformed(event);
         String command = event.getActionCommand();
         if (command.equals(OPEN_IN_NEW_WINDOW_COMMAND)){
-            doOpenInSeparateWindow();
+            try {
+                doOpenInSeparateWindow();
+            } catch (CloneNotSupportedException ex) {
+                Logger.getLogger(GraphPanel.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
         if (command.equals(SAVE_ASCII_COMMAND)){
             try {
@@ -130,10 +136,13 @@ public class GraphPanel extends ChartPanel{
         }
     }
 
-    private void doOpenInSeparateWindow() {
-//        TopComponent win = new MeasuredIrfTopComponent();
-//        win.open();
-//        win.requestActive();
+    private void doOpenInSeparateWindow() throws CloneNotSupportedException {
+        TopComponent win = new TopComponent();
+        win.setLayout(new BorderLayout());
+//        win.setName(this.getChart().getTitle().getText());
+        win.add(new GraphPanel((JFreeChart) this.getChart().clone()));
+        win.open();
+        win.requestActive();
     }
 
 }

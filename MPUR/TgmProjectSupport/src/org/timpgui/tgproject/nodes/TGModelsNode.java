@@ -2,18 +2,10 @@
 package org.timpgui.tgproject.nodes;
 
 import java.awt.Image;
-import javax.swing.Action;
-
-import org.netbeans.api.project.FileOwnerQuery;
-import org.netbeans.api.project.Project;
-import org.openide.loaders.DataObject;
 import org.openide.nodes.FilterNode;
 import org.openide.nodes.Node;
 import org.openide.util.ImageUtilities;
-
-import nl.vu.nat.tgmprojectsupport.TGProject;
 import org.openide.loaders.DataFolder;
-import org.timpgui.tgproject.actions.NewModels;
 
 /**
  */

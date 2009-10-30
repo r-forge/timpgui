@@ -14,8 +14,9 @@ public class TimpResultDataset implements Serializable {
     private String datasetName;
     private double[] kineticParameters;
     private double[] spectralParameters;
-    private Matrix concentrations;
-    private Matrix spectra;
+    private Matrix concentrations; //concentrations
+    private Matrix spectra;        //CLP
+    private Matrix spectraErr;     //errors of the CLP
     private double[] x;
     private double[] x2;
     private Matrix residuals;
@@ -25,11 +26,64 @@ public class TimpResultDataset implements Serializable {
     private int orheigh;      //original hight of flimimage
     private int orwidth;      //original widht of flimimage
     private double[] intenceIm; //intensity image FLIM
-    private double[] irfpar;
-    private double[] parmu;
-    private double[] jvec;
-    private double[] specdisppar;
-    private double lamdac; //usually this is the center wavelength
+    private double[] irfpar;        //irfmodel parameters
+    private double[] parmu;         //irf location modeling
+    private double[] partau;        //irf Width modeling
+    private double[] jvec;          //jvector
+    private double[] specdisppar;   //
+    private double[] prel;          //parameters relations
+    private double[] kinscal;       //branching scaling factors
+    private double[] clpequ;        //equality of the spectra
+    private double lamdac;          //usually this is the center wavelength
+    private double rms;             //final rms
+
+    public double[] getClpequ() {
+        return clpequ;
+    }
+
+    public void setClpequ(double[] clpequ) {
+        this.clpequ = clpequ;
+    }
+
+    public double[] getKinscal() {
+        return kinscal;
+    }
+
+    public void setKinscal(double[] kinscal) {
+        this.kinscal = kinscal;
+    }
+
+    public double[] getPartau() {
+        return partau;
+    }
+
+    public void setPartau(double[] partau) {
+        this.partau = partau;
+    }
+
+    public double[] getPrel() {
+        return prel;
+    }
+
+    public void setPrel(double[] prel) {
+        this.prel = prel;
+    }
+
+    public double getRms() {
+        return rms;
+    }
+
+    public void setRms(double rms) {
+        this.rms = rms;
+    }
+
+    public Matrix getSpectraErr() {
+        return spectraErr;
+    }
+
+    public void setSpectraErr(Matrix spectraErr) {
+        this.spectraErr = spectraErr;
+    }
 
     public void setDatasetName(String datasetNameValue) {
         datasetName = datasetNameValue;

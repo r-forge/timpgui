@@ -135,6 +135,8 @@ public class TgmDataNode extends DataNode implements Transferable{
                                         parmuStr = parmuStr+String.valueOf(results.getParmu()[i]);
                                     }
                                     obj.tgm.getDat().getIrfparPanel().setParmu(parmuStr);
+                                    obj.tgm.getDat().getIrfparPanel().setLamda(results.getLamdac());
+                                    obj.tgm.getDat().getIrfparPanel().setDispmufun("poly");
                                 }
 
 //update partau if necessary, new model will have same parmu as result object;

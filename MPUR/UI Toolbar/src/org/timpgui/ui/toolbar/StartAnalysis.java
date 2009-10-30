@@ -146,7 +146,7 @@ public final class StartAnalysis implements ActionListener {
                                         timpResultDataset.setX2(datasets[i].getX2().clone());
                                     }
                                     FileObject writeTo;
-                                    writeTo = resultsfolder.createData("dataset" + (i + 1) + "_" + timpResultDataset.getDatasetName(), "timpres");
+                                    writeTo = resultsfolder.createData(resultNameDialog.getInputText()+"_d"+(i+1)+"_"+timpResultDataset.getDatasetName(), "timpres");
                                     ObjectOutputStream stream = new ObjectOutputStream(writeTo.getOutputStream());
                                     stream.writeObject(timpResultDataset);
                                     stream.close();

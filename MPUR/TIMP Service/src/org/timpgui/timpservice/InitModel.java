@@ -46,11 +46,6 @@ public class InitModel {
             initModel = initModel.concat(tempStr + ",");
         }
 
-        tempStr = get_measured_irf(tgm);
-        if (tempStr != null) {
-            initModel = initModel.concat(tempStr + ",");
-        }
-
         tempStr = get_parmu(tgm);
         if (tempStr != null) {
             initModel = initModel.concat(tempStr + ",");
@@ -224,7 +219,7 @@ public class InitModel {
         //System.out.println("DDD"+Current.GetcurrMIRF());
         if (flimPanel.isMirf()) {
             int conv = flimPanel.getConvalg();
-            meaIrfString = "measured_irf= vector( "; //+ Current.GetcurrMIRF();
+            meaIrfString = "measured_irf= c( " + tgm.getDat().getIrfparPanel().getMeasuredIrf();
             meaIrfString = meaIrfString + " ), convalg= ";
             meaIrfString = meaIrfString.concat(String.valueOf(conv));
             if (conv == 3) {
@@ -237,6 +232,10 @@ public class InitModel {
 
     private static String get_irf(Tgm tgm) {
         String irfStr = null;
+        FlimPanelModel flimPanel = tgm.getDat().getFlimPanel();
+        if (flimPanel.isMirf()) {
+            irfStr = get_measured_irf(tgm);
+        } else {
         IrfparPanelModel irfPanel = tgm.getDat().getIrfparPanel();
         int count = 0;
         if (irfPanel.getIrf().size()>0){
@@ -257,6 +256,7 @@ public class InitModel {
             if (irfPanel.isBacksweepEnabled()){
                 irfStr = irfStr+", streak = TRUE, streakT = "+String.valueOf(irfPanel.getBacksweepPeriod());
             }
+        }
         }
         return irfStr;
     }

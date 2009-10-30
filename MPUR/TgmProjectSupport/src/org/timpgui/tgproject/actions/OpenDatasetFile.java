@@ -127,7 +127,9 @@ public final class OpenDatasetFile extends AbstractAction {
                                             } catch (javax.xml.bind.JAXBException ex) {
                                                 // XXXTODO Handle exception
                                                 java.util.logging.Logger.getLogger("global").log(java.util.logging.Level.SEVERE, null, ex); //NOI18N
-                                            } 
+                                            }
+                                             out.notify();
+                                             project.notifyAll();
 
                                             //END TODO
 

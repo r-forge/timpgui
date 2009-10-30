@@ -1,7 +1,13 @@
 package nl.vu.nat.tgmeditor.panels;
 
-import javax.swing.JCheckBox;
+import java.awt.Color;
+import java.io.File;
+import java.util.Collection;
+import java.util.Enumeration;
+import java.util.Scanner;
+import java.util.Vector;
 import javax.swing.JComponent;
+import javax.swing.JFileChooser;
 import javax.swing.JScrollPane;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.event.TableModelEvent;
@@ -10,10 +16,17 @@ import javax.swing.table.DefaultTableModel;
 import nl.vu.nat.tgmfilesupport.TgmDataObject;
 import nl.vu.nat.tgmodels.tgm.FlimPanelModel;
 import nl.vu.nat.tgmodels.tgm.IrfparPanelModel;
-import nl.wur.flimdataloader.components.MeasuredIrfTopComponent;
+import nl.wur.flim.jfreechartcustom.GraphPanel;
+import org.jfree.chart.ChartFactory;
+import org.jfree.chart.ChartPanel;
+import org.jfree.chart.JFreeChart;
+import org.jfree.chart.plot.IntervalMarker;
+import org.jfree.chart.plot.PlotOrientation;
+import org.jfree.data.xy.XYDataset;
+import org.jfree.data.xy.XYSeries;
+import org.jfree.data.xy.XYSeriesCollection;
 import org.netbeans.modules.xml.multiview.ui.SectionInnerPanel;
 import org.netbeans.modules.xml.multiview.ui.SectionView;
-import org.openide.windows.TopComponent;
 
 
 /*
@@ -31,16 +44,34 @@ public class IrfparPanel extends SectionInnerPanel {
     private Object[] defRow;
     private Object[] newRow;
     private String[] rowNames;
+    private JFileChooser fc;
+    private int length;
+    private int from, till;
+    private double maxInt;
+    private double[] refArray;
+    private ChartPanel chpan;
+    private XYSeriesCollection refSerColl;
+    private JFreeChart chart;
+    private IntervalMarker marker;
 
     public IrfparPanel(SectionView view, TgmDataObject dObj, IrfparPanelModel irfparPanelModel) {
         super(view);
         this.dObj = dObj;
         this.irfparPanelModel = irfparPanelModel;
         this.flimPanelModel = dObj.getTgm().getDat().getFlimPanel();
+
+
+        fc = new JFileChooser();
+        chpan = null;
+        chart = null;
+        marker = null;
+        maxInt = 0;
+        refSerColl = new XYSeriesCollection();
+
         initComponents();
 //=======================IRF
         jSNumOfIrfParameters.setModel(new SpinnerNumberModel(irfparPanelModel.getIrf().size(), 0, 4, 2));
-        rowHeader = new RowHeader(20,50);
+        rowHeader = new RowHeader(20, 50);
         rowNames = new String[]{"Position", "Width", "Width2", "Relation"};
         defRow = new Object[]{new Double(0), new Boolean(false)};
         model = new IrfparTableModel(new Object[]{"Irf parameters", "Fixed"}, 0);
@@ -72,6 +103,7 @@ public class IrfparPanel extends SectionInnerPanel {
             jRDispmufun_no.setSelected(true);
         }
         jParmuTextfield.setText(irfparPanelModel.getParmu());
+
         if (irfparPanelModel.isDisptau()) {
             if (irfparPanelModel.getDisptaufun().compareTo("poly") == 0) {
                 jRDisptaufun_poly.setSelected(true);
@@ -109,6 +141,21 @@ public class IrfparPanel extends SectionInnerPanel {
         } //end switch
         jTRefLifetime.setText(String.valueOf(flimPanelModel.getReftau()));
         updateEnabled(flimPanelModel.isMirf());
+        jTFIrfShiftParameter.setText(irfparPanelModel.getParmu());
+        if (irfparPanelModel.getMeasuredIrf() != null) {
+            String[] doubles = irfparPanelModel.getMeasuredIrf().split(",");
+            XYSeries refSeria = new XYSeries("Reference");
+            refArray = new double[doubles.length];
+            for (int i = 0; i < doubles.length; i++) {
+                refArray[i] = Double.parseDouble(doubles[i]);
+                refSeria.add(i, refArray[i]);
+
+            }
+            refSerColl.addSeries(refSeria);
+            MakeChart(refSerColl);
+        }
+
+
 
 // Add listerners
         jTIrfparTable.getModel().addTableModelListener(model);
@@ -132,6 +179,7 @@ public class IrfparPanel extends SectionInnerPanel {
         addModifier(jTFLaserPeriod);
 //========meairf=======
         addModifier(jTRefLifetime);
+        addModifier(jTFIrfShiftParameter);
     }
 
     /** This method is called from within the constructor to
@@ -145,6 +193,9 @@ public class IrfparPanel extends SectionInnerPanel {
 
         buttonGroup1 = new javax.swing.ButtonGroup();
         buttonGroup2 = new javax.swing.ButtonGroup();
+        buttonGroup3 = new javax.swing.ButtonGroup();
+        jTabbedPane1 = new javax.swing.JTabbedPane();
+        jPanel6 = new javax.swing.JPanel();
         jLabel4 = new javax.swing.JLabel();
         jSNumOfIrfParameters = new javax.swing.JSpinner();
         jScrollPane3 = new javax.swing.JScrollPane();
@@ -172,13 +223,43 @@ public class IrfparPanel extends SectionInnerPanel {
         jCBStreak = new javax.swing.JCheckBox();
         jTFLaserPeriod = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
+        jCBMeasuredIRF = new javax.swing.JCheckBox();
+        jPanel7 = new javax.swing.JPanel();
+        jPanel8 = new javax.swing.JPanel();
+        jLabel11 = new javax.swing.JLabel();
+        tFRefFilename = new javax.swing.JTextField();
+        Bloadref = new javax.swing.JButton();
+        jPanel9 = new javax.swing.JPanel();
+        jCBEstimateBG = new javax.swing.JCheckBox();
+        jSFrom = new javax.swing.JSpinner();
+        jSTill = new javax.swing.JSpinner();
+        jTFBGvalue = new javax.swing.JTextField();
+        jBSubtrBG = new javax.swing.JButton();
+        jLabel12 = new javax.swing.JLabel();
+        jLabel13 = new javax.swing.JLabel();
+        jLabel14 = new javax.swing.JLabel();
+        jBCalculateBG = new javax.swing.JButton();
+        jCBNegToZer = new javax.swing.JCheckBox();
         jPanel5 = new javax.swing.JPanel();
         jRBScaterConv = new javax.swing.JRadioButton();
         jRBReferConv = new javax.swing.JRadioButton();
         jTRefLifetime = new javax.swing.JTextField();
         jLabel10 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
-        jCBMeasuredIRF = new javax.swing.JCheckBox();
+        jPanel10 = new javax.swing.JPanel();
+        jLabel15 = new javax.swing.JLabel();
+        jTFIrfShiftParameter = new javax.swing.JTextField();
+
+        jTabbedPane1.setPreferredSize(new java.awt.Dimension(0, 0));
+
+        jPanel6.setPreferredSize(new java.awt.Dimension(0, 0));
+        jPanel6.addComponentListener(new java.awt.event.ComponentAdapter() {
+            public void componentHidden(java.awt.event.ComponentEvent evt) {
+                jPanel6ComponentHidden(evt);
+            }
+            public void componentShown(java.awt.event.ComponentEvent evt) {
+                jPanel6ComponentShown(evt);
+            }
+        });
 
         jLabel4.setText("Number of IRF parameters");
 
@@ -283,9 +364,9 @@ public class IrfparPanel extends SectionInnerPanel {
                         .addComponent(jLabel6)
                         .addComponent(jRDisptaufun_discrete, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jLabel7))
-                    .addComponent(jPartauTextfield, javax.swing.GroupLayout.DEFAULT_SIZE, 366, Short.MAX_VALUE)
-                    .addComponent(jLabel9))
-                .addContainerGap())
+                    .addComponent(jLabel9)
+                    .addComponent(jPartauTextfield, javax.swing.GroupLayout.PREFERRED_SIZE, 310, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -318,15 +399,15 @@ public class IrfparPanel extends SectionInnerPanel {
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGap(232, 232, 232)
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
-                            .addComponent(jLabel1)
-                            .addComponent(jTPolyDispersion, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(jPanel3Layout.createSequentialGroup()
                         .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap())
+                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jLabel1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jTPolyDispersion, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -335,9 +416,10 @@ public class IrfparPanel extends SectionInnerPanel {
                     .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTPolyDispersion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
+                    .addComponent(jTPolyDispersion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(33, 33, 33))
         );
 
         jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder("Parameters for a streak images analysis"));
@@ -365,7 +447,7 @@ public class IrfparPanel extends SectionInnerPanel {
                         .addGap(21, 21, 21)
                         .addComponent(jLabel2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTFLaserPeriod, javax.swing.GroupLayout.DEFAULT_SIZE, 96, Short.MAX_VALUE)))
+                        .addComponent(jTFLaserPeriod, javax.swing.GroupLayout.DEFAULT_SIZE, 153, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel4Layout.setVerticalGroup(
@@ -376,10 +458,205 @@ public class IrfparPanel extends SectionInnerPanel {
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
                     .addComponent(jTFLaserPeriod, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(18, Short.MAX_VALUE))
+                .addContainerGap(29, Short.MAX_VALUE))
         );
 
-        jPanel5.setBorder(javax.swing.BorderFactory.createTitledBorder("Measured IRF"));
+        jCBMeasuredIRF.setText("Measured IRF");
+        jCBMeasuredIRF.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jCBMeasuredIRFActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
+        jPanel6.setLayout(jPanel6Layout);
+        jPanel6Layout.setHorizontalGroup(
+            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel6Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jCBMeasuredIRF)
+                    .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 385, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel6Layout.createSequentialGroup()
+                        .addComponent(jLabel4)
+                        .addGap(25, 25, 25)
+                        .addComponent(jSNumOfIrfParameters, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(883, Short.MAX_VALUE))
+        );
+        jPanel6Layout.setVerticalGroup(
+            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel6Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jCBMeasuredIRF)
+                .addGap(24, 24, 24)
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jSNumOfIrfParameters, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel4))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(161, 161, 161))
+        );
+
+        jTabbedPane1.addTab("IRF Settings", jPanel6);
+
+        jPanel7.setPreferredSize(new java.awt.Dimension(0, 0));
+        jPanel7.addComponentListener(new java.awt.event.ComponentAdapter() {
+            public void componentHidden(java.awt.event.ComponentEvent evt) {
+                jPanel7ComponentHidden(evt);
+            }
+            public void componentShown(java.awt.event.ComponentEvent evt) {
+                jPanel7ComponentShown(evt);
+            }
+        });
+
+        jPanel8.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+
+        jLabel11.setText(org.openide.util.NbBundle.getMessage(IrfparPanel.class, "MeasuredIrfTopComponent.jLabel2.text")); // NOI18N
+
+        tFRefFilename.setEditable(false);
+        tFRefFilename.setText(org.openide.util.NbBundle.getMessage(IrfparPanel.class, "MeasuredIrfTopComponent.tFRefFilename.text")); // NOI18N
+
+        Bloadref.setText(org.openide.util.NbBundle.getMessage(IrfparPanel.class, "MeasuredIrfTopComponent.Bloadref.text")); // NOI18N
+        Bloadref.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BloadrefActionPerformed(evt);
+            }
+        });
+
+        jPanel9.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        jPanel9.addComponentListener(new java.awt.event.ComponentAdapter() {
+            public void componentResized(java.awt.event.ComponentEvent evt) {
+                jPanel9ComponentResized(evt);
+            }
+        });
+        jPanel9.setLayout(new java.awt.BorderLayout());
+
+        jCBEstimateBG.setText(org.openide.util.NbBundle.getMessage(IrfparPanel.class, "MeasuredIrfTopComponent.jCBEstimateBG.text")); // NOI18N
+        jCBEstimateBG.setEnabled(false);
+        jCBEstimateBG.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jCBEstimateBGActionPerformed(evt);
+            }
+        });
+
+        jSFrom.setEnabled(false);
+        jSFrom.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                jSFromStateChanged(evt);
+            }
+        });
+
+        jSTill.setEnabled(false);
+        jSTill.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                jSTillStateChanged(evt);
+            }
+        });
+
+        jTFBGvalue.setText(org.openide.util.NbBundle.getMessage(IrfparPanel.class, "MeasuredIrfTopComponent.jTFBGvalue.text")); // NOI18N
+        jTFBGvalue.setEnabled(false);
+
+        jBSubtrBG.setText(org.openide.util.NbBundle.getMessage(IrfparPanel.class, "MeasuredIrfTopComponent.jBSubtrBG.text")); // NOI18N
+        jBSubtrBG.setEnabled(false);
+        jBSubtrBG.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBSubtrBGActionPerformed(evt);
+            }
+        });
+
+        jLabel12.setText(org.openide.util.NbBundle.getMessage(IrfparPanel.class, "MeasuredIrfTopComponent.jLabel1.text")); // NOI18N
+        jLabel12.setEnabled(false);
+
+        jLabel13.setText(org.openide.util.NbBundle.getMessage(IrfparPanel.class, "MeasuredIrfTopComponent.jLabel3.text")); // NOI18N
+        jLabel13.setEnabled(false);
+
+        jLabel14.setText(org.openide.util.NbBundle.getMessage(IrfparPanel.class, "MeasuredIrfTopComponent.jLabel4.text")); // NOI18N
+        jLabel14.setEnabled(false);
+
+        jBCalculateBG.setText(org.openide.util.NbBundle.getMessage(IrfparPanel.class, "MeasuredIrfTopComponent.jBCalculateBG.text")); // NOI18N
+        jBCalculateBG.setEnabled(false);
+        jBCalculateBG.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBCalculateBGActionPerformed(evt);
+            }
+        });
+
+        jCBNegToZer.setSelected(true);
+        jCBNegToZer.setText(org.openide.util.NbBundle.getMessage(IrfparPanel.class, "MeasuredIrfTopComponent.jCBNegToZer.text")); // NOI18N
+        jCBNegToZer.setEnabled(false);
+
+        javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
+        jPanel8.setLayout(jPanel8Layout);
+        jPanel8Layout.setHorizontalGroup(
+            jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel8Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jPanel9, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 628, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel8Layout.createSequentialGroup()
+                        .addComponent(jCBEstimateBG, javax.swing.GroupLayout.PREFERRED_SIZE, 148, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jLabel12)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jSFrom, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel13)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jSTill, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jBCalculateBG)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jLabel14)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jTFBGvalue, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel8Layout.createSequentialGroup()
+                        .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel8Layout.createSequentialGroup()
+                                .addComponent(jLabel11)
+                                .addGap(10, 10, 10)
+                                .addComponent(tFRefFilename, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(Bloadref, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 118, Short.MAX_VALUE)
+                        .addComponent(jCBNegToZer, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jBSubtrBG)))
+                .addContainerGap())
+        );
+        jPanel8Layout.setVerticalGroup(
+            jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel8Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel11)
+                    .addComponent(tFRefFilename, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(Bloadref)
+                    .addComponent(jBSubtrBG)
+                    .addComponent(jCBNegToZer))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, 298, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel14)
+                    .addComponent(jTFBGvalue, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jBCalculateBG)
+                    .addComponent(jLabel12)
+                    .addComponent(jSFrom, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel13)
+                    .addComponent(jSTill, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jCBEstimateBG))
+                .addContainerGap())
+        );
+
+        jPanel5.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
         jPanel5.setEnabled(false);
 
         jRBScaterConv.setText("Scater Convolution");
@@ -393,96 +670,100 @@ public class IrfparPanel extends SectionInnerPanel {
         jLabel10.setText("Reference Lifetime (ns)");
         jLabel10.setEnabled(false);
 
-        jButton1.setText("Edit IRF");
-        jButton1.setEnabled(false);
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
         jPanel5Layout.setHorizontalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createSequentialGroup()
-                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel5Layout.createSequentialGroup()
-                        .addComponent(jRBScaterConv)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton1))
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel5Layout.createSequentialGroup()
-                        .addComponent(jRBReferConv)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jRBReferConv)
+                    .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addGap(21, 21, 21)
                         .addComponent(jLabel10)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTRefLifetime, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(17, 17, 17))
+                        .addComponent(jTRefLifetime, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jRBScaterConv))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
+            .addGroup(jPanel5Layout.createSequentialGroup()
+                .addComponent(jRBReferConv)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jRBReferConv)
                     .addComponent(jLabel10)
                     .addComponent(jTRefLifetime, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel5Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jRBScaterConv)
-                        .addGap(33, 33, 33))
-                    .addGroup(jPanel5Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton1)
-                        .addContainerGap())))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jRBScaterConv)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jCBMeasuredIRF.setText("Measured IRF");
-        jCBMeasuredIRF.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jCBMeasuredIRFActionPerformed(evt);
-            }
-        });
+        jPanel10.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+
+        jLabel15.setText("Measured IRF Shift Parameter");
+
+        javax.swing.GroupLayout jPanel10Layout = new javax.swing.GroupLayout(jPanel10);
+        jPanel10.setLayout(jPanel10Layout);
+        jPanel10Layout.setHorizontalGroup(
+            jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel10Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel15)
+                    .addComponent(jTFIrfShiftParameter, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(116, Short.MAX_VALUE))
+        );
+        jPanel10Layout.setVerticalGroup(
+            jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel10Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel15)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jTFIrfShiftParameter, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(37, Short.MAX_VALUE))
+        );
+
+        javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
+        jPanel7.setLayout(jPanel7Layout);
+        jPanel7Layout.setHorizontalGroup(
+            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel7Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel7Layout.createSequentialGroup()
+                        .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jPanel10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(1031, 1031, 1031))
+        );
+        jPanel7Layout.setVerticalGroup(
+            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel7Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jPanel10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(452, 452, 452))
+        );
+
+        jTabbedPane1.addTab("Measured IRF", jPanel7);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 392, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(13, 13, 13)
-                        .addComponent(jLabel4)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jSNumOfIrfParameters, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(34, 34, 34)
-                        .addComponent(jCBMeasuredIRF))
-                    .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, 463, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 832, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel4)
-                    .addComponent(jCBMeasuredIRF)
-                    .addComponent(jSNumOfIrfParameters, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel5, 0, 86, Short.MAX_VALUE)
-                    .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap())
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 558, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -491,8 +772,8 @@ private void jSNumOfIrfParametersStateChanged(javax.swing.event.ChangeEvent evt)
     if ((Integer) jSNumOfIrfParameters.getValue() > model.getRowCount()) {
         model.addRow(defRow);
         model.addRow(defRow);
-        rowHeader.addRow(rowNames[(Integer)jSNumOfIrfParameters.getValue()-2]);
-        rowHeader.addRow(rowNames[(Integer)jSNumOfIrfParameters.getValue()-1]);
+        rowHeader.addRow(rowNames[(Integer) jSNumOfIrfParameters.getValue() - 2]);
+        rowHeader.addRow(rowNames[(Integer) jSNumOfIrfParameters.getValue() - 1]);
     } else {
         model.removeRow(model.getRowCount() - 1);
         model.removeRow(model.getRowCount() - 1);
@@ -501,33 +782,185 @@ private void jSNumOfIrfParametersStateChanged(javax.swing.event.ChangeEvent evt)
 
     }
 //    jTIrfparTable.setModel(model);
-    setValue(jTIrfparTable,this);    
+    setValue(jTIrfparTable, this);
 }//GEN-LAST:event_jSNumOfIrfParametersStateChanged
 
 private void jCBStreakActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCBStreakActionPerformed
-        jTFLaserPeriod.setEnabled(jCBStreak.isSelected());
-        jLabel2.setEnabled(jCBStreak.isSelected());
-    
+    jTFLaserPeriod.setEnabled(jCBStreak.isSelected());
+    jLabel2.setEnabled(jCBStreak.isSelected());
+
 }//GEN-LAST:event_jCBStreakActionPerformed
 
 private void jCBMeasuredIRFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCBMeasuredIRFActionPerformed
     updateEnabled(jCBMeasuredIRF.isSelected());
 }//GEN-LAST:event_jCBMeasuredIRFActionPerformed
 
-private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-    TopComponent win = new MeasuredIrfTopComponent();
-    win.open();
-    win.requestActive();
-}//GEN-LAST:event_jButton1ActionPerformed
+private void BloadrefActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BloadrefActionPerformed
+    // TODO add your handling code here:
+    int returnVal = fc.showOpenDialog(this);
+    Vector refVector = new Vector();
+    File file = null;
+    if (returnVal == JFileChooser.APPROVE_OPTION) {
+        file = fc.getSelectedFile();
+        tFRefFilename.setText(fc.getName(file));
+
+        try {
+            Scanner sc = new Scanner(file);
+            while (sc.hasNext()) {
+                refVector.addElement(sc.nextFloat());
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
+        int i = 0;
+        float num;
+        XYSeries refSeria = new XYSeries("Reference");
+        length = refVector.size();
+        refArray = new double[length];
+        for (Enumeration e = refVector.elements(); e.hasMoreElements();) {
+            Float temp = (Float) e.nextElement();
+            num = (float) temp;
+            refSeria.add(i, num);
+            if (num > maxInt) {
+                maxInt = num;
+            }
+            refArray[i] = num;
+            i++;
+        }
+        if (refSerColl.getSeries() != null) {
+            refSerColl.getSeries().clear();
+        }
+        refSerColl.addSeries(refSeria);
+        MakeChart(refSerColl);
+        from = 0;
+        till = length;
+        marker = new IntervalMarker(from, till);
+        marker.setPaint(new Color(222, 222, 255, 128));
+
+        jBSubtrBG.setEnabled(true);
+        jLabel4.setEnabled(true);
+        jCBEstimateBG.setEnabled(true);
+        jTFBGvalue.setEnabled(true);
+        jCBNegToZer.setEnabled(true);
+
+        jSFrom.setModel(new SpinnerNumberModel(from, 0, length, 1));
+        jSTill.setModel(new SpinnerNumberModel(till, 0, length, 1));
+        //        System.out.println(refVector);
+        setValue(jPanel9, refArray);
+    }
+}//GEN-LAST:event_BloadrefActionPerformed
+
+private void jPanel9ComponentResized(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_jPanel9ComponentResized
+    if (chpan != null) {
+        chpan.setSize(jPanel2.getSize());
+    }
+}//GEN-LAST:event_jPanel9ComponentResized
+
+private void jCBEstimateBGActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCBEstimateBGActionPerformed
+    jTFBGvalue.setEditable(!jTFBGvalue.isEditable());
+    jLabel1.setEnabled(!jLabel1.isEnabled());
+    jLabel3.setEnabled(!jLabel3.isEnabled());
+    jSFrom.setEnabled(!jSFrom.isEnabled());
+    jSTill.setEnabled(!jSTill.isEnabled());
+    jBCalculateBG.setEnabled(!jBCalculateBG.isEnabled());
+    if (jCBEstimateBG.isSelected()) {
+        chart.getXYPlot().addDomainMarker(marker);
+    } else {
+        chart.getXYPlot().clearDomainMarkers(0);
+    }
+}//GEN-LAST:event_jCBEstimateBGActionPerformed
+
+private void jSFromStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jSFromStateChanged
+    Integer fr = (Integer) jSFrom.getValue();
+    Integer tl = (Integer) jSTill.getValue();
+    from = (int) fr;
+    till = (int) tl;
+    if (from >= till) {
+        jSTill.setValue(jSFrom.getValue());
+        till = from;
+    }
+    marker.setStartValue(from);
+    marker.setEndValue(till);
+}//GEN-LAST:event_jSFromStateChanged
+
+private void jSTillStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jSTillStateChanged
+    Integer fr = (Integer) jSFrom.getValue();
+    Integer tl = (Integer) jSTill.getValue();
+    from = (int) fr;
+    till = (int) tl;
+
+    if (from >= till) {
+        jSFrom.setValue(jSTill.getValue());
+        from = till;
+    }
+    marker.setStartValue(from);
+    marker.setEndValue(till);
+}//GEN-LAST:event_jSTillStateChanged
+
+private void jBSubtrBGActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBSubtrBGActionPerformed
+    float val = 0;
+    try {
+        val = Float.parseFloat(jTFBGvalue.getText());
+    } catch (NumberFormatException ex) {
+        System.out.println("Wrong number format");
+    }
+    if (refSerColl.getSeries()!=(null)) {
+    refSerColl.getSeries(0).clear();
+    for (int i = 0; i < length; i++) {
+        refArray[i] -= val;
+        if (jCBNegToZer.isSelected() && (refArray[i] < 0)) {
+            refArray[i] = 0;
+        }
+        refSerColl.getSeries(0).add(i, refArray[i]);
+    }
+    setValue(jPanel9, refArray);
+    }
+}//GEN-LAST:event_jBSubtrBGActionPerformed
+
+private void jBCalculateBGActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBCalculateBGActionPerformed
+    float sum = 0;
+    for (int i = from; i < till; i++) {
+        sum += refArray[i];
+    }
+    Float val = sum / (till - from);
+    jTFBGvalue.setText(val.toString());
+}//GEN-LAST:event_jBCalculateBGActionPerformed
+
+private void jPanel6ComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_jPanel6ComponentShown
+    endUIChange();
+}//GEN-LAST:event_jPanel6ComponentShown
+
+private void jPanel7ComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_jPanel7ComponentShown
+    endUIChange();
+}//GEN-LAST:event_jPanel7ComponentShown
+
+private void jPanel6ComponentHidden(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_jPanel6ComponentHidden
+    endUIChange();
+}//GEN-LAST:event_jPanel6ComponentHidden
+
+private void jPanel7ComponentHidden(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_jPanel7ComponentHidden
+    endUIChange();
+}//GEN-LAST:event_jPanel7ComponentHidden
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton Bloadref;
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.ButtonGroup buttonGroup2;
-    private javax.swing.JButton jButton1;
+    private javax.swing.ButtonGroup buttonGroup3;
+    private javax.swing.JButton jBCalculateBG;
+    private javax.swing.JButton jBSubtrBG;
+    private javax.swing.JCheckBox jCBEstimateBG;
     private javax.swing.JCheckBox jCBMeasuredIRF;
+    private javax.swing.JCheckBox jCBNegToZer;
     private javax.swing.JCheckBox jCBStreak;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
+    private javax.swing.JLabel jLabel14;
+    private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -537,10 +970,15 @@ private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel10;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
+    private javax.swing.JPanel jPanel6;
+    private javax.swing.JPanel jPanel7;
+    private javax.swing.JPanel jPanel8;
+    private javax.swing.JPanel jPanel9;
     private javax.swing.JTextField jParmuTextfield;
     private javax.swing.JTextField jPartauTextfield;
     private javax.swing.JRadioButton jRBReferConv;
@@ -551,13 +989,20 @@ private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
     private javax.swing.JRadioButton jRDisptaufun_discrete;
     private javax.swing.JRadioButton jRDisptaufun_no;
     private javax.swing.JRadioButton jRDisptaufun_poly;
+    private javax.swing.JSpinner jSFrom;
     private javax.swing.JSpinner jSNumOfIrfParameters;
+    private javax.swing.JSpinner jSTill;
     private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JTextField jTFBGvalue;
+    private javax.swing.JTextField jTFIrfShiftParameter;
     private javax.swing.JTextField jTFLaserPeriod;
     private javax.swing.JTable jTIrfparTable;
     private javax.swing.JTextField jTPolyDispersion;
     private javax.swing.JTextField jTRefLifetime;
+    private javax.swing.JTabbedPane jTabbedPane1;
+    private javax.swing.JTextField tFRefFilename;
     // End of variables declaration//GEN-END:variables
+
     @Override
     public void setValue(JComponent source, Object value) {
         if (source == jTIrfparTable) {
@@ -599,9 +1044,9 @@ private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
             irfparPanelModel.setPartau((String) value);
         }
         if (source == jTPolyDispersion) {
-            String test = (String)value;
+            String test = (String) value;
             if (!test.isEmpty()) {
-            irfparPanelModel.setLamda(Double.valueOf((String) value));
+                irfparPanelModel.setLamda(Double.valueOf((String) value));
             } else {
                 irfparPanelModel.setLamda(Double.NaN);
                 jTPolyDispersion.setText(String.valueOf(Double.NaN));
@@ -618,14 +1063,28 @@ private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
         if (source == jCBMeasuredIRF) {
             flimPanelModel.setMirf(jCBMeasuredIRF.isSelected());
         }
-        if (source==jRBScaterConv) {
-            if((Boolean)value) flimPanelModel.setConvalg(2);
+        if (source == jRBScaterConv) {
+            if ((Boolean) value) {
+                flimPanelModel.setConvalg(2);
+            }
         }
-        if (source==jRBReferConv) {
-            if((Boolean)value) flimPanelModel.setConvalg(3);
+        if (source == jRBReferConv) {
+            if ((Boolean) value) {
+                flimPanelModel.setConvalg(3);
+            }
         }
         if (source == jTRefLifetime) {
-            flimPanelModel.setReftau(Double.valueOf((String)value));
+            flimPanelModel.setReftau(Double.valueOf((String) value));
+        }
+        if (source == jPanel9) { //measured IRF Changed
+            StringBuilder result = new StringBuilder(String.valueOf(refArray[0]));
+            for (int i = 1; i < refArray.length; i++) {
+                result.append(",").append(refArray[i]);
+            }
+            irfparPanelModel.setMeasuredIrf(result.toString());
+        }
+        if (source == jTFIrfShiftParameter) {
+            irfparPanelModel.setParmu((String) value);
         }
         endUIChange();
     }
@@ -647,14 +1106,17 @@ private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
 
     private void updateEnabled(boolean selected) {
         jPanel5.setEnabled(!selected);
-        for (int i = 0; i < jPanel5.getComponents().length; i++ )
+        for (int i = 0; i < jPanel5.getComponents().length; i++) {
             jPanel5.getComponents()[i].setEnabled(selected);
+        }
 
-        for (int i = 0; i < jPanel1.getComponents().length; i++ )
+        for (int i = 0; i < jPanel1.getComponents().length; i++) {
             jPanel1.getComponents()[i].setEnabled(!selected);
+        }
 
-        for (int i = 0; i < jPanel2.getComponents().length; i++ )
+        for (int i = 0; i < jPanel2.getComponents().length; i++) {
             jPanel2.getComponents()[i].setEnabled(!selected);
+        }
 
         jLabel1.setEnabled(!selected);
         jTPolyDispersion.setEnabled(!selected);
@@ -663,8 +1125,7 @@ private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
         jLabel4.setEnabled(!selected);
         jSNumOfIrfParameters.setEnabled(!selected);
         jCBStreak.setEnabled(!selected);
-        jTFLaserPeriod.setEnabled((!selected)&(jCBStreak.isSelected()));
-        jParmuTextfield.setEnabled(true);
+        jTFLaserPeriod.setEnabled((!selected) & (jCBStreak.isSelected()));
 
     }
 
@@ -690,5 +1151,25 @@ private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
             setValue(jTIrfparTable, this);
             jTIrfparTable.repaint();
         }
+    }
+
+    private void MakeChart(XYDataset dat) {
+        chart = ChartFactory.createXYLineChart(
+                "Measured IRF",
+                "Channel Number",
+                "Number of counts",
+                dat,
+                PlotOrientation.VERTICAL,
+                false,
+                false,
+                false);
+//        chart.getXYPlot().getDomainAxis().setUpperBound(length);
+        chart.getXYPlot().getDomainAxis().setUpperMargin(0);
+        chart.getXYPlot().getDomainAxis().setLowerMargin(0);
+        chart.getXYPlot().setDomainZeroBaselineVisible(true);
+        chpan = new GraphPanel(chart, true);
+        jPanel9.removeAll();
+        jPanel9.add(chpan);
+        jPanel9.validate();
     }
 }

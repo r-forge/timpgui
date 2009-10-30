@@ -828,7 +828,7 @@ private void BloadrefActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
             refArray[i] = num;
             i++;
         }
-        if (refSerColl.getSeries() != null) {
+        if (refSerColl.getSeries().size() > 0) {
             refSerColl.getSeries().clear();
         }
         refSerColl.addSeries(refSeria);
@@ -905,8 +905,8 @@ private void jBSubtrBGActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIR
     } catch (NumberFormatException ex) {
         System.out.println("Wrong number format");
     }
-    if (refSerColl.getSeries()!=(null)) {
-    refSerColl.getSeries(0).clear();
+    if (refSerColl.getSeries().size() > 0 ) {
+    refSerColl.getSeries().clear();
     for (int i = 0; i < length; i++) {
         refArray[i] -= val;
         if (jCBNegToZer.isSelected() && (refArray[i] < 0)) {

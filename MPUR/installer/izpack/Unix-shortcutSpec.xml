@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 
 <shortcuts>
-
-  <programGroup defaultName="IzForge/IzPack"
-  location="applications"/>
+    <skipIfNotSupported/>
+  <programGroup defaultName="MPUR/TIMPGUI" location="Applications"/>
 
     <shortcut
-     name="IzPack"
+     name="TIMPGUI"
      programGroup="yes"
      desktop="yes"
      applications="no"
@@ -16,7 +15,7 @@
      commandLine=""
      workingDirectory="$INSTALL_PATH/bin"
      description="TIMPGUI"
-     iconFile="$INSTALL_PATH/bin/icons/izpack.png"
+     iconFile="$INSTALL_PATH/bin/icons/timpgui.png"
      iconIndex="0"
      type="Application"
      encoding="UTF-8"

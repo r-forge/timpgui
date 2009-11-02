@@ -14,7 +14,7 @@
         target="$INSTALL_PATH\bin\timpgui.exe"
         commandLine=""
         description="TIMPGUI launcher"
-        iconFile="$INSTALL_PATH\timpgui\timpgui.png"
+        iconFile="$INSTALL_PATH\timpgui\timpgui.ico"
         iconIndex="0"
         initialState="noShow">
     </shortcut>

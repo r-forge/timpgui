@@ -5,8 +5,6 @@
 package org.timpgui.timpservice;
 
 import nl.vu.nat.tgmodels.tgm.CohspecPanelModel;
-import nl.vu.nat.tgmodels.tgm.Dat;
-import nl.vu.nat.tgmodels.tgm.FlimPanelModel;
 import nl.vu.nat.tgmodels.tgm.IrfparPanelModel;
 import nl.vu.nat.tgmodels.tgm.KMatrixPanelModel;
 import nl.vu.nat.tgmodels.tgm.KinparPanelModel;
@@ -20,11 +18,12 @@ import nl.vu.nat.tgmodels.tgm.WeightParPanelModel;
  * @author Joris Snellenburg
  */
 public class InitModel {
-    private static String addToFixed=null;
+
+    private static String addToFixed = null;
 
 // Public classes
     public static String parseModel(Tgm tgm) {
- //       addToFixed=null;
+        //       addToFixed=null;
         String initModel = "initModel(";
         String tempStr = null;
 
@@ -134,7 +133,7 @@ public class InitModel {
             }
             for (int i = 0; i < matrixSize; i++) {
                 for (int j = 0; j < matrixSize; j++) {
-                    kMatrixCall = kMatrixCall.concat("," + String.valueOf(kMatrix.getKMatrix().getData().get(j+matrixSize).getRow().get(i)));
+                    kMatrixCall = kMatrixCall.concat("," + String.valueOf(kMatrix.getKMatrix().getData().get(j + matrixSize).getRow().get(i)));
                 }
             }
 
@@ -191,8 +190,9 @@ public class InitModel {
         if (size > 0) {
             weightpar = "weightpar = list(";
             for (int i = 0; i < size; i++) {
-                if ((i>0)&&(i<size))
+                if ((i > 0) && (i < size)) {
                     weightpar = weightpar + ",";
+                }
                 weightpar = weightpar + "c(";
                 WeightPar wp = weightParPanelModel.getWeightpar().get(i);
                 Double[] temparray = {wp.getMin1(), wp.getMax1(), wp.getMin2(), wp.getMax2(), wp.getWeight()};
@@ -215,48 +215,49 @@ public class InitModel {
 
     private static String get_measured_irf(Tgm tgm) {
         String meaIrfString = null;
-        FlimPanelModel flimPanel = tgm.getDat().getFlimPanel();
         //System.out.println("DDD"+Current.GetcurrMIRF());
-        if (flimPanel.isMirf()) {
-            int conv = flimPanel.getConvalg();
+        IrfparPanelModel irfparPanel = tgm.getDat().getIrfparPanel();
+        if (irfparPanel.isMirf()) {
+            int conv = irfparPanel.getConvalg();
             meaIrfString = "measured_irf= c( " + tgm.getDat().getIrfparPanel().getMeasuredIrf();
             meaIrfString = meaIrfString + " ), convalg= ";
             meaIrfString = meaIrfString.concat(String.valueOf(conv));
             if (conv == 3) {
                 meaIrfString = meaIrfString.concat(", reftau = ");
-                meaIrfString = meaIrfString.concat(String.valueOf(flimPanel.getReftau()));
+                meaIrfString = meaIrfString.concat(String.valueOf(irfparPanel.getReftau()));
             }
         }
         return meaIrfString;
     }
 
     private static String get_irf(Tgm tgm) {
+        IrfparPanelModel irfparPanel = tgm.getDat().getIrfparPanel();
         String irfStr = null;
-        FlimPanelModel flimPanel = tgm.getDat().getFlimPanel();
-        if (flimPanel.isMirf()) {
+        if (irfparPanel.isMirf()) {
             irfStr = get_measured_irf(tgm);
         } else {
-        IrfparPanelModel irfPanel = tgm.getDat().getIrfparPanel();
-        int count = 0;
-        if (irfPanel.getIrf().size()>0){
-            irfStr = "irfpar = ";
-            for (int i = 0; i < irfPanel.getIrf().size(); i++) {
-                if (count > 0) {
-                    irfStr = irfStr + ",";
-                } else {
-                    irfStr = irfStr + "c(";
+            IrfparPanelModel irfPanel = tgm.getDat().getIrfparPanel();
+            int count = 0;
+            if (irfPanel.getIrf().size() > 0) {
+                irfStr = "irfpar = ";
+                for (int i = 0; i < irfPanel.getIrf().size(); i++) {
+                    if (count > 0) {
+                        irfStr = irfStr + ",";
+                    } else {
+                        irfStr = irfStr + "c(";
+                    }
+                    irfStr = irfStr + Double.toString(irfPanel.getIrf().get(i));
+                    count++;
                 }
-                irfStr = irfStr + Double.toString(irfPanel.getIrf().get(i));
-                count++;
+                irfStr = irfStr + ")";
+
+                if (irfPanel.getIrf().size() == 4) {
+                    irfStr = irfStr + ", doublegaus = TRUE";
+                }
+                if (irfPanel.isBacksweepEnabled()) {
+                    irfStr = irfStr + ", streak = TRUE, streakT = " + String.valueOf(irfPanel.getBacksweepPeriod());
+                }
             }
-            irfStr = irfStr + ")";
-        
-            if (irfPanel.getIrf().size()==4)
-                irfStr = irfStr+", doublegaus = TRUE";
-            if (irfPanel.isBacksweepEnabled()){
-                irfStr = irfStr+", streak = TRUE, streakT = "+String.valueOf(irfPanel.getBacksweepPeriod());
-            }
-        }
         }
         return irfStr;
     }
@@ -367,16 +368,17 @@ public class InitModel {
 
         count = 0;
 
-      KMatrixPanelModel kmatPanel = tgm.getDat().getKMatrixPanel();
+        KMatrixPanelModel kmatPanel = tgm.getDat().getKMatrixPanel();
         for (int i = 0; i < kmatPanel.getKinScal().size(); i++) {
             if (kmatPanel.getKinScal().get(i).isFixed()) {
                 if (count > 0) {
                     fixedStr = fixedStr + ",";
                 } else {
-                    if (fixedStr!= null)
+                    if (fixedStr != null) {
                         fixedStr = fixedStr + ", kinscal=c(";
-                    else
+                    } else {
                         fixedStr = "fixed = list(kinscal=c(";
+                    }
                 }
                 fixedStr = fixedStr + String.valueOf(i + 1);
                 count++;
@@ -393,10 +395,11 @@ public class InitModel {
                 if (count > 0) {
                     fixedStr = fixedStr + ",";
                 } else {
-                    if (fixedStr!= null)
+                    if (fixedStr != null) {
                         fixedStr = fixedStr + ", irfpar=c(";
-                    else
+                    } else {
                         fixedStr = "fixed = list(irfpar=c(";
+                    }
                 }
                 fixedStr = fixedStr + String.valueOf(i + 1);
                 count++;
@@ -406,6 +409,34 @@ public class InitModel {
             fixedStr = fixedStr + ")";
         }
 
+        if (irfPanel.getParmu() != null) {
+            if (irfPanel.isParmufixed()) {
+            if (fixedStr != null) {
+                fixedStr = fixedStr + ", parmu=c(";
+            } else {
+                fixedStr = "fixed = list(parmu=c(";
+            }
+
+            String[] doubles = irfPanel.getParmu().split(",");
+            fixedStr = fixedStr + "1:" + String.valueOf(doubles.length);
+            fixedStr = fixedStr + ")";
+            }
+        }
+
+        if (irfPanel.getPartau() != null) {
+            if (irfPanel.isPartaufixed()) {
+            if (fixedStr != null) {
+                fixedStr = fixedStr + ", partau=c(";
+            } else {
+                fixedStr = "fixed = list(partau=c(";
+            }
+
+            String[] doubles = irfPanel.getPartau().split(",");
+            fixedStr = fixedStr + "1:" + String.valueOf(doubles.length);
+            fixedStr = fixedStr + ")";
+            }
+        }
+
         count = 0;
         KMatrixPanelModel kMatrix = tgm.getDat().getKMatrixPanel();
         for (int i = 0; i < kMatrix.getJVector().getFixed().size(); i++) {
@@ -413,10 +444,11 @@ public class InitModel {
                 if (count > 0) {
                     fixedStr = fixedStr + ",";
                 } else {
-                    if (fixedStr!= null)
+                    if (fixedStr != null) {
                         fixedStr = fixedStr + ", jvec=c(";
-                    else
+                    } else {
                         fixedStr = "fixed = list(jvec=c(";
+                    }
                 }
                 fixedStr = fixedStr + String.valueOf(i + 1);
                 count++;
@@ -428,17 +460,21 @@ public class InitModel {
         // TODO: add additional paramters for fixed here:
 
         // This closes the "fixed" argument
-        
 
-        if (fixedStr!= null){
-            if (addToFixed!=null){
-                fixedStr = fixedStr+"," + addToFixed + ")";
+
+        if (fixedStr != null) {
+            if (addToFixed != null) {
+                fixedStr = fixedStr + "," + addToFixed + ")";
+            } else {
+                fixedStr = fixedStr +")";
             }
         } else {
-            if (addToFixed!=null)
-                fixedStr = "fixed = list("+ addToFixed + ")";
+            if (addToFixed != null) {
+                fixedStr = "fixed = list(" + addToFixed + ")";
+            }
+            
         }
-           
+
         return fixedStr;
     }
 
@@ -510,32 +546,35 @@ public class InitModel {
             for (int i = 0; i < size; i++) {
                 Double min = kMatrix.getSpectralContraints().getMin().get(i);
                 Double max = kMatrix.getSpectralContraints().getMax().get(i);
-                if (min!=null && max!=null) {
-                    if (count==0)
+                if (min != null && max != null) {
+                    if (count == 0) {
                         clp0Call = "clp0 = list(";
-                    else
-                        clp0Call=clp0Call+",";
+                    } else {
+                        clp0Call = clp0Call + ",";
+                    }
 
                     clp0Call = clp0Call + "list(" + Double.valueOf(min) + "," +
-                            Double.valueOf(max) + "," + (i+1) + ")";
+                            Double.valueOf(max) + "," + (i + 1) + ")";
                     count++;
                 }
             }
 
-            if (tgm.getDat().getCohspecPanel().isClp0Enabled()!=null){
+            if (tgm.getDat().getCohspecPanel().isClp0Enabled() != null) {
                 if (tgm.getDat().getCohspecPanel().isClp0Enabled()) {
-                if (clp0Call!=null)
-                    clp0Call = clp0Call+",";
-                else
-                    clp0Call = "clp0 = list(";
+                    if (clp0Call != null) {
+                        clp0Call = clp0Call + ",";
+                    } else {
+                        clp0Call = "clp0 = list(";
+                    }
 
-                clp0Call = clp0Call + "list(" + tgm.getDat().getCohspecPanel().getClp0Min() + "," +
-                             tgm.getDat().getCohspecPanel().getClp0Min() + "," +
-                             (tgm.getDat().getKinparPanel().getKinpar().size()+1) + ")";
+                    clp0Call = clp0Call + "list(" + tgm.getDat().getCohspecPanel().getClp0Min() + "," +
+                            tgm.getDat().getCohspecPanel().getClp0Min() + "," +
+                            (tgm.getDat().getKinparPanel().getKinpar().size() + 1) + ")";
+                }
             }
-            }
-            if (clp0Call!=null)
+            if (clp0Call != null) {
                 clp0Call = clp0Call + ")";
+            }
         }
         return clp0Call;
     }
@@ -548,56 +587,57 @@ public class InitModel {
 
     private static String get_clpequspec(Tgm tgm) {
         String clpequspecCall = null;
-        int count =0;
+        int count = 0;
         KMatrixPanelModel kMatrixPanel = tgm.getDat().getKMatrixPanel();
         int size = kMatrixPanel.getContrainsMatrix().getData().size();
-         for (int i = 0; i < size; i++) { // to
-            for(int j =0; j< size; j++) { // from
+        for (int i = 0; i < size; i++) { // to
+            for (int j = 0; j < size; j++) { // from
                 Double min = kMatrixPanel.getContrainsMatrix().getData().get(i).getMin().get(j);
                 Double max = kMatrixPanel.getContrainsMatrix().getData().get(i).getMax().get(j);
-                if(min!=null && max!=null) {
-                    if (count==0) {
+                if (min != null && max != null) {
+                    if (count == 0) {
                         clpequspecCall = "clpequspec = list(";
                     }
                     clpequspecCall = clpequspecCall + "list(" +
-                            "to=" + String.valueOf(i+1) +
-                            ",from=" + String.valueOf(j+1) +
+                            "to=" + String.valueOf(i + 1) +
+                            ",from=" + String.valueOf(j + 1) +
                             ",low=" + String.valueOf(min) +
                             ",high=" + String.valueOf(max) + "),";
                     count++;
-                }               
-            }
-         }
-        // Removes last comma:
-        
-         if (count>0){
-                    clpequspecCall = clpequspecCall.substring(0, clpequspecCall.length()-1);
-                    clpequspecCall = clpequspecCall + ")";
-                    clpequspecCall = clpequspecCall + get_clpequ(tgm, count);
                 }
+            }
+        }
+        // Removes last comma:
+
+        if (count > 0) {
+            clpequspecCall = clpequspecCall.substring(0, clpequspecCall.length() - 1);
+            clpequspecCall = clpequspecCall + ")";
+            clpequspecCall = clpequspecCall + get_clpequ(tgm, count);
+        }
         return clpequspecCall;
     }
 
     private static String get_clpequ(Tgm tgm, int count) {
         String clpequCall = null;
         for (int i = 0; i < count; i++) {
-            if (i==0) {
+            if (i == 0) {
                 clpequCall = "clpequ = c(";
             } else {
-                clpequCall = clpequCall + ",";                
+                clpequCall = clpequCall + ",";
             }
             clpequCall = clpequCall + "1";
         }
-        if(count>0) {
-            clpequCall = clpequCall +")";
+        if (count > 0) {
+            clpequCall = clpequCall + ")";
         }
         if (clpequCall != null) {
-            clpequCall =  "," + clpequCall;
+            clpequCall = "," + clpequCall;
         }
-        if (addToFixed==null)
-            addToFixed = "clpequ=1:"+count;
-        else
-            addToFixed = addToFixed + ", clpequ=1:"+count;
+        if (addToFixed == null) {
+            addToFixed = "clpequ=1:" + count;
+        } else {
+            addToFixed = addToFixed + ", clpequ=1:" + count;
+        }
         return clpequCall;
     }
 
@@ -610,55 +650,56 @@ public class InitModel {
         Double c0, c1;
         Boolean fc0, fc1;
         int count = 0;
-        for (int i = 0; i< size; i++){
-            for (int j = 0; j< size; j++){
+        for (int i = 0; i < size; i++) {
+            for (int j = 0; j < size; j++) {
                 c0 = kMatrixPanel.getRelationsMatrix().getData().get(i).getC0().get(j);
                 c1 = kMatrixPanel.getRelationsMatrix().getData().get(i).getC1().get(j);
                 fc0 = kMatrixPanel.getRelationsMatrix().getData().get(i).getC0Fixed().get(j);
                 fc1 = kMatrixPanel.getRelationsMatrix().getData().get(i).getC1Fixed().get(j);
-                if((!Double.isNaN(c0))&&(!Double.isNaN(c1))){
-                    if (count==0)
+                if ((!Double.isNaN(c0)) && (!Double.isNaN(c1))) {
+                    if (count == 0) {
                         relationsCall = "prelspec = list(";
-                    else
-                        relationsCall = relationsCall+",";
-                    relationsCall = relationsCall + "list(what1=\"kinpar\", what2=\"kinpar\",ind1="+(i+1)+
-                            ", ind2="+(j+1)+", start=c("+c1+","+c0+"))";
+                    } else {
+                        relationsCall = relationsCall + ",";
+                    }
+                    relationsCall = relationsCall + "list(what1=\"kinpar\", what2=\"kinpar\",ind1=" + (i + 1) +
+                            ", ind2=" + (j + 1) + ", start=c(" + c1 + "," + c0 + "))";
 
-                    if (fc1){
-                        if (fixed == null)
+                    if (fc1) {
+                        if (fixed == null) {
                             fixed = "prel = c(";
-                        else
-                            if (count != 0)
-                                fixed = fixed+",";
-                        fixed = fixed+(2*count+1);
+                        } else if (count != 0) {
+                            fixed = fixed + ",";
+                        }
+                        fixed = fixed + (2 * count + 1);
                     }
 
-                    if (fc0){
-                        if (fixed == null){
+                    if (fc0) {
+                        if (fixed == null) {
                             fixed = "prel = c(";
-                        }
-                        else
-                        {
-                            if ((count != 0)||((count==0)&&(fc0)))
-                                fixed = fixed+",";
+                        } else {
+                            if ((count != 0) || ((count == 0) && (fc0))) {
+                                fixed = fixed + ",";
+                            }
                         }
 
-                        fixed = fixed+(2*count+2);
+                        fixed = fixed + (2 * count + 2);
                     }
                     count++;
                 }
             }
         }
-        if (relationsCall!=null)
-            relationsCall = relationsCall+")";
-        if (fixed!= null){
-            fixed = fixed+")";
-            if (addToFixed!=null)
-                addToFixed = addToFixed+","+fixed;
-            else
+        if (relationsCall != null) {
+            relationsCall = relationsCall + ")";
+        }
+        if (fixed != null) {
+            fixed = fixed + ")";
+            if (addToFixed != null) {
+                addToFixed = addToFixed + "," + fixed;
+            } else {
                 addToFixed = fixed;
+            }
         }
         return relationsCall;
     }
-
 }

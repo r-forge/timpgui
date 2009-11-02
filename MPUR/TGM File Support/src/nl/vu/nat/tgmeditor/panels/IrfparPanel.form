@@ -288,6 +288,9 @@
                       <Properties>
                         <Property name="text" type="java.lang.String" value="Fix"/>
                       </Properties>
+                      <Events>
+                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jCBParmuFixedActionPerformed"/>
+                      </Events>
                     </Component>
                   </SubComponents>
                 </Container>
@@ -777,7 +780,7 @@
                                   <EmptySpace max="-2" attributes="0"/>
                                   <Component id="jTRefLifetime" min="-2" pref="69" max="-2" attributes="0"/>
                               </Group>
-                              <Component id="jRBScaterConv" alignment="0" min="-2" max="-2" attributes="0"/>
+                              <Component id="jRBScatterConv" alignment="0" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace max="32767" attributes="0"/>
                       </Group>
@@ -793,21 +796,27 @@
                               <Component id="jTRefLifetime" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                          <Component id="jRBScaterConv" min="-2" max="-2" attributes="0"/>
+                          <Component id="jRBScatterConv" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="32767" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
               </Layout>
               <SubComponents>
-                <Component class="javax.swing.JRadioButton" name="jRBScaterConv">
+                <Component class="javax.swing.JRadioButton" name="jRBScatterConv">
                   <Properties>
-                    <Property name="text" type="java.lang.String" value="Scater Convolution"/>
+                    <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
+                      <ComponentRef name="buttonGroup3"/>
+                    </Property>
+                    <Property name="text" type="java.lang.String" value="Scatter Convolution"/>
                     <Property name="enabled" type="boolean" value="false"/>
                   </Properties>
                 </Component>
                 <Component class="javax.swing.JRadioButton" name="jRBReferConv">
                   <Properties>
+                    <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
+                      <ComponentRef name="buttonGroup3"/>
+                    </Property>
                     <Property name="text" type="java.lang.String" value="Reference convolution"/>
                     <Property name="enabled" type="boolean" value="false"/>
                   </Properties>

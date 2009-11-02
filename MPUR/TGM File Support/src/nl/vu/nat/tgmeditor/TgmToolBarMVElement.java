@@ -4,13 +4,10 @@
  */
 package nl.vu.nat.tgmeditor;
 
-import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Iterator;
 import nl.vu.nat.tgmfilesupport.TgmDataObject;
 import nl.vu.nat.tgmodels.tgm.CohspecPanelModel;
 import nl.vu.nat.tgmodels.tgm.Dat;
-import nl.vu.nat.tgmodels.tgm.FlimPanelModel;
 import nl.vu.nat.tgmodels.tgm.IrfparPanelModel;
 import nl.vu.nat.tgmodels.tgm.KMatrixPanelModel;
 import nl.vu.nat.tgmodels.tgm.KinparPanelModel;
@@ -121,10 +118,7 @@ public class TgmToolBarMVElement extends ToolBarMultiViewElement {
             KMatrixPanelModel kMatrixPanelModel = dat.getKMatrixPanel();
             Node kMatrixPanelNode = new KMatrixPanelNode(kMatrixPanelModel);
 
-            FlimPanelModel flimPanelModel = dat.getFlimPanel();
-            Node flimPanelNode = new FlimPanelNode(flimPanelModel);
-
-            nodeArray = new Node[]{tgmNode, datNode, kinparPanelNode, irfparPanelNode, weightparPanelNode, cohspecPanelNode, kMatrixPanelNode, flimPanelNode};
+            nodeArray = new Node[]{tgmNode, datNode, kinparPanelNode, irfparPanelNode, weightparPanelNode, cohspecPanelNode, kMatrixPanelNode};
             rootChildren.add(nodeArray);
 
             // add panels
@@ -135,7 +129,6 @@ public class TgmToolBarMVElement extends ToolBarMultiViewElement {
             addSection(new SectionPanel(this, weightparPanelNode, weightParPanelModel)); //NOI18N
             addSection(new SectionPanel(this, cohspecPanelNode, cohspecPanelModel)); //NOI18N
             addSection(new SectionPanel(this, kMatrixPanelNode, kMatrixPanelModel)); //NOI18N
-            addSection(new SectionPanel(this, flimPanelNode, flimPanelModel)); //NOI18N
 
             setRoot(root);
         }
@@ -149,7 +142,7 @@ public class TgmToolBarMVElement extends ToolBarMultiViewElement {
 
         TgmNode(Tgm tgm) {
             super(org.openide.nodes.Children.LEAF);
-            setDisplayName("TIMPGUI Model (tgm) specification:");
+            setDisplayName("TIMPGUI Model Root Node:");
         //setIconBase("org/netbeans/modules/web/dd/multiview/resources/class"); //NOI18N
         }
     }
@@ -158,7 +151,7 @@ public class TgmToolBarMVElement extends ToolBarMultiViewElement {
 
         DatNode(Dat dat) {
             super(org.openide.nodes.Children.LEAF);
-            setDisplayName("Model name and type:");
+            setDisplayName("1) Model name and type:");
             setIconBaseWithExtension("nl/vu/nat/tgmfilesupport/povicon.gif"); //NOI18N
         }
     }
@@ -167,7 +160,7 @@ public class TgmToolBarMVElement extends ToolBarMultiViewElement {
 
         KinparPanelNode(KinparPanelModel kinparPanelModel) {
             super(org.openide.nodes.Children.LEAF);
-            setDisplayName("Model specification decay rates:");
+            setDisplayName("2) Decay rates:");
             setIconBaseWithExtension("nl/vu/nat/tgmfilesupport/povicon.gif"); //NOI18N
         }
     }
@@ -176,7 +169,7 @@ public class TgmToolBarMVElement extends ToolBarMultiViewElement {
 
         IrfparPanelNode(IrfparPanelModel irfparPanelModel) {
             super(org.openide.nodes.Children.LEAF);
-            setDisplayName("Model specification for instrument response:");
+            setDisplayName("3) Instrument Response Function (IRF):");
             setIconBaseWithExtension("nl/vu/nat/tgmfilesupport/povicon.gif"); //NOI18N
         }
     }
@@ -185,7 +178,7 @@ public class TgmToolBarMVElement extends ToolBarMultiViewElement {
 
         WeightparPanelNode(WeightParPanelModel weightParPanelModel) {
             super(org.openide.nodes.Children.LEAF);
-            setDisplayName("Weighting parameters specification:");
+            setDisplayName("4) Weighting parameters:");
             setIconBaseWithExtension("nl/vu/nat/tgmfilesupport/povicon.gif"); //NOI18N
         }
     }
@@ -194,7 +187,7 @@ public class TgmToolBarMVElement extends ToolBarMultiViewElement {
 
         CohspecPanelNode(CohspecPanelModel cohspecPanelModel) {
             super(org.openide.nodes.Children.LEAF);
-            setDisplayName("Model for coherent artifact:");
+            setDisplayName("5) Coherent artifact:");
             setIconBaseWithExtension("nl/vu/nat/tgmfilesupport/povicon.gif"); //NOI18N
         }
     }
@@ -203,19 +196,12 @@ public class TgmToolBarMVElement extends ToolBarMultiViewElement {
 
         KMatrixPanelNode(KMatrixPanelModel kMatrixPanelModel) {
             super(org.openide.nodes.Children.LEAF);
-            setDisplayName("Model for K Matrix:");
+            setDisplayName("6) K Matrix (advanced):");
             setIconBaseWithExtension("nl/vu/nat/tgmfilesupport/povicon.gif"); //NOI18N
         }
     }
 
-    private class FlimPanelNode extends org.openide.nodes.AbstractNode {
-
-        FlimPanelNode(FlimPanelModel flimPanelModel) {
-            super(org.openide.nodes.Children.LEAF);
-            setDisplayName("Options for FLIM data:");
-            setIconBaseWithExtension("nl/vu/nat/tgmfilesupport/povicon.gif"); //NOI18N
-        }
-    }
+  
 }
 
 

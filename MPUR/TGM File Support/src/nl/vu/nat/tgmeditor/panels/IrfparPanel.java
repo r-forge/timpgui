@@ -2,7 +2,6 @@ package nl.vu.nat.tgmeditor.panels;
 
 import java.awt.Color;
 import java.io.File;
-import java.util.Collection;
 import java.util.Enumeration;
 import java.util.Scanner;
 import java.util.Vector;
@@ -14,7 +13,6 @@ import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableModel;
 import nl.vu.nat.tgmfilesupport.TgmDataObject;
-import nl.vu.nat.tgmodels.tgm.FlimPanelModel;
 import nl.vu.nat.tgmodels.tgm.IrfparPanelModel;
 import nl.wur.flim.jfreechartcustom.GraphPanel;
 import org.jfree.chart.ChartFactory;
@@ -38,7 +36,6 @@ public class IrfparPanel extends SectionInnerPanel {
 
     private TgmDataObject dObj;
     private IrfparPanelModel irfparPanelModel;
-    private FlimPanelModel flimPanelModel;
     private IrfparTableModel model;
     private RowHeader rowHeader;
     private Object[] defRow;
@@ -58,8 +55,6 @@ public class IrfparPanel extends SectionInnerPanel {
         super(view);
         this.dObj = dObj;
         this.irfparPanelModel = irfparPanelModel;
-        this.flimPanelModel = dObj.getTgm().getDat().getFlimPanel();
-
 
         fc = new JFileChooser();
         chpan = null;
@@ -92,7 +87,7 @@ public class IrfparPanel extends SectionInnerPanel {
         JScrollPane jscpane = (JScrollPane) jTIrfparTable.getParent().getParent();
         jscpane.setRowHeaderView(rowHeader);
         jscpane.setCorner(JScrollPane.UPPER_LEFT_CORNER, rowHeader.getTableHeader());
-        if (irfparPanelModel.isDispmu()) {
+        if (irfparPanelModel.getDispmufun() != null) {
             if (irfparPanelModel.getDispmufun().compareTo("poly") == 0) {
                 jRDispmufun_poly.setSelected(true);
             }
@@ -104,7 +99,7 @@ public class IrfparPanel extends SectionInnerPanel {
         }
         jParmuTextfield.setText(irfparPanelModel.getParmu());
 
-        if (irfparPanelModel.isDisptau()) {
+        if (irfparPanelModel.getDisptaufun()!=null) {
             if (irfparPanelModel.getDisptaufun().compareTo("poly") == 0) {
                 jRDisptaufun_poly.setSelected(true);
             }
@@ -121,26 +116,41 @@ public class IrfparPanel extends SectionInnerPanel {
         jTFLaserPeriod.setEnabled(jCBStreak.isSelected());
         jLabel2.setEnabled(jCBStreak.isSelected());
 
+        if (irfparPanelModel.isParmufixed()!=null) {
+        jCBParmuFixed.setSelected(irfparPanelModel.isParmufixed());
+        } else {
+            irfparPanelModel.setParmufixed(Boolean.FALSE);
+            jCBParmuFixed.setSelected(false);
+        }
+
+        if (irfparPanelModel.isPartaufixed()!=null) {
+        jCBPartauFixed.setSelected(irfparPanelModel.isPartaufixed());
+        } else {
+            irfparPanelModel.setPartaufixed(Boolean.FALSE);
+            jCBPartauFixed.setSelected(false);
+        }        
+
 //=====================measuredIRF
 
-        jCBMeasuredIRF.setSelected(flimPanelModel.isMirf());
-        switch (flimPanelModel.getConvalg()) {
+        jCBMeasuredIRF.setSelected(irfparPanelModel.isMirf());
+        switch (irfparPanelModel.getConvalg()) {
             case 1:
-                jRBScaterConv.setSelected(true);
+                jRBScatterConv.setSelected(true);
                 break;
             case 2:
-                jRBScaterConv.setSelected(true);
+                jRBScatterConv.setSelected(true);
                 break;
             case 3:
                 jRBReferConv.setSelected(true);
                 break;
             default: {
-                jRBScaterConv.setSelected(true);
+                jRBScatterConv.setSelected(true);
+                irfparPanelModel.setConvalg(2);
                 break;
             }
         } //end switch
-        jTRefLifetime.setText(String.valueOf(flimPanelModel.getReftau()));
-        updateEnabled(flimPanelModel.isMirf());
+        jTRefLifetime.setText(String.valueOf(irfparPanelModel.getReftau()));
+        updateEnabled(irfparPanelModel.isMirf());
         jTFIrfShiftParameter.setText(irfparPanelModel.getParmu());
         if (irfparPanelModel.getMeasuredIrf() != null) {
             String[] doubles = irfparPanelModel.getMeasuredIrf().split(",");
@@ -167,8 +177,11 @@ public class IrfparPanel extends SectionInnerPanel {
         addModifier(jRDisptaufun_poly);
         addModifier(jRDisptaufun_discrete);
         addModifier(jCBStreak);
+        //checkboxes
+        addModifier(jCBParmuFixed);
+        addModifier(jCBPartauFixed);
 //========meairf=======
-        addModifier(jRBScaterConv);
+        addModifier(jRBScatterConv);
         addModifier(jRBReferConv);
         addModifier(jCBMeasuredIRF);
 
@@ -243,7 +256,7 @@ public class IrfparPanel extends SectionInnerPanel {
         jBCalculateBG = new javax.swing.JButton();
         jCBNegToZer = new javax.swing.JCheckBox();
         jPanel5 = new javax.swing.JPanel();
-        jRBScaterConv = new javax.swing.JRadioButton();
+        jRBScatterConv = new javax.swing.JRadioButton();
         jRBReferConv = new javax.swing.JRadioButton();
         jTRefLifetime = new javax.swing.JTextField();
         jLabel10 = new javax.swing.JLabel();
@@ -299,6 +312,11 @@ public class IrfparPanel extends SectionInnerPanel {
         jLabel8.setText("(comma separeted numbers)");
 
         jCBParmuFixed.setText("Fix");
+        jCBParmuFixed.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jCBParmuFixedActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -680,9 +698,11 @@ public class IrfparPanel extends SectionInnerPanel {
         jPanel5.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
         jPanel5.setEnabled(false);
 
-        jRBScaterConv.setText("Scater Convolution");
-        jRBScaterConv.setEnabled(false);
+        buttonGroup3.add(jRBScatterConv);
+        jRBScatterConv.setText("Scatter Convolution");
+        jRBScatterConv.setEnabled(false);
 
+        buttonGroup3.add(jRBReferConv);
         jRBReferConv.setText("Reference convolution");
         jRBReferConv.setEnabled(false);
 
@@ -703,7 +723,7 @@ public class IrfparPanel extends SectionInnerPanel {
                         .addComponent(jLabel10)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jTRefLifetime, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jRBScaterConv))
+                    .addComponent(jRBScatterConv))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel5Layout.setVerticalGroup(
@@ -715,7 +735,7 @@ public class IrfparPanel extends SectionInnerPanel {
                     .addComponent(jLabel10)
                     .addComponent(jTRefLifetime, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jRBScaterConv)
+                .addComponent(jRBScatterConv)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -964,6 +984,10 @@ private void jPanel7ComponentHidden(java.awt.event.ComponentEvent evt) {//GEN-FI
     endUIChange();
 }//GEN-LAST:event_jPanel7ComponentHidden
 
+private void jCBParmuFixedActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCBParmuFixedActionPerformed
+    // TODO add your handling code here:
+}//GEN-LAST:event_jCBParmuFixedActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton Bloadref;
     private javax.swing.ButtonGroup buttonGroup1;
@@ -1005,7 +1029,7 @@ private void jPanel7ComponentHidden(java.awt.event.ComponentEvent evt) {//GEN-FI
     private javax.swing.JTextField jParmuTextfield;
     private javax.swing.JTextField jPartauTextfield;
     private javax.swing.JRadioButton jRBReferConv;
-    private javax.swing.JRadioButton jRBScaterConv;
+    private javax.swing.JRadioButton jRBScatterConv;
     private javax.swing.JRadioButton jRDispmufun_discrete;
     private javax.swing.JRadioButton jRDispmufun_no;
     private javax.swing.JRadioButton jRDispmufun_poly;
@@ -1038,27 +1062,17 @@ private void jPanel7ComponentHidden(java.awt.event.ComponentEvent evt) {//GEN-FI
             }
         }
 
-        if (source == jRDispmufun_no) {
-            irfparPanelModel.setDispmu(false);
-        }
-        if (source == jRDisptaufun_no) {
-            irfparPanelModel.setDisptau(false);
-        }
         if (source == jRDispmufun_poly) {
             irfparPanelModel.setDispmufun("poly");
-            irfparPanelModel.setDispmu(true);
         }
         if (source == jRDisptaufun_poly) {
             irfparPanelModel.setDisptaufun("poly");
-            irfparPanelModel.setDisptau(true);
         }
         if (source == jRDispmufun_discrete) {
             irfparPanelModel.setDispmufun("discrete");
-            irfparPanelModel.setDispmu(true);
         }
         if (source == jRDisptaufun_discrete) {
             irfparPanelModel.setDisptaufun("discrete");
-            irfparPanelModel.setDisptau(true);
         }
         if (source == jParmuTextfield) {
             irfparPanelModel.setParmu((String) value);
@@ -1066,13 +1080,20 @@ private void jPanel7ComponentHidden(java.awt.event.ComponentEvent evt) {//GEN-FI
         if (source == jPartauTextfield) {
             irfparPanelModel.setPartau((String) value);
         }
+        if (source == jCBParmuFixed) {
+            irfparPanelModel.setParmufixed((Boolean)value);                        
+        }
+        if (source == jCBPartauFixed) {
+            irfparPanelModel.setPartaufixed((Boolean)value);                        
+        }
+
         if (source == jTPolyDispersion) {
             String test = (String) value;
             if (!test.isEmpty()) {
                 irfparPanelModel.setLamda(Double.valueOf((String) value));
             } else {
-                irfparPanelModel.setLamda(Double.NaN);
-                jTPolyDispersion.setText(String.valueOf(Double.NaN));
+                irfparPanelModel.setLamda(null);
+                jTPolyDispersion.setText("");
             }
         }
         if (source == jCBStreak) {
@@ -1084,20 +1105,20 @@ private void jPanel7ComponentHidden(java.awt.event.ComponentEvent evt) {//GEN-FI
         }
 
         if (source == jCBMeasuredIRF) {
-            flimPanelModel.setMirf(jCBMeasuredIRF.isSelected());
+            irfparPanelModel.setMirf(jCBMeasuredIRF.isSelected());
         }
-        if (source == jRBScaterConv) {
+        if (source == jRBScatterConv) {
             if ((Boolean) value) {
-                flimPanelModel.setConvalg(2);
+                irfparPanelModel.setConvalg(2);
             }
         }
         if (source == jRBReferConv) {
             if ((Boolean) value) {
-                flimPanelModel.setConvalg(3);
+                irfparPanelModel.setConvalg(3);
             }
         }
         if (source == jTRefLifetime) {
-            flimPanelModel.setReftau(Double.valueOf((String) value));
+            irfparPanelModel.setReftau(Double.valueOf((String) value));
         }
         if (source == jPanel9) { //measured IRF Changed
             StringBuilder result = new StringBuilder(String.valueOf(refArray[0]));

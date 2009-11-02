@@ -139,7 +139,7 @@ public class GraphPanel extends ChartPanel{
     private void doOpenInSeparateWindow() throws CloneNotSupportedException {
         TopComponent win = new TopComponent();
         win.setLayout(new BorderLayout());
-//        win.setName(this.getChart().getTitle().getText());
+        win.setName("Single graph");
         win.add(new GraphPanel((JFreeChart) this.getChart().clone()));
         win.open();
         win.requestActive();

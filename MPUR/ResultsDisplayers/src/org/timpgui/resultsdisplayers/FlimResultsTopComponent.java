@@ -159,7 +159,7 @@ final class FlimResultsTopComponent extends TopComponent implements ChartMouseLi
         aveLifetimePanel.setMouseWheelEnabled(true);
         jPImage.add(aveLifetimePanel);
         jTFMinLifetime.setText("0");
-        jTFMaxLifetime.setText(String.valueOf(maxAveLifetime));
+        jTFMaxLifetime.setText((new Formatter().format("%g",maxAveLifetime)).toString()); //valueOf(maxAveLifetime));
 
 // create and plot histogram of average lifetimes
         jPHist.add(updateHistPanel(aveLifetimes, minAveLifetime, maxAveLifetime, 20));

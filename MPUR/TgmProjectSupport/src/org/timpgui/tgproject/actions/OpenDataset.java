@@ -90,6 +90,9 @@ public final class OpenDataset extends CookieAction {
                                                 // TODO Handle exception
                                                 java.util.logging.Logger.getLogger("global").log(java.util.logging.Level.SEVERE, null, ex); //NOI18N
                                             }
+                                            //TODO: pick one of the two following options (first one may not work)
+                                            //cachefolder.getFileSystem().refresh(true);
+                                            FileUtil.refreshAll();
 
                                         }
                                     } catch (IOException ex) {

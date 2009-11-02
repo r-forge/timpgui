@@ -3,15 +3,11 @@
 <filesystem>
     <folder name="Actions">
         <folder name="Window">
-            <file name="nl-wur-flimdataloader-components-MeasuredIrfAction.instance"/>
             <file name="nl-wur-flimdataloader-components-StreakLoaderAction.instance"/>
             </folder>
     </folder>
     <folder name="Menu">
         <folder name="Window">
-            <file name="MeasuredIrfAction.shadow">
-                <attr name="originalFile" stringvalue="Actions/Window/nl-wur-flimdataloader-components-MeasuredIrfAction.instance"/>
-            </file>
             <file name="StreakLoaderAction.shadow">
                 <attr name="originalFile" stringvalue="Actions/Window/nl-wur-flimdataloader-components-StreakLoaderAction.instance"/>
             </file>

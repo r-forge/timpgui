@@ -42,6 +42,7 @@ import org.openide.util.Exceptions;
 import org.openide.util.Lookup;
 import org.timpgui.tgproject.datasets.TGDatasetService;
 import org.timpgui.tgproject.datasets.Tgd;
+import org.timpgui.tgproject.nodes.TGDatasetNode;
 
 //import org.timpgui.tgproject.datasets.GISSourceInfo;
 /**
@@ -96,6 +97,7 @@ public final class OpenDatasetFile extends AbstractAction {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     File[] files;
+                    FileObject cachefolder;
                     if (e.getActionCommand().equalsIgnoreCase("Finish")) {
                         pane.setVisible(false);
                         files = pane.getSelectedFiles();
@@ -128,9 +130,8 @@ public final class OpenDatasetFile extends AbstractAction {
                                                 // XXXTODO Handle exception
                                                 java.util.logging.Logger.getLogger("global").log(java.util.logging.Level.SEVERE, null, ex); //NOI18N
                                             }
-                                             out.notify();
-                                             project.notifyAll();
 
+                                            d.getChildren().notify();
                                             //END TODO
 
                                         }

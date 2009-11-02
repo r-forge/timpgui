@@ -17,6 +17,7 @@ import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Formatter;
 import java.util.logging.Logger;
 import nl.wur.flim.jfreechartcustom.GrayPaintScalePlus;
 import nl.wur.flim.jfreechartcustom.ImageUtilities;
@@ -99,10 +100,10 @@ final class FlimResultsTopComponent extends TopComponent implements ChartMouseLi
         Object[] lifetimes = new Object[res.getKineticParameters().length];
         for (int i = 0; i < numberOfComponents; i++) {
             tau = 1 / res.getKineticParameters()[i];
-            lifetimes[2*i] = "Tau" + (i + 1) + "=" + String.format(String.valueOf(tau), "#.###") + "ns";
+            lifetimes[2*i] = "Tau" + (i + 1) + "=" + new Formatter().format("%g",tau) + " ns";
             errTau = max(abs(tau-(1 /(res.getKineticParameters()[i]+res.getKineticParameters()[i+numberOfComponents]))),
                           abs(tau-(1 /(res.getKineticParameters()[i]-res.getKineticParameters()[i+numberOfComponents]))));
-            lifetimes[2*i+1] = "er_tau"+ (i + 1) + "=" + String.format(String.valueOf(errTau), "#.###");
+            lifetimes[2*i+1] = "er_tau"+ (i + 1) + "=" + new Formatter().format("%g",errTau) + " ns";
         }
         jLEstimatedLifetimes.setListData(lifetimes);
 
@@ -170,7 +171,7 @@ final class FlimResultsTopComponent extends TopComponent implements ChartMouseLi
         for (int i = 0; i < numberOfComponents; i++) {
             jPComponents.add(new ImageHistPanel(
                 "Normalized amplitude comp"+String.valueOf(i+1)+" tau="+
-                String.format(String.valueOf(1 / res.getKineticParameters()[i]), "#.###") + "ns",
+                new Formatter().format("%g", 1 / res.getKineticParameters()[i]) + "ns",
                 normAmpl.getArray()[i], selImInd,
                 selImHeight, selImWidth,
                 0.0, 1.0,
@@ -689,6 +690,12 @@ private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
     int newNumChHish;
     try {
         newNumChHish = Integer.parseInt(jTFChNumHist.getText());
+        if (newNumChHish < 1){
+            NotifyDescriptor errorMessage =new NotifyDescriptor.Exception(
+                    new Exception("Please specify correct number of channels"));
+            DialogDisplayer.getDefault().notify(errorMessage);
+            return;
+        }
         jPHist.removeAll();
         ChartPanel chpanHist = updateHistPanel(aveLifetimes, minAveLifetime, maxAveLifetime, newNumChHish);
         chpanHist.setSize(jPHist.getSize());

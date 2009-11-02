@@ -14,6 +14,7 @@ package org.timpgui.resultsdisplayers;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.image.BufferedImage;
+import nl.wur.flim.jfreechartcustom.GraphPanel;
 import nl.wur.flim.jfreechartcustom.ImageUtilities;
 import nl.wur.flim.jfreechartcustom.IntensImageDataset;
 import nl.wur.flim.jfreechartcustom.RainbowPaintScale;
@@ -346,6 +347,8 @@ public class ImageHistPanel extends javax.swing.JPanel {
 
     private ChartPanel updateHistPanel(double[] data, double minVal, double maxVal, int numPockets) {
         HistogramDataset datasetHist = new HistogramDataset();
+        if(numPockets < 1)
+            numPockets = 20;
         datasetHist.addSeries("seria1", data, numPockets, minVal, maxVal);
         JFreeChart charthist = ChartFactory.createHistogram(
             null,
@@ -362,7 +365,7 @@ public class ImageHistPanel extends javax.swing.JPanel {
         plot.setForegroundAlpha(0.85f);
         XYBarRenderer renderer = (XYBarRenderer) plot.getRenderer();
         renderer.setDrawBarOutline(false);
-        return new ChartPanel(charthist,true);
+        return new GraphPanel(charthist,true);
     }
 
     private JFreeChart createScatChart(BufferedImage image, PaintScale ps, int plotWidth, int plotHeigh){

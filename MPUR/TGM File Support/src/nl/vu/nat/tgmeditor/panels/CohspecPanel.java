@@ -43,7 +43,14 @@ public class CohspecPanel extends SectionInnerPanel {
             cohspec_no.setSelected(true);
         }
         cohspec_start.setText(cohspecPanelModel.getCoh()); //comma separated list of doubles, f.i.: "1,2,3,80,99"
-            
+
+        if (cohspecPanelModel.isClp0Enabled()!=null){
+            jCBCohSpec0.setSelected(cohspecPanelModel.isClp0Enabled());
+            updateEnabled(cohspecPanelModel.isClp0Enabled());
+            jTFCohSpec0From.setText(String.valueOf(cohspecPanelModel.getClp0Min()));
+            jTFCohSpec0To.setText(String.valueOf(cohspecPanelModel.getClp0Max()));
+        }
+
         addModifier(cohspec_start);
         addModifier(cohspec_no);
         addModifier(cohspec_irf);
@@ -51,6 +58,9 @@ public class CohspecPanel extends SectionInnerPanel {
         addModifier(cohspec_irfmulti);
         addModifier(cohspec_seq);
         addModifier(cohspec_mix);
+        addModifier(jCBCohSpec0);
+        addModifier(jTFCohSpec0From);
+        addModifier(jTFCohSpec0To);
         
         //endUIChange();
     }
@@ -202,18 +212,7 @@ public class CohspecPanel extends SectionInnerPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jCBCohSpec0ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCBCohSpec0ActionPerformed
-        // TODO add your handling code here:
-        if (jCBCohSpec0.isSelected()){
-            jLabel4.setEnabled(true);
-            jLabel5.setEnabled(true);
-            jTFCohSpec0From.setEnabled(true);
-            jTFCohSpec0To.setEnabled(true);
-        } else {
-            jLabel4.setEnabled(false);
-            jLabel5.setEnabled(false);
-            jTFCohSpec0From.setEnabled(false);
-            jTFCohSpec0To.setEnabled(false);
-        }
+        updateEnabled(jCBCohSpec0.isSelected());
     }//GEN-LAST:event_jCBCohSpec0ActionPerformed
 
 
@@ -263,6 +262,19 @@ public class CohspecPanel extends SectionInnerPanel {
         if (source==cohspec_start) {
             cohspecPanelModel.setCoh((String)value);
         }
+
+        if (source==jCBCohSpec0) {
+            cohspecPanelModel.setClp0Enabled(jCBCohSpec0.isSelected());
+        }
+
+        if (source==jTFCohSpec0From) {
+            cohspecPanelModel.setClp0Min(Double.valueOf((String)value));
+        }
+        if (source==jTFCohSpec0To) {
+            cohspecPanelModel.setClp0Max(Double.valueOf((String)value));
+        }
+
+
         endUIChange();
     }
     
@@ -271,12 +283,20 @@ public class CohspecPanel extends SectionInnerPanel {
         dObj.modelUpdatedFromUI();
     }
 
+    @Override
     public void linkButtonPressed(Object arg0, String arg1) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
+    @Override
     public JComponent getErrorComponent(String arg0) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
+    private void updateEnabled(boolean setEnabl){
+        jLabel4.setEnabled(setEnabl);
+        jLabel5.setEnabled(setEnabl);
+        jTFCohSpec0From.setEnabled(setEnabl);
+        jTFCohSpec0To.setEnabled(setEnabl);
+    }
 }

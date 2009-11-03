@@ -106,7 +106,7 @@ public final class SpecResultsTopComponent extends TopComponent implements Chart
         res = dataObj.getTimpResultDataset();
         res.calcRangeInt();
         if (res.getJvec()!=null)
-            numberOfComponents = res.getJvec().length;
+            numberOfComponents = res.getJvec().length/2;
         else
             numberOfComponents = res.getKineticParameters().length/2;
         Object[] rates = new Object[res.getKineticParameters().length];
@@ -120,17 +120,24 @@ public final class SpecResultsTopComponent extends TopComponent implements Chart
             rates[i] = "k" + (i+1) + "=" +  new Formatter().format("%g",res.getKineticParameters()[i]);
 //            rates[i+numberOfComponents] = "er_k"+ (i) + "=" + String.format(String.valueOf(res.getKineticParameters()[i+numberOfComponents]), "##0.#####E0");
 //            rates[i+numberOfComponents] = "er_k"+ (i) + "=" + errFormat.format(res.getKineticParameters()[i+numberOfComponents]);
-            rates[i+numberOfComponents] = "er_k"+ (i+1) + "=" + new Formatter().format("%g",res.getKineticParameters()[i+numberOfComponents]);
+//            rates[i+numberOfComponents] = "er_k"+ (i+1) + "=" + new Formatter().format("%g",res.getKineticParameters()[i+numberOfComponents]);
         }
         jLKineticParameters.setListData(rates);
 
-        Object[] irfpar = new Object[res.getIrfpar().length];
+        Object[] irfpar = new Object[res.getIrfpar().length/2 + 2];
         for (int i = 0; i < irfpar.length ; i++) {
 //            irfpar[i] = "irf" + (i) + "=" + paramFormat.format(res.getIrfpar()[i]);
             irfpar[i] = "irf" + (i+1) + "=" + new Formatter().format("%g",res.getIrfpar()[i]);
 //            irfpar[i+numberOfComponents] = "er_k"+ (i) + "=" + String.format(String.valueOf(res.getKineticParameters()[i+numberOfComponents]), "#.###");
         }
-        jLSpectralParameters.setListData(irfpar);
+
+        irfpar[res.getIrfpar().length/2] = "-----";
+        irfpar[res.getIrfpar().length/2+1] = "RMS =" + (new Formatter().format("%g",res.getRms())).toString();;
+        
+                jLSpectralParameters.setListData(irfpar);
+
+
+
 
 
 //first tab
@@ -147,7 +154,7 @@ public final class SpecResultsTopComponent extends TopComponent implements Chart
         else
             timeZero = 0;
 
-        calculateDispersionCurve(centrWave, dispParam, timeZero, dispParam.length);
+        calculateDispersionCurve(centrWave, dispParam, timeZero, dispParam.length/2);
         if (res.getSpectra().getRowDimension()>numberOfComponents){
             jTBShowChohSpec.setEnabled(true);
         }
@@ -172,7 +179,7 @@ public final class SpecResultsTopComponent extends TopComponent implements Chart
 
         jTFCentrWave.setText(String.valueOf(res.getLamdac()));
         String parmuStr = "";
-        for (int i = 0; i < res.getParmu().length; i++){
+        for (int i = 0; i < res.getParmu().length/2; i++){
             if (i > 0)
                 parmuStr = parmuStr+",";
             parmuStr += paramFormat.format(res.getParmu()[i]);

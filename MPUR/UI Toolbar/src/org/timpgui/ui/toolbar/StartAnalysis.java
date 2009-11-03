@@ -10,7 +10,9 @@ import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
+import java.util.Formatter;
 import java.util.prefs.Preferences;
 import nl.vu.nat.tgmfilesupport.TgmDataNode;
 import nl.vu.nat.tgmodels.tgm.Tgm;
@@ -113,7 +115,7 @@ public final class StartAnalysis implements ActionListener {
                         NotifyDescriptor.Confirmation foldExistsDialog = new NotifyDescriptor.Confirmation(
                                         "Folder with this name already exists! Override?");
                         Object res = null;
-                        Object res2;
+                        Object res2 = null;
                         try {
                             while (!folderOK){
                             res = DialogDisplayer.getDefault().notify(resultNameDialog);
@@ -127,8 +129,9 @@ public final class StartAnalysis implements ActionListener {
                                        folderOK = true;
                                    }
                                 } else
-                                     folderOK = true;
-                                }
+                                    folderOK = true;
+                                } else
+                                    folderOK = true;
                             }
                             if (res.equals(NotifyDescriptor.OK_OPTION)) {
                                 resultsfolder = resultsfolder.createFolder(resultNameDialog.getInputText());
@@ -151,33 +154,8 @@ public final class StartAnalysis implements ActionListener {
                                     ObjectOutputStream stream = new ObjectOutputStream(writeTo.getOutputStream());
                                     stream.writeObject(timpResultDataset);
                                     stream.close();
-                                    writeTo = resultsfolder.createData(resultsfolder.getName() + "_summary", "txt");
-                                    BufferedWriter output = new BufferedWriter(new FileWriter(FileUtil.toFile(writeTo)));
-                                    //TODO: Complete the summary here:
-                                    output.append("Summary");
-                                    output.newLine();
-                                    output.append("Used dataset(s): ");
-                                    for (int j = 0; j < datasets.length; j++) {
-                                        DatasetTimp dataset = datasets[i];
-                                        output.append(dataset.getDatasetName());
-                                        output.newLine();
-                                    }
-                                    output.append("Used model(s): ");
-                                    for (int j = 0; j < nsm.length; j++) {
-                                        output.append(nsm[i].getName());
-                                        output.newLine();
-                                    }
-                                    output.append("Number of iterations: ");
-                                    output.append(String.valueOf(NO_OF_ITERATIONS));
-                                    output.newLine();
-                                    ArrayList<String> list = service.getInitModelCalls();
-                                    for (String string : list) {
-                                        output.append(string);
-                                        output.newLine();
-                                    }
-                                    output.write(service.getFitModelCall());
-                                    output.close();
                                 }
+                                writeSummary(resultsfolder);
                             }
                         } catch (IOException ex) {
                             Exceptions.printStackTrace(ex);
@@ -195,6 +173,100 @@ public final class StartAnalysis implements ActionListener {
                 }
             }
         }
+
+    private void writeSummary(FileObject resultsfolder) throws IOException{
+        FileObject writeTo;
+        writeTo = resultsfolder.createData(resultsfolder.getName() + "_summary", "txt");
+        BufferedWriter output = new BufferedWriter(new FileWriter(FileUtil.toFile(writeTo)));
+        //TODO: Complete the summary here:
+        output.append("Summary");
+        output.newLine();
+        output.append("Used dataset(s): ");
+        for (int j = 0; j < datasets.length; j++) {
+            DatasetTimp dataset = datasets[j];
+            if (j>0)
+                output.append(", ");
+            output.append(dataset.getDatasetName());
+        }
+        output.newLine();
+        output.newLine();
+        output.append("Used model(s): ");
+        for (int j = 0; j < models.length; j++) {
+            if (j>0)
+                output.append(", ");
+            output.append(models[j].getDat().getModelName());
+        }
+        output.newLine();output.newLine();
+
+        output.append("Number of iterations: ");
+        output.append(String.valueOf(NO_OF_ITERATIONS));
+        output.newLine();output.newLine();
+
+        output.append("R Call fot TIMP function initModel: ");
+        output.newLine();
+        ArrayList<String> list = service.getInitModelCalls();
+        for (String string : list) {
+            output.append(string);
+            output.newLine();
+        }
+        output.newLine();
+        output.append("R Call fot TIMP function fitModel: ");
+        output.newLine();
+        output.write(service.getFitModelCall());
+        output.newLine();
+        output.newLine();
+
+        output.append("Final residual standard error: ");
+        output.append((new Formatter().format("%g",results[0].getRms())).toString());
+        output.newLine();output.newLine();
+
+        String[] slots = {"getKineticParameters","getSpectralParameters","getIrfpar","getSpecdisppar","getParmu","getPartau","getKinscal","getPrel","getJvec"};
+        String[] slotsName = {"Kinetic parameters","Spectral parameters","Irf parameters","Specdisppar","Parmu","Partau","Kinscal","Prel", "J vector"};
+        double[] params = null;
+
+        for (int k = 0; k < slots.length; k++) {
+            try {
+                try {
+                    for (int i = 0; i < results.length; i++) {
+                        params = (double[]) results[i].getClass().getMethod(slots[k], null).invoke(results[i], null);
+                        if (params != null) {
+
+                            output.append("Estimated "+slotsName[k]+": ");
+                            output.newLine();
+                            output.append("Dataset" + (i + 1) + ": ");
+                            for (int j = 0; j < params.length / 2; j++) {
+                                if (j > 0) {
+                                    output.append(", ");
+                                }
+                                output.append((new Formatter().format("%g", params[j])).toString());
+                            }
+                            output.newLine();
+                            output.append("Standard errors: ");
+                            for (int j = 0; j < params.length / 2; j++) {
+                                if (j > 0) {
+                                    output.append(", ");
+                                }
+                                output.append((new Formatter().format("%g",
+                                        params[j + params.length/2])).toString());
+                            }
+                            output.newLine();
+                        }
+                    }
+                } catch (IllegalAccessException ex) {
+                    Exceptions.printStackTrace(ex);
+                } catch (IllegalArgumentException ex) {
+                    Exceptions.printStackTrace(ex);
+                } catch (InvocationTargetException ex) {
+                    Exceptions.printStackTrace(ex);
+                }
+            } catch (NoSuchMethodException ex) {
+                Exceptions.printStackTrace(ex);
+            } catch (SecurityException ex) {
+                Exceptions.printStackTrace(ex);
+            }
+        }
+        output.close();
+    }
 
     private void validateModel(Tgm tgm) {
         String feedback = null;

@@ -185,6 +185,7 @@ public class TimpController implements TimpInterface {
 
         result.setDatasetName(datasetName);
         result.setSpectra(getCLP(NAME_OF_RESULT_OBJECT, datasetNumber));
+        result.setSpectraErr(getCLP(NAME_OF_RESULT_OBJECT, true,datasetNumber));
         result.setX(getdim1(NAME_OF_RESULT_OBJECT));
         result.setX2(getdim2(NAME_OF_RESULT_OBJECT));
         result.setResiduals(getResiduals(NAME_OF_RESULT_OBJECT, datasetNumber));
@@ -193,16 +194,29 @@ public class TimpController implements TimpInterface {
 
         result.setKineticParameters(getParEst(NAME_OF_RESULT_OBJECT, datasetNumber, "kinpar"));
         result.setSpectralParameters(getParEst(NAME_OF_RESULT_OBJECT, datasetNumber, "specpar"));
+        result.setIrfpar(getParEst(NAME_OF_RESULT_OBJECT, datasetNumber,"irfpar"));
+//        result.setIrfpar(getIrfpar(NAME_OF_RESULT_OBJECT, datasetNumber));
+        result.setParmu(getParEst(NAME_OF_RESULT_OBJECT, datasetNumber,"parmu"));
+//        result.setParmu(getParmu(NAME_OF_RESULT_OBJECT, datasetNumber));
+        result.setSpecdisppar(getParEst(NAME_OF_RESULT_OBJECT, datasetNumber, "specdisppar"));
+//        result.setSpecdisppar(getSpecdisppar(NAME_OF_RESULT_OBJECT, datasetNumber));
+        result.setJvec(getParEst(NAME_OF_RESULT_OBJECT, datasetNumber,"jvec"));
+//        result.setJvec(getJvec(NAME_OF_RESULT_OBJECT, datasetNumber));
+        result.setClpequ(getParEst(NAME_OF_RESULT_OBJECT, datasetNumber,"clpequ"));
+//        result.setClpequ(getClpeq(NAME_OF_RESULT_OBJECT, datasetNumber));
+        result.setKinscal(getParEst(NAME_OF_RESULT_OBJECT, datasetNumber, "kinscal"));
+//        result.setKinscal(getKinscal(NAME_OF_RESULT_OBJECT, datasetNumber));
+        result.setPrel(getParEst(NAME_OF_RESULT_OBJECT, datasetNumber,"prel"));
+//        result.setPrel(getPrel(NAME_OF_RESULT_OBJECT, datasetNumber));
+        result.setRms(getRMS(NAME_OF_RESULT_OBJECT, datasetNumber));
+        result.setPartau(getParEst(NAME_OF_RESULT_OBJECT, datasetNumber, "partau"));
+//        result.setPartau(getPartau(NAME_OF_RESULT_OBJECT, datasetNumber));
+
         if (result.getKineticParameters().length > 2) {
             result.setConcentrations(getX(NAME_OF_RESULT_OBJECT, datasetNumber, false));
         } else {
             result.setConcentrations(getX(NAME_OF_RESULT_OBJECT, datasetNumber, true));
         }
-        result.setIrfpar(getIrfpar(NAME_OF_RESULT_OBJECT, datasetNumber));
-        result.setParmu(getParmu(NAME_OF_RESULT_OBJECT, datasetNumber));
-        result.setSpecdisppar(getSpecdisppar(NAME_OF_RESULT_OBJECT, datasetNumber));
-        result.setJvec(getJvec(NAME_OF_RESULT_OBJECT, datasetNumber));
-//        result.setLamdac(getLamdac(NAME_OF_RESULT_OBJECT, datasetNumber));
         return result;
     }
 
@@ -217,6 +231,26 @@ public class TimpController implements TimpInterface {
                 "$currTheta[[" + dataset + "]]@parmu),nrow=1))");
     }
 
+    public double[] getPartau(String resultVariable, int dataset) {
+        return getDoubleArray(resultVariable + "$currTheta[[" +
+                dataset + "]]@partau");
+    }
+
+    public double[] getClpeq(String resultVariable, int dataset) {
+        return getDoubleArray(resultVariable + "$currTheta[[" +
+                dataset + "]]@clpequ");
+    }
+
+    public double[] getKinscal(String resultVariable, int dataset) {
+        return getDoubleArray(resultVariable + "$currTheta[[" +
+                dataset + "]]@kinscal");
+    }
+
+    public double[] getPrel(String resultVariable, int dataset) {
+        return getDoubleArray(resultVariable + "$currTheta[[" +
+                dataset + "]]@prel");
+    }
+
     public double[] getSpecdisppar(String resultVariable, int dataset) {
         return getDoubleArray(resultVariable + "$currTheta[[" +
                 dataset + "]]@specdisppar");
@@ -228,8 +262,11 @@ public class TimpController implements TimpInterface {
     }
 
     public double getLamdac(String resultVariable, int dataset) {
-        return connection.eval(resultVariable + "$currTheta[[" +
-                dataset + "]]@lamdac").asDouble();
+        return getDouble(resultVariable + "$currTheta[["+dataset    +"]]@lamdac");
+    }
+
+    public double getRMS(String resultVariable, int dataset) {
+        return getDouble("onls("+resultVariable+")$m$deviance()");
     }
 
     public double[] getParEst(String resultVariable, int dataset,
@@ -306,6 +343,10 @@ public class TimpController implements TimpInterface {
         String getclperrStr;
         if (getclperr) {
             getclperrStr = "TRUE";
+            boolean clperr = getBool(resultVariable+"$currModel@stderrclp");
+            if (!clperr){
+                return null;
+            }
         } else {
             getclperrStr = "FALSE";
         }

@@ -308,12 +308,11 @@ public class KMatrixPanel extends SectionInnerPanel implements TableModelListene
         }
 
         if (source ==jTClp0) {
-            kMatrixPanelModel.getSpectralContraints().getMax().clear();
             kMatrixPanelModel.getSpectralContraints().getMin().clear();
-
+            kMatrixPanelModel.getSpectralContraints().getMax().clear();            
             for (int i=0; i<matrixSize; i++){
-                kMatrixPanelModel.getSpectralContraints().getMax().add((Double) modelCLP0.getValueAt(0, i));
-                kMatrixPanelModel.getSpectralContraints().getMin().add((Double) modelCLP0.getValueAt(1, i));
+                kMatrixPanelModel.getSpectralContraints().getMin().add((Double) modelCLP0.getValueAt(0, i));
+                kMatrixPanelModel.getSpectralContraints().getMax().add((Double) modelCLP0.getValueAt(1, i));
             }
         }
 
@@ -443,35 +442,62 @@ public class KMatrixPanel extends SectionInnerPanel implements TableModelListene
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jPanel3 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jSNumOfComponents = new javax.swing.JSpinner();
+        jPanel2 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTKMatrix1 = new javax.swing.JTable();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTKMatrix2 = new javax.swing.JTable();
-        jScrollPane3 = new javax.swing.JScrollPane();
-        jTJVector = new javax.swing.JTable();
-        jLabel2 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
-        jScrollPane4 = new javax.swing.JScrollPane();
-        jTClp0 = new javax.swing.JTable();
         jScrollPane5 = new javax.swing.JScrollPane();
         jTClpEq = new javax.swing.JTable();
-        jLabel7 = new javax.swing.JLabel();
         jScrollPane6 = new javax.swing.JScrollPane();
         jTStartingKinpar = new javax.swing.JTable();
         jScrollPane7 = new javax.swing.JScrollPane();
         jTStartingKinscal = new javax.swing.JTable();
+        jPanel1 = new javax.swing.JPanel();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        jTJVector = new javax.swing.JTable();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        jTClp0 = new javax.swing.JTable();
 
-        jLabel1.setText("Size of Kmatrix");
+        setPreferredSize(new java.awt.Dimension(700, 470));
+
+        jPanel3.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        jPanel3.setPreferredSize(new java.awt.Dimension(220, 30));
+
+        jLabel1.setText("Size of K-matrix");
 
         jSNumOfComponents.addChangeListener(new javax.swing.event.ChangeListener() {
             public void stateChanged(javax.swing.event.ChangeEvent evt) {
                 jSNumOfComponentsStateChanged(evt);
             }
         });
+
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jSNumOfComponents, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(522, 522, 522))
+        );
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jSNumOfComponents, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+        );
+
+        jPanel2.setLayout(new java.awt.GridLayout(2, 3));
+
+        jScrollPane1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "K-matrix", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.ABOVE_TOP, new java.awt.Font("Dialog", 1, 14))); // NOI18N
+        jScrollPane1.setMinimumSize(new java.awt.Dimension(90, 90));
+        jScrollPane1.setPreferredSize(new java.awt.Dimension(220, 220));
 
         jTKMatrix1.setAutoCreateColumnsFromModel(false);
         jTKMatrix1.setToolTipText("Specification of the K-Matrix");
@@ -481,35 +507,34 @@ public class KMatrixPanel extends SectionInnerPanel implements TableModelListene
         jTKMatrix1.getTableHeader().setReorderingAllowed(false);
         jScrollPane1.setViewportView(jTKMatrix1);
 
+        jPanel2.add(jScrollPane1);
+
+        jScrollPane2.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Scaling parameters", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.ABOVE_TOP, new java.awt.Font("Dialog", 1, 14))); // NOI18N
+        jScrollPane2.setMinimumSize(new java.awt.Dimension(90, 90));
+        jScrollPane2.setPreferredSize(new java.awt.Dimension(220, 220));
+
         jTKMatrix2.setAutoCreateColumnsFromModel(false);
         jTKMatrix2.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_OFF);
+        jTKMatrix2.setName("test"); // NOI18N
         jTKMatrix2.setRowHeight(30);
         jScrollPane2.setViewportView(jTKMatrix2);
 
-        jTJVector.setAutoCreateColumnsFromModel(false);
-        jTJVector.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_OFF);
-        jTJVector.setRowHeight(40);
-        jScrollPane3.setViewportView(jTJVector);
+        jPanel2.add(jScrollPane2);
 
-        jLabel2.setText("J Vector");
-
-        jLabel3.setText("Kmatrix");
-
-        jLabel4.setText("Scaling");
-
-        jLabel5.setText("Force spectra to 0");
-
-        jTClp0.setAutoCreateColumnsFromModel(false);
-        jTClp0.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_OFF);
-        jTClp0.setRowHeight(20);
-        jScrollPane4.setViewportView(jTClp0);
+        jScrollPane5.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Equality of Spectra", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.ABOVE_TOP, new java.awt.Font("Dialog", 1, 14))); // NOI18N
+        jScrollPane5.setMinimumSize(new java.awt.Dimension(90, 90));
+        jScrollPane5.setPreferredSize(new java.awt.Dimension(220, 220));
 
         jTClpEq.setAutoCreateColumnsFromModel(false);
         jTClpEq.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_OFF);
         jTClpEq.setRowHeight(20);
         jScrollPane5.setViewportView(jTClpEq);
 
-        jLabel7.setText("Spectra equality");
+        jPanel2.add(jScrollPane5);
+
+        jScrollPane6.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Starting values K-matrix", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.ABOVE_TOP, new java.awt.Font("Dialog", 1, 11))); // NOI18N
+        jScrollPane6.setMinimumSize(new java.awt.Dimension(90, 90));
+        jScrollPane6.setPreferredSize(new java.awt.Dimension(220, 220));
 
         jTStartingKinpar.setToolTipText("Specification of the K-Matrix");
         jTStartingKinpar.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_OFF);
@@ -517,93 +542,60 @@ public class KMatrixPanel extends SectionInnerPanel implements TableModelListene
         jTStartingKinpar.getTableHeader().setReorderingAllowed(false);
         jScrollPane6.setViewportView(jTStartingKinpar);
 
+        jPanel2.add(jScrollPane6);
+
+        jScrollPane7.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Starting values scaling parameters", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.ABOVE_TOP, new java.awt.Font("Dialog", 1, 11))); // NOI18N
+        jScrollPane7.setMinimumSize(new java.awt.Dimension(90, 90));
+        jScrollPane7.setPreferredSize(new java.awt.Dimension(220, 220));
+
         jTStartingKinscal.setToolTipText("Specification of the K-Matrix");
         jTStartingKinscal.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_OFF);
         jTStartingKinscal.getTableHeader().setResizingAllowed(false);
         jTStartingKinscal.getTableHeader().setReorderingAllowed(false);
         jScrollPane7.setViewportView(jTStartingKinscal);
 
+        jPanel2.add(jScrollPane7);
+
+        jPanel1.setMinimumSize(new java.awt.Dimension(90, 90));
+        jPanel1.setPreferredSize(new java.awt.Dimension(220, 220));
+        jPanel1.setLayout(new javax.swing.BoxLayout(jPanel1, javax.swing.BoxLayout.PAGE_AXIS));
+
+        jScrollPane3.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "J-vector", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.ABOVE_TOP, new java.awt.Font("Dialog", 1, 14))); // NOI18N
+        jScrollPane3.setPreferredSize(new java.awt.Dimension(180, 90));
+
+        jTJVector.setAutoCreateColumnsFromModel(false);
+        jTJVector.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_OFF);
+        jTJVector.setRowHeight(40);
+        jScrollPane3.setViewportView(jTJVector);
+
+        jPanel1.add(jScrollPane3);
+
+        jScrollPane4.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Force spectra to 0", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.ABOVE_TOP, new java.awt.Font("Dialog", 1, 14))); // NOI18N
+        jScrollPane4.setPreferredSize(new java.awt.Dimension(180, 90));
+
+        jTClp0.setAutoCreateColumnsFromModel(false);
+        jTClp0.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_OFF);
+        jTClp0.setRowHeight(20);
+        jScrollPane4.setViewportView(jTClp0);
+
+        jPanel1.add(jScrollPane4);
+
+        jPanel2.add(jPanel1);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 303, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(95, 95, 95)
-                        .addComponent(jLabel3))
-                    .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 303, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(6, 6, 6)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 298, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, 303, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(jLabel2)
-                                .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 297, Short.MAX_VALUE)
-                                .addComponent(jScrollPane3, 0, 0, Short.MAX_VALUE))
-                            .addComponent(jScrollPane4, javax.swing.GroupLayout.Alignment.TRAILING, 0, 0, Short.MAX_VALUE)
-                            .addComponent(jLabel5))
-                        .addContainerGap())
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(116, 116, 116)
-                        .addComponent(jLabel4)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 239, Short.MAX_VALUE)
-                        .addComponent(jLabel7)
-                        .addGap(101, 101, 101))))
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jSNumOfComponents, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+            .addComponent(jPanel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 700, Short.MAX_VALUE)
+            .addComponent(jPanel3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 700, Short.MAX_VALUE)
         );
-
-        layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jScrollPane2, jScrollPane7});
-
-        layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jScrollPane1, jScrollPane6});
-
-        layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jScrollPane3, jScrollPane4, jScrollPane5});
-
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(jSNumOfComponents, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(15, 15, 15)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel7)
-                    .addComponent(jLabel4)
-                    .addComponent(jLabel3))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(jScrollPane5, javax.swing.GroupLayout.Alignment.LEADING, 0, 0, Short.MAX_VALUE)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.LEADING, 0, 0, Short.MAX_VALUE)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 207, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 14, Short.MAX_VALUE)
-                        .addComponent(jLabel5)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jScrollPane6, javax.swing.GroupLayout.DEFAULT_SIZE, 194, Short.MAX_VALUE)
-                    .addComponent(jScrollPane7, javax.swing.GroupLayout.DEFAULT_SIZE, 194, Short.MAX_VALUE))
-                .addContainerGap())
+                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(5, 5, 5)
+                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, 422, Short.MAX_VALUE))
         );
-
-        layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {jScrollPane1, jScrollPane2, jScrollPane5});
-
-        layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {jScrollPane3, jScrollPane4});
-
     }// </editor-fold>//GEN-END:initComponents
 
 private void jSNumOfComponentsStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jSNumOfComponentsStateChanged
@@ -692,11 +684,9 @@ private void jSNumOfComponentsStateChanged(javax.swing.event.ChangeEvent evt) {/
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel7;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
     private javax.swing.JSpinner jSNumOfComponents;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;

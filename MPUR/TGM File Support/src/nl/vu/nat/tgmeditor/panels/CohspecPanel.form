@@ -36,12 +36,12 @@
                   <Component id="jCBCohSpec0" alignment="0" min="-2" max="-2" attributes="0"/>
                   <Group type="102" alignment="0" attributes="0">
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="cohspec_no" alignment="0" min="-2" max="-2" attributes="0"/>
-                          <Component id="cohspec_irf" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Component id="jRBCohspecNo" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Component id="jRBCohspecIrf" alignment="0" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="cohspec_freeirfdisp" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Component id="jRBCohspecFreeirfdisp" alignment="0" min="-2" max="-2" attributes="0"/>
                           <Group type="102" alignment="0" attributes="0">
                               <EmptySpace min="1" pref="1" max="1" attributes="0"/>
                               <Component id="cohspec_irfmulti" min="-2" max="-2" attributes="0"/>
@@ -50,7 +50,7 @@
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Component id="cohspec_mix" min="-2" max="-2" attributes="0"/>
-                          <Component id="cohspec_seq" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Component id="jRBCohspecSeq" alignment="0" min="-2" max="-2" attributes="0"/>
                       </Group>
                   </Group>
                   <Component id="jLabel1" alignment="0" min="-2" max="-2" attributes="0"/>
@@ -69,14 +69,14 @@
               <EmptySpace type="unrelated" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" attributes="0">
-                      <Component id="cohspec_no" min="-2" max="-2" attributes="0"/>
+                      <Component id="jRBCohspecNo" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="cohspec_irf" min="-2" max="-2" attributes="0"/>
+                      <Component id="jRBCohspecIrf" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <Group type="102" attributes="0">
                       <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="cohspec_freeirfdisp" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="cohspec_seq" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="jRBCohspecFreeirfdisp" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="jRBCohspecSeq" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
@@ -106,35 +106,39 @@
   <SubComponents>
     <Component class="javax.swing.JLabel" name="jLabel1">
       <Properties>
-        <Property name="text" type="java.lang.String" value="model coherent artifact/scatter?"/>
+        <Property name="text" type="java.lang.String" value="Type of model for coherent artifact/scatter component(s):"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JRadioButton" name="cohspec_no">
+    <Component class="javax.swing.JRadioButton" name="jRBCohspecNo">
       <Properties>
         <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
           <ComponentRef name="cohspec_buttonGroup"/>
         </Property>
         <Property name="selected" type="boolean" value="true"/>
-        <Property name="text" type="java.lang.String" value="no"/>
-        <Property name="toolTipText" type="java.lang.String" value="cohspec: *** Object of class &quot;list&quot; describing the model for coherent artifact/scatter com-&#xa;    ponent(s) containing the element type and optionally the element numdatasets. The&#xa;    element type can be set as follows:&#xa;&#xa;&quot;irf&quot;: if type=&quot;irf&quot;, the coherent artifact/scatter has the time pro&#xfb01;le of the IRF.&#xa;        &#xa;&quot;freeirfdisp&quot;: if type=&quot;freeirfdisp&quot;, the coherent artifact/scatter has a Gaus-&#xa;        sian time pro&#xfb01;le whose location and width are parameterized in the vector coh.&#xa;&#xa;&quot;irfmulti&quot;: if type=&quot;irfmulti&quot; the time pro&#xfb01;le of the IRF is used for the coherent&#xa;          artifact/scatter model, but the IRF parameters are taken per dataset (for the multidataset&#xa;          case), and the integer argument numdatasets must be equal to the number of datasets&#xa;          modeled.&#xa;&#xa;&quot;seq&quot;: if type=&quot;seq&quot; a sequential exponential decay model is applied, whose starting&#xa;          value are contained in an additional list element start. This often models oscillating&#xa;          behavior well, where the number of oscillations is the number of parameter starting values&#xa;          given in start. The starting values after optimization will be found in the slot coh of&#xa;          the object of class theta corresponding to each dataset modeled.&#xa;&#xa; &quot;mix&quot;: if type=&quot;mix&quot; if type=&quot;mix&quot; a sequential exponential decay model is applied&#xa;          along with a model that follows the time pro&#xfb01;le of the IRF; the coherent artifact/scatter&#xa;          is then a linear superposition of these two models; see the above description of seq for&#xa;          how to supply the starting values."/>
+        <Property name="text" type="java.lang.String" value="None"/>
+        <Property name="toolTipText" type="java.lang.String" value="&lt;html&gt;&#xa;&lt;b&gt;TIMP function&lt;/b&gt;: cohspec&lt;br&gt;&#xa;&lt;b&gt;Description&lt;/b&gt;: if this option is selected then no coherent artifact will be modelled (&lt;i&gt;default&lt;/i&gt;)&#xa;&lt;/html&gt;"/>
       </Properties>
+      <Events>
+        <EventHandler event="stateChanged" listener="javax.swing.event.ChangeListener" parameters="javax.swing.event.ChangeEvent" handler="jRBCohspecNoStateChanged"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jRBCohspecNoActionPerformed"/>
+      </Events>
     </Component>
-    <Component class="javax.swing.JRadioButton" name="cohspec_irf">
+    <Component class="javax.swing.JRadioButton" name="jRBCohspecIrf">
       <Properties>
         <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
           <ComponentRef name="cohspec_buttonGroup"/>
         </Property>
-        <Property name="text" type="java.lang.String" value="irf"/>
-        <Property name="toolTipText" type="java.lang.String" value="cohspec: *** Object of class &quot;list&quot; describing the model for coherent artifact/scatter com-&#xa;    ponent(s) containing the element type and optionally the element numdatasets. The&#xa;    element type can be set as follows:&#xa;&#xa;&quot;irf&quot;: if type=&quot;irf&quot;, the coherent artifact/scatter has the time pro&#xfb01;le of the IRF.&#xa;        &#xa;&quot;freeirfdisp&quot;: if type=&quot;freeirfdisp&quot;, the coherent artifact/scatter has a Gaus-&#xa;        sian time pro&#xfb01;le whose location and width are parameterized in the vector coh.&#xa;&#xa;&quot;irfmulti&quot;: if type=&quot;irfmulti&quot; the time pro&#xfb01;le of the IRF is used for the coherent&#xa;          artifact/scatter model, but the IRF parameters are taken per dataset (for the multidataset&#xa;          case), and the integer argument numdatasets must be equal to the number of datasets&#xa;          modeled.&#xa;&#xa;&quot;seq&quot;: if type=&quot;seq&quot; a sequential exponential decay model is applied, whose starting&#xa;          value are contained in an additional list element start. This often models oscillating&#xa;          behavior well, where the number of oscillations is the number of parameter starting values&#xa;          given in start. The starting values after optimization will be found in the slot coh of&#xa;          the object of class theta corresponding to each dataset modeled.&#xa;&#xa; &quot;mix&quot;: if type=&quot;mix&quot; if type=&quot;mix&quot; a sequential exponential decay model is applied&#xa;          along with a model that follows the time pro&#xfb01;le of the IRF; the coherent artifact/scatter&#xa;          is then a linear superposition of these two models; see the above description of seq for&#xa;          how to supply the starting values."/>
+        <Property name="text" type="java.lang.String" value="IRF"/>
+        <Property name="toolTipText" type="java.lang.String" value="&lt;html&gt;&#xa;&lt;b&gt;TIMP function&lt;/b&gt;: cohspec&lt;br&gt;&#xa;&lt;b&gt;Argument&lt;/b&gt;: type=&quot;irf&quot;&lt;br&gt;&#xa;&lt;b&gt;Description&lt;/b&gt;: if this option is selected then, the coherent artifact/scatter&lt;br&gt;&#xa; has the time pro&#xfb01;le of the Instrument Response Function.&#xa;&lt;/html&gt;"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JRadioButton" name="cohspec_freeirfdisp">
+    <Component class="javax.swing.JRadioButton" name="jRBCohspecFreeirfdisp">
       <Properties>
         <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
           <ComponentRef name="cohspec_buttonGroup"/>
         </Property>
-        <Property name="text" type="java.lang.String" value="freeirfdisp"/>
-        <Property name="toolTipText" type="java.lang.String" value="cohspec: *** Object of class &quot;list&quot; describing the model for coherent artifact/scatter com-&#xa;    ponent(s) containing the element type and optionally the element numdatasets. The&#xa;    element type can be set as follows:&#xa;&#xa;&quot;irf&quot;: if type=&quot;irf&quot;, the coherent artifact/scatter has the time pro&#xfb01;le of the IRF.&#xa;        &#xa;&quot;freeirfdisp&quot;: if type=&quot;freeirfdisp&quot;, the coherent artifact/scatter has a Gaus-&#xa;        sian time pro&#xfb01;le whose location and width are parameterized in the vector coh.&#xa;&#xa;&quot;irfmulti&quot;: if type=&quot;irfmulti&quot; the time pro&#xfb01;le of the IRF is used for the coherent&#xa;          artifact/scatter model, but the IRF parameters are taken per dataset (for the multidataset&#xa;          case), and the integer argument numdatasets must be equal to the number of datasets&#xa;          modeled.&#xa;&#xa;&quot;seq&quot;: if type=&quot;seq&quot; a sequential exponential decay model is applied, whose starting&#xa;          value are contained in an additional list element start. This often models oscillating&#xa;          behavior well, where the number of oscillations is the number of parameter starting values&#xa;          given in start. The starting values after optimization will be found in the slot coh of&#xa;          the object of class theta corresponding to each dataset modeled.&#xa;&#xa; &quot;mix&quot;: if type=&quot;mix&quot; if type=&quot;mix&quot; a sequential exponential decay model is applied&#xa;          along with a model that follows the time pro&#xfb01;le of the IRF; the coherent artifact/scatter&#xa;          is then a linear superposition of these two models; see the above description of seq for&#xa;          how to supply the starting values."/>
+        <Property name="text" type="java.lang.String" value="Free IRF Disp"/>
+        <Property name="toolTipText" type="java.lang.String" value="&lt;html&gt;&#xa;&lt;b&gt;TIMP function&lt;/b&gt;: cohspec&lt;br&gt;&#xa;&lt;b&gt;Argument&lt;/b&gt;: type=&quot;freeirfdisp&quot;&lt;br&gt;&#xa;&lt;b&gt;Description&lt;/b&gt;: if this option is used then, the coherent artifact/scatter has a &lt;br&gt;&#xa; Gaussian time profile whose location and width are parameterized in the vector coh.&#xa;&lt;/html&gt;"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JRadioButton" name="cohspec_irfmulti">
@@ -142,26 +146,29 @@
         <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
           <ComponentRef name="cohspec_buttonGroup"/>
         </Property>
-        <Property name="text" type="java.lang.String" value="irfmulti"/>
-        <Property name="toolTipText" type="java.lang.String" value="cohspec: *** Object of class &quot;list&quot; describing the model for coherent artifact/scatter com-&#xa;    ponent(s) containing the element type and optionally the element numdatasets. The&#xa;    element type can be set as follows:&#xa;&#xa;&quot;irf&quot;: if type=&quot;irf&quot;, the coherent artifact/scatter has the time pro&#xfb01;le of the IRF.&#xa;        &#xa;&quot;freeirfdisp&quot;: if type=&quot;freeirfdisp&quot;, the coherent artifact/scatter has a Gaus-&#xa;        sian time pro&#xfb01;le whose location and width are parameterized in the vector coh.&#xa;&#xa;&quot;irfmulti&quot;: if type=&quot;irfmulti&quot; the time pro&#xfb01;le of the IRF is used for the coherent&#xa;          artifact/scatter model, but the IRF parameters are taken per dataset (for the multidataset&#xa;          case), and the integer argument numdatasets must be equal to the number of datasets&#xa;          modeled.&#xa;&#xa;&quot;seq&quot;: if type=&quot;seq&quot; a sequential exponential decay model is applied, whose starting&#xa;          value are contained in an additional list element start. This often models oscillating&#xa;          behavior well, where the number of oscillations is the number of parameter starting values&#xa;          given in start. The starting values after optimization will be found in the slot coh of&#xa;          the object of class theta corresponding to each dataset modeled.&#xa;&#xa; &quot;mix&quot;: if type=&quot;mix&quot; if type=&quot;mix&quot; a sequential exponential decay model is applied&#xa;          along with a model that follows the time pro&#xfb01;le of the IRF; the coherent artifact/scatter&#xa;          is then a linear superposition of these two models; see the above description of seq for&#xa;          how to supply the starting values."/>
+        <Property name="text" type="java.lang.String" value="IRF Multi"/>
+        <Property name="toolTipText" type="java.lang.String" value="&lt;html&gt;&#xa;&lt;b&gt;TIMP function&lt;/b&gt;: cohspec&lt;br&gt;&#xa;&lt;b&gt;Argument&lt;/b&gt;: type=&quot;irfmulti&quot;&lt;br&gt;&#xa;&lt;b&gt;Description&lt;/b&gt;: if this option is selected then, the time profile of the IRF &lt;br&gt;&#xa; is used for the coherent artifact/scatter model, but the IRF parameters are taken&lt;br&gt;&#xa; per dataset (for the multidataset case), and the integer argument &lt;i&gt;numdatasets&lt;/i&gt; must&lt;br&gt;&#xa; be equal to the number of datasets modeled.&lt;br&gt;&#xa;&lt;b&gt;Comments&lt;/b&gt;: requires additional argument &lt;i&gt;numdatasets&lt;/i&gt; to be specified.&#xa;&lt;/html&gt;"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JRadioButton" name="cohspec_seq">
+    <Component class="javax.swing.JRadioButton" name="jRBCohspecSeq">
       <Properties>
         <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
           <ComponentRef name="cohspec_buttonGroup"/>
         </Property>
-        <Property name="text" type="java.lang.String" value="seq"/>
-        <Property name="toolTipText" type="java.lang.String" value="cohspec: *** Object of class &quot;list&quot; describing the model for coherent artifact/scatter com-&#xa;    ponent(s) containing the element type and optionally the element numdatasets. The&#xa;    element type can be set as follows:&#xa;&#xa;&quot;irf&quot;: if type=&quot;irf&quot;, the coherent artifact/scatter has the time pro&#xfb01;le of the IRF.&#xa;        &#xa;&quot;freeirfdisp&quot;: if type=&quot;freeirfdisp&quot;, the coherent artifact/scatter has a Gaus-&#xa;        sian time pro&#xfb01;le whose location and width are parameterized in the vector coh.&#xa;&#xa;&quot;irfmulti&quot;: if type=&quot;irfmulti&quot; the time pro&#xfb01;le of the IRF is used for the coherent&#xa;          artifact/scatter model, but the IRF parameters are taken per dataset (for the multidataset&#xa;          case), and the integer argument numdatasets must be equal to the number of datasets&#xa;          modeled.&#xa;&#xa;&quot;seq&quot;: if type=&quot;seq&quot; a sequential exponential decay model is applied, whose starting&#xa;          value are contained in an additional list element start. This often models oscillating&#xa;          behavior well, where the number of oscillations is the number of parameter starting values&#xa;          given in start. The starting values after optimization will be found in the slot coh of&#xa;          the object of class theta corresponding to each dataset modeled.&#xa;&#xa; &quot;mix&quot;: if type=&quot;mix&quot; if type=&quot;mix&quot; a sequential exponential decay model is applied&#xa;          along with a model that follows the time pro&#xfb01;le of the IRF; the coherent artifact/scatter&#xa;          is then a linear superposition of these two models; see the above description of seq for&#xa;          how to supply the starting values."/>
+        <Property name="text" type="java.lang.String" value="Sequential"/>
+        <Property name="toolTipText" type="java.lang.String" value="&lt;html&gt;&#xa;&lt;b&gt;TIMP function&lt;/b&gt;: &quot;cohspec&quot;&lt;br&gt;&#xa;&lt;b&gt;Argument&lt;/b&gt;: type=&quot;seq&quot;&lt;br&gt;&#xa;&lt;b&gt;Description&lt;/b&gt;: if this options is used, then a sequential exponential decay model &lt;br&gt;&#xa;is applied, whose starting value are contained in an additional list element start. This often &lt;br&gt;&#xa;models oscillating behavior well, where the number of oscillations is the number of &lt;br&gt;&#xa;parameter starting values given in start. The starting values after optimization will be&lt;br&gt;&#xa;found in the slot coh of the object of class theta corresponding to each dataset modeled.&#xa;&lt;b&gt;Comments&lt;/b&gt;: required additional argument &lt;i&gt;start&lt;/i&gt; to be set.&#xa;&lt;/html&gt;"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jRBCohspecSeqActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JRadioButton" name="cohspec_mix">
       <Properties>
         <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
           <ComponentRef name="cohspec_buttonGroup"/>
         </Property>
-        <Property name="text" type="java.lang.String" value="mix"/>
-        <Property name="toolTipText" type="java.lang.String" value="cohspec: *** Object of class &quot;list&quot; describing the model for coherent artifact/scatter com-&#xa;    ponent(s) containing the element type and optionally the element numdatasets. The&#xa;    element type can be set as follows:&#xa;&#xa;&quot;irf&quot;: if type=&quot;irf&quot;, the coherent artifact/scatter has the time pro&#xfb01;le of the IRF.&#xa;        &#xa;&quot;freeirfdisp&quot;: if type=&quot;freeirfdisp&quot;, the coherent artifact/scatter has a Gaus-&#xa;        sian time pro&#xfb01;le whose location and width are parameterized in the vector coh.&#xa;&#xa;&quot;irfmulti&quot;: if type=&quot;irfmulti&quot; the time pro&#xfb01;le of the IRF is used for the coherent&#xa;          artifact/scatter model, but the IRF parameters are taken per dataset (for the multidataset&#xa;          case), and the integer argument numdatasets must be equal to the number of datasets&#xa;          modeled.&#xa;&#xa;&quot;seq&quot;: if type=&quot;seq&quot; a sequential exponential decay model is applied, whose starting&#xa;          value are contained in an additional list element start. This often models oscillating&#xa;          behavior well, where the number of oscillations is the number of parameter starting values&#xa;          given in start. The starting values after optimization will be found in the slot coh of&#xa;          the object of class theta corresponding to each dataset modeled.&#xa;&#xa; &quot;mix&quot;: if type=&quot;mix&quot; if type=&quot;mix&quot; a sequential exponential decay model is applied&#xa;          along with a model that follows the time pro&#xfb01;le of the IRF; the coherent artifact/scatter&#xa;          is then a linear superposition of these two models; see the above description of seq for&#xa;          how to supply the starting values."/>
+        <Property name="text" type="java.lang.String" value="Mixed Sequential/IRF"/>
+        <Property name="toolTipText" type="java.lang.String" value="&lt;html&gt;&#xa;&lt;b&gt;TIMP function&lt;/b&gt;: cohspec&lt;br&gt;&#xa;&lt;b&gt;Argument&lt;/b&gt;: type=&quot;mix&quot;&lt;br&gt;&#xa;&lt;b&gt;Description&lt;/b&gt;: if this options is used, then a sequential exponential decay model is applied &lt;br&gt;&#xa; along with a model that follows the time profile of the IRF; the coherent artifact/scatter&lt;br&gt;&#xa; is then a linear superposition of these two models. This starting value for the sequential model&lt;br&gt;&#xa; are contained in an additional list element &lt;i&gt;start&lt;/i&gt;.&#xa;&lt;b&gt;Comments&lt;/b&gt;: requires additional argument &lt;i&gt;start&lt;/i&gt; to be set.&#xa;&lt;/html&gt;"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel2">

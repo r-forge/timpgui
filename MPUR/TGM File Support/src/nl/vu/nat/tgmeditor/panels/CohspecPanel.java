@@ -1,6 +1,9 @@
 package nl.vu.nat.tgmeditor.panels;
 
 import javax.swing.JComponent;
+import javax.swing.JToggleButton;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import nl.vu.nat.tgmfilesupport.TgmDataObject;
 import nl.vu.nat.tgmodels.tgm.CohspecPanelModel;
 import org.netbeans.modules.xml.multiview.ui.SectionInnerPanel;
@@ -30,17 +33,17 @@ public class CohspecPanel extends SectionInnerPanel {
         initComponents();
         if (cohspecPanelModel.getCohspec().isSet()) {
            if (cohspecPanelModel.getCohspec().getType().compareTo("irf")==0) {
-               cohspec_irf.setSelected(true);}
+               jRBCohspecIrf.setSelected(true);}
            if (cohspecPanelModel.getCohspec().getType().compareTo("freeirfdisp")==0) {
-               cohspec_freeirfdisp.setSelected(true);}
+               jRBCohspecFreeirfdisp.setSelected(true);}
            if (cohspecPanelModel.getCohspec().getType().compareTo("irfmulti")==0) {
                cohspec_irfmulti.setSelected(true);}
            if (cohspecPanelModel.getCohspec().getType().compareTo("seq")==0) {
-               cohspec_seq.setSelected(true);}
+               jRBCohspecSeq.setSelected(true);}
            if (cohspecPanelModel.getCohspec().getType().compareTo("mix")==0) {
                cohspec_mix.setSelected(true);}
         } else {
-            cohspec_no.setSelected(true);
+            jRBCohspecNo.setSelected(true);
         }
         cohspec_start.setText(cohspecPanelModel.getCoh()); //comma separated list of doubles, f.i.: "1,2,3,80,99"
 
@@ -52,16 +55,15 @@ public class CohspecPanel extends SectionInnerPanel {
         }
 
         addModifier(cohspec_start);
-        addModifier(cohspec_no);
-        addModifier(cohspec_irf);
-        addModifier(cohspec_freeirfdisp);
+        addModifier(jRBCohspecNo);
+        addModifier(jRBCohspecIrf);
+        addModifier(jRBCohspecFreeirfdisp);
         addModifier(cohspec_irfmulti);
-        addModifier(cohspec_seq);
+        addModifier(jRBCohspecSeq);
         addModifier(cohspec_mix);
         addModifier(jCBCohSpec0);
         addModifier(jTFCohSpec0From);
-        addModifier(jTFCohSpec0To);
-        
+        addModifier(jTFCohSpec0To);  
         //endUIChange();
     }
     
@@ -77,11 +79,11 @@ public class CohspecPanel extends SectionInnerPanel {
 
         cohspec_buttonGroup = new javax.swing.ButtonGroup();
         jLabel1 = new javax.swing.JLabel();
-        cohspec_no = new javax.swing.JRadioButton();
-        cohspec_irf = new javax.swing.JRadioButton();
-        cohspec_freeirfdisp = new javax.swing.JRadioButton();
+        jRBCohspecNo = new javax.swing.JRadioButton();
+        jRBCohspecIrf = new javax.swing.JRadioButton();
+        jRBCohspecFreeirfdisp = new javax.swing.JRadioButton();
         cohspec_irfmulti = new javax.swing.JRadioButton();
-        cohspec_seq = new javax.swing.JRadioButton();
+        jRBCohspecSeq = new javax.swing.JRadioButton();
         cohspec_mix = new javax.swing.JRadioButton();
         jLabel2 = new javax.swing.JLabel();
         cohspec_start = new javax.swing.JTextField();
@@ -91,32 +93,47 @@ public class CohspecPanel extends SectionInnerPanel {
         jLabel5 = new javax.swing.JLabel();
         jTFCohSpec0To = new javax.swing.JTextField();
 
-        jLabel1.setText("model coherent artifact/scatter?");
+        jLabel1.setText("Type of model for coherent artifact/scatter component(s):");
 
-        cohspec_buttonGroup.add(cohspec_no);
-        cohspec_no.setSelected(true);
-        cohspec_no.setText("no");
-        cohspec_no.setToolTipText("cohspec: *** Object of class \"list\" describing the model for coherent artifact/scatter com-\n    ponent(s) containing the element type and optionally the element numdatasets. The\n    element type can be set as follows:\n\n\"irf\": if type=\"irf\", the coherent artifact/scatter has the time proﬁle of the IRF.\n        \n\"freeirfdisp\": if type=\"freeirfdisp\", the coherent artifact/scatter has a Gaus-\n        sian time proﬁle whose location and width are parameterized in the vector coh.\n\n\"irfmulti\": if type=\"irfmulti\" the time proﬁle of the IRF is used for the coherent\n          artifact/scatter model, but the IRF parameters are taken per dataset (for the multidataset\n          case), and the integer argument numdatasets must be equal to the number of datasets\n          modeled.\n\n\"seq\": if type=\"seq\" a sequential exponential decay model is applied, whose starting\n          value are contained in an additional list element start. This often models oscillating\n          behavior well, where the number of oscillations is the number of parameter starting values\n          given in start. The starting values after optimization will be found in the slot coh of\n          the object of class theta corresponding to each dataset modeled.\n\n \"mix\": if type=\"mix\" if type=\"mix\" a sequential exponential decay model is applied\n          along with a model that follows the time proﬁle of the IRF; the coherent artifact/scatter\n          is then a linear superposition of these two models; see the above description of seq for\n          how to supply the starting values.");
+        cohspec_buttonGroup.add(jRBCohspecNo);
+        jRBCohspecNo.setSelected(true);
+        jRBCohspecNo.setText("None");
+        jRBCohspecNo.setToolTipText("<html>\n<b>TIMP function</b>: cohspec<br>\n<b>Description</b>: if this option is selected then no coherent artifact will be modelled (<i>default</i>)\n</html>");
+        jRBCohspecNo.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                jRBCohspecNoStateChanged(evt);
+            }
+        });
+        jRBCohspecNo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jRBCohspecNoActionPerformed(evt);
+            }
+        });
 
-        cohspec_buttonGroup.add(cohspec_irf);
-        cohspec_irf.setText("irf");
-        cohspec_irf.setToolTipText("cohspec: *** Object of class \"list\" describing the model for coherent artifact/scatter com-\n    ponent(s) containing the element type and optionally the element numdatasets. The\n    element type can be set as follows:\n\n\"irf\": if type=\"irf\", the coherent artifact/scatter has the time proﬁle of the IRF.\n        \n\"freeirfdisp\": if type=\"freeirfdisp\", the coherent artifact/scatter has a Gaus-\n        sian time proﬁle whose location and width are parameterized in the vector coh.\n\n\"irfmulti\": if type=\"irfmulti\" the time proﬁle of the IRF is used for the coherent\n          artifact/scatter model, but the IRF parameters are taken per dataset (for the multidataset\n          case), and the integer argument numdatasets must be equal to the number of datasets\n          modeled.\n\n\"seq\": if type=\"seq\" a sequential exponential decay model is applied, whose starting\n          value are contained in an additional list element start. This often models oscillating\n          behavior well, where the number of oscillations is the number of parameter starting values\n          given in start. The starting values after optimization will be found in the slot coh of\n          the object of class theta corresponding to each dataset modeled.\n\n \"mix\": if type=\"mix\" if type=\"mix\" a sequential exponential decay model is applied\n          along with a model that follows the time proﬁle of the IRF; the coherent artifact/scatter\n          is then a linear superposition of these two models; see the above description of seq for\n          how to supply the starting values.");
+        cohspec_buttonGroup.add(jRBCohspecIrf);
+        jRBCohspecIrf.setText("IRF");
+        jRBCohspecIrf.setToolTipText("<html>\n<b>TIMP function</b>: cohspec<br>\n<b>Argument</b>: type=\"irf\"<br>\n<b>Description</b>: if this option is selected then, the coherent artifact/scatter<br>\n has the time proﬁle of the Instrument Response Function.\n</html>");
 
-        cohspec_buttonGroup.add(cohspec_freeirfdisp);
-        cohspec_freeirfdisp.setText("freeirfdisp");
-        cohspec_freeirfdisp.setToolTipText("cohspec: *** Object of class \"list\" describing the model for coherent artifact/scatter com-\n    ponent(s) containing the element type and optionally the element numdatasets. The\n    element type can be set as follows:\n\n\"irf\": if type=\"irf\", the coherent artifact/scatter has the time proﬁle of the IRF.\n        \n\"freeirfdisp\": if type=\"freeirfdisp\", the coherent artifact/scatter has a Gaus-\n        sian time proﬁle whose location and width are parameterized in the vector coh.\n\n\"irfmulti\": if type=\"irfmulti\" the time proﬁle of the IRF is used for the coherent\n          artifact/scatter model, but the IRF parameters are taken per dataset (for the multidataset\n          case), and the integer argument numdatasets must be equal to the number of datasets\n          modeled.\n\n\"seq\": if type=\"seq\" a sequential exponential decay model is applied, whose starting\n          value are contained in an additional list element start. This often models oscillating\n          behavior well, where the number of oscillations is the number of parameter starting values\n          given in start. The starting values after optimization will be found in the slot coh of\n          the object of class theta corresponding to each dataset modeled.\n\n \"mix\": if type=\"mix\" if type=\"mix\" a sequential exponential decay model is applied\n          along with a model that follows the time proﬁle of the IRF; the coherent artifact/scatter\n          is then a linear superposition of these two models; see the above description of seq for\n          how to supply the starting values.");
+        cohspec_buttonGroup.add(jRBCohspecFreeirfdisp);
+        jRBCohspecFreeirfdisp.setText("Free IRF Disp");
+        jRBCohspecFreeirfdisp.setToolTipText("<html>\n<b>TIMP function</b>: cohspec<br>\n<b>Argument</b>: type=\"freeirfdisp\"<br>\n<b>Description</b>: if this option is used then, the coherent artifact/scatter has a <br>\n Gaussian time profile whose location and width are parameterized in the vector coh.\n</html>");
 
         cohspec_buttonGroup.add(cohspec_irfmulti);
-        cohspec_irfmulti.setText("irfmulti");
-        cohspec_irfmulti.setToolTipText("cohspec: *** Object of class \"list\" describing the model for coherent artifact/scatter com-\n    ponent(s) containing the element type and optionally the element numdatasets. The\n    element type can be set as follows:\n\n\"irf\": if type=\"irf\", the coherent artifact/scatter has the time proﬁle of the IRF.\n        \n\"freeirfdisp\": if type=\"freeirfdisp\", the coherent artifact/scatter has a Gaus-\n        sian time proﬁle whose location and width are parameterized in the vector coh.\n\n\"irfmulti\": if type=\"irfmulti\" the time proﬁle of the IRF is used for the coherent\n          artifact/scatter model, but the IRF parameters are taken per dataset (for the multidataset\n          case), and the integer argument numdatasets must be equal to the number of datasets\n          modeled.\n\n\"seq\": if type=\"seq\" a sequential exponential decay model is applied, whose starting\n          value are contained in an additional list element start. This often models oscillating\n          behavior well, where the number of oscillations is the number of parameter starting values\n          given in start. The starting values after optimization will be found in the slot coh of\n          the object of class theta corresponding to each dataset modeled.\n\n \"mix\": if type=\"mix\" if type=\"mix\" a sequential exponential decay model is applied\n          along with a model that follows the time proﬁle of the IRF; the coherent artifact/scatter\n          is then a linear superposition of these two models; see the above description of seq for\n          how to supply the starting values.");
+        cohspec_irfmulti.setText("IRF Multi");
+        cohspec_irfmulti.setToolTipText("<html>\n<b>TIMP function</b>: cohspec<br>\n<b>Argument</b>: type=\"irfmulti\"<br>\n<b>Description</b>: if this option is selected then, the time profile of the IRF <br>\n is used for the coherent artifact/scatter model, but the IRF parameters are taken<br>\n per dataset (for the multidataset case), and the integer argument <i>numdatasets</i> must<br>\n be equal to the number of datasets modeled.<br>\n<b>Comments</b>: requires additional argument <i>numdatasets</i> to be specified.\n</html>");
 
-        cohspec_buttonGroup.add(cohspec_seq);
-        cohspec_seq.setText("seq");
-        cohspec_seq.setToolTipText("cohspec: *** Object of class \"list\" describing the model for coherent artifact/scatter com-\n    ponent(s) containing the element type and optionally the element numdatasets. The\n    element type can be set as follows:\n\n\"irf\": if type=\"irf\", the coherent artifact/scatter has the time proﬁle of the IRF.\n        \n\"freeirfdisp\": if type=\"freeirfdisp\", the coherent artifact/scatter has a Gaus-\n        sian time proﬁle whose location and width are parameterized in the vector coh.\n\n\"irfmulti\": if type=\"irfmulti\" the time proﬁle of the IRF is used for the coherent\n          artifact/scatter model, but the IRF parameters are taken per dataset (for the multidataset\n          case), and the integer argument numdatasets must be equal to the number of datasets\n          modeled.\n\n\"seq\": if type=\"seq\" a sequential exponential decay model is applied, whose starting\n          value are contained in an additional list element start. This often models oscillating\n          behavior well, where the number of oscillations is the number of parameter starting values\n          given in start. The starting values after optimization will be found in the slot coh of\n          the object of class theta corresponding to each dataset modeled.\n\n \"mix\": if type=\"mix\" if type=\"mix\" a sequential exponential decay model is applied\n          along with a model that follows the time proﬁle of the IRF; the coherent artifact/scatter\n          is then a linear superposition of these two models; see the above description of seq for\n          how to supply the starting values.");
+        cohspec_buttonGroup.add(jRBCohspecSeq);
+        jRBCohspecSeq.setText("Sequential");
+        jRBCohspecSeq.setToolTipText("<html>\n<b>TIMP function</b>: \"cohspec\"<br>\n<b>Argument</b>: type=\"seq\"<br>\n<b>Description</b>: if this options is used, then a sequential exponential decay model <br>\nis applied, whose starting value are contained in an additional list element start. This often <br>\nmodels oscillating behavior well, where the number of oscillations is the number of <br>\nparameter starting values given in start. The starting values after optimization will be<br>\nfound in the slot coh of the object of class theta corresponding to each dataset modeled.\n<b>Comments</b>: required additional argument <i>start</i> to be set.\n</html>");
+        jRBCohspecSeq.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jRBCohspecSeqActionPerformed(evt);
+            }
+        });
 
         cohspec_buttonGroup.add(cohspec_mix);
-        cohspec_mix.setText("mix");
-        cohspec_mix.setToolTipText("cohspec: *** Object of class \"list\" describing the model for coherent artifact/scatter com-\n    ponent(s) containing the element type and optionally the element numdatasets. The\n    element type can be set as follows:\n\n\"irf\": if type=\"irf\", the coherent artifact/scatter has the time proﬁle of the IRF.\n        \n\"freeirfdisp\": if type=\"freeirfdisp\", the coherent artifact/scatter has a Gaus-\n        sian time proﬁle whose location and width are parameterized in the vector coh.\n\n\"irfmulti\": if type=\"irfmulti\" the time proﬁle of the IRF is used for the coherent\n          artifact/scatter model, but the IRF parameters are taken per dataset (for the multidataset\n          case), and the integer argument numdatasets must be equal to the number of datasets\n          modeled.\n\n\"seq\": if type=\"seq\" a sequential exponential decay model is applied, whose starting\n          value are contained in an additional list element start. This often models oscillating\n          behavior well, where the number of oscillations is the number of parameter starting values\n          given in start. The starting values after optimization will be found in the slot coh of\n          the object of class theta corresponding to each dataset modeled.\n\n \"mix\": if type=\"mix\" if type=\"mix\" a sequential exponential decay model is applied\n          along with a model that follows the time proﬁle of the IRF; the coherent artifact/scatter\n          is then a linear superposition of these two models; see the above description of seq for\n          how to supply the starting values.");
+        cohspec_mix.setText("Mixed Sequential/IRF");
+        cohspec_mix.setToolTipText("<html>\n<b>TIMP function</b>: cohspec<br>\n<b>Argument</b>: type=\"mix\"<br>\n<b>Description</b>: if this options is used, then a sequential exponential decay model is applied <br>\n along with a model that follows the time profile of the IRF; the coherent artifact/scatter<br>\n is then a linear superposition of these two models. This starting value for the sequential model<br>\n are contained in an additional list element <i>start</i>.\n<b>Comments</b>: requires additional argument <i>start</i> to be set.\n</html>");
 
         jLabel2.setText("Start parameters (comma seperated list of numbers):");
 
@@ -159,18 +176,18 @@ public class CohspecPanel extends SectionInnerPanel {
                     .addComponent(jCBCohSpec0)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(cohspec_no)
-                            .addComponent(cohspec_irf))
+                            .addComponent(jRBCohspecNo)
+                            .addComponent(jRBCohspecIrf))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(cohspec_freeirfdisp)
+                            .addComponent(jRBCohspecFreeirfdisp)
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(1, 1, 1)
                                 .addComponent(cohspec_irfmulti)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(cohspec_mix)
-                            .addComponent(cohspec_seq)))
+                            .addComponent(jRBCohspecSeq)))
                     .addComponent(jLabel1)
                     .addComponent(jLabel2)
                     .addComponent(cohspec_start, javax.swing.GroupLayout.PREFERRED_SIZE, 293, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -184,13 +201,13 @@ public class CohspecPanel extends SectionInnerPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(cohspec_no)
+                        .addComponent(jRBCohspecNo)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(cohspec_irf))
+                        .addComponent(jRBCohspecIrf))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(cohspec_freeirfdisp)
-                            .addComponent(cohspec_seq))
+                            .addComponent(jRBCohspecFreeirfdisp)
+                            .addComponent(jRBCohspecSeq))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(cohspec_mix)
@@ -215,35 +232,48 @@ public class CohspecPanel extends SectionInnerPanel {
         updateEnabled(jCBCohSpec0.isSelected());
     }//GEN-LAST:event_jCBCohSpec0ActionPerformed
 
+    private void jRBCohspecNoStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jRBCohspecNoStateChanged
+        // TODO add your handling code here:
+        
+    }//GEN-LAST:event_jRBCohspecNoStateChanged
+
+    private void jRBCohspecNoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRBCohspecNoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jRBCohspecNoActionPerformed
+
+    private void jRBCohspecSeqActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRBCohspecSeqActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jRBCohspecSeqActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup cohspec_buttonGroup;
-    private javax.swing.JRadioButton cohspec_freeirfdisp;
-    private javax.swing.JRadioButton cohspec_irf;
     private javax.swing.JRadioButton cohspec_irfmulti;
     private javax.swing.JRadioButton cohspec_mix;
-    private javax.swing.JRadioButton cohspec_no;
-    private javax.swing.JRadioButton cohspec_seq;
     private javax.swing.JTextField cohspec_start;
     private javax.swing.JCheckBox jCBCohSpec0;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JRadioButton jRBCohspecFreeirfdisp;
+    private javax.swing.JRadioButton jRBCohspecIrf;
+    private javax.swing.JRadioButton jRBCohspecNo;
+    private javax.swing.JRadioButton jRBCohspecSeq;
     private javax.swing.JTextField jTFCohSpec0From;
     private javax.swing.JTextField jTFCohSpec0To;
     // End of variables declaration//GEN-END:variables
 
     @Override
     public void setValue(JComponent source, Object value) {
-        if (source==cohspec_no) {
+        if (source==jRBCohspecNo) {
             cohspecPanelModel.getCohspec().setSet(!(Boolean)value);
         }
-        if (source==cohspec_irf) {
+        if (source==jRBCohspecIrf) {
             cohspecPanelModel.getCohspec().setType("irf");
             cohspecPanelModel.getCohspec().setSet(true);
         }
-        if (source==cohspec_freeirfdisp) {
+        if (source==jRBCohspecFreeirfdisp) {
             cohspecPanelModel.getCohspec().setType("freeirfdisp");
             cohspecPanelModel.getCohspec().setSet(true);
         }
@@ -251,7 +281,7 @@ public class CohspecPanel extends SectionInnerPanel {
             cohspecPanelModel.getCohspec().setType("irfmulti");
             cohspecPanelModel.getCohspec().setSet(true);
         }
-        if (source==cohspec_seq) {
+        if (source==jRBCohspecSeq) {
             cohspecPanelModel.getCohspec().setType("seq");
             cohspecPanelModel.getCohspec().setSet(true);
         }

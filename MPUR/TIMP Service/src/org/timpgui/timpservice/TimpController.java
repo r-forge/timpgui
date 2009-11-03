@@ -8,6 +8,8 @@ import Jama.Matrix;
 import java.util.ArrayList;
 import java.util.List;
 import nl.vu.nat.tgmodels.tgm.Tgm;
+import org.openide.DialogDisplayer;
+import org.openide.NotifyDescriptor;
 import org.timpgui.timpinterface.TimpInterface;
 import org.rosuda.irconnect.IREXP;
 import org.rosuda.irconnect.IRList;
@@ -55,13 +57,16 @@ public class TimpController implements TimpInterface {
         for (int i = 0; i < models.length; i++) {
             Tgm tgm = models[i];
             listOfModels[i] = tgm.getDat().getModelName();
-            sendModel(tgm, i);
+            Boolean correctSend = sendModel(tgm, i);
+            if (correctSend==null || correctSend ==false) {
+                return null;
+            }
         }
+        //TODO: check for model type
         modelType = models[0].getDat().getModType();
         options = getOptions(modelType, iterations);
 
         result = fitModel(listOfDatasets, listOfModels, options);
-
         return result;
     }
 
@@ -142,14 +147,26 @@ public class TimpController implements TimpInterface {
                 "inten = intenceIm)");
     }
 
-    private void sendModel(Tgm tgm, int index) {
-        index++;
+    private Boolean sendModel(Tgm tgm, int index) {
+        String nameOfModel, modelCall;
         String modelString = InitModel.parseModel(tgm);
-        if (index < 2){
+        if (index++ < 2){
             getInitModelCalls().clear();
         }
-        addInitModelCall("model" + String.valueOf(index) + " <- " + modelString);
-        connection.eval("model" + String.valueOf(index) + " <- " + modelString);
+        nameOfModel = "model" + String.valueOf(index);
+        modelCall = nameOfModel + " <- " + modelString;
+        addInitModelCall(modelCall);
+        //TODO: remove this ugly try and catch, by checking if the model is valid before we send it to R
+        try {
+            connection.voidEval("try(" + modelCall + ")");
+        } catch (Exception e) {
+            NotifyDescriptor errorMessage = new NotifyDescriptor.Exception(
+                                new Exception("Error. There was an syntax error in model " + (index)
+                                + ". If you are running Windows you should probably restart Rserve now." ));
+                                DialogDisplayer.getDefault().notify(errorMessage);
+                                return null;
+        }
+        return getBool("exists(\""+nameOfModel+"\")");
     }
 
     private String getOptions(String modelType, int iterations) {

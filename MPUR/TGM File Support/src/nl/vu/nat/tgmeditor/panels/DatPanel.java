@@ -31,10 +31,11 @@ public class DatPanel extends SectionInnerPanel {
         } else if (dat.getModType().compareTo("mass")==0) {jComboBox1.setSelectedIndex(2);}
           else { jComboBox1.setSelectedIndex(0); dat.setModType("kin"); endUIChange();
         }
-        jTModelNameTextField.setText(dat.getModelName());
+        //jTModelNameTextField.setText(dat.getModelName());
+        jTModelNameTextField.setText(dObj.getPrimaryFile().getName());
         
         addModifier(jComboBox1);
-        addModifier(jTModelNameTextField);
+        //addModifier(jTModelNameTextField);
                 
     }
 
@@ -54,6 +55,7 @@ public class DatPanel extends SectionInnerPanel {
 
         jLabel3.setText(org.openide.util.NbBundle.getMessage(DatPanel.class, "DatPanel.jLabel3.text")); // NOI18N
 
+        jTModelNameTextField.setEditable(false);
         jTModelNameTextField.setText(org.openide.util.NbBundle.getMessage(DatPanel.class, "DatPanel.jTModelNameTextField.text")); // NOI18N
 
         jLabel4.setText(org.openide.util.NbBundle.getMessage(DatPanel.class, "DatPanel.jLabel4.text")); // NOI18N
@@ -95,9 +97,9 @@ public class DatPanel extends SectionInnerPanel {
         if (source == jComboBox1) {
             dat.setModType((String)value);
         }
-        if (source == jTModelNameTextField) {
-        dat.setModelName((String)value);
-        }
+//        if (source == jTModelNameTextField) {
+//        dat.setModelName((String)value);
+//        }
         //.SetcurrModel(dat.getModelName());
         endUIChange();
     }

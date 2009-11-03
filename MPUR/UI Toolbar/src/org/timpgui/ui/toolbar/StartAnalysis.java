@@ -104,6 +104,7 @@ public final class StartAnalysis implements ActionListener {
 //                    } finally {
 ////                        TopComponent.getRegistry().getActivated().setCursor(Cursor.getDefaultCursor());
 //                    }
+
                     if (results != null) {
                         boolean folderOK = false;
                         NotifyDescriptor.InputLine resultNameDialog = new NotifyDescriptor.InputLine(

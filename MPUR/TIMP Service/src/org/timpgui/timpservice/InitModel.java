@@ -539,6 +539,7 @@ public class InitModel {
 
     private static String get_clp0(Tgm tgm) {
         String clp0Call = null;
+        int indexOfComponent = 0;
         KMatrixPanelModel kMatrix = tgm.getDat().getKMatrixPanel();
         int size = kMatrix.getSpectralContraints().getMax().size();
         if (size > 0) {
@@ -566,10 +567,18 @@ public class InitModel {
                     } else {
                         clp0Call = "clp0 = list(";
                     }
-
+                    if (kMatrix.getJVector()!=null) {
+                        if (kMatrix.getJVector().getVector().size()>0) {
+                            indexOfComponent = kMatrix.getJVector().getVector().size() + 1;
+                        } else {
+                        indexOfComponent = (tgm.getDat().getKinparPanel().getKinpar().size() + 1);
+                        }
+                    } else {
+                        indexOfComponent = (tgm.getDat().getKinparPanel().getKinpar().size() + 1);
+                    }
                     clp0Call = clp0Call + "list(" + tgm.getDat().getCohspecPanel().getClp0Min() + "," +
-                            tgm.getDat().getCohspecPanel().getClp0Min() + "," +
-                            (tgm.getDat().getKinparPanel().getKinpar().size() + 1) + ")";
+                            tgm.getDat().getCohspecPanel().getClp0Max() + "," +
+                            indexOfComponent + ")";
                 }
             }
             if (clp0Call != null) {

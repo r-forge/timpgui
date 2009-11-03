@@ -56,13 +56,11 @@ public class KinparPanel extends SectionInnerPanel implements TableModelListener
         jscpane.setRowHeaderView(rowHeader);
         jscpane.setCorner(JScrollPane.UPPER_LEFT_CORNER, rowHeader.getTableHeader());
 
-        jCSeqmod.setSelected(kinparPanelModel.isSeqmod());
-        jCPositivepar.setSelected(kinparPanelModel.isPositivepar());
+        jCBSeqmod.setSelected(kinparPanelModel.isSeqmod());
+        jCBPositivepar.setSelected(kinparPanelModel.isPositivepar());
         
         // Add listerners
         jTKinParamTable.getModel().addTableModelListener(this);
-        addModifier(jCSeqmod);
-        addModifier(jCPositivepar);
     }
 
     @Override
@@ -88,10 +86,10 @@ public class KinparPanel extends SectionInnerPanel implements TableModelListener
                 kinparPanelModel.getKinpar().get(i).setMax((Double)model.getValueAt(i,4));
             }
         }
-        if (source == jCPositivepar) {
+        if (source == jCBPositivepar) {
             kinparPanelModel.setPositivepar((Boolean)value);
         }
-        if (source == jCSeqmod) {
+        if (source == jCBSeqmod) {
             kinparPanelModel.setSeqmod((Boolean)value);
         }
         endUIChange();
@@ -132,8 +130,8 @@ public class KinparPanel extends SectionInnerPanel implements TableModelListener
         jSNumOfComponents = new javax.swing.JSpinner();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTKinParamTable = new javax.swing.JTable();
-        jCPositivepar = new javax.swing.JCheckBox();
-        jCSeqmod = new javax.swing.JCheckBox();
+        jCBPositivepar = new javax.swing.JCheckBox();
+        jCBSeqmod = new javax.swing.JCheckBox();
 
         jLabel1.setText("Number of components");
 
@@ -145,9 +143,19 @@ public class KinparPanel extends SectionInnerPanel implements TableModelListener
 
         jScrollPane1.setViewportView(jTKinParamTable);
 
-        jCPositivepar.setText("Set Kinetic Parameters Positive");
+        jCBPositivepar.setText("Set Kinetic Parameters Positive");
+        jCBPositivepar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jCBPositiveparActionPerformed(evt);
+            }
+        });
 
-        jCSeqmod.setText("Sequential analysis");
+        jCBSeqmod.setText("Sequential analysis");
+        jCBSeqmod.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jCBSeqmodActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -157,9 +165,9 @@ public class KinparPanel extends SectionInnerPanel implements TableModelListener
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jCSeqmod)
+                        .addComponent(jCBSeqmod)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jCPositivepar))
+                        .addComponent(jCBPositivepar))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 632, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(13, 13, 13)
@@ -179,8 +187,8 @@ public class KinparPanel extends SectionInnerPanel implements TableModelListener
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 136, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jCSeqmod)
-                    .addComponent(jCPositivepar))
+                    .addComponent(jCBSeqmod)
+                    .addComponent(jCBPositivepar))
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
@@ -198,12 +206,19 @@ private void jSNumOfComponentsStateChanged(javax.swing.event.ChangeEvent evt) {/
             model.removeRow(model.getRowCount() - 1);
         }
     }
-    endUIChange();
 }//GEN-LAST:event_jSNumOfComponentsStateChanged
 
+private void jCBSeqmodActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCBSeqmodActionPerformed
+    setValue(jCBSeqmod, jCBSeqmod.isSelected());
+}//GEN-LAST:event_jCBSeqmodActionPerformed
+
+private void jCBPositiveparActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCBPositiveparActionPerformed
+    setValue(jCBPositivepar, jCBPositivepar.isSelected());
+}//GEN-LAST:event_jCBPositiveparActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JCheckBox jCPositivepar;
-    private javax.swing.JCheckBox jCSeqmod;
+    private javax.swing.JCheckBox jCBPositivepar;
+    private javax.swing.JCheckBox jCBSeqmod;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JSpinner jSNumOfComponents;
     private javax.swing.JScrollPane jScrollPane1;

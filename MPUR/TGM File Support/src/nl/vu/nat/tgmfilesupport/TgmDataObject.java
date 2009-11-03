@@ -27,6 +27,7 @@ import org.openide.filesystems.FileUtil;
 import org.openide.loaders.DataObjectExistsException;
 import org.openide.nodes.CookieSet;
 import org.openide.nodes.Node;
+import org.openide.text.DataEditorSupport;
 import org.openide.util.Lookup;
 
 public class TgmDataObject extends XmlMultiViewDataObject {
@@ -38,7 +39,7 @@ public class TgmDataObject extends XmlMultiViewDataObject {
     public TgmDataObject(FileObject pf, TgmDataLoader loader) throws DataObjectExistsException, IOException {
         super(pf, loader);
         CookieSet cookies = getCookieSet();
-        //cookies.add((Node.Cookie) DataEditorSupport.create(this, getPrimaryEntry(), cookies));
+        cookies.add((Node.Cookie) DataEditorSupport.create(this, getPrimaryEntry(), cookies));
 
         // Added code from vdblog
         modelSynchronizer = new ModelSynchronizer(this);
@@ -176,6 +177,7 @@ public class TgmDataObject extends XmlMultiViewDataObject {
 
     public void modelUpdatedFromUI() {
         modelSynchronizer.requestUpdateData();
+        setModified(true);
     }
 
     private class ModelSynchronizer extends XmlMultiViewDataSynchronizer {
@@ -184,10 +186,12 @@ public class TgmDataObject extends XmlMultiViewDataObject {
             super(dataObject, 250);
         }
 
+        @Override
         protected boolean mayUpdateData(boolean allowDialog) {
             return true;
         }
 
+        @Override
         protected void updateDataFromModel(Object model, org.openide.filesystems.FileLock lock, boolean modify) {
             if (model == null) {
                 return;
@@ -214,10 +218,12 @@ public class TgmDataObject extends XmlMultiViewDataObject {
             }
         }
 
+        @Override
         protected Object getModel() {
             return getTgm();
         }
 
+        @Override
         protected void reloadModelFromData() {
             try {
                 parseDocument();

@@ -899,7 +899,7 @@ public final class SpecResultsTopComponent extends TopComponent implements Chart
         selTracePanel.setMaxNumbers(res.getX().length, res.getX2().length);
         NotifyDescriptor selTracesDialog = new NotifyDescriptor(
                 selTracePanel,
-                "Select traces for repot plot",
+                "Select traces for report plot",
                 NotifyDescriptor.OK_CANCEL_OPTION,
                 NotifyDescriptor.PLAIN_MESSAGE,
                 null,

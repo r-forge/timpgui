@@ -114,12 +114,12 @@ public class TgmDataNode extends DataNode implements Transferable{
 
 //update irfpar if necessary, new model will have same number of irfpar as result object;
                                 if (updParamPanel.isIrfParSelected()){
-                                    if (obj.tgm.getDat().getIrfparPanel().getIrf().size() == results.getIrfpar().length){
-                                        for (int i = 0; i < results.getIrfpar().length; i++)
+                                    if (obj.tgm.getDat().getIrfparPanel().getIrf().size() == results.getIrfpar().length/2){
+                                        for (int i = 0; i < results.getIrfpar().length/2; i++)
                                             obj.tgm.getDat().getIrfparPanel().getIrf().set(i, results.getIrfpar()[i]);
                                     } else {
                                         obj.tgm.getDat().getIrfparPanel().getIrf().clear();
-                                        for (int i = 0; i < results.getIrfpar().length; i++){
+                                        for (int i = 0; i < results.getIrfpar().length/2; i++){
                                             obj.tgm.getDat().getIrfparPanel().getIrf().add(results.getIrfpar()[i]);
                                             obj.tgm.getDat().getIrfparPanel().getFixed().add(false);
                                         }
@@ -129,7 +129,7 @@ public class TgmDataNode extends DataNode implements Transferable{
 //update parmu if necessary, new model will have same parmu as result object;
                                 if (updParamPanel.isParMuSelected()){
                                     String parmuStr = "";
-                                    for (int i = 0; i < results.getParmu().length; i++){
+                                    for (int i = 0; i < results.getParmu().length/2; i++){
                                         if (i>0)
                                             parmuStr = parmuStr + ",";
                                         parmuStr = parmuStr+String.valueOf(results.getParmu()[i]);

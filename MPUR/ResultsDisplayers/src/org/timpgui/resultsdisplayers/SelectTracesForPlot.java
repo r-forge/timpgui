@@ -61,9 +61,6 @@ public class SelectTracesForPlot extends java.awt.Panel {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 jTXnumKeyReleased(evt);
             }
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                jTXnumKeyTyped(evt);
-            }
         });
 
         jCbTraceColY.setText(org.openide.util.NbBundle.getMessage(SelectTracesForPlot.class, "SelectTracesForPlot.jCbTraceColY.text")); // NOI18N
@@ -105,7 +102,6 @@ public class SelectTracesForPlot extends java.awt.Panel {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jCbTraceColX)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -117,7 +113,7 @@ public class SelectTracesForPlot extends java.awt.Panel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(jTYnum, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(39, 39, 39))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -131,12 +127,7 @@ public class SelectTracesForPlot extends java.awt.Panel {
         jLabel1.setEnabled(jCbTraceColY.isSelected());
 }//GEN-LAST:event_jCbTraceColYActionPerformed
 
-    private void jTXnumKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTXnumKeyTyped
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTXnumKeyTyped
-
     private void jTXnumKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTXnumKeyReleased
-        // TODO add your handling code here:
         if (Integer.parseInt(jTXnum.getText())>numXCh){
             NotifyDescriptor errorMessage =new NotifyDescriptor.Exception(
                     new Exception("Please specify correct number of channels" +
@@ -147,7 +138,6 @@ public class SelectTracesForPlot extends java.awt.Panel {
     }//GEN-LAST:event_jTXnumKeyReleased
 
     private void jTYnumKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTYnumKeyReleased
-        // TODO add your handling code here:
         if (Integer.parseInt(jTYnum.getText())>numYCh){
             NotifyDescriptor errorMessage =new NotifyDescriptor.Exception(
                     new Exception("Please specify correct number of channels" +

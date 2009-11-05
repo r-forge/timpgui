@@ -271,11 +271,13 @@ public final class StartAnalysis implements ActionListener {
     private void validateModel(Tgm tgm) {
         String feedback = null;
         run = true;
-        if (tgm.getDat().getIrfparPanel().getParmu() != null || tgm.getDat().getIrfparPanel().getPartau() != null) {
-            Double test = tgm.getDat().getIrfparPanel().getLamda();
-            if (test == null || test.isNaN()) {
-                run = false;
-                feedback = "Parmu or Partau specified but no center wavelength was specified.";
+        if (!tgm.getDat().getIrfparPanel().isMirf()) {
+            if (tgm.getDat().getIrfparPanel().getParmu() != null || tgm.getDat().getIrfparPanel().getPartau() != null) {
+                Double test = tgm.getDat().getIrfparPanel().getLamda();
+                if (test == null || test.isNaN()) {
+                    run = false;
+                    feedback = "Parmu or Partau specified but no center wavelength was specified.";
+                }
             }
         }
         if (feedback != null) {

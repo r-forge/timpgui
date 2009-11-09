@@ -31,7 +31,7 @@
         description="TIMPGUI Readme">
     </shortcut>
 
-    <!-- shortcut
+    <shortcut
         name="Uninstaller"
         programGroup="yes"
         desktop="no"
@@ -41,6 +41,6 @@
         target="$INSTALL_PATH\Uninstaller\uninstaller.jar"
         commandLine=""
         description="TIMPGUI uninstaller">
-    </shortcut -->
+    </shortcut>
 
 </shortcuts>

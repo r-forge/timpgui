@@ -64,7 +64,6 @@ public class CohspecPanel extends SectionInnerPanel {
         addModifier(jCBCohSpec0);
         addModifier(jTFCohSpec0From);
         addModifier(jTFCohSpec0To);  
-        //endUIChange();
     }
     
     

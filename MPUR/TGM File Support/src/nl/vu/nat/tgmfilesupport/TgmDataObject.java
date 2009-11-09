@@ -38,9 +38,6 @@ public class TgmDataObject extends XmlMultiViewDataObject {
 
     public TgmDataObject(FileObject pf, TgmDataLoader loader) throws DataObjectExistsException, IOException {
         super(pf, loader);
-        CookieSet cookies = getCookieSet();
-        cookies.add((Node.Cookie) DataEditorSupport.create(this, getPrimaryEntry(), cookies));
-
         // Added code from vdblog
         modelSynchronizer = new ModelSynchronizer(this);
         org.xml.sax.InputSource in = DataObjectAdapters.inputSource(this);
@@ -92,6 +89,7 @@ public class TgmDataObject extends XmlMultiViewDataObject {
             final Object key = target;
             org.netbeans.modules.xml.multiview.Utils.runInAwtDispatchThread(new Runnable() {
 
+                @Override
                 public void run() {
                     getActiveMultiViewElement0().getSectionView().openPanel(key);
                 }
@@ -114,16 +112,18 @@ public class TgmDataObject extends XmlMultiViewDataObject {
             tgm = getTgm();
         } else {
             java.io.InputStream is = getEditorSupport().getInputStream();
-
+            Tgm newTgm = null;
             try {
                 JAXBContext jaxbCtx = JAXBContext.newInstance(tgm.getClass().getPackage().getName());
                 Unmarshaller unmarshaller = jaxbCtx.createUnmarshaller();
-                tgm = (Tgm) unmarshaller.unmarshal(is); //NOI18N
+                newTgm = (Tgm) unmarshaller.unmarshal(is); //NOI18N
             } catch (javax.xml.bind.JAXBException ex) {
                 // XXXTODO Handle exception
                 java.util.logging.Logger.getLogger("global").log(java.util.logging.Level.SEVERE, null, ex); //NOI18N
             }
-
+            if (newTgm != null) {
+                tgm = newTgm;
+            }
         }
     }
 
@@ -206,6 +206,7 @@ public class TgmDataObject extends XmlMultiViewDataObject {
                 marshaller.marshal(model, out);
                 out.close();
                 getDataCache().setData(lock, out.toString(), modify);
+
                 // If we wanted to write it away to a file instead we'd use:
                 //marshaller.marshal(model, FileUtil.toFile(TgmDataObject.this.getPrimaryFile()));
                 // But this would generate a read/write every time we changed something.

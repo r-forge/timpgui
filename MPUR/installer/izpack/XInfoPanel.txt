@@ -1,2 +1,8 @@
-Here some installation instructions
-could be added.
+Post installation notes:
+
+This is a beta version and, as a result contains some bugs. The most noteworthy are:
+
+- The first time you start the program you get a notification about some modules missing. Simply press "Disable modules and continue".
+- When you start the program, you will see a welcome page of the Netbeans platform, on top which this program has been built. Simple untick the checkbox "Show on startup".
+
+If you find any bugs, or miss any features you would like to have implemented, simply contact one of the authors.

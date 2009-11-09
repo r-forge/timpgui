@@ -131,8 +131,13 @@ public class IrfparPanel extends SectionInnerPanel {
         }        
 
 //=====================measuredIRF
-
+        if(irfparPanelModel.isMirf()!=null) {
         jCBMeasuredIRF.setSelected(irfparPanelModel.isMirf());
+        } else {
+            jCBMeasuredIRF.setSelected(false);
+            irfparPanelModel.setMirf(Boolean.FALSE);
+        }
+        if(irfparPanelModel.getConvalg()!=null) {
         switch (irfparPanelModel.getConvalg()) {
             case 1:
                 jRBScatterConv.setSelected(true);
@@ -149,10 +154,14 @@ public class IrfparPanel extends SectionInnerPanel {
                 break;
             }
         } //end switch
+        } else if(irfparPanelModel.isMirf()){
+            irfparPanelModel.setConvalg(2);
+        }
         jTRefLifetime.setText(String.valueOf(irfparPanelModel.getReftau()));
         updateEnabled(irfparPanelModel.isMirf());
         jTFIrfShiftParameter.setText(irfparPanelModel.getParmu());
         if (irfparPanelModel.getMeasuredIrf() != null) {
+            if (!irfparPanelModel.getMeasuredIrf().isEmpty()) {
             String[] doubles = irfparPanelModel.getMeasuredIrf().split(",");
             XYSeries refSeria = new XYSeries("Reference");
             refArray = new double[doubles.length];
@@ -163,6 +172,7 @@ public class IrfparPanel extends SectionInnerPanel {
             }
             refSerColl.addSeries(refSeria);
             MakeChart(refSerColl);
+        }
         }
 
 
@@ -309,7 +319,7 @@ public class IrfparPanel extends SectionInnerPanel {
 
         jLabel5.setText("parameters for dispersion of IRF location");
 
-        jLabel8.setText("(comma separeted numbers)");
+        jLabel8.setText("(comma separated numbers)");
 
         jCBParmuFixed.setText("Fix");
         jCBParmuFixed.addActionListener(new java.awt.event.ActionListener() {
@@ -377,7 +387,7 @@ public class IrfparPanel extends SectionInnerPanel {
 
         jLabel7.setText("parameters for dispersion of IRF width");
 
-        jLabel9.setText("(comma separeted numbers)");
+        jLabel9.setText("(comma separated numbers)");
 
         jCBPartauFixed.setText("Fix");
 
@@ -834,6 +844,7 @@ private void jCBStreakActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIR
 
 private void jCBMeasuredIRFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCBMeasuredIRFActionPerformed
     updateEnabled(jCBMeasuredIRF.isSelected());
+
 }//GEN-LAST:event_jCBMeasuredIRFActionPerformed
 
 private void BloadrefActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BloadrefActionPerformed
@@ -1101,7 +1112,12 @@ private void jCBParmuFixedActionPerformed(java.awt.event.ActionEvent evt) {//GEN
         }
 
         if (source == jTFLaserPeriod) {
-            irfparPanelModel.setBacksweepPeriod(Double.valueOf(jTFLaserPeriod.getText()));
+           String newValue = (String) value;
+            if (!newValue.isEmpty()) {
+                irfparPanelModel.setBacksweepPeriod(Double.valueOf((String) value));
+            } else {
+                irfparPanelModel.setBacksweepPeriod(null);
+            }       
         }
 
         if (source == jCBMeasuredIRF) {
@@ -1118,7 +1134,12 @@ private void jCBParmuFixedActionPerformed(java.awt.event.ActionEvent evt) {//GEN
             }
         }
         if (source == jTRefLifetime) {
-            irfparPanelModel.setReftau(Double.valueOf((String) value));
+            String newValue = (String) value;
+            if (!newValue.isEmpty()) {
+                irfparPanelModel.setReftau(Double.valueOf((String) value));
+            } else {
+                irfparPanelModel.setReftau(null);
+            }           
         }
         if (source == jPanel9) { //measured IRF Changed
             StringBuilder result = new StringBuilder(String.valueOf(refArray[0]));
@@ -1130,7 +1151,6 @@ private void jCBParmuFixedActionPerformed(java.awt.event.ActionEvent evt) {//GEN
         if (source == jTFIrfShiftParameter) {
             irfparPanelModel.setParmu((String) value);
         }
-        endUIChange();
     }
 
     @Override

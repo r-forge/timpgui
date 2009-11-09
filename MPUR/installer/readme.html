@@ -13,11 +13,19 @@ wether it be on Windows or Linux you need to have the Java (tm) Runtime Platform
 The latest version of the Java Run Time can be downloaded from the website of Sun Microsystems:<br>
 <a href="http://java.sun.com/">http://java.sun.com/</a>
 <h4>R-Project</h4>
-This program also requires a working installation of R on your machine, with the R-Package TIMP installed.
-If you don't have R and the package TIMP installed already, please do so before you proceed with the installation.
+This program also requires a working installation of R on your machine, with the R-Packages TIMP and Rserve installed.
+If you don't have R and the packages TIMP and Rserve installed already, please do so before you proceed with the installation.
 <h3>Installation</h3>
 Either double lick the file and "Run using Java"
 or type: java - jar setup.jar
- 
+
+<h3>Run TIMPGUI</h3>
+Before you run the TIMPGUI program it is important that you do the following:
+<ul>Start R; either from the command line or start the RGui</ul>
+<ul>Execute the following commands:</ul> 
+<ol>library(Rserve)</ol>
+<ol>Rserve() (for Windows and Linux/Unix)</ol>
+<ol>Rserve(args="--no-save") (for Mac OS X)</ol>
+<ul>Start TIMPGUI from your application menu. Alternatively you can start TIMPGUI using the timpgui executable in the bin folder of the installation directory.</ul>
 </body>
 </html>

@@ -2,7 +2,7 @@
 
 <!--
     Document   : TgmSchema.xml
-    Created on : October 29, 2009, 4:42 PM
+    Created on : November 5, 2009, 12:13 PM
     Author     : jsg210
     Description:
         Purpose of the document follows.
@@ -23,11 +23,15 @@
             <ns0:disptaufun></ns0:disptaufun>
             <ns0:parmu></ns0:parmu>
             <ns0:partau></ns0:partau>
-            <ns0:dispmu>false</ns0:dispmu>
-            <ns0:disptau>false</ns0:disptau>
-            <ns0:lamda>NaN</ns0:lamda>
+            <ns0:parmufixed>false</ns0:parmufixed>
+            <ns0:partaufixed>false</ns0:partaufixed>
+            <ns0:lamda></ns0:lamda>
             <ns0:backsweepEnabled>false</ns0:backsweepEnabled>
             <ns0:backsweepPeriod></ns0:backsweepPeriod>
+            <ns0:measuredIrf></ns0:measuredIrf>
+            <ns0:mirf>false</ns0:mirf>
+            <ns0:convalg>2</ns0:convalg>
+            <ns0:reftau></ns0:reftau>
         </ns0:irfparPanel>
         <ns0:cohspecPanel>
             <ns0:cohspec>
@@ -39,11 +43,6 @@
             <ns0:clp0Min></ns0:clp0Min>
             <ns0:clp0Max></ns0:clp0Max>
         </ns0:cohspecPanel>
-        <ns0:flimPanel>
-            <ns0:mirf>false</ns0:mirf>
-            <ns0:convalg>2</ns0:convalg>
-            <ns0:reftau>NaN</ns0:reftau>
-        </ns0:flimPanel>
         <ns0:kMatrixPanel>
             <ns0:kMatrix>
             </ns0:kMatrix>

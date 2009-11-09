@@ -281,7 +281,7 @@
                     </Component>
                     <Component class="javax.swing.JLabel" name="jLabel8">
                       <Properties>
-                        <Property name="text" type="java.lang.String" value="(comma separeted numbers)"/>
+                        <Property name="text" type="java.lang.String" value="(comma separated numbers)"/>
                       </Properties>
                     </Component>
                     <Component class="javax.swing.JCheckBox" name="jCBParmuFixed">
@@ -395,7 +395,7 @@
                     </Component>
                     <Component class="javax.swing.JLabel" name="jLabel9">
                       <Properties>
-                        <Property name="text" type="java.lang.String" value="(comma separeted numbers)"/>
+                        <Property name="text" type="java.lang.String" value="(comma separated numbers)"/>
                       </Properties>
                     </Component>
                     <Component class="javax.swing.JCheckBox" name="jCBPartauFixed">

@@ -92,7 +92,7 @@
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Component id="jTabbedPane1" alignment="0" pref="821" max="32767" attributes="0"/>
+          <Component id="jTabbedPane1" alignment="0" pref="800" max="32767" attributes="0"/>
       </Group>
     </DimensionLayout>
     <DimensionLayout dim="1">
@@ -124,8 +124,8 @@
           <Layout>
             <DimensionLayout dim="0">
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="jToolBar1" alignment="0" pref="816" max="32767" attributes="0"/>
-                  <Component id="jScrollPane4" alignment="0" pref="816" max="32767" attributes="0"/>
+                  <Component id="jToolBar1" alignment="0" pref="795" max="32767" attributes="0"/>
+                  <Component id="jScrollPane4" alignment="0" pref="795" max="32767" attributes="0"/>
               </Group>
             </DimensionLayout>
             <DimensionLayout dim="1">
@@ -529,6 +529,10 @@
           </SubComponents>
         </Container>
         <Container class="javax.swing.JPanel" name="jPanel2">
+          <Events>
+            <EventHandler event="componentShown" listener="java.awt.event.ComponentListener" parameters="java.awt.event.ComponentEvent" handler="jPanel2ComponentShown"/>
+            <EventHandler event="focusGained" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="jPanel2FocusGained"/>
+          </Events>
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
               <JTabbedPaneConstraints tabName="SVD">
@@ -542,8 +546,8 @@
           <Layout>
             <DimensionLayout dim="0">
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="jToolBar2" alignment="0" pref="816" max="32767" attributes="1"/>
-                  <Component id="jScrollPane1" alignment="0" pref="816" max="32767" attributes="0"/>
+                  <Component id="jToolBar2" alignment="0" pref="795" max="32767" attributes="1"/>
+                  <Component id="jScrollPane1" alignment="0" pref="795" max="32767" attributes="0"/>
               </Group>
             </DimensionLayout>
             <DimensionLayout dim="1">

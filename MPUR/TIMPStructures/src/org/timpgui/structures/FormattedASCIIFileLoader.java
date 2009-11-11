@@ -11,13 +11,12 @@ import java.io.IOException;
 import java.util.Scanner;
 import java.util.Vector;
 import java.util.regex.Pattern;
-import org.timpgui.structures.DatasetTimp;
 
 /**
  *
  * @author lsp
  */
-public class FormatedASCIIFileLoader {
+public class FormattedASCIIFileLoader {
 
     public static DatasetTimp loadASCIIFile(File file) throws FileNotFoundException, IOException, IllegalAccessException, InstantiationException {
         DatasetTimp dataset = new DatasetTimp();

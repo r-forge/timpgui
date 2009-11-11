@@ -133,8 +133,8 @@ public class TimpController implements TimpInterface {
         connection.assign("psisim", dd.getPsisim());
         connection.assign("x", dd.getX());
         connection.assign("x2", dd.getX2());
-        connection.assign("nl", dd.getNl());
-        connection.assign("nt", dd.getNt());
+        connection.assign("nl", new int[] {dd.getNl()});
+        connection.assign("nt", new int[] {dd.getNt()});
         connection.assign("intenceIm", dd.getIntenceIm());
 
         connection.eval("psisim <- as.matrix(psisim)");
@@ -459,20 +459,6 @@ public class TimpController implements TimpInterface {
 
     public boolean existsInR(String varname) {
         return connection.eval("exists(\"" + varname + "\")").asBool().isTRUE();
-    }
-
-    public void getDatasetTimp(String ddname) {
-
-        double[] jx = getDoubleArray("slot(" + ddname + ",'x' )");
-        double[] jx2 = getDoubleArray("slot(" + ddname + ",'x2' )");
-        int[] jnt = getIntArray("slot(" + ddname + ",'nt' )");
-        int[] jnl = getIntArray("slot(" + ddname + ",'nl' )");
-        double[] jpsisim = getDoubleArray("slot(" + ddname + ",'psisim' )");
-        double[] jintenceim = getDoubleArray("slot(" + ddname + ",'intenceim' )");
-        String jdatasetname = getString("slot(" + ddname + ",'datasetname' )");
-
-        DatasetTimp dd = new DatasetTimp(jx, jx2, jnt, jnl, jpsisim, jintenceim, jdatasetname);
-
     }
 
     public void sendMeasuredIRF(String name, float[] refArray) {

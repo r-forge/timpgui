@@ -1,18 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE filesystem PUBLIC "-//NetBeans//DTD Filesystem 1.1//EN" "http://www.netbeans.org/dtds/filesystem-1_1.dtd">
 <filesystem>
-    <folder name="Actions">
-        <folder name="Window">
-            <file name="nl-wur-flimdataloader-components-StreakLoaderAction.instance"/>
-            </folder>
-    </folder>
-    <folder name="Menu">
-        <folder name="Window">
-            <file name="StreakLoaderAction.shadow">
-                <attr name="originalFile" stringvalue="Actions/Window/nl-wur-flimdataloader-components-StreakLoaderAction.instance"/>
-            </file>
-            </folder>
-    </folder>
     <folder name="Windows2">
         <folder name="Components">
             <file name="MeasuredIrfTopComponent.settings" url="MeasuredIrfTopComponentSettings.xml"/>

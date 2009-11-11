@@ -195,10 +195,10 @@ final public class SdtTopComponent extends CloneableTopComponent implements Char
         }
         
         MakeXYZDataset();
-        for (int i = 0; i < tempData.getNl()[0]; i++){
+        for (int i = 0; i < tempData.getNl(); i++){
             dataset.SetValue((int)tempData.getX2()[i], -1);
         }
-        numSelPix = tempData.getNl()[0];
+        numSelPix = tempData.getNl();
         jLNumSelPix.setText(Integer.toString(numSelPix));
         MakeIntImageChart(dataset);
         MakeTracesChart(PlotFirstTrace((int)tempData.getX2()[0]), false);
@@ -758,12 +758,13 @@ private void jBMakeDatasetActionPerformed(java.awt.event.ActionEvent evt) {//GEN
     Object res = DialogDisplayer.getDefault().notify(datasetNameDialog);
 
     if (res.equals(NotifyDescriptor.OK_OPTION)){
-        DatasetTimp timpDat = new DatasetTimp(flimImage.getCannelN(),numSelPix,flimImage.getCurveNum(),datasetNameDialog.getInputText());
+        DatasetTimp timpDat = new DatasetTimp();
         timpDat.setType("flim");
+        timpDat.setDatasetName(datasetNameDialog.getInputText());
 
+        timpDat.setIntenceIm(intToDoubleArray(flimImage.getIntMap()));
         int k=0;
         for (int i=0; i<flimImage.getCurveNum(); i++){
-            timpDat.getIntenceIm()[i] = flimImage.getIntMap()[i];
             if (dataset.getZValue(1,i)==-1){
                 for (int j = 0; j<flimImage.getCannelN(); j++){
                     timpDat.getPsisim()[k*flimImage.getCannelN()+j]=flimImage.getData()[i*flimImage.getCannelN()+j];
@@ -772,8 +773,9 @@ private void jBMakeDatasetActionPerformed(java.awt.event.ActionEvent evt) {//GEN
                 k++;
             }
         }
-        for (int i = 0; i<flimImage.getCannelN(); i++)
-            timpDat.getX()[i] = i*flimImage.getCannelW();
+        for (int i = 0; i<flimImage.getCannelN(); i++) {
+                timpDat.getX()[i] = i * flimImage.getCannelW();
+            }
 
         timpDat.setMaxInt(flimImage.getMaxIntens());
         timpDat.setMinInt(flimImage.getMinIntens());
@@ -1279,7 +1281,14 @@ private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
 //        legend.setBackgroundPaint(chart.getBackgroundPaint());
 //        chart.addSubtitle(legend);
     }
-    
+
+    public static double[] intToDoubleArray(int[] numbers) {
+        double[] newNumbers = new double[numbers.length];
+        for (int index = 0; index < numbers.length; index++) {
+            newNumbers[index] = (double) numbers[index];
+        }
+        return newNumbers;
+    }
     
     
 }

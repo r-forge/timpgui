@@ -10,6 +10,8 @@ import Jama.SingularValueDecomposition;
 import java.awt.BasicStroke;
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Cursor;
+import java.awt.Cursor;
 import java.awt.Font;
 import java.awt.geom.Ellipse2D;
 import java.awt.image.BufferedImage;
@@ -61,7 +63,7 @@ import org.openide.windows.CloneableTopComponent;
 import org.openide.windows.TopComponent;
 import org.openide.windows.WindowManager;
 import org.timpgui.structures.DatasetTimp;
-import org.timpgui.structures.FormatedASCIIFileLoader;
+import org.timpgui.structures.FormattedASCIIFileLoader;
 import org.timpgui.tgproject.datasets.TgdDataObject;
 import org.timpgui.tgproject.datasets.TimpDatasetDataObject;
 import org.timpgui.tgproject.nodes.TgdDataChildren;
@@ -119,7 +121,7 @@ final public class SpecEditorTopCompNew extends CloneableTopComponent
 //        setIcon(Utilities.loadImage(ICON_PATH, true));
         data = new DatasetTimp();
         try {
-            data = FormatedASCIIFileLoader.loadASCIIFile(new File(filename));//.loadASCIIFile(new File(filename));
+            data = FormattedASCIIFileLoader.loadASCIIFile(new File(filename));//.loadASCIIFile(new File(filename));
             MakeImageChart(MakeXYZDataset());
             updateFileInfo();
         } catch (FileNotFoundException ex) {
@@ -473,8 +475,8 @@ final public class SpecEditorTopCompNew extends CloneableTopComponent
         jPanel11.setLayout(jPanel11Layout);
         jPanel11Layout.setHorizontalGroup(
             jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jToolBar1, javax.swing.GroupLayout.DEFAULT_SIZE, 816, Short.MAX_VALUE)
-            .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 816, Short.MAX_VALUE)
+            .addComponent(jToolBar1, javax.swing.GroupLayout.DEFAULT_SIZE, 795, Short.MAX_VALUE)
+            .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 795, Short.MAX_VALUE)
         );
         jPanel11Layout.setVerticalGroup(
             jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -485,6 +487,17 @@ final public class SpecEditorTopCompNew extends CloneableTopComponent
         );
 
         jTabbedPane1.addTab(org.openide.util.NbBundle.getMessage(SpecEditorTopCompNew.class, "SpecEditorTopCompNew.jPanel11.TabConstraints.tabTitle"), jPanel11); // NOI18N
+
+        jPanel2.addComponentListener(new java.awt.event.ComponentAdapter() {
+            public void componentShown(java.awt.event.ComponentEvent evt) {
+                jPanel2ComponentShown(evt);
+            }
+        });
+        jPanel2.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                jPanel2FocusGained(evt);
+            }
+        });
 
         jToolBar2.setRollover(true);
 
@@ -595,8 +608,8 @@ final public class SpecEditorTopCompNew extends CloneableTopComponent
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jToolBar2, javax.swing.GroupLayout.DEFAULT_SIZE, 816, Short.MAX_VALUE)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 816, Short.MAX_VALUE)
+            .addComponent(jToolBar2, javax.swing.GroupLayout.DEFAULT_SIZE, 795, Short.MAX_VALUE)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 795, Short.MAX_VALUE)
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -612,7 +625,7 @@ final public class SpecEditorTopCompNew extends CloneableTopComponent
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 821, Short.MAX_VALUE)
+            .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 800, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -666,113 +679,7 @@ final public class SpecEditorTopCompNew extends CloneableTopComponent
 }//GEN-LAST:event_jSColumStateChanged
 
     private void jBdoSVDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBdoSVDActionPerformed
-
-        Matrix pSIsim = new Matrix(data.getPsisim(), data.getNt()[0]);
-        svdResult =  pSIsim.svd();
-        jTFtotalNumSV.setText(String.valueOf(svdResult.getSingularValues().length));
-        jSnumSV.setModel(new SpinnerNumberModel(1.0,0.0,svdResult.getSingularValues().length,1.0));
-        int n = 1;
-        //creare collection with first 2 LSV
-        XYSeriesCollection lSVCollection = new XYSeriesCollection();
-        XYSeries seria;
-        seria = new XYSeries("LSV1");
-        for (int i = 0; i < data.getX().length; i++) {
-            seria.add(data.getX()[i], svdResult.getU().get(i, 0));
-        }
-        lSVCollection.addSeries(seria);
-
-        //creare chart for 2 LSV
-        leftSVChart = ChartFactory.createXYLineChart(
-                "Left singular vectors",
-                "Time (ns)",
-                null,
-                lSVCollection,
-                PlotOrientation.VERTICAL,
-                false,
-                false,
-                false);
-        leftSVChart.getTitle().setFont(new Font(leftSVChart.getTitle().getFont().getFontName(), Font.PLAIN, 12));
-        leftSVChart.setBackgroundPaint(JFreeChart.DEFAULT_BACKGROUND_PAINT);
-        leftSVChart.getXYPlot().getDomainAxis().setUpperBound(data.getX()[data.getX().length - 1]);
-        leftSVChart.getXYPlot().getDomainAxis().setAutoRange(false);
-        GraphPanel chpan = new GraphPanel(leftSVChart);
-        //add chart with 2 LSV to JPannel
-        jPLeftSingVectors.removeAll();
-        jPLeftSingVectors.add(chpan);
-
-        //creare collection with first 2 RSV
-        XYSeriesCollection rSVCollection = new XYSeriesCollection();
-        for (int j = 0; j < n; j++) {
-            seria = new XYSeries("RSV" + (j + 1));
-            for (int i = 0; i < data.getX2().length; i++) {
-                seria.add(data.getX2()[i], svdResult.getV().get(i, j));
-            }
-            rSVCollection.addSeries(seria);
-        }
-
-        //creare chart for 2 RSV
-        rightSVChart = ChartFactory.createXYLineChart(
-                "Right singular vectors",
-                "Wavelength (nm)",
-                null,
-                rSVCollection,
-                PlotOrientation.VERTICAL,
-                false,
-                false,
-                false);
-        rightSVChart.getTitle().setFont(new Font(rightSVChart.getTitle().getFont().getFontName(), Font.PLAIN, 12));
-        rightSVChart.setBackgroundPaint(JFreeChart.DEFAULT_BACKGROUND_PAINT);
-        rightSVChart.getXYPlot().getDomainAxis().setUpperBound(data.getX2()[data.getX2().length - 1]);
-        rightSVChart.getXYPlot().getDomainAxis().setAutoRange(false);
-        chpan = new GraphPanel(rightSVChart);
-        //add chart with 2 RSV to JPannel
-        jPRightSingVectors.removeAll();
-        jPRightSingVectors.add(chpan);
-
-        //creare collection with singular values
-        XYSeriesCollection sVCollection = new XYSeriesCollection();
-        seria = new XYSeries("SV");
-        for (int i = 0; i < svdResult.getSingularValues().length; i++) {
-            seria.add(i+1, svdResult.getSingularValues()[i]);
-        }
-        sVCollection.addSeries(seria);
-
-
-        //creare chart for 2 RSV
-        JFreeChart tracechart = ChartFactory.createXYLineChart(
-                "Screeplot",
-                "Number of factors (#)",
-                null,
-                sVCollection,
-                PlotOrientation.VERTICAL,
-                false,
-                false,
-                false);
-        LogAxis logAxe = new LogAxis("Log(SV)");
-//        logAxe.setAutoRange(true);
-        int index = svdResult.getSingularValues().length-1;
-        while (svdResult.getSingularValues()[index]<=0){
-            index--;
-        }
-        logAxe.setRange(svdResult.getSingularValues()[index], svdResult.getSingularValues()[0]);
-        //  logAxe.setLowerBound(svdResult.getSingularValues()[svdResult.getSingularValues().length-2]);
-        tracechart.getXYPlot().setRangeAxis(logAxe);
-        XYLineAndShapeRenderer renderer = (XYLineAndShapeRenderer) tracechart.getXYPlot().getRenderer();
-        renderer.setBaseShapesVisible(true);
-        renderer.setDrawOutlines(true);
-        renderer.setUseFillPaint(true);
-        renderer.setBaseFillPaint(Color.white);
-        renderer.setSeriesStroke(0, new BasicStroke(1.0f));
-        renderer.setSeriesOutlineStroke(0, new BasicStroke(1.0f));
-        renderer.setSeriesShape(0, new Ellipse2D.Double(-4.0, -4.0, 8.0, 8.0));
-
-        tracechart.getTitle().setFont(new Font(tracechart.getTitle().getFont().getFontName(), Font.PLAIN, 12));
-        tracechart.setBackgroundPaint(JFreeChart.DEFAULT_BACKGROUND_PAINT);
-
-        chpan = new GraphPanel(tracechart);
-        //add chart with 2 RSV to JPannel
-        jPSingValues.removeAll();
-        jPSingValues.add(chpan);
+        calculateSVD();
     }//GEN-LAST:event_jBdoSVDActionPerformed
 
     private void jBMakeDatasetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBMakeDatasetActionPerformed
@@ -815,7 +722,7 @@ final public class SpecEditorTopCompNew extends CloneableTopComponent
 
             for (int i = 0; i < newWidth; i++){
                 for (int j = 0; j < newHeight; j++){
-                    newvec[(i)*newHeight+j] = data.getPsisim()[(startX+i)*data.getNt()[0]+startY+j];
+                    newvec[(i)*newHeight+j] = data.getPsisim()[(startX+i)*data.getNt()+startY+j];
                 }
             }
             newdataset.setPsisim(newvec);
@@ -860,7 +767,7 @@ final public class SpecEditorTopCompNew extends CloneableTopComponent
 
 
         ResampleSpecDataset resamplePanel = new ResampleSpecDataset();
-        resamplePanel.setInitialNumbers(data.getNl()[0], data.getNt()[0]);
+        resamplePanel.setInitialNumbers(data.getNl(), data.getNt());
         NotifyDescriptor resampleDatasetDialod = new NotifyDescriptor(
                 resamplePanel,
                 "Resample dataset",
@@ -873,17 +780,17 @@ final public class SpecEditorTopCompNew extends CloneableTopComponent
         findataset.setX(data.getX());
         findataset.setX2(data.getX2());
         findataset.setType("spec");
-        findataset.setNl(data.getNl()[0]);
-        findataset.setNt(data.getNt()[0]);
+        findataset.setNl(data.getNl());
+        findataset.setNt(data.getNt());
 
         if (DialogDisplayer.getDefault().notify(resampleDatasetDialod).equals(NotifyDescriptor.OK_OPTION)){
             DatasetTimp newdataset = new DatasetTimp(); //data;
             if (resamplePanel.getResampleXState()){
                 //resample x dimention
                 int num = resamplePanel.getResampleXNum();
-                int imwidth = findataset.getNl()[0];
-                int imheight =findataset.getNt()[0];
-                int w = findataset.getNl()[0]/num;
+                int imwidth = findataset.getNl();
+                int imheight =findataset.getNt();
+                int w = findataset.getNl()/num;
 
                 double[] temp = new double[num*imheight];
 
@@ -900,7 +807,7 @@ final public class SpecEditorTopCompNew extends CloneableTopComponent
 
                 newdataset.setX2(temp);
                 newdataset.setNl(num);
-                newdataset.setNt(findataset.getNt()[0]);
+                newdataset.setNt(findataset.getNt());
                 newdataset.setX(findataset.getX().clone());
                 newdataset.calcRangeInt();
                 newdataset.setType("spec");
@@ -911,9 +818,9 @@ final public class SpecEditorTopCompNew extends CloneableTopComponent
                 //resample y dimention
                 newdataset = new DatasetTimp(); //data;
                 int num = resamplePanel.getResampleYNum();
-                int imwidth = findataset.getNl()[0];
-                int imheight =findataset.getNt()[0];
-                int w = findataset.getNt()[0]/num;
+                int imwidth = findataset.getNl();
+                int imheight =findataset.getNt();
+                int w = findataset.getNt()/num;
 
                 double[] temp = new double[num*imwidth];
                 for (int i = 0; i < imwidth; i++){
@@ -929,7 +836,7 @@ final public class SpecEditorTopCompNew extends CloneableTopComponent
 
                 newdataset.setX(temp);
                 newdataset.setNt(num);
-                newdataset.setNl(findataset.getNl()[0]);
+                newdataset.setNl(findataset.getNl());
                 newdataset.setX2(findataset.getX2());
                 newdataset.calcRangeInt();
                 newdataset.setType("spec");
@@ -990,7 +897,7 @@ final public class SpecEditorTopCompNew extends CloneableTopComponent
 
         //    AverageSpecDatasetDialog resDiag = new ResampleSpecDatasetDialog(, true);
         AverageSpecDataset averagePanel = new AverageSpecDataset();
-        averagePanel.setInitialNumbers(data.getNl()[0], data.getNt()[0]);
+        averagePanel.setInitialNumbers(data.getNl(), data.getNt());
         NotifyDescriptor resampleDatasetDialod = new NotifyDescriptor(
                 averagePanel,
                 "Average dataset",
@@ -1003,8 +910,8 @@ final public class SpecEditorTopCompNew extends CloneableTopComponent
         findataset.setX(data.getX());
         findataset.setX2(data.getX2());
         findataset.setType("spec");
-        findataset.setNl(data.getNl()[0]);
-        findataset.setNt(data.getNt()[0]);
+        findataset.setNl(data.getNl());
+        findataset.setNt(data.getNt());
 
         if (DialogDisplayer.getDefault().notify(resampleDatasetDialod).equals(NotifyDescriptor.OK_OPTION)){
             DatasetTimp newdataset = new DatasetTimp(); //data;
@@ -1012,9 +919,9 @@ final public class SpecEditorTopCompNew extends CloneableTopComponent
                 //resample x dimention
                 int num = averagePanel.getAverageXNum();
                 double sum;
-                int imwidth = findataset.getNl()[0];
-                int imheight =findataset.getNt()[0];
-                int w = findataset.getNl()[0]/num;
+                int imwidth = findataset.getNl();
+                int imheight =findataset.getNt();
+                int w = findataset.getNl()/num;
 
                 double[] temp = new double[num*imheight];
                 int count=0;
@@ -1056,7 +963,7 @@ final public class SpecEditorTopCompNew extends CloneableTopComponent
                 temp[num-1]=sum/count;
                 newdataset.setX2(temp);
                 newdataset.setNl(num);
-                newdataset.setNt(findataset.getNt()[0]);
+                newdataset.setNt(findataset.getNt());
                 newdataset.setX(findataset.getX().clone());
                 newdataset.calcRangeInt();
                 newdataset.setType("spec");
@@ -1068,9 +975,9 @@ final public class SpecEditorTopCompNew extends CloneableTopComponent
                 newdataset = new DatasetTimp(); //data;
                 int num = averagePanel.getAverageYNum();
                 double sum;
-                int imwidth = findataset.getNl()[0];
-                int imheight =findataset.getNt()[0];
-                int w = findataset.getNt()[0]/num;
+                int imwidth = findataset.getNl();
+                int imheight =findataset.getNt();
+                int w = findataset.getNt()/num;
 
                 double[] temp = new double[num*imwidth];
                 int count=0;
@@ -1113,7 +1020,7 @@ final public class SpecEditorTopCompNew extends CloneableTopComponent
 
                 newdataset.setX(temp);
                 newdataset.setNt(num);
-                newdataset.setNl(findataset.getNl()[0]);
+                newdataset.setNl(findataset.getNl());
                 newdataset.setX2(findataset.getX2());
                 newdataset.calcRangeInt();
                 newdataset.setType("spec");
@@ -1218,6 +1125,22 @@ final public class SpecEditorTopCompNew extends CloneableTopComponent
 
         rightSVChart.getXYPlot().setDataset(rSVCollection);
     }//GEN-LAST:event_jSnumSVStateChanged
+
+    private void jPanel2FocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jPanel2FocusGained
+        // TODO remove
+    }//GEN-LAST:event_jPanel2FocusGained
+
+    private void jPanel2ComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_jPanel2ComponentShown
+        if (svdResult==null) {
+            try {
+            TopComponent.getRegistry().getActivated().setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+            calculateSVD();
+            jPanel2.revalidate();
+            } finally {
+            TopComponent.getRegistry().getActivated().setCursor(Cursor.getDefaultCursor());
+            }
+        }
+    }//GEN-LAST:event_jPanel2ComponentShown
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -1329,6 +1252,115 @@ final public class SpecEditorTopCompNew extends CloneableTopComponent
         return PREFERRED_ID;
     }
 
+    private void calculateSVD() {
+          Matrix pSIsim = new Matrix(data.getPsisim(), data.getNt());
+        svdResult =  pSIsim.svd();
+        jTFtotalNumSV.setText(String.valueOf(svdResult.getSingularValues().length));
+        jSnumSV.setModel(new SpinnerNumberModel(1.0,0.0,svdResult.getSingularValues().length,1.0));
+        int n = 1;
+        //creare collection with first 2 LSV
+        XYSeriesCollection lSVCollection = new XYSeriesCollection();
+        XYSeries seria;
+        seria = new XYSeries("LSV1");
+        for (int i = 0; i < data.getX().length; i++) {
+            seria.add(data.getX()[i], svdResult.getU().get(i, 0));
+        }
+        lSVCollection.addSeries(seria);
+
+        //creare chart for 2 LSV
+        leftSVChart = ChartFactory.createXYLineChart(
+                "Left singular vectors",
+                "Time (ns)",
+                null,
+                lSVCollection,
+                PlotOrientation.VERTICAL,
+                false,
+                false,
+                false);
+        leftSVChart.getTitle().setFont(new Font(leftSVChart.getTitle().getFont().getFontName(), Font.PLAIN, 12));
+        leftSVChart.setBackgroundPaint(JFreeChart.DEFAULT_BACKGROUND_PAINT);
+        leftSVChart.getXYPlot().getDomainAxis().setUpperBound(data.getX()[data.getX().length - 1]);
+        leftSVChart.getXYPlot().getDomainAxis().setAutoRange(false);
+        GraphPanel chpan = new GraphPanel(leftSVChart);
+        //add chart with 2 LSV to JPannel
+        jPLeftSingVectors.removeAll();
+        jPLeftSingVectors.add(chpan);
+
+        //creare collection with first 2 RSV
+        XYSeriesCollection rSVCollection = new XYSeriesCollection();
+        for (int j = 0; j < n; j++) {
+            seria = new XYSeries("RSV" + (j + 1));
+            for (int i = 0; i < data.getX2().length; i++) {
+                seria.add(data.getX2()[i], svdResult.getV().get(i, j));
+            }
+            rSVCollection.addSeries(seria);
+        }
+
+        //creare chart for 2 RSV
+        rightSVChart = ChartFactory.createXYLineChart(
+                "Right singular vectors",
+                "Wavelength (nm)",
+                null,
+                rSVCollection,
+                PlotOrientation.VERTICAL,
+                false,
+                false,
+                false);
+        rightSVChart.getTitle().setFont(new Font(rightSVChart.getTitle().getFont().getFontName(), Font.PLAIN, 12));
+        rightSVChart.setBackgroundPaint(JFreeChart.DEFAULT_BACKGROUND_PAINT);
+        rightSVChart.getXYPlot().getDomainAxis().setUpperBound(data.getX2()[data.getX2().length - 1]);
+        rightSVChart.getXYPlot().getDomainAxis().setAutoRange(false);
+        chpan = new GraphPanel(rightSVChart);
+        //add chart with 2 RSV to JPannel
+        jPRightSingVectors.removeAll();
+        jPRightSingVectors.add(chpan);
+
+        //creare collection with singular values
+        XYSeriesCollection sVCollection = new XYSeriesCollection();
+        seria = new XYSeries("SV");
+        for (int i = 0; i < svdResult.getSingularValues().length; i++) {
+            seria.add(i+1, svdResult.getSingularValues()[i]);
+        }
+        sVCollection.addSeries(seria);
+
+
+        //creare chart for 2 RSV
+        JFreeChart tracechart = ChartFactory.createXYLineChart(
+                "Screeplot",
+                "Number of factors (#)",
+                null,
+                sVCollection,
+                PlotOrientation.VERTICAL,
+                false,
+                false,
+                false);
+        LogAxis logAxe = new LogAxis("Log(SV)");
+//        logAxe.setAutoRange(true);
+        int index = svdResult.getSingularValues().length-1;
+        while (svdResult.getSingularValues()[index]<=0){
+            index--;
+        }
+        logAxe.setRange(svdResult.getSingularValues()[index], svdResult.getSingularValues()[0]);
+        //  logAxe.setLowerBound(svdResult.getSingularValues()[svdResult.getSingularValues().length-2]);
+        tracechart.getXYPlot().setRangeAxis(logAxe);
+        XYLineAndShapeRenderer renderer = (XYLineAndShapeRenderer) tracechart.getXYPlot().getRenderer();
+        renderer.setBaseShapesVisible(true);
+        renderer.setDrawOutlines(true);
+        renderer.setUseFillPaint(true);
+        renderer.setBaseFillPaint(Color.white);
+        renderer.setSeriesStroke(0, new BasicStroke(1.0f));
+        renderer.setSeriesOutlineStroke(0, new BasicStroke(1.0f));
+        renderer.setSeriesShape(0, new Ellipse2D.Double(-4.0, -4.0, 8.0, 8.0));
+
+        tracechart.getTitle().setFont(new Font(tracechart.getTitle().getFont().getFontName(), Font.PLAIN, 12));
+        tracechart.setBackgroundPaint(JFreeChart.DEFAULT_BACKGROUND_PAINT);
+
+        chpan = new GraphPanel(tracechart);
+        //add chart with 2 RSV to JPannel
+        jPSingValues.removeAll();
+        jPSingValues.add(chpan);
+    }
+
     final static class ResolvableHelper implements Serializable {
 
         private static final long serialVersionUID = 1L;
@@ -1340,7 +1372,7 @@ final public class SpecEditorTopCompNew extends CloneableTopComponent
     
     
     private ColorCodedImageDataset MakeXYZDataset(){
-        dataset = new ColorCodedImageDataset(data.getNl()[0],data.getNt()[0],
+        dataset = new ColorCodedImageDataset(data.getNl(),data.getNt(),
                 data.getPsisim(), data.getX2(), data.getX(), true);
         return dataset;
     }
@@ -1450,7 +1482,7 @@ final public class SpecEditorTopCompNew extends CloneableTopComponent
         CrosshairOverlay overlay = new CrosshairOverlay();
         crosshair1 = new Crosshair(0.0);
         crosshair1.setPaint(Color.red);
-        crosshair2 = new Crosshair(data.getNt()[0]);
+        crosshair2 = new Crosshair(data.getNt());
         crosshair2.setPaint(Color.GRAY);
         
         overlay.addDomainCrosshair(crosshair1);
@@ -1565,16 +1597,16 @@ final public class SpecEditorTopCompNew extends CloneableTopComponent
         jTAInfo.removeAll();
         tempString = "File name: "+data.getDatasetName()+"\n";
         jTAInfo.append(tempString);
-        tempString = "Time window: "+String.valueOf(data.getX()[data.getNt()[0]-1]-data.getX()[0])+"\n";
+        tempString = "Time window: "+String.valueOf(data.getX()[data.getNt()-1]-data.getX()[0])+"\n";
         jTAInfo.append(tempString);
-        tempString = "Nuber of time steps: "+String.valueOf(data.getNt()[0])+"\n";
+        tempString = "Nuber of time steps: "+String.valueOf(data.getNt())+"\n";
         jTAInfo.append(tempString);
         tempString = "Time step: "+String.valueOf(data.getX()[1]-data.getX()[0])+"\n";
         jTAInfo.append(tempString);
 
-        tempString = "Wave window: "+String.valueOf(data.getX2()[data.getNl()[0]-1]-data.getX2()[0])+"\n";
+        tempString = "Wave window: "+String.valueOf(data.getX2()[data.getNl()-1]-data.getX2()[0])+"\n";
         jTAInfo.append(tempString);
-        tempString = "Nuber of wave steps: "+String.valueOf(data.getNl()[0])+"\n";
+        tempString = "Nuber of wave steps: "+String.valueOf(data.getNl())+"\n";
         jTAInfo.append(tempString);
         tempString = "Wave step: "+String.valueOf(data.getX2()[1]-data.getX2()[0])+"\n";
         jTAInfo.append(tempString);

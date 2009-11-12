@@ -107,4 +107,10 @@ public class CoreErrorMessages {
                 new Exception(NbBundle.getBundle("org/glotaran/core/main/Bundle").getString("numberFormatException")));
         DialogDisplayer.getDefault().notify(errorMessage);
     }
+
+    public static void initModelException(){
+        NotifyDescriptor errorMessage =new NotifyDescriptor.Exception(
+                new Exception(NbBundle.getBundle("org/glotaran/core/main/Bundle").getString("initModelException")));
+        DialogDisplayer.getDefault().notify(errorMessage);
+    }
 }

@@ -1,0 +1,6 @@
+Manifest-Version: 1.0
+OpenIDE-Module: org.glotaran.core.ui
+OpenIDE-Module-Layer: org/glotaran/core/ui/layer.xml
+OpenIDE-Module-Localizing-Bundle: org/glotaran/core/ui/Bundle.properties
+OpenIDE-Module-Specification-Version: 1.0
+

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mode version="2.3">
+    <name unique="modelContainerMode" />
+  <kind type="view" />
+  <state type="joined" />
+  <constraints>
+    <path orientation="horizontal" number="20" weight="0.22007042253521128"/>
+    <path orientation="vertical" number="22" weight="0.25"/>
+  </constraints>
+  <bounds x="0" y="0" width="0" height="0" />
+  <frame state="0"/>
+    <active-tc  id="SelectedModelsViewTopComponent" />
+    <empty-behavior permanent="false"/>
+</mode>

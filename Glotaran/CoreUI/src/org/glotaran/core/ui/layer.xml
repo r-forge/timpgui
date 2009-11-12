@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE filesystem PUBLIC "-//NetBeans//DTD Filesystem 1.1//EN" "http://www.netbeans.org/dtds/filesystem-1_1.dtd">
+<filesystem>
+    <folder name="Actions">
+        <folder name="Project">
+            <file name="org-glotaran-core-ui-nodecontainers-ShowDatasetNodeContainer.instance">
+                <attr name="SystemFileSystem.localizingBundle" stringvalue="org.glotaran.core.ui.Bundle"/>
+                <attr name="delegate" newvalue="org.glotaran.core.ui.nodecontainers.ShowDatasetNodeContainer"/>
+                <attr name="displayName" bundlevalue="org.glotaran.core.ui.Bundle#CTL_ShowDatasetNodeContainer"/>
+                <attr name="instanceCreate" methodvalue="org.openide.awt.Actions.alwaysEnabled"/>
+                <attr name="noIconInMenu" boolvalue="false"/>
+            </file>
+            <file name="org-glotaran-core-ui-nodecontainers-ShowModelsNodeContainer.instance">
+                <attr name="SystemFileSystem.localizingBundle" stringvalue="org.glotaran.core.ui.Bundle"/>
+                <attr name="delegate" newvalue="org.glotaran.core.ui.nodecontainers.ShowModelsNodeContainer"/>
+                <attr name="displayName" bundlevalue="org.glotaran.core.ui.Bundle#CTL_ShowModelsNodeContainer"/>
+                <attr name="instanceCreate" methodvalue="org.openide.awt.Actions.alwaysEnabled"/>
+                <attr name="noIconInMenu" boolvalue="false"/>
+            </file>
+        </folder>
+        <folder name="Window">
+            <file name="org-glotaran-core-ui-nodecontainers-SelectedDatasetsViewAction.instance">
+                <attr name="SystemFileSystem.localizingBundle" stringvalue="org.glotaran.core.ui.Bundle"/>
+                <attr name="component" methodvalue="org.glotaran.core.ui.nodecontainers.SelectedDatasetsViewTopComponent.findInstance"/>
+                <attr name="displayName" bundlevalue="org.glotaran.core.ui.Bundle#CTL_SelectedDatasetsViewAction"/>
+                <attr name="instanceCreate" methodvalue="org.openide.windows.TopComponent.openAction"/>
+            </file>
+            <file name="org-glotaran-core-ui-nodecontainers-SelectedModelsViewAction.instance">
+                <attr name="SystemFileSystem.localizingBundle" stringvalue="org.glotaran.core.ui.Bundle"/>
+                <attr name="component" methodvalue="org.glotaran.core.ui.nodecontainers.SelectedModelsViewTopComponent.findInstance"/>
+                <attr name="displayName" bundlevalue="org.glotaran.core.ui.Bundle#CTL_SelectedModelsViewAction"/>
+                <attr name="instanceCreate" methodvalue="org.openide.windows.TopComponent.openAction"/>
+            </file>
+            <file name="org-glotaran-core-ui-nodecontainers-SelectedOptionsViewAction.instance">
+                <attr name="SystemFileSystem.localizingBundle" stringvalue="org.glotaran.core.ui.Bundle"/>
+                <attr name="component" methodvalue="org.glotaran.core.ui.nodecontainers.SelectedOptionsViewTopComponent.findInstance"/>
+                <attr name="displayName" bundlevalue="org.glotaran.core.ui.Bundle#CTL_SelectedOptionsViewAction"/>
+                <attr name="instanceCreate" methodvalue="org.openide.windows.TopComponent.openAction"/>
+            </file>
+        </folder>
+    </folder>
+    <folder name="Menu">
+        <folder name="Window">
+            <attr name="org-glotaran-core-ui-nodecontainers-ShowDatasetNodeContainer.shadow/Debug" boolvalue="true"/>
+            <attr name="org-glotaran-core-ui-nodecontainers-ShowModelsNodeContainer.shadow/Other" boolvalue="true"/>
+            <file name="SelectedDatasetsViewAction.shadow">
+                <attr name="originalFile" stringvalue="Actions/Window/org-glotaran-core-ui-nodecontainers-SelectedDatasetsViewAction.instance"/>
+            </file>
+            <file name="org-glotaran-core-ui-nodecontainers-ShowDatasetNodeContainer.shadow">
+                <attr name="originalFile" stringvalue="Actions/Project/org-glotaran-core-ui-nodecontainers-ShowDatasetNodeContainer.instance"/>
+            </file>
+            <file name="org-glotaran-core-ui-nodecontainers-ShowModelsNodeContainer.shadow">
+                <attr name="originalFile" stringvalue="Actions/Project/org-glotaran-core-ui-nodecontainers-ShowModelsNodeContainer.instance"/>
+            </file>
+        </folder>
+    </folder>
+    <folder name="Windows2">
+        <folder name="Components">
+            <file name="SelectedDatasetsViewTopComponent.settings" url="nodecontainers/SelectedDatasetsViewTopComponentSettings.xml"/>
+            <file name="SelectedModelsViewTopComponent.settings" url="nodecontainers/SelectedModelsViewTopComponentSettings.xml"/>
+        </folder>
+        <folder name="Modes">
+            <folder name="datasetContainerMode">
+                <file name="SelectedDatasetsViewTopComponent.wstcref" url="nodecontainers/SelectedDatasetsViewTopComponentWstcref.xml"/>
+            </folder>
+            <file name="datasetContainerMode.wsmode" url="modes/datasetContainerMode.wsmode"/>
+            <folder name="modelContainerMode">
+                <file name="SelectedModelsViewTopComponent.wstcref" url="nodecontainers/SelectedModelsViewTopComponentWstcref.xml"/>
+            </folder>
+            <file name="modelContainerMode.wsmode" url="modes/modelContainerMode.wsmode"/>
+            <file name="editor.wsmode" url="modes/editor.wsmode"/>
+            <file name="explorer.wsmode" url="modes/explorer.wsmode"/>
+            <folder name="explorer"/>
+        </folder>
+    </folder>
+</filesystem>

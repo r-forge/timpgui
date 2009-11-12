@@ -14,8 +14,9 @@ public class REngineConnectionFactory extends AConnectionFactory {
 
     @Override
     protected IJava2RConnection handleCreateTransfer(final IRConnection con) {
-        if (!(con instanceof REngineRConnection))
-            throw new IllegalArgumentException("Unsupported type:"+con);
+        if (!(con instanceof REngineRConnection)) {
+            throw new IllegalArgumentException("Unsupported type:" + con);
+        }
         return new REngineJava2RConnection((REngineRConnection)con);
     }
 

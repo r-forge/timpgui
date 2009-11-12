@@ -5,37 +5,37 @@ package org.timpgui.structures;
  * @author Sergey
  */
 import Jama.Matrix;
-import java.io.Serializable;
 
-public class TimpResultDataset implements Serializable {
+public class TimpResultDataset implements TimpResultInterface {
 
-    private double maxInt;
-    private double minInt;
     private String datasetName;
-    private double[] kineticParameters;
-    private double[] spectralParameters;
-    private Matrix concentrations; //concentrations
-    private Matrix spectra;        //CLP
-    private Matrix spectraErr;     //errors of the CLP
-    private double[] x;
-    private double[] x2;
-    private Matrix residuals;
-    private Matrix traces;
-    private Matrix fittedTraces;
-    private String type;
-    private int orheigh;      //original hight of flimimage
-    private int orwidth;      //original widht of flimimage
-    private double[] intenceIm; //intensity image FLIM
-    private double[] irfpar;        //irfmodel parameters
+    private String type;            //type of the dataset (flim, spec, mass)
+    private double[] kineticParameters;     //Kinetic parameters for kinmodel
+    private double[] spectralParameters;    //spectral parameters for specmodel
+    private double[] irfpar;        //irf model parameters
     private double[] parmu;         //irf location modeling
     private double[] partau;        //irf Width modeling
     private double[] jvec;          //jvector
-    private double[] specdisppar;   //
-    private double[] prel;          //parameters relations
+    private double[] specdisppar;   //time modeling of the spec parammeters
+    private double[] prel;          //parameters for relations
     private double[] kinscal;       //branching scaling factors
-    private double[] clpequ;        //equality of the spectra
+    private double[] clpequ;        //equality of the spectra coeficcient
+    private Matrix concentrations;  //matrix with concentrations
+    private Matrix spectra;         //matrix with CLP
+    private Matrix spectraErr;      //errors of the CLP
+    private Matrix residuals;       //matrix with residuals
+    private Matrix traces;          //matrix with raw data
+    private Matrix fittedTraces;    //matrix with fitted data
+    private double[] x;             //vector with timesteps (x-dimension)
+    private double[] x2;            //vector with wavelengts (y-dimension)
+    private double[] intenceIm;     //intensity image FLIM
+    private int orheigh;            //original hight of flimimage
+    private int orwidth;            //original widht of flimimage
+    private double maxInt;          //max of intencity (for plotting code)
+    private double minInt;          //min of intencity (for plotting code)
     private double lamdac;          //usually this is the center wavelength
     private double rms;             //final rms
+    public static final long serialVersionUID = 1L;
 
     public double[] getClpequ() {
         return clpequ;

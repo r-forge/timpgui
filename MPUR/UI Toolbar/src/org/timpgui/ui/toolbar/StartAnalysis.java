@@ -99,7 +99,14 @@ public final class StartAnalysis implements ActionListener {
 //                    //TODO: implement a working busy cursor, or progress indicator
 //                    TopComponent.getRegistry().getActivated().setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
                     if (run) {
+                        if (service != null) {
                         results = service.runAnalysis(datasets, models, NO_OF_ITERATIONS);
+                        } else {
+                             NotifyDescriptor errorMessage = new NotifyDescriptor.Exception(
+                                new Exception("Could not find an instance of R, are you sure you started it?"));
+                        DialogDisplayer.getDefault().notify(errorMessage);
+                        return;
+                        }
                     } else {
                         return;
                     }

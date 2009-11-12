@@ -16,14 +16,13 @@ import org.rosuda.irconnect.IRList;
 import org.rosuda.irconnect.IRMap;
 import org.rosuda.irconnect.IRMatrix;
 import org.rosuda.irconnect.ITwoWayConnection;
-import org.rosuda.jri.JRIConnectionFactory;
 import org.rosuda.rengine.REngineConnectionFactory;
 import org.timpgui.structures.DatasetTimp;
 import org.timpgui.structures.TimpResultDataset;
 
 public class TimpController implements TimpInterface {
 
-    private static ITwoWayConnection connection;
+    private static ITwoWayConnection connection = null;
     private static final String NAME_OF_RESULT_OBJECT = "fitResult";
     private ArrayList<String> initModelCall;
     private String fitModelCall;
@@ -32,9 +31,11 @@ public class TimpController implements TimpInterface {
     public TimpController() {
         if (connection==null) {
             connection = new REngineConnectionFactory().createTwoWayConnection(null);
+            if (connection.isConnected()) {
+                connection.voidEval("try(require(TIMP))");
+            }
         }
         //connection = JRIConnectionFactory.getInstance().createTwoWayConnection(null);
-        connection.eval("require(TIMP)");
     }
 
     @Override

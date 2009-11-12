@@ -11,7 +11,6 @@ import org.openide.windows.TopComponent;
 public final class ShowDatasetNodeContainer implements ActionListener {
 
     public void actionPerformed(ActionEvent e) {
-        // TODO implement action body
         TopComponent win = SelectedDatasetsViewTopComponent.findInstance();
         win.open();
         win.requestActive();

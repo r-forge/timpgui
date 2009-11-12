@@ -22,6 +22,7 @@ import org.openide.nodes.Children;
 import org.openide.util.Exceptions;
 import org.openide.util.ImageUtilities;
 import org.openide.util.Lookup;
+import org.openide.util.NbBundle;
 import org.openide.util.datatransfer.PasteType;
 
 
@@ -91,7 +92,7 @@ public class TgmDataNode extends DataNode implements Transferable{
                             final UpdateModelParameters updParamPanel = new UpdateModelParameters();
                             NotifyDescriptor detParamToUpdateDialog = new NotifyDescriptor(
                             updParamPanel,
-                            "Select parameters to update",
+                            NbBundle.getBundle("org/glotaran/tgmfilesupport").getString("selParamForUpdate"),
                             NotifyDescriptor.OK_CANCEL_OPTION,
                             NotifyDescriptor.PLAIN_MESSAGE,
                             null,

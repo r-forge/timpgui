@@ -6,7 +6,6 @@ import java.awt.Font;
 import java.awt.Point;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.logging.Logger;
@@ -52,7 +51,6 @@ import org.openide.DialogDisplayer;
 import org.openide.NotifyDescriptor;
 import org.openide.filesystems.FileObject;
 import org.openide.loaders.DataObject;
-import org.openide.util.Exceptions;
 import org.openide.windows.CloneableTopComponent;
 
 /**
@@ -100,14 +98,12 @@ final public class SdtTopComponent extends CloneableTopComponent implements Char
         if (flimImage == null) {
             try {
                 flimImage = new FlimImage(new File(filename));
-            } catch (FileNotFoundException ex) {
-                CoreErrorMessages.fileNotFound();
             } catch (IOException ex) {
-                CoreErrorMessages.IOException();
+                CoreErrorMessages.fileLoadException("SDT");
             } catch (IllegalAccessException ex) {
-                Exceptions.printStackTrace(ex);
+                CoreErrorMessages.fileLoadException("SDT");
             } catch (InstantiationException ex) {
-                Exceptions.printStackTrace(ex);
+                CoreErrorMessages.fileLoadException("SDT");
             }
 
         }
@@ -143,14 +139,12 @@ final public class SdtTopComponent extends CloneableTopComponent implements Char
         if (flimImage == null) {
             try {
                 flimImage = new FlimImage(new File(filename));
-            } catch (FileNotFoundException ex) {
-                CoreErrorMessages.fileNotFound();
             } catch (IOException ex) {
-                CoreErrorMessages.IOException();
+                CoreErrorMessages.fileLoadException("SDT");
             } catch (IllegalAccessException ex) {
-                Exceptions.printStackTrace(ex);
+                CoreErrorMessages.fileLoadException("SDT");
             } catch (InstantiationException ex) {
-                Exceptions.printStackTrace(ex);
+                CoreErrorMessages.fileLoadException("SDT");
             }
 
         }
@@ -767,7 +761,7 @@ private void jBMakeDatasetActionPerformed(java.awt.event.ActionEvent evt) {//GEN
                 TgdDataChildren chidrens = (TgdDataChildren) dataObject.getNodeDelegate().getChildren();
                 chidrens.addObj(dObj);
             } catch (IOException ex) {
-                CoreErrorMessages.IOException();
+                CoreErrorMessages.IOException("(create new .timpdataset file)");
             }
 
         } else {

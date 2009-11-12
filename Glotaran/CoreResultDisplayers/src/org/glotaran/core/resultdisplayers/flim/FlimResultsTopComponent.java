@@ -19,6 +19,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Formatter;
 import java.util.logging.Logger;
+import org.glotaran.core.main.mesages.CoreErrorMessages;
 import org.glotaran.core.main.nodes.dataobjects.TimpResultDataObject;
 import org.glotaran.core.main.structures.TimpResultDataset;
 import org.glotaran.core.resultdisplayers.comon.panels.SelectTracesForPlot;
@@ -690,9 +691,7 @@ private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
     try {
         newNumChHish = Integer.parseInt(jTFChNumHist.getText());
         if (newNumChHish < 1){
-            NotifyDescriptor errorMessage =new NotifyDescriptor.Exception(
-                    new Exception(NbBundle.getBundle("org/glotaran/core/main/Bundle").getString("set_correct_chanNum")));
-            DialogDisplayer.getDefault().notify(errorMessage);
+            CoreErrorMessages.selCorrChNum();
             return;
         }
         jPHist.removeAll();
@@ -701,9 +700,7 @@ private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
         jPHist.add(chpanHist);
         jPHist.repaint();
     }catch(NumberFormatException ex) {
-        NotifyDescriptor errorMessage =new NotifyDescriptor.Exception(
-                    new Exception(NbBundle.getBundle("org/glotaran/core/main/Bundle").getString("set_correct_chanNum")));
-        DialogDisplayer.getDefault().notify(errorMessage);
+        CoreErrorMessages.selCorrChNum();
     }
 }//GEN-LAST:event_jButton5ActionPerformed
 
@@ -723,9 +720,7 @@ private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
         jPIntenceImage.repaint();
 
     }catch(NumberFormatException ex) {
-        NotifyDescriptor errorMessage =new NotifyDescriptor.Exception(
-                    new Exception(NbBundle.getBundle("org/glotaran/core/main/Bundle").getString("set_correct_chanNum")));
-        DialogDisplayer.getDefault().notify(errorMessage);
+        CoreErrorMessages.selCorrChNum();
     }
 }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -749,9 +744,7 @@ double newMinLifetime, newMaxLifetime;
         jPImage.add(aveLifetimePanel);
         jPImage.repaint();
     }catch(NumberFormatException ex) {
-        NotifyDescriptor errorMessage =new NotifyDescriptor.Exception(
-                    new Exception(NbBundle.getBundle("org/glotaran/core/main/Bundle").getString("set_correct_chanNum")));
-        DialogDisplayer.getDefault().notify(errorMessage);
+        CoreErrorMessages.selCorrChNum();
     }
 }//GEN-LAST:event_jButton2ActionPerformed
 
@@ -759,11 +752,7 @@ private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
 
     selectedTimeTraces.add(selectedietm);
     JFreeChart tracechart = null;
-//    NumberAxis xAxis = new NumberAxis("Time (ns)");
-//    xAxis.setRange(res.getX()[0], res.getX()[res.getX().length - 1]);
-//    xAxis.setUpperBound(res.getX()[res.getX().length-1]);
     CombinedDomainXYPlot plot = new CombinedDomainXYPlot();
-//    plot.setGap(5.0);
     try {
         tracechart = new JFreeChart((XYPlot)subchartTimeTrace.getXYPlot().clone());
         tracechart.removeLegend();
@@ -839,57 +828,6 @@ private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
 //
             }
         }
-
-//        //create wave traces colection
-//        if (selTracePanel.getSelectYState()){
-//            int numSelTraces = selTracePanel.getSelectYNum();
-//            int w = res.getX().length/numSelTraces;
-//            XYSeriesCollection trace;
-//            XYSeries series1, series2, series3;
-//            int xIndex;
-//            NumberAxis xAxis;
-//            ChartPanel chpan;
-//            jPSelWavTrCollection.setLayout(new GridLayout(numSelTraces/4+1, 4));
-//
-//            for (int i = 0; i < numSelTraces; i++) {
-//                //create common X axe for plot
-//                xAxis = new NumberAxis("Wavelength (nm)");
-//
-//                if (res.getX2()[res.getX2().length-1]<res.getX2()[0]){
-//                    xAxis.setUpperBound(res.getX2()[0]);
-//                    xAxis.setLowerBound(res.getX2()[res.getX2().length-1]);
-//                } else {
-//                    xAxis.setLowerBound(res.getX2()[0]);
-//                    xAxis.setUpperBound(res.getX2()[res.getX2().length-1]);
-//                }
-//
-//                trace = new XYSeriesCollection();
-//                series1 = new XYSeries("Trace");
-//                series2 = new XYSeries("Fit");
-//                series3 = new XYSeries("Residuals");
-//                xIndex = i*w;
-//                selectedTimeTraces.add(xIndex);
-//
-//                for (int j = 0; j < res.getX2().length; j++) {
-//                    series1.add(res.getX2()[j], res.getTraces().get(xIndex, j));
-//                    series2.add(res.getX2()[j], res.getFittedTraces().get(xIndex, j));
-//                    series3.add(res.getX2()[j], res.getResiduals().get(xIndex, j));
-//                }
-//
-//                trace.addSeries(series1);
-//                trace.addSeries(series2);
-//                chpan = makeTimeTraceResidChart(
-//                        trace,
-//                        new XYSeriesCollection(series3),
-//                        xAxis,
-//                        String.valueOf(res.getX()[xIndex]).concat(" ps"));
-//
-//
-//                jPSelWavTrCollection.add(chpan);
-//
-//            }
-//
-//        }
     }
 }//GEN-LAST:event_jButton4ActionPerformed
 
@@ -993,17 +931,12 @@ private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
 
     @Override
     public void componentOpened() {
-        // TODO add custom code on component opening
-//        resultObjects = Current.GetresultNames();
-//        for (int i = 0; i < resultObjects.size(); i++) {
-//        String x = resultObjects.get(i).getNameOfResultsObjects();
-//        listOfResultObjectNames.addElement(x);
-//        }
+
     }
 
     @Override
     public void componentClosed() {
-        // TODO add custom code on component closing
+
     }
 
     /** replaces this in object stream */
@@ -1081,40 +1014,6 @@ private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
         renderer.setDrawBarOutline(false);
         return new ChartPanel(charthist,true);
     }
-
-
-//    private ChartPanel CreateHistPanel(int ind) {
-//       HistogramDataset datasetHist = new HistogramDataset();
-//       String name;
-//       double[] data;
-//       if (ind == 0){
-//           data = aveLifetimes;
-//           datasetHist.addSeries("Average lifetime", data, 20, minAveLifetime, maxAveLifetime);
-//           name = "Average lifetime";
-//       }
-//       else {
-//           name = "Componet "+(ind);
-//           data = new double[res.getX2().length];
-//           for (int i = 0; i < res.getX2().length; i++)
-//               data[i] = normAmpl.get(ind-1, i);
-//           datasetHist.addSeries(name, data, 20, 0.0, 1.0);
-//       }
-//       JFreeChart charthist = ChartFactory.createHistogram(
-//           name,
-//           null,
-//           null,
-//           datasetHist,
-//           PlotOrientation.VERTICAL,
-//           false,
-//           true,
-//           false
-//       );
-//       XYPlot plot = (XYPlot) charthist.getPlot();
-////       plot.setForegroundAlpha(0.85f);
-//       XYBarRenderer renderer = (XYBarRenderer) plot.getRenderer();
-//       renderer.setDrawBarOutline(false);
-//       return new ChartPanel(charthist,true);
-//    }
     
     private double[] MakeFlimImage(double[] kinpar, Matrix amplitudes, int numOfSelPix){
         minAveLifetime = Double.MAX_VALUE;
@@ -1193,71 +1092,6 @@ private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
         chpanSelectedTrace.setSize(jPSelectedTrace.getSize());
         jPSelectedTrace.add(chpanSelectedTrace);
     }
-
-//    private ColorCodedImageDataset MakeCCDataset(int origWidth, int origHeigth, double[] selPixels, int ind){
-//
-//        double[] lifeTimeImage = null;
-//        if (ind == 0){
-//           lifeTimeImage = aveLifetimes;
-//        }
-//        else {
-//            lifeTimeImage = new double[res.getX2().length];
-//            for (int i = 0; i < res.getX2().length; i++){
-//                lifeTimeImage[i] = normAmpl.get(ind-1, i);
-//            }
-//        }
-//
-//        double[] image = new double[origWidth*origHeigth];
-//        for (int i = 0; i<selPixels.length; i++){
-//             image[(int)selPixels[i]] = lifeTimeImage[i];
-//        }
-//        dataset = new ColorCodedImageDataset(origWidth, origHeigth, image, res.getX2(), res.getX() ,false);
-//        return dataset;
-//    }
-//    private void MakeImageChart(XYZDataset dataset, double min, double max, boolean mode){
-//        NumberAxis xAxis = new NumberAxis("Wavelengths (nm)");
-//        xAxis.setLowerMargin(0.0);
-//        xAxis.setUpperMargin(0.0);
-//        xAxis.setVisible(false);
-//        NumberAxis yAxis = new NumberAxis("Time (ps)");
-//        yAxis.setAutoRangeIncludesZero(false);
-//        yAxis.setInverted(true);
-//        yAxis.setLowerMargin(0.0);
-//        yAxis.setUpperMargin(0.0);
-//        yAxis.setVisible(false);
-//        XYBlockRenderer renderer = new XYBlockRenderer();
-//        PaintScale scale = new RainbowPaintScale(min, max, true, mode);
-//
-//        renderer.setPaintScale(scale);
-//        XYPlot plot = new XYPlot(dataset, xAxis, yAxis, renderer);
-//
-//        plot.setDomainCrosshairVisible(true);
-//        plot.setDomainCrosshairLockedOnData(false);
-//        plot.setRangeCrosshairVisible(true);
-//        plot.setRangeCrosshairLockedOnData(false);
-//
-//        chart = new JFreeChart(plot);
-//        chart.removeLegend();
-//
-//        NumberAxis scaleAxis = new NumberAxis();
-//        scaleAxis.setAxisLinePaint(Color.black);
-//        scaleAxis.setTickMarkPaint(Color.black);
-//
-//        scaleAxis.setRange(min,max);
-//
-//        scaleAxis.setTickLabelFont(new Font("Dialog", Font.PLAIN, 9));
-//        PaintScaleLegend legend = new PaintScaleLegend(scale,scaleAxis);
-//        legend.setAxisLocation(AxisLocation.BOTTOM_OR_RIGHT);
-//    //        legend.setAxisOffset(5.0);
-//        legend.setMargin(new RectangleInsets(5, 5, 5, 5));
-//    //        legend.setFrame(new BlockBorder(Color.red));
-//    //        legend.setPadding(new RectangleInsets(5, 5, 5, 5));
-//        legend.setStripWidth(15);
-//        legend.setPosition(RectangleEdge.RIGHT);
-//        legend.setBackgroundPaint(chart.getBackgroundPaint());
-//        chart.addSubtitle(legend);
-//    }
-    
 
     private void calculateSVDResiduals(){
         int n = 2;
@@ -1384,9 +1218,6 @@ private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
             false,
             false
         );
- //       subchartTrace.getXYPlot().getDomainAxis().setUpperBound(res.getX()[res.getX().length-1]);
- //       subchartResiduals.getXYPlot().getDomainAxis().setUpperBound(res.getX()[res.getX().length-1]);
-
 
         XYPlot plot1_1 = subchartTrace.getXYPlot();
         plot1_1.getDomainAxis().setLowerMargin(0.0);
@@ -1399,7 +1230,6 @@ private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
         plot1_2.getDomainAxis().setUpperMargin(0.0);
         plot1_2.setDomainAxisLocation(AxisLocation.BOTTOM_OR_LEFT);
         plot1_2.getDomainAxis().setInverted(true);
-
 
         CombinedDomainXYPlot plot = new CombinedDomainXYPlot(xAxis);
         plot.setGap(5.0);
@@ -1444,10 +1274,7 @@ private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
         scaleAxis.setTickLabelFont(new Font("Dialog", Font.PLAIN, 9));
         PaintScaleLegend legend = new PaintScaleLegend(ps,scaleAxis);
         legend.setAxisLocation(AxisLocation.BOTTOM_OR_RIGHT);
-    //        legend.setAxisOffset(5.0);
         legend.setMargin(new RectangleInsets(5, 5, 5, 5));
-    //        legend.setFrame(new BlockBorder(Color.red));
-    //        legend.setPadding(new RectangleInsets(5, 5, 5, 5));
         legend.setStripWidth(10);
         legend.setPosition(RectangleEdge.RIGHT);
         legend.setBackgroundPaint(chart_temp.getBackgroundPaint());

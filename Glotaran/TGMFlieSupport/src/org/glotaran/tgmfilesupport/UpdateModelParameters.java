@@ -73,7 +73,7 @@ public class UpdateModelParameters extends javax.swing.JPanel {
                             .addComponent(jCBSpecPar)
                             .addComponent(jCBParMu)
                             .addComponent(jCBKinPar))))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(51, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)

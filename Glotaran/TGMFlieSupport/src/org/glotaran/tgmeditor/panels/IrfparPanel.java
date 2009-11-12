@@ -12,6 +12,7 @@ import javax.swing.SpinnerNumberModel;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableModel;
+import org.glotaran.core.main.mesages.CoreErrorMessages;
 import org.glotaran.core.models.tgm.IrfparPanelModel;
 import org.glotaran.jfreechartcustom.GraphPanel;
 import org.glotaran.tgmfilesupport.TgmDataObject;
@@ -862,8 +863,7 @@ private void BloadrefActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
                 refVector.addElement(sc.nextFloat());
             }
         } catch (Exception e) {
-            e.printStackTrace();
-            throw new RuntimeException(e);
+            CoreErrorMessages.fileLoadException("IRF");
         }
         int i = 0;
         float num;
@@ -955,7 +955,7 @@ private void jBSubtrBGActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIR
     try {
         val = Float.parseFloat(jTFBGvalue.getText());
     } catch (NumberFormatException ex) {
-        System.out.println("Wrong number format");
+        CoreErrorMessages.numberFormatException();
     }
     if (refSerColl.getSeries().size() > 0 ) {
     refSerColl.getSeries().clear();

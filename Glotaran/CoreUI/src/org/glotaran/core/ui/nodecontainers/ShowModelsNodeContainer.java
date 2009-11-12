@@ -11,7 +11,6 @@ import org.openide.windows.TopComponent;
 public final class ShowModelsNodeContainer implements ActionListener {
 
     public void actionPerformed(ActionEvent e) {
-        // TODO implement action body
         TopComponent win = SelectedModelsViewTopComponent.findInstance();
         win.open();
         win.requestActive();

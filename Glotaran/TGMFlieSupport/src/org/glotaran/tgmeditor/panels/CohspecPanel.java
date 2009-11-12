@@ -229,16 +229,16 @@ public class CohspecPanel extends SectionInnerPanel {
     }//GEN-LAST:event_jCBCohSpec0ActionPerformed
 
     private void jRBCohspecNoStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jRBCohspecNoStateChanged
-        // TODO add your handling code here:
+        
         
     }//GEN-LAST:event_jRBCohspecNoStateChanged
 
     private void jRBCohspecNoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRBCohspecNoActionPerformed
-        // TODO add your handling code here:
+       
     }//GEN-LAST:event_jRBCohspecNoActionPerformed
 
     private void jRBCohspecSeqActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRBCohspecSeqActionPerformed
-        // TODO add your handling code here:
+        
     }//GEN-LAST:event_jRBCohspecSeqActionPerformed
 
 

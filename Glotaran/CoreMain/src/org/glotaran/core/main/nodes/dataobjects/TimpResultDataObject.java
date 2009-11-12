@@ -53,12 +53,12 @@ public class TimpResultDataObject extends InstanceDataObject  {
                 CoreErrorMessages.oldClassException();
             }
         } catch (IOException ex) {
-            CoreErrorMessages.IOException();
+            CoreErrorMessages.IOException(null);
         } finally {
             try {
                 ois.close();
             } catch (IOException ex) {
-                CoreErrorMessages.IOException();
+                CoreErrorMessages.IOException(null);
             }
         }
         return dataset;

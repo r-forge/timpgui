@@ -19,8 +19,6 @@ public class ShowFlimResultsDisplayer implements ResultsLoaderInterface{
         FlimResultsTopComponent tc = new FlimResultsTopComponent(dataObj);
         tc.open();
         tc.requestActive();
-//        Confirmation msg = new NotifyDescriptor.Confirmation("FLIM results", NotifyDescriptor.OK_CANCEL_OPTION);
-//        DialogDisplayer.getDefault().notify(msg);
     }
 
 }

@@ -38,9 +38,17 @@ public class CoreErrorMessages {
         DialogDisplayer.getDefault().notify(errorMessage);
     }
 
-    public static void IOException(){
-        NotifyDescriptor errorMessage =new NotifyDescriptor.Exception(
-                new Exception(NbBundle.getBundle("org/glotaran/core/main/Bundle").getString("IOException")));
+    public static void IOException(String place){
+        NotifyDescriptor errorMessage;
+        if (place!=null){
+            errorMessage =new NotifyDescriptor.Exception(
+                    new Exception(NbBundle.getBundle("org/glotaran/core/main/Bundle").getString("IOException")+
+                    " "+place));
+        }
+        else {
+            errorMessage =new NotifyDescriptor.Exception(
+                    new Exception(NbBundle.getBundle("org/glotaran/core/main/Bundle").getString("IOException")));
+        }
         DialogDisplayer.getDefault().notify(errorMessage);
     }
 
@@ -69,4 +77,34 @@ public class CoreErrorMessages {
         DialogDisplayer.getDefault().notify(errorMessage);
     }
 
+    public static void selCorrChNum(){
+        NotifyDescriptor errorMessage =new NotifyDescriptor.Exception(
+                new Exception(NbBundle.getBundle("org/glotaran/core/main/Bundle").getString("set_correct_chanNum")));
+        DialogDisplayer.getDefault().notify(errorMessage);
+    }
+
+    public static void updLinLogException(){
+        NotifyDescriptor errorMessage =new NotifyDescriptor.Exception(
+                new Exception(NbBundle.getBundle("org/glotaran/core/main/Bundle").getString("updateLinLogException")));
+        DialogDisplayer.getDefault().notify(errorMessage);
+    }
+
+    public static void fileLoadException(String filetype){
+        NotifyDescriptor errorMessage =new NotifyDescriptor.Exception(
+                new Exception(filetype+" "+
+                NbBundle.getBundle("org/glotaran/core/main/Bundle").getString("fileLoadException")));
+        DialogDisplayer.getDefault().notify(errorMessage);
+    }
+
+    public static void dragDropException(){
+        NotifyDescriptor errorMessage =new NotifyDescriptor.Exception(
+                new Exception(NbBundle.getBundle("org/glotaran/core/main/Bundle").getString("sdtFileLoadException")));
+        DialogDisplayer.getDefault().notify(errorMessage);
+    }
+
+    public static void numberFormatException(){
+        NotifyDescriptor errorMessage =new NotifyDescriptor.Exception(
+                new Exception(NbBundle.getBundle("org/glotaran/core/main/Bundle").getString("numberFormatException")));
+        DialogDisplayer.getDefault().notify(errorMessage);
+    }
 }

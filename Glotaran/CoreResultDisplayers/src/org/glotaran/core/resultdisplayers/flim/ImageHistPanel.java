@@ -14,6 +14,7 @@ package org.glotaran.core.resultdisplayers.flim;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.image.BufferedImage;
+import org.glotaran.core.main.mesages.CoreErrorMessages;
 import org.glotaran.jfreechartcustom.GraphPanel;
 import org.glotaran.jfreechartcustom.ImageUtilities;
 import org.glotaran.jfreechartcustom.IntensImageDataset;
@@ -36,8 +37,6 @@ import org.jfree.data.xy.XYSeriesCollection;
 import org.jfree.ui.Layer;
 import org.jfree.ui.RectangleEdge;
 import org.jfree.ui.RectangleInsets;
-import org.openide.DialogDisplayer;
-import org.openide.NotifyDescriptor;
 
 /**
  *
@@ -302,9 +301,7 @@ public class ImageHistPanel extends javax.swing.JPanel {
             jPImage.add(aveLifetimePanel);
             jPImage.repaint();
         }catch(NumberFormatException ex) {
-            NotifyDescriptor errorMessage =new NotifyDescriptor.Exception(
-                    new Exception("Please specify correct number of channels"));
-            DialogDisplayer.getDefault().notify(errorMessage);
+            CoreErrorMessages.selCorrChNum();
         }
 }//GEN-LAST:event_jButton2ActionPerformed
 
@@ -318,9 +315,7 @@ public class ImageHistPanel extends javax.swing.JPanel {
             jPHist.add(chpanHist);
             jPHist.repaint();
         }catch(NumberFormatException ex) {
-            NotifyDescriptor errorMessage = new NotifyDescriptor.Exception(
-                    new Exception("Please specify correct number of channels"));
-            DialogDisplayer.getDefault().notify(errorMessage);
+            CoreErrorMessages.selCorrChNum();
         }
 }//GEN-LAST:event_jButton5ActionPerformed
 

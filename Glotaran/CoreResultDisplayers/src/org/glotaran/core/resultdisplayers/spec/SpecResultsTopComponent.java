@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.Formatter;
 import java.util.logging.Logger;
 import javax.swing.JPanel;
+import org.glotaran.core.main.mesages.CoreErrorMessages;
 import org.glotaran.core.main.nodes.dataobjects.TimpResultDataObject;
 import org.glotaran.core.main.structures.TimpResultDataset;
 import org.glotaran.core.resultdisplayers.comon.panels.SelectTracesForPlot;
@@ -1063,6 +1064,7 @@ public final class SpecResultsTopComponent extends TopComponent implements Chart
                 updateLinLogPlotSumary();
             }
             catch (Exception e) {
+                CoreErrorMessages.updLinLogException();
                 jTBLinLog.setSelected(false);
             }
         } else {
@@ -1085,9 +1087,10 @@ public final class SpecResultsTopComponent extends TopComponent implements Chart
 
     private void jBUpdLinLogActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBUpdLinLogActionPerformed
     try {
-        updateLinLogPlotSumary();
+            updateLinLogPlotSumary();
         }
-        catch (Exception e) {   
+        catch (Exception e) {
+            CoreErrorMessages.updLinLogException();
         }
     }//GEN-LAST:event_jBUpdLinLogActionPerformed
 
@@ -1305,25 +1308,6 @@ public final class SpecResultsTopComponent extends TopComponent implements Chart
 //            this.chartMain.getPlot().getDomainAxis().setRange(new Range(lowBound, upBound));
         }
 
-//        if (!plot.getDomainAxis().getRange().equals(this.lastXRange)) {
-//            this.lastXRange = plot.getDomainAxis().getRange();
-//            XYPlot plot2 = (XYPlot) this.subchartWaveTrace.getPlot();
-//            lowInd = (int)(this.lastXRange.getLowerBound());
-//            upInd = (int)(this.lastXRange.getUpperBound()-1);
-//            plot2.getDomainAxis().setRange(new Range(data.GetX2()[lowInd],data.GetX2()[upInd]));
-//            jSColum.setMinimum(lowInd);
-//            jSColum.setMaximum(upInd);
-//        }
-//
-//         if (!plot.getRangeAxis().getRange().equals(this.lastYRange)) {
-//            this.lastYRange = plot.getRangeAxis().getRange();
-//            XYPlot plot1 = (XYPlot) this.subchartTimeTrace.getPlot();
-//            lowInd = (int)(this.wholeYRange.getUpperBound() - this.lastYRange.getUpperBound());
-//            upInd = (int)(this.wholeYRange.getUpperBound() - this.lastYRange.getLowerBound()-1);
-//            plot1.getDomainAxis().setRange(new Range(data.GetX()[lowInd],data.GetX()[upInd]));
-//            jSRow.setMinimum(lowInd);
-//            jSRow.setMaximum(upInd);
-//        }
     }
 
     public void chartMouseClicked(ChartMouseEvent event) {

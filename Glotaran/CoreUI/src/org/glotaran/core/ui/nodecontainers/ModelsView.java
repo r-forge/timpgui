@@ -15,6 +15,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import javax.swing.JComponent;
 import javax.swing.KeyStroke;
+import org.glotaran.core.main.mesages.CoreErrorMessages;
 import org.glotaran.tgmfilesupport.TgmDataNode;
 import org.openide.explorer.ExplorerManager;
 import org.openide.explorer.view.TreeTableView;
@@ -63,7 +64,7 @@ class ModelsView extends TreeTableView {
                TgmDataNode n = (TgmDataNode)dtde.getTransferable().getTransferData(TgmDataNode.DATA_FLAVOR);
                ExplorerManager.find(getParent()).getRootContext().getChildren().add(new Node[]{n});
             } catch(Exception e) {
-               e.printStackTrace();
+               CoreErrorMessages.dragDropException();
                dtde.rejectDrop();
             }
          }

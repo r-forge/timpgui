@@ -61,7 +61,7 @@ public class FlimImage implements TGDatasetInterface {
         cannelW=0;
         amplmax=amplmin=0;
     }
-    public FlimImage(File file) throws FileNotFoundException, IOException, IllegalAccessException, InstantiationException {
+    public FlimImage(File file) throws IOException, IllegalAccessException, InstantiationException {
         ImageInputStream f = new FileImageInputStream(new RandomAccessFile(file, "r"));
         f.setByteOrder(ByteOrder.LITTLE_ENDIAN);
         FileHeader header = new FileHeader();

@@ -29,6 +29,7 @@ import org.openide.windows.TopComponent;
 import org.openide.windows.WindowManager;
 import java.io.File;
 import java.io.ObjectOutputStream;
+import org.glotaran.core.main.mesages.CoreErrorMessages;
 import org.glotaran.core.main.nodes.TgdDataChildren;
 import org.glotaran.core.main.nodes.TgdDataNode;
 import org.glotaran.core.main.nodes.dataobjects.TgdDataObject;
@@ -100,9 +101,9 @@ final public class SdtTopComponent extends CloneableTopComponent implements Char
             try {
                 flimImage = new FlimImage(new File(filename));
             } catch (FileNotFoundException ex) {
-                Exceptions.printStackTrace(ex);
+                CoreErrorMessages.fileNotFound();
             } catch (IOException ex) {
-                Exceptions.printStackTrace(ex);
+                CoreErrorMessages.IOException();
             } catch (IllegalAccessException ex) {
                 Exceptions.printStackTrace(ex);
             } catch (InstantiationException ex) {
@@ -143,9 +144,9 @@ final public class SdtTopComponent extends CloneableTopComponent implements Char
             try {
                 flimImage = new FlimImage(new File(filename));
             } catch (FileNotFoundException ex) {
-                Exceptions.printStackTrace(ex);
+                CoreErrorMessages.fileNotFound();
             } catch (IOException ex) {
-                Exceptions.printStackTrace(ex);
+                CoreErrorMessages.IOException();
             } catch (IllegalAccessException ex) {
                 Exceptions.printStackTrace(ex);
             } catch (InstantiationException ex) {
@@ -766,13 +767,11 @@ private void jBMakeDatasetActionPerformed(java.awt.event.ActionEvent evt) {//GEN
                 TgdDataChildren chidrens = (TgdDataChildren) dataObject.getNodeDelegate().getChildren();
                 chidrens.addObj(dObj);
             } catch (IOException ex) {
-                Exceptions.printStackTrace(ex);
+                CoreErrorMessages.IOException();
             }
 
         } else {
-            NotifyDescriptor errorMessage =new NotifyDescriptor.Exception(
-                    new Exception(NbBundle.getBundle("org/glotaran/core/main/Bundle").getString("selMainProj")));
-            DialogDisplayer.getDefault().notify(errorMessage);
+            CoreErrorMessages.noMainProjectFound();
         }
     
     

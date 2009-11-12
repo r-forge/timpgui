@@ -63,4 +63,10 @@ public class CoreErrorMessages {
         DialogDisplayer.getDefault().notify(errorMessage);
     }
 
+    public static void headerFileException(){
+        NotifyDescriptor errorMessage =new NotifyDescriptor.Exception(
+                new Exception(NbBundle.getBundle("org/glotaran/core/main/Bundle").getString("headerNotValid")));
+        DialogDisplayer.getDefault().notify(errorMessage);
+    }
+
 }

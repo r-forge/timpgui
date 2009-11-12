@@ -6,10 +6,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Scanner;
 import org.glotaran.core.main.interfaces.TGDatasetInterface;
-import org.openide.DialogDisplayer;
-import org.openide.NotifyDescriptor;
-import org.openide.NotifyDescriptor.Confirmation;
-import org.openide.util.NbBundle;
+import org.glotaran.core.main.mesages.CoreErrorMessages;
 
 /**
  *
@@ -57,12 +54,8 @@ public class ASCIIImage implements TGDatasetInterface{
             return true;
         }
         else{
-              Confirmation msg = new NotifyDescriptor.Confirmation(
-                    NbBundle.getBundle("org/glotaran/core/main/Bundle").getString("headerNotValid"),
-                    NbBundle.getBundle("org/glotaran/core/main/Bundle").getString("err"),
-                    NotifyDescriptor.ERROR_MESSAGE);
-                DialogDisplayer.getDefault().notify(msg);
-             return false;
+            CoreErrorMessages.headerFileException();
+            return false;
          }
     }
 

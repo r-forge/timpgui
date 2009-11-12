@@ -2,6 +2,16 @@
 <!DOCTYPE filesystem PUBLIC "-//NetBeans//DTD Filesystem 1.1//EN" "http://www.netbeans.org/dtds/filesystem-1_1.dtd">
 <filesystem>
     <folder name="Actions">
+        <folder name="Build">
+            <file name="org-glotaran-core-ui-StartAnalysis.instance">
+                <attr name="SystemFileSystem.localizingBundle" stringvalue="org.glotaran.core.ui.Bundle"/>
+                <attr name="delegate" newvalue="org.glotaran.core.ui.StartAnalysis"/>
+                <attr name="displayName" bundlevalue="org.glotaran.core.ui.Bundle#CTL_StartAnalysis"/>
+                <attr name="iconBase" stringvalue="org/glotaran/core/main/resources/runProject.png"/>
+                <attr name="instanceCreate" methodvalue="org.openide.awt.Actions.alwaysEnabled"/>
+                <attr name="noIconInMenu" stringvalue="false"/>
+            </file>
+        </folder>
         <folder name="Project">
             <file name="org-glotaran-core-ui-nodecontainers-ShowDatasetNodeContainer.instance">
                 <attr name="SystemFileSystem.localizingBundle" stringvalue="org.glotaran.core.ui.Bundle"/>
@@ -18,6 +28,14 @@
                 <attr name="noIconInMenu" boolvalue="false"/>
             </file>
         </folder>
+        <folder name="Toolbars">
+        <folder name="File">
+            <file name="org-glotaran-core-ui-StartAnalysis.shadow">
+                <attr name="originalFile" stringvalue="Actions/Build/org-glotaran-core-ui-StartAnalysis.instance"/>
+                <attr name="position" intvalue="500"/>
+            </file>
+        </folder>
+    </folder>
         <folder name="Window">
             <file name="org-glotaran-core-ui-nodecontainers-SelectedDatasetsViewAction.instance">
                 <attr name="SystemFileSystem.localizingBundle" stringvalue="org.glotaran.core.ui.Bundle"/>

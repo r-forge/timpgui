@@ -728,6 +728,14 @@ private void jBMakeDatasetActionPerformed(java.awt.event.ActionEvent evt) {//GEN
 
         timpDat.setIntenceIm(intToDoubleArray(flimImage.getIntMap()));
         int k=0;
+
+        timpDat.setPsisim(new double[flimImage.getCannelN()*numSelPix]);
+        timpDat.setX2(new double[numSelPix]);
+        timpDat.setNl(numSelPix);
+        timpDat.setNt(flimImage.getCannelN());
+        timpDat.setOrigHeigh(flimImage.getY());
+        timpDat.setOrigWidth(flimImage.getX());
+
         for (int i=0; i<flimImage.getCurveNum(); i++){
             if (dataset.getZValue(1,i)==-1){
                 for (int j = 0; j<flimImage.getCannelN(); j++){
@@ -737,6 +745,7 @@ private void jBMakeDatasetActionPerformed(java.awt.event.ActionEvent evt) {//GEN
                 k++;
             }
         }
+        timpDat.setX(new double[flimImage.getCannelN()]);
         for (int i = 0; i<flimImage.getCannelN(); i++) {
                 timpDat.getX()[i] = i * flimImage.getCannelW();
             }

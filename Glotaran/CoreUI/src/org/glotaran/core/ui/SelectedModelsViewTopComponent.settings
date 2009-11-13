@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<!DOCTYPE settings PUBLIC "-//NetBeans//DTD Session settings 1.0//EN" "http://www.netbeans.org/dtds/sessionsettings-1_0.dtd">
+<settings version="1.0">
+    <module name="org.glotaran.core.ui" spec="1.0"/>
+    <instanceof class="java.awt.Component"/>
+    <instanceof class="java.awt.Container"/>
+    <instanceof class="java.awt.MenuContainer"/>
+    <instanceof class="java.awt.image.ImageObserver"/>
+    <instanceof class="java.io.Externalizable"/>
+    <instanceof class="java.io.Serializable"/>
+    <instanceof class="java.lang.Object"/>
+    <instanceof class="javax.accessibility.Accessible"/>
+    <instanceof class="javax.swing.JComponent"/>
+    <instanceof class="javax.swing.TransferHandler$HasGetTransferHandler"/>
+    <instanceof class="org.glotaran.core.ui.nodecontainers.SelectedModelsViewTopComponent"/>
+    <instanceof class="org.openide.explorer.ExplorerManager$Provider"/>
+    <instanceof class="org.openide.util.HelpCtx$Provider"/>
+    <instanceof class="org.openide.util.Lookup$Provider"/>
+    <instanceof class="org.openide.windows.TopComponent"/>
+    <serialdata class="org.glotaran.core.ui.nodecontainers.SelectedModelsViewTopComponent">
+        ACED0005737200536F72672E676C6F746172616E2E636F72652E75692E6E6F6465636F6E7461696E6572732E53656C656374
+        65644D6F64656C7356696577546F70436F6D706F6E656E74245265736F6C7661626C6548656C706572000000000000000102
+        00007870
+    </serialdata>
+</settings>

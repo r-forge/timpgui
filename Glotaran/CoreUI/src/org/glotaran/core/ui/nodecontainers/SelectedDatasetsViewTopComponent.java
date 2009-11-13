@@ -54,6 +54,8 @@ public final class SelectedDatasetsViewTopComponent extends TopComponent impleme
         remove = new javax.swing.JButton();
         panel = new javax.swing.JPanel();
 
+        setPreferredSize(new java.awt.Dimension(200, 100));
+
         toolbar.setRollover(true);
 
         remove.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/glotaran/core/main/resources/delete.png"))); // NOI18N
@@ -77,7 +79,7 @@ public final class SelectedDatasetsViewTopComponent extends TopComponent impleme
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(panel, javax.swing.GroupLayout.DEFAULT_SIZE, 400, Short.MAX_VALUE)
-            .addComponent(toolbar, javax.swing.GroupLayout.PREFERRED_SIZE, 400, Short.MAX_VALUE)
+            .addComponent(toolbar, javax.swing.GroupLayout.DEFAULT_SIZE, 400, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)

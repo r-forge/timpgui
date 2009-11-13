@@ -19,6 +19,20 @@ public class CoreErrorMessages {
                 new Exception(NbBundle.getBundle("org/glotaran/core/main/Bundle").getString("fileNotFound")));
         DialogDisplayer.getDefault().notify(errorMessage);
     }
+
+    public static void fileSaveError(String filename){
+        NotifyDescriptor errorMessage;
+        if (filename!=null){
+            errorMessage =new NotifyDescriptor.Exception(
+                    new Exception(NbBundle.getBundle("org/glotaran/core/main/Bundle").getString("IOException")+
+                    " "+filename));
+        }
+        else {
+            errorMessage =new NotifyDescriptor.Exception(
+                    new Exception(NbBundle.getBundle("org/glotaran/core/main/Bundle").getString("fileSaveError")));
+        }
+        DialogDisplayer.getDefault().notify(errorMessage);
+    }
     
     public static void noMainProjectFound(){
         NotifyDescriptor errorMessage =new NotifyDescriptor.Exception(

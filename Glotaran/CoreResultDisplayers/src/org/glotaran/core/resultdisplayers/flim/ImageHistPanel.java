@@ -360,7 +360,7 @@ public class ImageHistPanel extends javax.swing.JPanel {
         plot.setForegroundAlpha(0.85f);
         XYBarRenderer renderer = (XYBarRenderer) plot.getRenderer();
         renderer.setDrawBarOutline(false);
-        return new GraphPanel(charthist,true);
+        return new GraphPanel(charthist);
     }
 
     private JFreeChart createScatChart(BufferedImage image, PaintScale ps, int plotWidth, int plotHeigh){

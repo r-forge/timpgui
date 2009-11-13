@@ -1512,7 +1512,7 @@ final public class SpecEditorTopCompNew extends CloneableTopComponent
         subchartTimeTrace.getXYPlot().getDomainAxis().setUpperBound(data.getX()[data.getX().length-1]);
         subchartTimeTrace.setBackgroundPaint(JFreeChart.DEFAULT_BACKGROUND_PAINT);
 ////        tracechart.getXYPlot().setDomainZeroBaselineVisible(true);
-        GraphPanel chpan = new GraphPanel(subchartTimeTrace,true);
+        GraphPanel chpan = new GraphPanel(subchartTimeTrace);
 //        chpan.setSize(jPYTrace.getMaximumSize());
         jPYTrace.removeAll();
         jPYTrace.setLayout(new BorderLayout());
@@ -1552,7 +1552,7 @@ final public class SpecEditorTopCompNew extends CloneableTopComponent
         plot2.setDomainAxisLocation(AxisLocation.TOP_OR_RIGHT);
         plot2.setRangeAxisLocation(AxisLocation.TOP_OR_RIGHT);
 
-        GraphPanel subchart2Panel = new GraphPanel(subchartWaveTrace,true);
+        GraphPanel subchart2Panel = new GraphPanel(subchartWaveTrace);
 //        subchart2Panel.setSize(jPXTrace.getMaximumSize());
         jPXTrace.removeAll();
         jPXTrace.setLayout(new BorderLayout());

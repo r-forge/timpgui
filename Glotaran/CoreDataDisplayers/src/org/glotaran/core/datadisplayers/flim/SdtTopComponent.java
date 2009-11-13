@@ -864,7 +864,7 @@ private void jBSumSelPixActionPerformed(java.awt.event.ActionEvent evt) {//GEN-F
         false
     );
     tracechart.getXYPlot().getDomainAxis().setUpperBound(flimImage.getTime());
-    GraphPanel chpanSumTrace = new GraphPanel(tracechart,true);
+    GraphPanel chpanSumTrace = new GraphPanel(tracechart);
     jPSumTrace.removeAll();
     jPSumTrace.setLayout(new BorderLayout());
     jPSumTrace.add(chpanSumTrace);
@@ -1159,7 +1159,7 @@ private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
             for (int i = 0; i < flimImage.getCurveNum(); i++)
                 tracechart.getXYPlot().getRenderer().setSeriesVisible(i, false);
         }
-        chpanSelectedTrace = new GraphPanel(tracechart,true);
+        chpanSelectedTrace = new GraphPanel(tracechart);
         chpanSelectedTrace.setSize(jPSelectedTrace.getMaximumSize());
         jPSelectedTrace.removeAll();
         jPSelectedTrace.add(chpanSelectedTrace);

@@ -1231,7 +1231,7 @@ private void jCBParmuFixedActionPerformed(java.awt.event.ActionEvent evt) {//GEN
         chart.getXYPlot().getDomainAxis().setUpperMargin(0);
         chart.getXYPlot().getDomainAxis().setLowerMargin(0);
         chart.getXYPlot().setDomainZeroBaselineVisible(true);
-        chpan = new GraphPanel(chart, true);
+        chpan = new GraphPanel(chart);
         jPanel9.removeAll();
         jPanel9.add(chpan);
         jPanel9.validate();

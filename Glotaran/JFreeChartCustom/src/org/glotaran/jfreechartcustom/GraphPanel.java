@@ -8,21 +8,32 @@ package org.glotaran.jfreechartcustom;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
+import java.awt.geom.Rectangle2D;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.io.Writer;
 import java.util.Formatter;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFileChooser;
 import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
+import org.apache.batik.dom.GenericDOMImplementation;
+import org.apache.batik.svggen.SVGGraphics2D;
+import org.glotaran.core.main.mesages.CoreErrorMessages;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
 import org.jfree.data.xy.XYSeriesCollection;
 import org.jfree.ui.ExtensionFileFilter;
 import org.openide.windows.TopComponent;
+import org.w3c.dom.DOMImplementation;
+import org.w3c.dom.Document;
 
 /**
  *
@@ -30,18 +41,12 @@ import org.openide.windows.TopComponent;
  */
 public class GraphPanel extends ChartPanel{
     public static final String SAVE_ASCII_COMMAND = "SAVE_ASCII";
+    public static final String SAVE_SVG_COMMAND = "SAVE_SVG";
+    public static final String SAVE_PNG_COMMAND = "SAVE_PNG";
     public static final String OPEN_IN_NEW_WINDOW_COMMAND = "OPEN_IN_NEW_WINDOW";
 
     public GraphPanel(JFreeChart chart){
-        this(chart, true);
-    }
-
-    public GraphPanel(JFreeChart chart, boolean useBuffer){
-        super(chart, useBuffer);
-        addCommandsToPopupMenu();
-        updateSelectRectangle();
-
-
+        this(chart, true, false, true, true, true);
     }
 
     public GraphPanel(JFreeChart chart,
@@ -67,11 +72,34 @@ public class GraphPanel extends ChartPanel{
                 Logger.getLogger(GraphPanel.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
+
         if (command.equals(SAVE_ASCII_COMMAND)){
             try {
                 doSaveTracesToAscii();
             } catch (IOException ex) {
-                Logger.getLogger(GraphPanel.class.getName()).log(Level.SEVERE, null, ex);
+                CoreErrorMessages.fileSaveError(null);
+            }
+        }
+
+        if (command.equals(SAVE_SVG_COMMAND)){
+            try {
+                doSaveChartToSVG();
+            } catch (FileNotFoundException ex) {
+                CoreErrorMessages.fileNotFound();
+            } catch (IOException ex) {
+                CoreErrorMessages.fileSaveError(null);
+            }
+        }
+
+        if (command.equals(SAVE_PNG_COMMAND)){
+            try {
+                try {
+                    doSaveChartToPNG();
+                } catch (CloneNotSupportedException ex) {
+                    Logger.getLogger(GraphPanel.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            } catch (IOException ex) {
+                CoreErrorMessages.fileSaveError(null);
             }
         }
 
@@ -80,10 +108,20 @@ public class GraphPanel extends ChartPanel{
     private void addCommandsToPopupMenu(){
         JPopupMenu popmenu;
         popmenu = getPopupMenu();
-        JMenuItem saveToASCIIItem = new JMenuItem("Save to ASCII");
+        JMenuItem saveToASCIIItem = new JMenuItem("Save data to ASCII");
         saveToASCIIItem.setActionCommand(SAVE_ASCII_COMMAND);
         saveToASCIIItem.addActionListener(this);
-        popmenu.insert(saveToASCIIItem,4);
+        popmenu.insert(saveToASCIIItem,3);
+
+        JMenuItem saveToPNGItem = new JMenuItem("Render chart to PNG");
+        saveToPNGItem.setActionCommand(SAVE_PNG_COMMAND);
+        saveToPNGItem.addActionListener(this);
+        popmenu.insert(saveToPNGItem,4);
+
+        JMenuItem saveToSVGItem = new JMenuItem("Render chart to SVG");
+        saveToSVGItem.setActionCommand(SAVE_SVG_COMMAND);
+        saveToSVGItem.addActionListener(this);
+        popmenu.insert(saveToSVGItem,5);
 
         JMenuItem openInSepWindItem = new JMenuItem("Open in new window");
         openInSepWindItem.setActionCommand(OPEN_IN_NEW_WINDOW_COMMAND);
@@ -145,4 +183,40 @@ public class GraphPanel extends ChartPanel{
         win.requestActive();
     }
 
+    private void doSaveChartToPNG() throws CloneNotSupportedException, IOException {
+        doSaveAs();
+    }
+
+    private void doSaveChartToSVG() throws FileNotFoundException, IOException{
+        JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setCurrentDirectory(this.getDefaultDirectoryForSaveAs());
+        ExtensionFileFilter filter = new ExtensionFileFilter("SVG graphics files", ".svg");
+        fileChooser.addChoosableFileFilter(filter);
+
+        int option = fileChooser.showSaveDialog(this);
+        if (option == JFileChooser.APPROVE_OPTION) {
+            String filename = fileChooser.getSelectedFile().getPath();
+            if (isEnforceFileExtensions()) {
+                if (!filename.endsWith(".svg")) {
+                    filename = filename + ".svg";
+                }
+            }
+            DOMImplementation domImpl =
+                GenericDOMImplementation.getDOMImplementation();
+            Document document = domImpl.createDocument(null, "svg", null);
+
+            // Create an instance of the SVG Generator
+            SVGGraphics2D svgGenerator = new SVGGraphics2D(document);
+
+            svgGenerator.getGeneratorContext().setPrecision(6);
+
+            // draw the chart in the SVG generator
+            getChart().draw(svgGenerator,  new Rectangle2D.Double(0, 0, 400, 300), null);
+
+            // Write svg file
+            Writer out = new OutputStreamWriter(
+                    new FileOutputStream(new File(filename)), "UTF-8");
+            svgGenerator.stream(out, true);
+        }
+    }
 }

@@ -33,8 +33,8 @@ public final class SelectedModelsViewTopComponent extends TopComponent implement
 
     private SelectedModelsViewTopComponent() {
         initComponents();
-        setName(NbBundle.getBundle("org/glotaran/core/ui/Bundle").getString("CTL_SelectedModelsViewTopComponent"));
-        setToolTipText(NbBundle.getBundle("org/glotaran/core/ui/Bundle").getString("HINT_SelectedModelsViewTopComponent"));
+        setName(NbBundle.getBundle("org/glotaran/core/ui/nodecontainers/Bundle").getString("CTL_SelectedModelsViewTopComponent"));
+        setToolTipText(NbBundle.getBundle("org/glotaran/core/ui/nodecontainers/Bundle").getString("HINT_SelectedModelsViewTopComponent"));
 //        setIcon(Utilities.loadImage(ICON_PATH, true));
         manager.setRootContext(new AbstractNode(container));
         associateLookup(ExplorerUtils.createLookup(manager, getActionMap()));
@@ -56,7 +56,7 @@ public final class SelectedModelsViewTopComponent extends TopComponent implement
         toolbar.setRollover(true);
 
         remove.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/glotaran/core/main/resources/delete.png"))); // NOI18N
-        org.openide.awt.Mnemonics.setLocalizedText(remove, org.openide.util.NbBundle.getMessage(SelectedModelsViewTopComponent.class, "SelectedDatasetsViewTopComponent.remove.text")); // NOI18N
+        org.openide.awt.Mnemonics.setLocalizedText(remove, org.openide.util.NbBundle.getBundle(SelectedModelsViewTopComponent.class).getString("SelectedDatasetsViewTopComponent.remove.text")); // NOI18N
         remove.setToolTipText(org.openide.util.NbBundle.getMessage(SelectedModelsViewTopComponent.class, "SelectedDatasetsViewTopComponent.remove.toolTipText")); // NOI18N
         remove.setFocusable(false);
         remove.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);

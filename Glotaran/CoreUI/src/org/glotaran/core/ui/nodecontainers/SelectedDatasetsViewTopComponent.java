@@ -33,8 +33,8 @@ public final class SelectedDatasetsViewTopComponent extends TopComponent impleme
 
     public SelectedDatasetsViewTopComponent() {
         initComponents();
-        setName(NbBundle.getBundle("org/glotaran/core/ui/Bundle").getString("CTL_SelectedDatasetsViewTopComponent"));
-        setToolTipText(NbBundle.getBundle("org/glotaran/core/ui/Bundle").getString("HINT_SelectedDatasetsViewTopComponent"));
+        setName(NbBundle.getBundle("org/glotaran/core/ui/nodecontainers/Bundle").getString("CTL_SelectedDatasetsViewTopComponent"));
+        setToolTipText(NbBundle.getBundle("org/glotaran/core/ui/nodecontainers/Bundle").getString("HINT_SelectedDatasetsViewTopComponent"));
         manager.setRootContext(new AbstractNode(container,ExplorerUtils.createLookup(manager, getActionMap())));
         //setIcon(Utilities.loadImage(ICON_PATH, true));
         //manager.setRootContext(new AbstractNode(container,ExplorerUtils.createLookup(manager, getActionMap())) );
@@ -57,7 +57,7 @@ public final class SelectedDatasetsViewTopComponent extends TopComponent impleme
         toolbar.setRollover(true);
 
         remove.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/glotaran/core/main/resources/delete.png"))); // NOI18N
-        org.openide.awt.Mnemonics.setLocalizedText(remove, org.openide.util.NbBundle.getMessage(SelectedDatasetsViewTopComponent.class, "SelectedDatasetsViewTopComponent.remove.text")); // NOI18N
+        org.openide.awt.Mnemonics.setLocalizedText(remove, org.openide.util.NbBundle.getBundle(SelectedDatasetsViewTopComponent.class).getString("SelectedDatasetsViewTopComponent.remove.text")); // NOI18N
         remove.setToolTipText(org.openide.util.NbBundle.getMessage(SelectedDatasetsViewTopComponent.class, "SelectedDatasetsViewTopComponent.remove.toolTipText")); // NOI18N
         remove.setFocusable(false);
         remove.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
@@ -77,7 +77,7 @@ public final class SelectedDatasetsViewTopComponent extends TopComponent impleme
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(panel, javax.swing.GroupLayout.DEFAULT_SIZE, 400, Short.MAX_VALUE)
-            .addComponent(toolbar, javax.swing.GroupLayout.DEFAULT_SIZE, 400, Short.MAX_VALUE)
+            .addComponent(toolbar, javax.swing.GroupLayout.PREFERRED_SIZE, 400, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)

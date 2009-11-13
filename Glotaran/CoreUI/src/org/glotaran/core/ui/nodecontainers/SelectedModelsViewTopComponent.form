@@ -44,7 +44,7 @@
               <Image iconType="3" name="/org/glotaran/core/main/resources/delete.png"/>
             </Property>
             <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-              <ResourceString bundle="org/glotaran/core/ui/Bundle.properties" key="SelectedDatasetsViewTopComponent.remove.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+              <ResourceString bundle="org/glotaran/core/ui/nodecontainers/Bundle.properties" key="SelectedDatasetsViewTopComponent.remove.text" replaceFormat="org.openide.util.NbBundle.getBundle({sourceFileName}.class).getString(&quot;{key}&quot;)"/>
             </Property>
             <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
               <ResourceString bundle="org/glotaran/core/ui/Bundle.properties" key="SelectedDatasetsViewTopComponent.remove.toolTipText" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>

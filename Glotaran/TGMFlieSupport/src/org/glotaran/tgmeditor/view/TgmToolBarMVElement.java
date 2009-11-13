@@ -142,7 +142,7 @@ public class TgmToolBarMVElement extends ToolBarMultiViewElement {
 
         TgmNode(Tgm tgm) {
             super(org.openide.nodes.Children.LEAF);
-            setDisplayName("TIMPGUI Model Root Node:");
+            setDisplayName("Model Root Node:");
         //setIconBase("org/netbeans/modules/web/dd/multiview/resources/class"); //NOI18N
         }
     }

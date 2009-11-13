@@ -36,7 +36,7 @@ public final class StartAnalysis implements ActionListener {
 
     private int NO_OF_ITERATIONS = 0;
     Tgm[] models;
-    private TimpController controller;
+    private TimpController controller = new TimpController();
     private DatasetTimp[] datasets;
     private TimpResultDataset[] results = null;
     private boolean run;

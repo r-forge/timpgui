@@ -1199,7 +1199,7 @@ private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
         updateColorBar(scale);
     }
 
-    public static double[] intToDoubleArray(int[] numbers) {
+    public double[] intToDoubleArray(int[] numbers) {
         double[] newNumbers = new double[numbers.length];
         for (int index = 0; index < numbers.length; index++) {
             newNumbers[index] = (double) numbers[index];

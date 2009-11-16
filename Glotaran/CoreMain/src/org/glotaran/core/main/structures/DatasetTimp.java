@@ -166,7 +166,7 @@ public final class DatasetTimp implements DatasetTimpInterface{
      *
      * @param x2Value
      */
-    public void setIntenceIm(double[] x2Value){x2 = x2Value;}
+    public void setIntenceIm(double[] x2Value){intenceIm = x2Value;}
     /**
      *
      * @param dataName

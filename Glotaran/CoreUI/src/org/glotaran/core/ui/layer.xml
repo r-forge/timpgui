@@ -7,7 +7,7 @@
                 <attr name="SystemFileSystem.localizingBundle" stringvalue="org.glotaran.core.ui.Bundle"/>
                 <attr name="delegate" newvalue="org.glotaran.core.ui.StartAnalysis"/>
                 <attr name="displayName" bundlevalue="org.glotaran.core.ui.Bundle#CTL_StartAnalysis"/>
-                <attr name="iconBase" stringvalue="org/glotaran/core/main/resources/runProject.png"/>
+                <attr name="iconBase" stringvalue="org/glotaran/core/main/resources/start_analysis.png"/>
                 <attr name="instanceCreate" methodvalue="org.openide.awt.Actions.alwaysEnabled"/>
                 <attr name="noIconInMenu" stringvalue="false"/>
             </file>
@@ -91,7 +91,7 @@
 
         </folder>
         <folder name="Window">
-            <file name="Navigator_hidden"/>
+            <file name="Properties_hidden"/>
             <file name="Output_hidden"/>
             <file name="SwitchToRecentDocumentAction.shadow_hidden"/>
             <file name="ViewRuntimeTabAction.shadow_hidden"/>
@@ -99,14 +99,10 @@
         </folder>
     </folder>
     <folder name="Windows2">
-        <!-- <file name="WindowManager.wswmgr" url="WindowManager.wswmgr"/> -->
         <folder name="Components">
-            <file name="ASTBrowserTopComponent.settings_hidden"/>
             <file name="CommonPalette.settings_hidden"/>
-            <file name="TokensBrowserTopComponent.settings_hidden"/>
             <file name="favorites.settings_hidden"/>
             <file name="find-usages.settings_hidden"/>
-            <file name="navigatorTC.settings_hidden"/>
             <file name="output.settings_hidden"/>
             <file name="properties.settings_hidden"/>
             <file name="refactoring-preview.settings_hidden"/>
@@ -122,14 +118,12 @@
             <file name="datasetContainerMode.wsmode" url="datasetContainerModeWsmode.xml"/>
             <folder name="datasetContainerMode">
                 <file name="SelectedDatasetsViewTopComponent.wstcref" url="SelectedDatasetsViewTopComponentWstcref.xml"/>
-                </folder>
-             <file name="modelContainerMode.wsmode" url="modelContainerModeWsmode.xml"/>
+             </folder>
+            <file name="modelContainerMode.wsmode" url="modelContainerModeWsmode.xml"/>
             <folder name="modelContainerMode">
                 <file name="SelectedModelsViewTopComponent.wstcref" url="SelectedModelsViewTopComponentWstcref.xml"/>
             </folder>
         </folder>
     </folder>
-    
-
 
 </filesystem>

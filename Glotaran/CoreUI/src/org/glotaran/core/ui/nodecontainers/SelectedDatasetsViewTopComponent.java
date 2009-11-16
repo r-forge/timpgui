@@ -58,7 +58,7 @@ public final class SelectedDatasetsViewTopComponent extends TopComponent impleme
 
         toolbar.setRollover(true);
 
-        remove.setIcon(new javax.swing.ImageIcon("/home/slk230/JavaProj/Glotaran/CoreMain/src/org/glotaran/core/main/resources/Delete-icon-16.png")); // NOI18N
+        remove.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/glotaran/core/main/resources/Delete-icon-16.png"))); // NOI18N
         org.openide.awt.Mnemonics.setLocalizedText(remove, org.openide.util.NbBundle.getBundle(SelectedDatasetsViewTopComponent.class).getString("SelectedDatasetsViewTopComponent.remove.text")); // NOI18N
         remove.setToolTipText(org.openide.util.NbBundle.getMessage(SelectedDatasetsViewTopComponent.class, "SelectedDatasetsViewTopComponent.remove.toolTipText")); // NOI18N
         remove.setFocusable(false);
@@ -78,15 +78,15 @@ public final class SelectedDatasetsViewTopComponent extends TopComponent impleme
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(panel, javax.swing.GroupLayout.DEFAULT_SIZE, 400, Short.MAX_VALUE)
-            .addComponent(toolbar, javax.swing.GroupLayout.DEFAULT_SIZE, 400, Short.MAX_VALUE)
+            .addComponent(panel, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
+            .addComponent(toolbar, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(toolbar, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(panel, javax.swing.GroupLayout.DEFAULT_SIZE, 269, Short.MAX_VALUE))
+                .addComponent(panel, javax.swing.GroupLayout.DEFAULT_SIZE, 69, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 

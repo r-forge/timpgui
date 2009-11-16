@@ -15,7 +15,6 @@ public class TGLogicalView implements LogicalViewProvider {
 
     public TGLogicalView(TGProject project) {
         this.project = project;
-
     }
 
     @Override

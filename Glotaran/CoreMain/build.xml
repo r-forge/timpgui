@@ -5,4 +5,15 @@
 <project name="org.glotaran.core.main" default="netbeans" basedir=".">
     <description>Builds, tests, and runs the project org.glotaran.core.main.</description>
     <import file="nbproject/build-impl.xml"/>
+
+    <target name="netbeans" depends="package-samples,projectized-common.netbeans"/>
+
+    <target name="package-samples">
+        <delete file="${basedir}/src/org/glotaran/main/EmptyTgmProjectProject.zip"/>
+        <delete file="${basedir}/src/org/glotaran/main/SampleTgmProjectProject.zip"/>
+        <zip compress="9" basedir="templates/EmptyTgmProject/"
+            zipfile="${basedir}/src/org/glotaran/main/EmptyTgmProjectProject.zip"/>
+        <zip compress="9" basedir="templates/SampleTgmProject/"
+            zipfile="${basedir}/src/org/glotaran/main/SampleTgmProjectProject.zip"/>
+    </target>
 </project>

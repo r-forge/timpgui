@@ -83,12 +83,14 @@ final public class FlimResultsTopComponent extends TopComponent implements Chart
     private IntensImageDataset intensutyImageDataset;
     private ArrayList<Integer> selectedTimeTraces;
     private JFreeChart subchartTimeTrace;
+    private TimpResultDataObject dataObject;
 
     public FlimResultsTopComponent(TimpResultDataObject dataObj) {
         initComponents();
         setToolTipText(NbBundle.getMessage(FlimResultsTopComponent.class, "HINT_FlimOutputTopComponent"));
         setName(dataObj.getName());
-        res = dataObj.getTimpResultDataset();
+        this.dataObject = dataObj;
+        res = dataObject.getTimpResultDataset();
 //        res.calcRangeInt();
         numberOfComponents = res.getKineticParameters().length/2;
         double errTau;
@@ -179,6 +181,10 @@ final public class FlimResultsTopComponent extends TopComponent implements Chart
         }
         PlotFirstTrace();
         MakeTracesChart();
+    }
+
+    public TimpResultDataObject getDataObject() {
+        return dataObject;
     }
 
     private FlimResultsTopComponent() {

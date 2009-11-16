@@ -166,7 +166,7 @@ public final class StartAnalysis implements ActionListener {
 
     private void writeSummary(FileObject resultsfolder) throws IOException{
         FileObject writeTo;
-        writeTo = resultsfolder.createData(resultsfolder.getName() + "_summary", "summ");
+        writeTo = resultsfolder.createData(resultsfolder.getName(), "summaray");
         BufferedWriter output = new BufferedWriter(new FileWriter(FileUtil.toFile(writeTo)));
         //TODO: Complete the summary here:
         output.append("Summary");

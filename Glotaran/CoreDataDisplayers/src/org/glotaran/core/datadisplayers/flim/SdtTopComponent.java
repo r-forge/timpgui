@@ -65,7 +65,8 @@ final public class SdtTopComponent extends CloneableTopComponent implements Char
     private IntensImageDataset dataset;
     private XYSeriesCollection tracesCollection;
     private int numSelPix;
-    TgdDataObject dataObject;
+    private TgdDataObject dataObject;
+    private TimpDatasetDataObject timpDatasetObject;
     private static SdtTopComponent instance;
  /** path to the icon used by the component and its open action */
 //    static final String ICON_PATH = "SET/PATH/TO/ICON/HERE";
@@ -126,9 +127,10 @@ final public class SdtTopComponent extends CloneableTopComponent implements Char
 
 
     public SdtTopComponent(TimpDatasetDataObject dataObj) {
+        this.timpDatasetObject = dataObj;
         String filename;
         DatasetTimp tempData;
-        TgdDataNode tddNode = (TgdDataNode)dataObj.getNodeDelegate().getParentNode();
+        TgdDataNode tddNode = (TgdDataNode)timpDatasetObject.getNodeDelegate().getParentNode();
         dataObject = tddNode.getLookup().lookup(TgdDataObject.class);
         initComponents();
         setName(dataObject.getTgd().getFilename());
@@ -175,6 +177,14 @@ final public class SdtTopComponent extends CloneableTopComponent implements Char
         jLHeigth.setText(Integer.toString(flimImage.getY()));
         jLWidth.setText(Integer.toString(flimImage.getX()));
         jLChWidth.setText(Double.toString(flimImage.getCannelW()).substring(0, 7));
+    }
+
+    public TgdDataObject getDataObject() {
+        return dataObject;
+    }
+
+    public TimpDatasetDataObject getTimpDatasetObject() {
+        return timpDatasetObject;
     }
 
     /** This method is called from within the constructor to

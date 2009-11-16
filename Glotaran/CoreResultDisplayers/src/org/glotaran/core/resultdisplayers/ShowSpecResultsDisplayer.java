@@ -5,9 +5,12 @@
 
 package org.glotaran.core.resultdisplayers;
 
+import java.util.Set;
 import org.glotaran.core.main.interfaces.ResultsLoaderInterface;
 import org.glotaran.core.main.nodes.dataobjects.TimpResultDataObject;
 import org.glotaran.core.resultdisplayers.spec.SpecResultsTopComponent;
+import org.openide.windows.TopComponent;
+import org.openide.windows.WindowManager;
 
 /**
  *
@@ -20,6 +23,16 @@ public class ShowSpecResultsDisplayer implements ResultsLoaderInterface{
     }
 
     public void openResultDisplayer(TimpResultDataObject dataObj) {
+   Set<TopComponent> tset = WindowManager.getDefault().getRegistry().getOpened();
+        for (TopComponent t : tset) {
+            if (t instanceof SpecResultsTopComponent) {
+                SpecResultsTopComponent srtc = (SpecResultsTopComponent) t;
+                if (srtc.getDataObject().equals(dataObj)) {
+                    srtc.requestActive();
+                    return;
+                }
+            }
+        }
         SpecResultsTopComponent tc = new SpecResultsTopComponent(dataObj);
         tc.open();
         tc.requestActive();

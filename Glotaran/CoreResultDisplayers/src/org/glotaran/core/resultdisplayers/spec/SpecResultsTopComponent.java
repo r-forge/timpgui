@@ -94,13 +94,15 @@ public final class SpecResultsTopComponent extends TopComponent implements Chart
     private Matrix leftSingVecPart;
     private double[] timePart;
     private double[] t0Curve;
+    private TimpResultDataObject dataObject;
 
 
     public SpecResultsTopComponent(TimpResultDataObject dataObj) {
         initComponents();
         setToolTipText(NbBundle.getMessage(SpecResultsTopComponent.class, "HINT_StreakOutTopComponent"));
         setName(dataObj.getName());
-        res = dataObj.getTimpResultDataset();
+        this.dataObject = dataObj;
+        res = dataObject.getTimpResultDataset();
         res.calcRangeInt();
         if (res.getJvec()!=null)
             numberOfComponents = res.getJvec().length/2;
@@ -177,6 +179,10 @@ public final class SpecResultsTopComponent extends TopComponent implements Chart
         initComponents();
         setName(NbBundle.getMessage(SpecResultsTopComponent.class, "HINT_StreakOutTopComponent"));
         setToolTipText(NbBundle.getMessage(SpecResultsTopComponent.class, "HINT_StreakOutTopComponent"));
+    }
+
+    public TimpResultDataObject getDataObject() {
+        return dataObject;
     }
 
     /** This method is called from within the constructor to

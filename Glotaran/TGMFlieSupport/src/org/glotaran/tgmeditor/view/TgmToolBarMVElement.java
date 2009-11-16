@@ -4,7 +4,6 @@
  */
 package org.glotaran.tgmeditor.view;
 
-import java.util.ArrayList;
 import org.glotaran.core.models.tgm.CohspecPanelModel;
 import org.glotaran.core.models.tgm.Dat;
 import org.glotaran.core.models.tgm.IrfparPanelModel;
@@ -21,6 +20,7 @@ import org.openide.nodes.AbstractNode;
 import org.openide.nodes.Children;
 import org.openide.nodes.Node;
 
+
 /**
  *
  * @author joris
@@ -30,8 +30,7 @@ public class TgmToolBarMVElement extends ToolBarMultiViewElement {
     private TgmDataObject dataObj;
     private TgmView view;
     private ToolBarDesignEditor comp;
-    private PanelFactory factory;
-    private ArrayList<Boolean> activeSectionViewPanels = new ArrayList<Boolean>();
+    private PanelFactory factory;    
     private static final String IMAGE_ICON_BASE = "org/glotaran/core/main/resources/Model-icon-16.png";
 
     public TgmToolBarMVElement(TgmDataObject dObj) {
@@ -54,20 +53,29 @@ public class TgmToolBarMVElement extends ToolBarMultiViewElement {
         super.componentShowing();
         this.dataObj.modelUpdatedFromUI();
         view = new TgmView(this.dataObj);
-        comp.setContentView(view);        
+        comp.setContentView(view);
         //This determines what view is opened by default:
-        //try {
         Node[] nodeArray = view.getNodeArray();
         //} //catch(java.io.IOException ex){}
-        if (!activeSectionViewPanels.isEmpty()) {
-            for (int i = 0; i < nodeArray.length; i++) {
-                if (activeSectionViewPanels.get(i)) {
-                    view.openPanel(nodeArray[i]);
+        Tgm tgm = dataObj.getTgm();
+        Boolean state = null;
+        for (int i = 0; i < nodeArray.length; i++) {
+            if (tgm.getPanelStates() != null) {
+                int size = tgm.getPanelStates().size();
+                if (size >0) {
+                    if (i<size) {
+                    state = dataObj.getTgm().getPanelStates().get(i);
+                    }
                 }
             }
-        }
+            if (state!=null) {
+                if (state.booleanValue()) {
+                view.getSection(nodeArray[i]).setActive(true);
+                view.getSection(nodeArray[i]).open();
+                }
+            }
+        }        
         view.checkValidity();
-
     }
 
     @Override
@@ -78,14 +86,14 @@ public class TgmToolBarMVElement extends ToolBarMultiViewElement {
     @Override
     public void componentHidden() {
         // this is called before componentClosed
-//        super.componentHidden();
-//        Node[] nodeArray = view.getNodeArray();
-//        ArrayList<Boolean> tempBooleanArrayList = new ArrayList<Boolean>();
-//        for (Node node : nodeArray) {
-//            tempBooleanArrayList.add(view.getSection(node).isActive());
-//        }
-//        activeSectionViewPanels = tempBooleanArrayList;
+        super.componentHidden();
+        dataObj.getTgm().getPanelStates().clear();
+        Node[] nodeArray = view.getNodeArray();
+        for (Node node : nodeArray) {        
+            dataObj.getTgm().getPanelStates().add(view.getSection(node).isActive());
+        }
     }
+
 
     private class TgmView extends SectionView {
 
@@ -136,7 +144,7 @@ public class TgmToolBarMVElement extends ToolBarMultiViewElement {
 
         public Node[] getNodeArray() {
             return nodeArray;
-        }
+    }
     }
 
     private class TgmNode extends org.openide.nodes.AbstractNode {

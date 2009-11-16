@@ -273,17 +273,17 @@
             </file>
         </folder>
         <folder name="Project">
-            <folder name="MPUR">
-                <file name="EmptyTgmProjectProject.zip" url="EmptyTgmProjectProject.zip">
+            <folder name="General">
+                <file name="A new empty project" url="EmptyTgmProjectProject.zip">
                     <attr name="SystemFileSystem.localizingBundle" stringvalue="org.glotaran.core.main.Bundle"/>
-                    <attr name="instantiatingIterator" methodvalue="org.glotaran.core.main.EmptyTgmProjectWizardIterator.createIterator"/>
-                    <attr name="instantiatingWizardURL" urlvalue="nbresloc:/nl/vu/nat/tgmprojectsupport/templates/EmptyTgmProjectDescription.html"/>
+                    <attr name="instantiatingIterator" methodvalue="org.glotaran.core.main.project.templates.EmptyTgmProjectWizardIterator.createIterator"/>
+                    <attr name="instantiatingWizardURL" urlvalue="nbresloc:/org/glotaran/core/main/project/templates/EmptyTgmProjectDescription.html"/>
                     <attr name="template" boolvalue="true"/>
                 </file>
-                <file name="SampleTgmProjectProject.zip" url="SampleTgmProjectProject.zip">
+                <file name="A new example project" url="SampleTgmProjectProject.zip">
                     <attr name="SystemFileSystem.localizingBundle" stringvalue="org.glotaran.core.main.Bundle"/>
-                    <attr name="instantiatingIterator" methodvalue="org.glotaran.core.main.Bundle.EmptyTgmProjectWizardIterator.createIterator"/>
-                    <attr name="instantiatingWizardURL" urlvalue="nbresloc:/nl/vu/nat/tgmprojectsupport/templates/SampleTgmProjectDescription.html"/>
+                    <attr name="instantiatingIterator" methodvalue="org.glotaran.core.main.project.templates.EmptyTgmProjectWizardIterator.createIterator"/>
+                    <attr name="instantiatingWizardURL" urlvalue="nbresloc:/org/glotaran/core/main/project/templates/SampleTgmProjectDescription.html"/>
                     <attr name="template" boolvalue="true"/>
                 </file>
             </folder>

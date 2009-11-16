@@ -11,7 +11,7 @@ import org.openide.util.NbBundle;
 /**
  */
 public class TGModelsNode extends FilterNode {
-    private final Image ICON = ImageUtilities.loadImage("org/glotaran/core/main/resources/folder-models.png", true);
+    private final Image ICON = ImageUtilities.loadImage("org/glotaran/core/main/resources/Folder-models-icon-16.png", true);
 
     /**
      * Constructor.

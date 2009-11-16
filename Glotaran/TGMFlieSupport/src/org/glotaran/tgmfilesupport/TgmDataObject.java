@@ -142,7 +142,7 @@ public class TgmDataObject extends XmlMultiViewDataObject {
 
         @Override
         public java.awt.Image getIcon() {
-            return org.openide.util.Utilities.loadImage("org/glotaran/core/main/resources/povicon.gif"); //NOI18N
+            return org.openide.util.Utilities.loadImage("org/glotaran/core/main/resources/Model-icon-16.png"); //NOI18N
         }
 
         @Override

@@ -32,6 +32,7 @@ public class TgmToolBarMVElement extends ToolBarMultiViewElement {
     private ToolBarDesignEditor comp;
     private PanelFactory factory;
     private ArrayList<Boolean> activeSectionViewPanels = new ArrayList<Boolean>();
+    private static final String IMAGE_ICON_BASE = "org/glotaran/core/main/resources/Model-icon-16.png";
 
     public TgmToolBarMVElement(TgmDataObject dObj) {
 
@@ -152,7 +153,7 @@ public class TgmToolBarMVElement extends ToolBarMultiViewElement {
         DatNode(Dat dat) {
             super(org.openide.nodes.Children.LEAF);
             setDisplayName("1) Model name and type:");
-            setIconBaseWithExtension("org/glotaran/core/main/resources/povicon.gif"); //NOI18N
+            setIconBaseWithExtension(IMAGE_ICON_BASE); //NOI18N
         }
     }
 
@@ -161,7 +162,7 @@ public class TgmToolBarMVElement extends ToolBarMultiViewElement {
         KinparPanelNode(KinparPanelModel kinparPanelModel) {
             super(org.openide.nodes.Children.LEAF);
             setDisplayName("2) Decay rates:");
-            setIconBaseWithExtension("org/glotaran/core/main/resources/povicon.gif"); //NOI18N
+            setIconBaseWithExtension(IMAGE_ICON_BASE); //NOI18N
         }
     }
 
@@ -170,7 +171,7 @@ public class TgmToolBarMVElement extends ToolBarMultiViewElement {
         IrfparPanelNode(IrfparPanelModel irfparPanelModel) {
             super(org.openide.nodes.Children.LEAF);
             setDisplayName("3) Instrument Response Function (IRF):");
-            setIconBaseWithExtension("org/glotaran/core/main/resources/povicon.gif"); //NOI18N
+            setIconBaseWithExtension(IMAGE_ICON_BASE); //NOI18N
         }
     }
 
@@ -179,7 +180,7 @@ public class TgmToolBarMVElement extends ToolBarMultiViewElement {
         WeightparPanelNode(WeightParPanelModel weightParPanelModel) {
             super(org.openide.nodes.Children.LEAF);
             setDisplayName("4) Weighting parameters:");
-            setIconBaseWithExtension("org/glotaran/core/main/resources/povicon.gif"); //NOI18N
+            setIconBaseWithExtension(IMAGE_ICON_BASE); //NOI18N
         }
     }
 
@@ -188,7 +189,7 @@ public class TgmToolBarMVElement extends ToolBarMultiViewElement {
         CohspecPanelNode(CohspecPanelModel cohspecPanelModel) {
             super(org.openide.nodes.Children.LEAF);
             setDisplayName("5) Coherent artifact:");
-            setIconBaseWithExtension("org/glotaran/core/main/resources/povicon.gif"); //NOI18N
+            setIconBaseWithExtension(IMAGE_ICON_BASE); //NOI18N
         }
     }
 
@@ -197,7 +198,7 @@ public class TgmToolBarMVElement extends ToolBarMultiViewElement {
         KMatrixPanelNode(KMatrixPanelModel kMatrixPanelModel) {
             super(org.openide.nodes.Children.LEAF);
             setDisplayName("6) K Matrix (advanced):");
-            setIconBaseWithExtension("org/glotaran/core/main/resources/povicon.gif"); //NOI18N
+            setIconBaseWithExtension(IMAGE_ICON_BASE); //NOI18N
         }
     }
 

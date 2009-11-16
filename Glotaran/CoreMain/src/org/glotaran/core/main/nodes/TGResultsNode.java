@@ -11,8 +11,8 @@ import org.openide.util.NbBundle;
 
 public class TGResultsNode extends FilterNode {
 
-    private final Image ICON_ROOT = ImageUtilities.loadImage("org/glotaran/core/main/resources/folder-results.png", true);
-    private final Image ICON_LEAF = ImageUtilities.loadImage("org/glotaran/core/main/resources/resultsname.png", true);
+    private final Image ICON_ROOT = ImageUtilities.loadImage("org/glotaran/core/main/resources/Folder-results-icon-16.png", true);
+    private final Image ICON_LEAF = ImageUtilities.loadImage("org/glotaran/core/main/resources/Results-name-16.png", true);
     /**
      * Constructor.
      * @param   node      The {@code Node} describing the folder.

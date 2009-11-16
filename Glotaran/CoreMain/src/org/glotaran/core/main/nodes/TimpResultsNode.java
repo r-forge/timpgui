@@ -23,7 +23,7 @@ import org.openide.util.Lookup;
 public class TimpResultsNode extends DataNode implements Transferable{
 
     private TimpResultDataObject obj;
-    private final Image ICON = ImageUtilities.loadImage("org/glotaran/core/main/resources/results.png", true);
+    private final Image ICON = ImageUtilities.loadImage("org/glotaran/core/main/resources/Result-dataset-16.png", true);
     public static final DataFlavor DATA_FLAVOR = new DataFlavor(TimpResultsNode.class, "TimpResultsNode");
 
 

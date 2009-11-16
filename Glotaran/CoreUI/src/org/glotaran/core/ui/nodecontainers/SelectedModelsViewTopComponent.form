@@ -41,7 +41,7 @@
         <Component class="javax.swing.JButton" name="remove">
           <Properties>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/org/glotaran/core/main/resources/delete.png"/>
+              <Image iconType="3" name="/org/glotaran/core/main/resources/Delete-icon-16.png"/>
             </Property>
             <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
               <ResourceString bundle="org/glotaran/core/ui/nodecontainers/Bundle.properties" key="SelectedDatasetsViewTopComponent.remove.text" replaceFormat="org.openide.util.NbBundle.getBundle({sourceFileName}.class).getString(&quot;{key}&quot;)"/>

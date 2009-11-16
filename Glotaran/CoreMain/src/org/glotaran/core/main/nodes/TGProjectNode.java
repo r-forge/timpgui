@@ -49,7 +49,7 @@ import org.openide.util.lookup.Lookups;
  */
 public class TGProjectNode extends FilterNode{
 
-    private final ImageIcon ICON = new ImageIcon(ImageUtilities.loadImage("org/glotaran/core/main/resources/boussole.png", true));
+    private final ImageIcon ICON = new ImageIcon(ImageUtilities.loadImage("org/glotaran/core/main/resources/Project-icon.png", true));
 
     private final TGProject project;
 

@@ -48,7 +48,7 @@ import org.openide.util.NbBundle;
  */
 public class TGDatasetNode extends FilterNode {
 
-    private final Image ICON = ImageUtilities.loadImage("org/glotaran/core/main/resources/folder-datasets.png", true);
+    private final Image ICON = ImageUtilities.loadImage("org/glotaran/core/main/resources/Folder-datasets-icon-16.png", true);
 
     /**
      * Constructor.

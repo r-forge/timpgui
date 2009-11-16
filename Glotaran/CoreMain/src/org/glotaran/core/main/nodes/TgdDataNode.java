@@ -12,7 +12,7 @@ import org.openide.util.Lookup;
 
 public class TgdDataNode extends DataNode {
 
-    private final Image ICON = ImageUtilities.loadImage("org/glotaran/core/main/resources/tgddataset.png", true);
+    private final Image ICON = ImageUtilities.loadImage("org/glotaran/core/main/resources/Tgd-dataset-icon-16.png", true);
     private TgdDataObject obj;
 
     public TgdDataNode(TgdDataObject obj) {

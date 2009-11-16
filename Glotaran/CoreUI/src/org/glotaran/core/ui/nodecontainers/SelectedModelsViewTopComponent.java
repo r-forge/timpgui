@@ -55,7 +55,7 @@ public final class SelectedModelsViewTopComponent extends TopComponent implement
 
         toolbar.setRollover(true);
 
-        remove.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/glotaran/core/main/resources/delete.png"))); // NOI18N
+        remove.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/glotaran/core/main/resources/Delete-icon-16.png"))); // NOI18N
         org.openide.awt.Mnemonics.setLocalizedText(remove, org.openide.util.NbBundle.getBundle(SelectedModelsViewTopComponent.class).getString("SelectedDatasetsViewTopComponent.remove.text")); // NOI18N
         remove.setToolTipText(org.openide.util.NbBundle.getMessage(SelectedModelsViewTopComponent.class, "SelectedDatasetsViewTopComponent.remove.toolTipText")); // NOI18N
         remove.setFocusable(false);

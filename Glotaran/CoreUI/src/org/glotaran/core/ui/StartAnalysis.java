@@ -13,6 +13,7 @@ import java.io.ObjectOutputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Formatter;
+import org.glotaran.core.main.mesages.CoreErrorMessages;
 import org.glotaran.core.main.nodes.TimpDatasetNode;
 import org.glotaran.core.main.nodes.dataobjects.TimpDatasetDataObject;
 import org.glotaran.core.main.project.TGProject;
@@ -158,16 +159,14 @@ public final class StartAnalysis implements ActionListener {
                         DialogDisplayer.getDefault().notify(errorMessage);
                     }
                 } else {
-                    NotifyDescriptor errorMessage = new NotifyDescriptor.Exception(
-                            new Exception("Please select your main project."));
-                    DialogDisplayer.getDefault().notify(errorMessage);
+                    CoreErrorMessages.noMainProjectFound();
                 }
             }
         }
 
     private void writeSummary(FileObject resultsfolder) throws IOException{
         FileObject writeTo;
-        writeTo = resultsfolder.createData(resultsfolder.getName() + "_summary", "txt");
+        writeTo = resultsfolder.createData(resultsfolder.getName() + "_summary", "summ");
         BufferedWriter output = new BufferedWriter(new FileWriter(FileUtil.toFile(writeTo)));
         //TODO: Complete the summary here:
         output.append("Summary");

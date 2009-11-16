@@ -199,7 +199,7 @@ public class TGProject implements Project {
     /* Implementation of project system's ProjectInformation class */
     private final class Info implements ProjectInformation {
 
-        private final String ICON_PATH = "org/glotaran/core/main/resources/boussole.png";
+        private final String ICON_PATH = "org/glotaran/core/main/resources/Project-icon.png";
         private final ImageIcon ICON = new ImageIcon(ImageUtilities.loadImage(ICON_PATH, true));
         private final PropertyChangeSupport support = new PropertyChangeSupport(this);
 

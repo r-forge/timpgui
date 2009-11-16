@@ -27,7 +27,7 @@ import org.openide.util.datatransfer.PasteType;
 
 
 public class TgmDataNode extends DataNode implements Transferable{
-    private final Image ICON_ROOT = ImageUtilities.loadImage("org/glotaran/core/main/resources/povicon.gif", true);
+    private final Image ICON_ROOT = ImageUtilities.loadImage("org/glotaran/core/main/resources/Model-icon-16.png", true);
     public static final DataFlavor DATA_FLAVOR = new DataFlavor(TgmDataNode.class, "TgmDataNode");
     private TgmDataObject obj;
 

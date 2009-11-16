@@ -1073,6 +1073,14 @@ private void jCBParmuFixedActionPerformed(java.awt.event.ActionEvent evt) {//GEN
             }
         }
 
+        if (source == jRDispmufun_no) {
+            irfparPanelModel.setDispmufun(null);
+        }
+
+         if (source == jRDisptaufun_no) {
+            irfparPanelModel.setDisptaufun(null);
+        }
+
         if (source == jRDispmufun_poly) {
             irfparPanelModel.setDispmufun("poly");
         }

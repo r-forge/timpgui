@@ -13,8 +13,7 @@ import org.netbeans.spi.project.ui.PrivilegedTemplates;
 public class TGFileTypes implements PrivilegedTemplates {
 
     public String[] getPrivilegedTemplates() {
-        String[] trialTypes = {"Templates/Other/TgoTemplate.xml",
-            "Templates/Other/TgmTemplate.xml"
+        String[] trialTypes = {"Templates/Other/TgmTemplate.xml"
         };
 
         return trialTypes;

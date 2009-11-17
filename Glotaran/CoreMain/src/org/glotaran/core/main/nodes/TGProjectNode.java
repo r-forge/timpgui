@@ -32,7 +32,9 @@ import org.openide.loaders.DataObject;
 import org.openide.nodes.FilterNode;
 import org.openide.nodes.Node;
 import org.openide.util.ImageUtilities;
+import org.openide.util.Lookup;
 import org.openide.util.lookup.Lookups;
+import org.openide.util.lookup.ProxyLookup;
 
 
 /**
@@ -55,8 +57,6 @@ public class TGProjectNode extends FilterNode{
 
     /**
      * Constructor.<br>
-     * This constructor only initialize a new array to contain project node
-     * childrens ("src", "doc", "map").
      *
      * @param   project The current {@code TGProject}.
      */
@@ -65,9 +65,13 @@ public class TGProjectNode extends FilterNode{
                     //The projects system wants the project in the Node's lookup.
                     //NewAction and friends want the original Node's lookup.
                     //Make a merge of both
-                    Lookups.singleton(project));
+                    //Lookups.singleton(project));
+
+                new ProxyLookup(new Lookup[]{Lookups.singleton(project),
+                        node.getLookup()
+                    }));
+
         this.project = project;
-        //this.getChildren().remove(node.getLookup().lookup(new Lookup));
     }
 
     @Override
@@ -88,10 +92,13 @@ public class TGProjectNode extends FilterNode{
 
     @Override
     public Action[] getActions(boolean arg0) {
-        return new Action[]{
-            CommonProjectActions.setAsMainProjectAction(),
-            CommonProjectActions.closeProjectAction()
-        };
+            Action[] nodeActions = new Action[7];
+            nodeActions[0] = CommonProjectActions.newFileAction();
+            nodeActions[1] = CommonProjectActions.copyProjectAction();
+            nodeActions[2] = CommonProjectActions.deleteProjectAction();
+            nodeActions[5] = CommonProjectActions.setAsMainProjectAction();
+            nodeActions[6] = CommonProjectActions.closeProjectAction();
+            return nodeActions;
     }
 
 }

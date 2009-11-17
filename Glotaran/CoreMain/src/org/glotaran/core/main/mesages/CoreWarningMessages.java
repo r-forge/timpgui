@@ -22,5 +22,19 @@ public class CoreWarningMessages {
         DialogDisplayer.getDefault().notify(warningMessage);
     }
 
+    public static void wrongIterNumWarning(){
+        NotifyDescriptor warningMessage =new NotifyDescriptor.Message(
+                new Message(NbBundle.getBundle("org/glotaran/core/main/Bundle").getString("wrongIterNumber"),
+                NotifyDescriptor.WARNING_MESSAGE));
+        DialogDisplayer.getDefault().notify(warningMessage);
+    }
+
+    public static Object folderExistsWarning(){
+        NotifyDescriptor warningMessage =new NotifyDescriptor.Confirmation(
+                new Message(NbBundle.getBundle("org/glotaran/core/main/Bundle").getString("folderExistsWarning"),
+                NotifyDescriptor.WARNING_MESSAGE));
+        return DialogDisplayer.getDefault().notify(warningMessage);
+    }
+
 
 }

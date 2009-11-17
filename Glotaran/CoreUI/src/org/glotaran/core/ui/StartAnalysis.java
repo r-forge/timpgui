@@ -14,6 +14,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Formatter;
 import org.glotaran.core.main.mesages.CoreErrorMessages;
+import org.glotaran.core.main.mesages.CoreWarningMessages;
 import org.glotaran.core.main.nodes.TimpDatasetNode;
 import org.glotaran.core.main.nodes.dataobjects.TimpDatasetDataObject;
 import org.glotaran.core.main.project.TGProject;
@@ -31,6 +32,7 @@ import org.openide.filesystems.FileObject;
 import org.openide.filesystems.FileUtil;
 import org.openide.nodes.Node;
 import org.openide.util.Exceptions;
+import org.openide.util.NbBundle;
 import org.openide.windows.WindowManager;
 
 public final class StartAnalysis implements ActionListener {
@@ -45,16 +47,14 @@ public final class StartAnalysis implements ActionListener {
     public void actionPerformed(ActionEvent e) {
 
             NotifyDescriptor.InputLine numIterations = new NotifyDescriptor.InputLine(
-                    "Number of iterations",
-                    "Please specify the number of iterations for this analysis");
+                    NbBundle.getBundle("org/glotaran/core/main/Bundle").getString("numberIterationsMessage"),
+                    NbBundle.getBundle("org/glotaran/core/main/Bundle").getString("numberIterationsQuestion"));
             Object res1 = DialogDisplayer.getDefault().notify(numIterations);
             if (res1.equals(NotifyDescriptor.OK_OPTION)) {
                 try {
                     NO_OF_ITERATIONS = Integer.parseInt(numIterations.getInputText());
                 }catch (Exception exept) {
-                    NotifyDescriptor noNumItMessage = new NotifyDescriptor.Message(
-                                "Incorrect number of iterations. 0 iterations will be done.");
-                        DialogDisplayer.getDefault().notify(noNumItMessage);
+                    CoreWarningMessages.wrongIterNumWarning();
                 }
 
                 final TGProject proj = (TGProject) OpenProjects.getDefault().getMainProject();
@@ -85,11 +85,10 @@ public final class StartAnalysis implements ActionListener {
 //                    TopComponent.getRegistry().getActivated().setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
                     if (run) {
                         if (controller != null) {
-                        results = controller.runAnalysis(datasets, models, NO_OF_ITERATIONS);
+                            results = controller.runAnalysis(datasets, models, NO_OF_ITERATIONS);
+
                         } else {
-                             NotifyDescriptor errorMessage = new NotifyDescriptor.Exception(
-                                new Exception("Could not find an instance of R, are you sure you started it?"));
-                        DialogDisplayer.getDefault().notify(errorMessage);
+                            CoreErrorMessages.noRFoundException();
                         return;
                         }
                     } else {
@@ -102,10 +101,8 @@ public final class StartAnalysis implements ActionListener {
                     if (results != null) {
                         boolean folderOK = false;
                         NotifyDescriptor.InputLine resultNameDialog = new NotifyDescriptor.InputLine(
-                                "Analysis name",
-                                "Please specify the name for results folder");
-                        NotifyDescriptor.Confirmation foldExistsDialog = new NotifyDescriptor.Confirmation(
-                                        "Folder with this name already exists! Override?");
+                                NbBundle.getBundle("org/glotaran/core/main/Bundle").getString("analysisNameMessage"),
+                                NbBundle.getBundle("org/glotaran/core/main/Bundle").getString("analysisNameQuestion"));
                         Object res = null;
                         Object res2 = null;
                         try {
@@ -115,7 +112,7 @@ public final class StartAnalysis implements ActionListener {
                                 //get results directory
                                 resultsfolder = proj.getResultsFolder(true);
                                 if (resultsfolder.getFileObject(resultNameDialog.getInputText())!=null){
-                                   res2 = DialogDisplayer.getDefault().notify(foldExistsDialog);
+                                   res2 = CoreWarningMessages.folderExistsWarning();
                                    if (res2.equals(NotifyDescriptor.OK_OPTION)) {
                                        resultsfolder.getFileObject(resultNameDialog.getInputText()).delete();
                                        folderOK = true;
@@ -153,10 +150,7 @@ public final class StartAnalysis implements ActionListener {
                             Exceptions.printStackTrace(ex);
                         }
                     } else {
-                        NotifyDescriptor errorMessage = new NotifyDescriptor.Exception(
-                                new Exception("The analysis did not return valid results. " +
-                                "Try again with different paramters please, or try less iterations"));
-                        DialogDisplayer.getDefault().notify(errorMessage);
+                        CoreErrorMessages.noResultsException();
                     }
                 } else {
                     CoreErrorMessages.noMainProjectFound();

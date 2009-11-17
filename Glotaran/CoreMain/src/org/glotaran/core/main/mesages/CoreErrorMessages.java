@@ -127,4 +127,18 @@ public class CoreErrorMessages {
                 new Exception(NbBundle.getBundle("org/glotaran/core/main/Bundle").getString("initModelException")));
         DialogDisplayer.getDefault().notify(errorMessage);
     }
+
+    public static void noRFoundException(){
+        NotifyDescriptor errorMessage =new NotifyDescriptor.Exception(
+                new Exception(NbBundle.getBundle("org/glotaran/core/main/Bundle").getString("noRerrorMessage")));
+        DialogDisplayer.getDefault().notify(errorMessage);
+    }
+
+    public static void noResultsException(){
+        NotifyDescriptor errorMessage =new NotifyDescriptor.Exception(
+                new Exception(NbBundle.getBundle("org/glotaran/core/main/Bundle").getString("noResultsError")));
+        DialogDisplayer.getDefault().notify(errorMessage);
+    }
+
+
 }

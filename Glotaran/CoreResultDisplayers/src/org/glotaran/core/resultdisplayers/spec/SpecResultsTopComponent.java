@@ -5,7 +5,6 @@ import Jama.SingularValueDecomposition;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.GridLayout;
 import java.awt.geom.Ellipse2D;
 import java.awt.image.BufferedImage;
 import java.io.Serializable;
@@ -17,7 +16,8 @@ import javax.swing.JPanel;
 import org.glotaran.core.main.mesages.CoreErrorMessages;
 import org.glotaran.core.main.nodes.dataobjects.TimpResultDataObject;
 import org.glotaran.core.main.structures.TimpResultDataset;
-import org.glotaran.core.resultdisplayers.comon.panels.SelectTracesForPlot;
+import org.glotaran.core.resultdisplayers.common.panels.CommonTools;
+import org.glotaran.core.resultdisplayers.common.panels.SelectTracesForPlot;
 import org.glotaran.jfreechartcustom.ColorCodedImageDataset;
 import org.glotaran.jfreechartcustom.GraphPanel;
 import org.glotaran.jfreechartcustom.ImageCrosshairLabelGenerator;
@@ -783,7 +783,7 @@ public final class SpecResultsTopComponent extends TopComponent implements Chart
         jScrollPane5.setBorder(null);
         jScrollPane5.setPreferredSize(new java.awt.Dimension(1000, 700));
 
-        jPSelTimeTrCollection.setPreferredSize(new java.awt.Dimension(923, 969));
+        jPSelTimeTrCollection.setPreferredSize(new java.awt.Dimension(900, 800));
         jPSelTimeTrCollection.setLayout(new java.awt.GridLayout(2, 2));
         jScrollPane5.setViewportView(jPSelTimeTrCollection);
 
@@ -905,7 +905,8 @@ public final class SpecResultsTopComponent extends TopComponent implements Chart
                 int xIndex = 0;
                 selectedTimeTraces.clear();
                 jPSelTimeTrCollection.removeAll();
-                jPSelTimeTrCollection.setLayout(new GridLayout(numSelTraces/4+1, 4));
+                CommonTools.restorePanelSize(jPSelTimeTrCollection);
+                CommonTools.checkPanelSize(jPSelTimeTrCollection,numSelTraces);
 
                 for (int i = 0; i < numSelTraces; i++) {
                     xIndex = i*w;
@@ -938,7 +939,8 @@ public final class SpecResultsTopComponent extends TopComponent implements Chart
                 ChartPanel chpan;
                 selectedWaveTraces.clear();
                 jPSelWavTrCollection.removeAll();
-                jPSelWavTrCollection.setLayout(new GridLayout(numSelTraces/4+1, 4));
+                CommonTools.restorePanelSize(jPSelWavTrCollection);
+                CommonTools.checkPanelSize(jPSelWavTrCollection,numSelTraces);
 
                 for (int i = 0; i < numSelTraces; i++) {
 //create common X axe for plot
@@ -999,12 +1001,8 @@ public final class SpecResultsTopComponent extends TopComponent implements Chart
             linLogTime.getChart().setTitle(String.valueOf(res.getX2()[jSColum.getValue()]));
             jPSelTimeTrCollection.add(linLogTime);
         }
-        
-        GridLayout gl = (GridLayout)jPSelTimeTrCollection.getLayout();
-        if (selectedTimeTraces.size()/4>=gl.getRows()){
-            jPSelTimeTrCollection.setLayout(new GridLayout(gl.getRows()+1, 4));
-        }
 
+        CommonTools.checkPanelSize(jPSelTimeTrCollection, selectedTimeTraces.size());
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
@@ -1039,23 +1037,21 @@ public final class SpecResultsTopComponent extends TopComponent implements Chart
         chpan.setMinimumDrawHeight(0);
         chpan.setMinimumDrawWidth(0);
         jPSelWavTrCollection.add(chpan);
-        GridLayout gl = (GridLayout)jPSelWavTrCollection.getLayout();
-        if (selectedWaveTraces.size()/4>=gl.getRows()){
-            jPSelWavTrCollection.setLayout(new GridLayout(gl.getRows()+1, 4));
-        }
-
+        CommonTools.checkPanelSize(jPSelWavTrCollection, selectedWaveTraces.size());
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
         jPSelWavTrCollection.removeAll();
-        jPSelWavTrCollection.setLayout(new GridLayout(2, 2));
+        CommonTools.restorePanelSize(jPSelWavTrCollection);
+        jPSelWavTrCollection.repaint();
         selectedWaveTraces.clear();
 
     }//GEN-LAST:event_jButton6ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         jPSelTimeTrCollection.removeAll();
-        jPSelTimeTrCollection.setLayout(new GridLayout(2, 2));
+        CommonTools.restorePanelSize(jPSelTimeTrCollection);
+        jPSelTimeTrCollection.repaint();
         selectedTimeTraces.clear();
     }//GEN-LAST:event_jButton4ActionPerformed
 

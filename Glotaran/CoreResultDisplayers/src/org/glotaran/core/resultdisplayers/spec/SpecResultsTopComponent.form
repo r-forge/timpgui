@@ -995,7 +995,7 @@
                 <Container class="javax.swing.JPanel" name="jPSelTimeTrCollection">
                   <Properties>
                     <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                      <Dimension value="[923, 969]"/>
+                      <Dimension value="[900, 800]"/>
                     </Property>
                   </Properties>
 

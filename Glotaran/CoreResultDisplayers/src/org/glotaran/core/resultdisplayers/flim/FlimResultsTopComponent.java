@@ -22,7 +22,8 @@ import java.util.logging.Logger;
 import org.glotaran.core.main.mesages.CoreErrorMessages;
 import org.glotaran.core.main.nodes.dataobjects.TimpResultDataObject;
 import org.glotaran.core.main.structures.TimpResultDataset;
-import org.glotaran.core.resultdisplayers.comon.panels.SelectTracesForPlot;
+import org.glotaran.core.resultdisplayers.common.panels.CommonTools;
+import org.glotaran.core.resultdisplayers.common.panels.SelectTracesForPlot;
 import org.glotaran.jfreechartcustom.GrayPaintScalePlus;
 import org.glotaran.jfreechartcustom.ImageUtilities;
 import org.glotaran.jfreechartcustom.IntensImageDataset;
@@ -755,7 +756,6 @@ double newMinLifetime, newMaxLifetime;
 }//GEN-LAST:event_jButton2ActionPerformed
 
 private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-
     selectedTimeTraces.add(selectedietm);
     JFreeChart tracechart = null;
     CombinedDomainXYPlot plot = new CombinedDomainXYPlot();
@@ -770,10 +770,9 @@ private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
         Exceptions.printStackTrace(ex);
     }
     plot.setOrientation(PlotOrientation.VERTICAL);
-    GridLayout gl = (GridLayout)jPSelTimeTrCollection.getLayout();
-    if (selectedTimeTraces.size()/4>=gl.getRows()){
-        jPSelTimeTrCollection.setLayout(new GridLayout(gl.getRows()+1, 4));
-    }
+
+    CommonTools.checkPanelSize(jPSelTimeTrCollection, selectedTimeTraces.size());
+
 }//GEN-LAST:event_jButton3ActionPerformed
 
 private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
@@ -800,7 +799,9 @@ private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
             int xIndex;
             NumberAxis xAxis;
             ChartPanel chpan;
-            jPSelTimeTrCollection.setLayout(new GridLayout(numSelTraces/4+1, 4));
+
+            CommonTools.restorePanelSize(jPSelTimeTrCollection);
+            CommonTools.checkPanelSize(jPSelTimeTrCollection, numSelTraces);
 
             for (int i = 0; i < numSelTraces; i++) {
                 xAxis = new NumberAxis("Time (ns)");
@@ -839,8 +840,7 @@ private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
 
 private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
     jPSelTimeTrCollection.removeAll();
-    jPSelTimeTrCollection.setLayout(new GridLayout(2, 2));
-    selectedTimeTraces.clear();
+    CommonTools.restorePanelSize(jPSelTimeTrCollection);
     jPSelTimeTrCollection.repaint();
 }//GEN-LAST:event_jButton6ActionPerformed
 

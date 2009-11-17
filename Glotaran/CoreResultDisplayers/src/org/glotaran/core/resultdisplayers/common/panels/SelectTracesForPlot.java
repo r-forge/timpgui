@@ -1,4 +1,4 @@
-package org.glotaran.core.resultdisplayers.comon.panels;
+package org.glotaran.core.resultdisplayers.common.panels;
 
 import org.openide.DialogDisplayer;
 import org.openide.NotifyDescriptor;

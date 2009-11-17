@@ -11,7 +11,7 @@
     <AuxValue name="FormSettings_listenerGenerationStyle" type="java.lang.Integer" value="0"/>
     <AuxValue name="FormSettings_variablesLocal" type="java.lang.Boolean" value="false"/>
     <AuxValue name="FormSettings_variablesModifier" type="java.lang.Integer" value="2"/>
-    <AuxValue name="designerSize" type="java.awt.Dimension" value="-84,-19,0,5,115,114,0,18,106,97,118,97,46,97,119,116,46,68,105,109,101,110,115,105,111,110,65,-114,-39,-41,-84,95,68,20,2,0,2,73,0,6,104,101,105,103,104,116,73,0,5,119,105,100,116,104,120,112,0,0,2,-89,0,0,4,40"/>
+    <AuxValue name="designerSize" type="java.awt.Dimension" value="-84,-19,0,5,115,114,0,18,106,97,118,97,46,97,119,116,46,68,105,109,101,110,115,105,111,110,65,-114,-39,-41,-84,95,68,20,2,0,2,73,0,6,104,101,105,103,104,116,73,0,5,119,105,100,116,104,120,112,0,0,2,-89,0,0,4,27"/>
   </AuxValues>
 
   <Layout class="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout"/>
@@ -39,8 +39,8 @@
           <Layout>
             <DimensionLayout dim="0">
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="jToolBar1" alignment="0" pref="1059" max="32767" attributes="0"/>
-                  <Component id="jScrollPane1" alignment="0" pref="1059" max="32767" attributes="0"/>
+                  <Component id="jToolBar1" alignment="0" pref="1046" max="32767" attributes="0"/>
+                  <Component id="jScrollPane1" alignment="0" pref="1046" max="32767" attributes="0"/>
               </Group>
             </DimensionLayout>
             <DimensionLayout dim="1">
@@ -84,7 +84,7 @@
                                               <EmptySpace max="-2" attributes="0"/>
                                               <Component id="jLabel5" min="-2" max="-2" attributes="0"/>
                                           </Group>
-                                          <Component id="jScrollPane2" min="-2" pref="184" max="-2" attributes="2"/>
+                                          <Component id="jScrollPane2" min="-2" pref="172" max="-2" attributes="2"/>
                                       </Group>
                                       <EmptySpace max="-2" attributes="0"/>
                                       <Component id="jPanel6" min="-2" max="-2" attributes="0"/>
@@ -101,10 +101,10 @@
                     <DimensionLayout dim="1">
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" alignment="0" max="-2" attributes="0">
-                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                              <Group type="103" groupAlignment="0" attributes="0">
                                   <Component id="jPanel11" max="32767" attributes="1"/>
                                   <Component id="jPanel7" alignment="0" max="32767" attributes="1"/>
-                                  <Group type="102" alignment="0" attributes="1">
+                                  <Group type="102" alignment="0" attributes="0">
                                       <Component id="jLabel5" min="-2" max="-2" attributes="0"/>
                                       <EmptySpace max="-2" attributes="0"/>
                                       <Component id="jScrollPane2" max="32767" attributes="3"/>
@@ -636,9 +636,9 @@
                   <Group type="102" attributes="0">
                       <Component id="jScrollPane3" min="-2" pref="555" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="jPSelectedTrace" pref="498" max="32767" attributes="2"/>
+                      <Component id="jPSelectedTrace" pref="485" max="32767" attributes="2"/>
                   </Group>
-                  <Component id="jToolBar2" alignment="0" pref="1059" max="32767" attributes="0"/>
+                  <Component id="jToolBar2" alignment="0" pref="1046" max="32767" attributes="0"/>
               </Group>
             </DimensionLayout>
             <DimensionLayout dim="1">
@@ -647,11 +647,11 @@
                       <Component id="jToolBar2" min="-2" pref="25" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="1" attributes="0">
-                          <Component id="jScrollPane3" pref="621" max="32767" attributes="0"/>
-                          <Group type="102" alignment="1" attributes="0">
+                          <Group type="102" attributes="0">
                               <Component id="jPSelectedTrace" min="-2" pref="305" max="-2" attributes="1"/>
                               <EmptySpace min="-2" pref="222" max="-2" attributes="0"/>
                           </Group>
+                          <Component id="jScrollPane3" pref="621" max="32767" attributes="0"/>
                       </Group>
                   </Group>
               </Group>
@@ -758,8 +758,8 @@
               <Layout>
                 <DimensionLayout dim="0">
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="jToolBar3" alignment="0" pref="1041" max="32767" attributes="0"/>
-                      <Component id="jPSelTimeTrCollection" alignment="0" pref="1041" max="32767" attributes="0"/>
+                      <Component id="jToolBar3" alignment="0" pref="1028" max="32767" attributes="0"/>
+                      <Component id="jPSelTimeTrCollection" alignment="0" pref="1028" max="32767" attributes="0"/>
                   </Group>
                 </DimensionLayout>
                 <DimensionLayout dim="1">

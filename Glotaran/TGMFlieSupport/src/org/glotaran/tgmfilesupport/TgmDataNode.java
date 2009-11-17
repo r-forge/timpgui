@@ -92,7 +92,7 @@ public class TgmDataNode extends DataNode implements Transferable{
                             final UpdateModelParameters updParamPanel = new UpdateModelParameters();
                             NotifyDescriptor detParamToUpdateDialog = new NotifyDescriptor(
                             updParamPanel,
-                            NbBundle.getBundle("org.glotaran.tgmfilesupport").getString("selParamForUpdate"),
+                            NbBundle.getBundle("org/glotaran/tgmfilesupport/Bundle").getString("selParamForUpdate"),
                             NotifyDescriptor.OK_CANCEL_OPTION,
                             NotifyDescriptor.PLAIN_MESSAGE,
                             null,

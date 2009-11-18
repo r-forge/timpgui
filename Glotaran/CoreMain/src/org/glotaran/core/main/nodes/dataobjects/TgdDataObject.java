@@ -10,7 +10,9 @@ import org.openide.filesystems.FileUtil;
 import org.openide.loaders.DataObjectExistsException;
 import org.openide.loaders.InstanceDataObject;
 import org.openide.loaders.MultiFileLoader;
+import org.openide.nodes.CookieSet;
 import org.openide.nodes.Node;
+import org.openide.text.DataEditorSupport;
 import org.openide.util.Lookup;
 
 public class TgdDataObject extends InstanceDataObject {
@@ -18,8 +20,8 @@ public class TgdDataObject extends InstanceDataObject {
 
     public TgdDataObject(FileObject pf, MultiFileLoader loader) throws DataObjectExistsException, IOException {
         super(pf, loader);
-        //CookieSet cookies = getCookieSet();
-        //cookies.add((Node.Cookie) DataEditorSupport.create(this, getPrimaryEntry(), cookies));
+        CookieSet cookies = getCookieSet();
+        cookies.add((Node.Cookie) DataEditorSupport.create(this, getPrimaryEntry(), cookies));
         if (!(FileUtil.toFile(this.getPrimaryFile()) == null)) {
             try {
                 parseDocument();

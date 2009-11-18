@@ -5,11 +5,8 @@
 package org.glotaran.core.main.nodes;
 
 import java.awt.Image;
-import java.io.IOException;
 import org.glotaran.core.main.nodes.dataobjects.TgdDataObject;
-import org.openide.filesystems.FileObject;
 import org.openide.loaders.DataNode;
-import org.openide.loaders.DataObject;
 import org.openide.util.ImageUtilities;
 import org.openide.util.Lookup;
 
@@ -37,12 +34,5 @@ public class TgdDataNode extends DataNode {
     @Override
     public Image getOpenedIcon(int type) {
         return getIcon(type);
-    }
-
-    @Override
-    public void destroy() throws IOException {
-        super.destroy();
-        FileObject file = obj.getPrimaryFile();
-        file.getParent().getFileObject("cache").getFileObject(obj.getTgd().getCacheFolderName()).delete();
     }
 }

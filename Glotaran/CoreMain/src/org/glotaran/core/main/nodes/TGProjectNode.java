@@ -37,6 +37,7 @@ import org.openide.util.lookup.Lookups;
 import org.openide.util.lookup.ProxyLookup;
 
 
+
 /**
  * This class provides a {@link org.openide.nodes.Node} for the
  * {@link org.puzzle.core.project.TGProject}.
@@ -101,8 +102,11 @@ public class TGProjectNode extends FilterNode{
             return nodeActions;
     }
 
+    public TGProject getProject() {
+        return project;
+    }
+    
 }
-
 class TGProjectNodeFilter extends FilterNode.Children{
 
     private final TGProject project;

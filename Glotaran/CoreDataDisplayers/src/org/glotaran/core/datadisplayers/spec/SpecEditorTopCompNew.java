@@ -145,6 +145,14 @@ final public class SpecEditorTopCompNew extends CloneableTopComponent
         
     }
 
+    public TgdDataObject getDataObject() {
+        return dataObject;
+    }
+
+    public TimpDatasetDataObject getDataObject2() {
+        return dataObject2;
+    }
+
     /** This method is called from within the constructor to
      * initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is

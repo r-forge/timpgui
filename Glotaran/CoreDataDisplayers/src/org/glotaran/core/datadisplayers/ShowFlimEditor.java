@@ -25,8 +25,7 @@ public class ShowFlimEditor implements  DatasetLoaderInterface{
     }
 
     public void openDatasetEditor(TgdDataObject dataObj) {
-
-         Set<TopComponent> tset = WindowManager.getDefault().getRegistry().getOpened();
+        Set<TopComponent> tset = WindowManager.getDefault().getRegistry().getOpened();
         for (TopComponent t : tset) {
             if (t instanceof SdtTopComponent) {
                 SdtTopComponent srtc = (SdtTopComponent) t;
@@ -43,15 +42,15 @@ public class ShowFlimEditor implements  DatasetLoaderInterface{
     }
 
     public void openDatasetEditor(TimpDatasetDataObject dataObj) {
-                 Set<TopComponent> tset = WindowManager.getDefault().getRegistry().getOpened();
+        Set<TopComponent> tset = WindowManager.getDefault().getRegistry().getOpened();
         for (TopComponent t : tset) {
             if (t instanceof SdtTopComponent) {
                 SdtTopComponent srtc = (SdtTopComponent) t;
-                if (srtc.getTimpDatasetObject()!=null) {
-                if (srtc.getTimpDatasetObject().equals(dataObj)) {
-                    srtc.requestActive();
-                    return;
-                }
+                if (srtc.getTimpDatasetObject() != null) {
+                    if (srtc.getTimpDatasetObject().equals(dataObj)) {
+                        srtc.requestActive();
+                        return;
+                    }
                 }
             }
         }

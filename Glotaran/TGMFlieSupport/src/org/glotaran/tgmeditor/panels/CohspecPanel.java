@@ -226,6 +226,7 @@ public class CohspecPanel extends SectionInnerPanel {
 
     private void jCBCohSpec0ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCBCohSpec0ActionPerformed
         updateEnabled(jCBCohSpec0.isSelected());
+        setValue(jCBCohSpec0, jCBCohSpec0.isSelected());
     }//GEN-LAST:event_jCBCohSpec0ActionPerformed
 
     private void jRBCohspecNoStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jRBCohspecNoStateChanged

@@ -556,11 +556,11 @@ public class InitModel {
                     }
 
                     clp0Call = clp0Call + "list(" + Double.valueOf(min) + "," +
-                            Double.valueOf(max) + "," + (i + 1) + ")";
+                            Double.valueOf(max) + ", comp = " + (i + 1) + ")";
                     count++;
                 }
             }
-
+        }
             if (tgm.getDat().getCohspecPanel().isClp0Enabled() != null) {
                 if (tgm.getDat().getCohspecPanel().isClp0Enabled()) {
                     if (clp0Call != null) {
@@ -577,15 +577,14 @@ public class InitModel {
                     } else {
                         indexOfComponent = (tgm.getDat().getKinparPanel().getKinpar().size() + 1);
                     }
-                    clp0Call = clp0Call + "list(" + tgm.getDat().getCohspecPanel().getClp0Min() + "," +
-                            tgm.getDat().getCohspecPanel().getClp0Max() + "," +
+                    clp0Call = clp0Call + "list(low = " + tgm.getDat().getCohspecPanel().getClp0Min() + ", high = " +
+                            tgm.getDat().getCohspecPanel().getClp0Max() + ", comp = " +
                             indexOfComponent + ")";
                 }
             }
             if (clp0Call != null) {
                 clp0Call = clp0Call + ")";
             }
-        }
         return clp0Call;
     }
 

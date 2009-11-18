@@ -7,7 +7,6 @@ package org.glotaran.core.main.mesages;
 
 import org.openide.DialogDisplayer;
 import org.openide.NotifyDescriptor;
-import org.openide.NotifyDescriptor.Message;
 import org.openide.util.NbBundle;
 
 /**

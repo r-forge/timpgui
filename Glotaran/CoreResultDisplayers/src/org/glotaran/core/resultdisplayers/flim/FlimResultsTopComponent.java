@@ -205,6 +205,7 @@ final public class FlimResultsTopComponent extends TopComponent implements Chart
      */
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
+        java.awt.GridBagConstraints gridBagConstraints;
 
         jTabbedPane1 = new javax.swing.JTabbedPane();
         jPanel1 = new javax.swing.JPanel();
@@ -263,7 +264,17 @@ final public class FlimResultsTopComponent extends TopComponent implements Chart
 
         setLayout(new java.awt.BorderLayout());
 
+        jPanel1.setLayout(new java.awt.GridBagLayout());
+
         jToolBar1.setRollover(true);
+        jToolBar1.setPreferredSize(new java.awt.Dimension(500, 19));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTH;
+        gridBagConstraints.weightx = 0.1;
+        jPanel1.add(jToolBar1, gridBagConstraints);
 
         jPanel2.setPreferredSize(new java.awt.Dimension(1200, 597));
 
@@ -555,7 +566,7 @@ final public class FlimResultsTopComponent extends TopComponent implements Chart
                         .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, 291, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jPanel11, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(187, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -568,25 +579,18 @@ final public class FlimResultsTopComponent extends TopComponent implements Chart
                     .addComponent(jPanel11, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(136, Short.MAX_VALUE))
         );
 
         jScrollPane1.setViewportView(jPanel2);
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jToolBar1, javax.swing.GroupLayout.DEFAULT_SIZE, 1046, Short.MAX_VALUE)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 1046, Short.MAX_VALUE)
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addComponent(jToolBar1, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 622, Short.MAX_VALUE))
-        );
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 1.0;
+        jPanel1.add(jScrollPane1, gridBagConstraints);
 
         jTabbedPane1.addTab(org.openide.util.NbBundle.getMessage(FlimResultsTopComponent.class, "FlimResultsTopComponent.jPanel1.TabConstraints.tabTitle"), jPanel1); // NOI18N
 
@@ -630,9 +634,9 @@ final public class FlimResultsTopComponent extends TopComponent implements Chart
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPSelectedTrace, javax.swing.GroupLayout.DEFAULT_SIZE, 500, Short.MAX_VALUE)
+                .addComponent(jPSelectedTrace, javax.swing.GroupLayout.DEFAULT_SIZE, 657, Short.MAX_VALUE)
                 .addContainerGap())
-            .addComponent(jToolBar2, javax.swing.GroupLayout.DEFAULT_SIZE, 1046, Short.MAX_VALUE)
+            .addComponent(jToolBar2, javax.swing.GroupLayout.DEFAULT_SIZE, 1203, Short.MAX_VALUE)
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -643,7 +647,7 @@ final public class FlimResultsTopComponent extends TopComponent implements Chart
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addComponent(jPSelectedTrace, javax.swing.GroupLayout.PREFERRED_SIZE, 305, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addContainerGap())
-                    .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 621, Short.MAX_VALUE)))
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 669, Short.MAX_VALUE)))
         );
 
         jTabbedPane1.addTab(org.openide.util.NbBundle.getMessage(FlimResultsTopComponent.class, "FlimResultsTopComponent.jPanel3.TabConstraints.tabTitle"), jPanel3); // NOI18N
@@ -678,8 +682,8 @@ final public class FlimResultsTopComponent extends TopComponent implements Chart
         jPSelTimeTrCollectionTop.setLayout(jPSelTimeTrCollectionTopLayout);
         jPSelTimeTrCollectionTopLayout.setHorizontalGroup(
             jPSelTimeTrCollectionTopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jToolBar3, javax.swing.GroupLayout.DEFAULT_SIZE, 1028, Short.MAX_VALUE)
-            .addComponent(jPSelTimeTrCollection, javax.swing.GroupLayout.DEFAULT_SIZE, 1028, Short.MAX_VALUE)
+            .addComponent(jToolBar3, javax.swing.GroupLayout.DEFAULT_SIZE, 1185, Short.MAX_VALUE)
+            .addComponent(jPSelTimeTrCollection, javax.swing.GroupLayout.DEFAULT_SIZE, 1185, Short.MAX_VALUE)
         );
         jPSelTimeTrCollectionTopLayout.setVerticalGroup(
             jPSelTimeTrCollectionTopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -691,7 +695,7 @@ final public class FlimResultsTopComponent extends TopComponent implements Chart
 
         jScrollPane7.setViewportView(jPSelTimeTrCollectionTop);
 
-        jTabbedPane1.addTab("TimeTrCollection", jScrollPane7);
+        jTabbedPane1.addTab(org.openide.util.NbBundle.getBundle(FlimResultsTopComponent.class).getString("FlimResultsTopComponent.jScrollPane7.TabConstraints.tabTitle"), jScrollPane7); // NOI18N
 
         add(jTabbedPane1, java.awt.BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents

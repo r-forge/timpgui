@@ -113,7 +113,7 @@
           </Properties>
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
-              <JTabbedPaneConstraints tabName="Dataset">
+              <JTabbedPaneConstraints tabName="Data">
                 <Property name="tabTitle" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
                   <ResourceString bundle="org/glotaran/core/datadisplayers/spec/Bundle.properties" key="SpecEditorTopCompNew.jPanel11.TabConstraints.tabTitle" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
                 </Property>
@@ -210,19 +210,6 @@
                   </Events>
                 </Component>
                 <Component class="javax.swing.JToolBar$Separator" name="jSeparator3">
-                </Component>
-                <Component class="javax.swing.JButton" name="jBdoSVD">
-                  <Properties>
-                    <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                      <ResourceString bundle="org/glotaran/core/datadisplayers/spec/Bundle.properties" key="SpecEditorTopCompNew.jBdoSVD.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
-                    </Property>
-                    <Property name="focusable" type="boolean" value="false"/>
-                    <Property name="horizontalTextPosition" type="int" value="0"/>
-                    <Property name="verticalTextPosition" type="int" value="3"/>
-                  </Properties>
-                  <Events>
-                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jBdoSVDActionPerformed"/>
-                  </Events>
                 </Component>
                 <Component class="javax.swing.JToolBar$Separator" name="jSeparator4">
                 </Component>

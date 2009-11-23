@@ -101,7 +101,7 @@ public class ResampleSpecDataset extends java.awt.Panel {
                         .addGap(44, 44, 44))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jCbAplyToSelArea)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 14, Short.MAX_VALUE)
                         .addComponent(jCCreatNewDataset)
                         .addContainerGap())))
         );

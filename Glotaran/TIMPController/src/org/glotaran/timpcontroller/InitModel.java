@@ -293,9 +293,10 @@ public class InitModel {
     private static String get_parmu(Tgm tgm) {
         String parmuStr = null;
         IrfparPanelModel irfPanel = tgm.getDat().getIrfparPanel();
-
+        if (irfPanel.getLamda() != null) {
         if (irfPanel.getLamda() > 0) {
             parmuStr = "lambdac = " + String.valueOf(irfPanel.getLamda());
+        }
         }
 
         if (irfPanel.getParmu().trim().length() != 0) {

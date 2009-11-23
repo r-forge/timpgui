@@ -128,7 +128,9 @@ public final class StartAnalysis implements ActionListener {
                                     TimpResultDataset timpResultDataset = results[i];
                                     timpResultDataset.setType(datasets[i].getType());
                                     //TODO: change this
+                                    if (models[0].getDat().getIrfparPanel().getLamda() != null) {
                                     timpResultDataset.setLamdac(models[0].getDat().getIrfparPanel().getLamda());
+                                    }
                                     if (datasets[i].getType().equalsIgnoreCase("flim")) {
                                         timpResultDataset.setOrheigh(datasets[i].getOriginalHeight());
                                         timpResultDataset.setOrwidth(datasets[i].getOriginalWidth());
@@ -257,10 +259,12 @@ public final class StartAnalysis implements ActionListener {
         run = true;
         if (!tgm.getDat().getIrfparPanel().isMirf()) {
             if (tgm.getDat().getIrfparPanel().getParmu() != null || tgm.getDat().getIrfparPanel().getPartau() != null) {
+                if (!tgm.getDat().getIrfparPanel().getParmu().isEmpty()  || !tgm.getDat().getIrfparPanel().getPartau().isEmpty()) {
                 Double test = tgm.getDat().getIrfparPanel().getLamda();
                 if (test == null || test.isNaN()) {
                     run = false;
                     feedback = "Parmu or Partau specified but no center wavelength was specified.";
+                }
                 }
             }
         }

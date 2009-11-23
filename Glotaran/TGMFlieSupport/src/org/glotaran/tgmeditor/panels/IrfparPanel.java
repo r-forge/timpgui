@@ -119,9 +119,12 @@ public class IrfparPanel extends SectionInnerPanel {
 
         if (irfparPanelModel.isParmufixed()!=null) {
         jCBParmuFixed.setSelected(irfparPanelModel.isParmufixed());
+        jCBParmuFixedShift.setSelected(irfparPanelModel.isParmufixed());
+
         } else {
             irfparPanelModel.setParmufixed(Boolean.FALSE);
             jCBParmuFixed.setSelected(false);
+            jCBParmuFixedShift.setSelected(false);
         }
 
         if (irfparPanelModel.isPartaufixed()!=null) {
@@ -204,6 +207,7 @@ public class IrfparPanel extends SectionInnerPanel {
 //========meairf=======
         addModifier(jTRefLifetime);
         addModifier(jTFIrfShiftParameter);
+        addModifier(jCBParmuFixedShift);
     }
 
     /** This method is called from within the constructor to
@@ -274,6 +278,7 @@ public class IrfparPanel extends SectionInnerPanel {
         jPanel10 = new javax.swing.JPanel();
         jLabel15 = new javax.swing.JLabel();
         jTFIrfShiftParameter = new javax.swing.JTextField();
+        jCBParmuFixedShift = new javax.swing.JCheckBox();
 
         jTabbedPane1.setPreferredSize(new java.awt.Dimension(0, 0));
 
@@ -469,7 +474,7 @@ public class IrfparPanel extends SectionInnerPanel {
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(jTPolyDispersion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(33, 33, 33))
+                .addGap(41, 41, 41))
         );
 
         jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder("Parameters for a streak images analysis"));
@@ -507,8 +512,7 @@ public class IrfparPanel extends SectionInnerPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
-                    .addComponent(jTFLaserPeriod, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(32, Short.MAX_VALUE))
+                    .addComponent(jTFLaserPeriod, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
         );
 
         jCBMeasuredIRF.setText("Measured IRF");
@@ -525,10 +529,9 @@ public class IrfparPanel extends SectionInnerPanel {
             .addGroup(jPanel6Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jCBMeasuredIRF)
-                    .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 385, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel6Layout.createSequentialGroup()
                         .addComponent(jLabel4)
@@ -550,8 +553,8 @@ public class IrfparPanel extends SectionInnerPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(161, 161, 161))
+                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(199, 199, 199))
         );
 
         jTabbedPane1.addTab("IRF Settings", jPanel6);
@@ -567,6 +570,7 @@ public class IrfparPanel extends SectionInnerPanel {
         });
 
         jPanel8.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        jPanel8.setPreferredSize(new java.awt.Dimension(679, 413));
 
         jLabel11.setText(org.openide.util.NbBundle.getMessage(IrfparPanel.class, "MeasuredIrfTopComponent.jLabel2.text")); // NOI18N
 
@@ -649,7 +653,7 @@ public class IrfparPanel extends SectionInnerPanel {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel8Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jPanel9, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 1691, Short.MAX_VALUE)
+                    .addComponent(jPanel9, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 651, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel8Layout.createSequentialGroup()
                         .addComponent(jCBEstimateBG, javax.swing.GroupLayout.PREFERRED_SIZE, 148, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -667,14 +671,13 @@ public class IrfparPanel extends SectionInnerPanel {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jTFBGvalue, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel8Layout.createSequentialGroup()
-                        .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel8Layout.createSequentialGroup()
-                                .addComponent(jLabel11)
-                                .addGap(10, 10, 10)
-                                .addComponent(tFRefFilename, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(Bloadref, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 727, Short.MAX_VALUE)
-                        .addComponent(jCBNegToZer, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel11)
+                        .addGap(10, 10, 10)
+                        .addComponent(tFRefFilename, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel8Layout.createSequentialGroup()
+                        .addComponent(Bloadref, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 272, Short.MAX_VALUE)
+                        .addComponent(jCBNegToZer)
                         .addGap(18, 18, 18)
                         .addComponent(jBSubtrBG)))
                 .addContainerGap())
@@ -747,12 +750,19 @@ public class IrfparPanel extends SectionInnerPanel {
                     .addComponent(jTRefLifetime, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jRBScatterConv)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(10, Short.MAX_VALUE))
         );
 
         jPanel10.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
         jLabel15.setText("Measured IRF Shift Parameter");
+
+        jCBParmuFixedShift.setText("Fix");
+        jCBParmuFixedShift.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jCBParmuFixedShiftActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel10Layout = new javax.swing.GroupLayout(jPanel10);
         jPanel10.setLayout(jPanel10Layout);
@@ -762,8 +772,11 @@ public class IrfparPanel extends SectionInnerPanel {
                 .addContainerGap()
                 .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel15)
-                    .addComponent(jTFIrfShiftParameter, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(116, Short.MAX_VALUE))
+                    .addGroup(jPanel10Layout.createSequentialGroup()
+                        .addComponent(jTFIrfShiftParameter, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jCBParmuFixedShift)))
+                .addContainerGap(110, Short.MAX_VALUE))
         );
         jPanel10Layout.setVerticalGroup(
             jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -771,7 +784,9 @@ public class IrfparPanel extends SectionInnerPanel {
                 .addContainerGap()
                 .addComponent(jLabel15)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTFIrfShiftParameter, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jTFIrfShiftParameter, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jCBParmuFixedShift))
                 .addContainerGap(37, Short.MAX_VALUE))
         );
 
@@ -781,13 +796,15 @@ public class IrfparPanel extends SectionInnerPanel {
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel7Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel7Layout.createSequentialGroup()
+                        .addComponent(jPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap())
                     .addGroup(jPanel7Layout.createSequentialGroup()
                         .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jPanel10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(1031, 1031, 1031))
+                        .addComponent(jPanel10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(1031, 1031, 1031))))
         );
         jPanel7Layout.setVerticalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -999,6 +1016,10 @@ private void jCBParmuFixedActionPerformed(java.awt.event.ActionEvent evt) {//GEN
     // TODO add your handling code here:
 }//GEN-LAST:event_jCBParmuFixedActionPerformed
 
+private void jCBParmuFixedShiftActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCBParmuFixedShiftActionPerformed
+    // TODO add your handling code here:
+}//GEN-LAST:event_jCBParmuFixedShiftActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton Bloadref;
     private javax.swing.ButtonGroup buttonGroup1;
@@ -1010,6 +1031,7 @@ private void jCBParmuFixedActionPerformed(java.awt.event.ActionEvent evt) {//GEN
     private javax.swing.JCheckBox jCBMeasuredIRF;
     private javax.swing.JCheckBox jCBNegToZer;
     private javax.swing.JCheckBox jCBParmuFixed;
+    private javax.swing.JCheckBox jCBParmuFixedShift;
     private javax.swing.JCheckBox jCBPartauFixed;
     private javax.swing.JCheckBox jCBStreak;
     private javax.swing.JLabel jLabel1;
@@ -1101,6 +1123,9 @@ private void jCBParmuFixedActionPerformed(java.awt.event.ActionEvent evt) {//GEN
         }
         if (source == jCBParmuFixed) {
             irfparPanelModel.setParmufixed((Boolean)value);                        
+        }
+        if (source == jCBParmuFixedShift) {
+            irfparPanelModel.setParmufixed((Boolean)value);
         }
         if (source == jCBPartauFixed) {
             irfparPanelModel.setPartaufixed((Boolean)value);                        

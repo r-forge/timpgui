@@ -70,14 +70,12 @@
           <Layout>
             <DimensionLayout dim="0">
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" attributes="0">
+                  <Group type="102" alignment="0" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="jPanel4" alignment="0" min="-2" max="-2" attributes="1"/>
                           <Component id="jCBMeasuredIRF" alignment="0" min="-2" max="-2" attributes="0"/>
-                          <Group type="103" alignment="0" groupAlignment="0" max="-2" attributes="0">
-                              <Component id="jPanel3" alignment="0" max="32767" attributes="1"/>
-                              <Component id="jPanel4" alignment="0" min="-2" max="-2" attributes="1"/>
-                          </Group>
+                          <Component id="jPanel3" alignment="0" min="-2" max="-2" attributes="1"/>
                           <Component id="jScrollPane3" alignment="0" min="-2" pref="385" max="-2" attributes="1"/>
                           <Group type="102" alignment="0" attributes="1">
                               <Component id="jLabel4" min="-2" max="-2" attributes="0"/>
@@ -104,8 +102,8 @@
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Component id="jPanel3" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="jPanel4" min="-2" max="-2" attributes="1"/>
-                      <EmptySpace min="-2" pref="161" max="-2" attributes="0"/>
+                      <Component id="jPanel4" min="-2" pref="68" max="-2" attributes="1"/>
+                      <EmptySpace min="-2" pref="199" max="-2" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -177,7 +175,7 @@
                               <Component id="jLabel1" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="jTPolyDispersion" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
-                          <EmptySpace min="-2" pref="33" max="-2" attributes="0"/>
+                          <EmptySpace min="-2" pref="41" max="-2" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
@@ -454,7 +452,6 @@
                               <Component id="jLabel2" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="jTFLaserPeriod" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
-                          <EmptySpace pref="32" max="32767" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
@@ -512,17 +509,20 @@
           <Layout>
             <DimensionLayout dim="0">
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" attributes="0">
+                  <Group type="102" alignment="0" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                          <Component id="jPanel8" min="-2" max="-2" attributes="1"/>
-                          <Group type="102" alignment="0" attributes="1">
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Group type="102" alignment="0" attributes="0">
+                              <Component id="jPanel8" min="-2" max="-2" attributes="1"/>
+                              <EmptySpace max="-2" attributes="0"/>
+                          </Group>
+                          <Group type="102" alignment="0" attributes="0">
                               <Component id="jPanel5" min="-2" max="-2" attributes="1"/>
                               <EmptySpace max="32767" attributes="0"/>
                               <Component id="jPanel10" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="1031" max="-2" attributes="0"/>
                           </Group>
                       </Group>
-                      <EmptySpace min="-2" pref="1031" max="-2" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -549,6 +549,9 @@
                     <EtchetBorder/>
                   </Border>
                 </Property>
+                <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+                  <Dimension value="[679, 413]"/>
+                </Property>
               </Properties>
 
               <Layout>
@@ -557,7 +560,7 @@
                       <Group type="102" alignment="1" attributes="0">
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="1" attributes="0">
-                              <Component id="jPanel9" alignment="0" pref="1691" max="32767" attributes="0"/>
+                              <Component id="jPanel9" alignment="0" pref="651" max="32767" attributes="0"/>
                               <Group type="102" alignment="0" attributes="0">
                                   <Component id="jCBEstimateBG" min="-2" pref="148" max="-2" attributes="0"/>
                                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
@@ -576,16 +579,14 @@
                                   <Component id="jTFBGvalue" min="-2" pref="69" max="-2" attributes="0"/>
                               </Group>
                               <Group type="102" alignment="0" attributes="0">
-                                  <Group type="103" groupAlignment="0" attributes="0">
-                                      <Group type="102" alignment="0" attributes="0">
-                                          <Component id="jLabel11" min="-2" max="-2" attributes="0"/>
-                                          <EmptySpace min="10" pref="10" max="-2" attributes="0"/>
-                                          <Component id="tFRefFilename" min="-2" pref="146" max="-2" attributes="1"/>
-                                      </Group>
-                                      <Component id="Bloadref" alignment="0" min="-2" pref="104" max="-2" attributes="0"/>
-                                  </Group>
-                                  <EmptySpace pref="727" max="32767" attributes="0"/>
-                                  <Component id="jCBNegToZer" min="-2" pref="132" max="-2" attributes="0"/>
+                                  <Component id="jLabel11" min="-2" max="-2" attributes="0"/>
+                                  <EmptySpace min="10" pref="10" max="-2" attributes="0"/>
+                                  <Component id="tFRefFilename" min="-2" pref="146" max="-2" attributes="1"/>
+                              </Group>
+                              <Group type="102" alignment="0" attributes="0">
+                                  <Component id="Bloadref" min="-2" pref="104" max="-2" attributes="0"/>
+                                  <EmptySpace pref="272" max="32767" attributes="0"/>
+                                  <Component id="jCBNegToZer" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace type="separate" max="-2" attributes="0"/>
                                   <Component id="jBSubtrBG" min="-2" max="-2" attributes="0"/>
                               </Group>
@@ -630,7 +631,7 @@
                 <Component class="javax.swing.JLabel" name="jLabel11">
                   <Properties>
                     <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                      <ResourceString bundle="nl/vu/nat/tgmeditor/panels/Bundle.properties" key="MeasuredIrfTopComponent.jLabel2.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+                      <ResourceString bundle="org/glotaran/tgmeditor/panels/Bundle.properties" key="MeasuredIrfTopComponent.jLabel2.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
                     </Property>
                   </Properties>
                 </Component>
@@ -638,14 +639,14 @@
                   <Properties>
                     <Property name="editable" type="boolean" value="false"/>
                     <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                      <ResourceString bundle="nl/vu/nat/tgmeditor/panels/Bundle.properties" key="MeasuredIrfTopComponent.tFRefFilename.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+                      <ResourceString bundle="org/glotaran/tgmeditor/panels/Bundle.properties" key="MeasuredIrfTopComponent.tFRefFilename.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
                     </Property>
                   </Properties>
                 </Component>
                 <Component class="javax.swing.JButton" name="Bloadref">
                   <Properties>
                     <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                      <ResourceString bundle="nl/vu/nat/tgmeditor/panels/Bundle.properties" key="MeasuredIrfTopComponent.Bloadref.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+                      <ResourceString bundle="org/glotaran/tgmeditor/panels/Bundle.properties" key="MeasuredIrfTopComponent.Bloadref.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
                     </Property>
                   </Properties>
                   <Events>
@@ -669,7 +670,7 @@
                 <Component class="javax.swing.JCheckBox" name="jCBEstimateBG">
                   <Properties>
                     <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                      <ResourceString bundle="nl/vu/nat/tgmeditor/panels/Bundle.properties" key="MeasuredIrfTopComponent.jCBEstimateBG.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+                      <ResourceString bundle="org/glotaran/tgmeditor/panels/Bundle.properties" key="MeasuredIrfTopComponent.jCBEstimateBG.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
                     </Property>
                     <Property name="enabled" type="boolean" value="false"/>
                   </Properties>
@@ -696,7 +697,7 @@
                 <Component class="javax.swing.JTextField" name="jTFBGvalue">
                   <Properties>
                     <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                      <ResourceString bundle="nl/vu/nat/tgmeditor/panels/Bundle.properties" key="MeasuredIrfTopComponent.jTFBGvalue.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+                      <ResourceString bundle="org/glotaran/tgmeditor/panels/Bundle.properties" key="MeasuredIrfTopComponent.jTFBGvalue.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
                     </Property>
                     <Property name="enabled" type="boolean" value="false"/>
                   </Properties>
@@ -704,7 +705,7 @@
                 <Component class="javax.swing.JButton" name="jBSubtrBG">
                   <Properties>
                     <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                      <ResourceString bundle="nl/vu/nat/tgmeditor/panels/Bundle.properties" key="MeasuredIrfTopComponent.jBSubtrBG.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+                      <ResourceString bundle="org/glotaran/tgmeditor/panels/Bundle.properties" key="MeasuredIrfTopComponent.jBSubtrBG.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
                     </Property>
                     <Property name="enabled" type="boolean" value="false"/>
                   </Properties>
@@ -715,7 +716,7 @@
                 <Component class="javax.swing.JLabel" name="jLabel12">
                   <Properties>
                     <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                      <ResourceString bundle="nl/vu/nat/tgmeditor/panels/Bundle.properties" key="MeasuredIrfTopComponent.jLabel1.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+                      <ResourceString bundle="org/glotaran/tgmeditor/panels/Bundle.properties" key="MeasuredIrfTopComponent.jLabel1.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
                     </Property>
                     <Property name="enabled" type="boolean" value="false"/>
                   </Properties>
@@ -723,7 +724,7 @@
                 <Component class="javax.swing.JLabel" name="jLabel13">
                   <Properties>
                     <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                      <ResourceString bundle="nl/vu/nat/tgmeditor/panels/Bundle.properties" key="MeasuredIrfTopComponent.jLabel3.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+                      <ResourceString bundle="org/glotaran/tgmeditor/panels/Bundle.properties" key="MeasuredIrfTopComponent.jLabel3.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
                     </Property>
                     <Property name="enabled" type="boolean" value="false"/>
                   </Properties>
@@ -731,7 +732,7 @@
                 <Component class="javax.swing.JLabel" name="jLabel14">
                   <Properties>
                     <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                      <ResourceString bundle="nl/vu/nat/tgmeditor/panels/Bundle.properties" key="MeasuredIrfTopComponent.jLabel4.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+                      <ResourceString bundle="org/glotaran/tgmeditor/panels/Bundle.properties" key="MeasuredIrfTopComponent.jLabel4.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
                     </Property>
                     <Property name="enabled" type="boolean" value="false"/>
                   </Properties>
@@ -739,7 +740,7 @@
                 <Component class="javax.swing.JButton" name="jBCalculateBG">
                   <Properties>
                     <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                      <ResourceString bundle="nl/vu/nat/tgmeditor/panels/Bundle.properties" key="MeasuredIrfTopComponent.jBCalculateBG.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+                      <ResourceString bundle="org/glotaran/tgmeditor/panels/Bundle.properties" key="MeasuredIrfTopComponent.jBCalculateBG.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
                     </Property>
                     <Property name="enabled" type="boolean" value="false"/>
                   </Properties>
@@ -751,7 +752,7 @@
                   <Properties>
                     <Property name="selected" type="boolean" value="true"/>
                     <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                      <ResourceString bundle="nl/vu/nat/tgmeditor/panels/Bundle.properties" key="MeasuredIrfTopComponent.jCBNegToZer.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+                      <ResourceString bundle="org/glotaran/tgmeditor/panels/Bundle.properties" key="MeasuredIrfTopComponent.jCBNegToZer.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
                     </Property>
                     <Property name="enabled" type="boolean" value="false"/>
                   </Properties>
@@ -797,7 +798,7 @@
                           </Group>
                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
                           <Component id="jRBScatterConv" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace max="32767" attributes="0"/>
+                          <EmptySpace pref="10" max="32767" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
@@ -850,9 +851,13 @@
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Component id="jLabel15" alignment="0" min="-2" max="-2" attributes="0"/>
-                              <Component id="jTFIrfShiftParameter" alignment="0" min="-2" pref="106" max="-2" attributes="0"/>
+                              <Group type="102" alignment="0" attributes="0">
+                                  <Component id="jTFIrfShiftParameter" min="-2" pref="106" max="-2" attributes="0"/>
+                                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                                  <Component id="jCBParmuFixedShift" min="-2" max="-2" attributes="0"/>
+                              </Group>
                           </Group>
-                          <EmptySpace pref="116" max="32767" attributes="0"/>
+                          <EmptySpace pref="110" max="32767" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
@@ -862,7 +867,10 @@
                           <EmptySpace max="-2" attributes="0"/>
                           <Component id="jLabel15" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
-                          <Component id="jTFIrfShiftParameter" min="-2" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="3" attributes="0">
+                              <Component id="jTFIrfShiftParameter" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="jCBParmuFixedShift" alignment="3" min="-2" max="-2" attributes="0"/>
+                          </Group>
                           <EmptySpace pref="37" max="32767" attributes="0"/>
                       </Group>
                   </Group>
@@ -875,6 +883,14 @@
                   </Properties>
                 </Component>
                 <Component class="javax.swing.JTextField" name="jTFIrfShiftParameter">
+                </Component>
+                <Component class="javax.swing.JCheckBox" name="jCBParmuFixedShift">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="Fix"/>
+                  </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jCBParmuFixedShiftActionPerformed"/>
+                  </Events>
                 </Component>
               </SubComponents>
             </Container>

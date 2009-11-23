@@ -177,7 +177,6 @@ final public class SpecEditorTopCompNew extends CloneableTopComponent
         jSeparator2 = new javax.swing.JToolBar.Separator();
         jBMakeDataset = new javax.swing.JButton();
         jSeparator3 = new javax.swing.JToolBar.Separator();
-        jBdoSVD = new javax.swing.JButton();
         jSeparator4 = new javax.swing.JToolBar.Separator();
         jBSaveIvoFile = new javax.swing.JButton();
         jScrollPane4 = new javax.swing.JScrollPane();
@@ -307,17 +306,6 @@ final public class SpecEditorTopCompNew extends CloneableTopComponent
         });
         jToolBar1.add(jBMakeDataset);
         jToolBar1.add(jSeparator3);
-
-        org.openide.awt.Mnemonics.setLocalizedText(jBdoSVD, org.openide.util.NbBundle.getMessage(SpecEditorTopCompNew.class, "SpecEditorTopCompNew.jBdoSVD.text")); // NOI18N
-        jBdoSVD.setFocusable(false);
-        jBdoSVD.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        jBdoSVD.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        jBdoSVD.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jBdoSVDActionPerformed(evt);
-            }
-        });
-        jToolBar1.add(jBdoSVD);
         jToolBar1.add(jSeparator4);
 
         org.openide.awt.Mnemonics.setLocalizedText(jBSaveIvoFile, org.openide.util.NbBundle.getMessage(SpecEditorTopCompNew.class, "SpecEditorTopCompNew.jBSaveIvoFile.text")); // NOI18N
@@ -683,10 +671,6 @@ final public class SpecEditorTopCompNew extends CloneableTopComponent
         XYDataset d = ImageUtilities.extractColumnFromImageDataset(dataset, xIndex, "Spec");
         subchartTimeTrace.getXYPlot().setDataset(d);
 }//GEN-LAST:event_jSColumStateChanged
-
-    private void jBdoSVDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBdoSVDActionPerformed
-        calculateSVD();
-    }//GEN-LAST:event_jBdoSVDActionPerformed
 
     private void jBMakeDatasetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBMakeDatasetActionPerformed
 
@@ -1155,7 +1139,6 @@ final public class SpecEditorTopCompNew extends CloneableTopComponent
     private javax.swing.JButton jBMakeDataset;
     private javax.swing.JButton jBResample;
     private javax.swing.JButton jBSaveIvoFile;
-    private javax.swing.JButton jBdoSVD;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;

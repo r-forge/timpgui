@@ -1,0 +1,5 @@
+Manifest-Version: 1.0
+OpenIDE-Module: loci.formats
+OpenIDE-Module-Localizing-Bundle: loci/formats/Bundle.properties
+OpenIDE-Module-Specification-Version: 1.0
+

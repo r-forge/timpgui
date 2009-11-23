@@ -9,8 +9,6 @@ import org.glotaran.core.main.nodes.dataobjects.TgdDataObject;
 import org.openide.loaders.DataNode;
 import org.openide.util.ImageUtilities;
 import org.openide.util.Lookup;
-import org.openide.windows.TopComponent;
-import org.openide.windows.WindowManager;
 
 public class TgdDataNode extends DataNode {
 

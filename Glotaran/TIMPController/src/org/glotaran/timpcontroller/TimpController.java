@@ -599,4 +599,17 @@ public class TimpController {
     public String getFitModelCall() {
         return fitModelCall;
     }
+
+    public List<Matrix> doSingularValueDecomposition(Matrix matrix) {
+        List<Matrix> result = null;
+        //TODO: fix this
+        connection.assign("tempMatrix", matrix.getColumnPackedCopy());
+        int dimCol = matrix.getColumnDimension();
+        int dimRow = matrix.getRowDimension();
+        connection.voidEval("dim(tempMatrix) <- c("+ dimCol +","+dimRow+")");
+        connection.voidEval("resSvd <- svd(as.matrix(tempMatrix))");
+        Matrix traces = getDoubleMatrix("as.matrix(resSVD$d)");
+        result.add(traces);
+        return result;
+    }
 }

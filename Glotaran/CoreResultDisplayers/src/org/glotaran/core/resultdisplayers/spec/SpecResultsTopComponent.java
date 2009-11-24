@@ -1842,7 +1842,7 @@ public final class SpecResultsTopComponent extends TopComponent implements Chart
         tracechart.getXYPlot().getDomainAxis().setUpperMargin(0.0);
         tracechart.getXYPlot().getDomainAxis().setLowerMargin(0.0);
         tracechart.getXYPlot().setRangeZeroBaselineVisible(true);
-        ChartPanel chpan = new ChartPanel(tracechart);
+        ChartPanel chpan = new GraphPanel(tracechart);
 //add chart with 2 LSV to JPannel
         jPLSV.removeAll();
         jPLSV.add(chpan);
@@ -1863,7 +1863,7 @@ public final class SpecResultsTopComponent extends TopComponent implements Chart
         tracechart.getXYPlot().getDomainAxis().setLowerMargin(0.0);
         tracechart.getXYPlot().getDomainAxis().setAutoRange(false);
         tracechart.getXYPlot().setRangeZeroBaselineVisible(true);
-        chpan = new ChartPanel(tracechart);
+        chpan = new GraphPanel(tracechart);
 //add chart with 2 RSV to JPannel
         jPRSV.removeAll();
         jPRSV.add(chpan);
@@ -1897,7 +1897,7 @@ public final class SpecResultsTopComponent extends TopComponent implements Chart
         tracechart.getTitle().setFont(new Font(tracechart.getTitle().getFont().getFontName(), Font.PLAIN, 12));
         tracechart.setBackgroundPaint(JFreeChart.DEFAULT_BACKGROUND_PAINT);
 
-        chpan = new ChartPanel(tracechart);
+        chpan = new GraphPanel(tracechart);
 //add chart with 2 RSV to JPannel
         jPSV.removeAll();
         jPSV.add(chpan);
@@ -1952,8 +1952,7 @@ public final class SpecResultsTopComponent extends TopComponent implements Chart
         tracechart.getLegend().setVisible(false);
         ChartPanel chpan = new ChartPanel(tracechart,true);
         chpan.setMinimumDrawHeight(0);
-        chpan.setMinimumDrawWidth(0);
-           
+        chpan.setMinimumDrawWidth(0); 
         return chpan;
 
     }

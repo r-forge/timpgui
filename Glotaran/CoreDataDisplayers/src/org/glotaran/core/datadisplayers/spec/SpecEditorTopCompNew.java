@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 
 package org.glotaran.core.datadisplayers.spec;
 
@@ -642,15 +638,6 @@ final public class SpecEditorTopCompNew extends CloneableTopComponent
             plot.getRenderer().removeAnnotations();
             plot.getRenderer().addAnnotation(ann, Layer.BACKGROUND);
 
-            //        JFreeChart intIm = createScatChart(ImageUtilities.createColorCodedImage(intensutyImageDataset, ps), ps,res.getOrwidth(),res.getOrheigh());
-            //        ChartPanel intImPanel = new ChartPanel(intIm);
-            //        intImPanel.setFillZoomRectangle(true);
-            //        intImPanel.setMouseWheelEnabled(true);
-            //        jPIntenceImage.removeAll();
-            //        intImPanel.setSize(jPIntenceImage.getSize());
-            //        jPIntenceImage.add(intImPanel);
-            //        jPIntenceImage.repaint();
-
         }catch(NumberFormatException ex) {
             NotifyDescriptor errorMessage =new NotifyDescriptor.Exception(
                     new Exception(NbBundle.getBundle("org/glotaran/core/main/Bundle").getString("set_correct_chanNum")));
@@ -1222,12 +1209,12 @@ final public class SpecEditorTopCompNew extends CloneableTopComponent
 
     @Override
     public void componentOpened() {
-        // TODO add custom code on component opening
+     
     }
 
     @Override
     public void componentClosed() {
-        // TODO add custom code on component closing
+        
     }
 
     /** replaces this in object stream */

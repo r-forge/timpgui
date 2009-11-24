@@ -9,7 +9,6 @@ import Jama.SingularValueDecomposition;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.GridLayout;
 import java.awt.Point;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Point2D;
@@ -24,6 +23,7 @@ import org.glotaran.core.main.nodes.dataobjects.TimpResultDataObject;
 import org.glotaran.core.main.structures.TimpResultDataset;
 import org.glotaran.core.resultdisplayers.common.panels.CommonTools;
 import org.glotaran.core.resultdisplayers.common.panels.SelectTracesForPlot;
+import org.glotaran.jfreechartcustom.GraphPanel;
 import org.glotaran.jfreechartcustom.GrayPaintScalePlus;
 import org.glotaran.jfreechartcustom.ImageUtilities;
 import org.glotaran.jfreechartcustom.IntensImageDataset;
@@ -1030,7 +1030,7 @@ private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
         plot.setForegroundAlpha(0.85f);
         XYBarRenderer renderer = (XYBarRenderer) plot.getRenderer();
         renderer.setDrawBarOutline(false);
-        return new ChartPanel(charthist,true);
+        return new GraphPanel(charthist);
     }
     
     private double[] MakeFlimImage(double[] kinpar, Matrix amplitudes, int numOfSelPix){
@@ -1141,7 +1141,7 @@ private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
         tracechart.setBackgroundPaint(JFreeChart.DEFAULT_BACKGROUND_PAINT);
         tracechart.getXYPlot().getDomainAxis().setUpperBound(res.getX()[res.getX().length - 1]);
         tracechart.getXYPlot().getDomainAxis().setAutoRange(false);
-        ChartPanel chpan = new ChartPanel(tracechart);
+        ChartPanel chpan = new GraphPanel(tracechart);
 //add chart with 2 LSV to JPannel
         jPLeftSingVectors.removeAll();
         jPLeftSingVectors.add(chpan);
@@ -1209,7 +1209,7 @@ private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
         tracechart.getTitle().setFont(new Font(tracechart.getTitle().getFont().getFontName(), Font.PLAIN, 12));
         tracechart.setBackgroundPaint(JFreeChart.DEFAULT_BACKGROUND_PAINT);
 
-        chpan = new ChartPanel(tracechart);
+        chpan = new GraphPanel(tracechart);
 //add chart with singularvalues to JPannel
         jPSingValues.removeAll();
         jPSingValues.add(chpan);

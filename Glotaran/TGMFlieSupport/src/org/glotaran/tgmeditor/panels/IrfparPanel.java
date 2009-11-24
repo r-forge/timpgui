@@ -866,7 +866,6 @@ private void jCBMeasuredIRFActionPerformed(java.awt.event.ActionEvent evt) {//GE
 }//GEN-LAST:event_jCBMeasuredIRFActionPerformed
 
 private void BloadrefActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BloadrefActionPerformed
-    // TODO add your handling code here:
     int returnVal = fc.showOpenDialog(this);
     Vector refVector = new Vector();
     File file = null;
@@ -898,7 +897,7 @@ private void BloadrefActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
             i++;
         }
         if (refSerColl.getSeries().size() > 0) {
-            refSerColl.getSeries().clear();
+            refSerColl.removeAllSeries();
         }
         refSerColl.addSeries(refSeria);
         MakeChart(refSerColl);
@@ -1013,11 +1012,11 @@ private void jPanel7ComponentHidden(java.awt.event.ComponentEvent evt) {//GEN-FI
 }//GEN-LAST:event_jPanel7ComponentHidden
 
 private void jCBParmuFixedActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCBParmuFixedActionPerformed
-    // TODO add your handling code here:
+    
 }//GEN-LAST:event_jCBParmuFixedActionPerformed
 
 private void jCBParmuFixedShiftActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCBParmuFixedShiftActionPerformed
-    // TODO add your handling code here:
+    
 }//GEN-LAST:event_jCBParmuFixedShiftActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

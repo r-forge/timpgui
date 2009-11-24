@@ -28,6 +28,8 @@ import org.apache.batik.svggen.SVGGraphics2D;
 import org.glotaran.core.main.mesages.CoreErrorMessages;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
+import org.jfree.chart.plot.PlotOrientation;
+import org.jfree.data.xy.AbstractXYDataset;
 import org.jfree.data.xy.XYSeriesCollection;
 import org.jfree.ui.ExtensionFileFilter;
 import org.openide.windows.TopComponent;
@@ -57,7 +59,7 @@ public class GraphPanel extends ChartPanel{
          super(chart, properties, save, print, zoom, tooltips);
          addCommandsToPopupMenu();
          updateSelectRectangle();
-
+         setPannable();
     }
 
     @Override
@@ -135,14 +137,11 @@ public class GraphPanel extends ChartPanel{
         this.setZoomFillPaint(new Color(68, 68, 78, 63));
     }
 
-
-
     private void doSaveTracesToAscii() throws IOException {
         JFileChooser fileChooser = new JFileChooser();
         fileChooser.setCurrentDirectory(this.getDefaultDirectoryForSaveAs());
         ExtensionFileFilter filter = new ExtensionFileFilter("Tab Separated ASCII files", ".ascii");
         fileChooser.addChoosableFileFilter(filter);
-
         int option = fileChooser.showSaveDialog(this);
         if (option == JFileChooser.APPROVE_OPTION) {
             String filename = fileChooser.getSelectedFile().getPath();
@@ -153,18 +152,19 @@ public class GraphPanel extends ChartPanel{
             }
 //write all tracess that presented in chart, in colums, using domain axe from first seria in colums
             BufferedWriter output = new BufferedWriter(new FileWriter(new File(filename)));
-            XYSeriesCollection data = (XYSeriesCollection)this.getChart().getXYPlot().getDataset();
+            AbstractXYDataset data = (AbstractXYDataset) this.getChart().getXYPlot().getDataset();
             int tracenum = data.getSeriesCount();
-            for (int i = 0; i < tracenum; i++){
-                output.append("X    ");
-                output.append(data.getSeries(i).getKey().toString());
+            output.append("X");
+            for (int i = 0; i < tracenum; i++) {
+                output.append("\t");
+                output.append(data.getSeriesKey(i).toString());
             }
             output.newLine();
-            for (int j = 0; j < data.getSeries(0).getItemCount(); j++ ){
-                output.append(new Formatter().format("%g",data.getSeries(0).getX(j)).toString());
+            for (int j = 0; j < data.getItemCount(0); j++) {
+                output.append(new Formatter().format("%g", data.getXValue(0, j)).toString());
                 output.append("\t");
-                for (int i = 0; i < tracenum; i++){
-                    output.append(new Formatter().format("%g",data.getSeries(i).getY(j)).toString());
+                for (int i = 0; i < tracenum; i++) {
+                    output.append(new Formatter().format("%g", data.getYValue(i, j)).toString());
                     output.append("\t");
                 }
                 output.newLine();
@@ -174,10 +174,23 @@ public class GraphPanel extends ChartPanel{
     }
 
     private void doOpenInSeparateWindow() throws CloneNotSupportedException {
-        TopComponent win = new TopComponent();
+        TopComponent win = new TopComponent()
+        {
+            @Override
+            public int getPersistenceType() {
+                return TopComponent.PERSISTENCE_NEVER;
+
+            }
+        };
         win.setLayout(new BorderLayout());
-        win.setName("Single graph");
-        win.add(new GraphPanel((JFreeChart) this.getChart().clone()));
+        win.setName((String)((this.getChart().getTitle() != null) ? this.getChart().getTitle() : "Single graph"));
+
+        JFreeChart chart = (JFreeChart)this.getChart().clone();
+        if (this.getChart().getXYPlot()!=null){
+            chart.getXYPlot().setOrientation(PlotOrientation.VERTICAL);
+            chart.getXYPlot().getDomainAxis().setInverted(false);
+        }
+        win.add(new GraphPanel(chart));
         win.open();
         win.requestActive();
     }
@@ -216,6 +229,13 @@ public class GraphPanel extends ChartPanel{
             Writer out = new OutputStreamWriter(
                     new FileOutputStream(new File(filename)), "UTF-8");
             svgGenerator.stream(out, true);
+        }
+    }
+
+    private void setPannable() {
+        if (this.getChart().getXYPlot()!=null){
+            this.getChart().getXYPlot().setDomainPannable(true);
+            this.getChart().getXYPlot().setRangePannable(true);
         }
     }
 }

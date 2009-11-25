@@ -13,6 +13,7 @@ import java.io.ObjectOutputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Formatter;
+import org.glotaran.core.main.interfaces.TimpControllerInterface;
 import org.glotaran.core.main.mesages.CoreErrorMessages;
 import org.glotaran.core.main.mesages.CoreWarningMessages;
 import org.glotaran.core.main.nodes.TimpDatasetNode;
@@ -24,7 +25,6 @@ import org.glotaran.core.models.tgm.Tgm;
 import org.glotaran.core.ui.nodecontainers.SelectedDatasetsViewTopComponent;
 import org.glotaran.core.ui.nodecontainers.SelectedModelsViewTopComponent;
 import org.glotaran.tgmfilesupport.TgmDataNode;
-import org.glotaran.timpcontroller.TimpController;
 import org.netbeans.api.project.ui.OpenProjects;
 import org.openide.DialogDisplayer;
 import org.openide.NotifyDescriptor;
@@ -32,6 +32,7 @@ import org.openide.filesystems.FileObject;
 import org.openide.filesystems.FileUtil;
 import org.openide.nodes.Node;
 import org.openide.util.Exceptions;
+import org.openide.util.Lookup;
 import org.openide.util.NbBundle;
 import org.openide.windows.WindowManager;
 
@@ -39,7 +40,7 @@ public final class StartAnalysis implements ActionListener {
 
     private int NO_OF_ITERATIONS = 0;
     Tgm[] models;
-    private TimpController controller = new TimpController();
+    private TimpControllerInterface controller;
     private DatasetTimp[] datasets;
     private TimpResultDataset[] results = null;
     private boolean run;
@@ -84,6 +85,7 @@ public final class StartAnalysis implements ActionListener {
 //                    //TODO: implement a working busy cursor, or progress indicator
 //                    TopComponent.getRegistry().getActivated().setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
                     if (run) {
+                        controller = Lookup.getDefault().lookup(TimpControllerInterface.class);
                         if (controller != null) {
                             results = controller.runAnalysis(datasets, models, NO_OF_ITERATIONS);
 

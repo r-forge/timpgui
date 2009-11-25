@@ -2,7 +2,6 @@
 package org.glotaran.core.datadisplayers.spec;
 
 import Jama.Matrix;
-import Jama.SingularValueDecomposition;
 import java.awt.BasicStroke;
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -15,8 +14,11 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.logging.Logger;
 import javax.swing.SpinnerNumberModel;
+import org.glotaran.core.main.interfaces.TimpControllerInterface;
+import org.glotaran.core.main.mesages.CoreErrorMessages;
 import org.glotaran.core.main.nodes.TgdDataChildren;
 import org.glotaran.core.main.nodes.dataobjects.TgdDataObject;
 import org.glotaran.core.main.nodes.dataobjects.TimpDatasetDataObject;
@@ -58,6 +60,7 @@ import org.openide.NotifyDescriptor;
 import org.openide.filesystems.FileObject;
 import org.openide.loaders.DataObject;
 import org.openide.util.Exceptions;
+import org.openide.util.Lookup;
 import org.openide.util.NbBundle;
 import org.openide.windows.CloneableTopComponent;
 import org.openide.windows.TopComponent;
@@ -93,7 +96,8 @@ final public class SpecEditorTopCompNew extends CloneableTopComponent
     private Range lastYRange;
     private Range wholeXRange;
     private Range wholeYRange;
-    SingularValueDecomposition svdResult;
+    private ArrayList<Matrix> svdResult;
+    private TimpControllerInterface controller;
 
     public SpecEditorTopCompNew() {
         data = new DatasetTimp();
@@ -1085,7 +1089,7 @@ final public class SpecEditorTopCompNew extends CloneableTopComponent
         for (int j =0; j < n; j++){
             seria = new XYSeries("LSV1"+j+1);
             for (int i = 0; i < data.getX().length; i++) {
-                seria.add(data.getX()[i], svdResult.getU().get(i, j));
+                seria.add(data.getX()[i], svdResult.get(1).get(j, i));
             }
             lSVCollection.addSeries(seria);
         }
@@ -1095,7 +1099,7 @@ final public class SpecEditorTopCompNew extends CloneableTopComponent
         for (int j = 0; j < n; j++) {
             seria = new XYSeries("RSV" + (j + 1));
             for (int i = 0; i < data.getX2().length; i++) {
-                seria.add(data.getX2()[i], svdResult.getV().get(i, j));
+                seria.add(data.getX2()[i], svdResult.get(2).get(j, i));
             }
             rSVCollection.addSeries(seria);
         }
@@ -1229,17 +1233,24 @@ final public class SpecEditorTopCompNew extends CloneableTopComponent
     }
 
     private void calculateSVD() {
-          Matrix pSIsim = new Matrix(data.getPsisim(), data.getNt());
-        svdResult =  pSIsim.svd();
-        jTFtotalNumSV.setText(String.valueOf(svdResult.getSingularValues().length));
-        jSnumSV.setModel(new SpinnerNumberModel(1.0,0.0,svdResult.getSingularValues().length,1.0));
+        Matrix newMatrix = new Matrix(data.getPsisim(), data.getNt());
+        controller = Lookup.getDefault().lookup(TimpControllerInterface.class);
+        if (controller != null) {
+            svdResult = controller.doSingularValueDecomposition(newMatrix);
+                        } else {
+                            CoreErrorMessages.noRFoundException();
+                        return;
+                        }
+
+        jTFtotalNumSV.setText(String.valueOf(svdResult.get(0).getColumnDimension()));
+        jSnumSV.setModel(new SpinnerNumberModel(1.0,0.0,svdResult.get(0).getColumnDimension(),1.0));
         int n = 1;
         //creare collection with first 2 LSV
         XYSeriesCollection lSVCollection = new XYSeriesCollection();
         XYSeries seria;
         seria = new XYSeries("LSV1");
         for (int i = 0; i < data.getX().length; i++) {
-            seria.add(data.getX()[i], svdResult.getU().get(i, 0));
+            seria.add(data.getX()[i], svdResult.get(1).get(0, i));
         }
         lSVCollection.addSeries(seria);
 
@@ -1267,7 +1278,7 @@ final public class SpecEditorTopCompNew extends CloneableTopComponent
         for (int j = 0; j < n; j++) {
             seria = new XYSeries("RSV" + (j + 1));
             for (int i = 0; i < data.getX2().length; i++) {
-                seria.add(data.getX2()[i], svdResult.getV().get(i, j));
+                seria.add(data.getX2()[i], svdResult.get(2).get(j, i));
             }
             rSVCollection.addSeries(seria);
         }
@@ -1294,8 +1305,8 @@ final public class SpecEditorTopCompNew extends CloneableTopComponent
         //creare collection with singular values
         XYSeriesCollection sVCollection = new XYSeriesCollection();
         seria = new XYSeries("SV");
-        for (int i = 0; i < svdResult.getSingularValues().length; i++) {
-            seria.add(i+1, svdResult.getSingularValues()[i]);
+        for (int i = 0; i < svdResult.get(0).getRowDimension(); i++) {
+            seria.add(i+1, svdResult.get(0).get(i, 0));
         }
         sVCollection.addSeries(seria);
 
@@ -1312,11 +1323,11 @@ final public class SpecEditorTopCompNew extends CloneableTopComponent
                 false);
         LogAxis logAxe = new LogAxis("Log(SV)");
 //        logAxe.setAutoRange(true);
-        int index = svdResult.getSingularValues().length-1;
-        while (svdResult.getSingularValues()[index]<=0){
+        int index = svdResult.get(0).getRowDimension()-1;
+        while ( svdResult.get(0).get(index, 0)<=0){
             index--;
         }
-        logAxe.setRange(svdResult.getSingularValues()[index], svdResult.getSingularValues()[0]);
+        logAxe.setRange(svdResult.get(0).get(index, 0), svdResult.get(0).get(0, 0));
         //  logAxe.setLowerBound(svdResult.getSingularValues()[svdResult.getSingularValues().length-2]);
         tracechart.getXYPlot().setRangeAxis(logAxe);
         XYLineAndShapeRenderer renderer = (XYLineAndShapeRenderer) tracechart.getXYPlot().getRenderer();

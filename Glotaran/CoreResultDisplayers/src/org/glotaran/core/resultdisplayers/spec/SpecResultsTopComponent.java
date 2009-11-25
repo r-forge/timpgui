@@ -1786,6 +1786,9 @@ public final class SpecResultsTopComponent extends TopComponent implements Chart
         int n = 2;
         SingularValueDecomposition result;
         result = rezid.svd();
+
+        //TODO: get implementation of TIMPControllerInterface
+        //List<Matrix> resSVD =
         
 
 //creare collection with first 2 LSV

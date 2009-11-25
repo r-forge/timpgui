@@ -4,6 +4,7 @@
  */
 package org.glotaran.timpcontroller;
 
+import org.glotaran.core.main.interfaces.TimpControllerInterface;
 import Jama.Matrix;
 import java.util.ArrayList;
 import java.util.List;
@@ -18,7 +19,7 @@ import org.rosuda.irconnect.IRMatrix;
 import org.rosuda.irconnect.ITwoWayConnection;
 import org.rosuda.rengine.REngineConnectionFactory;
 
-public class TimpController {
+public class TimpController implements TimpControllerInterface {
 
     private static ITwoWayConnection connection = null;
     private static final String NAME_OF_RESULT_OBJECT = "fitResult";
@@ -600,16 +601,20 @@ public class TimpController {
         return fitModelCall;
     }
 
-    public List<Matrix> doSingularValueDecomposition(Matrix matrix) {
-        List<Matrix> result = null;
+    public ArrayList<Matrix> doSingularValueDecomposition(Matrix matrix) {
+        ArrayList<Matrix> result = new ArrayList();
         //TODO: fix this
         connection.assign("tempMatrix", matrix.getColumnPackedCopy());
         int dimCol = matrix.getColumnDimension();
         int dimRow = matrix.getRowDimension();
         connection.voidEval("dim(tempMatrix) <- c("+ dimCol +","+dimRow+")");
-        connection.voidEval("resSvd <- svd(as.matrix(tempMatrix))");
-        Matrix traces = getDoubleMatrix("as.matrix(resSVD$d)");
-        result.add(traces);
+        connection.voidEval("resSVD <- svd(as.matrix(tempMatrix))");
+        Matrix values = getTempMatrix("as.matrix(resSVD$d)");
+        Matrix left = getTempMatrix("as.matrix(resSVD$u)");
+        Matrix right = getTempMatrix("as.matrix(resSVD$v)");
+        result.add(values);
+        result.add(left);
+        result.add(right);
         return result;
     }
 }

@@ -9,6 +9,7 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
 import javax.swing.JPanel;
+import org.glotaran.core.main.structures.TimpResultDataset;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
@@ -68,7 +69,6 @@ public class CommonTools {
             false,
             false
         );
-
         XYPlot plot1_1 = subchartTrace.getXYPlot();
         plot1_1.getDomainAxis().setLowerMargin(0.0);
         plot1_1.getDomainAxis().setUpperMargin(0.0);
@@ -99,26 +99,26 @@ public class CommonTools {
         return chpan;
     }
 
-//    private XYSeriesCollection createFitRawTraceCollection(int xIndex, int startInd, int stopInd){
-//
-//        XYSeriesCollection trace = new XYSeriesCollection();
-//        XYSeries series1 = new XYSeries("Trace");
-//        XYSeries series2 = new XYSeries("Fit");
-//
-//        for (int j = startInd; j < stopInd; j++) {
-//            series1.add(res.getX()[j], res.getTraces().get(j, xIndex));
-//            series2.add(res.getX()[j], res.getFittedTraces().get(j, xIndex));
-//        }
-//        trace.addSeries(series1);
-//        trace.addSeries(series2);
-//        return trace;
-//    }
-//
-//    private XYSeriesCollection createResidTraceCollection(int xIndex, int startInd, int stopInd){
-//        XYSeries series3 = new XYSeries("Residuals");
-//         for (int j = startInd; j < stopInd; j++) {
-//            series3.add(res.getX()[j], res.getTraces().get(j, xIndex)-res.getFittedTraces().get(j, xIndex));
-//        }
-//        return new XYSeriesCollection(series3);
-//    }
+      public static XYSeriesCollection createFitRawTraceCollection(int xIndex, int startInd, int stopInd, TimpResultDataset data){
+
+        XYSeriesCollection trace = new XYSeriesCollection();
+        XYSeries series1 = new XYSeries("Trace");
+        XYSeries series2 = new XYSeries("Fit");
+
+        for (int j = startInd; j < stopInd; j++) {
+            series1.add(data.getX()[j], data.getTraces().get(j, xIndex));
+            series2.add(data.getX()[j], data.getFittedTraces().get(j, xIndex));
+        }
+        trace.addSeries(series1);
+        trace.addSeries(series2);
+        return trace;
+    }
+
+    public static XYSeriesCollection createResidTraceCollection(int xIndex, int startInd, int stopInd, TimpResultDataset data){
+        XYSeries series3 = new XYSeries("Residuals");
+         for (int j = startInd; j < stopInd; j++) {
+            series3.add(data.getX()[j], data.getTraces().get(j, xIndex)-data.getFittedTraces().get(j, xIndex));
+        }
+        return new XYSeriesCollection(series3);
+    }
 }

@@ -180,8 +180,10 @@ final public class FlimResultsTopComponent extends TopComponent implements Chart
                 0.0, 1.0,
                 this));
         }
-        PlotFirstTrace();
-        MakeTracesChart();
+        tracesCollection = CommonTools.createFitRawTraceCollection(0, 0, res.getX().length, res);
+        residuals = CommonTools.createResidTraceCollection(0, 0, res.getX().length, res);
+        ChartPanel chpanSelectedTrace = CommonTools.makeLinTimeTraceResidChart(tracesCollection, residuals, new NumberAxis("Time (ns)"), String.valueOf(res.getX2()[0]));
+        jPSelectedTrace.add(chpanSelectedTrace);
     }
 
     public TimpResultDataObject getDataObject() {
@@ -805,42 +807,20 @@ private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
         if (selTracePanel.getSelectXState()){
             int numSelTraces = selTracePanel.getSelectXNum();
             int w = res.getX2().length/numSelTraces;
-            XYSeriesCollection trace;
-            XYSeries series1, series2, series3;
             int xIndex;
-            NumberAxis xAxis;
             ChartPanel chpan;
-
             CommonTools.restorePanelSize(jPSelTimeTrCollection);
             CommonTools.checkPanelSize(jPSelTimeTrCollection, numSelTraces);
-
             for (int i = 0; i < numSelTraces; i++) {
-                xAxis = new NumberAxis("Time (ns)");
-                xAxis.setRange(res.getX()[0], res.getX()[res.getX().length - 1]);
-                xAxis.setUpperBound(res.getX()[res.getX().length-1]);
-                trace = new XYSeriesCollection();
-                series1 = new XYSeries("Trace");
-                series2 = new XYSeries("Fit");
-                series3 = new XYSeries("Residuals");
                 xIndex = i*w;
                 //Add index ot selected trace into list
                 selectedTimeTraces.add(xIndex);
-                //create XYdatasets for charts
-                for (int j = 0; j < res.getX().length; j++) {
-                    series1.add(res.getX()[j], res.getTraces().get(j, xIndex));
-                    series2.add(res.getX()[j], res.getFittedTraces().get(j, xIndex));
-                    series3.add(res.getX()[j], res.getResiduals().get(j, xIndex));
-                }
-
-                trace.addSeries(series1);
-                trace.addSeries(series2);
-
                 //create ChartPanel using xydatasets from above
-                chpan = makeTimeTraceResidChart(
-                        trace,
-                        new XYSeriesCollection(series3),
-                        xAxis,
-                        null);
+                chpan = CommonTools.makeLinTimeTraceResidChart(
+                            CommonTools.createFitRawTraceCollection(xIndex, 0, res.getX().length, res),
+                            CommonTools.createResidTraceCollection(xIndex, 0, res.getX().length, res),
+                            new NumberAxis("Time (ns)"),
+                            String.valueOf(res.getX2()[xIndex]));
 //                //add chartpanel
                 jPSelTimeTrCollection.add(chpan);
 //
@@ -1004,7 +984,14 @@ private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
 
                     }
                     selectedietm = ind;
-                    UpdateSelectedTrace(ind);
+                    if (ind!=-1){
+                        tracesCollection = CommonTools.createFitRawTraceCollection(ind, 0, res.getX().length, res);
+                        residuals = CommonTools.createResidTraceCollection(ind, 0, res.getX().length, res);
+                        ChartPanel chpanSelectedTrace = CommonTools.makeLinTimeTraceResidChart(tracesCollection, residuals, new NumberAxis("Time (ns)"), String.valueOf(res.getX2()[ind]));
+                        jPSelectedTrace.removeAll();
+                        jPSelectedTrace.add(chpanSelectedTrace);
+                        jPSelectedTrace.validate();
+                    }
                 }
             }
     }
@@ -1054,61 +1041,6 @@ private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
                 minAveLifetime = aveLifeTimes[i];
         }
         return aveLifeTimes;
-    }
-    private void UpdateSelectedTrace(int pixnum){  
-    
-        int item = pixnum;
-        
-        tracesCollection.getSeries(0).clear();
-        tracesCollection.getSeries(1).clear();
-        residuals.getSeries(0).clear();
-        if (item>-1){
-            for (int j=0; j<res.getX().length; j++){
-                tracesCollection.getSeries(0).add(res.getX()[j], res.getTraces().get(j, item));
-                tracesCollection.getSeries(1).add(res.getX()[j], res.getFittedTraces().get(j, item));
-                residuals.getSeries(0).add(res.getX()[j], res.getResiduals().get(j, item));
-            }
-        }
-    }
-    private void PlotFirstTrace(){
-            tracesCollection = new XYSeriesCollection();
-            residuals = new XYSeriesCollection();
-            XYSeries seriaData = new XYSeries("Trace");
-            XYSeries seriaFit = new XYSeries("Fittedtrace");
-            XYSeries resid = new XYSeries("Residuals");
-            for (int j=0; j<res.getX().length; j++){
-                seriaData.add(res.getX()[j], res.getTraces().get(j, 0));
-                seriaFit.add(res.getX()[j], res.getFittedTraces().get(j, 0));
-                resid.add(res.getX()[j],res.getResiduals().get(j, 0));
-            }
-           tracesCollection.addSeries(seriaData);
-           tracesCollection.addSeries(seriaFit);
-           residuals.addSeries(resid);
-    }
-
-    private void MakeTracesChart(){ 
-        XYItemRenderer renderer1 = new StandardXYItemRenderer();
-        NumberAxis rangeAxis1 = new NumberAxis("Number of counts");
-        XYPlot subplot1 = new XYPlot(tracesCollection, null, rangeAxis1, renderer1);
-        subplot1.setRangeAxisLocation(AxisLocation.BOTTOM_OR_LEFT);
-     
-        XYItemRenderer renderer2 = new StandardXYItemRenderer();
-        NumberAxis rangeAxis2 = new NumberAxis("Resid");
-        rangeAxis2.setAutoRangeIncludesZero(false);
-        XYPlot subplot2 = new XYPlot(residuals, null, rangeAxis2, renderer2);
-        subplot2.setRangeAxisLocation(AxisLocation.TOP_OR_LEFT);
-        
-        NumberAxis xAxis  = new NumberAxis("Time (ns)");
-        xAxis.setRange(res.getX()[0], res.getX()[res.getX().length-1]);
-        CombinedDomainXYPlot plot = new CombinedDomainXYPlot(xAxis);
-        plot.setGap(10.0);
-        plot.add(subplot1, 3);
-        plot.add(subplot2, 1);
-        plot.setOrientation(PlotOrientation.VERTICAL);
-        subchartTimeTrace =  new JFreeChart("Selected trace", JFreeChart.DEFAULT_TITLE_FONT, plot, true);
-        ChartPanel chpanSelectedTrace = new ChartPanel(subchartTimeTrace,true);
-        chpanSelectedTrace.setSize(jPSelectedTrace.getSize());
-        jPSelectedTrace.add(chpanSelectedTrace);
     }
 
     private void calculateSVDResiduals(){

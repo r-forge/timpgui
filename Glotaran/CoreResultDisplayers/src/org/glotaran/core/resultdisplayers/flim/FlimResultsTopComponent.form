@@ -102,7 +102,7 @@
                               </Group>
                               <EmptySpace max="-2" attributes="0"/>
                               <Component id="jPanel5" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace pref="136" max="32767" attributes="0"/>
+                              <EmptySpace pref="73" max="32767" attributes="0"/>
                           </Group>
                       </Group>
                     </DimensionLayout>
@@ -643,10 +643,10 @@
                   <Group type="102" attributes="0">
                       <Component id="jScrollPane3" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="jPSelectedTrace" pref="657" max="32767" attributes="2"/>
+                      <Component id="jPSelectedTrace" pref="515" max="32767" attributes="2"/>
                       <EmptySpace max="-2" attributes="0"/>
                   </Group>
-                  <Component id="jToolBar2" alignment="0" pref="1203" max="32767" attributes="0"/>
+                  <Component id="jToolBar2" alignment="0" pref="1046" max="32767" attributes="0"/>
               </Group>
             </DimensionLayout>
             <DimensionLayout dim="1">
@@ -659,7 +659,7 @@
                               <Component id="jPSelectedTrace" min="-2" pref="305" max="-2" attributes="1"/>
                               <EmptySpace max="-2" attributes="0"/>
                           </Group>
-                          <Component id="jScrollPane3" alignment="0" pref="669" max="32767" attributes="0"/>
+                          <Component id="jScrollPane3" alignment="0" pref="621" max="32767" attributes="0"/>
                       </Group>
                   </Group>
               </Group>
@@ -771,8 +771,8 @@
               <Layout>
                 <DimensionLayout dim="0">
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="jToolBar3" alignment="0" pref="1185" max="32767" attributes="0"/>
-                      <Component id="jPSelTimeTrCollection" alignment="0" pref="1185" max="32767" attributes="0"/>
+                      <Component id="jToolBar3" alignment="0" pref="1028" max="32767" attributes="0"/>
+                      <Component id="jPSelTimeTrCollection" alignment="0" pref="1028" max="32767" attributes="0"/>
                   </Group>
                 </DimensionLayout>
                 <DimensionLayout dim="1">

@@ -114,6 +114,12 @@ final public class SpecEditorTopCompNew extends CloneableTopComponent
         setName(dataObject.getTgd().getFilename());
         filename = dataObject.getTgd().getPath();
         filename = filename.concat("/").concat(dataObject.getTgd().getFilename());
+
+        File test = new File(filename);
+        if(!test.canRead()) {
+            filename = OpenProjects.getDefault().getMainProject().getProjectDirectory().getPath() + File.separator + dataObject.getTgd().getRelativePath();
+        }
+
 //        setName(NbBundle.getMessage(SpecEditorTopCompNew.class, "CTL_StreakLoaderTopComponent"));
         setToolTipText(NbBundle.getMessage(SpecEditorTopCompNew.class, "HINT_StreakLoaderTopComponent"));
 //        setIcon(Utilities.loadImage(ICON_PATH, true));

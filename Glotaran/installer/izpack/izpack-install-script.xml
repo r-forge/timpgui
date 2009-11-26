@@ -11,14 +11,14 @@
         <authors>
             <author email="j.snellenburg@few.vu.nl" name="Joris Snellenburg"/>
             <author email="s.laptenok@few.vu.nl" name="Sergey Laptenok"/>
-            <author email="" name="Katharin Mullen"/>
+            <author email="" name="Katharine Mullen"/>
             <author email="" name="Ivo van Stokkum"/>
         </authors>
         <url>http://timpgui.org</url>
         <javaversion>1.5</javaversion>
         <requiresjdk>no</requiresjdk>
         <uninstaller>yes</uninstaller>
-        <!-- <run-privileged condition="Glotaran.windowsinstall.vista|Glotaran.windowsinstall.7"/> -->
+        <run-privileged condition="Glotaran.windowsinstall.vista|Glotaran.windowsinstall.7"/>
         <!-- <summarylogfilepath>$INSTALL_PATH/installinfo/Summary.htm</summarylogfilepath> -->
     </info>
 

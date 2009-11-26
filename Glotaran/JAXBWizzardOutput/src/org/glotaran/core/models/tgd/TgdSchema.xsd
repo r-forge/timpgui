@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+            targetNamespace="http://timpgui.org/Schema/TgdSchema"
+            xmlns:tns="http://timpgui.org/Schema/TgdSchema"
+            elementFormDefault="qualified" version="0.1" id="TgdSchema">
+    <xsd:element name="tgd">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element name="filename" type="xsd:string"/>
+                <xsd:element name="path" type="xsd:string"/>
+                <xsd:element name="filetype" type="xsd:string"/>
+                <xsd:element name="datasetNames" type="xsd:string" maxOccurs="unbounded" nillable="true" minOccurs="0"></xsd:element>
+                <xsd:element name="cacheFolderName" type="xsd:string"/>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+</xsd:schema>

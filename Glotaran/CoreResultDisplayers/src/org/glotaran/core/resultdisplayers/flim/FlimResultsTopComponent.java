@@ -18,6 +18,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Formatter;
 import java.util.logging.Logger;
+import org.glotaran.core.main.interfaces.TimpControllerInterface;
 import org.glotaran.core.main.mesages.CoreErrorMessages;
 import org.glotaran.core.main.nodes.dataobjects.TimpResultDataObject;
 import org.glotaran.core.main.structures.TimpResultDataset;
@@ -55,6 +56,7 @@ import org.jfree.ui.RectangleInsets;
 import org.openide.DialogDisplayer;
 import org.openide.NotifyDescriptor;
 import org.openide.util.Exceptions;
+import org.openide.util.Lookup;
 import org.openide.util.NbBundle;
 import org.openide.windows.TopComponent;
 import org.openide.windows.WindowManager;
@@ -1044,19 +1046,29 @@ private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
     private void calculateSVDResiduals(){
         int n = 2;
 //do SVD
-        SingularValueDecomposition result;
-        result = res.getResiduals().svd();
+
+        ArrayList<Matrix> svdResult = null;
+        TimpControllerInterface controller;
+        controller = Lookup.getDefault().lookup(TimpControllerInterface.class);
+        if (controller != null) {
+            svdResult = controller.doSingularValueDecomposition(res.getResiduals());
+        } else {
+            CoreErrorMessages.noRFoundException();
+            return;
+        }
 
 //creare collection with first 2 LSV
+
         XYSeriesCollection lSVCollection = new XYSeriesCollection();
         XYSeries seria;
         for (int j = 0; j < n; j++) {
             seria = new XYSeries("LSV" + (j + 1));
             for (int i = 0; i < res.getX().length; i++) {
-                seria.add(res.getX()[i], result.getU().get(i, j));
+                seria.add(res.getX()[i], svdResult.get(1).get(i, j));
             }
             lSVCollection.addSeries(seria);
         }
+
 //creare chart for 2 LSV
         JFreeChart tracechart = ChartFactory.createXYLineChart(
                     "Left singular vectors",
@@ -1078,17 +1090,16 @@ private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
 
 
 //create images with first 2 RSV
- 
         double[] tempRsingVec = null;
         double minVal = 0;
         double maxVal = 0;
         for (int j = 0; j < n; j++) {
 //            seria = new XYSeries("RSV" + (j + 1));
             tempRsingVec = new double[selImWidth*selImHeight];
-            minVal = result.getV().get(0, j);
-            maxVal = result.getV().get(0, j);
+            minVal = svdResult.get(2).get(0, j);
+            maxVal = svdResult.get(2).get(0, j);
             for (int i = 0; i < res.getX2().length; i++) {
-                tempRsingVec[selImInd[i]] = result.getV().get(i, j);
+                tempRsingVec[selImInd[i]] = svdResult.get(2).get(i, j);
                 if (tempRsingVec[i] < minVal)
                     minVal = tempRsingVec[i];
                 if (tempRsingVec[i] > maxVal)
@@ -1109,11 +1120,10 @@ private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
 //creare collection with singular values
         XYSeriesCollection sVCollection = new XYSeriesCollection();
         seria = new XYSeries("SV");
-        for (int i = 0; i < result.getSingularValues().length; i++) {
-            seria.add(i+1, result.getSingularValues()[i]);
+        for (int i = 0; i < svdResult.get(0).getRowDimension(); i++) {
+            seria.add(i + 1, svdResult.get(0).get(i, 0));
         }
         sVCollection.addSeries(seria);
-
 
 //creare chart for singular values
         tracechart = ChartFactory.createXYLineChart(
@@ -1143,54 +1153,6 @@ private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
 //add chart with singularvalues to JPannel
         jPSingValues.removeAll();
         jPSingValues.add(chpan);
-    }
-    private ChartPanel makeTimeTraceResidChart(XYSeriesCollection trace, XYSeriesCollection residuals, NumberAxis xAxis, String name){
-//        XYSeriesCollection dataset1 = new XYSeriesCollection();
-        JFreeChart subchartResiduals = ChartFactory.createXYLineChart(
-            null,
-            null,
-            null,
-            residuals,
-            PlotOrientation.VERTICAL,
-            false,
-            false,
-            false
-        );
-        JFreeChart subchartTrace = ChartFactory.createXYLineChart(
-            null,
-            null,
-            null,
-            trace,
-            PlotOrientation.VERTICAL,
-            false,
-            false,
-            false
-        );
-
-        XYPlot plot1_1 = subchartTrace.getXYPlot();
-        plot1_1.getDomainAxis().setLowerMargin(0.0);
-        plot1_1.getDomainAxis().setUpperMargin(0.0);
-        plot1_1.setDomainAxisLocation(AxisLocation.BOTTOM_OR_LEFT);
-        plot1_1.getDomainAxis().setInverted(true);
-
-        XYPlot plot1_2 = subchartResiduals.getXYPlot();
-        plot1_2.getDomainAxis().setLowerMargin(0.0);
-        plot1_2.getDomainAxis().setUpperMargin(0.0);
-        plot1_2.setDomainAxisLocation(AxisLocation.BOTTOM_OR_LEFT);
-        plot1_2.getDomainAxis().setInverted(true);
-
-        CombinedDomainXYPlot plot = new CombinedDomainXYPlot(xAxis);
-        plot.setGap(5.0);
-        plot.add(plot1_1, 3);
-        plot.add(plot1_2, 1);
-        plot.setOrientation(PlotOrientation.VERTICAL);
-        JFreeChart tracechart = new JFreeChart(name, JFreeChart.DEFAULT_TITLE_FONT, plot, true);
-        ChartPanel chpan = new ChartPanel(tracechart,true);
-        chpan.setMinimumDrawHeight(0);
-        chpan.setMinimumDrawWidth(0);
-
-        return chpan;
-
     }
 
     private JFreeChart createScatChart(BufferedImage image, PaintScale ps, int plotWidth, int plotHeigh){

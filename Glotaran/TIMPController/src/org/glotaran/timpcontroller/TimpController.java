@@ -605,8 +605,8 @@ public class TimpController implements TimpControllerInterface {
         ArrayList<Matrix> result = new ArrayList();
         //TODO: fix this
         connection.assign("tempMatrix", matrix.getColumnPackedCopy());
-        int dimCol = matrix.getColumnDimension();
-        int dimRow = matrix.getRowDimension();
+        int dimRow = matrix.getColumnDimension();
+        int dimCol = matrix.getRowDimension();
         connection.voidEval("dim(tempMatrix) <- c("+ dimCol +","+dimRow+")");
         connection.voidEval("resSVD <- svd(as.matrix(tempMatrix))");
         Matrix values = getTempMatrix("as.matrix(resSVD$d)");

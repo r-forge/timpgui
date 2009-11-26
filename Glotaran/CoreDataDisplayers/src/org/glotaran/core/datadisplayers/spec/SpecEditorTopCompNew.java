@@ -1089,7 +1089,7 @@ final public class SpecEditorTopCompNew extends CloneableTopComponent
         for (int j =0; j < n; j++){
             seria = new XYSeries("LSV1"+j+1);
             for (int i = 0; i < data.getX().length; i++) {
-                seria.add(data.getX()[i], svdResult.get(1).get(j, i));
+                seria.add(data.getX()[i], svdResult.get(1).get(i, j));
             }
             lSVCollection.addSeries(seria);
         }
@@ -1099,7 +1099,7 @@ final public class SpecEditorTopCompNew extends CloneableTopComponent
         for (int j = 0; j < n; j++) {
             seria = new XYSeries("RSV" + (j + 1));
             for (int i = 0; i < data.getX2().length; i++) {
-                seria.add(data.getX2()[i], svdResult.get(2).get(j, i));
+                seria.add(data.getX2()[i], svdResult.get(2).get(i, j));
             }
             rSVCollection.addSeries(seria);
         }
@@ -1237,20 +1237,20 @@ final public class SpecEditorTopCompNew extends CloneableTopComponent
         controller = Lookup.getDefault().lookup(TimpControllerInterface.class);
         if (controller != null) {
             svdResult = controller.doSingularValueDecomposition(newMatrix);
-                        } else {
-                            CoreErrorMessages.noRFoundException();
-                        return;
-                        }
+        } else {
+            CoreErrorMessages.noRFoundException();
+            return;
+        }
 
-        jTFtotalNumSV.setText(String.valueOf(svdResult.get(0).getColumnDimension()));
-        jSnumSV.setModel(new SpinnerNumberModel(1.0,0.0,svdResult.get(0).getColumnDimension(),1.0));
+        jTFtotalNumSV.setText(String.valueOf(svdResult.get(0).getRowDimension()));
+        jSnumSV.setModel(new SpinnerNumberModel(1.0, 0.0, svdResult.get(0).getRowDimension(), 1.0));
         int n = 1;
         //creare collection with first 2 LSV
         XYSeriesCollection lSVCollection = new XYSeriesCollection();
         XYSeries seria;
         seria = new XYSeries("LSV1");
         for (int i = 0; i < data.getX().length; i++) {
-            seria.add(data.getX()[i], svdResult.get(1).get(0, i));
+            seria.add(data.getX()[i], svdResult.get(1).get(i, 0));
         }
         lSVCollection.addSeries(seria);
 
@@ -1275,13 +1275,12 @@ final public class SpecEditorTopCompNew extends CloneableTopComponent
 
         //creare collection with first 2 RSV
         XYSeriesCollection rSVCollection = new XYSeriesCollection();
-        for (int j = 0; j < n; j++) {
-            seria = new XYSeries("RSV" + (j + 1));
-            for (int i = 0; i < data.getX2().length; i++) {
-                seria.add(data.getX2()[i], svdResult.get(2).get(j, i));
-            }
-            rSVCollection.addSeries(seria);
+
+        seria = new XYSeries("RSV1");
+        for (int i = 0; i < data.getX2().length; i++) {
+            seria.add(data.getX2()[i], svdResult.get(2).get(i, 0));
         }
+        rSVCollection.addSeries(seria);
 
         //creare chart for 2 RSV
         rightSVChart = ChartFactory.createXYLineChart(
@@ -1306,7 +1305,7 @@ final public class SpecEditorTopCompNew extends CloneableTopComponent
         XYSeriesCollection sVCollection = new XYSeriesCollection();
         seria = new XYSeries("SV");
         for (int i = 0; i < svdResult.get(0).getRowDimension(); i++) {
-            seria.add(i+1, svdResult.get(0).get(i, 0));
+            seria.add(i + 1, svdResult.get(0).get(i, 0));
         }
         sVCollection.addSeries(seria);
 
@@ -1323,8 +1322,8 @@ final public class SpecEditorTopCompNew extends CloneableTopComponent
                 false);
         LogAxis logAxe = new LogAxis("Log(SV)");
 //        logAxe.setAutoRange(true);
-        int index = svdResult.get(0).getRowDimension()-1;
-        while ( svdResult.get(0).get(index, 0)<=0){
+        int index = svdResult.get(0).getRowDimension() - 1;
+        while (svdResult.get(0).get(index, 0) <= 0) {
             index--;
         }
         logAxe.setRange(svdResult.get(0).get(index, 0), svdResult.get(0).get(0, 0));

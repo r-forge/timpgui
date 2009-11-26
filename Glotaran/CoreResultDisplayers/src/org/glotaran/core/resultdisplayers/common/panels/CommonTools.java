@@ -82,7 +82,7 @@ public class CommonTools {
         plot1_2.setDomainAxisLocation(AxisLocation.BOTTOM_OR_LEFT);
         plot1_2.getDomainAxis().setInverted(true);
         plot1_2.setRangeZeroBaselineVisible(true);
-
+        
         CombinedDomainXYPlot plot = new CombinedDomainXYPlot(xAxis);
         plot.setGap(5.0);
         plot.add(plot1_1, 3);

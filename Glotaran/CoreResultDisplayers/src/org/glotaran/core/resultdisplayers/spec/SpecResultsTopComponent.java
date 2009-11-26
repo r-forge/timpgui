@@ -1,7 +1,6 @@
 package org.glotaran.core.resultdisplayers.spec;
 
 import Jama.Matrix;
-import Jama.SingularValueDecomposition;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Font;
@@ -13,6 +12,7 @@ import java.util.ArrayList;
 import java.util.Formatter;
 import java.util.logging.Logger;
 import javax.swing.JPanel;
+import org.glotaran.core.main.interfaces.TimpControllerInterface;
 import org.glotaran.core.main.mesages.CoreErrorMessages;
 import org.glotaran.core.main.nodes.dataobjects.TimpResultDataObject;
 import org.glotaran.core.main.structures.TimpResultDataset;
@@ -58,6 +58,7 @@ import org.jfree.ui.RectangleInsets;
 import org.openide.DialogDisplayer;
 import org.openide.NotifyDescriptor;
 import org.openide.util.Exceptions;
+import org.openide.util.Lookup;
 import org.openide.util.NbBundle;
 import org.openide.windows.TopComponent;
 import org.openide.windows.WindowManager;
@@ -1427,6 +1428,7 @@ public final class SpecResultsTopComponent extends TopComponent implements Chart
                     false,
                     false,
                     false);
+
         tracechart.setBackgroundPaint(JFreeChart.DEFAULT_BACKGROUND_PAINT);
         tracechart.getXYPlot().getDomainAxis().setUpperBound(res.getX()[res.getX().length - 1]);
         tracechart.getXYPlot().setRangeZeroBaselineVisible(true);
@@ -1718,15 +1720,6 @@ public final class SpecResultsTopComponent extends TopComponent implements Chart
         yAxis.setLowerMargin(0.0);
         yAxis.setUpperMargin(0.0);
         yAxis.setVisible(false);
-//        NumberAxis yAxis2 = new NumberAxis("dispersion");
-//        yAxis2.setLowerBound(0);
-//        yAxis2.setUpperBound(res.getX().length);
-//        yAxis2.setVisible(true);
-//        yAxis2.setInverted(true);
-//        yAxis2.setAutoRange(false);
-//        yAxis2.setAutoRangeIncludesZero(false);
-//        plot.setRangeAxis(1, yAxis2);
-
         return chart_temp;
     }
 
@@ -1783,21 +1776,23 @@ public final class SpecResultsTopComponent extends TopComponent implements Chart
 
     private Matrix calculateSVDresid(Matrix rezid, double[] x, double[] x2, JPanel jPRSV, JPanel jPLSV, JPanel jPSV){
 //do SVD
+        ArrayList<Matrix> svdResult = null;
+        TimpControllerInterface controller;
+        controller = Lookup.getDefault().lookup(TimpControllerInterface.class);
+        if (controller != null) {
+            svdResult = controller.doSingularValueDecomposition(rezid);
+        } else {
+            CoreErrorMessages.noRFoundException();
+            return null;
+        }
         int n = 2;
-        SingularValueDecomposition result;
-        result = rezid.svd();
-
-        //TODO: get implementation of TIMPControllerInterface
-        //List<Matrix> resSVD =
-        
-
 //creare collection with first 2 LSV
         XYSeriesCollection lSVCollection = new XYSeriesCollection();
         XYSeries seria;
         for (int j = 0; j < n; j++) {
             seria = new XYSeries("LSV" + (j + 1));
             for (int i = 0; i < x.length; i++) {
-                seria.add(x[i], result.getU().get(i, j));
+                seria.add(x[i], svdResult.get(1).get(i, j));
             }
             lSVCollection.addSeries(seria);
         }
@@ -1807,7 +1802,7 @@ public final class SpecResultsTopComponent extends TopComponent implements Chart
         for (int j = 0; j < n; j++) {
             seria = new XYSeries("RSV" + (j + 1));
             for (int i = 0; i < x2.length; i++) {
-                seria.add(x2[i], result.getV().get(i, j));
+                seria.add(x2[i], svdResult.get(2).get(i, j));
             }
             rSVCollection.addSeries(seria);
         }
@@ -1815,14 +1810,14 @@ public final class SpecResultsTopComponent extends TopComponent implements Chart
 //creare collection with singular values
         XYSeriesCollection sVCollection = new XYSeriesCollection();
         seria = new XYSeries("SV");
-        for (int i = 0; i < result.getSingularValues().length; i++) {
-            seria.add(i+1, result.getSingularValues()[i]);
+        for (int i = 0; i < svdResult.get(0).getRowDimension(); i++) {
+            seria.add(i + 1, svdResult.get(0).get(i, 0));
         }
         sVCollection.addSeries(seria);
 
         createSVDPlots(jPRSV, rSVCollection, jPLSV, lSVCollection, jPSV, sVCollection);
 
-        return result.getU().getMatrix(0, result.getU().getRowDimension()-1, 0, 1);
+        return svdResult.get(1).getMatrix(0, svdResult.get(1).getRowDimension()-1, 0, 1);
     }
 
     private void createSVDPlots(JPanel jPRSV, XYSeriesCollection colRSV, JPanel jPLSV, XYSeriesCollection colLSV, JPanel jPSV, XYSeriesCollection colSV){
@@ -1842,6 +1837,9 @@ public final class SpecResultsTopComponent extends TopComponent implements Chart
         tracechart.getXYPlot().getDomainAxis().setUpperMargin(0.0);
         tracechart.getXYPlot().getDomainAxis().setLowerMargin(0.0);
         tracechart.getXYPlot().setRangeZeroBaselineVisible(true);
+         for (int i = 0; i<2; i++){
+            tracechart.getXYPlot().getRenderer().setSeriesPaint(i, ((AbstractRenderer) tracechart.getXYPlot().getRenderer()).lookupSeriesPaint(i));
+        }
         ChartPanel chpan = new GraphPanel(tracechart);
 //add chart with 2 LSV to JPannel
         jPLSV.removeAll();
@@ -1859,6 +1857,9 @@ public final class SpecResultsTopComponent extends TopComponent implements Chart
                     false);
         tracechart.getTitle().setFont(new Font(tracechart.getTitle().getFont().getFontName(), Font.PLAIN, 12));
         tracechart.setBackgroundPaint(JFreeChart.DEFAULT_BACKGROUND_PAINT);
+         for (int i = 0; i<2; i++){
+            tracechart.getXYPlot().getRenderer().setSeriesPaint(i, ((AbstractRenderer) tracechart.getXYPlot().getRenderer()).lookupSeriesPaint(i));
+        }
         tracechart.getXYPlot().getDomainAxis().setUpperMargin(0.0);
         tracechart.getXYPlot().getDomainAxis().setLowerMargin(0.0);
         tracechart.getXYPlot().getDomainAxis().setAutoRange(false);
@@ -1925,13 +1926,18 @@ public final class SpecResultsTopComponent extends TopComponent implements Chart
         CombinedDomainXYPlot linPlot = (CombinedDomainXYPlot)linTime.getChart().getPlot();
         CombinedDomainXYPlot logPlot = (CombinedDomainXYPlot)logTime.getChart().getPlot();
 
-
-        ((XYPlot)logPlot.getSubplots().get(0)).getRenderer().setSeriesPaint(1,Color.red);
-        ((XYPlot)linPlot.getSubplots().get(0)).getRenderer().setSeriesPaint(1,Color.red);
-        ((XYPlot)linPlot.getSubplots().get(0)).getRenderer().setSeriesPaint(0,Color.blue);
-        ((XYPlot)logPlot.getSubplots().get(0)).getRenderer().setSeriesPaint(0,Color.blue);
-        ((XYPlot)logPlot.getSubplots().get(1)).getRenderer().setSeriesPaint(0,Color.green);
-        ((XYPlot)linPlot.getSubplots().get(1)).getRenderer().setSeriesPaint(0,Color.green);
+        ((XYPlot)logPlot.getSubplots().get(0)).getRenderer().setSeriesPaint(
+                1,((AbstractRenderer)((XYPlot)logPlot.getSubplots().get(0)).getRenderer()).lookupSeriesPaint(1));
+        ((XYPlot)linPlot.getSubplots().get(0)).getRenderer().setSeriesPaint(
+                1,((AbstractRenderer)((XYPlot)logPlot.getSubplots().get(0)).getRenderer()).lookupSeriesPaint(1));
+        ((XYPlot)linPlot.getSubplots().get(0)).getRenderer().setSeriesPaint(
+                0,((AbstractRenderer)((XYPlot)logPlot.getSubplots().get(0)).getRenderer()).lookupSeriesPaint(0));
+        ((XYPlot)logPlot.getSubplots().get(0)).getRenderer().setSeriesPaint(
+                0,((AbstractRenderer)((XYPlot)logPlot.getSubplots().get(0)).getRenderer()).lookupSeriesPaint(0));
+        ((XYPlot)logPlot.getSubplots().get(1)).getRenderer().setSeriesPaint(
+                0,((AbstractRenderer)((XYPlot)logPlot.getSubplots().get(0)).getRenderer()).lookupSeriesPaint(2));
+        ((XYPlot)linPlot.getSubplots().get(1)).getRenderer().setSeriesPaint(
+                0,((AbstractRenderer)((XYPlot)logPlot.getSubplots().get(0)).getRenderer()).lookupSeriesPaint(2));
 
         CombinedRangeXYPlot plot = new CombinedRangeXYPlot(yAxis);
         plot.setGap(-7.5);

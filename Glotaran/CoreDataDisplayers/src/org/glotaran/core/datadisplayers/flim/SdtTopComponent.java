@@ -1,5 +1,6 @@
 package org.glotaran.core.datadisplayers.flim;
 
+import Jama.Matrix;
 import Jama.SingularValueDecomposition;
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -30,6 +31,8 @@ import org.openide.windows.TopComponent;
 import org.openide.windows.WindowManager;
 import java.io.File;
 import java.io.ObjectOutputStream;
+import java.util.ArrayList;
+import org.glotaran.core.main.interfaces.TimpControllerInterface;
 import org.glotaran.core.main.mesages.CoreErrorMessages;
 import org.glotaran.core.main.nodes.TgdDataChildren;
 import org.glotaran.core.main.nodes.TgdDataNode;
@@ -53,6 +56,7 @@ import org.openide.DialogDisplayer;
 import org.openide.NotifyDescriptor;
 import org.openide.filesystems.FileObject;
 import org.openide.loaders.DataObject;
+import org.openide.util.Lookup;
 import org.openide.windows.CloneableTopComponent;
 
 /**
@@ -69,7 +73,7 @@ final public class SdtTopComponent extends CloneableTopComponent implements Char
     private int numSelPix;
     private TgdDataObject dataObject;
     private TimpDatasetDataObject timpDatasetObject;
-    SingularValueDecomposition svdResult;
+    private ArrayList<Matrix> svdResult;
     private static SdtTopComponent instance;
  /** path to the icon used by the component and its open action */
 //    static final String ICON_PATH = "SET/PATH/TO/ICON/HERE";
@@ -1064,6 +1068,14 @@ private void jPanel4ComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIR
 
     private void calculateSVD() {
         //TODO: implement SVD calculation for FLIM images
+//        Matrix newMatrix = new Matrix(data.getPsisim(), data.getNl());
+//        controller = Lookup.getDefault().lookup(TimpControllerInterface.class);
+//        if (controller != null) {
+//            svdResult = controller.doSingularValueDecomposition(newMatrix);
+//        } else {
+//            CoreErrorMessages.noRFoundException();
+//            return;
+//        }
     }
 
     private void sumSelectedPixels() {

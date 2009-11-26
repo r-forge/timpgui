@@ -1,7 +1,6 @@
 package org.glotaran.core.datadisplayers.flim;
 
 import Jama.Matrix;
-import Jama.SingularValueDecomposition;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Cursor;
@@ -32,7 +31,6 @@ import org.openide.windows.WindowManager;
 import java.io.File;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
-import org.glotaran.core.main.interfaces.TimpControllerInterface;
 import org.glotaran.core.main.mesages.CoreErrorMessages;
 import org.glotaran.core.main.nodes.TgdDataChildren;
 import org.glotaran.core.main.nodes.TgdDataNode;
@@ -56,7 +54,6 @@ import org.openide.DialogDisplayer;
 import org.openide.NotifyDescriptor;
 import org.openide.filesystems.FileObject;
 import org.openide.loaders.DataObject;
-import org.openide.util.Lookup;
 import org.openide.windows.CloneableTopComponent;
 
 /**
@@ -241,6 +238,7 @@ final public class SdtTopComponent extends CloneableTopComponent implements Char
         jLabel4 = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
         jToolBar2 = new javax.swing.JToolBar();
+        jPSumTrace1 = new javax.swing.JScrollPane();
         jPSumTrace = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jPanel7 = new javax.swing.JPanel();
@@ -260,7 +258,10 @@ final public class SdtTopComponent extends CloneableTopComponent implements Char
         jPLeftSingVectors = new javax.swing.JPanel();
         jPRightSingVectors = new javax.swing.JPanel();
 
+        setPreferredSize(new java.awt.Dimension(900, 800));
         setLayout(new java.awt.BorderLayout());
+
+        jTabbedPane1.setPreferredSize(new java.awt.Dimension(900, 800));
 
         jToolBar1.setRollover(true);
 
@@ -551,6 +552,7 @@ final public class SdtTopComponent extends CloneableTopComponent implements Char
 
         jTabbedPane1.addTab(org.openide.util.NbBundle.getMessage(SdtTopComponent.class, "SdtTopComponent.jPanel2.TabConstraints.tabTitle"), jPanel2); // NOI18N
 
+        jPanel4.setPreferredSize(new java.awt.Dimension(800, 800));
         jPanel4.addComponentListener(new java.awt.event.ComponentAdapter() {
             public void componentShown(java.awt.event.ComponentEvent evt) {
                 jPanel4ComponentShown(evt);
@@ -559,21 +561,32 @@ final public class SdtTopComponent extends CloneableTopComponent implements Char
 
         jToolBar2.setRollover(true);
 
-        jPSumTrace.setLayout(new java.awt.BorderLayout());
+        javax.swing.GroupLayout jPSumTraceLayout = new javax.swing.GroupLayout(jPSumTrace);
+        jPSumTrace.setLayout(jPSumTraceLayout);
+        jPSumTraceLayout.setHorizontalGroup(
+            jPSumTraceLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 943, Short.MAX_VALUE)
+        );
+        jPSumTraceLayout.setVerticalGroup(
+            jPSumTraceLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 748, Short.MAX_VALUE)
+        );
+
+        jPSumTrace1.setViewportView(jPSumTrace);
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jToolBar2, javax.swing.GroupLayout.DEFAULT_SIZE, 946, Short.MAX_VALUE)
-            .addComponent(jPSumTrace, javax.swing.GroupLayout.DEFAULT_SIZE, 946, Short.MAX_VALUE)
+            .addComponent(jPSumTrace1, javax.swing.GroupLayout.DEFAULT_SIZE, 946, Short.MAX_VALUE)
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addComponent(jToolBar2, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPSumTrace, javax.swing.GroupLayout.DEFAULT_SIZE, 827, Short.MAX_VALUE))
+                .addComponent(jPSumTrace1, javax.swing.GroupLayout.DEFAULT_SIZE, 742, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab(org.openide.util.NbBundle.getMessage(SdtTopComponent.class, "SdtTopComponent.jPanel4.TabConstraints.tabTitle"), jPanel4); // NOI18N
@@ -980,6 +993,7 @@ private void jPanel4ComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIR
     private javax.swing.JPanel jPSelectedTrace;
     private javax.swing.JPanel jPSingValues;
     private javax.swing.JPanel jPSumTrace;
+    private javax.swing.JScrollPane jPSumTrace1;
     private javax.swing.JPanel jPanel10;
     private javax.swing.JPanel jPanel11;
     private javax.swing.JPanel jPanel12;

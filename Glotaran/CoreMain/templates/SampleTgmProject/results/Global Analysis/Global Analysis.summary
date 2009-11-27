@@ -1,0 +1,24 @@
+Summary
+Used dataset(s): dataset1
+
+Used model(s): SpecifyModelName
+
+Number of iterations: 5
+
+R Call fot TIMP function initModel: 
+model1 <- initModel(mod_type = "kin",kinpar = c(0.5,0.05,0.01),irfpar = c(1.0,0.2),lambdac = 530.0, parmu = list(c(0.3,-0.1,0.01)),positivepar = c("kinpar"),cohspec = list(type = "irf") ,seqmod = TRUE)
+
+R Call fot TIMP function fitModel: 
+fitResult <- fitModel(list(dataset1),list(model1),opt = kinopt(iter = 5, plot=FALSE))
+
+Final residual standard error: 0.0557667
+
+Estimated Kinetic parameters: 
+Dataset1: 0.603073, 0.0474599, 0.0194475
+Standard errors: 0.0110502, 0.000609265, 9.67543e-05
+Estimated Irf parameters: 
+Dataset1: 1.14129, 0.0604767
+Standard errors: 0.000601225, 0.000298486
+Estimated Parmu: 
+Dataset1: 0.345936, -0.0828713, 0.00766094
+Standard errors: 0.00114400, 0.000750332, 0.000283627

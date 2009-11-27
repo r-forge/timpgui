@@ -18,7 +18,7 @@
         <javaversion>1.5</javaversion>
         <requiresjdk>no</requiresjdk>
         <uninstaller>yes</uninstaller>
-        <run-privileged condition="Glotaran.windowsinstall.vista|Glotaran.windowsinstall.7"/>
+        <!-- <run-privileged condition="Glotaran.windowsinstall.vista|Glotaran.windowsinstall.7"/> -->
         <!-- <summarylogfilepath>$INSTALL_PATH/installinfo/Summary.htm</summarylogfilepath> -->
     </info>
 

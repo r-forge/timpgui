@@ -47,7 +47,7 @@ public class TgdDataChildren extends Children.Keys {
                 Exceptions.printStackTrace(ex);
             }
             if (dObj!=null) {
-            datasets.add((TimpDatasetDataObject)dObj);
+                datasets.add((TimpDatasetDataObject)dObj);
             }
         }
 
@@ -70,14 +70,16 @@ public class TgdDataChildren extends Children.Keys {
     protected Node[] createNodes(Object key) {
        TimpDatasetDataObject datasetObject = (TimpDatasetDataObject) key;
        //TimpDatasetNode tn = (TimpDatasetNode) datasetObject.getNodeDelegate();//new TimpDatasetNode(datasetObject);
-       return new Node[] {datasetObject.getNodeDelegate()};
+       return new Node[] {new TimpDatasetNode(datasetObject)};
     }
 
     @Override
     public boolean remove(Node[] arg0) {
-        TimpDatasetNode node = (TimpDatasetNode)arg0[0];
-        datasets.remove(node.getObject());
-        setKeys(datasets);
+        for (int i = 0; i<arg0.length; i++){
+            TimpDatasetNode node = (TimpDatasetNode)arg0[i];
+            datasets.remove(node.getObject());
+            setKeys(datasets);
+        }
         return true;
     }
 

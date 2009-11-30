@@ -5,8 +5,12 @@
 package org.glotaran.core.main.nodes;
 
 import java.awt.Image;
+import java.io.IOException;
+import org.glotaran.core.main.mesages.CoreErrorMessages;
 import org.glotaran.core.main.nodes.dataobjects.TgdDataObject;
+import org.glotaran.core.main.project.TGProject;
 import org.openide.loaders.DataNode;
+import org.openide.nodes.Node;
 import org.openide.util.ImageUtilities;
 import org.openide.util.Lookup;
 
@@ -21,7 +25,7 @@ public class TgdDataNode extends DataNode {
 
     }
 
-    TgdDataNode(TgdDataObject obj, Lookup lookup) {
+    public TgdDataNode(TgdDataObject obj, Lookup lookup) {
         super(obj, new TgdDataChildren(obj), lookup);
         this.obj = obj;
     }
@@ -34,5 +38,30 @@ public class TgdDataNode extends DataNode {
     @Override
     public Image getOpenedIcon(int type) {
         return getIcon(type);
+    }
+
+    @Override
+    public void destroy() throws IOException {
+        TGProject project = findProject();
+        if (this.getChildren().getNodesCount()>0){
+            for (int i = 0; i<this.getChildren().getNodesCount(); i++){
+                this.getChildren().getNodes()[i].destroy();
+            }
+        }
+        project.getCacheFolder(false).getFileObject(obj.getTgd().getCacheFolderName()).delete();
+        super.destroy();
+    }
+
+    public TGProject findProject(){
+        Node n = this;
+        while (n.getParentNode()!=null){
+            n = n.getParentNode();
+        }
+        try {
+            return ((TGProjectNode)n).getProject();
+        } catch (Exception e) {
+            CoreErrorMessages.projectFolderException();
+        }
+        return null;
     }
 }

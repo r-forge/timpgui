@@ -3,7 +3,10 @@ package org.glotaran.core.main.nodes;
 
 import java.awt.Image;
 
+import org.glotaran.core.main.nodes.dataobjects.SummaryDataObject;
+import org.glotaran.core.main.nodes.dataobjects.TimpResultDataObject;
 import org.openide.loaders.DataFolder;
+import org.openide.loaders.DataNode;
 import org.openide.nodes.FilterNode;
 import org.openide.nodes.Node;
 import org.openide.util.ImageUtilities;
@@ -58,21 +61,18 @@ public class TGResultsNode extends FilterNode {
         @Override
         protected Node[] createNodes(Node n) {
             if (n.getLookup().lookup(DataFolder.class) != null) {
-                return new Node[] {new TGResultsNode(n)};
+                return new Node[]{new TGResultsNode(n)};
             } else {
-//                Feed feed = getFeed(n);
-//                if (feed != null) {
-//                    try {
-//                        return new Node[] {new OneFeedNode(n, feed.getSyndFeed())};
-//                    } catch (IOException ioe) {
-//                        Exceptions.printStackTrace(ioe);
-//                    }
-//                }
+                if (n.getLookup().lookup(TimpResultDataObject.class) != null) {
+                    return new Node[]{n.getLookup().lookup(TimpResultDataObject.class).getNodeDelegate()};
+                } else {
+                    if (n.getLookup().lookup(SummaryDataObject.class) != null) {
+                        return new Node[]{n.getLookup().lookup(SummaryDataObject.class).getNodeDelegate()};
+                    }
+                }
             }
-            // best effort
-            return new Node[] {new FilterNode(n)};
+            return new Node[]{};
         }
-
     }
 
 }

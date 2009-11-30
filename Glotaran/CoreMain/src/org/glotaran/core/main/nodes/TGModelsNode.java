@@ -2,6 +2,7 @@
 package org.glotaran.core.main.nodes;
 
 import java.awt.Image;
+import org.glotaran.core.main.nodes.dataobjects.TgdDataObject;
 import org.openide.nodes.FilterNode;
 import org.openide.nodes.Node;
 import org.openide.util.ImageUtilities;
@@ -58,6 +59,9 @@ public class TGModelsNode extends FilterNode {
             if (n.getLookup().lookup(DataFolder.class) != null) {
                 return new Node[]{new TGModelsNode(n)};
             } else {
+//                if (n.getLookup().lookup(Tgmdataobject.class)!=null){
+//                    return new Node[]{new TgdDataNode(n.getLookup().lookup(TgdDataObject.class))};
+//                }
             }
             return new Node[]{new FilterNode(n)};
         }

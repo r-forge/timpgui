@@ -33,8 +33,9 @@ public class TgdDataObject extends InstanceDataObject {
 
     @Override
     protected Node createNodeDelegate() {
-        return new TgdDataNode(this); // removed: getLookup()
+        return new TgdDataNode(this,getLookup()); // removed: getLookup()
     }
+
 
     @Override
     public Lookup getLookup() {

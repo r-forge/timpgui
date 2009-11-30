@@ -9,6 +9,7 @@ import org.glotaran.core.main.interfaces.TGDatasetInterface;
 import org.glotaran.core.main.mesages.CoreErrorMessages;
 import org.glotaran.core.models.tgd.Tgd;
 import org.netbeans.api.project.Project;
+import org.netbeans.api.project.ProjectUtils;
 import org.netbeans.api.project.ui.OpenProjects;
 import org.openide.DialogDisplayer;
 import org.openide.WizardDescriptor;

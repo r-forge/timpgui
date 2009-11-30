@@ -1442,6 +1442,14 @@ public final class SpecResultsTopComponent extends TopComponent implements Chart
     }
 
     private void plotSpectrTrace() {
+        String specName = null;
+
+        if (res.getJvec()!=null){
+            specName = "SAS";
+        } else {
+            specName = "EAS";
+        }
+
         int compNum = 0;
         double maxAmpl = 0;
         if (jTBShowChohSpec.isSelected())
@@ -1457,7 +1465,7 @@ public final class SpecResultsTopComponent extends TopComponent implements Chart
 //create collection of real sas and normalizes all of them to max or abs(max) and creates collection with normSAS
 //TODO create collection of real das and normalizes all of them to max and creates collection with normDAS
         for (int j = 0; j < compNum; j++) {
-            seria = new XYSeries("S(E)AS" + (j + 1));
+            seria = new XYSeries(specName + (j + 1));
             maxAmpl = 0;
             for (int i = 0; i < res.getX2().length; i++) {
                 seria.add(res.getX2()[i], res.getSpectra().get(j, i));
@@ -1473,7 +1481,7 @@ public final class SpecResultsTopComponent extends TopComponent implements Chart
                 }
             }
             realSasCollection.addSeries(seria);
-            seria = new XYSeries("NormS(E)AS" + (j + 1));
+            seria = new XYSeries("Norm"+specName + (j + 1));
             for (int i = 0; i < res.getX2().length; i++) {
                 seria.add(res.getX2()[i], res.getSpectra().get(j, i)/maxAmpl);
             }
@@ -1483,7 +1491,7 @@ public final class SpecResultsTopComponent extends TopComponent implements Chart
         JFreeChart tracechart = ChartFactory.createXYLineChart(
                 null,
                 "Wavelength (nm)",
-                "SAS",
+                specName,
                 realSasCollection,
                 PlotOrientation.VERTICAL,
                 false,
@@ -1503,7 +1511,7 @@ public final class SpecResultsTopComponent extends TopComponent implements Chart
         tracechart = ChartFactory.createXYLineChart(
                 null,
                 "Wavelength (nm)",
-                "normSAS",
+                "norm"+specName,
                 normSasCollection,
                 PlotOrientation.VERTICAL,
                 false,
@@ -1601,7 +1609,7 @@ public final class SpecResultsTopComponent extends TopComponent implements Chart
         plot1_2.getDomainAxis().setInverted(true);
         plot1_2.setRangeZeroBaselineVisible(true);
 
-        NumberAxis xAxis = new NumberAxis("Time (ns)");
+        NumberAxis xAxis = new NumberAxis("Time");
         xAxis.setRange(res.getX()[0], res.getX()[res.getX().length - 1]);
         xAxis.setUpperBound(res.getX()[res.getX().length-1]);
         CombinedDomainXYPlot plot = new CombinedDomainXYPlot(xAxis);
@@ -1824,7 +1832,7 @@ public final class SpecResultsTopComponent extends TopComponent implements Chart
 //creare chart for 2 LSV
         JFreeChart tracechart = ChartFactory.createXYLineChart(
                     "Left singular vectors",
-                    "Time (ns)",
+                    "Time",
                     null,
                     colLSV,
                     PlotOrientation.VERTICAL,

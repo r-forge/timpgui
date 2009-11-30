@@ -266,24 +266,20 @@
         </folder>
     </folder>
     <folder name="Templates">
-        <folder name="Other">
-            <file name="SummaryTemplate.summ" url="SummaryTemplate.summ">
-                <attr name="SystemFileSystem.localizingBundle" stringvalue="org.glotaran.core.main.Bundle"/>
-                <attr name="template" boolvalue="true"/>
-            </file>
-        </folder>
         <folder name="Project">
             <folder name="General">
-                <file name="A new empty project" url="EmptyTgmProjectProject.zip">
+                <file name="Empty Project" url="EmptyModelProject.zip">
                     <attr name="SystemFileSystem.localizingBundle" stringvalue="org.glotaran.core.main.Bundle"/>
                     <attr name="instantiatingIterator" methodvalue="org.glotaran.core.main.project.templates.EmptyTgmProjectWizardIterator.createIterator"/>
-                    <attr name="instantiatingWizardURL" urlvalue="nbresloc:/org/glotaran/core/main/project/templates/EmptyTgmProjectDescription.html"/>
+                    <attr name="instantiatingWizardURL" urlvalue="nbresloc:/org/glotaran/core/main/project/templates/EmptyModelProjectDescription.html"/>
                     <attr name="template" boolvalue="true"/>
                 </file>
-                <file name="A new example project" url="SampleTgmProjectProject.zip">
+            </folder>
+            <folder name="Examples">
+                <file name="Demo project - Hippius et al " url="HippiusDemoProject.zip">
                     <attr name="SystemFileSystem.localizingBundle" stringvalue="org.glotaran.core.main.Bundle"/>
                     <attr name="instantiatingIterator" methodvalue="org.glotaran.core.main.project.templates.EmptyTgmProjectWizardIterator.createIterator"/>
-                    <attr name="instantiatingWizardURL" urlvalue="nbresloc:/org/glotaran/core/main/project/templates/SampleTgmProjectDescription.html"/>
+                    <attr name="instantiatingWizardURL" urlvalue="nbresloc:/org/glotaran/core/main/project/templates/Hippius demo.html"/>
                     <attr name="template" boolvalue="true"/>
                 </file>
             </folder>

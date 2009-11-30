@@ -38,13 +38,13 @@
         <irfparPanel>
             <dispmufun>poly</dispmufun>
             <disptaufun></disptaufun>
-            <parmu>0.30251186449026773,-0.10958868587993867,0.01890211586470624</parmu>
+            <parmu>0.31288012476042404,-0.09813753067051055,0.012615041197631897</parmu>
             <partau></partau>
             <parmufixed>false</parmufixed>
             <partaufixed>false</partaufixed>
             <lamda>550.0</lamda>
-            <irf>1.2138991642620574</irf>
-            <irf>0.06262565365480607</irf>
+            <irf>1.208440919228712</irf>
+            <irf>0.06463047148771003</irf>
             <fixed>false</fixed>
             <fixed>false</fixed>
             <backsweepEnabled>false</backsweepEnabled>
@@ -196,7 +196,7 @@
         <weightParPanel>
             <weightpar>
                 <min1 xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
-                <min2>480.0</min2>
+                <min2>280.0</min2>
                 <max1 xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
                 <max2>550.0</max2>
                 <weight>0.1</weight>
@@ -205,9 +205,16 @@
                 <min1 xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
                 <min2>720.0</min2>
                 <max1 xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
-                <max2>850.0</max2>
+                <max2>890.0</max2>
                 <weight>0.2</weight>
             </weightpar>
         </weightParPanel>
     </dat>
+    <panelStates>false</panelStates>
+    <panelStates>false</panelStates>
+    <panelStates>false</panelStates>
+    <panelStates>false</panelStates>
+    <panelStates>true</panelStates>
+    <panelStates>false</panelStates>
+    <panelStates>false</panelStates>
 </tgm>

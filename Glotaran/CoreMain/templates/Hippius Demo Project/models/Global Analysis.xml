@@ -64,13 +64,28 @@
             <spectralContraints/>
             <contrainsMatrix/>
         </kMatrixPanel>
-        <weightParPanel/>
+        <weightParPanel>
+            <weightpar>
+                <min1 xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
+                <min2>280.0</min2>
+                <max1 xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
+                <max2>550.0</max2>
+                <weight>0.1</weight>
+            </weightpar>
+            <weightpar>
+                <min1 xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
+                <min2>720.0</min2>
+                <max1 xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
+                <max2>890.0</max2>
+                <weight>0.2</weight>
+            </weightpar>
+        </weightParPanel>
     </dat>
     <panelStates>false</panelStates>
     <panelStates>false</panelStates>
+    <panelStates>false</panelStates>
+    <panelStates>false</panelStates>
     <panelStates>true</panelStates>
-    <panelStates>false</panelStates>
-    <panelStates>false</panelStates>
     <panelStates>false</panelStates>
     <panelStates>false</panelStates>
 </tgm>

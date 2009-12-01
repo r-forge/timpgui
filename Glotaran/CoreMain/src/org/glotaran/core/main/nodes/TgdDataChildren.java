@@ -11,6 +11,8 @@ import java.util.List;
 import org.glotaran.core.main.nodes.dataobjects.TgdDataObject;
 import org.glotaran.core.main.nodes.dataobjects.TimpDatasetDataObject;
 import org.glotaran.core.main.project.TGProject;
+import org.netbeans.api.project.FileOwnerQuery;
+import org.netbeans.api.project.Project;
 import org.netbeans.api.project.ui.OpenProjects;
 import org.openide.filesystems.FileObject;
 import org.openide.loaders.DataObject;
@@ -36,7 +38,7 @@ public class TgdDataChildren extends Children.Keys {
     public TgdDataChildren(TgdDataObject obj) {
 //        this.obj=obj;
         DataObject dObj = null;
-        final TGProject proj = (TGProject) OpenProjects.getDefault().getMainProject();
+        final TGProject proj = (TGProject) FileOwnerQuery.getOwner(obj.getPrimaryFile());
         cachefolder = proj.getCacheFolder(true);
         datasetfolder = cachefolder.getFileObject(obj.getTgd().getCacheFolderName());
         files = datasetfolder.getChildren();
@@ -70,7 +72,7 @@ public class TgdDataChildren extends Children.Keys {
     protected Node[] createNodes(Object key) {
        TimpDatasetDataObject datasetObject = (TimpDatasetDataObject) key;
        //TimpDatasetNode tn = (TimpDatasetNode) datasetObject.getNodeDelegate();//new TimpDatasetNode(datasetObject);
-       return new Node[] {new TimpDatasetNode(datasetObject)};
+       return new Node[] {datasetObject.getNodeDelegate()};
     }
 
     @Override

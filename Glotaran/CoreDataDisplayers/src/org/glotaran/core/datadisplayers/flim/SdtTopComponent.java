@@ -49,7 +49,7 @@ import org.jfree.chart.plot.XYPlot;
 import static java.lang.Math.round;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.renderer.xy.XYBlockRenderer;
-import org.netbeans.api.project.ui.OpenProjects;
+import org.netbeans.api.project.FileOwnerQuery;
 import org.openide.DialogDisplayer;
 import org.openide.NotifyDescriptor;
 import org.openide.filesystems.FileObject;
@@ -135,7 +135,7 @@ final public class SdtTopComponent extends CloneableTopComponent implements Char
         String filename;
         DatasetTimp tempData;
         TgdDataNode tddNode = (TgdDataNode)timpDatasetObject.getNodeDelegate().getParentNode();
-        dataObject = tddNode.getLookup().lookup(TgdDataObject.class);
+        dataObject = (TgdDataObject)tddNode.getDataObject();
         initComponents();
         setName(dataObject.getTgd().getFilename());
         filename = dataObject.getTgd().getPath();
@@ -745,7 +745,7 @@ final public class SdtTopComponent extends CloneableTopComponent implements Char
     }// </editor-fold>//GEN-END:initComponents
 
 private void jPIntensImageMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPIntensImageMouseClicked
-// TODO add your handling code here:
+
 }//GEN-LAST:event_jPIntensImageMouseClicked
 
 private void jBMakeDatasetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBMakeDatasetActionPerformed
@@ -789,7 +789,7 @@ private void jBMakeDatasetActionPerformed(java.awt.event.ActionEvent evt) {//GEN
 
 //create serfile
         FileObject cachefolder = null;
-        final TGProject proj = (TGProject) OpenProjects.getDefault().getMainProject();
+        final TGProject proj = (TGProject) FileOwnerQuery.getOwner(dataObject.getPrimaryFile());
         if (proj!=null){
             cachefolder = proj.getCacheFolder(true);
             cachefolder = cachefolder.getFileObject(dataObject.getTgd().getCacheFolderName().toString());

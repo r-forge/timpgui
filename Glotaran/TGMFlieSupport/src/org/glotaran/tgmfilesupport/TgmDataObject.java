@@ -40,11 +40,11 @@ public class TgmDataObject extends XmlMultiViewDataObject {
 //        ValidateXMLCookie validateCookie = new ValidateXMLSupport(in);
 //        getCookieSet().add(validateCookie);
         if (!(FileUtil.toFile(this.getPrimaryFile()) == null)) {
-        try {
-            parseDocument();
-        } catch (IOException ex) {
-            System.out.println("ex=" + ex);
-        }
+            try {
+                parseDocument();
+            } catch (IOException ex) {
+                System.out.println("ex=" + ex);
+            }
         }
     }
 

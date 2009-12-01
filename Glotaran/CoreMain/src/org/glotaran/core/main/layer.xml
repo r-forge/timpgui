@@ -90,9 +90,6 @@
                     <file name="org-openide-actions-RenameAction.instance">
                         <attr name="position" intvalue="700"/>
                     </file>
-                    <file name="org-openide-actions-SaveAsTemplateAction.instance">
-                        <attr name="position" intvalue="900"/>
-                    </file>
                     <file name="org-openide-actions-ToolsAction.instance">
                         <attr name="position" intvalue="1300"/>
                     </file>

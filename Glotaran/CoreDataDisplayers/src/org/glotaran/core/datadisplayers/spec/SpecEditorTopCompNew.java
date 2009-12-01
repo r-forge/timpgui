@@ -54,6 +54,7 @@ import org.jfree.ui.Layer;
 import org.jfree.ui.RectangleAnchor;
 import org.jfree.ui.RectangleEdge;
 import org.jfree.ui.RectangleInsets;
+import org.netbeans.api.project.FileOwnerQuery;
 import org.netbeans.api.project.ui.OpenProjects;
 import org.openide.DialogDisplayer;
 import org.openide.NotifyDescriptor;
@@ -117,7 +118,7 @@ final public class SpecEditorTopCompNew extends CloneableTopComponent
 
         File test = new File(filename);
         if(!test.canRead()) {
-            filename = OpenProjects.getDefault().getMainProject().getProjectDirectory().getPath() + File.separator + dataObject.getTgd().getRelativePath();
+            filename = FileOwnerQuery.getOwner(dataObject.getPrimaryFile()).getProjectDirectory().getPath() + File.separator + dataObject.getTgd().getRelativePath();
         }
 
 //        setName(NbBundle.getMessage(SpecEditorTopCompNew.class, "CTL_StreakLoaderTopComponent"));
@@ -716,7 +717,7 @@ final public class SpecEditorTopCompNew extends CloneableTopComponent
             newdataset.calcRangeInt();
 
             FileObject cachefolder = null;
-            final TGProject proj = (TGProject) OpenProjects.getDefault().getMainProject();
+            final TGProject proj = (TGProject) FileOwnerQuery.getOwner(dataObject.getPrimaryFile());
             if (proj!=null){
                 cachefolder = proj.getCacheFolder(true);
                 if ((dataObject==null)&&(dataObject2!=null)){
@@ -838,7 +839,8 @@ final public class SpecEditorTopCompNew extends CloneableTopComponent
                 if (DialogDisplayer.getDefault().notify(datasetNameDialod).equals(NotifyDescriptor.OK_OPTION)){
                     findataset.setDatasetName(datasetNameDialod.getInputText());
                     FileObject cachefolder = null;
-                    final TGProject proj = (TGProject) OpenProjects.getDefault().getMainProject();
+
+                    final TGProject proj = (TGProject) FileOwnerQuery.getOwner(dataObject.getPrimaryFile());
                     if (proj!=null){
                         cachefolder = proj.getCacheFolder(true);
                     } else {
@@ -1022,7 +1024,7 @@ final public class SpecEditorTopCompNew extends CloneableTopComponent
                 if (DialogDisplayer.getDefault().notify(datasetNameDialod).equals(NotifyDescriptor.OK_OPTION)){
                     findataset.setDatasetName(datasetNameDialod.getInputText());
                     FileObject cachefolder = null;
-                    final TGProject proj = (TGProject) OpenProjects.getDefault().getMainProject();
+                    final TGProject proj = (TGProject) FileOwnerQuery.getOwner(dataObject.getPrimaryFile());
                     if (proj!=null){
                         cachefolder = proj.getCacheFolder(true);
                     } else {

@@ -7,10 +7,9 @@ import java.io.IOException;
 import java.util.Collection;
 import org.glotaran.core.main.interfaces.TGDatasetInterface;
 import org.glotaran.core.main.mesages.CoreErrorMessages;
+import org.glotaran.core.main.project.TGProject;
 import org.glotaran.core.models.tgd.Tgd;
-import org.netbeans.api.project.Project;
-import org.netbeans.api.project.ProjectUtils;
-import org.netbeans.api.project.ui.OpenProjects;
+import org.netbeans.api.project.FileOwnerQuery;
 import org.openide.DialogDisplayer;
 import org.openide.WizardDescriptor;
 import org.openide.filesystems.FileObject;
@@ -50,9 +49,10 @@ public final class OpenDataset extends CookieAction {
                                     try {
                                         if (service.Validator(f)) {
                                             FileObject cachefolder = null;
-                                            final Project proj = OpenProjects.getDefault().getMainProject();
+
+                                            final TGProject proj = (TGProject) FileOwnerQuery.getOwner(dataObject.getPrimaryFile());
                                             if (proj!=null){
-                                                 cachefolder = proj.getProjectDirectory();
+                                                 cachefolder = proj.getCacheFolder(true);
                                             } else {
                                                 CoreErrorMessages.noMainProjectFound();
                                             }
@@ -68,9 +68,7 @@ public final class OpenDataset extends CookieAction {
 
                                             String filenamepath = FileUtil.toFile(d).getAbsolutePath();
                                             String filename = FileUtil.toFileObject(f).getName().concat(".xml");
-                                            if(cachefolder.isValid()) {
-                                            cachefolder = cachefolder.getFileObject("cache");
-                                            } else {cachefolder = cachefolder.createFolder("cache");}
+
                                             String foldername = filename.concat("_".concat(String.valueOf(System.currentTimeMillis())));
                                             cachefolder.createFolder(foldername);
                                             tgd.setCacheFolderName(foldername);

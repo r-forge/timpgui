@@ -31,6 +31,7 @@ public class SelectTracesForPlot extends java.awt.Panel {
         jLabel2.setText(org.openide.util.NbBundle.getMessage(SelectTracesForPlot.class, "SelectTracesForPlot.jLabel2.text")); // NOI18N
         jLabel2.setEnabled(false);
 
+        jTYnum.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
         jTYnum.setText(org.openide.util.NbBundle.getMessage(SelectTracesForPlot.class, "SelectTracesForPlot.jTYnum.text")); // NOI18N
         jTYnum.setEnabled(false);
         jTYnum.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -39,6 +40,7 @@ public class SelectTracesForPlot extends java.awt.Panel {
             }
         });
 
+        jTXnum.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
         jTXnum.setText(org.openide.util.NbBundle.getMessage(SelectTracesForPlot.class, "SelectTracesForPlot.jTXnum.text")); // NOI18N
         jTXnum.setEnabled(false);
         jTXnum.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -67,21 +69,22 @@ public class SelectTracesForPlot extends java.awt.Panel {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(21, 21, 21)
-                        .addComponent(jLabel1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jTYnum, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(21, 21, 21)
-                        .addComponent(jLabel2)
-                        .addGap(18, 18, 18)
-                        .addComponent(jTXnum, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jCbTraceColX)
-                    .addComponent(jCbTraceColY))
-                .addGap(44, 44, 44))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                            .addGap(21, 21, 21)
+                            .addComponent(jLabel1)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                            .addComponent(jTYnum))
+                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                            .addGap(21, 21, 21)
+                            .addComponent(jLabel2)
+                            .addGap(18, 18, 18)
+                            .addComponent(jTXnum))
+                        .addComponent(jCbTraceColY, javax.swing.GroupLayout.Alignment.LEADING)))
+                .addGap(15, 15, 15))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)

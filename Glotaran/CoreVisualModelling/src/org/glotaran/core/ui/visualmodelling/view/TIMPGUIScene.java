@@ -40,13 +40,13 @@ import org.openide.util.Utilities;
 
 public class TIMPGUIScene extends VMDGraphScene {
 
-    private static final Image IMAGE_LIST = Utilities.loadImage("org/glotarn/core/ui/resources/list_16.png"); // NOI18N
-    private static final Image IMAGE_CANVAS = Utilities.loadImage("org/glotarn/core/ui/resources/custom_displayable_16.png"); // NOI18N
-    private static final Image IMAGE_COMMAND = Utilities.loadImage("org/glotarn/core/ui/resources/command_16.png"); // NOI18N
-    private static final Image IMAGE_ITEM = Utilities.loadImage("org/glotarn/core/ui/resources/item_16.png"); // NOI18N
-    private static final Image GLYPH_PRE_CODE = Utilities.loadImage("org/glotarn/core/ui/resources/preCodeGlyph.png"); // NOI18N
-    private static final Image GLYPH_POST_CODE = Utilities.loadImage("org/glotarn/core/ui/resources/postCodeGlyph.png"); // NOI18N
-    private static final Image GLYPH_CANCEL = Utilities.loadImage("org/glotarn/core/ui/resources/cancelGlyph.png"); // NOI18N
+    private static final Image IMAGE_LIST = Utilities.loadImage("org/glotaran/core/ui/resources//list_16.png"); // NOI18N
+    private static final Image IMAGE_CANVAS = Utilities.loadImage("org/glotaran/core/ui/resources//custom_displayable_16.png"); // NOI18N
+    private static final Image IMAGE_COMMAND = Utilities.loadImage("org/glotaran/core/ui/resources//command_16.png"); // NOI18N
+    private static final Image IMAGE_ITEM = Utilities.loadImage("org/glotaran/core/ui/resources//item_16.png"); // NOI18N
+    private static final Image GLYPH_PRE_CODE = Utilities.loadImage("org/glotaran/core/ui/resources//preCodeGlyph.png"); // NOI18N
+    private static final Image GLYPH_POST_CODE = Utilities.loadImage("org/glotaran/core/ui/resources//postCodeGlyph.png"); // NOI18N
+    private static final Image GLYPH_CANCEL = Utilities.loadImage("org/glotaran/core/ui/resources//cancelGlyph.png"); // NOI18N
     private static int nodeID = 1;
     private static int edgeID = 1;
     private static int pinID = 1;

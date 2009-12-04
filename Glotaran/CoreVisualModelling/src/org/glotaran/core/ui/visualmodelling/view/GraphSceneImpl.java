@@ -48,7 +48,7 @@ import org.netbeans.api.visual.widget.LabelWidget;
  */
 public class GraphSceneImpl extends GraphScene { //TODO: implement <MyNode, MyEdge>
 
-    private static final Image IMAGE = Utilities.loadImage("org/glotaran/core/ui/resources//node.png"); // NOI18N
+    private static final Image IMAGE = Utilities.loadImage("org/glotaran/core/ui/visualmodelling/resources/node.png"); // NOI18N
     private LayerWidget mainLayer;
     private LayerWidget connectionLayer;
     private LayerWidget interractionLayer = new LayerWidget(this);
@@ -162,7 +162,7 @@ public class GraphSceneImpl extends GraphScene { //TODO: implement <MyNode, MyEd
     }
 
     public void initGrids() {
-        Image sourceImage = Utilities.loadImage("org/glotaran/core/ui/resources/paper_grid17.png"); // NOI18N
+        Image sourceImage = Utilities.loadImage("org/glotaran/core/ui/visualmodelling/resources/paper_grid17.png"); // NOI18N
         int width = sourceImage.getWidth(null);
         int height = sourceImage.getHeight(null);
         BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);

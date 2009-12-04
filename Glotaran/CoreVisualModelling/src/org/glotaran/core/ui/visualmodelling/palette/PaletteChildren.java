@@ -20,10 +20,10 @@ public class PaletteChildren  extends Index.ArrayChildren {
     private Category category;
 
     private String[][] items = new String[][]{
-        {"0", "Containers", "org/glotaran/core/ui/resources//image1.png", "Dataset Container"},
-        {"1", "Containers", "org/glotaran/core/ui/resources//image2.png", "Model Container"},
-        {"2", "Containers", "org/glotaran/core/ui/resources//image3.png", "Modeldiffs Container"},
-        {"0", "Modelling", "org/glotaran/core/ui/resources//image1.png", "Kinetic Parameter"},
+        {"0", "Containers", "org/glotaran/core/ui/visualmodelling/resources/image1.png", "Dataset Container"},
+        {"1", "Containers", "org/glotaran/core/ui/visualmodelling/resources/image2.png", "Model Container"},
+        {"2", "Containers", "org/glotaran/core/ui/visualmodelling/resources/image3.png", "Modeldiffs Container"},
+        {"0", "Modelling", "org/glotaran/core/ui/visualmodelling/resources/image1.png", "Kinetic Parameter"},
     };
 
     public PaletteChildren(Category Category) {

@@ -39,17 +39,17 @@ public class CustomSceneAcceptProvider implements AcceptProvider {
         //Image dragImage = getImageFromTransferable(transferable);
         ConnectorState accept;
         PaletteItem item = getPaletteItemTransferable(transferable);
-        if (item.getCategory().compareTo("Containers")==0) {
-        Image dragImage = item.getImage();
-        JComponent view = scene.getView();
-        Graphics2D g2 = (Graphics2D) view.getGraphics();
-        Rectangle visRect = view.getVisibleRect();
-        view.paintImmediately(visRect.x, visRect.y, visRect.width, visRect.height);
-        g2.drawImage(dragImage,
-                AffineTransform.getTranslateInstance(point.getLocation().getX(),
-                point.getLocation().getY()),
-                null);
-        accept = ConnectorState.ACCEPT;
+        if (item.getCategory().compareTo("Containers") == 0) {
+            Image dragImage = item.getImage();
+            JComponent view = scene.getView();
+            Graphics2D g2 = (Graphics2D) view.getGraphics();
+            Rectangle visRect = view.getVisibleRect();
+            view.paintImmediately(visRect.x, visRect.y, visRect.width, visRect.height);
+            g2.drawImage(dragImage,
+                    AffineTransform.getTranslateInstance(point.getLocation().getX(),
+                    point.getLocation().getY()),
+                    null);
+            accept = ConnectorState.ACCEPT;
         } else {
             accept = ConnectorState.REJECT;
         }

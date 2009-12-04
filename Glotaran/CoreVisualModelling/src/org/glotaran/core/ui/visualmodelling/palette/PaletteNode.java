@@ -11,7 +11,6 @@ import org.openide.util.lookup.Lookups;
 
 
 public class PaletteNode extends AbstractNode {
-
     private PaletteItem shape;
 
     /** Creates a new instance of InstrumentNode */

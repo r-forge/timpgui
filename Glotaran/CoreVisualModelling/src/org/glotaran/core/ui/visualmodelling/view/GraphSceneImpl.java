@@ -109,11 +109,11 @@ public class GraphSceneImpl extends GraphScene { //TODO: implement <MyNode, MyEd
     protected Widget attachNodeWidget(Object node) {
         MyNode myNode = (MyNode) node;
         Widget cw = null;
-        if (myNode.getName().equalsIgnoreCase("Dataset Container")) {
+        if (myNode.getName().equalsIgnoreCase("Model")) {
             cw = createMoveableComponent(new ModelContainer(), myNode.getName(), myNode.getId());
             mainLayer.addChild(cw);
         }
-        if (myNode.getName().equalsIgnoreCase("Model Container")) {
+        if (myNode.getName().equalsIgnoreCase("Dataset Container")) {
             cw = createMoveableComponent(new DatasetContainer(), myNode.getName(), myNode.getId());
             mainLayer.addChild(cw);
         }

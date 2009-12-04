@@ -1,8 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package org.glotaran.core.ui.visualmodelling.palette;
 
 /**
@@ -20,10 +15,10 @@ public class PaletteChildren  extends Index.ArrayChildren {
     private Category category;
 
     private String[][] items = new String[][]{
-        {"0", "Containers", "org/glotaran/core/ui/visualmodelling/resources/image1.png", "Dataset Container"},
-        {"1", "Containers", "org/glotaran/core/ui/visualmodelling/resources/image2.png", "Model Container"},
-        {"2", "Containers", "org/glotaran/core/ui/visualmodelling/resources/image3.png", "Modeldiffs Container"},
-        {"0", "Modelling", "org/glotaran/core/ui/visualmodelling/resources/image1.png", "Kinetic Parameter"},
+        {"0", "Containers", "org/glotaran/core/ui/visualmodelling/resources/Dataset_container_48.png", "Dataset Container"},
+        {"1", "Containers", "org/glotaran/core/ui/visualmodelling/resources/Model-icon-48.png", "Model"},
+//        {"2", "Containers", "org/glotaran/core/ui/visualmodelling/resources/image3.png", "Modeldiffs Container"},
+        {"0", "Modelling", "org/glotaran/core/ui/visualmodelling/resources/Kinpar_32.png", "Kinetic Parameter"},
     };
 
     public PaletteChildren(Category Category) {
@@ -32,7 +27,7 @@ public class PaletteChildren  extends Index.ArrayChildren {
 
     @Override
     protected java.util.List<Node> initCollection() {
-        ArrayList childrenNodes = new ArrayList( items.length );
+        ArrayList childrenNodes = new ArrayList(items.length );
         for( int i=0; i<items.length; i++ ) {
             if( category.getName().equals( items[i][1] ) ) {
                 PaletteItem item = new PaletteItem();
@@ -41,7 +36,7 @@ public class PaletteChildren  extends Index.ArrayChildren {
                 item.setImage(Utilities.loadImage(items[i][2]));
                 item.setImageLocation(items[i][2]);
                 item.setName(items[i][3]);
-                childrenNodes.add( new PaletteNode( item ) );
+                childrenNodes.add(new PaletteNode(item) );
             }
         }
         return childrenNodes;

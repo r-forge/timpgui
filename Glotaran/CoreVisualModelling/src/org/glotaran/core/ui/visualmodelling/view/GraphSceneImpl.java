@@ -35,7 +35,7 @@ import org.openide.util.Utilities;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.Collections;
-import org.glotaran.core.ui.visualmodelling.components.DatasetContainer;
+import org.glotaran.core.ui.visualmodelling.components.DatasetContainerComponent;
 import org.glotaran.core.ui.visualmodelling.components.ModelContainer;
 import org.glotaran.tgmfilesupport.TgmDataNode;
 import org.netbeans.api.visual.border.BorderFactory;
@@ -121,7 +121,7 @@ public class GraphSceneImpl extends GraphScene { //TODO: implement <MyNode, MyEd
                 mainLayer.addChild(cw);
             }
             if (myNode.getName().equalsIgnoreCase("Dataset Container")) {
-                cw = createMoveableComponent(new DatasetContainer(), myNode.getName(), nodeCount++);
+                cw = createMoveableComponent(new DatasetContainerComponent(), myNode.getName(), nodeCount++);
                 mainLayer.addChild(cw);
             }
         }

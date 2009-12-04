@@ -1,6 +1,6 @@
 Manifest-Version: 1.0
-OpenIDE-Module: org.core.ui.visualmodelling
-OpenIDE-Module-Layer: org/core/ui/visualmodelling/layer.xml
-OpenIDE-Module-Localizing-Bundle: org/core/ui/visualmodelling/Bundle.properties
+OpenIDE-Module: org.glotaran.core.ui.visualmodelling
+OpenIDE-Module-Layer: org/glotaran/core/ui/visualmodelling/layer.xml
+OpenIDE-Module-Localizing-Bundle: org/glotaran/core/ui/visualmodelling/Bundle.properties
 OpenIDE-Module-Specification-Version: 1.0
 

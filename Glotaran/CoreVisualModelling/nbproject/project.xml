@@ -7,6 +7,12 @@
             <suite-component/>
             <module-dependencies>
                 <dependency>
+                    <code-name-base>org.glotaran.tgmfilesupport</code-name-base>
+                    <build-prerequisite/>
+                    <compile-dependency/>
+                    <run-dependency/>
+                </dependency>
+                <dependency>
                     <code-name-base>org.jdesktop.layout</code-name-base>
                     <build-prerequisite/>
                     <compile-dependency/>

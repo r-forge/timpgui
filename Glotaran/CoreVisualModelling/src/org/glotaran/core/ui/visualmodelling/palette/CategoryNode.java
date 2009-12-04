@@ -11,8 +11,8 @@ import org.openide.util.lookup.Lookups;
 public class CategoryNode extends AbstractNode {
 
     /** Creates a new instance of CategoryNode */
-    public CategoryNode( Category category ) {
-        super( new PaletteChildren(category), Lookups.singleton(category) );
+    public CategoryNode(Category category) {
+        super(new PaletteChildren(category), Lookups.singleton(category));
         setDisplayName(category.getName());
     }
 }

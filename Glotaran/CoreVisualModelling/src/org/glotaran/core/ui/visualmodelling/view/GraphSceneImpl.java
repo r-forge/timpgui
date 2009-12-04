@@ -37,6 +37,7 @@ import java.awt.image.BufferedImage;
 import java.util.Collections;
 import org.glotaran.core.ui.visualmodelling.components.DatasetContainer;
 import org.glotaran.core.ui.visualmodelling.components.ModelContainer;
+import org.glotaran.tgmfilesupport.TgmDataNode;
 import org.netbeans.api.visual.border.BorderFactory;
 import org.netbeans.api.visual.layout.LayoutFactory;
 import org.netbeans.api.visual.widget.ComponentWidget;
@@ -62,6 +63,7 @@ public class GraphSceneImpl extends GraphScene { //TODO: implement <MyNode, MyEd
     private WidgetAction sceneAcceptAction = ActionFactory.createAcceptAction(new CustomSceneAcceptProvider(this));
     private NodeMenu nodeMenu = new NodeMenu(this);
     private EdgeMenu edgeMenu = new EdgeMenu(this);
+    private int nodeCount=0;
 
     public GraphSceneImpl() {
         mainLayer = new LayerWidget(this);
@@ -107,15 +109,21 @@ public class GraphSceneImpl extends GraphScene { //TODO: implement <MyNode, MyEd
 
     @Override
     protected Widget attachNodeWidget(Object node) {
-        MyNode myNode = (MyNode) node;
         Widget cw = null;
-        if (myNode.getName().equalsIgnoreCase("Model")) {
-            cw = createMoveableComponent(new ModelContainer(), myNode.getName(), myNode.getId());
-            mainLayer.addChild(cw);
-        }
-        if (myNode.getName().equalsIgnoreCase("Dataset Container")) {
-            cw = createMoveableComponent(new DatasetContainer(), myNode.getName(), myNode.getId());
-            mainLayer.addChild(cw);
+        if (node instanceof TgmDataNode){
+            TgmDataNode myNode = (TgmDataNode) node;
+            cw = createMoveableComponent(new ModelContainer(), myNode.getDisplayName(), nodeCount++);
+            mainLayer.addChild(cw);            
+        }else {
+            MyNode myNode = (MyNode) node;
+            if (myNode.getName().equalsIgnoreCase("Model")) {
+                cw = createMoveableComponent(new ModelContainer(), myNode.getName(), nodeCount++);
+                mainLayer.addChild(cw);
+            }
+            if (myNode.getName().equalsIgnoreCase("Dataset Container")) {
+                cw = createMoveableComponent(new DatasetContainer(), myNode.getName(), nodeCount++);
+                mainLayer.addChild(cw);
+            }
         }
         return cw;
     }

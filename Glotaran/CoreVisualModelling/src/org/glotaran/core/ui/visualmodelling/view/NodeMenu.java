@@ -26,7 +26,6 @@ import javax.swing.JPopupMenu;
 import org.netbeans.api.visual.action.PopupMenuProvider;
 import org.netbeans.api.visual.graph.GraphScene;
 import org.netbeans.api.visual.widget.Widget;
-import org.netbeans.api.visual.widget.general.IconNodeWidget;
 
 /**
  *
@@ -37,7 +36,7 @@ public class NodeMenu implements PopupMenuProvider, ActionListener {
     private static final String DELETE_NODE_ACTION = "deleteNodeAction"; // NOI18N
     
     private JPopupMenu menu;
-    private IconNodeWidget node;
+    private Widget node;
 
     private Point point;
     private GraphScene scene;
@@ -55,13 +54,13 @@ public class NodeMenu implements PopupMenuProvider, ActionListener {
     
     public JPopupMenu getPopupMenu(Widget widget,Point point){
         this.point=point;
-        this.node=(IconNodeWidget)widget;
+        this.node = widget;
         return menu;
     }
     
     public void actionPerformed(ActionEvent e) {
         if(e.getActionCommand().equals(DELETE_NODE_ACTION)){
-            scene.removeNodeWithEdges((String)scene.findObject (node));
+            scene.removeNodeWithEdges(scene.findObject(node));
             scene.validate();
         }
     }

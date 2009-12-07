@@ -113,7 +113,10 @@ public class GraphSceneImpl extends GraphScene { //TODO: implement <MyNode, MyEd
         if (node instanceof TgmDataNode){
             TgmDataNode myNode = (TgmDataNode) node;
             cw = createMoveableComponent(new ModelContainer(), myNode.getDisplayName(), nodeCount++);
-            mainLayer.addChild(cw);            
+//            cw.setToolTipText("Hold 'Ctrl'+'Mouse Right Button' to create Edge");
+//            label.getActions().addAction(connectAction);
+//            label.getActions().addAction(moveAction);
+            mainLayer.addChild(cw);
         }else {
             MyNode myNode = (MyNode) node;
             if (myNode.getName().equalsIgnoreCase("Model")) {
@@ -220,7 +223,7 @@ public class GraphSceneImpl extends GraphScene { //TODO: implement <MyNode, MyEd
 
         ComponentWidget componentWidget = new ComponentWidget(this, component);
         widget.addChild(componentWidget);
-
+        widget.getActions().addAction(ActionFactory.createPopupMenuAction(nodeMenu));
 //        pos += 100;
 //        widget.setPreferredLocation (new Point (pos, pos));
         return widget;

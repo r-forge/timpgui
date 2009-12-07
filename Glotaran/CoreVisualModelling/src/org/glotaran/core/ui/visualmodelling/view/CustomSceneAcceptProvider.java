@@ -65,7 +65,7 @@ public class CustomSceneAcceptProvider implements AcceptProvider {
             final PaletteItem item = getPaletteItemTransferable(transferable);
             //DatasetComponentNode newNode = new DatasetComponentNode("test");
             newNode = new MyNode(item.getName(), item.getCategory(), nodeCount++); //TODO: move Mynode and rename
-            
+            newWidget = scene.addNode(newNode);
 
         //Widget newWidget2 = scene.attachNodeWidget(dcn);
             //String hm = "Pallete Node"+(nodeCount++);
@@ -82,7 +82,7 @@ public class CustomSceneAcceptProvider implements AcceptProvider {
             
             newWidget.setPreferredLocation(point);
             scene.validate();
-            scene.repaint();
+//            scene.repaint();
 //            scene.getSceneAnimator().animatePreferredLocation(newWidget,point);
     }
 

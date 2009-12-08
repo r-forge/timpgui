@@ -4,12 +4,15 @@
  */
 package org.glotaran.core.ui.visualmodelling.view;
 
+import org.glotaran.core.ui.visualmodelling.nodes.VisualAbstractNode;
 import java.awt.Point;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
 import java.awt.datatransfer.UnsupportedFlavorException;
 import java.io.IOException;
+import org.glotaran.core.ui.visualmodelling.common.VisualCommonFunctions;
 import org.glotaran.core.ui.visualmodelling.palette.PaletteItem;
+import org.glotaran.core.ui.visualmodelling.palette.PaletteNode;
 import org.glotaran.tgmfilesupport.TgmDataNode;
 import org.netbeans.api.visual.action.AcceptProvider;
 import org.netbeans.api.visual.action.ConnectorState;
@@ -34,13 +37,22 @@ public class CustomSceneAcceptProvider implements AcceptProvider {
 
     public ConnectorState isAcceptable(Widget widget, Point point, Transferable transferable) {
         //Image dragImage = getImageFromTransferable(transferable);
-        ConnectorState accept;
+        ConnectorState accept = ConnectorState.REJECT;
         if (transferable.isDataFlavorSupported(TgmDataNode.DATA_FLAVOR)){
             accept = ConnectorState.ACCEPT;
         } else {
-            PaletteItem item = getPaletteItemTransferable(transferable);
-            if (item.getCategory().compareTo("Containers") == 0) {
-                accept = ConnectorState.ACCEPT;
+            if (transferable.isDataFlavorSupported(PaletteNode.DATA_FLAVOR)){
+                PaletteItem item = null;
+                try {
+                    item = (PaletteItem) transferable.getTransferData(PaletteNode.DATA_FLAVOR);
+                } catch (UnsupportedFlavorException ex) {
+                    Exceptions.printStackTrace(ex);
+                } catch (IOException ex) {
+                    Exceptions.printStackTrace(ex);
+                }
+                if (item.getCategory().compareTo("Containers") == 0) {
+                    accept = ConnectorState.ACCEPT;
+                }
             } else {
                 accept = ConnectorState.REJECT;
             }
@@ -49,7 +61,7 @@ public class CustomSceneAcceptProvider implements AcceptProvider {
     }
 
     public void accept(Widget widget, Point point, Transferable transferable) {
-        MyNode newNode = null;
+        VisualAbstractNode newNode = null;
         if (transferable.isDataFlavorSupported(TgmDataNode.DATA_FLAVOR)){
             try {
                 TgmDataNode tgmNode = (TgmDataNode) transferable.getTransferData(TgmDataNode.DATA_FLAVOR);
@@ -62,9 +74,9 @@ public class CustomSceneAcceptProvider implements AcceptProvider {
             }
         } else {
 
-            final PaletteItem item = getPaletteItemTransferable(transferable);
+            final PaletteItem item = VisualCommonFunctions.getPaletteItemTransferable(transferable);
             //DatasetComponentNode newNode = new DatasetComponentNode("test");
-            newNode = new MyNode(item.getName(), item.getCategory(), nodeCount++); //TODO: move Mynode and rename
+            newNode = new VisualAbstractNode(item.getName(), item.getCategory(), nodeCount++); //TODO: move Mynode and rename
             newWidget = scene.addNode(newNode);
 
         //Widget newWidget2 = scene.attachNodeWidget(dcn);
@@ -85,17 +97,4 @@ public class CustomSceneAcceptProvider implements AcceptProvider {
 //            scene.repaint();
 //            scene.getSceneAnimator().animatePreferredLocation(newWidget,point);
     }
-
-    private PaletteItem getPaletteItemTransferable(Transferable transferable) {
-        Object o = null;
-        try {
-            o = transferable.getTransferData(new DataFlavor(PaletteItem.class, "PaletteItem"));
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        } catch (UnsupportedFlavorException ex) {
-            ex.printStackTrace();
-        }
-        return o instanceof PaletteItem ? (PaletteItem) o : null; //TODO: not null
-    }
-
 }

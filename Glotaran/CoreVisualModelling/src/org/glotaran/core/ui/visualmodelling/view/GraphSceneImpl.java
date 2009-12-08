@@ -18,6 +18,10 @@
  */
 package org.glotaran.core.ui.visualmodelling.view;
 
+import org.glotaran.core.ui.visualmodelling.menu.SceneMainMenu;
+import org.glotaran.core.ui.visualmodelling.menu.EdgeMenu;
+import org.glotaran.core.ui.visualmodelling.menu.NodeMenu;
+import org.glotaran.core.ui.visualmodelling.nodes.VisualAbstractNode;
 import org.netbeans.api.visual.action.ActionFactory;
 import org.netbeans.api.visual.action.SelectProvider;
 import org.netbeans.api.visual.action.WidgetAction;
@@ -47,7 +51,7 @@ import org.netbeans.api.visual.widget.LabelWidget;
 /**
  * @author Alex
  */
-public class GraphSceneImpl extends GraphScene { //TODO: implement <MyNode, MyEdge>
+public class GraphSceneImpl extends GraphScene { //TODO: implement <VisualAbstractNode, MyEdge>
 
     private static final Image IMAGE = Utilities.loadImage("org/glotaran/core/ui/visualmodelling/resources/node.png"); // NOI18N
     private LayerWidget mainLayer;
@@ -113,12 +117,9 @@ public class GraphSceneImpl extends GraphScene { //TODO: implement <MyNode, MyEd
         if (node instanceof TgmDataNode){
             TgmDataNode myNode = (TgmDataNode) node;
             cw = createMoveableComponent(new ModelContainer(), myNode.getDisplayName(), nodeCount++);
-//            cw.setToolTipText("Hold 'Ctrl'+'Mouse Right Button' to create Edge");
-//            label.getActions().addAction(connectAction);
-//            label.getActions().addAction(moveAction);
             mainLayer.addChild(cw);
         }else {
-            MyNode myNode = (MyNode) node;
+            VisualAbstractNode myNode = (VisualAbstractNode) node;
             if (myNode.getName().equalsIgnoreCase("Model")) {
                 cw = createMoveableComponent(new ModelContainer(), myNode.getName(), nodeCount++);
                 mainLayer.addChild(cw);
@@ -138,8 +139,8 @@ public class GraphSceneImpl extends GraphScene { //TODO: implement <MyNode, MyEd
 
     @Override
     protected void attachEdgeSourceAnchor(Object edge, Object oldSourceNode, Object sourceNode) {
-//        MyNode sourceMyNode = (MyNode) sourceNode;
-//        MyNode oldSourceMyNode = (MyNode) oldSourceNode;
+//        VisualAbstractNode sourceMyNode = (VisualAbstractNode) sourceNode;
+//        VisualAbstractNode oldSourceMyNode = (VisualAbstractNode) oldSourceNode;
         attachEdgeSourceAnchor((String) edge, (String) oldSourceNode, (String) sourceNode);
     }
 
@@ -229,7 +230,7 @@ public class GraphSceneImpl extends GraphScene { //TODO: implement <MyNode, MyEd
         return widget;
     }
 }
-//public class GraphSceneImpl extends GraphScene<MyNode, String> {
+//public class GraphSceneImpl extends GraphScene<VisualAbstractNode, String> {
 //
 //    private LayerWidget mainLayer;
 //
@@ -257,7 +258,7 @@ public class GraphSceneImpl extends GraphScene { //TODO: implement <MyNode, MyEd
 //
 //            public void accept(Widget widget, Point point, Transferable transferable) {
 //                Image image = getImageFromTransferable(transferable);
-//                Widget w = GraphSceneImpl.this.addNode(new MyNode(image));
+//                Widget w = GraphSceneImpl.this.addNode(new VisualAbstractNode(image));
 //                w.setPreferredLocation(widget.convertLocalToScene(point));
 //                repaint();
 //            }
@@ -281,7 +282,7 @@ public class GraphSceneImpl extends GraphScene { //TODO: implement <MyNode, MyEd
 //        return o instanceof Image ? (Image) o : Utilities.loadImage("org/netbeans/shapesample/palette/shape1.png");
 //    }
 //
-//    protected Widget attachNodeWidget(MyNode node) {
+//    protected Widget attachNodeWidget(VisualAbstractNode node) {
 //        ComponentWidget widget = new ComponentWidget(this, new TestCustomComponent());
 //        TestCustomComponent testCustomComponent = (TestCustomComponent) widget.getComponent();
 //        widget.setPreferredBounds(new Rectangle(200, 200));
@@ -309,11 +310,11 @@ public class GraphSceneImpl extends GraphScene { //TODO: implement <MyNode, MyEd
 //        throw new UnsupportedOperationException("Not supported yet.");
 //    }
 //
-//    protected void attachEdgeSourceAnchor(String arg0, MyNode arg1, MyNode arg2) {
+//    protected void attachEdgeSourceAnchor(String arg0, VisualAbstractNode arg1, VisualAbstractNode arg2) {
 //        throw new UnsupportedOperationException("Not supported yet.");
 //    }
 //
-//    protected void attachEdgeTargetAnchor(String arg0, MyNode arg1, MyNode arg2) {
+//    protected void attachEdgeTargetAnchor(String arg0, VisualAbstractNode arg1, VisualAbstractNode arg2) {
 //        throw new UnsupportedOperationException("Not supported yet.");
 //    }
 //

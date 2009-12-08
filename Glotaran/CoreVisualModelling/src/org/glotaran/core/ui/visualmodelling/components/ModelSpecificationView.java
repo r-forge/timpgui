@@ -5,6 +5,7 @@
 
 package org.glotaran.core.ui.visualmodelling.components;
 
+import java.awt.datatransfer.UnsupportedFlavorException;
 import java.awt.dnd.DropTarget;
 import java.awt.dnd.DropTargetAdapter;
 import java.awt.dnd.DropTargetDragEvent;
@@ -13,11 +14,14 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.IOException;
 import javax.swing.JComponent;
 import javax.swing.KeyStroke;
-import org.openide.explorer.ExplorerManager;
+import org.glotaran.core.ui.visualmodelling.palette.PaletteItem;
+import org.glotaran.core.ui.visualmodelling.palette.PaletteNode;
+import org.netbeans.api.visual.action.ConnectorState;
 import org.openide.explorer.view.TreeTableView;
-import org.openide.nodes.Node;
+import org.openide.util.Exceptions;
 
 /**
  *
@@ -52,9 +56,23 @@ public class ModelSpecificationView extends TreeTableView {
 
          @Override
          public void dragEnter(DropTargetDragEvent dtde) {
+             if (dtde.getTransferable().isDataFlavorSupported(PaletteNode.DATA_FLAVOR)){
+                 PaletteItem item = null;
+                try {
+                    item = (PaletteItem) dtde.getTransferable().getTransferData(PaletteNode.DATA_FLAVOR);
+                } catch (UnsupportedFlavorException ex) {
+                    Exceptions.printStackTrace(ex);
+                } catch (IOException ex) {
+                    Exceptions.printStackTrace(ex);
+                }
+                if (item.getCategory().compareTo("Modelling") != 0) {
+                    dtde.rejectDrag();
+                }
+
+             } else {
 //            if(!dtde.isDataFlavorSupported(TimpDatasetNode.DATA_FLAVOR)) {
-//               dtde.rejectDrag();
-//            }
+                 dtde.rejectDrag();
+             }
          }
 
          public void drop(DropTargetDropEvent dtde) {

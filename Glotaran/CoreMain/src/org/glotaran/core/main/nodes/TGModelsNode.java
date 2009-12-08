@@ -2,7 +2,6 @@
 package org.glotaran.core.main.nodes;
 
 import java.awt.Image;
-import org.glotaran.core.main.nodes.dataobjects.TgdDataObject;
 import org.openide.nodes.FilterNode;
 import org.openide.nodes.Node;
 import org.openide.util.ImageUtilities;

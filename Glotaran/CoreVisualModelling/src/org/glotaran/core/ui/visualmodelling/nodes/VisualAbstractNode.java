@@ -1,12 +1,12 @@
-package org.glotaran.core.ui.visualmodelling.view;
+package org.glotaran.core.ui.visualmodelling.nodes;
 
-public class MyNode {
+public class VisualAbstractNode {
     
     private int id;
     private String name;
     private String category;
     
-    public MyNode(String name, String category, int id) {
+    public VisualAbstractNode(String name, String category, int id) {
         this.id = id;
         this.name = name;
         this.category = category;

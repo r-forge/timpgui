@@ -18,7 +18,13 @@ public class PaletteChildren  extends Index.ArrayChildren {
         {"0", "Containers", "org/glotaran/core/ui/visualmodelling/resources/Dataset_container_48.png", "Dataset Container"},
         {"1", "Containers", "org/glotaran/core/ui/visualmodelling/resources/Model-icon-48.png", "Model"},
 //        {"2", "Containers", "org/glotaran/core/ui/visualmodelling/resources/image3.png", "Modeldiffs Container"},
-        {"0", "Modelling", "org/glotaran/core/ui/visualmodelling/resources/Kinpar_32.png", "Kinetic Parameter"},
+        {"0", "Modelling", "org/glotaran/core/ui/visualmodelling/resources/Kinpar_32.png", "Kinetic Parameters"},
+        {"1", "Modelling", "org/glotaran/core/ui/visualmodelling/resources/IRFpar_32.png", "IRF Parameters"},
+        {"2", "Modelling", "org/glotaran/core/ui/visualmodelling/resources/Weightpar_32.png", "Weight Parameters"},
+        {"3", "Modelling", "org/glotaran/core/ui/visualmodelling/resources/Cohspecpar_32.png", "Cohspec Parameters"},
+        {"4", "Modelling", "org/glotaran/core/ui/visualmodelling/resources/Kmatr_32.png", "KMatrix"},
+        {"0", "Model differences", "org/glotaran/core/ui/visualmodelling/resources/FreeParam_32.png", "KMatrix"},
+        {"1", "Model differences", "org/glotaran/core/ui/visualmodelling/resources/ChageParam_32.png", "KMatrix"},
     };
 
     public PaletteChildren(Category Category) {
@@ -36,7 +42,7 @@ public class PaletteChildren  extends Index.ArrayChildren {
                 item.setImage(Utilities.loadImage(items[i][2]));
                 item.setImageLocation(items[i][2]);
                 item.setName(items[i][3]);
-                childrenNodes.add(new PaletteNode(item) );
+                childrenNodes.add(new PaletteNode(item));
             }
         }
         return childrenNodes;

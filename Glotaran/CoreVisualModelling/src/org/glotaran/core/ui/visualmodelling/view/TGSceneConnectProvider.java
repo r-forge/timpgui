@@ -18,6 +18,7 @@
  */
 package org.glotaran.core.ui.visualmodelling.view;
 
+import org.glotaran.core.ui.visualmodelling.nodes.VisualAbstractNode;
 import java.awt.Point;
 import org.netbeans.api.visual.action.ConnectProvider;
 import org.netbeans.api.visual.action.ConnectorState;
@@ -32,8 +33,8 @@ import org.netbeans.api.visual.widget.Widget;
  */
 public class TGSceneConnectProvider implements ConnectProvider {
     
-    private MyNode source = null;
-    private MyNode target = null;
+    private VisualAbstractNode source = null;
+    private VisualAbstractNode target = null;
     
     private GraphScene scene;
     
@@ -43,13 +44,13 @@ public class TGSceneConnectProvider implements ConnectProvider {
     
     public boolean isSourceWidget(Widget sourceWidget) {
         Object object = scene.findObject(sourceWidget);
-        source = scene.isNode(object) ? (MyNode) object : null;
+        source = scene.isNode(object) ? (VisualAbstractNode) object : null;
         return source != null;
     }
     
     public ConnectorState isTargetWidget(Widget sourceWidget, Widget targetWidget) {
         Object object = scene.findObject(targetWidget);
-        target = scene.isNode(object) ? (MyNode) object : null;
+        target = scene.isNode(object) ? (VisualAbstractNode) object : null;
         if (target != null) {
             if (target.getName().equalsIgnoreCase("Model Container"))
             return (! source.equals(target) && source.getName().equalsIgnoreCase("Dataset Container")) ? ConnectorState.ACCEPT : ConnectorState.REJECT_AND_STOP;

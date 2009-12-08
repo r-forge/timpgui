@@ -3,7 +3,7 @@
  * and open the template in the editor.
  */
 
-package org.glotaran.core.ui.visualmodelling.view;
+package org.glotaran.core.ui.visualmodelling.nodes;
 
 import org.glotaran.tgmfilesupport.TgmDataObject;
 
@@ -11,7 +11,7 @@ import org.glotaran.tgmfilesupport.TgmDataObject;
  *
  * @author slapten
  */
-public class VisualModelNode extends MyNode{
+public class VisualModelNode extends VisualAbstractNode{
     TgmDataObject model;
     VisualModelNode(String name, String category, int id, TgmDataObject obj){
         super(name,category,id);

@@ -65,11 +65,11 @@ public class TimpResultsNode extends DataNode implements Transferable{
     }
 
     public Object getTransferData(DataFlavor flavor) throws UnsupportedFlavorException, IOException {
-        if(flavor == DATA_FLAVOR) {
-         return(this);
-      } else {
-         throw new UnsupportedFlavorException(flavor);
-      }
+        if (flavor == DATA_FLAVOR) {
+            return (this);
+        } else {
+            throw new UnsupportedFlavorException(flavor);
+        }
     }
 
     @Override

@@ -68,9 +68,7 @@ public class ModelSpecificationView extends TreeTableView {
                 if (item.getCategory().compareTo("Modelling") != 0) {
                     dtde.rejectDrag();
                 }
-
              } else {
-//            if(!dtde.isDataFlavorSupported(TimpDatasetNode.DATA_FLAVOR)) {
                  dtde.rejectDrag();
              }
          }

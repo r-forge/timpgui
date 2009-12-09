@@ -45,4 +45,10 @@ public class PaletteNode extends AbstractNode implements Transferable {
         return paletteItem;
     }
 
+    @Override
+    public Transferable drag() throws IOException {
+        return this;
+    }
+
+
 }

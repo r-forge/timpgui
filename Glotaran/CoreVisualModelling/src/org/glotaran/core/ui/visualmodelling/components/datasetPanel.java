@@ -11,11 +11,15 @@
 
 package org.glotaran.core.ui.visualmodelling.components;
 
+import java.awt.Component;
+import javax.swing.JList;
+import javax.swing.ListCellRenderer;
+
 /**
  *
  * @author jsg210
  */
-public class datasetPanel extends javax.swing.JPanel {
+public class datasetPanel extends javax.swing.JPanel implements ListCellRenderer{
 
     /** Creates new form datasetPanel */
     public datasetPanel() {
@@ -71,5 +75,9 @@ public class datasetPanel extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     // End of variables declaration//GEN-END:variables
+
+    public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
+        return this;
+    }
 
 }

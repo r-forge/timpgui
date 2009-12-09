@@ -12,6 +12,11 @@
 package org.glotaran.core.ui.visualmodelling.components;
 
 import java.awt.BorderLayout;
+import java.awt.dnd.DropTarget;
+import java.awt.dnd.DropTargetAdapter;
+import java.awt.dnd.DropTargetDragEvent;
+import java.awt.dnd.DropTargetDropEvent;
+import org.glotaran.core.main.nodes.TimpDatasetNode;
 import org.openide.explorer.ExplorerManager;
 import org.openide.nodes.AbstractNode;
 import org.openide.util.Lookup;
@@ -21,7 +26,6 @@ import org.openide.util.Lookup;
  * @author slk230
  */
 public class DatasetContainerComponent extends javax.swing.JPanel implements ExplorerManager.Provider, Lookup.Provider {
-
 
 /** path to the icon used by the component and its open action */
 //    static final String ICON_PATH = "SET/PATH/TO/ICON/HERE";
@@ -36,8 +40,14 @@ public class DatasetContainerComponent extends javax.swing.JPanel implements Exp
     /** Creates new form DatasetContainerComponent */
     public DatasetContainerComponent() {
         initComponents();
+        jPDatasetsPanel.add(datasetView);
         manager.setRootContext(new AbstractNode(container));//,ExplorerUtils.createLookup(manager, null)));
         //new ProxyLookup(arg0)
+
+        // Add a drop target to the JPanel
+
+
+
     }
 
     /** This method is called from within the constructor to
@@ -50,10 +60,10 @@ public class DatasetContainerComponent extends javax.swing.JPanel implements Exp
     private void initComponents() {
 
         jSplitPane1 = new javax.swing.JSplitPane();
-        modelDiffsScrollpane = new javax.swing.JScrollPane();
+        modelDiffsScrollPane = new javax.swing.JScrollPane();
         modelDiffsPanel = new javax.swing.JPanel();
-        datasetsPanel = new javax.swing.JScrollPane();
-        jPanel1 = new javax.swing.JPanel();
+        datasetsScrollPane = new javax.swing.JScrollPane();
+        jPDatasetsPanel = new javax.swing.JPanel();
 
         setMaximumSize(new java.awt.Dimension(160, 250));
         setMinimumSize(new java.awt.Dimension(160, 250));
@@ -63,24 +73,24 @@ public class DatasetContainerComponent extends javax.swing.JPanel implements Exp
         jSplitPane1.setDividerLocation(150);
         jSplitPane1.setOrientation(javax.swing.JSplitPane.VERTICAL_SPLIT);
 
-        modelDiffsScrollpane.setViewportView(modelDiffsPanel);
+        modelDiffsScrollPane.setViewportView(modelDiffsPanel);
 
-        jSplitPane1.setRightComponent(modelDiffsScrollpane);
+        jSplitPane1.setRightComponent(modelDiffsScrollPane);
 
-        datasetsPanel.setViewportView(jPanel1);
+        datasetsScrollPane.setViewportView(jPDatasetsPanel);
 
-        jSplitPane1.setLeftComponent(datasetsPanel);
+        jSplitPane1.setLeftComponent(datasetsScrollPane);
 
         add(jSplitPane1, java.awt.BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JScrollPane datasetsPanel;
-    private javax.swing.JPanel jPanel1;
+    private javax.swing.JScrollPane datasetsScrollPane;
+    private javax.swing.JPanel jPDatasetsPanel;
     private javax.swing.JSplitPane jSplitPane1;
     private javax.swing.JPanel modelDiffsPanel;
-    private javax.swing.JScrollPane modelDiffsScrollpane;
+    private javax.swing.JScrollPane modelDiffsScrollPane;
     // End of variables declaration//GEN-END:variables
 
     public ExplorerManager getExplorerManager() {

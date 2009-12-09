@@ -6,7 +6,6 @@
 package org.glotaran.core.ui.visualmodelling.nodes;
 
 import java.awt.Image;
-import org.openide.loaders.DataNode;
 import org.openide.nodes.AbstractNode;
 import org.openide.nodes.Children;
 

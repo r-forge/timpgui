@@ -6,7 +6,6 @@ import java.awt.Image;
 import org.glotaran.core.main.nodes.dataobjects.SummaryDataObject;
 import org.glotaran.core.main.nodes.dataobjects.TimpResultDataObject;
 import org.openide.loaders.DataFolder;
-import org.openide.loaders.DataNode;
 import org.openide.nodes.FilterNode;
 import org.openide.nodes.Node;
 import org.openide.util.ImageUtilities;

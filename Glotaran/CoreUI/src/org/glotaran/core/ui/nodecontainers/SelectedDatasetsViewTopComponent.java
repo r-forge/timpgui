@@ -6,6 +6,8 @@
 package org.glotaran.core.ui.nodecontainers;
 
 import java.awt.BorderLayout;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.io.Serializable;
 import java.util.logging.Logger;
 import org.openide.explorer.ExplorerManager;
@@ -19,7 +21,7 @@ import org.openide.windows.WindowManager;
 /**
  * Top component which displays something.
  */
-public final class SelectedDatasetsViewTopComponent extends TopComponent implements ExplorerManager.Provider {
+public final class SelectedDatasetsViewTopComponent extends TopComponent implements ExplorerManager.Provider, PropertyChangeListener{
 
     private static SelectedDatasetsViewTopComponent instance;
     /** path to the icon used by the component and its open action */
@@ -159,6 +161,13 @@ public final class SelectedDatasetsViewTopComponent extends TopComponent impleme
 
     public ExplorerManager getExplorerManager() {
         return manager;
+    }
+
+   public void propertyChange(PropertyChangeEvent evt) {
+        if (evt.getSource() == manager &&
+                ExplorerManager.PROP_SELECTED_NODES.equals(evt.getPropertyName())) {
+            setActivatedNodes(manager.getSelectedNodes());
+        }
     }
 
     final static class ResolvableHelper implements Serializable {

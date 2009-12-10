@@ -11,6 +11,7 @@ import java.awt.dnd.DropTargetAdapter;
 import java.awt.dnd.DropTargetDragEvent;
 import java.awt.dnd.DropTargetDropEvent;
 import java.io.IOException;
+import org.glotaran.core.ui.visualmodelling.nodes.KineticParametersNode;
 import org.glotaran.core.ui.visualmodelling.palette.PaletteItem;
 import org.glotaran.core.ui.visualmodelling.palette.PaletteNode;
 import org.openide.explorer.ExplorerManager;
@@ -61,7 +62,12 @@ public class ModelSpecificationView extends TreeTableView {
 //               TopComponent currentTopComponent = (TopComponent)Utilities.actionsGlobalContext().lookup(TopComponent.class);
 //               ExplorerManager.find(currentTopComponent).getRootContext().getChildren().add(new Node[]{n});
                
-                 ExplorerManager.find(getParent()).getRootContext().getChildren().add(new Node[]{new AbstractNode(Children.LEAF)});
+                 if (item.getName().equalsIgnoreCase("Kinetic Parameters")){
+                     ExplorerManager.find(getParent()).getRootContext().getChildren().add(new Node[]{new KineticParametersNode()});
+                 }
+                 else {
+                     ExplorerManager.find(getParent()).getRootContext().getChildren().add(new Node[]{new AbstractNode(Children.LEAF)});
+                 }
             } catch(Exception e) {
                e.printStackTrace();
                //dtde.rejectDrop();

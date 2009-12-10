@@ -12,15 +12,19 @@
 package org.glotaran.core.ui.visualmodelling.components;
 
 import java.awt.BorderLayout;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+import org.glotaran.core.ui.visualmodelling.VisualModellingTopComponent;
 import org.openide.explorer.ExplorerManager;
 import org.openide.nodes.AbstractNode;
 import org.openide.util.Lookup;
+import org.openide.windows.WindowManager;
 
 /**
  *
  * @author slk230
  */
-public class ModelContainer extends javax.swing.JPanel implements ExplorerManager.Provider, Lookup.Provider {
+public class ModelContainer extends javax.swing.JPanel implements ExplorerManager.Provider, Lookup.Provider, PropertyChangeListener {
 
 
 /** path to the icon used by the component and its open action */
@@ -36,6 +40,7 @@ public class ModelContainer extends javax.swing.JPanel implements ExplorerManage
     public ModelContainer() {
         initComponents();
         manager.setRootContext(new AbstractNode(container));//,ExplorerUtils.createLookup(manager, null)));
+        manager.addPropertyChangeListener(this);
         //new ProxyLookup(arg0)
     }
 
@@ -144,4 +149,10 @@ public class ModelContainer extends javax.swing.JPanel implements ExplorerManage
         return lookup;
     }
 
+    public void propertyChange(PropertyChangeEvent evt) {
+        if (evt.getSource() == manager &&
+                ExplorerManager.PROP_SELECTED_NODES.equals(evt.getPropertyName())) {
+            WindowManager.getDefault().getRegistry().getActivated().setActivatedNodes(manager.getSelectedNodes());
+        }
+    }
 }

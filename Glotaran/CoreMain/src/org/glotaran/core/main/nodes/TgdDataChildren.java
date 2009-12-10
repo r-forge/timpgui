@@ -12,8 +12,6 @@ import org.glotaran.core.main.nodes.dataobjects.TgdDataObject;
 import org.glotaran.core.main.nodes.dataobjects.TimpDatasetDataObject;
 import org.glotaran.core.main.project.TGProject;
 import org.netbeans.api.project.FileOwnerQuery;
-import org.netbeans.api.project.Project;
-import org.netbeans.api.project.ui.OpenProjects;
 import org.openide.filesystems.FileObject;
 import org.openide.loaders.DataObject;
 import org.openide.loaders.DataObjectNotFoundException;

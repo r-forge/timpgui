@@ -6,22 +6,26 @@
 package org.glotaran.core.ui.visualmodelling.nodes;
 
 import java.awt.Image;
+import org.glotaran.core.ui.visualmodelling.nodes.dataobjects.KineticParametersDO;
 import org.openide.nodes.AbstractNode;
-import org.openide.nodes.Children;
+import org.openide.nodes.PropertySupport;
+import org.openide.nodes.Sheet;
+import org.openide.util.Exceptions;
+import org.openide.util.ImageUtilities;
 
 /**
  *
  * @author slapten
  */
 public class KineticParametersNode extends AbstractNode{
-    private Image ICON;
-
+    private final Image ICON = ImageUtilities.loadImage("org/glotaran/core/ui/visualmodelling/resources/Kinpar_16.png", true);
 
     public KineticParametersNode(){
-        super(Children.LEAF);
+        super(new KineticParametersDO(1));
+       // setSheet(createSheet());
     }
 
-     @Override
+    @Override
     public Image getIcon(int type) {
         return ICON;
     }
@@ -31,9 +35,42 @@ public class KineticParametersNode extends AbstractNode{
         return getIcon(type);
     }
 
-//    @Override
-//    public String getDisplayName() {
-//        return obj.getName();
-//    }
+    @Override
+    public String getDisplayName() {
+        return "KinPar";
+    }
 
+    @Override
+    protected Sheet createSheet() {
+        Sheet sheet = Sheet.createDefault();
+        Sheet.Set set = Sheet.createPropertiesSet();
+        Property numberOfComponents = null;
+        Property name = null;
+        try {
+            numberOfComponents = new PropertySupport.Reflection(this, Integer.class, "getCompNum", "setCompNum");
+            name = new PropertySupport.Reflection(this, String.class, "getDisplayName", null);
+        } catch (NoSuchMethodException ex) {
+            Exceptions.printStackTrace(ex);
+        }
+        numberOfComponents.setName("Number of components");
+        name.setName("Name");
+        set.put(name);
+        set.put(numberOfComponents);
+        sheet.put(set);
+        return sheet;
+    }
+
+    public Integer getCompNum(){
+        return getChildren().getNodesCount();
+    }
+
+    public void setCompNum(Integer compNum){
+        KineticParametersDO childColection = (KineticParametersDO)getChildren();
+        int currCompNum = childColection.getNodesCount();
+        if (currCompNum < compNum){
+            childColection.addDefaultObj(compNum-currCompNum);
+        } else {
+            childColection.removeParams(currCompNum-compNum);
+        }
+    }
 }

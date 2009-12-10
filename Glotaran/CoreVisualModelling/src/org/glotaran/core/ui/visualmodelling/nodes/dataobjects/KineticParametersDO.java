@@ -39,7 +39,7 @@ public class KineticParametersDO  extends Children.Keys{
 
     @Override
     protected Node[] createNodes(Object key) {
-       return new Node[] {new ParametersSubNode()};
+       return new Node[] {new ParametersSubNode((KinPar)key)};
     }
 
     public void addObj(KinPar objToAdd){
@@ -93,13 +93,13 @@ public class KineticParametersDO  extends Children.Keys{
         return newKinpar;
     }
 
-//    @Override
-//    public boolean remove(Node[] arg0) {
-//        for (int i = 0; i<arg0.length; i++){
-//            TimpDatasetNode node = (TimpDatasetNode)arg0[i];
-//            datasets.remove(node.getObject());
-//            setKeys(datasets);
-//        }
-//        return true;
-//    }
+    @Override
+    public boolean remove(Node[] arg0) {
+        for (int i = 0; i<arg0.length; i++){
+            ParametersSubNode node = (ParametersSubNode)arg0[i];
+            kinpar.remove(node.getDataObj());
+            setKeys(kinpar);
+        }
+        return true;
+    }
 }

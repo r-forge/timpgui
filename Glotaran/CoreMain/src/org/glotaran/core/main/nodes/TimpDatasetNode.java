@@ -29,7 +29,7 @@ public class TimpDatasetNode extends DataNode implements Transferable{
         this.obj=obj;
     }
 
-    TimpDatasetNode(TimpDatasetDataObject obj, Lookup lookup) {
+    public TimpDatasetNode(TimpDatasetDataObject obj, Lookup lookup) {
         super(obj, Children.LEAF, lookup);
         this.obj=obj;
     }

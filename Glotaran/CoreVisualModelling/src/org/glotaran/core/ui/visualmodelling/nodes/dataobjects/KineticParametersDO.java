@@ -17,88 +17,77 @@ import org.openide.nodes.Node;
  * @author slapten
  */
 public class KineticParametersDO  extends Children.Keys{
-    private List<KinPar> kinpar;
+    private List<NonLinearParameter> parameters;
 
     public KineticParametersDO(int compNum){
-        kinpar = new ArrayList<KinPar>();
-        kinpar.add(newDefaultKinpar());
+        parameters = new ArrayList<NonLinearParameter>();
+        parameters.add(new NonLinearParameter());
     }
 
     public KineticParametersDO(List<KinPar> paramList){
-        if (paramList !=null){
-            kinpar = paramList;
-        } else {
-            kinpar = new ArrayList<KinPar>();
+        parameters = new ArrayList<NonLinearParameter>();
+        if (paramList!=null){
+            for (int i = 0; i < paramList.size(); i++){
+               parameters.add(new NonLinearParameter(paramList.get(i)));
+            }
         }
     }
 
     @Override
     protected void addNotify() {
-        setKeys(kinpar);
+        setKeys(parameters);
     }
 
     @Override
     protected Node[] createNodes(Object key) {
-       return new Node[] {new ParametersSubNode((KinPar)key)};
+       return new Node[] {new ParametersSubNode((NonLinearParameter)key)};
     }
 
-    public void addObj(KinPar objToAdd){
-        if (kinpar!=null){
-             kinpar.add(objToAdd);
+    public void addObj(NonLinearParameter objToAdd){
+        if (parameters!=null){
+             parameters.add(objToAdd);
         } else {
-            kinpar = new ArrayList<KinPar>();
-            kinpar.add(objToAdd);
+            parameters = new ArrayList<NonLinearParameter>();
+            parameters.add(objToAdd);
         }
-        setKeys(kinpar);
+        setKeys(parameters);
     }
 
     public void removeParams(int num){
 //remove num last components
-        if (kinpar!=null){
-            if (kinpar.size()<num){
-                kinpar.clear();
-                kinpar.add(newDefaultKinpar());
+        if (parameters!=null){
+            if (parameters.size()<num){
+                parameters.clear();
+                parameters.add(new NonLinearParameter());
             } else {
                 for (int i = 0; i<num; i++){
-                    kinpar.remove(kinpar.size()-1);
+                    parameters.remove(parameters.size()-1);
                 }
             }
         }
-        setKeys(kinpar);
+        setKeys(parameters);
     }
 
     public void addDefaultObj(int numObj){
-        if (kinpar!=null){
+        if (parameters!=null){
             for (int i = 0; i<numObj; i++){
-                kinpar.add(newDefaultKinpar());
+                parameters.add(new NonLinearParameter());
             }
         } else {
-            kinpar = new ArrayList<KinPar>();
+            parameters = new ArrayList<NonLinearParameter>();
             for (int i = 0; i<numObj; i++){
-                kinpar.add(newDefaultKinpar());
+                parameters.add(new NonLinearParameter());
             }
         }
-        setKeys(kinpar);
-    }
-
-
-
-    private KinPar newDefaultKinpar(){
-        KinPar newKinpar = new KinPar();
-        newKinpar.setStart(1);
-        newKinpar.setFixed(Boolean.FALSE);
-        newKinpar.setConstrained(Boolean.FALSE);
-        newKinpar.setMax(0.0);
-        newKinpar.setMin(0.0);
-        return newKinpar;
+        setKeys(parameters);
     }
 
     @Override
     public boolean remove(Node[] arg0) {
         for (int i = 0; i<arg0.length; i++){
             ParametersSubNode node = (ParametersSubNode)arg0[i];
-            kinpar.remove(node.getDataObj());
-            setKeys(kinpar);
+            parameters.remove(node.getDataObj());
+            setKeys(parameters);
         }
         return true;
     }

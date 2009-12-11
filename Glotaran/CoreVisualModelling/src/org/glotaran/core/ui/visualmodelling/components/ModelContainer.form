@@ -91,7 +91,7 @@
     <Component class="javax.swing.JButton" name="remove">
       <Properties>
         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-          <Image iconType="2" name="/home/slk230/JavaProj/Glotaran/CoreMain/src/org/glotaran/core/main/resources/Delete-icon-16.png"/>
+          <Image iconType="3" name="/org/glotaran/core/main/resources/Delete-icon-16.png"/>
         </Property>
         <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
           <ResourceString bundle="org/glotaran/core/ui/visualmodelling/components/Bundle.properties" key="ModelContainer.remove.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>

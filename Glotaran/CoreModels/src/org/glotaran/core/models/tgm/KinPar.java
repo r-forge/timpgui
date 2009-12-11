@@ -61,7 +61,7 @@ public class KinPar {
      * Gets the value of the start property.
      * 
      */
-    public double getStart() {
+    public Double getStart() {
         return start;
     }
 
@@ -69,7 +69,7 @@ public class KinPar {
      * Sets the value of the start property.
      * 
      */
-    public void setStart(double value) {
+    public void setStart(Double value) {
         this.start = value;
     }
 
@@ -125,7 +125,7 @@ public class KinPar {
      * Gets the value of the max property.
      * 
      */
-    public double getMax() {
+    public Double getMax() {
         return max;
     }
 
@@ -133,7 +133,7 @@ public class KinPar {
      * Sets the value of the max property.
      * 
      */
-    public void setMax(double value) {
+    public void setMax(Double value) {
         this.max = value;
     }
 
@@ -141,7 +141,7 @@ public class KinPar {
      * Gets the value of the min property.
      * 
      */
-    public double getMin() {
+    public Double getMin() {
         return min;
     }
 
@@ -149,7 +149,7 @@ public class KinPar {
      * Sets the value of the min property.
      * 
      */
-    public void setMin(double value) {
+    public void setMin(Double value) {
         this.min = value;
     }
 

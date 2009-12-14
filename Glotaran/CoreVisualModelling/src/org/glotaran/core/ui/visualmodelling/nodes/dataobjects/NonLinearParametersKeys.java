@@ -16,15 +16,17 @@ import org.openide.nodes.Node;
  *
  * @author slapten
  */
-public class KineticParametersDO  extends Children.Keys{
+public class NonLinearParametersKeys  extends Children.Keys{
     private List<NonLinearParameter> parameters;
 
-    public KineticParametersDO(int compNum){
+    public NonLinearParametersKeys(int paramNum){
         parameters = new ArrayList<NonLinearParameter>();
-        parameters.add(new NonLinearParameter());
+        for (int i = 0; i<paramNum; i++){
+            parameters.add(new NonLinearParameter());
+        }
     }
 
-    public KineticParametersDO(List<KinPar> paramList){
+    public NonLinearParametersKeys(List<KinPar> paramList){
         parameters = new ArrayList<NonLinearParameter>();
         if (paramList!=null){
             for (int i = 0; i < paramList.size(); i++){

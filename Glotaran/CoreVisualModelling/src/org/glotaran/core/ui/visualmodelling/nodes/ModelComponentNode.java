@@ -5,8 +5,14 @@
 
 package org.glotaran.core.ui.visualmodelling.nodes;
 
+import java.util.ArrayList;
+import java.util.List;
+import javax.swing.Action;
+import org.openide.actions.DeleteAction;
+import org.openide.actions.PropertiesAction;
 import org.openide.nodes.AbstractNode;
 import org.openide.nodes.Children;
+import org.openide.util.actions.SystemAction;
 
 
 /**
@@ -14,11 +20,10 @@ import org.openide.nodes.Children;
  * @author jsg210
  */
 public class ModelComponentNode extends AbstractNode {
-
     private String type;
 
-    public ModelComponentNode(String name) {
-        super(Children.LEAF);
+    public ModelComponentNode(String name, Children children) {
+        super(children);
         this.type = name;
     }
 
@@ -26,4 +31,26 @@ public class ModelComponentNode extends AbstractNode {
         return type;
     }
 
+    @Override
+    public PropertySet[] getPropertySets() {
+        return getSheet().toArray();
+    }
+
+    @Override
+    public boolean canDestroy() {
+        return true;
+    }
+
+    @Override
+    public Action[] getActions(boolean context) {
+         List<Action> actions = new ArrayList<Action>(); //super.getActions(context);
+            actions.add(SystemAction.get(DeleteAction.class));
+            actions.add(SystemAction.get(PropertiesAction.class));
+            return actions.toArray(new Action[actions.size()]);
+    }
+
+    @Override
+    public String getDisplayName() {
+        return type;
+    }
 }

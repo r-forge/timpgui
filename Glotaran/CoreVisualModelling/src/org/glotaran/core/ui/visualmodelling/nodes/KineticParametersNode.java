@@ -6,8 +6,7 @@
 package org.glotaran.core.ui.visualmodelling.nodes;
 
 import java.awt.Image;
-import org.glotaran.core.ui.visualmodelling.nodes.dataobjects.KineticParametersDO;
-import org.openide.nodes.AbstractNode;
+import org.glotaran.core.ui.visualmodelling.nodes.dataobjects.NonLinearParametersKeys;
 import org.openide.nodes.PropertySupport;
 import org.openide.nodes.Sheet;
 import org.openide.util.Exceptions;
@@ -17,12 +16,11 @@ import org.openide.util.ImageUtilities;
  *
  * @author slapten
  */
-public class KineticParametersNode extends AbstractNode{
+public class KineticParametersNode extends ModelComponentNode{
     private final Image ICON = ImageUtilities.loadImage("org/glotaran/core/ui/visualmodelling/resources/Kinpar_16.png", true);
 
     public KineticParametersNode(){
-        super(new KineticParametersDO(1));
-       // setSheet(createSheet());
+        super("KinPar", new NonLinearParametersKeys(1));
     }
 
     @Override
@@ -33,11 +31,6 @@ public class KineticParametersNode extends AbstractNode{
     @Override
     public Image getOpenedIcon(int type) {
         return getIcon(type);
-    }
-
-    @Override
-    public String getDisplayName() {
-        return "KinPar";
     }
 
     @Override
@@ -65,7 +58,7 @@ public class KineticParametersNode extends AbstractNode{
     }
 
     public void setCompNum(Integer compNum){
-        KineticParametersDO childColection = (KineticParametersDO)getChildren();
+        NonLinearParametersKeys childColection = (NonLinearParametersKeys)getChildren();
         int currCompNum = childColection.getNodesCount();
         if (currCompNum < compNum){
             childColection.addDefaultObj(compNum-currCompNum);

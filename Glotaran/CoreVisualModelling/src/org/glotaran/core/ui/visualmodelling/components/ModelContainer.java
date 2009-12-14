@@ -14,9 +14,13 @@ package org.glotaran.core.ui.visualmodelling.components;
 import java.awt.BorderLayout;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import org.glotaran.core.ui.visualmodelling.VisualModellingTopComponent;
+import javax.swing.ActionMap;
+import javax.swing.InputMap;
+import javax.swing.JComponent;
+import javax.swing.KeyStroke;
+import org.glotaran.core.ui.visualmodelling.nodes.ModelComponentNode;
 import org.openide.explorer.ExplorerManager;
-import org.openide.nodes.AbstractNode;
+import org.openide.explorer.ExplorerUtils;
 import org.openide.util.Lookup;
 import org.openide.windows.WindowManager;
 
@@ -32,15 +36,23 @@ public class ModelContainer extends javax.swing.JPanel implements ExplorerManage
 
     private static final String PREFERRED_ID = "ModelSpecificationView";
 
-    private ExplorerManager manager   = new ExplorerManager();
+    private ExplorerManager manager = new ExplorerManager();
     private ModelSpecificationView    modelSpecificationView  = new ModelSpecificationView();
     private ModelSpecificationNodeContainer   container = new ModelSpecificationNodeContainer();
     private Lookup lookup;
     /** Creates new form DatasetContainer */
     public ModelContainer() {
         initComponents();
-        manager.setRootContext(new AbstractNode(container));//,ExplorerUtils.createLookup(manager, null)));
+        manager.setRootContext(new ModelComponentNode("Model spevification",container));//,ExplorerUtils.createLookup(manager, null)));
         manager.addPropertyChangeListener(this);
+        ActionMap map = this.getActionMap ();
+        map.put("delete", ExplorerUtils.actionDelete(manager, true)); // or false
+
+        InputMap keys = getInputMap(JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
+        keys.put(KeyStroke.getKeyStroke("DELETE"), "delete");
+
+        // following line tells the top component which lookup should be associated with it
+        lookup = ExplorerUtils.createLookup (manager, map);
         //new ProxyLookup(arg0)
     }
 
@@ -147,6 +159,8 @@ public class ModelContainer extends javax.swing.JPanel implements ExplorerManage
     public Lookup getLookup() {
         return lookup;
     }
+
+
 
     public void propertyChange(PropertyChangeEvent evt) {
         if (evt.getSource() == manager &&

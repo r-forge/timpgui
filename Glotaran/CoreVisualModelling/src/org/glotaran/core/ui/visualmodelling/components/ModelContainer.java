@@ -43,7 +43,7 @@ public class ModelContainer extends javax.swing.JPanel implements ExplorerManage
     /** Creates new form DatasetContainer */
     public ModelContainer() {
         initComponents();
-        manager.setRootContext(new ModelComponentNode("Model spevification",container));//,ExplorerUtils.createLookup(manager, null)));
+        manager.setRootContext(new ModelComponentNode("Model specification",container));//,ExplorerUtils.createLookup(manager, null)));
         manager.addPropertyChangeListener(this);
         ActionMap map = this.getActionMap ();
         map.put("delete", ExplorerUtils.actionDelete(manager, true)); // or false

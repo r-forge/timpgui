@@ -12,7 +12,7 @@ import org.glotaran.core.ui.visualmodelling.nodes.dataobjects.NonLinearParameter
  * @author slapten
  */
 public class IrfParametersSubNode extends ParametersSubNode{
-    private String[] nodeNames = new String[]{"",""};
+    private String[] nodeNames = new String[]{"Position","Width","Width2","Ratio"};
     public IrfParametersSubNode(NonLinearParameter data){
         super(data);
     }
@@ -22,11 +22,10 @@ public class IrfParametersSubNode extends ParametersSubNode{
         String name = null;
         for (int i = 0; i < getParentNode().getChildren().getNodesCount(); i++){
             if (getParentNode().getChildren().getNodes()[i].equals(this)){
-
+                return nodeNames[i];
             }
         }
-
-        return super.getDisplayName();
+        return "something wrong";
     }
 
 

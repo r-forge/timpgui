@@ -38,7 +38,7 @@ public class ParametersSubNode extends AbstractNode implements PropertyChangeLis
         super(Children.LEAF, Lookups.singleton(data));
         data.addPropertyChangeListener(WeakListeners.propertyChange(this, data));
     }
-
+    
     @Override
     public Image getIcon(int type) {
         return ICON;

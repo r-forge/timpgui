@@ -5,6 +5,11 @@
 
 package org.glotaran.core.ui.visualmodelling.nodes.dataobjects;
 
+import java.util.ArrayList;
+import java.util.List;
+import org.glotaran.core.ui.visualmodelling.nodes.IrfParametersSubNode;
+import org.openide.nodes.AbstractNode;
+import org.openide.nodes.Children;
 import org.openide.nodes.Node;
 
 /**
@@ -12,13 +17,27 @@ import org.openide.nodes.Node;
  * @author slapten
  */
 public class IrfParametersKeys extends NonLinearParametersKeys {
-    IrfParametersKeys(int paramNum){
+    private List<MeasuredIrfDO> measuredIrf;
+    public IrfParametersKeys(int paramNum){
         super(paramNum);
+        measuredIrf = new ArrayList<MeasuredIrfDO>();
+        measuredIrf.add(new MeasuredIrfDO());
     }
 
     @Override
     protected Node[] createNodes(Object key) {
-        return super.createNodes(key);
+       if (key.getClass().equals(NonLinearParameter.class)){
+           return new Node[] {new IrfParametersSubNode((NonLinearParameter)key)};
+       }
+       return new Node[] {new AbstractNode(Children.LEAF)};
+    }
+
+    public void setMeasuredIrf(){
+        setKeys(measuredIrf);
+    }
+
+    public void backFromMeasuredIrf(){
+        super.backToParams();
     }
 
 }

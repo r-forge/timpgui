@@ -93,4 +93,8 @@ public class NonLinearParametersKeys  extends Children.Keys{
         }
         return true;
     }
+
+    protected void backToParams(){
+        setKeys(parameters);
+    }
 }

@@ -24,6 +24,13 @@ public class KineticParametersNode extends ModelComponentNode{
     }
 
     @Override
+    public String getDisplayName() {
+        String name = super.getDisplayName();
+        name = name + " ("+String.valueOf(getChildren().getNodesCount())+")";
+        return name;
+    }
+
+    @Override
     public Image getIcon(int type) {
         return ICON;
     }
@@ -65,5 +72,6 @@ public class KineticParametersNode extends ModelComponentNode{
         } else {
             childColection.removeParams(currCompNum-compNum);
         }
+        fireDisplayNameChange(null, getDisplayName());
     }
 }

@@ -73,6 +73,7 @@ public class IrfParametersNode extends ModelComponentNode {
             if (currCompNum==1){
                 childColection.backFromMeasuredIrf();
                 childColection = (IrfParametersKeys)getChildren();
+                currCompNum = childColection.getNodesCount();
             }
             if (currCompNum < 2) {
                 childColection.addDefaultObj(2 - currCompNum);
@@ -85,11 +86,12 @@ public class IrfParametersNode extends ModelComponentNode {
             if (currCompNum==1){
                 childColection.backFromMeasuredIrf();
                 childColection = (IrfParametersKeys)getChildren();
+                currCompNum = childColection.getNodesCount();
             }
             if (currCompNum < 4) {
                 childColection.addDefaultObj(4 - currCompNum);
             } else {
-                childColection.removeParams(currCompNum - 2);
+                childColection.removeParams(currCompNum - 4);
             }
         }
         if (irfType.equals(IRFType.MEASURED_IRF)) {

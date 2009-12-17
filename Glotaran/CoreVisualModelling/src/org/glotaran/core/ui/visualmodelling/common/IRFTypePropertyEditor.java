@@ -1,6 +1,7 @@
 package org.glotaran.core.ui.visualmodelling.common;
 
 import java.beans.PropertyEditorSupport;
+import org.glotaran.core.ui.visualmodelling.common.EnumTypes.IRFTypes;
 public class IRFTypePropertyEditor extends PropertyEditorSupport {
 
     private String[] strNames = new String[]{"Gaussian","Double Gaussian","Measured IRF"};
@@ -17,11 +18,11 @@ public class IRFTypePropertyEditor extends PropertyEditorSupport {
 
     @Override
     public String getAsText() {
-        IRFType obj = (IRFType) getValue();
-        if (obj.equals(IRFType.GAUSSIAN)) {
+        IRFTypes obj = (EnumTypes.IRFTypes) getValue();
+        if (obj.equals(EnumTypes.IRFTypes.GAUSSIAN)) {
             return strNames[0];
         } else {
-            if (obj.equals(IRFType.DOUBLE_GAUSSIAN)) {
+            if (obj.equals(EnumTypes.IRFTypes.DOUBLE_GAUSSIAN)) {
                 return strNames[1];
             }
         }
@@ -30,13 +31,13 @@ public class IRFTypePropertyEditor extends PropertyEditorSupport {
     @Override
     public void setAsText(String str) {
         if (str.equalsIgnoreCase(strNames[0])) {
-            setValue(IRFType.GAUSSIAN);
+            setValue(EnumTypes.IRFTypes.GAUSSIAN);
         } else {
             if (str.equalsIgnoreCase(strNames[1])) {
-                setValue(IRFType.DOUBLE_GAUSSIAN);
+                setValue(EnumTypes.IRFTypes.DOUBLE_GAUSSIAN);
             } else {
                 if (str.equalsIgnoreCase(strNames[2])) {
-                    setValue(IRFType.MEASURED_IRF);
+                    setValue(EnumTypes.IRFTypes.MEASURED_IRF);
                 }
             }
         }

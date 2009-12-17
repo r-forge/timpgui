@@ -23,6 +23,7 @@ public class PaletteChildren  extends Index.ArrayChildren {
         {"2", "Modelling", "org/glotaran/core/ui/visualmodelling/resources/Weightpar_32.png", "Weight Parameters"},
         {"3", "Modelling", "org/glotaran/core/ui/visualmodelling/resources/Cohspecpar_32.png", "Cohspec Parameters"},
         {"4", "Modelling", "org/glotaran/core/ui/visualmodelling/resources/Kmatr_32.png", "KMatrix"},
+        {"5", "Modelling", "org/glotaran/core/ui/visualmodelling/resources/Dispersion_32.png", "Dispersion"},
         {"0", "Model differences", "org/glotaran/core/ui/visualmodelling/resources/FreeParam_32.png", "KMatrix"},
         {"1", "Model differences", "org/glotaran/core/ui/visualmodelling/resources/ChageParam_32.png", "KMatrix"},
     };

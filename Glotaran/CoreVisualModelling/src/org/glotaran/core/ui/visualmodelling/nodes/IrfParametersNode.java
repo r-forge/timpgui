@@ -6,10 +6,9 @@
 package org.glotaran.core.ui.visualmodelling.nodes;
 
 import java.awt.Image;
-import org.glotaran.core.ui.visualmodelling.common.IRFType;
+import org.glotaran.core.ui.visualmodelling.common.EnumTypes;
 import org.glotaran.core.ui.visualmodelling.common.IRFTypePropertyEditor;
 import org.glotaran.core.ui.visualmodelling.nodes.dataobjects.IrfParametersKeys;
-import org.glotaran.core.ui.visualmodelling.nodes.dataobjects.NonLinearParametersKeys;
 import org.openide.nodes.PropertySupport;
 import org.openide.nodes.Sheet;
 import org.openide.util.Exceptions;
@@ -21,10 +20,41 @@ import org.openide.util.ImageUtilities;
  */
 public class IrfParametersNode extends ModelComponentNode {
     private final Image ICON = ImageUtilities.loadImage("org/glotaran/core/ui/visualmodelling/resources/IRFpar_16.png", true);
-    IRFType irfTypeProperty = IRFType.GAUSSIAN;
+    private EnumTypes.IRFTypes irfTypeProperty = EnumTypes.IRFTypes.GAUSSIAN;
+    private Boolean backSweep = false;
+    private Double sweepPeriod = null;
+    private String[] propNames = new String[]{"Name","Type","Use backsweep","Sweep period"};
 
     public IrfParametersNode(){
         super("IRFPar", new IrfParametersKeys(2));
+    }
+
+    public Boolean getBackSweep() {
+        return backSweep;
+    }
+
+    public void setBackSweep(Boolean backSweep) {
+        this.backSweep = backSweep;
+        if (backSweep) {
+            try {
+                Property sweepPeriodValue = new PropertySupport.Reflection(this, Double.class, "sweepPeriod");
+                sweepPeriodValue.setName(propNames[3]);
+                getSheet().get(Sheet.PROPERTIES).put(sweepPeriodValue);
+            } catch (NoSuchMethodException ex) {
+                Exceptions.printStackTrace(ex);
+            }
+        }
+        else {
+            getSheet().get(Sheet.PROPERTIES).remove(propNames[3]);
+        }
+    }
+
+    public Double getSweepPeriod() {
+        return sweepPeriod;
+    }
+
+    public void setSweepPeriod(Double sweepPeriod) {
+        this.sweepPeriod = sweepPeriod;
     }
 
     @Override
@@ -51,25 +81,30 @@ public class IrfParametersNode extends ModelComponentNode {
         Sheet.Set set = Sheet.createPropertiesSet();
         PropertySupport.Reflection irfType = null;
         Property name = null;
+        Property sweep = null;
        try {
-            irfType = new PropertySupport.Reflection(this, IRFType.class, "getIRFType", "setIRFType");
+            irfType = new PropertySupport.Reflection(this, EnumTypes.IRFTypes.class, "getIRFType", "setIRFType");
             irfType.setPropertyEditorClass(IRFTypePropertyEditor.class);
             name = new PropertySupport.Reflection(this, String.class, "getDisplayName", null);
+            sweep = new PropertySupport.Reflection(this, Boolean.class, "backSweep");
         } catch (NoSuchMethodException ex) {
             Exceptions.printStackTrace(ex);
         }
-        irfType.setName("Type");
-        name.setName("Name");
+        irfType.setName(propNames[1]);
+        name.setName(propNames[0]);
+        sweep.setName(propNames[2]);
+    
         set.put(name);
         set.put(irfType);
+        set.put(sweep);
         sheet.put(set);
         return sheet;
     }
 
-    public void setIRFType(IRFType irfType) {
+    public void setIRFType(EnumTypes.IRFTypes irfType) {
         IrfParametersKeys childColection = (IrfParametersKeys)getChildren();
         int currCompNum = childColection.getNodesCount();
-        if (irfType.equals(IRFType.GAUSSIAN)) {
+        if (irfType.equals(EnumTypes.IRFTypes.GAUSSIAN)) {
             if (currCompNum==1){
                 childColection.backFromMeasuredIrf();
                 childColection = (IrfParametersKeys)getChildren();
@@ -80,9 +115,9 @@ public class IrfParametersNode extends ModelComponentNode {
             } else {
                 childColection.removeParams(currCompNum - 2);
             }
-
+            addStreackProp();
         }
-        if (irfType.equals(IRFType.DOUBLE_GAUSSIAN)) {
+        if (irfType.equals(EnumTypes.IRFTypes.DOUBLE_GAUSSIAN)) {
             if (currCompNum==1){
                 childColection.backFromMeasuredIrf();
                 childColection = (IrfParametersKeys)getChildren();
@@ -93,16 +128,41 @@ public class IrfParametersNode extends ModelComponentNode {
             } else {
                 childColection.removeParams(currCompNum - 4);
             }
+            addStreackProp();
         }
-        if (irfType.equals(IRFType.MEASURED_IRF)) {
+        if (irfType.equals(EnumTypes.IRFTypes.MEASURED_IRF)) {
             childColection.setMeasuredIrf();
+            if (backSweep){
+                getSheet().get(Sheet.PROPERTIES).remove(propNames[3]);
+            }
+            getSheet().get(Sheet.PROPERTIES).remove(propNames[2]);
         }
         irfTypeProperty = irfType;
         fireDisplayNameChange(null, getDisplayName());
 
     }
 
-    public IRFType getIRFType() {
+    public EnumTypes.IRFTypes getIRFType() {
         return irfTypeProperty;
+    }
+
+    private void addStreackProp(){
+        try {
+            Property sweep = new PropertySupport.Reflection(this, Boolean.class, "backSweep");
+            sweep.setName(propNames[2]);
+            getSheet().get(Sheet.PROPERTIES).put(sweep);
+        } catch (NoSuchMethodException ex) {
+            Exceptions.printStackTrace(ex);
+        }
+
+        if (backSweep) {
+            try {
+                Property sweepPeriodValue = new PropertySupport.Reflection(this, Double.class, "sweepPeriod");
+                sweepPeriodValue.setName(propNames[3]);
+                getSheet().get(Sheet.PROPERTIES).put(sweepPeriodValue);
+            } catch (NoSuchMethodException ex) {
+                Exceptions.printStackTrace(ex);
+            }
+        }
     }
 }

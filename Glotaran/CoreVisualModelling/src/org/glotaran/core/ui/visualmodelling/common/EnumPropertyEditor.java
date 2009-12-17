@@ -1,12 +1,14 @@
 package org.glotaran.core.ui.visualmodelling.common;
 
 import java.beans.PropertyEditorSupport;
+
 public class EnumPropertyEditor extends PropertyEditorSupport {
 
     private String[] mTags;
     private Object[] mValues;
 
     public EnumPropertyEditor(String[] tags, Object[] values) {
+        super();
         mTags = tags;
         mValues = values;
     }

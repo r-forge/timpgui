@@ -55,7 +55,6 @@ import org.jfree.ui.RectangleAnchor;
 import org.jfree.ui.RectangleEdge;
 import org.jfree.ui.RectangleInsets;
 import org.netbeans.api.project.FileOwnerQuery;
-import org.netbeans.api.project.ui.OpenProjects;
 import org.openide.DialogDisplayer;
 import org.openide.NotifyDescriptor;
 import org.openide.filesystems.FileObject;
@@ -1411,9 +1410,10 @@ final public class SpecEditorTopCompNew extends CloneableTopComponent
             XYPlot plot2 = (XYPlot) this.subchartWaveTrace.getPlot();
             lowInd = (int)(this.lastXRange.getLowerBound());
             upInd = (int)(this.lastXRange.getUpperBound()-1);
-            plot2.getDomainAxis().setRange(new Range(data.getX2()[lowInd],data.getX2()[upInd]));
+//            plot2.getDomainAxis().setRange(new Range(data.getX2()[lowInd],data.getX2()[upInd]));
             jSColum.setMinimum(lowInd);
             jSColum.setMaximum(upInd);
+
         }
 
          if (!plot.getRangeAxis().getRange().equals(this.lastYRange)) {
@@ -1533,10 +1533,14 @@ final public class SpecEditorTopCompNew extends CloneableTopComponent
             false,
             false
         );
-        if (data.getX2()[data.getX2().length-1]<data.getX2()[0])
+        if (data.getX2()[data.getX2().length-1]<data.getX2()[0]){
             subchartWaveTrace.getXYPlot().getDomainAxis().setUpperBound(data.getX2()[0]);
-        else
+            subchartWaveTrace.getXYPlot().getDomainAxis().setInverted(true);
+        }
+        else {
             subchartWaveTrace.getXYPlot().getDomainAxis().setUpperBound(data.getX2()[data.getX2().length-1]);
+            
+        }
 
         subchartWaveTrace.setBackgroundPaint(JFreeChart.DEFAULT_BACKGROUND_PAINT);
         XYPlot plot2 = (XYPlot) subchartWaveTrace.getPlot();

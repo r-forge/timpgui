@@ -20,7 +20,7 @@ import org.openide.util.ImageUtilities;
  *
  * @author slapten
  */
-public class DispersionModelingNode extends ModelComponentNode {
+public class DispersionModelingNode extends PropertiesAbstractNode {
     private final Image ICON = ImageUtilities.loadImage("org/glotaran/core/ui/visualmodelling/resources/Dispersion_16.png", true);
     private EnumTypes.DispersionTypes disptype = EnumTypes.DispersionTypes.PARMU;
 

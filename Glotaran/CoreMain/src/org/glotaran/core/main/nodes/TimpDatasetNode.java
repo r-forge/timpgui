@@ -14,28 +14,26 @@ import org.openide.loaders.DataNode;
 import org.openide.nodes.Children;
 import org.openide.util.ImageUtilities;
 import org.openide.util.Lookup;
+import org.openide.util.lookup.Lookups;
 
 /**
  *
  * @author lsp
  */
-public class TimpDatasetNode extends DataNode implements Transferable{
-    private TimpDatasetDataObject obj;
+public class TimpDatasetNode extends DataNode implements Transferable{    
     private final Image ICON = ImageUtilities.loadImage("org/glotaran/core/main/resources/doc.png", true);
     public static final DataFlavor DATA_FLAVOR = new DataFlavor(TimpDatasetNode.class, "TimpDatasetNode");
 
     public TimpDatasetNode(TimpDatasetDataObject obj) {
         super(obj, Children.LEAF);
-        this.obj=obj;
     }
 
-    public TimpDatasetNode(TimpDatasetDataObject obj, Lookup lookup) {
-        super(obj, Children.LEAF, lookup);
-        this.obj=obj;
+    public TimpDatasetNode(TimpDatasetDataObject obj, Children children ) {
+        super(obj, children);
     }
 
    public TimpDatasetDataObject getObject(){
-       return obj;
+       return getLookup().lookup(TimpDatasetDataObject.class);
    }
 
     @Override
@@ -50,7 +48,7 @@ public class TimpDatasetNode extends DataNode implements Transferable{
 
     @Override
     public String getDisplayName() {
-        return obj.getName();
+        return getObject().getName();
     }
 
     @Override

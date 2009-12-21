@@ -18,7 +18,7 @@ import org.openide.util.ImageUtilities;
  *
  * @author slapten
  */
-public class IrfParametersNode extends ModelComponentNode {
+public class IrfParametersNode extends PropertiesAbstractNode {
     private final Image ICON = ImageUtilities.loadImage("org/glotaran/core/ui/visualmodelling/resources/IRFpar_16.png", true);
     private EnumTypes.IRFTypes irfTypeProperty = EnumTypes.IRFTypes.GAUSSIAN;
     private Boolean backSweep = false;

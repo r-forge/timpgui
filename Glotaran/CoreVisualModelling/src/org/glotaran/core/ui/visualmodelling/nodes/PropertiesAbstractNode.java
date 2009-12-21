@@ -19,10 +19,10 @@ import org.openide.util.actions.SystemAction;
  *
  * @author jsg210
  */
-public class ModelComponentNode extends AbstractNode {
+public class PropertiesAbstractNode extends AbstractNode {
     private String type;
 
-    public ModelComponentNode(String name, Children children) {
+    public PropertiesAbstractNode(String name, Children children) {
         super(children);
         this.type = name;
     }

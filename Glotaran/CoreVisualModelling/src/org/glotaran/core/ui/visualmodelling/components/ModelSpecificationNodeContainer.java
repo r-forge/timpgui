@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.ListIterator;
 import java.util.Vector;
 import java.util.logging.Logger;
-import org.glotaran.core.ui.visualmodelling.nodes.ModelComponentNode;
+import org.glotaran.core.ui.visualmodelling.nodes.PropertiesAbstractNode;
 
 /**
  *
@@ -36,7 +36,7 @@ public final class ModelSpecificationNodeContainer extends Index.ArrayChildren {
    public ListIterator<Node> getRemaining(Node current) {
       Vector<Node> v = new Vector<Node>();
       for (Node n : list.subList(indexOf(current), list.size())) {
-         v.add(n.getLookup().lookup(ModelComponentNode.class));
+         v.add(n.getLookup().lookup(PropertiesAbstractNode.class));
       }
       return(v.listIterator());
    }

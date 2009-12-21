@@ -14,6 +14,10 @@ package org.glotaran.core.ui.visualmodelling.components;
 import java.awt.Component;
 import javax.swing.JList;
 import javax.swing.ListCellRenderer;
+import javax.swing.tree.TreeNode;
+import org.glotaran.core.main.nodes.TimpDatasetNode;
+import org.glotaran.core.main.structures.DatasetTimp;
+import org.openide.explorer.view.Visualizer;
 
 /**
  *
@@ -24,6 +28,7 @@ public class datasetPanel extends javax.swing.JPanel implements ListCellRenderer
     /** Creates new form datasetPanel */
     public datasetPanel() {
         initComponents();
+
     }
 
     /** This method is called from within the constructor to
@@ -77,6 +82,10 @@ public class datasetPanel extends javax.swing.JPanel implements ListCellRenderer
     // End of variables declaration//GEN-END:variables
 
     public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
+        if(value!=null) {
+            TimpDatasetNode tdn = (TimpDatasetNode) Visualizer.findNode(value);
+            jLabel1.setText(tdn.getDisplayName());
+        }
         return this;
     }
 

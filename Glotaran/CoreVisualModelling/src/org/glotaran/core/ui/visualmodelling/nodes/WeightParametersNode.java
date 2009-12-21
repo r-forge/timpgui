@@ -11,7 +11,7 @@ import org.glotaran.core.ui.visualmodelling.nodes.dataobjects.NonLinearParameter
  *
  * @author slapten
  */
-public class WeightParametersNode extends ModelComponentNode {
+public class WeightParametersNode extends PropertiesAbstractNode {
     WeightParametersNode(){
         super("weight", new NonLinearParametersKeys(3));
     }

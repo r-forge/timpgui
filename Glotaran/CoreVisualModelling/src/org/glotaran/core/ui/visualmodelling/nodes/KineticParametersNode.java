@@ -16,7 +16,7 @@ import org.openide.util.ImageUtilities;
  *
  * @author slapten
  */
-public class KineticParametersNode extends ModelComponentNode{
+public class KineticParametersNode extends PropertiesAbstractNode{
     private final Image ICON = ImageUtilities.loadImage("org/glotaran/core/ui/visualmodelling/resources/Kinpar_16.png", true);
 
     public KineticParametersNode(){

@@ -11,13 +11,12 @@
 
 package org.glotaran.core.ui.visualmodelling.components;
 
-import java.awt.BorderLayout;
-import java.awt.dnd.DropTarget;
-import java.awt.dnd.DropTargetAdapter;
-import java.awt.dnd.DropTargetDragEvent;
-import java.awt.dnd.DropTargetDropEvent;
-import org.glotaran.core.main.nodes.TimpDatasetNode;
+import javax.swing.ActionMap;
+import javax.swing.InputMap;
+import javax.swing.JComponent;
+import javax.swing.KeyStroke;
 import org.openide.explorer.ExplorerManager;
+import org.openide.explorer.ExplorerUtils;
 import org.openide.nodes.AbstractNode;
 import org.openide.util.Lookup;
 
@@ -33,7 +32,7 @@ public class DatasetContainerComponent extends javax.swing.JPanel implements Exp
     private static final String PREFERRED_ID = "DatasetsListView";
 
     private ExplorerManager manager   = new ExplorerManager();
-    private DatasetView    datasetView  = new DatasetView();
+    private DatasetSpecificationView    datasetView  = new DatasetSpecificationView();
     private DatasetNodeContainer   container = new DatasetNodeContainer();
     private Lookup lookup;
 
@@ -43,11 +42,11 @@ public class DatasetContainerComponent extends javax.swing.JPanel implements Exp
         jPDatasetsPanel.add(datasetView);
         manager.setRootContext(new AbstractNode(container));//,ExplorerUtils.createLookup(manager, null)));
         //new ProxyLookup(arg0)
+        ActionMap map = this.getActionMap ();
+        map.put("delete", ExplorerUtils.actionDelete(manager, true)); // or false
 
-        // Add a drop target to the JPanel
-
-
-
+        InputMap keys = getInputMap(JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
+        keys.put(KeyStroke.getKeyStroke("DELETE"), "delete");
     }
 
     /** This method is called from within the constructor to

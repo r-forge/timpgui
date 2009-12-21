@@ -18,7 +18,7 @@ import javax.swing.ActionMap;
 import javax.swing.InputMap;
 import javax.swing.JComponent;
 import javax.swing.KeyStroke;
-import org.glotaran.core.ui.visualmodelling.nodes.ModelComponentNode;
+import org.glotaran.core.ui.visualmodelling.nodes.PropertiesAbstractNode;
 import org.openide.explorer.ExplorerManager;
 import org.openide.explorer.ExplorerUtils;
 import org.openide.util.Lookup;
@@ -43,7 +43,7 @@ public class ModelContainer extends javax.swing.JPanel implements ExplorerManage
     /** Creates new form DatasetContainer */
     public ModelContainer() {
         initComponents();
-        manager.setRootContext(new ModelComponentNode("Model specification",container));//,ExplorerUtils.createLookup(manager, null)));
+        manager.setRootContext(new PropertiesAbstractNode("Model specification",container));//,ExplorerUtils.createLookup(manager, null)));
         manager.addPropertyChangeListener(this);
         ActionMap map = this.getActionMap ();
         map.put("delete", ExplorerUtils.actionDelete(manager, true)); // or false

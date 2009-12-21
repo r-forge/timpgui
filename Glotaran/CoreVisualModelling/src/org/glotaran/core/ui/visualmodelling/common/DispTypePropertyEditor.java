@@ -5,7 +5,7 @@ import org.glotaran.core.ui.visualmodelling.common.EnumTypes.DispersionTypes;
 
 public class DispTypePropertyEditor extends PropertyEditorSupport {
 
-    private String[] strNames = new String[]{"ParMu","ParTau","Measured IRF"};
+    private String[] strNames = new String[]{"ParMu","ParTau"};
 
     public DispTypePropertyEditor() {
         super();

@@ -11,6 +11,7 @@ import java.awt.dnd.DropTargetAdapter;
 import java.awt.dnd.DropTargetDragEvent;
 import java.awt.dnd.DropTargetDropEvent;
 import java.io.IOException;
+import org.glotaran.core.ui.visualmodelling.nodes.CohSpecNode;
 import org.glotaran.core.ui.visualmodelling.nodes.DispersionModelingNode;
 import org.glotaran.core.ui.visualmodelling.nodes.IrfParametersNode;
 import org.glotaran.core.ui.visualmodelling.nodes.KineticParametersNode;
@@ -74,8 +75,13 @@ public class ModelSpecificationView extends TreeTableView {
                      else {
                          if (item.getName().equalsIgnoreCase("Dispersion")) {
                              ExplorerManager.find(getParent()).getRootContext().getChildren().add(new Node[]{new DispersionModelingNode()});
-                         } else {
-                             ExplorerManager.find(getParent()).getRootContext().getChildren().add(new Node[]{new AbstractNode(Children.LEAF)});
+                         }
+                         else {
+                         if (item.getName().equalsIgnoreCase("Cohspec Parameters")) {
+                                 ExplorerManager.find(getParent()).getRootContext().getChildren().add(new Node[]{new CohSpecNode()});
+                             } else {
+                                 ExplorerManager.find(getParent()).getRootContext().getChildren().add(new Node[]{new AbstractNode(Children.LEAF)});
+                             }
                          }
                      }
                  }

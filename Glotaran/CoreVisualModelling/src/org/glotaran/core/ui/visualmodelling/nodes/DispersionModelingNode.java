@@ -94,6 +94,7 @@ public class DispersionModelingNode extends PropertiesAbstractNode {
 
     public void setDisptype(DispersionTypes disptype) {
         this.disptype = disptype;
+        fireDisplayNameChange(null, getDisplayName());
     }
 
 

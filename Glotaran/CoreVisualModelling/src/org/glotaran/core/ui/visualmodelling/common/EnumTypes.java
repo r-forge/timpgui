@@ -28,6 +28,23 @@ public enum IRFTypes {
 
 public enum DispersionTypes {
     PARMU, PARTAU;
+    @Override
+    public String toString() {
+        String[] strNames = new String[]{"ParMu","ParTau"};
+        if (this.equals(DispersionTypes.PARMU)) {
+            return strNames[0];
+        } else {
+            if (this.equals(DispersionTypes.PARTAU)) {
+                return strNames[1];
+            }
+        }
+        return null;
+    }
+};
+
+public enum CohSpecTypes {
+    IRF, FREE_IRF, IRF_MULTY, SEQ, MIXED;
+
 };
 
 };

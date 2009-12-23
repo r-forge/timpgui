@@ -28,5 +28,8 @@ public class IrfParametersSubNode extends ParametersSubNode{
         return "something wrong";
     }
 
-
+    @Override
+    public boolean canDestroy() {
+        return false;
+    }
 }

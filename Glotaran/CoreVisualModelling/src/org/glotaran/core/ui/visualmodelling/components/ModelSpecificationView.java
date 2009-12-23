@@ -15,6 +15,7 @@ import org.glotaran.core.ui.visualmodelling.nodes.CohSpecNode;
 import org.glotaran.core.ui.visualmodelling.nodes.DispersionModelingNode;
 import org.glotaran.core.ui.visualmodelling.nodes.IrfParametersNode;
 import org.glotaran.core.ui.visualmodelling.nodes.KineticParametersNode;
+import org.glotaran.core.ui.visualmodelling.nodes.WeightParametersNode;
 import org.glotaran.core.ui.visualmodelling.palette.PaletteItem;
 import org.glotaran.core.ui.visualmodelling.palette.PaletteNode;
 import org.openide.explorer.ExplorerManager;
@@ -77,10 +78,14 @@ public class ModelSpecificationView extends TreeTableView {
                              ExplorerManager.find(getParent()).getRootContext().getChildren().add(new Node[]{new DispersionModelingNode()});
                          }
                          else {
-                         if (item.getName().equalsIgnoreCase("Cohspec Parameters")) {
+                             if (item.getName().equalsIgnoreCase("Cohspec Parameters")) {
                                  ExplorerManager.find(getParent()).getRootContext().getChildren().add(new Node[]{new CohSpecNode()});
                              } else {
-                                 ExplorerManager.find(getParent()).getRootContext().getChildren().add(new Node[]{new AbstractNode(Children.LEAF)});
+                                 if (item.getName().equalsIgnoreCase("Weight Parameters")) {
+                                     ExplorerManager.find(getParent()).getRootContext().getChildren().add(new Node[]{new WeightParametersNode()});
+                                 } else {
+                                     ExplorerManager.find(getParent()).getRootContext().getChildren().add(new Node[]{new AbstractNode(Children.LEAF)});
+                                 }
                              }
                          }
                      }

@@ -9,44 +9,32 @@ import java.awt.Image;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Formatter;
-import java.util.List;
-import javax.swing.Action;
 import org.glotaran.core.ui.visualmodelling.nodes.dataobjects.NonLinearParameter;
-import org.openide.actions.DeleteAction;
-import org.openide.actions.PropertiesAction;
-import org.openide.nodes.AbstractNode;
 import org.openide.nodes.Children;
 import org.openide.nodes.PropertySupport;
 import org.openide.nodes.Sheet;
 import org.openide.util.Exceptions;
 import org.openide.util.ImageUtilities;
 import org.openide.util.WeakListeners;
-import org.openide.util.actions.SystemAction;
 import org.openide.util.lookup.Lookups;
 
 /**
  *
  * @author slapten
  */
-public class ParametersSubNode extends AbstractNode implements PropertyChangeListener{
+public class ParametersSubNode extends PropertiesAbstractNode implements PropertyChangeListener{
     private final Image ICON = ImageUtilities.loadImage("org/glotaran/core/ui/visualmodelling/resources/Subnode_16.png", true);
 //    private NonLinearParameter dataObj;
 
     public ParametersSubNode(NonLinearParameter data){
-        super(Children.LEAF, Lookups.singleton(data));
+        super("parameter",Children.LEAF, Lookups.singleton(data));
         data.addPropertyChangeListener(WeakListeners.propertyChange(this, data));
     }
     
     @Override
     public Image getIcon(int type) {
         return ICON;
-    }
-
-    @Override
-    public Image getOpenedIcon(int type) {
-        return getIcon(type);
     }
 
     public NonLinearParameter getDataObj() {
@@ -56,24 +44,6 @@ public class ParametersSubNode extends AbstractNode implements PropertyChangeLis
     @Override
     public String getDisplayName() {
         return new Formatter().format("%g",getLookup().lookup(NonLinearParameter.class).getStart()).toString();
-    }
-
-    @Override
-    public boolean canDestroy() {
-        return true;
-    }
-
-    @Override
-    public void destroy() throws IOException {
-        super.destroy();
-    }
-
-    @Override
-    public Action[] getActions(boolean context) {
-         List<Action> actions = new ArrayList<Action>(); //super.getActions(context);
-            actions.add(SystemAction.get(DeleteAction.class));
-            actions.add(SystemAction.get(PropertiesAction.class));
-            return actions.toArray(new Action[actions.size()]);
     }
 
     @Override
@@ -118,4 +88,10 @@ public class ParametersSubNode extends AbstractNode implements PropertyChangeLis
         }
     }
 
+    @Override
+    public void destroy() throws IOException {
+        PropertiesAbstractNode parent = (PropertiesAbstractNode)getParentNode();
+        super.destroy();
+        parent.updateName();
+    }
 }

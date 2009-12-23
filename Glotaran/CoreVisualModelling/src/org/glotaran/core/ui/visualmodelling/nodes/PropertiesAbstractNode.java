@@ -5,6 +5,7 @@
 
 package org.glotaran.core.ui.visualmodelling.nodes;
 
+import java.awt.Image;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.Action;
@@ -12,6 +13,7 @@ import org.openide.actions.DeleteAction;
 import org.openide.actions.PropertiesAction;
 import org.openide.nodes.AbstractNode;
 import org.openide.nodes.Children;
+import org.openide.util.Lookup;
 import org.openide.util.actions.SystemAction;
 
 
@@ -27,8 +29,18 @@ public class PropertiesAbstractNode extends AbstractNode {
         this.type = name;
     }
 
+    public PropertiesAbstractNode(String name, Children children, Lookup lookup) {
+        super(children, lookup);
+        this.type = name;
+    }
+
     public String getType() {
         return type;
+    }
+
+    @Override
+    public Image getOpenedIcon(int type) {
+        return getIcon(type);
     }
 
     @Override
@@ -52,5 +64,9 @@ public class PropertiesAbstractNode extends AbstractNode {
     @Override
     public String getDisplayName() {
         return type;
+    }
+
+    public void updateName(){
+        fireNameChange(null, getDisplayName());
     }
 }

@@ -65,6 +65,7 @@ public class ModelSpecificationView extends TreeTableView {
                  item = (PaletteItem) dtde.getTransferable().getTransferData(PaletteNode.DATA_FLAVOR);
                  Children nodes = ExplorerManager.find(getParent()).getRootContext().getChildren();
                  boolean present = false;
+//================ kinetic parameter node creation ===================
                  if (item.getName().equalsIgnoreCase("Kinetic Parameters")){
                      for (int i = 0; i < nodes.getNodesCount(); i ++){
                          if (nodes.getNodes()[i] instanceof KineticParametersNode){
@@ -79,6 +80,7 @@ public class ModelSpecificationView extends TreeTableView {
                      }
                  }
                  else {
+//================ irf parameter node creation ===================
                      if (item.getName().equalsIgnoreCase("IRF Parameters")) {
                          for (int i = 0; i < nodes.getNodesCount(); i++) {
                              if (nodes.getNodes()[i] instanceof IrfParametersNode) {
@@ -92,18 +94,50 @@ public class ModelSpecificationView extends TreeTableView {
                          }
                      }
                      else {
+//================ disp parameter node creation ===================
                          if (item.getName().equalsIgnoreCase("Dispersion")) {
-                             ExplorerManager.find(getParent()).getRootContext().getChildren().add(new Node[]{new DispersionModelingNode()});
+                             int paramNumb = 0;
+                             for (int i = 0; i < nodes.getNodesCount(); i++) {
+                                 if (nodes.getNodes()[i] instanceof DispersionModelingNode) {
+                                     paramNumb++;
+                                 }
+                             }
+                             if (paramNumb < 2) {
+                                 nodes.add(new Node[]{new DispersionModelingNode()});
+                             } else {
+                                 CoreErrorMessages.parametersExists("2 Dispersion parameters ");
+                             }
                          }
                          else {
+//================ cohspec parameter node creation ===================
                              if (item.getName().equalsIgnoreCase("Cohspec Parameters")) {
-                                 ExplorerManager.find(getParent()).getRootContext().getChildren().add(new Node[]{new CohSpecNode()});
-                             }
+                                 for (int i = 0; i < nodes.getNodesCount(); i++) {
+                                     if (nodes.getNodes()[i] instanceof CohSpecNode) {
+                                         present = true;
+                                     }
+                                 }
+                                 if (!present) {
+                                     nodes.add(new Node[]{new CohSpecNode()});
+                                 } else {
+                                     CoreErrorMessages.parametersExists("CohSpec parameters ");
+                                 }
+                             } 
                              else {
+//================ weight parameter node creation ===================
                                  if (item.getName().equalsIgnoreCase("Weight Parameters")) {
-                                     ExplorerManager.find(getParent()).getRootContext().getChildren().add(new Node[]{new WeightParametersNode()});
+                                     for (int i = 0; i < nodes.getNodesCount(); i++) {
+                                         if (nodes.getNodes()[i] instanceof WeightParametersNode) {
+                                             present = true;
+                                         }
+                                     }
+                                     if (!present) {
+                                         nodes.add(new Node[]{new WeightParametersNode()});
+                                     } else {
+                                         CoreErrorMessages.parametersExists("Weight parameters ");
+                                     }
                                  }
                                  else {
+//================ rest node creation ===================
                                      ExplorerManager.find(getParent()).getRootContext().getChildren().add(new Node[]{new AbstractNode(Children.LEAF)});
                                  }
                              }

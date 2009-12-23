@@ -24,6 +24,15 @@ public class IrfParametersKeys extends NonLinearParametersKeys {
         measuredIrf.add(new MeasuredIrfDO());
     }
 
+    public IrfParametersKeys(List<Double> irf, List<Boolean> fixed) {
+        super(0);
+        measuredIrf = new ArrayList<MeasuredIrfDO>();
+        measuredIrf.add(new MeasuredIrfDO());
+        for (int i = 0; i < irf.size(); i++){
+            addObj(new NonLinearParameter(irf.get(i),fixed.get(i)));
+        }
+    }
+
     @Override
     protected Node[] createNodes(Object key) {
        if (key.getClass().equals(NonLinearParameter.class)){

@@ -28,6 +28,11 @@ public class DispersionModelingNode extends PropertiesAbstractNode {
          super("Dispersion", new NonLinearParametersKeys(1));
     }
 
+    public DispersionModelingNode(String parmu, DispersionTypes dispersionTypes) {
+        super("Dispersion", new NonLinearParametersKeys(1));
+        setDisptype(dispersionTypes);
+    }
+
         @Override
     public String getDisplayName() {
         String name = super.getDisplayName();

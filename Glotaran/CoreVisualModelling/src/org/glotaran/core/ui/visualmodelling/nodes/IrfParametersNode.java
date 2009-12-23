@@ -6,6 +6,7 @@
 package org.glotaran.core.ui.visualmodelling.nodes;
 
 import java.awt.Image;
+import org.glotaran.core.models.tgm.IrfparPanelModel;
 import org.glotaran.core.ui.visualmodelling.common.EnumTypes;
 import org.glotaran.core.ui.visualmodelling.common.IRFTypePropertyEditor;
 import org.glotaran.core.ui.visualmodelling.nodes.dataobjects.IrfParametersKeys;
@@ -27,6 +28,25 @@ public class IrfParametersNode extends PropertiesAbstractNode {
 
     public IrfParametersNode(){
         super("IRFPar", new IrfParametersKeys(2));
+    }
+
+    public IrfParametersNode(IrfparPanelModel irfparPanel) {
+        super("IRFPar", new IrfParametersKeys(irfparPanel.getIrf(), irfparPanel.getFixed()));
+        if (irfparPanel.isMirf()){
+            setIRFType(EnumTypes.IRFTypes.MEASURED_IRF);
+//============ todo finish it =================
+        } else {
+            if (irfparPanel.getIrf().size()==2){
+                setIRFType(EnumTypes.IRFTypes.GAUSSIAN);
+            }
+            else {
+                setIRFType(EnumTypes.IRFTypes.DOUBLE_GAUSSIAN);
+            }
+        }
+        if (irfparPanel.isBacksweepEnabled()){
+            setBackSweep(irfparPanel.isBacksweepEnabled());
+            setSweepPeriod(irfparPanel.getBacksweepPeriod());
+        }
     }
 
     public Boolean getBackSweep() {

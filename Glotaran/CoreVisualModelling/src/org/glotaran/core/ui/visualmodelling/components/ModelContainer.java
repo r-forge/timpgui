@@ -18,9 +18,15 @@ import javax.swing.ActionMap;
 import javax.swing.InputMap;
 import javax.swing.JComponent;
 import javax.swing.KeyStroke;
+import org.glotaran.core.ui.visualmodelling.common.EnumTypes;
+import org.glotaran.core.ui.visualmodelling.nodes.DispersionModelingNode;
+import org.glotaran.core.ui.visualmodelling.nodes.IrfParametersNode;
+import org.glotaran.core.ui.visualmodelling.nodes.KineticParametersNode;
 import org.glotaran.core.ui.visualmodelling.nodes.PropertiesAbstractNode;
+import org.glotaran.tgmfilesupport.TgmDataObject;
 import org.openide.explorer.ExplorerManager;
 import org.openide.explorer.ExplorerUtils;
+import org.openide.nodes.Node;
 import org.openide.util.Lookup;
 import org.openide.windows.WindowManager;
 
@@ -40,6 +46,7 @@ public class ModelContainer extends javax.swing.JPanel implements ExplorerManage
     private ModelSpecificationView    modelSpecificationView  = new ModelSpecificationView();
     private ModelSpecificationNodeContainer   container = new ModelSpecificationNodeContainer();
     private Lookup lookup;
+    private TgmDataObject model;
     /** Creates new form DatasetContainer */
     public ModelContainer() {
         initComponents();
@@ -54,6 +61,51 @@ public class ModelContainer extends javax.swing.JPanel implements ExplorerManage
         // following line tells the top component which lookup should be associated with it
         lookup = ExplorerUtils.createLookup (manager, map);
         //new ProxyLookup(arg0)
+    }
+
+    public ModelContainer(TgmDataObject object) {
+        initComponents();
+        manager.setRootContext(new PropertiesAbstractNode("Model specification",container));//,ExplorerUtils.createLookup(manager, null)));
+        manager.addPropertyChangeListener(this);
+        model = object;
+        ActionMap map = this.getActionMap ();
+        map.put("delete", ExplorerUtils.actionDelete(manager, true)); // or false
+        InputMap keys = getInputMap(JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
+        keys.put(KeyStroke.getKeyStroke("DELETE"), "delete");
+
+        // following line tells the top component which lookup should be associated with it
+        lookup = ExplorerUtils.createLookup (manager, map);
+//==============filling up parameters ============
+        if (!model.getTgm().getDat().getKMatrixPanel().getJVector().getVector().isEmpty()){
+//============== TODO implement Kmatrix case ==============
+
+        }
+        else {
+            if (!model.getTgm().getDat().getKinparPanel().getKinpar().isEmpty()){
+                manager.getRootContext().getChildren().add(
+                        new Node[]{new KineticParametersNode(model.getTgm().getDat().getKinparPanel())});
+            }
+        }
+
+        if (!model.getTgm().getDat().getIrfparPanel().getIrf().isEmpty()&&
+                (!model.getTgm().getDat().getIrfparPanel().isMirf())){
+            manager.getRootContext().getChildren().add(
+                    new Node[]{new IrfParametersNode(model.getTgm().getDat().getIrfparPanel())});
+        }
+
+        if (model.getTgm().getDat().getIrfparPanel().getParmu()!=null){
+            manager.getRootContext().getChildren().add(
+                    new Node[]{new DispersionModelingNode(model.getTgm().getDat().getIrfparPanel().getParmu(), EnumTypes.DispersionTypes.PARMU)});
+        }
+
+        if (model.getTgm().getDat().getIrfparPanel().getPartau()!=null){
+            manager.getRootContext().getChildren().add(
+                    new Node[]{new DispersionModelingNode(model.getTgm().getDat().getIrfparPanel().getParmu(), EnumTypes.DispersionTypes.PARTAU)});
+        }
+
+
+
+
     }
 
     /** This method is called from within the constructor to

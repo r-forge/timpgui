@@ -116,7 +116,7 @@ public class GraphSceneImpl extends GraphScene { //TODO: implement <VisualAbstra
         Widget cw = null;
         if (node instanceof TgmDataNode){
             TgmDataNode myNode = (TgmDataNode) node;
-            cw = createMoveableComponent(new ModelContainer(), myNode.getDisplayName(), nodeCount++);
+            cw = createMoveableComponent(new ModelContainer(myNode.getObject()), myNode.getDisplayName(), nodeCount++);
             mainLayer.addChild(cw);
         }else {
             VisualAbstractNode myNode = (VisualAbstractNode) node;

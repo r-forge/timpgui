@@ -6,6 +6,9 @@
 package org.glotaran.core.ui.visualmodelling.nodes;
 
 import java.awt.Image;
+import java.util.List;
+import org.glotaran.core.models.tgm.KinPar;
+import org.glotaran.core.models.tgm.KinparPanelModel;
 import org.glotaran.core.ui.visualmodelling.nodes.dataobjects.NonLinearParametersKeys;
 import org.openide.nodes.PropertySupport;
 import org.openide.nodes.Sheet;
@@ -18,9 +21,17 @@ import org.openide.util.ImageUtilities;
  */
 public class KineticParametersNode extends PropertiesAbstractNode{
     private final Image ICON = ImageUtilities.loadImage("org/glotaran/core/ui/visualmodelling/resources/Kinpar_16.png", true);
+    Boolean positiveKinpar = false;
+    Boolean seqModel = false;
 
     public KineticParametersNode(){
         super("KinPar", new NonLinearParametersKeys(1));
+    }
+
+    public KineticParametersNode(KinparPanelModel kinparPanel) {
+        super("KinPar", new NonLinearParametersKeys(kinparPanel.getKinpar()));
+        setPositiveKinpar(kinparPanel.isPositivepar());
+        setSeqModel(kinparPanel.isSeqmod());
     }
 
     @Override
@@ -46,16 +57,24 @@ public class KineticParametersNode extends PropertiesAbstractNode{
         Sheet.Set set = Sheet.createPropertiesSet();
         Property numberOfComponents = null;
         Property name = null;
+        Property posKin = null;
+        Property seqMod = null;
         try {
             numberOfComponents = new PropertySupport.Reflection(this, Integer.class, "getCompNum", "setCompNum");
             name = new PropertySupport.Reflection(this, String.class, "getDisplayName", null);
+            posKin = new PropertySupport.Reflection(this, Boolean.class, "positiveKinpar");
+            seqMod = new PropertySupport.Reflection(this, Boolean.class, "seqModel");
         } catch (NoSuchMethodException ex) {
             Exceptions.printStackTrace(ex);
         }
         numberOfComponents.setName("Number of components");
         name.setName("Name");
+        posKin.setName("Positise rates");
+        seqMod.setName("Sequential model");
         set.put(name);
         set.put(numberOfComponents);
+        set.put(posKin);
+        set.put(seqMod);
         sheet.put(set);
         return sheet;
     }
@@ -74,4 +93,21 @@ public class KineticParametersNode extends PropertiesAbstractNode{
         }
         fireDisplayNameChange(null, getDisplayName());
     }
+
+    public Boolean getPositiveKinpar() {
+        return positiveKinpar;
+    }
+
+    public void setPositiveKinpar(Boolean positiveKinpar) {
+        this.positiveKinpar = positiveKinpar;
+    }
+
+    public Boolean getSeqModel() {
+        return seqModel;
+    }
+
+    public void setSeqModel(Boolean seqModel) {
+        this.seqModel = seqModel;
+    }
+
 }

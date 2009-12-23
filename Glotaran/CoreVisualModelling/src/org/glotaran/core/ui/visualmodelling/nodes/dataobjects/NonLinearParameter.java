@@ -35,6 +35,15 @@ public class NonLinearParameter {
 
     }
 
+    public NonLinearParameter(Double irfPar, Boolean fixedPar){
+        start = irfPar;
+        fixed = fixedPar;
+        constrained = new Boolean(false);
+        maximum = new Double(0.0);
+        minimum = new Double(0.0);
+
+    }
+
     public NonLinearParameter(KinPar param){
         start = param.getStart();
         fixed = param.isFixed();

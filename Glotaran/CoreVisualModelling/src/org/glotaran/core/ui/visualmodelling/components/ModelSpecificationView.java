@@ -11,6 +11,7 @@ import java.awt.dnd.DropTargetAdapter;
 import java.awt.dnd.DropTargetDragEvent;
 import java.awt.dnd.DropTargetDropEvent;
 import java.io.IOException;
+import org.glotaran.core.main.mesages.CoreErrorMessages;
 import org.glotaran.core.ui.visualmodelling.nodes.CohSpecNode;
 import org.glotaran.core.ui.visualmodelling.nodes.DispersionModelingNode;
 import org.glotaran.core.ui.visualmodelling.nodes.IrfParametersNode;
@@ -62,16 +63,33 @@ public class ModelSpecificationView extends TreeTableView {
              PaletteItem item = null;
              try {
                  item = (PaletteItem) dtde.getTransferable().getTransferData(PaletteNode.DATA_FLAVOR);
-//               TimpDatasetNode n = (TimpDatasetNode)dtde.getTransferable().getTransferData(TimpDatasetNode.DATA_FLAVOR);
-//               TopComponent currentTopComponent = (TopComponent)Utilities.actionsGlobalContext().lookup(TopComponent.class);
-//               ExplorerManager.find(currentTopComponent).getRootContext().getChildren().add(new Node[]{n});
-               
+                 Children nodes = ExplorerManager.find(getParent()).getRootContext().getChildren();
+                 boolean present = false;
                  if (item.getName().equalsIgnoreCase("Kinetic Parameters")){
-                     ExplorerManager.find(getParent()).getRootContext().getChildren().add(new Node[]{new KineticParametersNode()});
+                     for (int i = 0; i < nodes.getNodesCount(); i ++){
+                         if (nodes.getNodes()[i] instanceof KineticParametersNode){
+                             present = true;
+                         }
+                     }
+                     if (!present){
+                         nodes.add(new Node[]{new KineticParametersNode()});
+                     }
+                     else {
+                         CoreErrorMessages.parametersExists("Kinetic parameters ");
+                     }
                  }
                  else {
-                     if(item.getName().equalsIgnoreCase("IRF Parameters")){
-                         ExplorerManager.find(getParent()).getRootContext().getChildren().add(new Node[]{new IrfParametersNode()});
+                     if (item.getName().equalsIgnoreCase("IRF Parameters")) {
+                         for (int i = 0; i < nodes.getNodesCount(); i++) {
+                             if (nodes.getNodes()[i] instanceof IrfParametersNode) {
+                                 present = true;
+                             }
+                         }
+                         if (!present) {
+                             nodes.add(new Node[]{new IrfParametersNode()});
+                         } else {
+                             CoreErrorMessages.parametersExists("IRF Parameters ");
+                         }
                      }
                      else {
                          if (item.getName().equalsIgnoreCase("Dispersion")) {
@@ -80,10 +98,12 @@ public class ModelSpecificationView extends TreeTableView {
                          else {
                              if (item.getName().equalsIgnoreCase("Cohspec Parameters")) {
                                  ExplorerManager.find(getParent()).getRootContext().getChildren().add(new Node[]{new CohSpecNode()});
-                             } else {
+                             }
+                             else {
                                  if (item.getName().equalsIgnoreCase("Weight Parameters")) {
                                      ExplorerManager.find(getParent()).getRootContext().getChildren().add(new Node[]{new WeightParametersNode()});
-                                 } else {
+                                 }
+                                 else {
                                      ExplorerManager.find(getParent()).getRootContext().getChildren().add(new Node[]{new AbstractNode(Children.LEAF)});
                                  }
                              }

@@ -140,5 +140,11 @@ public class CoreErrorMessages {
         DialogDisplayer.getDefault().notify(errorMessage);
     }
 
+    public static void parametersExists(String paramName){
+        NotifyDescriptor errorMessage =new NotifyDescriptor.Exception(
+                new Exception(paramName + NbBundle.getBundle("org/glotaran/core/main/Bundle").getString("parametersExists")));
+        DialogDisplayer.getDefault().notify(errorMessage);
+    }
+
 
 }

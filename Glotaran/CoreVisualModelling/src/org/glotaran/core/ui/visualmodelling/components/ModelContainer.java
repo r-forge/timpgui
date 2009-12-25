@@ -23,6 +23,7 @@ import org.glotaran.core.ui.visualmodelling.nodes.DispersionModelingNode;
 import org.glotaran.core.ui.visualmodelling.nodes.IrfParametersNode;
 import org.glotaran.core.ui.visualmodelling.nodes.KineticParametersNode;
 import org.glotaran.core.ui.visualmodelling.nodes.PropertiesAbstractNode;
+import org.glotaran.core.ui.visualmodelling.nodes.WeightParametersNode;
 import org.glotaran.tgmfilesupport.TgmDataObject;
 import org.openide.explorer.ExplorerManager;
 import org.openide.explorer.ExplorerUtils;
@@ -93,14 +94,19 @@ public class ModelContainer extends javax.swing.JPanel implements ExplorerManage
                     new Node[]{new IrfParametersNode(model.getTgm().getDat().getIrfparPanel())});
         }
 
-        if (model.getTgm().getDat().getIrfparPanel().getParmu()!=null){
+        if (model.getTgm().getDat().getIrfparPanel().getParmu().length()!=0){
             manager.getRootContext().getChildren().add(
                     new Node[]{new DispersionModelingNode(model.getTgm().getDat().getIrfparPanel().getParmu(), EnumTypes.DispersionTypes.PARMU)});
         }
 
-        if (model.getTgm().getDat().getIrfparPanel().getPartau()!=null){
+        if (model.getTgm().getDat().getIrfparPanel().getPartau().length()!=0){
             manager.getRootContext().getChildren().add(
                     new Node[]{new DispersionModelingNode(model.getTgm().getDat().getIrfparPanel().getParmu(), EnumTypes.DispersionTypes.PARTAU)});
+        }
+
+        if (!model.getTgm().getDat().getWeightParPanel().getWeightpar().isEmpty()){
+            manager.getRootContext().getChildren().add(
+                    new Node[]{new WeightParametersNode(model.getTgm().getDat().getWeightParPanel().getWeightpar())});
         }
 
 

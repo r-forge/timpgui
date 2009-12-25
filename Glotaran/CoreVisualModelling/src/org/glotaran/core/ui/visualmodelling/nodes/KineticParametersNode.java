@@ -6,8 +6,6 @@
 package org.glotaran.core.ui.visualmodelling.nodes;
 
 import java.awt.Image;
-import java.util.List;
-import org.glotaran.core.models.tgm.KinPar;
 import org.glotaran.core.models.tgm.KinparPanelModel;
 import org.glotaran.core.ui.visualmodelling.nodes.dataobjects.NonLinearParametersKeys;
 import org.openide.nodes.PropertySupport;

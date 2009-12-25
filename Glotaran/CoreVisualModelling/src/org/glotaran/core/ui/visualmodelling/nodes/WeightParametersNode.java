@@ -6,6 +6,8 @@
 package org.glotaran.core.ui.visualmodelling.nodes;
 
 import java.awt.Image;
+import java.util.List;
+import org.glotaran.core.models.tgm.WeightPar;
 import org.glotaran.core.ui.visualmodelling.nodes.dataobjects.WeightParametersKeys;
 import org.openide.nodes.PropertySupport;
 import org.openide.nodes.Sheet;
@@ -21,6 +23,11 @@ public class WeightParametersNode extends PropertiesAbstractNode{
 
     public WeightParametersNode(){
         super("WeightPar", new WeightParametersKeys(1));
+    }
+
+    public WeightParametersNode(List<WeightPar> weightpar) {
+        super("WeightPar", new WeightParametersKeys(weightpar));
+        
     }
 
     @Override

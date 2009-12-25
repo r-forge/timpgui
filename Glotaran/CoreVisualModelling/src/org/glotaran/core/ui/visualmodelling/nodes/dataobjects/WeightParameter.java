@@ -5,6 +5,8 @@
 
 package org.glotaran.core.ui.visualmodelling.nodes.dataobjects;
 
+import org.glotaran.core.models.tgm.WeightPar;
+
 /**
  *
  * @author lsp
@@ -23,6 +25,14 @@ public class WeightParameter {
         max2=null;
         weight = 1.0;
 
+    }
+
+    WeightParameter(WeightPar parameter) {
+        min1 = parameter.getMin1();
+        min2 = parameter.getMin2();
+        max1 = parameter.getMax1();
+        max2 = parameter.getMax2();
+        weight = parameter.getWeight();
     }
 
     public Double getMax1() {

@@ -7,6 +7,7 @@ package org.glotaran.core.ui.visualmodelling.nodes.dataobjects;
 
 import java.util.ArrayList;
 import java.util.List;
+import org.glotaran.core.models.tgm.WeightPar;
 import org.glotaran.core.ui.visualmodelling.nodes.WeighParametersSubNode;
 import org.openide.nodes.Children;
 import org.openide.nodes.Node;
@@ -22,6 +23,15 @@ public class WeightParametersKeys extends Children.Keys{
         parameters = new ArrayList<WeightParameter>();
         for (int i = 0; i<paramNum; i++){
             parameters.add(new WeightParameter());
+        }
+    }
+
+    public WeightParametersKeys(List<WeightPar> weightpar) {
+        parameters = new ArrayList<WeightParameter>();
+        if (weightpar!=null){
+            for (int i = 0; i < weightpar.size(); i++){
+               parameters.add(new WeightParameter(weightpar.get(i)));
+            }
         }
     }
 

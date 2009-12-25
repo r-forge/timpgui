@@ -17,7 +17,7 @@ import org.openide.nodes.Node;
  * @author slapten
  */
 public class NonLinearParametersKeys  extends Children.Keys{
-    private List<NonLinearParameter> parameters;
+    protected List<NonLinearParameter> parameters;
 
     public NonLinearParametersKeys(int paramNum){
         parameters = new ArrayList<NonLinearParameter>();

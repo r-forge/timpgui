@@ -96,12 +96,12 @@ public class ModelContainer extends javax.swing.JPanel implements ExplorerManage
 
         if (model.getTgm().getDat().getIrfparPanel().getParmu().length()!=0){
             manager.getRootContext().getChildren().add(
-                    new Node[]{new DispersionModelingNode(model.getTgm().getDat().getIrfparPanel().getParmu(), EnumTypes.DispersionTypes.PARMU)});
+                    new Node[]{new DispersionModelingNode(model.getTgm().getDat().getIrfparPanel(), EnumTypes.DispersionTypes.PARMU)});
         }
 
         if (model.getTgm().getDat().getIrfparPanel().getPartau().length()!=0){
             manager.getRootContext().getChildren().add(
-                    new Node[]{new DispersionModelingNode(model.getTgm().getDat().getIrfparPanel().getParmu(), EnumTypes.DispersionTypes.PARTAU)});
+                    new Node[]{new DispersionModelingNode(model.getTgm().getDat().getIrfparPanel(), EnumTypes.DispersionTypes.PARTAU)});
         }
 
         if (!model.getTgm().getDat().getWeightParPanel().getWeightpar().isEmpty()){
@@ -124,10 +124,6 @@ public class ModelContainer extends javax.swing.JPanel implements ExplorerManage
 
         panel = new javax.swing.JPanel();
         remove = new javax.swing.JButton();
-        jCheckBox1 = new javax.swing.JCheckBox();
-        jCheckBox2 = new javax.swing.JCheckBox();
-        jComboBox1 = new javax.swing.JComboBox();
-        jComboBox2 = new javax.swing.JComboBox();
 
         setMaximumSize(new java.awt.Dimension(160, 250));
         setMinimumSize(new java.awt.Dimension(160, 250));
@@ -151,48 +147,21 @@ public class ModelContainer extends javax.swing.JPanel implements ExplorerManage
             }
         });
 
-        jCheckBox1.setText(org.openide.util.NbBundle.getMessage(ModelContainer.class, "ModelContainer.jCheckBox1.text")); // NOI18N
-
-        jCheckBox2.setText(org.openide.util.NbBundle.getMessage(ModelContainer.class, "ModelContainer.jCheckBox2.text")); // NOI18N
-
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-
-        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(panel, javax.swing.GroupLayout.DEFAULT_SIZE, 160, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jCheckBox1)
-                    .addComponent(jCheckBox2))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 65, Short.MAX_VALUE)
                 .addComponent(remove, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
-            .addComponent(panel, javax.swing.GroupLayout.DEFAULT_SIZE, 160, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(panel, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addComponent(panel, javax.swing.GroupLayout.DEFAULT_SIZE, 218, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jCheckBox1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jCheckBox2))
-                    .addComponent(remove))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(remove))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -202,10 +171,6 @@ public class ModelContainer extends javax.swing.JPanel implements ExplorerManage
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JCheckBox jCheckBox1;
-    private javax.swing.JCheckBox jCheckBox2;
-    private javax.swing.JComboBox jComboBox1;
-    private javax.swing.JComboBox jComboBox2;
     private javax.swing.JPanel panel;
     private javax.swing.JButton remove;
     // End of variables declaration//GEN-END:variables

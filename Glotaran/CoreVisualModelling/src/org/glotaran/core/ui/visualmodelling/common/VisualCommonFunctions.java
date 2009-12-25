@@ -9,6 +9,7 @@ import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
 import java.awt.datatransfer.UnsupportedFlavorException;
 import java.io.IOException;
+import java.util.ArrayList;
 import org.glotaran.core.ui.visualmodelling.palette.PaletteItem;
 import org.glotaran.tgmfilesupport.TgmDataNode;
 import org.openide.filesystems.FileObject;
@@ -32,6 +33,16 @@ public class VisualCommonFunctions {
             ex.printStackTrace();
         }
         return o instanceof PaletteItem ? (PaletteItem) o : null; //TODO: not null
+    }
+
+        public static ArrayList<Double> strToParams(String paramStr){
+        ArrayList<Double> paramList = new ArrayList<Double>();
+        String[] paramStrArr = paramStr.split(",");
+        for (int i = 0; i < paramStrArr.length; i++){
+            paramList.add(Double.parseDouble(paramStrArr[i]));
+        }
+//        StringTools.getListFromCsv(paramStr);
+        return paramList;
     }
 
 }

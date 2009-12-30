@@ -6,6 +6,8 @@
 package org.glotaran.core.ui.visualmodelling.nodes;
 
 import java.awt.Image;
+import org.glotaran.core.models.tgm.CohspecPanelModel;
+import org.glotaran.core.ui.visualmodelling.common.EnumPropertyEditor;
 import org.glotaran.core.ui.visualmodelling.common.EnumTypes;
 import org.glotaran.core.ui.visualmodelling.common.EnumTypes.CohSpecTypes;
 import org.openide.nodes.Children;
@@ -28,6 +30,18 @@ public class CohSpecNode extends PropertiesAbstractNode {
 
     public CohSpecNode(){
          super("CohSpec", Children.LEAF);
+    }
+
+    public CohSpecNode(CohspecPanelModel cohspecPanel) {
+         super("CohSpec", Children.LEAF);
+         if (cohspecPanel.isClp0Enabled()!=null){
+            setClpzero(cohspecPanel.isClp0Enabled());
+         }
+         if (clpzero){
+             setClpMin(cohspecPanel.getClp0Min());
+             setClpMax(cohspecPanel.getClp0Max());
+         }
+         setCohSpecType(cohSpecType.setFromStr(cohspecPanel.getCohspec().getType()));
     }
 
         @Override
@@ -106,7 +120,7 @@ public class CohSpecNode extends PropertiesAbstractNode {
 
         try {
             cohType = new PropertySupport.Reflection(this, EnumTypes.CohSpecTypes.class, "cohSpecType");
-//            dispType.setPropertyEditorClass(DispTypePropertyEditor.class); //EnumPropertyEditor.class;
+            cohType.setPropertyEditorClass(EnumPropertyEditor.class); //EnumPropertyEditor.class;
             clpzer = new PropertySupport.Reflection(this, Boolean.class, "clpzero");
             name = new PropertySupport.Reflection(this, String.class, "getDisplayName", null);
         } catch (NoSuchMethodException ex) {

@@ -3,27 +3,22 @@ package org.glotaran.core.ui.visualmodelling.common;
 import java.beans.PropertyEditorSupport;
 
 public class EnumPropertyEditor extends PropertyEditorSupport {
-
-    private String[] mTags;
-    private Object[] mValues;
-
-    public EnumPropertyEditor(String[] tags, Object[] values) {
+    public EnumPropertyEditor() {
         super();
-        mTags = tags;
-        mValues = values;
     }
 
     @Override
     public String[] getTags() {
-        return mTags;
+        return EnumTypes.getStrNames(getValue());
     }
 
     @Override
     public String getAsText() {
         Object obj = getValue();
+        Object[] mValues = EnumTypes.getTagsNames(obj);
         for (int i = 0; i < mValues.length; i++) {
             if (obj.equals(mValues[i])) {
-                return mTags[i];
+                return EnumTypes.getStrNames(obj)[i];
             }
         }
         return null;
@@ -31,9 +26,10 @@ public class EnumPropertyEditor extends PropertyEditorSupport {
 
     @Override
     public void setAsText(String str) {
+        String[] mTags = EnumTypes.getStrNames(getValue());
         for (int i = 0; i < mTags.length; i++) {
             if (str.equals(mTags[i])) {
-                setValue(mValues[i]);
+                setValue(EnumTypes.getTagsNames(getValue())[i]);
                 return;
             }
         }

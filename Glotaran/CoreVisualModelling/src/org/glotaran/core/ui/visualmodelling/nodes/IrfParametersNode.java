@@ -7,8 +7,8 @@ package org.glotaran.core.ui.visualmodelling.nodes;
 
 import java.awt.Image;
 import org.glotaran.core.models.tgm.IrfparPanelModel;
+import org.glotaran.core.ui.visualmodelling.common.EnumPropertyEditor;
 import org.glotaran.core.ui.visualmodelling.common.EnumTypes;
-import org.glotaran.core.ui.visualmodelling.common.IRFTypePropertyEditor;
 import org.glotaran.core.ui.visualmodelling.nodes.dataobjects.IrfParametersKeys;
 import org.openide.nodes.PropertySupport;
 import org.openide.nodes.Sheet;
@@ -104,7 +104,7 @@ public class IrfParametersNode extends PropertiesAbstractNode {
         Property sweep = null;
        try {
             irfType = new PropertySupport.Reflection(this, EnumTypes.IRFTypes.class, "getIRFType", "setIRFType");
-            irfType.setPropertyEditorClass(IRFTypePropertyEditor.class);
+            irfType.setPropertyEditorClass(EnumPropertyEditor.class);
             name = new PropertySupport.Reflection(this, String.class, "getDisplayName", null);
             sweep = new PropertySupport.Reflection(this, Boolean.class, "backSweep");
         } catch (NoSuchMethodException ex) {

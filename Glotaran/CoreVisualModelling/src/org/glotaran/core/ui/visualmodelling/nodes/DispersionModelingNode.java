@@ -8,7 +8,6 @@ package org.glotaran.core.ui.visualmodelling.nodes;
 import java.awt.Image;
 import java.util.ArrayList;
 import org.glotaran.core.models.tgm.IrfparPanelModel;
-import org.glotaran.core.ui.visualmodelling.common.DispTypePropertyEditor;
 import org.glotaran.core.ui.visualmodelling.common.EnumPropertyEditor;
 import org.glotaran.core.ui.visualmodelling.common.EnumTypes;
 import org.glotaran.core.ui.visualmodelling.common.EnumTypes.DispersionTypes;
@@ -78,12 +77,9 @@ public class DispersionModelingNode extends PropertiesAbstractNode {
         Property name = null;
         Property lambdaC = null;
         PropertySupport.Reflection dispType = null;
-        EnumPropertyEditor editor = new EnumPropertyEditor(
-                new String[]{"Parmu", "ParTau"},
-                new Object[]{EnumTypes.DispersionTypes.PARMU,EnumTypes.DispersionTypes.PARTAU});
         try {
             dispType = new PropertySupport.Reflection(this, EnumTypes.DispersionTypes.class, "disptype");
-            dispType.setPropertyEditorClass(DispTypePropertyEditor.class); //EnumPropertyEditor.class;
+            dispType.setPropertyEditorClass(EnumPropertyEditor.class); 
             numberOfComponents = new PropertySupport.Reflection(this, Integer.class, "getCompNum", "setCompNum");
             name = new PropertySupport.Reflection(this, String.class, "getDisplayName", null);
             lambdaC = new PropertySupport.Reflection(this, Double.class,"centralWave");

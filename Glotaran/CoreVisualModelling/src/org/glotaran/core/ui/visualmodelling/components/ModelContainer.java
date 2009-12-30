@@ -19,6 +19,7 @@ import javax.swing.InputMap;
 import javax.swing.JComponent;
 import javax.swing.KeyStroke;
 import org.glotaran.core.ui.visualmodelling.common.EnumTypes;
+import org.glotaran.core.ui.visualmodelling.nodes.CohSpecNode;
 import org.glotaran.core.ui.visualmodelling.nodes.DispersionModelingNode;
 import org.glotaran.core.ui.visualmodelling.nodes.IrfParametersNode;
 import org.glotaran.core.ui.visualmodelling.nodes.KineticParametersNode;
@@ -109,6 +110,10 @@ public class ModelContainer extends javax.swing.JPanel implements ExplorerManage
                     new Node[]{new WeightParametersNode(model.getTgm().getDat().getWeightParPanel().getWeightpar())});
         }
 
+        if (model.getTgm().getDat().getCohspecPanel().getCohspec().isSet()){
+            manager.getRootContext().getChildren().add(
+                    new Node[]{new CohSpecNode(model.getTgm().getDat().getCohspecPanel())});
+        }
 
 
 

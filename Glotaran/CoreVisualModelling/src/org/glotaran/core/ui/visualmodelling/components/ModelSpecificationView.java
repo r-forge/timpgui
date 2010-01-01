@@ -32,10 +32,10 @@ import org.openide.util.Exceptions;
  */
 public class ModelSpecificationView extends TreeTableView {
 
-      public ModelSpecificationView() {
+    public ModelSpecificationView() {
           setRootVisible(false);
           setDropTarget();
-   }
+    }
 
    private void setDropTarget() {
       DropTarget dt = new DropTarget(this, new DropTargetAdapter() {

@@ -6,6 +6,7 @@
 package org.glotaran.core.ui.visualmodelling.nodes;
 
 import java.awt.Image;
+import java.beans.PropertyChangeEvent;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.Action;
@@ -68,5 +69,9 @@ public class PropertiesAbstractNode extends AbstractNode {
 
     public void updateName(){
         fireNameChange(null, getDisplayName());
+    }
+    
+    public void fire(int index, PropertyChangeEvent evt){
+        
     }
 }

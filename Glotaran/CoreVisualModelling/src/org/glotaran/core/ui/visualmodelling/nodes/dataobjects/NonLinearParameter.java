@@ -27,7 +27,7 @@ public class NonLinearParameter {
 
 
     public NonLinearParameter(){
-        start = new Double(1.0);
+        start = new Double(0.0);
         fixed = new Boolean(false);
         constrained = new Boolean(false);
         maximum = new Double(0.0);

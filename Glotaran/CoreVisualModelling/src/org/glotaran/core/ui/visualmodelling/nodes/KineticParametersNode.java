@@ -6,12 +6,16 @@
 package org.glotaran.core.ui.visualmodelling.nodes;
 
 import java.awt.Image;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import org.glotaran.core.models.tgm.KinparPanelModel;
+import org.glotaran.core.ui.visualmodelling.components.ModelContainer;
 import org.glotaran.core.ui.visualmodelling.nodes.dataobjects.NonLinearParametersKeys;
 import org.openide.nodes.PropertySupport;
 import org.openide.nodes.Sheet;
 import org.openide.util.Exceptions;
 import org.openide.util.ImageUtilities;
+import org.openide.util.WeakListeners;
 
 /**
  *
@@ -21,15 +25,20 @@ public class KineticParametersNode extends PropertiesAbstractNode{
     private final Image ICON = ImageUtilities.loadImage("org/glotaran/core/ui/visualmodelling/resources/Kinpar_16.png", true);
     Boolean positiveKinpar = false;
     Boolean seqModel = false;
+    PropertyChangeListener propListner;
 
     public KineticParametersNode(){
         super("KinPar", new NonLinearParametersKeys(1));
+//        propListner = listn;
+//        addPropertyChangeListener(WeakListeners.propertyChange(propListner, this));
     }
 
-    public KineticParametersNode(KinparPanelModel kinparPanel) {
+    public KineticParametersNode(KinparPanelModel kinparPanel, PropertyChangeListener listn) {
         super("KinPar", new NonLinearParametersKeys(kinparPanel.getKinpar()));
-        setPositiveKinpar(kinparPanel.isPositivepar());
-        setSeqModel(kinparPanel.isSeqmod());
+        positiveKinpar = (kinparPanel.isPositivepar());
+        seqModel = (kinparPanel.isSeqmod());
+        propListner = listn;
+        addPropertyChangeListener(WeakListeners.propertyChange(propListner, this));
     }
 
     @Override
@@ -90,6 +99,8 @@ public class KineticParametersNode extends PropertiesAbstractNode{
             childColection.removeParams(currCompNum-compNum);
         }
         fireDisplayNameChange(null, getDisplayName());
+//        propListner.propertyChange(new PropertyChangeEvent(this, "Number of components", new Integer(currCompNum), compNum));
+        firePropertyChange("Number of components", new Integer(currCompNum), compNum);
     }
 
     public Boolean getPositiveKinpar() {
@@ -98,6 +109,7 @@ public class KineticParametersNode extends PropertiesAbstractNode{
 
     public void setPositiveKinpar(Boolean positiveKinpar) {
         this.positiveKinpar = positiveKinpar;
+        propListner.propertyChange(new PropertyChangeEvent(this, "Positise rates", null, positiveKinpar));
     }
 
     public Boolean getSeqModel() {
@@ -106,6 +118,13 @@ public class KineticParametersNode extends PropertiesAbstractNode{
 
     public void setSeqModel(Boolean seqModel) {
         this.seqModel = seqModel;
+        propListner.propertyChange(new PropertyChangeEvent(this, "Sequential model", null, seqModel));
     }
 
+    @Override
+    public void fire(int index, PropertyChangeEvent evt){
+        if ("start".equals(evt.getPropertyName())) {
+            evt.getOldValue();
+        }
+    }
 }

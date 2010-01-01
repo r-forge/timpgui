@@ -18,6 +18,7 @@ import javax.swing.ActionMap;
 import javax.swing.InputMap;
 import javax.swing.JComponent;
 import javax.swing.KeyStroke;
+import org.glotaran.core.models.tgm.KinPar;
 import org.glotaran.core.ui.visualmodelling.common.EnumTypes;
 import org.glotaran.core.ui.visualmodelling.nodes.CohSpecNode;
 import org.glotaran.core.ui.visualmodelling.nodes.DispersionModelingNode;
@@ -85,7 +86,7 @@ public class ModelContainer extends javax.swing.JPanel implements ExplorerManage
         else {
             if (!model.getTgm().getDat().getKinparPanel().getKinpar().isEmpty()){
                 manager.getRootContext().getChildren().add(
-                        new Node[]{new KineticParametersNode(model.getTgm().getDat().getKinparPanel())});
+                        new Node[]{new KineticParametersNode(model.getTgm().getDat().getKinparPanel(), this)});
             }
         }
 
@@ -195,5 +196,29 @@ public class ModelContainer extends javax.swing.JPanel implements ExplorerManage
                 ExplorerManager.PROP_SELECTED_NODES.equals(evt.getPropertyName())) {
             WindowManager.getDefault().getRegistry().getActivated().setActivatedNodes(manager.getSelectedNodes());
         }
+        if (evt.getSource().getClass().equals(KineticParametersNode.class)){
+            if (evt.getPropertyName().equalsIgnoreCase("Number of components")){
+                if ((Integer)evt.getNewValue()>(Integer)evt.getOldValue()){
+                    for (int i = 0; i < (Integer)evt.getNewValue()-(Integer)evt.getOldValue(); i++){
+                        model.getTgm().getDat().getKinparPanel().getKinpar().add(new KinPar());
+                    }
+                } else {
+                        for (int i = 0; i < (Integer)evt.getOldValue()-(Integer)evt.getNewValue(); i++){
+                            model.getTgm().getDat().getKinparPanel().getKinpar().remove(
+                                    model.getTgm().getDat().getKinparPanel().getKinpar().size()-1);
+                    }
+                }
+            }
+            if (evt.getPropertyName().equalsIgnoreCase("Positise rates")){
+                model.getTgm().getDat().getKinparPanel().setPositivepar((Boolean)evt.getNewValue());
+            }
+            if (evt.getPropertyName().equalsIgnoreCase("Sequential model")){
+                model.getTgm().getDat().getKinparPanel().setSeqmod((Boolean)evt.getNewValue());
+            }
+
+            model.modelUpdatedFromUI();
+        }
+
+
     }
 }

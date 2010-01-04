@@ -6,7 +6,9 @@
 package org.glotaran.core.ui.visualmodelling.nodes;
 
 import java.awt.Image;
+import java.awt.datatransfer.Transferable;
 import java.beans.PropertyChangeEvent;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.Action;
@@ -14,8 +16,11 @@ import org.openide.actions.DeleteAction;
 import org.openide.actions.PropertiesAction;
 import org.openide.nodes.AbstractNode;
 import org.openide.nodes.Children;
+import org.openide.nodes.Node;
+import org.openide.nodes.NodeTransfer;
 import org.openide.util.Lookup;
 import org.openide.util.actions.SystemAction;
+import org.openide.util.datatransfer.PasteType;
 
 
 /**

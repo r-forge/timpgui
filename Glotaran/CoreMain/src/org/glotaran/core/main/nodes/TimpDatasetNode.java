@@ -9,11 +9,15 @@ import java.awt.Image;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
 import java.awt.datatransfer.UnsupportedFlavorException;
+import java.io.IOException;
 import org.glotaran.core.main.nodes.dataobjects.TimpDatasetDataObject;
 import org.openide.loaders.DataNode;
 import org.openide.nodes.Children;
+import org.openide.nodes.Node;
+import org.openide.nodes.NodeTransfer;
 import org.openide.util.ImageUtilities;
 import org.openide.util.Lookup;
+import org.openide.util.datatransfer.PasteType;
 import org.openide.util.lookup.Lookups;
 
 /**

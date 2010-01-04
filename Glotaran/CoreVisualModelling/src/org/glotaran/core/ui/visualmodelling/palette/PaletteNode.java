@@ -49,6 +49,4 @@ public class PaletteNode extends AbstractNode implements Transferable {
     public Transferable drag() throws IOException {
         return this;
     }
-
-
 }

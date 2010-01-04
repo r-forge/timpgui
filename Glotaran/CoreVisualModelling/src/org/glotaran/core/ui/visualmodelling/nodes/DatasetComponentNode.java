@@ -6,12 +6,16 @@
 package org.glotaran.core.ui.visualmodelling.nodes;
 
 import java.awt.Image;
+import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
+import java.awt.datatransfer.UnsupportedFlavorException;
 import java.io.IOException;
-import java.util.List;
 import org.glotaran.core.main.nodes.TimpDatasetNode;
-import org.glotaran.core.ui.visualmodelling.components.DummyChildFactory;
+import org.glotaran.core.ui.visualmodelling.palette.PaletteItem;
 import org.openide.nodes.Children;
+import org.openide.nodes.Node;
+import org.openide.nodes.NodeTransfer;
+import org.openide.util.Exceptions;
 import org.openide.util.ImageUtilities;
 import org.openide.util.datatransfer.PasteType;
 
@@ -19,9 +23,10 @@ import org.openide.util.datatransfer.PasteType;
  *
  * @author jsg210
  */
-public class DatasetComponentNode extends PropertiesAbstractNode {
+public class DatasetComponentNode extends PropertiesAbstractNode implements Transferable{
 
     private final Image ICON = ImageUtilities.loadImage("org/glotaran/core/main/resources/doc.png", true);
+    public static final DataFlavor DATA_FLAVOR = new DataFlavor(DatasetComponentNode.class, "DatasetComponentNode");
 
     private TimpDatasetNode tdn;
 
@@ -47,13 +52,58 @@ public class DatasetComponentNode extends PropertiesAbstractNode {
 
     @Override
     public Transferable drag() throws IOException {
-        return super.drag();
+        return this;
     }
 
     @Override
     public PasteType getDropType(Transferable t, int action, int index) {
-        return super.getDropType(t, action, index);
+        if (t.isDataFlavorSupported(PaletteItem.DATA_FLAVOR)){
+            try {
+                final PaletteItem pi = (PaletteItem)t.getTransferData(PaletteItem.DATA_FLAVOR);
+                return new PasteType() {
+                    @Override
+                    public Transferable paste() throws IOException {
+                        if (pi.getName().equals("FreeParam")){
+                        getChildren().add(new Node[]{
+                            new FreeParametersNode()});
+                        }
+//                        names.add(node.getDisplayName());
+//                        refresh(true);
+                        return null;
+                    }
+                };
+
+            } catch (UnsupportedFlavorException ex) {
+                Exceptions.printStackTrace(ex);
+            } catch (IOException ex) {
+                Exceptions.printStackTrace(ex);
+            }
+            return null;
+        }
+        else {
+            return null;
+        }
     }
+
+    public DataFlavor[] getTransferDataFlavors() {
+      return(new DataFlavor[]{DATA_FLAVOR});
+   }
+
+   public boolean isDataFlavorSupported(DataFlavor flavor) {
+      return(flavor == DATA_FLAVOR);
+   }
+
+   public Object getTransferData(DataFlavor flavor) throws UnsupportedFlavorException {
+      if(flavor == DATA_FLAVOR) {
+         return(this);
+      } else {
+         throw new UnsupportedFlavorException(flavor);
+      }
+   }
+
+
+
+
 
    
 }

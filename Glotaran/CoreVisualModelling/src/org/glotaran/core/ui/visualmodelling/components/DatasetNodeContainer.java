@@ -9,8 +9,6 @@ import org.openide.nodes.Index;
 import org.openide.nodes.Node;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.ListIterator;
-import java.util.Vector;
 import java.util.logging.Logger;
 
 /**
@@ -31,18 +29,5 @@ public final class DatasetNodeContainer extends Index.ArrayChildren {
    protected List<Node> initCollection() {
       return list;
    }
-
-//   public ListIterator<TimpDatasetNode> getRemaining(Node current) {
-//      Vector<TimpDatasetNode> v = new Vector<TimpDatasetNode>();
-//      for (Node n : list.subList(indexOf(current), list.size())) {
-//         v.add(n.getLookup().lookup(TimpDatasetNode.class));
-//      }
-//      return(v.listIterator());
-//   }
-
-   public void add(Node n) {
-      add(new Node[]{n});
-   }
-
 
 }

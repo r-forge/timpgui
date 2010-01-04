@@ -72,7 +72,7 @@ public class ModelContainer extends javax.swing.JPanel implements ExplorerManage
         manager.addPropertyChangeListener(this);
         model = object;
         ActionMap map = this.getActionMap ();
-        map.put("delete", ExplorerUtils.actionDelete(manager, true)); // or false
+        map.put("delete", ExplorerUtils.actionDelete(manager, false)); // or false
         InputMap keys = getInputMap(JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
         keys.put(KeyStroke.getKeyStroke("DELETE"), "delete");
 

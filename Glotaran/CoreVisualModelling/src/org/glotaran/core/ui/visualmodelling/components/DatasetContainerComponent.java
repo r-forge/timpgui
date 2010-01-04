@@ -15,38 +15,42 @@ import javax.swing.ActionMap;
 import javax.swing.InputMap;
 import javax.swing.JComponent;
 import javax.swing.KeyStroke;
+import org.glotaran.core.ui.visualmodelling.nodes.DatasetsRootNode;
 import org.openide.explorer.ExplorerManager;
 import org.openide.explorer.ExplorerUtils;
-import org.openide.nodes.AbstractNode;
+import org.openide.nodes.Index;
 import org.openide.util.Lookup;
+import org.openide.windows.TopComponent;
 
 /**
  *
  * @author slk230
  */
-public class DatasetContainerComponent extends javax.swing.JPanel implements ExplorerManager.Provider, Lookup.Provider {
+public class DatasetContainerComponent extends TopComponent implements ExplorerManager.Provider, Lookup.Provider {
 
 /** path to the icon used by the component and its open action */
 //    static final String ICON_PATH = "SET/PATH/TO/ICON/HERE";
 
     private static final String PREFERRED_ID = "DatasetsListView";
 
-    private ExplorerManager manager   = new ExplorerManager();
-    private DatasetSpecificationView    datasetView  = new DatasetSpecificationView();
-    private DatasetNodeContainer   container = new DatasetNodeContainer();
+    private ExplorerManager manager = new ExplorerManager();
+    private DatasetSpecificationView datasetView  = new DatasetSpecificationView();
+    private DatasetNodeContainer container = new DatasetNodeContainer();
     private Lookup lookup;
 
     /** Creates new form DatasetContainerComponent */
     public DatasetContainerComponent() {
         initComponents();
         jPDatasetsPanel.add(datasetView);
-        manager.setRootContext(new AbstractNode(container));//,ExplorerUtils.createLookup(manager, null)));
-        //new ProxyLookup(arg0)
+        manager.setRootContext(new DatasetsRootNode(new Index.ArrayChildren()));
+//        ExplorerUtils.createLookup(manager, null)));
+//        new ProxyLookup(arg0)
         ActionMap map = this.getActionMap ();
         map.put("delete", ExplorerUtils.actionDelete(manager, true)); // or false
-
         InputMap keys = getInputMap(JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
         keys.put(KeyStroke.getKeyStroke("DELETE"), "delete");
+        lookup = ExplorerUtils.createLookup(manager, map);
+        associateLookup(lookup);
     }
 
     /** This method is called from within the constructor to

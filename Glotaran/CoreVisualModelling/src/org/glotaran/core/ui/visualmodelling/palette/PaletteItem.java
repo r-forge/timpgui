@@ -6,18 +6,24 @@
 package org.glotaran.core.ui.visualmodelling.palette;
 
 import java.awt.Image;
+import java.awt.datatransfer.DataFlavor;
+import java.awt.datatransfer.Transferable;
+import java.awt.datatransfer.UnsupportedFlavorException;
+import java.io.IOException;
 
 /**
  *
  * @author jsg210
  */
-public class PaletteItem {
+public class PaletteItem implements Transferable {
 
     private Integer number;
     private String category;
     private String name;
     private Image image;
     private String imageLocation;
+    public static final DataFlavor DATA_FLAVOR = new DataFlavor(PaletteItem.class, "PaletteItem");
+
 
     /** Creates a new instance of Instrument */
     public PaletteItem() {
@@ -62,5 +68,22 @@ public class PaletteItem {
     public String getImageLocation() {
         return imageLocation;
     }
+
+   public DataFlavor[] getTransferDataFlavors() {
+        return new DataFlavor[]{DATA_FLAVOR};
+    }
+
+    public boolean isDataFlavorSupported(DataFlavor flavor) {
+        return flavor == DATA_FLAVOR;
+    }
+
+    public Object getTransferData(DataFlavor flavor) throws UnsupportedFlavorException, IOException {
+        if (flavor == DATA_FLAVOR) {
+            return this;
+        } else {
+            throw new UnsupportedFlavorException(flavor);
+        }
+    }
+
 
 }

@@ -6,24 +6,14 @@
 package org.glotaran.core.ui.visualmodelling.nodes;
 
 import java.awt.Image;
-import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
-import java.awt.datatransfer.UnsupportedFlavorException;
-import java.awt.dnd.DropTarget;
-import java.awt.dnd.DropTargetAdapter;
-import java.awt.dnd.DropTargetDragEvent;
-import java.awt.dnd.DropTargetDropEvent;
-import java.awt.dnd.DropTargetEvent;
-import java.awt.dnd.DropTargetListener;
 import java.io.IOException;
+import java.util.List;
 import org.glotaran.core.main.nodes.TimpDatasetNode;
-import org.openide.nodes.AbstractNode;
+import org.glotaran.core.ui.visualmodelling.components.DummyChildFactory;
 import org.openide.nodes.Children;
-import org.openide.util.Exceptions;
 import org.openide.util.ImageUtilities;
 import org.openide.util.datatransfer.PasteType;
-import org.glotaran.core.ui.visualmodelling.palette.PaletteItem;
-import org.glotaran.core.ui.visualmodelling.palette.PaletteNode;
 
 /**
  *
@@ -38,7 +28,6 @@ public class DatasetComponentNode extends PropertiesAbstractNode {
     public DatasetComponentNode(String name, Children children) {
         super(name, children);
         name = tdn.getDisplayName();
-
     }
 
     public DatasetComponentNode(TimpDatasetNode tdn, Children children) {
@@ -56,4 +45,15 @@ public class DatasetComponentNode extends PropertiesAbstractNode {
         return getIcon(type);
     }
 
+    @Override
+    public Transferable drag() throws IOException {
+        return super.drag();
+    }
+
+    @Override
+    public PasteType getDropType(Transferable t, int action, int index) {
+        return super.getDropType(t, action, index);
+    }
+
+   
 }

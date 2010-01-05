@@ -11,6 +11,7 @@
 
 package org.glotaran.core.ui.visualmodelling.components;
 
+import java.awt.Dimension;
 import javax.swing.ActionMap;
 import javax.swing.InputMap;
 import javax.swing.JComponent;
@@ -41,7 +42,8 @@ public class DatasetContainerComponent extends TopComponent implements ExplorerM
     /** Creates new form DatasetContainerComponent */
     public DatasetContainerComponent() {
         initComponents();
-        jPDatasetsPanel.add(datasetView);
+        jPDatasetsPanel.add(datasetView);       
+        datasetView.setPreferredSize(new Dimension(150, 150));
         manager.setRootContext(new DatasetsRootNode(new Index.ArrayChildren()));
 //        ExplorerUtils.createLookup(manager, null)));
 //        new ProxyLookup(arg0)
@@ -68,18 +70,19 @@ public class DatasetContainerComponent extends TopComponent implements ExplorerM
         datasetsScrollPane = new javax.swing.JScrollPane();
         jPDatasetsPanel = new javax.swing.JPanel();
 
-        setMaximumSize(new java.awt.Dimension(160, 250));
-        setMinimumSize(new java.awt.Dimension(160, 250));
-        setPreferredSize(new java.awt.Dimension(160, 250));
+        setMaximumSize(null);
+        setMinimumSize(null);
         setLayout(new java.awt.BorderLayout());
 
         jSplitPane1.setDividerLocation(150);
         jSplitPane1.setOrientation(javax.swing.JSplitPane.VERTICAL_SPLIT);
 
+        modelDiffsPanel.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 0, 0));
         modelDiffsScrollPane.setViewportView(modelDiffsPanel);
 
         jSplitPane1.setRightComponent(modelDiffsScrollPane);
 
+        jPDatasetsPanel.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 0, 0));
         datasetsScrollPane.setViewportView(jPDatasetsPanel);
 
         jSplitPane1.setLeftComponent(datasetsScrollPane);

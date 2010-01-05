@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+    Document   : GlobalAndTargetAnalysisSchema.xml
+    Created on : January 5, 2010, 4:09 PM
+    Author     : jsg210
+    Description:
+        Purpose of the document follows.
+-->
+
+<ns0:Project  xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'
+   xmlns:ns0='http://glotaran.org/schema/GlobalAndTargetAnalysisSchema'
+   xsi:schemaLocation='http://glotaran.org/schema/GlobalAndTargetAnalysisSchema GlobalAndTargetAnalysisSchema.xsd'>
+    <ns0:datasetContainers id="">
+        <ns0:layout>
+            <ns0:height></ns0:height>
+            <ns0:width></ns0:width>
+            <ns0:xposition></ns0:xposition>
+            <ns0:yposition></ns0:yposition>
+        </ns0:layout>
+        <ns0:datasets>
+            <ns0:filename></ns0:filename>
+            <ns0:path></ns0:path>
+            <ns0:description></ns0:description>
+        </ns0:datasets>
+        <ns0:datasets>
+            <ns0:filename></ns0:filename>
+            <ns0:path></ns0:path>
+            <ns0:description></ns0:description>
+        </ns0:datasets>
+        <ns0:datasets>
+            <ns0:filename></ns0:filename>
+            <ns0:path></ns0:path>
+            <ns0:description></ns0:description>
+        </ns0:datasets>
+    </ns0:datasetContainers>
+    <ns0:datasetContainers id="">
+        <ns0:layout>
+            <ns0:height></ns0:height>
+            <ns0:width></ns0:width>
+            <ns0:xposition></ns0:xposition>
+            <ns0:yposition></ns0:yposition>
+        </ns0:layout>
+        <ns0:datasets>
+            <ns0:filename></ns0:filename>
+            <ns0:path></ns0:path>
+            <ns0:description></ns0:description>
+        </ns0:datasets>
+        <ns0:datasets>
+            <ns0:filename></ns0:filename>
+            <ns0:path></ns0:path>
+            <ns0:description></ns0:description>
+        </ns0:datasets>
+        <ns0:datasets>
+            <ns0:filename></ns0:filename>
+            <ns0:path></ns0:path>
+            <ns0:description></ns0:description>
+        </ns0:datasets>
+    </ns0:datasetContainers>
+    <ns0:datasetContainers id="">
+        <ns0:layout>
+            <ns0:height></ns0:height>
+            <ns0:width></ns0:width>
+            <ns0:xposition></ns0:xposition>
+            <ns0:yposition></ns0:yposition>
+        </ns0:layout>
+        <ns0:datasets>
+            <ns0:filename></ns0:filename>
+            <ns0:path></ns0:path>
+            <ns0:description></ns0:description>
+        </ns0:datasets>
+        <ns0:datasets>
+            <ns0:filename></ns0:filename>
+            <ns0:path></ns0:path>
+            <ns0:description></ns0:description>
+        </ns0:datasets>
+        <ns0:datasets>
+            <ns0:filename></ns0:filename>
+            <ns0:path></ns0:path>
+            <ns0:description></ns0:description>
+        </ns0:datasets>
+    </ns0:datasetContainers>
+    <ns0:models>
+        <ns0:layout>
+            <ns0:height></ns0:height>
+            <ns0:width></ns0:width>
+            <ns0:xposition></ns0:xposition>
+            <ns0:yposition></ns0:yposition>
+        </ns0:layout>
+        <ns0:filename></ns0:filename>
+        <ns0:path></ns0:path>
+    </ns0:models>
+    <ns0:description></ns0:description>
+    <ns0:name></ns0:name>
+    <ns0:version></ns0:version>
+
+</ns0:Project>

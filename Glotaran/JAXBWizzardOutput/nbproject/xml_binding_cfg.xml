@@ -20,4 +20,14 @@
 		</bindings>
 		<catalog/>
 	</schema>
+	<schema type='-xmlschema' package='org.glotaran.core.models.gta' name='GtaBinding'>
+		<xjc-options>
+		</xjc-options>
+		<schema-sources>
+			<schema-source location='xml-resources/jaxb/GtaBinding/GlobalAndTargetAnalysisSchema.xsd' origLocation='src/org/glotaran/core/models/gta/GlobalAndTargetAnalysisSchema.xsd'/>
+		</schema-sources>
+		<bindings>
+		</bindings>
+		<catalog/>
+	</schema>
 </schemas>

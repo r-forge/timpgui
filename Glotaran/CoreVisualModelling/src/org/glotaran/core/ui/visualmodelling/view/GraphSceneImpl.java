@@ -139,14 +139,21 @@ public class GraphSceneImpl extends GraphScene { //TODO: implement <VisualAbstra
 
     @Override
     protected void attachEdgeSourceAnchor(Object edge, Object oldSourceNode, Object sourceNode) {
+        ConnectionWidget widget = (ConnectionWidget) findWidget(edge);
+        Widget sourceNodeWidget = findWidget(sourceNode);
+        widget.setSourceAnchor(sourceNodeWidget != null ? AnchorFactory.createFreeRectangularAnchor(sourceNodeWidget, true) : null);
+
 //        VisualAbstractNode sourceMyNode = (VisualAbstractNode) sourceNode;
 //        VisualAbstractNode oldSourceMyNode = (VisualAbstractNode) oldSourceNode;
-        attachEdgeSourceAnchor((String) edge, (String) oldSourceNode, (String) sourceNode);
+//        attachEdgeSourceAnchor((String)edge, (String)oldSourceNode, (String)sourceNode);
     }
 
     @Override
     protected void attachEdgeTargetAnchor(Object edge, Object oldTargetNode, Object targetNode) {
-        attachEdgeTargetAnchor((String) edge, (String) oldTargetNode, (String) targetNode);
+        ConnectionWidget widget = (ConnectionWidget) findWidget(edge);
+        Widget targetNodeWidget = findWidget(targetNode);
+        widget.setTargetAnchor(targetNodeWidget != null ? AnchorFactory.createFreeRectangularAnchor(targetNodeWidget, true) : null);
+//        attachEdgeTargetAnchor((String) edge, (String) oldTargetNode, (String) targetNode);
     }
 
     private class ObjectSelectProvider implements SelectProvider {
@@ -207,9 +214,9 @@ public class GraphSceneImpl extends GraphScene { //TODO: implement <VisualAbstra
     private Widget createMoveableComponent(Component component, String name, int id) {
         Widget widget = new Widget(this);
         widget.setLayout(LayoutFactory.createVerticalFlowLayout());
-        widget.setBorder(BorderFactory.createLineBorder());        
-//        widget.getActions().addAction(connectAction);
-//        widget.getActions().addAction(reconnectAction);
+        widget.setBorder(BorderFactory.createLineBorder());//createRoundedBorder(5, 5, Color.gray, Color.black));//
+        widget.getActions().addAction(connectAction);
+        widget.getActions().addAction(reconnectAction);
         widget.getActions().addAction(selectAction);
         widget.getActions().addAction(moveAction);
 

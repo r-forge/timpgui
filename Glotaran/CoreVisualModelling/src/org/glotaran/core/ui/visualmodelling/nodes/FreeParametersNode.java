@@ -15,7 +15,7 @@ import org.openide.util.ImageUtilities;
  * @author slapten
  */
 public class FreeParametersNode  extends PropertiesAbstractNode{
-    private final Image ICON = ImageUtilities.loadImage("org/glotaran/core/ui/visualmodelling/resources/Kinpar_16.png", true);
+    private final Image ICON = ImageUtilities.loadImage("org/glotaran/core/ui/visualmodelling/resources/FreeParam_16.png", true);
     Boolean positiveKinpar = false;
     Boolean seqModel = false;
     PropertyChangeListener propListner;
@@ -25,5 +25,23 @@ public class FreeParametersNode  extends PropertiesAbstractNode{
 //        propListner = listn;
 //        addPropertyChangeListener(WeakListeners.propertyChange(propListner, this));
     }
+
+    @Override
+    public String getDisplayName() {
+        String name = super.getDisplayName();
+        name = name + " ("+String.valueOf(getChildren().getNodesCount())+")";
+        return name;
+    }
+
+    @Override
+    public Image getIcon(int type) {
+        return ICON;
+    }
+
+    @Override
+    public Image getOpenedIcon(int type) {
+        return getIcon(type);
+    }
+
 
 }

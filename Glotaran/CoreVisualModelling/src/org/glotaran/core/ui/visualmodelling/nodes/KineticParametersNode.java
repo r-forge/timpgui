@@ -9,7 +9,6 @@ import java.awt.Image;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import org.glotaran.core.models.tgm.KinparPanelModel;
-import org.glotaran.core.ui.visualmodelling.components.ModelContainer;
 import org.glotaran.core.ui.visualmodelling.nodes.dataobjects.NonLinearParametersKeys;
 import org.openide.nodes.PropertySupport;
 import org.openide.nodes.Sheet;

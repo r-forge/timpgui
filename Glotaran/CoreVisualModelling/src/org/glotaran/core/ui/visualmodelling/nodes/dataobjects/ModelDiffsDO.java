@@ -10,13 +10,12 @@ import java.beans.PropertyChangeListener;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
-import org.glotaran.core.models.tgm.KinPar;
 
 /**
  *
  * @author jsg210
  */
-public class ModeldiffsDO {
+public class ModelDiffsDO {
 
     private String what;
     private Integer index;
@@ -25,7 +24,7 @@ public class ModeldiffsDO {
     private List listeners = Collections.synchronizedList(new LinkedList());
 
 
-    public ModeldiffsDO(){
+    public ModelDiffsDO(){
         what = null;
         index = null;
         dataset = null;
@@ -66,7 +65,7 @@ public class ModeldiffsDO {
 
     //TODO: implement some XML class here
 
-    public ModeldiffsDO(Object object){
+    public ModelDiffsDO(Object object){
 
     }
 

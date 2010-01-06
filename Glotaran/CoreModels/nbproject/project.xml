@@ -34,6 +34,7 @@
                 </dependency>
             </module-dependencies>
             <public-packages>
+                <package>org.glotaran.core.models.gta</package>
                 <package>org.glotaran.core.models.tgd</package>
                 <package>org.glotaran.core.models.tgm</package>
             </public-packages>

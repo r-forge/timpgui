@@ -21,7 +21,7 @@ import org.openide.util.lookup.Lookups;
  * @author slapten
  */
 public class FreeParametersSubNode extends PropertiesAbstractNode implements PropertyChangeListener{
-    private final Image ICON = ImageUtilities.loadImage("org/glotaran/core/ui/visualmodelling/resources/Subnode_16.png", true);
+    private final Image ICON = ImageUtilities.loadImage("org/glotaran/core/ui/visualmodelling/resources/DiffsSubnode_16.png", true);
 //    private NonLinearParameter dataObj;
 
     public FreeParametersSubNode(ModelDiffsDO data){
@@ -42,6 +42,7 @@ public class FreeParametersSubNode extends PropertiesAbstractNode implements Pro
     public String getDisplayName() {
         return new Formatter().format("%g",getLookup().lookup(ModelDiffsDO.class).getStart()).toString();
     }
+
 
 //    @Override
 //    protected Sheet createSheet() {

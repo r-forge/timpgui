@@ -14,7 +14,7 @@ import org.glotaran.core.main.nodes.TimpDatasetNode;
 import org.glotaran.core.ui.visualmodelling.palette.PaletteItem;
 import org.openide.nodes.Children;
 import org.openide.nodes.Node;
-import org.openide.nodes.NodeTransfer;
+import org.openide.nodes.Sheet;
 import org.openide.util.Exceptions;
 import org.openide.util.ImageUtilities;
 import org.openide.util.datatransfer.PasteType;
@@ -38,6 +38,11 @@ public class DatasetComponentNode extends PropertiesAbstractNode implements Tran
     public DatasetComponentNode(TimpDatasetNode tdn, Children children) {
         super(tdn.getDisplayName(), children);
         this.tdn = tdn;
+        Sheet sheet = Sheet.createDefault();
+        Sheet.Set set = Sheet.createPropertiesSet();
+        set.put(tdn.getPropertySets()[0].getProperties());
+        sheet.put(set);
+        setSheet(sheet);
     }
 
     @Override
@@ -56,6 +61,11 @@ public class DatasetComponentNode extends PropertiesAbstractNode implements Tran
     }
 
     @Override
+    public PropertySet[] getPropertySets() {
+        return getSheet().toArray();
+    }
+
+    @Override
     public PasteType getDropType(Transferable t, int action, int index) {
         if (t.isDataFlavorSupported(PaletteItem.DATA_FLAVOR)){
             try {
@@ -64,11 +74,8 @@ public class DatasetComponentNode extends PropertiesAbstractNode implements Tran
                     @Override
                     public Transferable paste() throws IOException {
                         if (pi.getName().equals("FreeParam")){
-                        getChildren().add(new Node[]{
-                            new FreeParametersNode()});
+                            getChildren().add(new Node[]{new FreeParametersNode()});
                         }
-//                        names.add(node.getDisplayName());
-//                        refresh(true);
                         return null;
                     }
                 };

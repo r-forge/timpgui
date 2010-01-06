@@ -12,6 +12,8 @@
 package org.glotaran.core.ui.visualmodelling.components;
 
 import java.awt.Dimension;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import javax.swing.ActionMap;
 import javax.swing.InputMap;
 import javax.swing.JComponent;
@@ -22,12 +24,15 @@ import org.openide.explorer.ExplorerUtils;
 import org.openide.nodes.Index;
 import org.openide.util.Lookup;
 import org.openide.windows.TopComponent;
+import org.openide.windows.WindowManager;
 
 /**
  *
  * @author slk230
  */
-public class DatasetContainerComponent extends TopComponent implements ExplorerManager.Provider, Lookup.Provider {
+public class DatasetContainerComponent
+        extends TopComponent
+        implements ExplorerManager.Provider, Lookup.Provider, PropertyChangeListener {
 
 /** path to the icon used by the component and its open action */
 //    static final String ICON_PATH = "SET/PATH/TO/ICON/HERE";
@@ -36,7 +41,7 @@ public class DatasetContainerComponent extends TopComponent implements ExplorerM
 
     private ExplorerManager manager = new ExplorerManager();
     private DatasetSpecificationView datasetView  = new DatasetSpecificationView();
-    private DatasetNodeContainer container = new DatasetNodeContainer();
+//    private DatasetNodeContainer container = new DatasetNodeContainer();
     private Lookup lookup;
 
     /** Creates new form DatasetContainerComponent */
@@ -45,6 +50,7 @@ public class DatasetContainerComponent extends TopComponent implements ExplorerM
         jPDatasetsPanel.add(datasetView);       
         datasetView.setPreferredSize(new Dimension(150, 150));
         manager.setRootContext(new DatasetsRootNode(new Index.ArrayChildren()));
+        manager.addPropertyChangeListener(this);
 //        ExplorerUtils.createLookup(manager, null)));
 //        new ProxyLookup(arg0)
         ActionMap map = this.getActionMap ();
@@ -70,8 +76,6 @@ public class DatasetContainerComponent extends TopComponent implements ExplorerM
         datasetsScrollPane = new javax.swing.JScrollPane();
         jPDatasetsPanel = new javax.swing.JPanel();
 
-        setMaximumSize(null);
-        setMinimumSize(null);
         setLayout(new java.awt.BorderLayout());
 
         jSplitPane1.setDividerLocation(150);
@@ -103,8 +107,15 @@ public class DatasetContainerComponent extends TopComponent implements ExplorerM
         return manager;
     }
 
+    @Override
     public Lookup getLookup() {
         return lookup;
     }
 
+    public void propertyChange(PropertyChangeEvent evt) {
+        if (evt.getSource() == manager &&
+                ExplorerManager.PROP_SELECTED_NODES.equals(evt.getPropertyName())) {
+            WindowManager.getDefault().getRegistry().getActivated().setActivatedNodes(manager.getSelectedNodes());
+        }
+    }
 }

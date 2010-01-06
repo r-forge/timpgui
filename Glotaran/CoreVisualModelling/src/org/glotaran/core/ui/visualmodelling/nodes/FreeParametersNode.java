@@ -7,7 +7,10 @@ package org.glotaran.core.ui.visualmodelling.nodes;
 
 import java.awt.Image;
 import java.beans.PropertyChangeListener;
-import org.glotaran.core.ui.visualmodelling.nodes.dataobjects.NonLinearParametersKeys;
+import org.glotaran.core.ui.visualmodelling.nodes.dataobjects.ModelDiffsParametersKeys;
+import org.openide.nodes.PropertySupport;
+import org.openide.nodes.Sheet;
+import org.openide.util.Exceptions;
 import org.openide.util.ImageUtilities;
 
 /**
@@ -16,12 +19,10 @@ import org.openide.util.ImageUtilities;
  */
 public class FreeParametersNode  extends PropertiesAbstractNode{
     private final Image ICON = ImageUtilities.loadImage("org/glotaran/core/ui/visualmodelling/resources/FreeParam_16.png", true);
-    Boolean positiveKinpar = false;
-    Boolean seqModel = false;
     PropertyChangeListener propListner;
 
     public FreeParametersNode(){
-        super("FreePar", new NonLinearParametersKeys(1));
+        super("FreePar", new ModelDiffsParametersKeys(1));
 //        propListner = listn;
 //        addPropertyChangeListener(WeakListeners.propertyChange(propListner, this));
     }
@@ -43,5 +44,41 @@ public class FreeParametersNode  extends PropertiesAbstractNode{
         return getIcon(type);
     }
 
+        @Override
+    protected Sheet createSheet() {
+        Sheet sheet = Sheet.createDefault();
+        Sheet.Set set = Sheet.createPropertiesSet();
+        Property numberOfComponents = null;
+        Property name = null;
 
+        try {
+            numberOfComponents = new PropertySupport.Reflection(this, Integer.class, "getCompNum", "setCompNum");
+            name = new PropertySupport.Reflection(this, String.class, "getDisplayName", null);
+        } catch (NoSuchMethodException ex) {
+            Exceptions.printStackTrace(ex);
+        }
+        numberOfComponents.setName("Number of components");
+        name.setName("Name");
+        set.put(name);
+        set.put(numberOfComponents);
+        sheet.put(set);
+        return sheet;
+    }
+
+    public Integer getCompNum(){
+        return getChildren().getNodesCount();
+    }
+
+    public void setCompNum(Integer compNum){
+        ModelDiffsParametersKeys childColection = (ModelDiffsParametersKeys)getChildren();
+        int currCompNum = childColection.getNodesCount();
+        if (currCompNum < compNum){
+            childColection.addDefaultObj(compNum-currCompNum);
+        } else {
+            childColection.removeParams(currCompNum-compNum);
+        }
+        fireDisplayNameChange(null, getDisplayName());
+//        firePropertyChange("Number of components", new Integer(currCompNum), compNum);
+    }
+    
 }

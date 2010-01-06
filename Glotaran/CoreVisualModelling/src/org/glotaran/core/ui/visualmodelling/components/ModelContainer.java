@@ -37,7 +37,9 @@ import org.openide.windows.WindowManager;
  *
  * @author slk230
  */
-public class ModelContainer extends javax.swing.JPanel implements ExplorerManager.Provider, Lookup.Provider, PropertyChangeListener {
+public class ModelContainer 
+        extends javax.swing.JPanel
+        implements ExplorerManager.Provider, Lookup.Provider, PropertyChangeListener {
 
 
 /** path to the icon used by the component and its open action */
@@ -215,10 +217,6 @@ public class ModelContainer extends javax.swing.JPanel implements ExplorerManage
             if (evt.getPropertyName().equalsIgnoreCase("Sequential model")){
                 model.getTgm().getDat().getKinparPanel().setSeqmod((Boolean)evt.getNewValue());
             }
-
-            model.modelUpdatedFromUI();
         }
-
-
     }
 }

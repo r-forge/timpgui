@@ -7,9 +7,7 @@ package org.glotaran.core.ui.visualmodelling.nodes.dataobjects;
 
 import java.util.ArrayList;
 import java.util.List;
-import org.glotaran.core.models.tgm.KinPar;
 import org.glotaran.core.ui.visualmodelling.nodes.FreeParametersSubNode;
-import org.glotaran.core.ui.visualmodelling.nodes.ParametersSubNode;
 import org.openide.nodes.Children;
 import org.openide.nodes.Node;
 
@@ -27,14 +25,14 @@ public class ModelDiffsParametersKeys  extends Children.Keys{
         }
     }
 
-    public ModelDiffsParametersKeys(List<KinPar> paramList){
-        parameters = new ArrayList<ModelDiffsDO>();
-        if (paramList!=null){
-            for (int i = 0; i < paramList.size(); i++){
-               parameters.add(new ModelDiffsDO(paramList.get(i)));
-            }
-        }
-    }
+//    public ModelDiffsParametersKeys(List<KinPar> paramList){
+//        parameters = new ArrayList<ModelDiffsDO>();
+//        if (paramList!=null){
+//            for (int i = 0; i < paramList.size(); i++){
+//               parameters.add(new ModelDiffsDO(paramList.get(i)));
+//            }
+//        }
+//    }
 
     @Override
     protected void addNotify() {

@@ -99,17 +99,17 @@ public class GraphSceneImpl extends GraphScene { //TODO: implement <VisualAbstra
         return connection;
     }
 
-    protected void attachEdgeSourceAnchor(String edge, String oldSourceNode, String sourceNode) {
-        ConnectionWidget widget = (ConnectionWidget) findWidget(edge);
-        Widget sourceNodeWidget = findWidget(sourceNode);
-        widget.setSourceAnchor(sourceNodeWidget != null ? AnchorFactory.createFreeRectangularAnchor(sourceNodeWidget, true) : null);
-    }
-
-    protected void attachEdgeTargetAnchor(String edge, String oldTargetNode, String targetNode) {
-        ConnectionWidget widget = (ConnectionWidget) findWidget(edge);
-        Widget targetNodeWidget = findWidget(targetNode);
-        widget.setTargetAnchor(targetNodeWidget != null ? AnchorFactory.createFreeRectangularAnchor(targetNodeWidget, true) : null);
-    }
+//    protected void attachEdgeSourceAnchor(String edge, String oldSourceNode, String sourceNode) {
+//        ConnectionWidget widget = (ConnectionWidget) findWidget(edge);
+//        Widget sourceNodeWidget = findWidget(sourceNode);
+//        widget.setSourceAnchor(sourceNodeWidget != null ? AnchorFactory.createFreeRectangularAnchor(sourceNodeWidget, true) : null);
+//    }
+//
+//    protected void attachEdgeTargetAnchor(String edge, String oldTargetNode, String targetNode) {
+//        ConnectionWidget widget = (ConnectionWidget) findWidget(edge);
+//        Widget targetNodeWidget = findWidget(targetNode);
+//        widget.setTargetAnchor(targetNodeWidget != null ? AnchorFactory.createFreeRectangularAnchor(targetNodeWidget, true) : null);
+//    }
 
     @Override
     protected Widget attachNodeWidget(Object node) {

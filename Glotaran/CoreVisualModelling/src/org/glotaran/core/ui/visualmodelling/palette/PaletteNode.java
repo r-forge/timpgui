@@ -9,6 +9,7 @@ import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
 import java.awt.datatransfer.UnsupportedFlavorException;
 import java.io.IOException;
+import javax.swing.Action;
 import org.openide.nodes.AbstractNode;
 import org.openide.nodes.Children;
 import org.openide.util.lookup.Lookups;
@@ -49,4 +50,17 @@ public class PaletteNode extends AbstractNode implements Transferable {
     public Transferable drag() throws IOException {
         return this;
     }
+
+    @Override
+    public boolean canCopy() {
+        return true;
+    }
+
+
+    @Override
+    public Action getPreferredAction() {
+        return super.getPreferredAction();
+    }
+
+    
 }

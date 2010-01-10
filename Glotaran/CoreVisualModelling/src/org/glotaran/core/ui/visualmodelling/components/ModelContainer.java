@@ -237,7 +237,7 @@ public class ModelContainer
                 model.getCookie(SaveCookie.class).save();
                 model.setModified(false);
             } catch (IOException ex) {
-                CoreErrorMessages.fileSaveError(model.getName());
+                CoreErrorMessages.fileSaveError(model.getNodeDelegate().getName());
             }
 
         }

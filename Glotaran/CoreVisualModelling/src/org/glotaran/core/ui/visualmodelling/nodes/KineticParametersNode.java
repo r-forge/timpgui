@@ -123,7 +123,14 @@ public class KineticParametersNode extends PropertiesAbstractNode{
     @Override
     public void fire(int index, PropertyChangeEvent evt){
         if ("start".equals(evt.getPropertyName())) {
-            evt.getOldValue();
+            propListner.propertyChange(new PropertyChangeEvent(this, "start", index, evt.getNewValue()));
         }
+        if ("fixed".equals(evt.getPropertyName())) {
+            propListner.propertyChange(new PropertyChangeEvent(this, "fixed", index, evt.getNewValue()));
+        }
+        if ("delete".equals(evt.getPropertyName())) {
+            propListner.propertyChange(new PropertyChangeEvent(this, "delete", index, evt.getNewValue()));
+        }
+
     }
 }

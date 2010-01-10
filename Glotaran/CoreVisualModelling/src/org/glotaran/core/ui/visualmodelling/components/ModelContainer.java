@@ -14,10 +14,12 @@ package org.glotaran.core.ui.visualmodelling.components;
 import java.awt.BorderLayout;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.io.IOException;
 import javax.swing.ActionMap;
 import javax.swing.InputMap;
 import javax.swing.JComponent;
 import javax.swing.KeyStroke;
+import org.glotaran.core.main.mesages.CoreErrorMessages;
 import org.glotaran.core.models.tgm.KinPar;
 import org.glotaran.core.ui.visualmodelling.common.EnumTypes;
 import org.glotaran.core.ui.visualmodelling.nodes.CohSpecNode;
@@ -27,9 +29,11 @@ import org.glotaran.core.ui.visualmodelling.nodes.KineticParametersNode;
 import org.glotaran.core.ui.visualmodelling.nodes.PropertiesAbstractNode;
 import org.glotaran.core.ui.visualmodelling.nodes.WeightParametersNode;
 import org.glotaran.tgmfilesupport.TgmDataObject;
+import org.openide.cookies.SaveCookie;
 import org.openide.explorer.ExplorerManager;
 import org.openide.explorer.ExplorerUtils;
 import org.openide.nodes.Node;
+import org.openide.util.Exceptions;
 import org.openide.util.Lookup;
 import org.openide.windows.WindowManager;
 
@@ -74,7 +78,7 @@ public class ModelContainer
         manager.addPropertyChangeListener(this);
         model = object;
         ActionMap map = this.getActionMap ();
-        map.put("delete", ExplorerUtils.actionDelete(manager, false)); // or false
+        map.put("delete", ExplorerUtils.actionDelete(manager, true)); // or false
         InputMap keys = getInputMap(JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
         keys.put(KeyStroke.getKeyStroke("DELETE"), "delete");
 
@@ -193,6 +197,7 @@ public class ModelContainer
 
 
 
+    @SuppressWarnings("element-type-mismatch")
     public void propertyChange(PropertyChangeEvent evt) {
         if (evt.getSource() == manager &&
                 ExplorerManager.PROP_SELECTED_NODES.equals(evt.getPropertyName())) {
@@ -217,6 +222,27 @@ public class ModelContainer
             if (evt.getPropertyName().equalsIgnoreCase("Sequential model")){
                 model.getTgm().getDat().getKinparPanel().setSeqmod((Boolean)evt.getNewValue());
             }
+            if (evt.getPropertyName().equalsIgnoreCase("start")){
+                model.getTgm().getDat().getKinparPanel().getKinpar().get((Integer)evt.getOldValue()).setStart((Double)evt.getNewValue());
+            }
+            if (evt.getPropertyName().equalsIgnoreCase("fixed")){
+                model.getTgm().getDat().getKinparPanel().getKinpar().get((Integer)evt.getOldValue()).setFixed((Boolean)evt.getNewValue());
+            }
+            if (evt.getPropertyName().equalsIgnoreCase("delete")){
+                int index = (Integer)evt.getNewValue();
+                model.getTgm().getDat().getKinparPanel().getKinpar().remove(index);
+            }
+            try {
+                model.setModified(true);
+                model.getCookie(SaveCookie.class).save();
+                model.setModified(false);
+            } catch (IOException ex) {
+                CoreErrorMessages.fileSaveError(model.getName());
+            }
+
         }
+
+        
+//        model.modelUpdatedFromUI();
     }
 }

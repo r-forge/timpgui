@@ -58,7 +58,7 @@ public class NonLinearParameter {
 
     public void setStart(Double value) {
         Double oldStart = start;
-        start = value;
+        this.start = value;
         fire("start", oldStart, start);
     }
 
@@ -67,7 +67,9 @@ public class NonLinearParameter {
     }
 
     public void setFixed(Boolean value) {
+        Boolean oldFixed = fixed;
         this.fixed = value;
+        fire("fixed", oldFixed, fixed);
     }
 
     public Boolean isConstrained() {

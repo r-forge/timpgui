@@ -7,14 +7,18 @@ package org.glotaran.core.ui.visualmodelling.nodes;
 
 import java.awt.Image;
 import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.Action;
+import org.glotaran.core.ui.visualmodelling.components.ModelContainer;
+import org.glotaran.core.ui.visualmodelling.components.ModelSpecificationNodeContainer;
 import org.openide.actions.DeleteAction;
 import org.openide.actions.PropertiesAction;
 import org.openide.nodes.AbstractNode;
 import org.openide.nodes.Children;
 import org.openide.util.Lookup;
+import org.openide.util.WeakListeners;
 import org.openide.util.actions.SystemAction;
 
 
@@ -33,6 +37,12 @@ public class PropertiesAbstractNode extends AbstractNode {
     public PropertiesAbstractNode(String name, Children children, Lookup lookup) {
         super(children, lookup);
         this.type = name;
+    }
+
+    public PropertiesAbstractNode(String name, Children children, Lookup lookup, PropertyChangeListener listn) {
+        super(children, lookup);
+        this.type = name;
+        addPropertyChangeListener(WeakListeners.propertyChange(listn, this));
     }
 
     public String getType() {

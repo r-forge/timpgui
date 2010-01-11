@@ -22,10 +22,12 @@ import javax.swing.KeyStroke;
 import org.glotaran.core.main.mesages.CoreErrorMessages;
 import org.glotaran.core.models.tgm.KinPar;
 import org.glotaran.core.ui.visualmodelling.common.EnumTypes;
+import org.glotaran.core.ui.visualmodelling.common.EnumTypes.IRFTypes;
 import org.glotaran.core.ui.visualmodelling.nodes.CohSpecNode;
 import org.glotaran.core.ui.visualmodelling.nodes.DispersionModelingNode;
 import org.glotaran.core.ui.visualmodelling.nodes.IrfParametersNode;
 import org.glotaran.core.ui.visualmodelling.nodes.KineticParametersNode;
+import org.glotaran.core.ui.visualmodelling.nodes.ParametersSubNode;
 import org.glotaran.core.ui.visualmodelling.nodes.PropertiesAbstractNode;
 import org.glotaran.core.ui.visualmodelling.nodes.WeightParametersNode;
 import org.glotaran.tgmfilesupport.TgmDataObject;
@@ -33,7 +35,6 @@ import org.openide.cookies.SaveCookie;
 import org.openide.explorer.ExplorerManager;
 import org.openide.explorer.ExplorerUtils;
 import org.openide.nodes.Node;
-import org.openide.util.Exceptions;
 import org.openide.util.Lookup;
 import org.openide.windows.WindowManager;
 
@@ -66,7 +67,6 @@ public class ModelContainer
 
         InputMap keys = getInputMap(JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
         keys.put(KeyStroke.getKeyStroke("DELETE"), "delete");
-
         // following line tells the top component which lookup should be associated with it
         lookup = ExplorerUtils.createLookup (manager, map);
         //new ProxyLookup(arg0)
@@ -74,8 +74,9 @@ public class ModelContainer
 
     public ModelContainer(TgmDataObject object) {
         initComponents();
-        manager.setRootContext(new PropertiesAbstractNode("Model specification",container));//,ExplorerUtils.createLookup(manager, null)));
+        manager.setRootContext(new PropertiesAbstractNode("Model specification",container, lookup, this));//,ExplorerUtils.createLookup(manager, null)));
         manager.addPropertyChangeListener(this);
+        modelSpecificationView.addPropertyChangeListener(this);
         model = object;
         ActionMap map = this.getActionMap ();
         map.put("delete", ExplorerUtils.actionDelete(manager, true)); // or false
@@ -99,7 +100,7 @@ public class ModelContainer
         if (!model.getTgm().getDat().getIrfparPanel().getIrf().isEmpty()&&
                 (!model.getTgm().getDat().getIrfparPanel().isMirf())){
             manager.getRootContext().getChildren().add(
-                    new Node[]{new IrfParametersNode(model.getTgm().getDat().getIrfparPanel())});
+                    new Node[]{new IrfParametersNode(model.getTgm().getDat().getIrfparPanel(), this)});
         }
 
         if (model.getTgm().getDat().getIrfparPanel().getParmu().length()!=0){
@@ -194,9 +195,7 @@ public class ModelContainer
     public Lookup getLookup() {
         return lookup;
     }
-
-
-
+    
     @SuppressWarnings("element-type-mismatch")
     public void propertyChange(PropertyChangeEvent evt) {
         if (evt.getSource() == manager &&
@@ -241,8 +240,68 @@ public class ModelContainer
             }
 
         }
+        if (evt.getSource().getClass().equals(IrfParametersNode.class)){
+            if (evt.getPropertyName().equalsIgnoreCase("SetBackSweep")){
+                model.getTgm().getDat().getIrfparPanel().setBacksweepEnabled((Boolean)evt.getNewValue());
+            }
+            if (evt.getPropertyName().equalsIgnoreCase("SetBackSweepPeriod")){
+                model.getTgm().getDat().getIrfparPanel().setBacksweepPeriod((Double)evt.getNewValue());
+            }
+            if (evt.getPropertyName().equalsIgnoreCase("SetIRFType")){
+                EnumTypes.IRFTypes irfType = (IRFTypes)evt.getNewValue();
+                switch (irfType) {
+                    case GAUSSIAN: {
+                        model.getTgm().getDat().getIrfparPanel().setMirf(Boolean.FALSE);
+                        if (model.getTgm().getDat().getIrfparPanel().getIrf()!=null){
+                            model.getTgm().getDat().getIrfparPanel().getIrf().clear();
+                            model.getTgm().getDat().getIrfparPanel().getFixed().clear();
+                        }
+                        for (int i = 0; i < 2; i++){
+                            model.getTgm().getDat().getIrfparPanel().getIrf().add(
+                                    ((ParametersSubNode)((IrfParametersNode)evt.getSource()).getChildren().getNodes()[i]).getDataObj().getStart());
+                            model.getTgm().getDat().getIrfparPanel().getFixed().add(
+                                    ((ParametersSubNode)((IrfParametersNode)evt.getSource()).getChildren().getNodes()[i]).getDataObj().isFixed());
+                        }
+                        break;
+                    }
+                    case DOUBLE_GAUSSIAN: {
+                        model.getTgm().getDat().getIrfparPanel().setMirf(Boolean.FALSE);
+                        if (model.getTgm().getDat().getIrfparPanel().getIrf()!=null){
+                            model.getTgm().getDat().getIrfparPanel().getIrf().clear();
+                            model.getTgm().getDat().getIrfparPanel().getFixed().clear();
+                        }
+                        for (int i = 0; i < 4; i++){
+                            model.getTgm().getDat().getIrfparPanel().getIrf().add(
+                                    ((ParametersSubNode)((IrfParametersNode)evt.getSource()).getChildren().getNodes()[i]).getDataObj().getStart());
+                            model.getTgm().getDat().getIrfparPanel().getFixed().add(
+                                    ((ParametersSubNode)((IrfParametersNode)evt.getSource()).getChildren().getNodes()[i]).getDataObj().isFixed());
+                        }
+                        break;
+                    }
+                    case MEASURED_IRF: {
+                        model.getTgm().getDat().getIrfparPanel().setMirf(Boolean.TRUE);
+                        //todo finish measured IRF
+                        break;
+                    }
+                }               
+            }
 
-        
+            if (evt.getPropertyName().equalsIgnoreCase("start")){
+                model.getTgm().getDat().getIrfparPanel().getIrf().set((Integer)evt.getOldValue(), (Double)evt.getNewValue());
+            }
+            if (evt.getPropertyName().equalsIgnoreCase("fixed")){
+                model.getTgm().getDat().getIrfparPanel().getFixed().set((Integer)evt.getOldValue(), (Boolean)evt.getNewValue());
+            }
+
+            try {
+                model.setModified(true);
+                model.getCookie(SaveCookie.class).save();
+                model.setModified(false);
+            } catch (IOException ex) {
+                CoreErrorMessages.fileSaveError(model.getNodeDelegate().getName());
+            }
+        }
+
 //        model.modelUpdatedFromUI();
     }
 }

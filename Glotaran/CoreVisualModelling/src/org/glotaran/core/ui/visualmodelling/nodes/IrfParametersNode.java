@@ -6,6 +6,8 @@
 package org.glotaran.core.ui.visualmodelling.nodes;
 
 import java.awt.Image;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import org.glotaran.core.models.tgm.IrfparPanelModel;
 import org.glotaran.core.ui.visualmodelling.common.EnumPropertyEditor;
 import org.glotaran.core.ui.visualmodelling.common.EnumTypes;
@@ -26,11 +28,12 @@ public class IrfParametersNode extends PropertiesAbstractNode {
     private Double sweepPeriod = null;
     private String[] propNames = new String[]{"Name","Type","Use backsweep","Sweep period"};
 
-    public IrfParametersNode(){
+    public IrfParametersNode(PropertyChangeListener listn){
         super("IRFPar", new IrfParametersKeys(2));
+        addPropertyChangeListener(listn);
     }
 
-    public IrfParametersNode(IrfparPanelModel irfparPanel) {
+    public IrfParametersNode(IrfparPanelModel irfparPanel, PropertyChangeListener listn) {
         super("IRFPar", new IrfParametersKeys(irfparPanel.getIrf(), irfparPanel.getFixed()));
         if (irfparPanel.isMirf()){
             setIRFType(EnumTypes.IRFTypes.MEASURED_IRF);
@@ -44,9 +47,10 @@ public class IrfParametersNode extends PropertiesAbstractNode {
             }
         }
         if (irfparPanel.isBacksweepEnabled()){
-            setBackSweep(irfparPanel.isBacksweepEnabled());
-            setSweepPeriod(irfparPanel.getBacksweepPeriod());
+            backSweep = irfparPanel.isBacksweepEnabled();
+            sweepPeriod = irfparPanel.getBacksweepPeriod();
         }
+        addPropertyChangeListener(listn);
     }
 
     public Boolean getBackSweep() {
@@ -67,6 +71,7 @@ public class IrfParametersNode extends PropertiesAbstractNode {
         else {
             getSheet().get(Sheet.PROPERTIES).remove(propNames[3]);
         }
+        firePropertyChange("SetBackSweep", null, backSweep);
     }
 
     public Double getSweepPeriod() {
@@ -75,6 +80,7 @@ public class IrfParametersNode extends PropertiesAbstractNode {
 
     public void setSweepPeriod(Double sweepPeriod) {
         this.sweepPeriod = sweepPeriod;
+        firePropertyChange("SetBackSweepPeriod", null, sweepPeriod);
     }
 
     @Override
@@ -159,7 +165,7 @@ public class IrfParametersNode extends PropertiesAbstractNode {
         }
         irfTypeProperty = irfType;
         fireDisplayNameChange(null, getDisplayName());
-
+        firePropertyChange("SetIRFType", null, irfTypeProperty);
     }
 
     public EnumTypes.IRFTypes getIRFType() {
@@ -185,4 +191,15 @@ public class IrfParametersNode extends PropertiesAbstractNode {
             }
         }
     }
+
+    @Override
+    public void fire(int index, PropertyChangeEvent evt){
+        if ("start".equals(evt.getPropertyName())) {
+            firePropertyChange("start", index, evt.getNewValue());
+        }
+        if ("fixed".equals(evt.getPropertyName())) {
+            firePropertyChange("fixed", index, evt.getNewValue());
+        }
+    }
+
 }

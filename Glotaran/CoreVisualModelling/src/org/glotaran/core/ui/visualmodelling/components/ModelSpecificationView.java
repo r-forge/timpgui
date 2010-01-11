@@ -10,6 +10,7 @@ import java.awt.dnd.DropTarget;
 import java.awt.dnd.DropTargetAdapter;
 import java.awt.dnd.DropTargetDragEvent;
 import java.awt.dnd.DropTargetDropEvent;
+import java.beans.PropertyChangeListener;
 import java.io.IOException;
 import org.glotaran.core.main.mesages.CoreErrorMessages;
 import org.glotaran.core.ui.visualmodelling.nodes.CohSpecNode;
@@ -60,6 +61,12 @@ public class ModelSpecificationView extends TreeTableView {
          }
 
          public void drop(DropTargetDropEvent dtde) {
+            PropertyChangeListener listn = null;
+             for (int i = 0; i < getPropertyChangeListeners().length; i++){
+                 if (getPropertyChangeListeners()[i] instanceof ModelContainer){
+                     listn = getPropertyChangeListeners()[i];
+                 }
+             }
              PaletteItem item = null;
              try {
                  item = (PaletteItem) dtde.getTransferable().getTransferData(PaletteNode.DATA_FLAVOR);
@@ -73,7 +80,7 @@ public class ModelSpecificationView extends TreeTableView {
                          }
                      }
                      if (!present){
-                         nodes.add(new Node[]{new KineticParametersNode()});
+                         nodes.add(new Node[]{new KineticParametersNode(listn)});
                      }
                      else {
                          CoreErrorMessages.parametersExists("Kinetic parameters ");
@@ -88,7 +95,7 @@ public class ModelSpecificationView extends TreeTableView {
                              }
                          }
                          if (!present) {
-                             nodes.add(new Node[]{new IrfParametersNode()});
+                             nodes.add(new Node[]{new IrfParametersNode(listn)});
                          } else {
                              CoreErrorMessages.parametersExists("IRF Parameters ");
                          }

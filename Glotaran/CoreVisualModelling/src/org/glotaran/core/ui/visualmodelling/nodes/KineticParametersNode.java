@@ -14,7 +14,6 @@ import org.openide.nodes.PropertySupport;
 import org.openide.nodes.Sheet;
 import org.openide.util.Exceptions;
 import org.openide.util.ImageUtilities;
-import org.openide.util.WeakListeners;
 
 /**
  *
@@ -24,10 +23,10 @@ public class KineticParametersNode extends PropertiesAbstractNode{
     private final Image ICON = ImageUtilities.loadImage("org/glotaran/core/ui/visualmodelling/resources/Kinpar_16.png", true);
     Boolean positiveKinpar = false;
     Boolean seqModel = false;
-    PropertyChangeListener propListner;
 
-    public KineticParametersNode(){
-        super("KinPar", new NonLinearParametersKeys(1));
+    public KineticParametersNode(PropertyChangeListener listn){
+        super("KinPar", new NonLinearParametersKeys(0));
+        this.addPropertyChangeListener(listn);
 //        propListner = listn;
 //        addPropertyChangeListener(WeakListeners.propertyChange(propListner, this));
     }
@@ -36,8 +35,7 @@ public class KineticParametersNode extends PropertiesAbstractNode{
         super("KinPar", new NonLinearParametersKeys(kinparPanel.getKinpar()));
         positiveKinpar = (kinparPanel.isPositivepar());
         seqModel = (kinparPanel.isSeqmod());
-        propListner = listn;
-        addPropertyChangeListener(WeakListeners.propertyChange(propListner, this));
+        this.addPropertyChangeListener(listn);
     }
 
     @Override
@@ -108,7 +106,7 @@ public class KineticParametersNode extends PropertiesAbstractNode{
 
     public void setPositiveKinpar(Boolean positiveKinpar) {
         this.positiveKinpar = positiveKinpar;
-        propListner.propertyChange(new PropertyChangeEvent(this, "Positise rates", null, positiveKinpar));
+        firePropertyChange("Positise rates", null, positiveKinpar);
     }
 
     public Boolean getSeqModel() {
@@ -117,20 +115,19 @@ public class KineticParametersNode extends PropertiesAbstractNode{
 
     public void setSeqModel(Boolean seqModel) {
         this.seqModel = seqModel;
-        propListner.propertyChange(new PropertyChangeEvent(this, "Sequential model", null, seqModel));
+        firePropertyChange("Sequential model", null, seqModel);
     }
 
     @Override
     public void fire(int index, PropertyChangeEvent evt){
         if ("start".equals(evt.getPropertyName())) {
-            propListner.propertyChange(new PropertyChangeEvent(this, "start", index, evt.getNewValue()));
+            firePropertyChange("start", index, evt.getNewValue());
         }
         if ("fixed".equals(evt.getPropertyName())) {
-            propListner.propertyChange(new PropertyChangeEvent(this, "fixed", index, evt.getNewValue()));
+            firePropertyChange("fixed", index, evt.getNewValue());
         }
         if ("delete".equals(evt.getPropertyName())) {
-            propListner.propertyChange(new PropertyChangeEvent(this, "delete", index, evt.getNewValue()));
+            firePropertyChange("delete", index, evt.getNewValue());
         }
-
     }
 }

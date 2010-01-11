@@ -94,7 +94,7 @@
             <xsd:element name="start" type="xsd:double" nillable="true" maxOccurs="unbounded"/>
         </xsd:sequence>
     </xsd:complexType>
-    <xsd:element name="Project">
+    <xsd:element name="GtaProjectScheme">
         <xsd:complexType>
             <xsd:sequence>
                 <xsd:element name="datasetContainers" nillable="true" minOccurs="0" maxOccurs="unbounded" type="tns:DatasetContainers"/>
@@ -107,6 +107,7 @@
         </xsd:complexType>
     </xsd:element>
 </xsd:schema>
+
 
 
 

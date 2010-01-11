@@ -1,6 +1,7 @@
 package org.glotaran.core.ui.visualmodelling.menu;
 
 import org.glotaran.core.ui.visualmodelling.nodes.VisualAbstractNode;
+import org.glotaran.core.ui.visualmodelling.view.GraphSceneImpl;
 import org.netbeans.api.visual.action.PopupMenuProvider;
 import org.netbeans.api.visual.graph.GraphScene;
 import org.netbeans.api.visual.widget.Widget;
@@ -12,6 +13,7 @@ import java.awt.event.ActionListener;
 import org.glotaran.core.main.mesages.CoreErrorMessages;
 import org.glotaran.core.main.project.TGProject;
 import org.glotaran.core.ui.visualmodelling.common.VisualCommonFunctions;
+import org.glotaran.core.ui.visualmodelling.view.SceneSerializer;
 import org.glotaran.tgmfilesupport.TgmDataNode;
 import org.netbeans.api.project.ui.OpenProjects;
 import org.openide.cookies.InstanceCookie;
@@ -27,6 +29,7 @@ public class SceneMainMenu implements PopupMenuProvider, ActionListener {
     
     private static final String ADD_NEW_MODEL = "addNewModelAction"; // NOI18N
     private static final String ADD_NEW_DATASET_CONTAINER = "addNewDatasetContainerAction"; // NOI18N
+    private static final String SAVE_SCENE = "saveSceneAction"; // NOI18N
 
     private GraphScene scene;
 
@@ -49,17 +52,23 @@ public class SceneMainMenu implements PopupMenuProvider, ActionListener {
         item.setActionCommand(ADD_NEW_DATASET_CONTAINER);
         item.addActionListener(this);
         menu.add(item);
+        menu.addSeparator();
+
+        item = new JMenuItem ("Save scene...");
+        item.setActionCommand(SAVE_SCENE);
+        item.addActionListener(this);
+        menu.add(item);
     }
-    
+
     public JPopupMenu getPopupMenu(Widget widget, Point point){
         this.point=point;
         return menu;
     }
     
-    public void actionPerformed(ActionEvent e) {
-        Widget newWidget = null;
+    public void actionPerformed(ActionEvent e) {        
         if(ADD_NEW_MODEL.equals (e.getActionCommand ())) {
  //           TgmDataNode newNode = null;
+            Widget newWidget = null;
             final TGProject proj = (TGProject)OpenProjects.getDefault().getMainProject();
             if (proj != null) {
 //                newNode = VisualCommonFunctions.createNewTgmFile(proj.getModelsFolder(true));
@@ -67,15 +76,20 @@ public class SceneMainMenu implements PopupMenuProvider, ActionListener {
 //                a.actionPerformed(e);
                 VisualAbstractNode newNode = new VisualAbstractNode("Model", "Containers", nodeCount++); //TODO: move Mynode and rename
                 newWidget = scene.addNode(newNode);
+                newWidget.setPreferredLocation(point);
             }else{
                 CoreErrorMessages.noMainProjectFound();
             }
         }
         if(ADD_NEW_DATASET_CONTAINER.equals (e.getActionCommand ())) {
+            Widget newWidget = null;
             VisualAbstractNode newNode = new VisualAbstractNode("Dataset Container", "Containers", nodeCount++); //TODO: move Mynode and rename
             newWidget = scene.addNode(newNode);
+            newWidget.setPreferredLocation(point);
         }
-        newWidget.setPreferredLocation(point);
+        if(SAVE_SCENE.equals (e.getActionCommand ())) {
+            save();
+        }
         scene.validate();
     }
 
@@ -98,5 +112,15 @@ public class SceneMainMenu implements PopupMenuProvider, ActionListener {
             }
         }
         return null;
+    }
+
+    private void save () {
+        JFileChooser chooser = new JFileChooser ();
+        chooser.setDialogTitle ("Save Scene ...");
+        chooser.setMultiSelectionEnabled (false);
+        chooser.setFileSelectionMode (JFileChooser.FILES_ONLY);
+        if (chooser.showSaveDialog (scene.getView ()) == JFileChooser.APPROVE_OPTION) {
+           SceneSerializer.serialize ((GraphSceneImpl) scene, chooser.getSelectedFile ());
+        }
     }
 }

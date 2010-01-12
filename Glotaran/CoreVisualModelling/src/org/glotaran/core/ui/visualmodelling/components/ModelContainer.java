@@ -397,7 +397,24 @@ public class ModelContainer
             }
 
             if (evt.getPropertyName().equalsIgnoreCase("setDisptype")){
+                if ((evt.getOldValue().equals(EnumTypes.DispersionTypes.PARMU))&
+                        (evt.getNewValue().equals(EnumTypes.DispersionTypes.PARTAU))){
+                    model.getTgm().getDat().getIrfparPanel().setPartaufixed(false);
+                    model.getTgm().getDat().getIrfparPanel().setDisptaufun("");
+                    model.getTgm().getDat().getIrfparPanel().setPartau("");
 
+                    model.getTgm().getDat().getIrfparPanel().setParmufixed(false);
+                    model.getTgm().getDat().getIrfparPanel().setDispmufun("");
+                    model.getTgm().getDat().getIrfparPanel().setParmu("");
+
+                }
+                else {
+                    if ((evt.getOldValue().equals(EnumTypes.DispersionTypes.PARTAU))&
+                        (evt.getNewValue().equals(EnumTypes.DispersionTypes.PARMU))){
+
+
+                    }
+                }
             }
 
             

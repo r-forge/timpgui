@@ -6,6 +6,8 @@
 package org.glotaran.core.ui.visualmodelling.nodes;
 
 import java.awt.Image;
+import java.beans.PropertyChangeListener;
+import java.io.IOException;
 import java.util.ArrayList;
 import org.glotaran.core.models.tgm.IrfparPanelModel;
 import org.glotaran.core.ui.visualmodelling.common.EnumPropertyEditor;
@@ -28,11 +30,12 @@ public class DispersionModelingNode extends PropertiesAbstractNode {
     private EnumTypes.DispersionTypes disptype = EnumTypes.DispersionTypes.PARMU;
     private Double centralWave;
 
-    public DispersionModelingNode(){
+    public DispersionModelingNode(PropertyChangeListener listn){
          super("Dispersion", new NonLinearParametersKeys(1));
+         this.addPropertyChangeListener(listn);
     }
 
-    public DispersionModelingNode(IrfparPanelModel irfparPanel, DispersionTypes dispersionTypes) {
+    public DispersionModelingNode(IrfparPanelModel irfparPanel, DispersionTypes dispersionTypes, PropertyChangeListener listn) {
         super("Dispersion", new NonLinearParametersKeys(0));
         NonLinearParametersKeys params = (NonLinearParametersKeys) getChildren();
         ArrayList <Double> paramList;
@@ -50,9 +53,16 @@ public class DispersionModelingNode extends PropertiesAbstractNode {
         }
         setDisptype(dispersionTypes);
         setCentralWave(irfparPanel.getLamda());
+        this.addPropertyChangeListener(listn);
     }
 
-        @Override
+    @Override
+    public void destroy() throws IOException {
+        super.destroyNode();
+        firePropertyChange("mainNodeDeleted", disptype, null);
+    }
+
+    @Override
     public String getDisplayName() {
         String name = super.getDisplayName();
         name = name + " ("+disptype+")";
@@ -118,6 +128,7 @@ public class DispersionModelingNode extends PropertiesAbstractNode {
     }
 
     public void setDisptype(DispersionTypes disptype) {
+        firePropertyChange("setDisptype", this.disptype, disptype);
         this.disptype = disptype;
         fireDisplayNameChange(null, getDisplayName());
     }
@@ -128,6 +139,7 @@ public class DispersionModelingNode extends PropertiesAbstractNode {
 
     public void setCentralWave(Double centralWave) {
         this.centralWave = centralWave;
+        firePropertyChange("setCentralWave", null, centralWave);
     }
 
 }

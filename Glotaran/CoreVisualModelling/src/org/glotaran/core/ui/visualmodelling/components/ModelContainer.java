@@ -22,6 +22,7 @@ import javax.swing.KeyStroke;
 import org.glotaran.core.main.mesages.CoreErrorMessages;
 import org.glotaran.core.models.tgm.KinPar;
 import org.glotaran.core.ui.visualmodelling.common.EnumTypes;
+import org.glotaran.core.ui.visualmodelling.common.EnumTypes.CohSpecTypes;
 import org.glotaran.core.ui.visualmodelling.common.EnumTypes.IRFTypes;
 import org.glotaran.core.ui.visualmodelling.nodes.CohSpecNode;
 import org.glotaran.core.ui.visualmodelling.nodes.DispersionModelingNode;
@@ -105,12 +106,12 @@ public class ModelContainer
 
         if (model.getTgm().getDat().getIrfparPanel().getParmu().length()!=0){
             manager.getRootContext().getChildren().add(
-                    new Node[]{new DispersionModelingNode(model.getTgm().getDat().getIrfparPanel(), EnumTypes.DispersionTypes.PARMU)});
+                    new Node[]{new DispersionModelingNode(model.getTgm().getDat().getIrfparPanel(), EnumTypes.DispersionTypes.PARMU, this)});
         }
 
         if (model.getTgm().getDat().getIrfparPanel().getPartau().length()!=0){
             manager.getRootContext().getChildren().add(
-                    new Node[]{new DispersionModelingNode(model.getTgm().getDat().getIrfparPanel(), EnumTypes.DispersionTypes.PARTAU)});
+                    new Node[]{new DispersionModelingNode(model.getTgm().getDat().getIrfparPanel(), EnumTypes.DispersionTypes.PARTAU, this)});
         }
 
         if (!model.getTgm().getDat().getWeightParPanel().getWeightpar().isEmpty()){
@@ -120,7 +121,7 @@ public class ModelContainer
 
         if (model.getTgm().getDat().getCohspecPanel().getCohspec().isSet()){
             manager.getRootContext().getChildren().add(
-                    new Node[]{new CohSpecNode(model.getTgm().getDat().getCohspecPanel())});
+                    new Node[]{new CohSpecNode(model.getTgm().getDat().getCohspecPanel(), this)});
         }
 
 
@@ -201,6 +202,7 @@ public class ModelContainer
         if (evt.getSource() == manager &&
                 ExplorerManager.PROP_SELECTED_NODES.equals(evt.getPropertyName())) {
             WindowManager.getDefault().getRegistry().getActivated().setActivatedNodes(manager.getSelectedNodes());
+            return;
         }
         if (evt.getSource().getClass().equals(KineticParametersNode.class)){
             if (evt.getPropertyName().equalsIgnoreCase("Number of components")){
@@ -231,6 +233,13 @@ public class ModelContainer
                 int index = (Integer)evt.getNewValue();
                 model.getTgm().getDat().getKinparPanel().getKinpar().remove(index);
             }
+            if (evt.getPropertyName().equalsIgnoreCase("mainNodeDeleted")){
+                model.getTgm().getDat().getKinparPanel().getKinpar().clear();
+                model.getTgm().getDat().getKinparPanel().setPositivepar(false);
+                model.getTgm().getDat().getKinparPanel().setSeqmod(false);
+            }
+
+
             try {
                 model.setModified(true);
                 model.getCookie(SaveCookie.class).save();
@@ -238,6 +247,7 @@ public class ModelContainer
             } catch (IOException ex) {
                 CoreErrorMessages.fileSaveError(model.getNodeDelegate().getName());
             }
+            return;
 
         }
         if (evt.getSource().getClass().equals(IrfParametersNode.class)){
@@ -246,6 +256,14 @@ public class ModelContainer
             }
             if (evt.getPropertyName().equalsIgnoreCase("SetBackSweepPeriod")){
                 model.getTgm().getDat().getIrfparPanel().setBacksweepPeriod((Double)evt.getNewValue());
+            }
+            if (evt.getPropertyName().equalsIgnoreCase("mainNodeDeleted")){
+                model.getTgm().getDat().getIrfparPanel().getIrf().clear();
+                model.getTgm().getDat().getIrfparPanel().getFixed().clear();
+                model.getTgm().getDat().getIrfparPanel().setParmufixed(Boolean.FALSE);
+                model.getTgm().getDat().getIrfparPanel().setPartaufixed(Boolean.FALSE);
+                model.getTgm().getDat().getIrfparPanel().setBacksweepEnabled(Boolean.FALSE);
+                model.getTgm().getDat().getIrfparPanel().setMirf(Boolean.FALSE);
             }
             if (evt.getPropertyName().equalsIgnoreCase("SetIRFType")){
                 EnumTypes.IRFTypes irfType = (IRFTypes)evt.getNewValue();
@@ -300,8 +318,99 @@ public class ModelContainer
             } catch (IOException ex) {
                 CoreErrorMessages.fileSaveError(model.getNodeDelegate().getName());
             }
+            return;
         }
+        if (evt.getSource().getClass().equals(CohSpecNode.class)){
+            if (evt.getPropertyName().equalsIgnoreCase("setClpMax")){
+                model.getTgm().getDat().getCohspecPanel().setClp0Max((Double)evt.getNewValue());
+            }
+            if (evt.getPropertyName().equalsIgnoreCase("setClpMin")){
+                model.getTgm().getDat().getCohspecPanel().setClp0Min((Double)evt.getNewValue());
+            }
+            if (evt.getPropertyName().equalsIgnoreCase("setClpZero")){
+                model.getTgm().getDat().getCohspecPanel().setClp0Enabled((Boolean)evt.getNewValue());
+            }
+            if (evt.getPropertyName().equalsIgnoreCase("setCohType")){
+                EnumTypes.CohSpecTypes cohType = (CohSpecTypes)evt.getNewValue();
+                switch (cohType) {
+                    case IRF: {
+                        model.getTgm().getDat().getCohspecPanel().getCohspec().setType("irf");
+                        model.getTgm().getDat().getCohspecPanel().getCohspec().setSet(true);
+                        break;
+                    }
+                    case FREE_IRF: {
+                        model.getTgm().getDat().getCohspecPanel().getCohspec().setType("freeirfdisp");
+                        model.getTgm().getDat().getCohspecPanel().getCohspec().setSet(true);
+                        break;
+                    }
+                    case IRF_MULTY: {
+                        model.getTgm().getDat().getCohspecPanel().getCohspec().setType("irfmulti");
+                        model.getTgm().getDat().getCohspecPanel().getCohspec().setSet(true);
+                        break;
+                    }
+                    case MIXED: {
+                        model.getTgm().getDat().getCohspecPanel().getCohspec().setType("mix");
+                        model.getTgm().getDat().getCohspecPanel().getCohspec().setSet(true);
+                        break;
+                    }
+                    case SEQ: {
+                        model.getTgm().getDat().getCohspecPanel().getCohspec().setType("seq");
+                        model.getTgm().getDat().getCohspecPanel().getCohspec().setSet(true);
+                        break;
+                    }
+                }
+            }
+            if (evt.getPropertyName().equalsIgnoreCase("mainNodeDeleted")){
+                model.getTgm().getDat().getCohspecPanel().setClp0Enabled(null);
+                model.getTgm().getDat().getCohspecPanel().setClp0Max(null);
+                model.getTgm().getDat().getCohspecPanel().setClp0Min(null);
+                model.getTgm().getDat().getCohspecPanel().setCoh("");
+                model.getTgm().getDat().getCohspecPanel().getCohspec().setSet(false);
+                model.getTgm().getDat().getCohspecPanel().getCohspec().setType("");
+            }
+            try {
+                model.setModified(true);
+                model.getCookie(SaveCookie.class).save();
+                model.setModified(false);
+            } catch (IOException ex) {
+                CoreErrorMessages.fileSaveError(model.getNodeDelegate().getName());
+            }
+            return;
 
-//        model.modelUpdatedFromUI();
+        }
+        if (evt.getSource().getClass().equals(DispersionModelingNode.class)){
+            boolean parMu = evt.getOldValue().equals(EnumTypes.DispersionTypes.PARMU);
+            if (evt.getPropertyName().equalsIgnoreCase("mainNodeDeleted")){
+                if (parMu){
+                    model.getTgm().getDat().getIrfparPanel().setParmufixed(false);
+                    model.getTgm().getDat().getIrfparPanel().setDispmufun("");
+                    model.getTgm().getDat().getIrfparPanel().setParmu("");
+                }
+                else {
+                    model.getTgm().getDat().getIrfparPanel().setPartaufixed(false);
+                    model.getTgm().getDat().getIrfparPanel().setDisptaufun("");
+                    model.getTgm().getDat().getIrfparPanel().setPartau("");
+                }
+            }
+            if (evt.getPropertyName().equalsIgnoreCase("mainNodeDeleted")){
+                model.getTgm().getDat().getIrfparPanel().setLamda((Double)evt.getNewValue());
+            }
+
+            if (evt.getPropertyName().equalsIgnoreCase("setDisptype")){
+
+            }
+
+            
+
+            try {
+                model.setModified(true);
+                model.getCookie(SaveCookie.class).save();
+                model.setModified(false);
+            } catch (IOException ex) {
+                CoreErrorMessages.fileSaveError(model.getNodeDelegate().getName());
+            }
+            return;
+
+        }
     }
 }

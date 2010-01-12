@@ -110,7 +110,7 @@ public class ModelSpecificationView extends TreeTableView {
                                  }
                              }
                              if (paramNumb < 2) {
-                                 nodes.add(new Node[]{new DispersionModelingNode()});
+                                 nodes.add(new Node[]{new DispersionModelingNode(listn)});
                              } else {
                                  CoreErrorMessages.parametersExists("2 Dispersion parameters ");
                              }
@@ -124,7 +124,7 @@ public class ModelSpecificationView extends TreeTableView {
                                      }
                                  }
                                  if (!present) {
-                                     nodes.add(new Node[]{new CohSpecNode()});
+                                     nodes.add(new Node[]{new CohSpecNode(listn)});
                                  } else {
                                      CoreErrorMessages.parametersExists("CohSpec parameters ");
                                  }

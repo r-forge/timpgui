@@ -22,7 +22,11 @@ public class IrfParametersSubNode extends ParametersSubNode{
         String name = null;
         for (int i = 0; i < getParentNode().getChildren().getNodesCount(); i++){
             if (getParentNode().getChildren().getNodes()[i].equals(this)){
-                return nodeNames[i];
+                name = nodeNames[i];
+                if (getDataObj().isFixed()){
+                    name = name + " (f)";
+                }
+                return name;
             }
         }
         return "something wrong";

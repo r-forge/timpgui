@@ -6,6 +6,7 @@
 package org.glotaran.core.ui.visualmodelling.nodes;
 
 import java.awt.Image;
+import java.beans.PropertyChangeListener;
 import org.glotaran.core.models.tgm.CohspecPanelModel;
 import org.glotaran.core.ui.visualmodelling.common.EnumPropertyEditor;
 import org.glotaran.core.ui.visualmodelling.common.EnumTypes;
@@ -28,11 +29,12 @@ public class CohSpecNode extends PropertiesAbstractNode {
     private Double clpMax = 0.0;
     private String[] propNames = new String[]{"Name", "CohSpec model", "Set coh to 0", "Min vave", "Max vave"};
 
-    public CohSpecNode(){
+    public CohSpecNode(PropertyChangeListener listn){
          super("CohSpec", Children.LEAF);
+         this.addPropertyChangeListener(listn);
     }
 
-    public CohSpecNode(CohspecPanelModel cohspecPanel) {
+    public CohSpecNode(CohspecPanelModel cohspecPanel, PropertyChangeListener listn) {
          super("CohSpec", Children.LEAF);
          if (cohspecPanel.isClp0Enabled()!=null){
             setClpzero(cohspecPanel.isClp0Enabled());
@@ -42,9 +44,10 @@ public class CohSpecNode extends PropertiesAbstractNode {
              setClpMax(cohspecPanel.getClp0Max());
          }
          setCohSpecType(cohSpecType.setFromStr(cohspecPanel.getCohspec().getType()));
+         this.addPropertyChangeListener(listn);
     }
-
-        @Override
+    
+    @Override
     public String getDisplayName() {
         String name = super.getDisplayName();
         name = name + " ("+cohSpecType+")";
@@ -67,6 +70,7 @@ public class CohSpecNode extends PropertiesAbstractNode {
 
     public void setClpMax(Double clpMax) {
         this.clpMax = clpMax;fireDisplayNameChange(null, getDisplayName());
+        firePropertyChange("setClpMax", null, clpMax);
     }
 
     public Double getClpMin() {
@@ -75,6 +79,7 @@ public class CohSpecNode extends PropertiesAbstractNode {
 
     public void setClpMin(Double clpMin) {
         this.clpMin = clpMin;
+        firePropertyChange("setClpMin", null, clpMin);
     }
 
     public Boolean getClpzero() {
@@ -99,6 +104,7 @@ public class CohSpecNode extends PropertiesAbstractNode {
             getSheet().get(Sheet.PROPERTIES).remove(propNames[3]);
             getSheet().get(Sheet.PROPERTIES).remove(propNames[4]);
         }
+        firePropertyChange("setClpZero", null, clpzero);
     }
 
     public CohSpecTypes getCohSpecType() {
@@ -108,6 +114,7 @@ public class CohSpecNode extends PropertiesAbstractNode {
     public void setCohSpecType(CohSpecTypes cohSpecType) {
         this.cohSpecType = cohSpecType;
         fireDisplayNameChange(null, getDisplayName());
+        firePropertyChange("setCohType", null, cohSpecType);
     }
 
      @Override

@@ -8,6 +8,7 @@ package org.glotaran.core.ui.visualmodelling.nodes;
 import java.awt.Image;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.Action;
@@ -62,6 +63,16 @@ public class PropertiesAbstractNode extends AbstractNode {
     @Override
     public boolean canDestroy() {
         return true;
+    }
+
+    @Override
+    public void destroy() throws IOException {
+        super.destroy();
+        firePropertyChange("mainNodeDeleted", null, null);
+    }
+
+    protected void destroyNode() throws IOException{
+        super.destroy();
     }
 
     @Override

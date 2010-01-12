@@ -556,7 +556,7 @@ public class InitModel {
                         clp0Call = clp0Call + ",";
                     }
 
-                    clp0Call = clp0Call + "list(" + Double.valueOf(min) + "," +
+                    clp0Call = clp0Call + "list(low = " + Double.valueOf(min) + ", high =" +
                             Double.valueOf(max) + ", comp = " + (i + 1) + ")";
                     count++;
                 }

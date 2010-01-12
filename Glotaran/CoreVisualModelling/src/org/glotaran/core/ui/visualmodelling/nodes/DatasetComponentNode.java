@@ -111,9 +111,8 @@ public class DatasetComponentNode extends PropertiesAbstractNode implements Tran
       }
    }
 
-
-
-
-
+    public TimpDatasetNode getTdn() {
+        return tdn;
+    }
    
 }

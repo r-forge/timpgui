@@ -10,6 +10,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import org.glotaran.core.main.mesages.CoreErrorMessages;
 import org.glotaran.core.main.project.TGProject;
 import org.glotaran.core.ui.visualmodelling.common.VisualCommonFunctions;
@@ -30,6 +31,7 @@ public class SceneMainMenu implements PopupMenuProvider, ActionListener {
     private static final String ADD_NEW_MODEL = "addNewModelAction"; // NOI18N
     private static final String ADD_NEW_DATASET_CONTAINER = "addNewDatasetContainerAction"; // NOI18N
     private static final String SAVE_SCENE = "saveSceneAction"; // NOI18N
+    private static final String LOAD_SCENE = "loadSceneAction"; // NOI18N
 
     private GraphScene scene;
 
@@ -56,6 +58,11 @@ public class SceneMainMenu implements PopupMenuProvider, ActionListener {
 
         item = new JMenuItem ("Save scene...");
         item.setActionCommand(SAVE_SCENE);
+        item.addActionListener(this);
+        menu.add(item);
+
+        item = new JMenuItem ("Load scene...");
+        item.setActionCommand(LOAD_SCENE);
         item.addActionListener(this);
         menu.add(item);
     }
@@ -90,6 +97,9 @@ public class SceneMainMenu implements PopupMenuProvider, ActionListener {
         if(SAVE_SCENE.equals (e.getActionCommand ())) {
             save();
         }
+        if(LOAD_SCENE.equals (e.getActionCommand ())) {
+            load();
+        }
         scene.validate();
     }
 
@@ -121,6 +131,21 @@ public class SceneMainMenu implements PopupMenuProvider, ActionListener {
         chooser.setFileSelectionMode (JFileChooser.FILES_ONLY);
         if (chooser.showSaveDialog (scene.getView ()) == JFileChooser.APPROVE_OPTION) {
            SceneSerializer.serialize ((GraphSceneImpl) scene, chooser.getSelectedFile ());
+        }
+    }
+
+     private void load () {
+        JFileChooser chooser = new JFileChooser ();
+        chooser.setDialogTitle ("Load Scene ...");
+        chooser.setMultiSelectionEnabled (false);
+        chooser.setFileSelectionMode (JFileChooser.FILES_ONLY);
+        if (chooser.showOpenDialog (scene.getView ()) == JFileChooser.APPROVE_OPTION) {
+//            for (String edge : new ArrayList<String> (scene.getEdges ()))
+//                scene.removeEdge (edge);
+//            for (String node : new ArrayList<String> (scene.getNodes ()))
+//                scene.removeNode (node);
+            SceneSerializer.deserialize ((GraphSceneImpl) scene, chooser.getSelectedFile ());
+            scene.validate ();
         }
     }
 }

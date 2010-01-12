@@ -18,6 +18,7 @@
  */
 package org.glotaran.core.ui.visualmodelling.view;
 
+import org.glotaran.core.models.gta.GtaProjectScheme;
 import org.glotaran.core.ui.visualmodelling.menu.SceneMainMenu;
 import org.glotaran.core.ui.visualmodelling.menu.EdgeMenu;
 import org.glotaran.core.ui.visualmodelling.menu.NodeMenu;
@@ -81,6 +82,29 @@ public class GraphSceneImpl extends GraphScene { //TODO: implement <VisualAbstra
         getActions().addAction(sceneAcceptAction);
         setToolTipText("Drag components from the palette onto this design pane");
         initGrids();
+    }
+
+    public GraphSceneImpl(GtaProjectScheme scheme) {
+        mainLayer = new LayerWidget(this);
+        addChild(mainLayer);
+        connectionLayer = new LayerWidget(this);
+        addChild(connectionLayer);
+
+        addChild(interractionLayer);
+        getActions().addAction(ActionFactory.createRectangularSelectAction(this, backgroundLayer));
+        getActions().addAction(ActionFactory.createPopupMenuAction(new SceneMainMenu(this)));
+        getActions().addAction(sceneAcceptAction);
+        setToolTipText("Drag components from the palette onto this design pane");
+        initGrids();
+
+        //TODO: get datasetContainer and add nodes
+        scheme.getDatasetContainer();
+
+        //TODO: get available models
+        scheme.getModel();
+
+        //TODO:
+        scheme.getConnection();
     }
 
     protected Widget attachEdgeWidget(String edge) {

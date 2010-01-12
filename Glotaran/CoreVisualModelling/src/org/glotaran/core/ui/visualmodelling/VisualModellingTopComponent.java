@@ -8,6 +8,7 @@ package org.glotaran.core.ui.visualmodelling;
 import java.awt.BorderLayout;
 import java.util.logging.Logger;
 import javax.swing.JComponent;
+import org.glotaran.core.models.gta.GtaProjectScheme;
 import org.glotaran.core.ui.visualmodelling.palette.PaletteSupport;
 import org.glotaran.core.ui.visualmodelling.view.GraphSceneImpl;
 import org.openide.util.NbBundle;
@@ -40,6 +41,24 @@ public final class VisualModellingTopComponent extends TopComponent {
 //        setIcon(ImageUtilities.loadImage(ICON_PATH, true));
 
         GraphSceneImpl scene = new GraphSceneImpl();
+        myView = scene.createView();
+        visualDesignScrollPane.setViewportView(myView);
+        add(scene.createSatelliteView(), BorderLayout.WEST);
+
+        setFocusable (true);
+        setFocusTraversalKeysEnabled (false);
+
+        associateLookup( Lookups.fixed( new Object[] { PaletteSupport.createPalette() } ) );
+
+    }
+
+        public VisualModellingTopComponent(GtaProjectScheme scheme) {
+        initComponents();
+        setName(NbBundle.getMessage(VisualModellingTopComponent.class, "CTL_VisualModellingTopComponent"));
+        setToolTipText(NbBundle.getMessage(VisualModellingTopComponent.class, "HINT_VisualModellingTopComponent"));
+//        setIcon(ImageUtilities.loadImage(ICON_PATH, true));
+
+        GraphSceneImpl scene = new GraphSceneImpl(scheme);
         myView = scene.createView();
         visualDesignScrollPane.setViewportView(myView);
         add(scene.createSatelliteView(), BorderLayout.WEST);

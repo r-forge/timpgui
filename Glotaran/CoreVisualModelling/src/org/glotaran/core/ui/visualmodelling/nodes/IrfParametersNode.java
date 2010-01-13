@@ -31,6 +31,7 @@ public class IrfParametersNode extends PropertiesAbstractNode {
     public IrfParametersNode(PropertyChangeListener listn){
         super("IRFPar", new IrfParametersKeys(2));
         addPropertyChangeListener(listn);
+        setIRFType(irfTypeProperty);
     }
 
     public IrfParametersNode(IrfparPanelModel irfparPanel, PropertyChangeListener listn) {
@@ -192,14 +193,15 @@ public class IrfParametersNode extends PropertiesAbstractNode {
         }
     }
 
-    @Override
-    public void fire(int index, PropertyChangeEvent evt){
-        if ("start".equals(evt.getPropertyName())) {
-            firePropertyChange("start", index, evt.getNewValue());
-        }
-        if ("fixed".equals(evt.getPropertyName())) {
-            firePropertyChange("fixed", index, evt.getNewValue());
-        }
-    }
+//    @Override
+//    public void fire(int index, PropertyChangeEvent evt){
+//        if ("start".equals(evt.getPropertyName())) {
+//            firePropertyChange("start", index, evt.getNewValue());
+//        }
+//        if ("fixed".equals(evt.getPropertyName())) {
+//            firePropertyChange("fixed", index, evt.getNewValue());
+//        }
+//    }
+//
 
 }

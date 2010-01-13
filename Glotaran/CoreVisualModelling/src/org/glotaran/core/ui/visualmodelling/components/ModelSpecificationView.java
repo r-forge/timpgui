@@ -13,6 +13,8 @@ import java.awt.dnd.DropTargetDropEvent;
 import java.beans.PropertyChangeListener;
 import java.io.IOException;
 import org.glotaran.core.main.mesages.CoreErrorMessages;
+import org.glotaran.core.ui.visualmodelling.common.EnumPropertyEditor;
+import org.glotaran.core.ui.visualmodelling.common.EnumTypes;
 import org.glotaran.core.ui.visualmodelling.nodes.CohSpecNode;
 import org.glotaran.core.ui.visualmodelling.nodes.DispersionModelingNode;
 import org.glotaran.core.ui.visualmodelling.nodes.IrfParametersNode;
@@ -104,13 +106,25 @@ public class ModelSpecificationView extends TreeTableView {
 //================ disp parameter node creation ===================
                          if (item.getName().equalsIgnoreCase("Dispersion")) {
                              int paramNumb = 0;
+                             EnumTypes.DispersionTypes type = null;
                              for (int i = 0; i < nodes.getNodesCount(); i++) {
                                  if (nodes.getNodes()[i] instanceof DispersionModelingNode) {
                                      paramNumb++;
+                                     type = ((DispersionModelingNode)nodes.getNodes()[i]).getDisptype();
+                                     ((DispersionModelingNode)nodes.getNodes()[i]).setSingle(false);
+                                     ((DispersionModelingNode)nodes.getNodes()[i]).recreateSheet();
                                  }
                              }
                              if (paramNumb < 2) {
-                                 nodes.add(new Node[]{new DispersionModelingNode(listn)});
+                                 if (type != null){
+                                      type = (type.equals(EnumTypes.DispersionTypes.PARMU)) ?
+                                         EnumTypes.DispersionTypes.PARTAU : 
+                                         EnumTypes.DispersionTypes.PARMU;
+                                     nodes.add(new Node[]{new DispersionModelingNode(type, false, listn)});
+                                 }
+                                 else {
+                                     nodes.add(new Node[]{new DispersionModelingNode(EnumTypes.DispersionTypes.PARMU, true, listn)});
+                                 }
                              } else {
                                  CoreErrorMessages.parametersExists("2 Dispersion parameters ");
                              }

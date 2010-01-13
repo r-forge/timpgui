@@ -6,6 +6,7 @@
 package org.glotaran.core.ui.visualmodelling.nodes;
 
 import java.awt.Image;
+import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -29,9 +30,10 @@ public class DispersionModelingNode extends PropertiesAbstractNode {
     private final Image ICON = ImageUtilities.loadImage("org/glotaran/core/ui/visualmodelling/resources/Dispersion_16.png", true);
     private EnumTypes.DispersionTypes disptype = EnumTypes.DispersionTypes.PARMU;
     private Double centralWave;
+    private boolean single = true;
 
     public DispersionModelingNode(PropertyChangeListener listn){
-         super("Dispersion", new NonLinearParametersKeys(1));
+         super("Dispersion", new NonLinearParametersKeys(0));
          this.addPropertyChangeListener(listn);
     }
 
@@ -53,6 +55,13 @@ public class DispersionModelingNode extends PropertiesAbstractNode {
         }
         setDisptype(dispersionTypes);
         setCentralWave(irfparPanel.getLamda());
+        this.addPropertyChangeListener(listn);
+    }
+
+    public DispersionModelingNode(DispersionTypes dispersionType, boolean single, PropertyChangeListener listn) {
+        super("Dispersion", new NonLinearParametersKeys(0));
+        this.setDisptype(dispersionType);
+        this.single = single;
         this.addPropertyChangeListener(listn);
     }
 
@@ -88,7 +97,9 @@ public class DispersionModelingNode extends PropertiesAbstractNode {
         Property lambdaC = null;
         PropertySupport.Reflection dispType = null;
         try {
-            dispType = new PropertySupport.Reflection(this, EnumTypes.DispersionTypes.class, "disptype");
+            dispType = (single) ?
+                new PropertySupport.Reflection(this, EnumTypes.DispersionTypes.class, "disptype") :
+                new PropertySupport.Reflection(this, EnumTypes.DispersionTypes.class, "getDisptype", null);
             dispType.setPropertyEditorClass(EnumPropertyEditor.class); 
             numberOfComponents = new PropertySupport.Reflection(this, Integer.class, "getCompNum", "setCompNum");
             name = new PropertySupport.Reflection(this, String.class, "getDisplayName", null);
@@ -106,6 +117,14 @@ public class DispersionModelingNode extends PropertiesAbstractNode {
         set.put(lambdaC);
         sheet.put(set);
         return sheet;
+    }
+
+    public void recreateSheet(){
+        setSheet(createSheet());
+    }
+
+    public void setSingle(boolean single) {
+        this.single = single;
     }
 
     public Integer getCompNum(){
@@ -139,7 +158,19 @@ public class DispersionModelingNode extends PropertiesAbstractNode {
 
     public void setCentralWave(Double centralWave) {
         this.centralWave = centralWave;
-        firePropertyChange("setCentralWave", null, centralWave);
+        firePropertyChange("setCentralWave", this.disptype, centralWave);
     }
 
+    @Override
+    public void fire(int index, PropertyChangeEvent evt){
+        if ("start".equals(evt.getPropertyName())) {
+            firePropertyChange("start", disptype, evt.getNewValue());
+        }
+        if ("fixed".equals(evt.getPropertyName())) {
+            firePropertyChange("fixed", disptype, evt.getNewValue());
+        }
+        if ("delete".equals(evt.getPropertyName())) {
+            firePropertyChange("delete", disptype, evt.getNewValue());
+        }
+    }
 }

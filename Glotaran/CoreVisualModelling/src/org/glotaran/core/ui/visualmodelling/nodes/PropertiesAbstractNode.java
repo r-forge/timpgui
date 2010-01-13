@@ -91,8 +91,17 @@ public class PropertiesAbstractNode extends AbstractNode {
     public void updateName(){
         fireNameChange(null, getDisplayName());
     }
-    
+
     public void fire(int index, PropertyChangeEvent evt){
-        
+        if ("start".equals(evt.getPropertyName())) {
+            firePropertyChange("start", index, evt.getNewValue());
+        }
+        if ("fixed".equals(evt.getPropertyName())) {
+            firePropertyChange("fixed", index, evt.getNewValue());
+        }
+        if ("delete".equals(evt.getPropertyName())) {
+            firePropertyChange("delete", index, evt.getNewValue());
+        }
     }
+    
 }

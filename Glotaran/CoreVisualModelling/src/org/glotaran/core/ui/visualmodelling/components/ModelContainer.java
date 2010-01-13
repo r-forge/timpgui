@@ -20,6 +20,7 @@ import javax.swing.InputMap;
 import javax.swing.JComponent;
 import javax.swing.KeyStroke;
 import org.glotaran.core.main.mesages.CoreErrorMessages;
+import org.glotaran.core.models.tgm.IrfparPanelModel;
 import org.glotaran.core.models.tgm.KinPar;
 import org.glotaran.core.ui.visualmodelling.common.EnumTypes;
 import org.glotaran.core.ui.visualmodelling.common.EnumTypes.CohSpecTypes;
@@ -31,6 +32,7 @@ import org.glotaran.core.ui.visualmodelling.nodes.KineticParametersNode;
 import org.glotaran.core.ui.visualmodelling.nodes.ParametersSubNode;
 import org.glotaran.core.ui.visualmodelling.nodes.PropertiesAbstractNode;
 import org.glotaran.core.ui.visualmodelling.nodes.WeightParametersNode;
+import org.glotaran.core.ui.visualmodelling.nodes.dataobjects.NonLinearParameter;
 import org.glotaran.tgmfilesupport.TgmDataObject;
 import org.openide.cookies.SaveCookie;
 import org.openide.explorer.ExplorerManager;
@@ -381,6 +383,12 @@ public class ModelContainer
         if (evt.getSource().getClass().equals(DispersionModelingNode.class)){
             boolean parMu = evt.getOldValue().equals(EnumTypes.DispersionTypes.PARMU);
             if (evt.getPropertyName().equalsIgnoreCase("mainNodeDeleted")){
+                for (int i = 0; i < getExplorerManager().getRootContext().getChildren().getNodesCount(); i++){
+                    if (getExplorerManager().getRootContext().getChildren().getNodes()[i] instanceof DispersionModelingNode){
+                        ((DispersionModelingNode)getExplorerManager().getRootContext().getChildren().getNodes()[i]).setSingle(true);
+                        ((DispersionModelingNode)getExplorerManager().getRootContext().getChildren().getNodes()[i]).recreateSheet();
+                    }
+                }
                 if (parMu){
                     model.getTgm().getDat().getIrfparPanel().setParmufixed(false);
                     model.getTgm().getDat().getIrfparPanel().setDispmufun("");
@@ -392,30 +400,70 @@ public class ModelContainer
                     model.getTgm().getDat().getIrfparPanel().setPartau("");
                 }
             }
-            if (evt.getPropertyName().equalsIgnoreCase("mainNodeDeleted")){
+            if (evt.getPropertyName().equalsIgnoreCase("setCentralWave")){
                 model.getTgm().getDat().getIrfparPanel().setLamda((Double)evt.getNewValue());
             }
 
             if (evt.getPropertyName().equalsIgnoreCase("setDisptype")){
+                IrfparPanelModel irfModel = model.getTgm().getDat().getIrfparPanel();
                 if ((evt.getOldValue().equals(EnumTypes.DispersionTypes.PARMU))&
                         (evt.getNewValue().equals(EnumTypes.DispersionTypes.PARTAU))){
-                    model.getTgm().getDat().getIrfparPanel().setPartaufixed(false);
-                    model.getTgm().getDat().getIrfparPanel().setDisptaufun("");
-                    model.getTgm().getDat().getIrfparPanel().setPartau("");
-
+                    
+                    irfModel.setPartaufixed(irfModel.isParmufixed());
+                    irfModel.setDisptaufun(irfModel.getDispmufun());
+                    irfModel.setPartau(irfModel.getParmu());
                     model.getTgm().getDat().getIrfparPanel().setParmufixed(false);
                     model.getTgm().getDat().getIrfparPanel().setDispmufun("");
                     model.getTgm().getDat().getIrfparPanel().setParmu("");
-
                 }
                 else {
                     if ((evt.getOldValue().equals(EnumTypes.DispersionTypes.PARTAU))&
                         (evt.getNewValue().equals(EnumTypes.DispersionTypes.PARMU))){
 
+                        irfModel.setPartaufixed(irfModel.isParmufixed());
+                        irfModel.setDisptaufun(irfModel.getDispmufun());
+                        irfModel.setPartau(irfModel.getParmu());
+                        model.getTgm().getDat().getIrfparPanel().setParmufixed(false);
+                        model.getTgm().getDat().getIrfparPanel().setDispmufun("");
+                        model.getTgm().getDat().getIrfparPanel().setParmu("");
+                    }
+                }
+            }
+
+            if ((evt.getPropertyName().equalsIgnoreCase("start"))||(evt.getPropertyName().equalsIgnoreCase("delete"))){
+                String paramString = null;
+                ParametersSubNode paramSubNode = (ParametersSubNode)((DispersionModelingNode)evt.getSource()).getChildren().getNodeAt(0);
+                paramString = String.valueOf(paramSubNode.getDataObj().getStart());
+                for (int i = 1; i < ((DispersionModelingNode)evt.getSource()).getChildren().getNodesCount(); i++){
+                    paramSubNode = (ParametersSubNode)((DispersionModelingNode)evt.getSource()).getChildren().getNodeAt(i);
+                    paramString = paramString+ ", " + String.valueOf(paramSubNode.getDataObj().getStart());
+                }
+                if (evt.getOldValue().equals(EnumTypes.DispersionTypes.PARMU)){
+                    model.getTgm().getDat().getIrfparPanel().setDispmufun("poly");
+                    model.getTgm().getDat().getIrfparPanel().setParmu(paramString);
+                } 
+                else {
+                    if (evt.getOldValue().equals(EnumTypes.DispersionTypes.PARTAU)){
+                        model.getTgm().getDat().getIrfparPanel().setDisptaufun("poly");
+                        model.getTgm().getDat().getIrfparPanel().setPartau(paramString);
+                    }                    
+                }
+            }
+            if (evt.getPropertyName().equalsIgnoreCase("fixed")){
+                if (evt.getOldValue().equals(EnumTypes.DispersionTypes.PARMU)){
+                    model.getTgm().getDat().getIrfparPanel().setParmufixed((Boolean)evt.getNewValue());
+                }
+                else {
+                    if (evt.getOldValue().equals(EnumTypes.DispersionTypes.PARTAU)){
+                        model.getTgm().getDat().getIrfparPanel().setPartaufixed((Boolean)evt.getNewValue());
 
                     }
                 }
             }
+            if (evt.getPropertyName().equalsIgnoreCase("delete")){
+
+            }
+
 
             
 

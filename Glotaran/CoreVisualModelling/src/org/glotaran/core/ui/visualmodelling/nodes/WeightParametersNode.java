@@ -6,6 +6,7 @@
 package org.glotaran.core.ui.visualmodelling.nodes;
 
 import java.awt.Image;
+import java.beans.PropertyChangeListener;
 import java.util.List;
 import org.glotaran.core.models.tgm.WeightPar;
 import org.glotaran.core.ui.visualmodelling.nodes.dataobjects.WeightParametersKeys;
@@ -21,13 +22,14 @@ import org.openide.util.ImageUtilities;
 public class WeightParametersNode extends PropertiesAbstractNode{
     private final Image ICON = ImageUtilities.loadImage("org/glotaran/core/ui/visualmodelling/resources/Weightpar_16.png", true);
 
-    public WeightParametersNode(){
-        super("WeightPar", new WeightParametersKeys(1));
+    public WeightParametersNode(PropertyChangeListener listn){
+        super("WeightPar", new WeightParametersKeys(0));
+        this.addPropertyChangeListener(listn);
     }
 
-    public WeightParametersNode(List<WeightPar> weightpar) {
+    public WeightParametersNode(List<WeightPar> weightpar, PropertyChangeListener listn) {
         super("WeightPar", new WeightParametersKeys(weightpar));
-        
+        this.addPropertyChangeListener(listn);
     }
 
     @Override
@@ -80,5 +82,6 @@ public class WeightParametersNode extends PropertiesAbstractNode{
             childColection.removeParams(currCompNum-compNum);
         }
         updateName();
+        firePropertyChange("Number of components", new Integer(currCompNum), compNum);
     }
 }

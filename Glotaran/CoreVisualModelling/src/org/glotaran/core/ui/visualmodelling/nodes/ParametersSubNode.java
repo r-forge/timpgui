@@ -95,16 +95,6 @@ public class ParametersSubNode extends PropertiesAbstractNode implements Propert
         }
         ((PropertiesAbstractNode)this.getParentNode()).fire(ind, evt);
         this.fireDisplayNameChange(null, getDisplayName());
-
-//        if ("start".equals(evt.getPropertyName())) {
-//            this.fireDisplayNameChange(null, getDisplayName());
-//        }
-//
-//        if ("fixed".equals(evt.getPropertyName())) {
-//            this.fireDisplayNameChange(null, getDisplayName());
-//            ((PropertiesAbstractNode)this.getParentNode()).fire(ind, evt);
-//        }
-
     }
 
     @Override

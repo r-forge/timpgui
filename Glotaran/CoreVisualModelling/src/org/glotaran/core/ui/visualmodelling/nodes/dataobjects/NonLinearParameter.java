@@ -5,26 +5,19 @@
 
 package org.glotaran.core.ui.visualmodelling.nodes.dataobjects;
 
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
-import java.util.Collections;
-import java.util.LinkedList;
-import java.util.List;
 import org.glotaran.core.models.tgm.KinPar;
 
 /**
  *
  * @author lsp
  */
-public class NonLinearParameter {
+public class NonLinearParameter extends AbstractParameterDO{
 
     private Double start;
     private Boolean fixed;
     private Boolean constrained;
     private Double maximum;
     private Double minimum;
-    private List listeners = Collections.synchronizedList(new LinkedList());
-
 
     public NonLinearParameter(){
         start = new Double(0.0);
@@ -94,21 +87,5 @@ public class NonLinearParameter {
 
     public void setMinimum(Double value) {
         this.minimum = value;
-    }
-
-    public void addPropertyChangeListener(PropertyChangeListener pcl) {
-        listeners.add(pcl);
-    }
-
-    public void removePropertyChangeListener(PropertyChangeListener pcl) {
-        listeners.remove(pcl);
-    }
-
-    private void fire(String propertyName, Object old, Object nue) {
-        //Passing 0 below on purpose, so you only synchronize for one atomic call:
-        PropertyChangeListener[] pcls = (PropertyChangeListener[]) listeners.toArray(new PropertyChangeListener[0]);
-        for (int i = 0; i < pcls.length; i++) {
-            pcls[i].propertyChange(new PropertyChangeEvent(this, propertyName, old, nue));
-        }
     }
 }

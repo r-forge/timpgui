@@ -6,6 +6,8 @@
 package org.glotaran.core.ui.visualmodelling.nodes;
 
 import java.awt.Image;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.io.IOException;
 import org.glotaran.core.ui.visualmodelling.nodes.dataobjects.WeightParameter;
 import org.openide.nodes.Children;
@@ -13,19 +15,20 @@ import org.openide.nodes.PropertySupport;
 import org.openide.nodes.Sheet;
 import org.openide.util.Exceptions;
 import org.openide.util.ImageUtilities;
+import org.openide.util.WeakListeners;
 import org.openide.util.lookup.Lookups;
 
 /**
  *
  * @author slapten
  */
-public class WeighParametersSubNode extends PropertiesAbstractNode{// implements PropertyChangeListener{
+public class WeighParametersSubNode extends PropertiesAbstractNode implements PropertyChangeListener{
     private final Image ICON = ImageUtilities.loadImage("org/glotaran/core/ui/visualmodelling/resources/Subnode_16.png", true);
 //    private NonLinearParameter dataObj;
 
     public WeighParametersSubNode(WeightParameter data){
         super("Weight parameter",Children.LEAF, Lookups.singleton(data));
-//        data.addPropertyChangeListener(WeakListeners.propertyChange(this, data));
+        data.addPropertyChangeListener(WeakListeners.propertyChange(this, data));
     }
     
     @Override
@@ -64,14 +67,14 @@ public class WeighParametersSubNode extends PropertiesAbstractNode{// implements
             Exceptions.printStackTrace(ex);
         }
         min1Value.setName("Min1 value");
-        min2Value.setName("Max1 value");
-        max1Value.setName("Min2 value");
+        min2Value.setName("Min2 value");
+        max1Value.setName("Max1 value");
         max2Value.setName("Max2 value");
         weightValue.setName("Weight value");
 
         set.put(min1Value);
-        set.put(min2Value);
         set.put(max1Value);
+        set.put(min2Value);
         set.put(max2Value);
         set.put(weightValue);
         sheet.put(set);
@@ -81,14 +84,25 @@ public class WeighParametersSubNode extends PropertiesAbstractNode{// implements
     @Override
     public void destroy() throws IOException {
         WeightParametersNode parent = (WeightParametersNode)getParentNode();
+        int ind = 0;
+        for (int i = 0; i < parent.getChildren().getNodes().length; i++) {
+            if (this.equals(parent.getChildren().getNodes()[i])) {
+                ind = i;
+            }
+        }
+        parent.fire(ind, new PropertyChangeEvent(this, "delete", null, ind));
         super.destroy();
         parent.updateName();
     }
 
-//    public void propertyChange(PropertyChangeEvent evt) {
-//        if ("start".equals(evt.getPropertyName())) {
-//            this.fireDisplayNameChange(null, getDisplayName());
-//        }
-//    }
-
+    public void propertyChange(PropertyChangeEvent evt) {
+        int ind = 0;
+        for (int i = 0; i < getParentNode().getChildren().getNodes().length; i++) {
+            if (this.equals(getParentNode().getChildren().getNodes()[i])) {
+                ind = i;
+            }
+        }
+        ((PropertiesAbstractNode)this.getParentNode()).fire(ind, evt);
+        this.fireDisplayNameChange(null, getDisplayName());
+    }
 }

@@ -22,6 +22,7 @@ import javax.swing.KeyStroke;
 import org.glotaran.core.main.mesages.CoreErrorMessages;
 import org.glotaran.core.models.tgm.IrfparPanelModel;
 import org.glotaran.core.models.tgm.KinPar;
+import org.glotaran.core.models.tgm.WeightPar;
 import org.glotaran.core.ui.visualmodelling.common.EnumTypes;
 import org.glotaran.core.ui.visualmodelling.common.EnumTypes.CohSpecTypes;
 import org.glotaran.core.ui.visualmodelling.common.EnumTypes.IRFTypes;
@@ -29,10 +30,10 @@ import org.glotaran.core.ui.visualmodelling.nodes.CohSpecNode;
 import org.glotaran.core.ui.visualmodelling.nodes.DispersionModelingNode;
 import org.glotaran.core.ui.visualmodelling.nodes.IrfParametersNode;
 import org.glotaran.core.ui.visualmodelling.nodes.KineticParametersNode;
+import org.glotaran.core.ui.visualmodelling.nodes.KmatrixNode;
 import org.glotaran.core.ui.visualmodelling.nodes.ParametersSubNode;
 import org.glotaran.core.ui.visualmodelling.nodes.PropertiesAbstractNode;
 import org.glotaran.core.ui.visualmodelling.nodes.WeightParametersNode;
-import org.glotaran.core.ui.visualmodelling.nodes.dataobjects.NonLinearParameter;
 import org.glotaran.tgmfilesupport.TgmDataObject;
 import org.openide.cookies.SaveCookie;
 import org.openide.explorer.ExplorerManager;
@@ -90,6 +91,9 @@ public class ModelContainer
         lookup = ExplorerUtils.createLookup (manager, map);
 //==============filling up parameters ============
         if (!model.getTgm().getDat().getKMatrixPanel().getJVector().getVector().isEmpty()){
+            manager.getRootContext().getChildren().add(
+                    new Node[]{new KmatrixNode(model.getTgm().getDat().getKMatrixPanel(), this)});
+
 //============== TODO implement Kmatrix case ==============
 
         }
@@ -118,7 +122,7 @@ public class ModelContainer
 
         if (!model.getTgm().getDat().getWeightParPanel().getWeightpar().isEmpty()){
             manager.getRootContext().getChildren().add(
-                    new Node[]{new WeightParametersNode(model.getTgm().getDat().getWeightParPanel().getWeightpar())});
+                    new Node[]{new WeightParametersNode(model.getTgm().getDat().getWeightParPanel().getWeightpar(), this)});
         }
 
         if (model.getTgm().getDat().getCohspecPanel().getCohspec().isSet()){
@@ -429,7 +433,6 @@ public class ModelContainer
                     }
                 }
             }
-
             if ((evt.getPropertyName().equalsIgnoreCase("start"))||(evt.getPropertyName().equalsIgnoreCase("delete"))){
                 String paramString = null;
                 ParametersSubNode paramSubNode = (ParametersSubNode)((DispersionModelingNode)evt.getSource()).getChildren().getNodeAt(0);
@@ -467,6 +470,51 @@ public class ModelContainer
 
             
 
+            try {
+                model.setModified(true);
+                model.getCookie(SaveCookie.class).save();
+                model.setModified(false);
+            } catch (IOException ex) {
+                CoreErrorMessages.fileSaveError(model.getNodeDelegate().getName());
+            }
+            return;
+
+        }
+        if (evt.getSource().getClass().equals(WeightParametersNode.class)){
+            if (evt.getPropertyName().equalsIgnoreCase("Number of components")){
+                if ((Integer)evt.getNewValue()>(Integer)evt.getOldValue()){
+                    for (int i = 0; i < (Integer)evt.getNewValue()-(Integer)evt.getOldValue(); i++){
+                        model.getTgm().getDat().getWeightParPanel().getWeightpar().add(new WeightPar());
+                    }
+                } else {
+                        for (int i = 0; i < (Integer)evt.getOldValue()-(Integer)evt.getNewValue(); i++){
+                            model.getTgm().getDat().getWeightParPanel().getWeightpar().remove(
+                                    model.getTgm().getDat().getWeightParPanel().getWeightpar().size()-1);
+                    }
+                }
+            }
+            if (evt.getPropertyName().equalsIgnoreCase("mainNodeDeleted")){
+                model.getTgm().getDat().getWeightParPanel().getWeightpar().clear();
+            }
+            if (evt.getPropertyName().equalsIgnoreCase("weight")){
+                model.getTgm().getDat().getWeightParPanel().getWeightpar().get((Integer)evt.getOldValue()).setWeight((Double)evt.getNewValue());
+            }
+            if (evt.getPropertyName().equalsIgnoreCase("setmin1")){
+                model.getTgm().getDat().getWeightParPanel().getWeightpar().get((Integer)evt.getOldValue()).setMin1((Double)evt.getNewValue());
+            }
+            if (evt.getPropertyName().equalsIgnoreCase("setmin2")){
+                model.getTgm().getDat().getWeightParPanel().getWeightpar().get((Integer)evt.getOldValue()).setMin2((Double)evt.getNewValue());
+            }
+            if (evt.getPropertyName().equalsIgnoreCase("setmax1")){
+                model.getTgm().getDat().getWeightParPanel().getWeightpar().get((Integer)evt.getOldValue()).setMax1((Double)evt.getNewValue());
+            }
+            if (evt.getPropertyName().equalsIgnoreCase("setmax2")){
+                model.getTgm().getDat().getWeightParPanel().getWeightpar().get((Integer)evt.getOldValue()).setMax2((Double)evt.getNewValue());
+            }
+            if (evt.getPropertyName().equalsIgnoreCase("delete")){
+                int index = (Integer)evt.getNewValue();
+                model.getTgm().getDat().getWeightParPanel().getWeightpar().remove(index);
+            }
             try {
                 model.setModified(true);
                 model.getCookie(SaveCookie.class).save();

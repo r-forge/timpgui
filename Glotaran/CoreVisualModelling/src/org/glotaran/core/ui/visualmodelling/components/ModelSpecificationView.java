@@ -13,12 +13,12 @@ import java.awt.dnd.DropTargetDropEvent;
 import java.beans.PropertyChangeListener;
 import java.io.IOException;
 import org.glotaran.core.main.mesages.CoreErrorMessages;
-import org.glotaran.core.ui.visualmodelling.common.EnumPropertyEditor;
 import org.glotaran.core.ui.visualmodelling.common.EnumTypes;
 import org.glotaran.core.ui.visualmodelling.nodes.CohSpecNode;
 import org.glotaran.core.ui.visualmodelling.nodes.DispersionModelingNode;
 import org.glotaran.core.ui.visualmodelling.nodes.IrfParametersNode;
 import org.glotaran.core.ui.visualmodelling.nodes.KineticParametersNode;
+import org.glotaran.core.ui.visualmodelling.nodes.KmatrixNode;
 import org.glotaran.core.ui.visualmodelling.nodes.WeightParametersNode;
 import org.glotaran.core.ui.visualmodelling.palette.PaletteItem;
 import org.glotaran.core.ui.visualmodelling.palette.PaletteNode;
@@ -152,14 +152,28 @@ public class ModelSpecificationView extends TreeTableView {
                                          }
                                      }
                                      if (!present) {
-                                         nodes.add(new Node[]{new WeightParametersNode()});
+                                         nodes.add(new Node[]{new WeightParametersNode(listn)});
                                      } else {
                                          CoreErrorMessages.parametersExists("Weight parameters ");
                                      }
                                  }
                                  else {
+//================ Kmatrix parameter node creation ===================
+                                     if (item.getName().equalsIgnoreCase("KMatrix")) {
+                                         for (int i = 0; i < nodes.getNodesCount(); i++) {
+                                             if (nodes.getNodes()[i] instanceof KmatrixNode) {
+                                                 present = true;
+                                             }
+                                         }
+                                         if (!present) {
+                                             nodes.add(new Node[]{new KmatrixNode(listn)});
+                                         } else {
+                                             CoreErrorMessages.parametersExists("Kmatrix ");
+                                         }
+                                     } else {
 //================ rest node creation ===================
-                                     ExplorerManager.find(getParent()).getRootContext().getChildren().add(new Node[]{new AbstractNode(Children.LEAF)});
+                                         ExplorerManager.find(getParent()).getRootContext().getChildren().add(new Node[]{new AbstractNode(Children.LEAF)});
+                                     }
                                  }
                              }
                          }

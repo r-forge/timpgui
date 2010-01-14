@@ -12,8 +12,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.Action;
-import org.glotaran.core.ui.visualmodelling.components.ModelContainer;
-import org.glotaran.core.ui.visualmodelling.components.ModelSpecificationNodeContainer;
 import org.openide.actions.DeleteAction;
 import org.openide.actions.PropertiesAction;
 import org.openide.nodes.AbstractNode;
@@ -93,15 +91,7 @@ public class PropertiesAbstractNode extends AbstractNode {
     }
 
     public void fire(int index, PropertyChangeEvent evt){
-        if ("start".equals(evt.getPropertyName())) {
-            firePropertyChange("start", index, evt.getNewValue());
-        }
-        if ("fixed".equals(evt.getPropertyName())) {
-            firePropertyChange("fixed", index, evt.getNewValue());
-        }
-        if ("delete".equals(evt.getPropertyName())) {
-            firePropertyChange("delete", index, evt.getNewValue());
-        }
+        firePropertyChange((String)evt.getPropertyName(), index, evt.getNewValue());
     }
     
 }

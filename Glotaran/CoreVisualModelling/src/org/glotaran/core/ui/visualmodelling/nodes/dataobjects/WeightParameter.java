@@ -11,7 +11,7 @@ import org.glotaran.core.models.tgm.WeightPar;
  *
  * @author lsp
  */
-public class WeightParameter {
+public class WeightParameter extends AbstractParameterDO{
     private Double min1;
     private Double min2;
     private Double max1;
@@ -23,8 +23,7 @@ public class WeightParameter {
         min2=null;
         max1=null;
         max2=null;
-        weight = 1.0;
-
+        weight = null;
     }
 
     WeightParameter(WeightPar parameter) {
@@ -40,7 +39,9 @@ public class WeightParameter {
     }
 
     public void setMax1(Double max1) {
+        Double oldMax1 = this.max1;
         this.max1 = max1;
+        fire("setmax1", oldMax1, max1);
     }
 
     public Double getMax2() {
@@ -48,7 +49,9 @@ public class WeightParameter {
     }
 
     public void setMax2(Double max2) {
+        Double oldMax2 = this.max2;
         this.max2 = max2;
+        fire("setmax2", oldMax2, max2);
     }
 
     public Double getMin1() {
@@ -56,7 +59,9 @@ public class WeightParameter {
     }
 
     public void setMin1(Double min1) {
+        Double oldMin1 = this.min1;
         this.min1 = min1;
+        fire("setmin1", oldMin1, min1);
     }
 
     public Double getMin2() {
@@ -64,7 +69,9 @@ public class WeightParameter {
     }
 
     public void setMin2(Double min2) {
+        Double oldMin2 = this.min2;
         this.min2 = min2;
+        fire("setmin2", oldMin2, min2);
     }
 
     public Double getWeight() {
@@ -72,10 +79,8 @@ public class WeightParameter {
     }
 
     public void setWeight(Double weight) {
+        Double oldWeight = this.weight;
         this.weight = weight;
+        fire("weight", oldWeight, weight);
     }
-
-
-
-
 }

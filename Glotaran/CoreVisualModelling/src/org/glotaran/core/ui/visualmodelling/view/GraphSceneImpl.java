@@ -18,6 +18,7 @@
  */
 package org.glotaran.core.ui.visualmodelling.view;
 
+import java.io.IOException;
 import org.glotaran.core.models.gta.GtaProjectScheme;
 import org.glotaran.core.ui.visualmodelling.menu.SceneMainMenu;
 import org.glotaran.core.ui.visualmodelling.menu.EdgeMenu;
@@ -35,18 +36,32 @@ import org.netbeans.api.visual.router.RouterFactory;
 import org.netbeans.api.visual.widget.ConnectionWidget;
 import org.netbeans.api.visual.widget.LayerWidget;
 import org.netbeans.api.visual.widget.Widget;
+import org.openide.filesystems.FileObject;
+import org.openide.loaders.DataObjectExistsException;
+import org.openide.loaders.MultiDataObject;
+import org.openide.loaders.MultiDataObject.Entry;
+import org.openide.util.Exceptions;
 import org.openide.util.Utilities;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.io.File;
 import java.util.Collections;
+import org.glotaran.core.models.gta.GtaConnection;
+import org.glotaran.core.models.gta.GtaDatasetContainer;
+import org.glotaran.core.models.gta.GtaModelReference;
 import org.glotaran.core.ui.visualmodelling.components.DatasetContainerComponent;
 import org.glotaran.core.ui.visualmodelling.components.ModelContainer;
 import org.glotaran.tgmfilesupport.TgmDataNode;
+import org.glotaran.tgmfilesupport.TgmDataObject;
 import org.netbeans.api.visual.border.BorderFactory;
+import org.netbeans.api.visual.layout.Layout;
 import org.netbeans.api.visual.layout.LayoutFactory;
 import org.netbeans.api.visual.widget.ComponentWidget;
 import org.netbeans.api.visual.widget.LabelWidget;
+import org.openide.filesystems.FileUtil;
+import org.openide.loaders.MultiFileLoader;
+import org.openide.util.Lookup;
 
 
 /**
@@ -85,26 +100,8 @@ public class GraphSceneImpl extends GraphScene { //TODO: implement <VisualAbstra
     }
 
     public GraphSceneImpl(GtaProjectScheme scheme) {
-        mainLayer = new LayerWidget(this);
-        addChild(mainLayer);
-        connectionLayer = new LayerWidget(this);
-        addChild(connectionLayer);
-
-        addChild(interractionLayer);
-        getActions().addAction(ActionFactory.createRectangularSelectAction(this, backgroundLayer));
-        getActions().addAction(ActionFactory.createPopupMenuAction(new SceneMainMenu(this)));
-        getActions().addAction(sceneAcceptAction);
-        setToolTipText("Drag components from the palette onto this design pane");
-        initGrids();
-
-        //TODO: get datasetContainer and add nodes
-        scheme.getDatasetContainer();
-
-        //TODO: get available models
-        scheme.getModel();
-
-        //TODO:
-        scheme.getConnection();
+        this();
+        loadScene(scheme);
     }
 
     protected Widget attachEdgeWidget(String edge) {
@@ -142,7 +139,18 @@ public class GraphSceneImpl extends GraphScene { //TODO: implement <VisualAbstra
             TgmDataNode myNode = (TgmDataNode) node;
             cw = createMoveableComponent(new ModelContainer(myNode.getObject()), myNode.getDisplayName(), nodeCount++);
             mainLayer.addChild(cw);
-        }else {
+        }
+        if (node instanceof GtaModelReference){
+//            TgmDataNode myNode = (TgmDataNode) node;
+//            cw = createMoveableComponent(new ModelContainer(myNode.getObject()), myNode.getDisplayName(), nodeCount++);
+//            mainLayer.addChild(cw);
+        }
+        if (node instanceof GtaDatasetContainer) {
+            GtaDatasetContainer myNode = (GtaDatasetContainer) node;
+            cw = createMoveableComponent(new DatasetContainerComponent(), myNode.getId(), nodeCount++);
+            mainLayer.addChild(cw);            
+        }
+        if (node instanceof VisualAbstractNode) {
             VisualAbstractNode myNode = (VisualAbstractNode) node;
             if (myNode.getName().equalsIgnoreCase("Model")) {
                 cw = createMoveableComponent(new ModelContainer(), myNode.getName(), nodeCount++);
@@ -178,6 +186,42 @@ public class GraphSceneImpl extends GraphScene { //TODO: implement <VisualAbstra
         Widget targetNodeWidget = findWidget(targetNode);
         widget.setTargetAnchor(targetNodeWidget != null ? AnchorFactory.createFreeRectangularAnchor(targetNodeWidget, true) : null);
 //        attachEdgeTargetAnchor((String) edge, (String) oldTargetNode, (String) targetNode);
+    }
+
+    public void loadScene(GtaProjectScheme scheme) {
+        Widget cw;
+        Point location;
+        Dimension size;
+        //TODO: get datasetContainer and add nodes
+        for (GtaDatasetContainer container : scheme.getDatasetContainer()) {
+            VisualAbstractNode newNode = new VisualAbstractNode("Dataset Container", "Modelling", nodeCount++);
+            cw = addNode(newNode);
+            location = new Point((int)Math.floor(container.getLayout().getXposition()), (int)Math.floor(container.getLayout().getYposition()));
+            size = new Dimension((int) Math.floor(container.getLayout().getWidth()), (int) Math.floor(container.getLayout().getHeight()));
+            cw.setPreferredLocation(location);
+            cw.setPreferredSize(size);
+        }
+        TgmDataObject fo;
+
+        for (GtaModelReference model : scheme.getModel()) {
+            try {
+                fo = new TgmDataObject(FileUtil.toFileObject(new File(model.getPath())), null);
+            } catch (DataObjectExistsException ex) {
+                Exceptions.printStackTrace(ex);
+            } catch (IOException ex) {
+                Exceptions.printStackTrace(ex);
+            }
+            cw = addNode(model);
+            location = new Point((int)Math.floor(model.getLayout().getXposition()), (int)Math.floor(model.getLayout().getYposition()));
+            size = new Dimension((int) Math.floor(model.getLayout().getWidth()), (int) Math.floor(model.getLayout().getHeight()));
+            cw.setPreferredLocation(location);
+            cw.setPreferredSize(size);
+        }
+
+        for (GtaConnection connection : scheme.getConnection()) {
+            //cw = addEdge(connection);
+        }
+        
     }
 
     private class ObjectSelectProvider implements SelectProvider {

@@ -59,6 +59,7 @@ public class SceneSerializer {
     public static void serialize(GraphSceneImpl scene, File file) {
         GtaProjectScheme gtaProjectScheme = new GtaProjectScheme();
         GtaLayout layout;
+        FileObject fo;
 //        Node sceneElement = document.getFirstChild ();
 //        setAttribute (document, sceneElement, VERSION_ATTR, VERSION_VALUE_1);
 //        setAttribute (document, sceneElement, SCENE_NODE_COUNTER_ATTR, Long.toString (scene.nodeIDcounter));
@@ -69,7 +70,7 @@ public class SceneSerializer {
             // Iterate over all model containers
             if (node instanceof TgmDataNode) {
                 TgmDataNode tgmDataNode = (TgmDataNode) node;
-                tgmDataNode.getDataObject().getPrimaryFile();
+                fo = tgmDataNode.getDataObject().getPrimaryFile();
                 Widget widget = scene.findWidget(node);
                 Point location = widget.getPreferredLocation();
                 GtaModelReference modelRef = new GtaModelReference();
@@ -79,6 +80,8 @@ public class SceneSerializer {
                 layout.setHeight(widget.getBounds().getHeight());
                 layout.setWidth(widget.getBounds().getWidth());
                 modelRef.setLayout(layout);
+                modelRef.setPath(FileUtil.getRelativePath(OpenProjects.getDefault().getMainProject().getProjectDirectory(), fo));
+                modelRef.setFilename(fo.getName());
                 gtaProjectScheme.getModel().add(modelRef);
             }
             if (node instanceof VisualAbstractNode) {
@@ -93,7 +96,7 @@ public class SceneSerializer {
                                 DatasetContainerComponent dcc = (DatasetContainerComponent) cw.getComponent();
                                 for (Node datasetNode : dcc.getExplorerManager().getRootContext().getChildren().getNodes()) {
                                     DatasetComponentNode dcn = (DatasetComponentNode) datasetNode;
-                                    FileObject fo = dcn.getTdn().getObject().getPrimaryFile();
+                                    fo = dcn.getTdn().getObject().getPrimaryFile();
                                     GtaDataset gtaDataset = new GtaDataset();
                                     gtaDataset.setPath(FileUtil.getRelativePath(OpenProjects.getDefault().getMainProject().getProjectDirectory(), fo));
                                     gtaDataset.setFilename(fo.getName());
@@ -154,7 +157,9 @@ public class SceneSerializer {
                 // XXXTODO Handle exception
                 java.util.logging.Logger.getLogger("global").log(java.util.logging.Level.SEVERE, null, ex); //NOI18N
             }
+            scene.loadScene(gtaProjectScheme);
         }
+
         // Else simply return the object
 
 

@@ -54,6 +54,7 @@ import org.glotaran.core.ui.visualmodelling.components.DatasetContainerComponent
 import org.glotaran.core.ui.visualmodelling.components.ModelContainer;
 import org.glotaran.tgmfilesupport.TgmDataNode;
 import org.glotaran.tgmfilesupport.TgmDataObject;
+import org.netbeans.api.project.ui.OpenProjects;
 import org.netbeans.api.visual.border.BorderFactory;
 import org.netbeans.api.visual.layout.Layout;
 import org.netbeans.api.visual.layout.LayoutFactory;
@@ -140,16 +141,6 @@ public class GraphSceneImpl extends GraphScene { //TODO: implement <VisualAbstra
             cw = createMoveableComponent(new ModelContainer(myNode.getObject()), myNode.getDisplayName(), nodeCount++);
             mainLayer.addChild(cw);
         }
-        if (node instanceof GtaModelReference){
-//            TgmDataNode myNode = (TgmDataNode) node;
-//            cw = createMoveableComponent(new ModelContainer(myNode.getObject()), myNode.getDisplayName(), nodeCount++);
-//            mainLayer.addChild(cw);
-        }
-        if (node instanceof GtaDatasetContainer) {
-            GtaDatasetContainer myNode = (GtaDatasetContainer) node;
-            cw = createMoveableComponent(new DatasetContainerComponent(), myNode.getId(), nodeCount++);
-            mainLayer.addChild(cw);            
-        }
         if (node instanceof VisualAbstractNode) {
             VisualAbstractNode myNode = (VisualAbstractNode) node;
             if (myNode.getName().equalsIgnoreCase("Model")) {
@@ -200,12 +191,14 @@ public class GraphSceneImpl extends GraphScene { //TODO: implement <VisualAbstra
             size = new Dimension((int) Math.floor(container.getLayout().getWidth()), (int) Math.floor(container.getLayout().getHeight()));
             cw.setPreferredLocation(location);
             cw.setPreferredSize(size);
+            validate();
         }
         TgmDataObject fo;
 
         for (GtaModelReference model : scheme.getModel()) {
             try {
-                fo = new TgmDataObject(FileUtil.toFileObject(new File(model.getPath())), null);
+                File fl = new File(OpenProjects.getDefault().getMainProject().getProjectDirectory().getPath() + File.separator + model.getPath());
+                fo = new TgmDataObject(FileUtil.toFileObject(fl), null);
             } catch (DataObjectExistsException ex) {
                 Exceptions.printStackTrace(ex);
             } catch (IOException ex) {
@@ -216,6 +209,7 @@ public class GraphSceneImpl extends GraphScene { //TODO: implement <VisualAbstra
             size = new Dimension((int) Math.floor(model.getLayout().getWidth()), (int) Math.floor(model.getLayout().getHeight()));
             cw.setPreferredLocation(location);
             cw.setPreferredSize(size);
+            validate();
         }
 
         for (GtaConnection connection : scheme.getConnection()) {

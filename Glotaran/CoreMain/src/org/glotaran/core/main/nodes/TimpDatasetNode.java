@@ -18,7 +18,7 @@ import org.openide.util.ImageUtilities;
  *
  * @author lsp
  */
-public class TimpDatasetNode extends DataNode implements Transferable{    
+public class TimpDatasetNode extends DataNode implements Transferable {
     private final Image ICON = ImageUtilities.loadImage("org/glotaran/core/main/resources/doc.png", true);
     public static final DataFlavor DATA_FLAVOR = new DataFlavor(TimpDatasetNode.class, "TimpDatasetNode");
 
@@ -53,6 +53,17 @@ public class TimpDatasetNode extends DataNode implements Transferable{
    public Transferable drag() {
       return(this);
    }
+
+    @Override
+    public boolean canCopy() {
+        return true;
+    }
+
+    @Override
+    public boolean canCut() {
+        return false;
+    }
+    
 
    public DataFlavor[] getTransferDataFlavors() {
       return(new DataFlavor[]{DATA_FLAVOR});

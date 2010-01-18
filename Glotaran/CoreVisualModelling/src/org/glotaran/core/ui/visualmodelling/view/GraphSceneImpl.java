@@ -47,11 +47,15 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.util.Collections;
+import org.glotaran.core.main.nodes.TimpDatasetNode;
+import org.glotaran.core.main.nodes.dataobjects.TimpDatasetDataObject;
 import org.glotaran.core.models.gta.GtaConnection;
+import org.glotaran.core.models.gta.GtaDataset;
 import org.glotaran.core.models.gta.GtaDatasetContainer;
 import org.glotaran.core.models.gta.GtaModelReference;
 import org.glotaran.core.ui.visualmodelling.components.DatasetContainerComponent;
 import org.glotaran.core.ui.visualmodelling.components.ModelContainer;
+import org.glotaran.core.ui.visualmodelling.nodes.DatasetComponentNode;
 import org.glotaran.tgmfilesupport.TgmDataNode;
 import org.glotaran.tgmfilesupport.TgmDataObject;
 import org.netbeans.api.project.ui.OpenProjects;
@@ -61,7 +65,10 @@ import org.netbeans.api.visual.layout.LayoutFactory;
 import org.netbeans.api.visual.widget.ComponentWidget;
 import org.netbeans.api.visual.widget.LabelWidget;
 import org.openide.filesystems.FileUtil;
+import org.openide.loaders.DataObject;
 import org.openide.loaders.MultiFileLoader;
+import org.openide.nodes.Index;
+import org.openide.nodes.Node;
 import org.openide.util.Lookup;
 
 
@@ -180,35 +187,70 @@ public class GraphSceneImpl extends GraphScene { //TODO: implement <VisualAbstra
     }
 
     public void loadScene(GtaProjectScheme scheme) {
-        Widget cw;
+        Widget widget;
         Point location;
         Dimension size;
+        TimpDatasetDataObject tdobj;
         //TODO: get datasetContainer and add nodes
         for (GtaDatasetContainer container : scheme.getDatasetContainer()) {
             VisualAbstractNode newNode = new VisualAbstractNode("Dataset Container", "Modelling", nodeCount++);
-            cw = addNode(newNode);
+            widget = addNode(newNode);
             location = new Point((int)Math.floor(container.getLayout().getXposition()), (int)Math.floor(container.getLayout().getYposition()));
             size = new Dimension((int) Math.floor(container.getLayout().getWidth()), (int) Math.floor(container.getLayout().getHeight()));
-            cw.setPreferredLocation(location);
-            cw.setPreferredSize(size);
+            widget.setPreferredLocation(location);
+            widget.setPreferredSize(size);
             validate();
-        }
-        TgmDataObject fo;
 
-        for (GtaModelReference model : scheme.getModel()) {
-            try {
-                File fl = new File(OpenProjects.getDefault().getMainProject().getProjectDirectory().getPath() + File.separator + model.getPath());
-                fo = new TgmDataObject(FileUtil.toFileObject(fl), null);
+            for (GtaDataset dataset : container.getDatasets()) {
+                try {
+                File fl = new File(OpenProjects.getDefault().getMainProject().getProjectDirectory().getPath() + File.separator + dataset.getPath());
+                FileObject test = FileUtil.createData(fl);
+                DataObject dObj = DataObject.find(test);
+                if (dObj!=null) {
+                    tdobj = (TimpDatasetDataObject) dObj;
+                        for (Widget testWidget : widget.getChildren()) {
+                        if (testWidget instanceof ComponentWidget) {
+                            ComponentWidget cw = ((ComponentWidget) testWidget);
+                            if (cw.getComponent() instanceof DatasetContainerComponent) {
+                                GtaDatasetContainer gdc = new GtaDatasetContainer();
+                                DatasetContainerComponent dcc = (DatasetContainerComponent) cw.getComponent();
+
+                                dcc.getExplorerManager().getRootContext().getChildren().add(new Node[]{
+                                    new DatasetComponentNode((TimpDatasetNode)tdobj.getNodeDelegate(), new Index.ArrayChildren())});
+                            }
+                        }
+                    }
+                }
             } catch (DataObjectExistsException ex) {
                 Exceptions.printStackTrace(ex);
             } catch (IOException ex) {
                 Exceptions.printStackTrace(ex);
             }
-            cw = addNode(model);
+
+            }
+        }
+        TgmDataObject fo;
+        TgmDataObject tgmDObj = null;
+
+        for (GtaModelReference model : scheme.getModel()) {
+            try {
+                File fl = new File(OpenProjects.getDefault().getMainProject().getProjectDirectory().getPath() + File.separator + model.getPath());
+                FileObject test = FileUtil.createData(fl);
+                DataObject dObj = DataObject.find(test);
+                if (dObj!=null) {
+                    tgmDObj = (TgmDataObject) dObj;
+                }
+                //fo = new TgmDataObject(FileUtil.toFileObject(fl), null);
+            } catch (DataObjectExistsException ex) {
+                Exceptions.printStackTrace(ex);
+            } catch (IOException ex) {
+                Exceptions.printStackTrace(ex);
+            }
+            widget = addNode((TgmDataNode)tgmDObj.getNodeDelegate());
             location = new Point((int)Math.floor(model.getLayout().getXposition()), (int)Math.floor(model.getLayout().getYposition()));
             size = new Dimension((int) Math.floor(model.getLayout().getWidth()), (int) Math.floor(model.getLayout().getHeight()));
-            cw.setPreferredLocation(location);
-            cw.setPreferredSize(size);
+            widget.setPreferredLocation(location);
+            widget.setPreferredSize(size);
             validate();
         }
 

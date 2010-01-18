@@ -9,9 +9,7 @@ import java.awt.Image;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
 import java.awt.datatransfer.UnsupportedFlavorException;
-import java.awt.dnd.DnDConstants;
 import java.io.IOException;
-import java.util.List;
 import org.glotaran.core.main.nodes.TimpDatasetNode;
 import org.glotaran.core.ui.visualmodelling.palette.PaletteItem;
 import org.glotaran.core.ui.visualmodelling.palette.PaletteNode;
@@ -69,7 +67,7 @@ public class DatasetComponentNode extends PropertiesAbstractNode implements Tran
     }
 
     @Override
-    public PasteType getDropType(Transferable t, int action, int index) {
+    public PasteType getDropType(Transferable t, int action, int index) {        
         if (t.isDataFlavorSupported(PaletteNode.DATA_FLAVOR)){
             try {
                 final PaletteItem pi = (PaletteItem)t.getTransferData(PaletteNode.DATA_FLAVOR);

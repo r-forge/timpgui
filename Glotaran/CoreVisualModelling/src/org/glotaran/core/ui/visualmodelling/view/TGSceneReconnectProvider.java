@@ -26,6 +26,7 @@ import org.netbeans.api.visual.widget.Scene;
 import org.netbeans.api.visual.widget.Widget;
 
 import java.awt.*;
+import org.glotaran.core.models.gta.GtaConnection;
 
 /**
  *
@@ -33,9 +34,9 @@ import java.awt.*;
  */
 public class TGSceneReconnectProvider implements ReconnectProvider {
     
-    private String edge;
-    private String originalNode;
-    private String replacementNode;
+    private GtaConnection edge;
+    private Object originalNode;
+    private Object replacementNode;
     
     private GraphScene scene;
     
@@ -52,21 +53,21 @@ public class TGSceneReconnectProvider implements ReconnectProvider {
     
     public boolean isSourceReconnectable(ConnectionWidget connectionWidget) {
         Object object = scene.findObject(connectionWidget);
-        edge = scene.isEdge(object) ? (String) object : null;
-        originalNode = edge != null ? (String) scene.getEdgeSource(edge)  : null;
+        edge = scene.isEdge(object) ? (GtaConnection) object : null;
+        originalNode = edge != null ? (Object) scene.getEdgeSource(edge)  : null;
         return originalNode != null;
     }
     
     public boolean isTargetReconnectable(ConnectionWidget connectionWidget) {
         Object object = scene.findObject(connectionWidget);
-        edge = scene.isEdge(object) ? (String) object : null;
-        originalNode = edge != null ? (String) scene.getEdgeTarget(edge)  : null;
+        edge = scene.isEdge(object) ? (GtaConnection) object : null;
+        originalNode = edge != null ? (Object) scene.getEdgeTarget(edge)  : null;
         return originalNode != null;
     }
     
     public ConnectorState isReplacementWidget(ConnectionWidget connectionWidget, Widget replacementWidget, boolean reconnectingSource) {
         Object object = scene.findObject(replacementWidget);
-        replacementNode = scene.isNode(object) ? (String) object : null;
+        replacementNode = scene.isNode(object) ? (Object) object : null;
         if (replacementNode != null)
             return ConnectorState.ACCEPT;
         return object != null ? ConnectorState.REJECT_AND_STOP : ConnectorState.REJECT;

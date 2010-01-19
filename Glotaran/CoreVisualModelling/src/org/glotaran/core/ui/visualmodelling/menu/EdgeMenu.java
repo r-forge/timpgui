@@ -29,6 +29,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import org.glotaran.core.models.gta.GtaConnection;
 
 /**
  *
@@ -84,7 +85,7 @@ public class EdgeMenu implements PopupMenuProvider, ActionListener {
         if(e.getActionCommand().equals(ADD_REMOVE_CP_ACTION)) {
             addRemoveControlPoint(point);
         } else if(e.getActionCommand().equals(DELETE_TRANSITION)) {
-            scene.removeEdge ((String) scene.findObject (edge));
+            scene.removeEdge ((GtaConnection) scene.findObject (edge));
         }
     }
     

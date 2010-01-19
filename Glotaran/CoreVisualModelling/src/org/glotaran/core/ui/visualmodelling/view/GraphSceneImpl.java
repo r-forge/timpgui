@@ -38,8 +38,6 @@ import org.netbeans.api.visual.widget.LayerWidget;
 import org.netbeans.api.visual.widget.Widget;
 import org.openide.filesystems.FileObject;
 import org.openide.loaders.DataObjectExistsException;
-import org.openide.loaders.MultiDataObject;
-import org.openide.loaders.MultiDataObject.Entry;
 import org.openide.util.Exceptions;
 import org.openide.util.Utilities;
 
@@ -60,16 +58,13 @@ import org.glotaran.tgmfilesupport.TgmDataNode;
 import org.glotaran.tgmfilesupport.TgmDataObject;
 import org.netbeans.api.project.ui.OpenProjects;
 import org.netbeans.api.visual.border.BorderFactory;
-import org.netbeans.api.visual.layout.Layout;
 import org.netbeans.api.visual.layout.LayoutFactory;
 import org.netbeans.api.visual.widget.ComponentWidget;
 import org.netbeans.api.visual.widget.LabelWidget;
 import org.openide.filesystems.FileUtil;
 import org.openide.loaders.DataObject;
-import org.openide.loaders.MultiFileLoader;
 import org.openide.nodes.Index;
 import org.openide.nodes.Node;
-import org.openide.util.Lookup;
 
 
 /**
@@ -112,22 +107,6 @@ public class GraphSceneImpl extends GraphScene { //TODO: implement <VisualAbstra
         loadScene(scheme);
     }
 
-    protected Widget attachEdgeWidget(String edge) {
-        ConnectionWidget connection = new ConnectionWidget(this);
-        connection.setRouter(router);
-        connection.setToolTipText("Double-click for Add/Remove Control Point");
-        connection.setTargetAnchorShape(AnchorShape.TRIANGLE_FILLED);
-        connection.setControlPointShape(PointShape.SQUARE_FILLED_BIG);
-        connection.setEndPointShape(PointShape.SQUARE_FILLED_BIG);
-        connectionLayer.addChild(connection);
-        connection.getActions().addAction(reconnectAction);
-        connection.getActions().addAction(createSelectAction());
-        connection.getActions().addAction(ActionFactory.createAddRemoveControlPointAction());
-        connection.getActions().addAction(moveControlPointAction);
-        connection.getActions().addAction(ActionFactory.createPopupMenuAction(edgeMenu));
-        return connection;
-    }
-
 //    protected void attachEdgeSourceAnchor(String edge, String oldSourceNode, String sourceNode) {
 //        ConnectionWidget widget = (ConnectionWidget) findWidget(edge);
 //        Widget sourceNodeWidget = findWidget(sourceNode);
@@ -164,7 +143,19 @@ public class GraphSceneImpl extends GraphScene { //TODO: implement <VisualAbstra
 
     @Override
     protected Widget attachEdgeWidget(Object edge) {
-        return attachEdgeWidget((String) edge);
+        ConnectionWidget connection = new ConnectionWidget(this);
+        connection.setRouter(router);
+        connection.setToolTipText("Double-click for Add/Remove Control Point");
+        connection.setTargetAnchorShape(AnchorShape.TRIANGLE_FILLED);
+        connection.setControlPointShape(PointShape.SQUARE_FILLED_BIG);
+        connection.setEndPointShape(PointShape.SQUARE_FILLED_BIG);
+        connectionLayer.addChild(connection);
+        connection.getActions().addAction(reconnectAction);
+        connection.getActions().addAction(createSelectAction());
+        connection.getActions().addAction(ActionFactory.createAddRemoveControlPointAction());
+        connection.getActions().addAction(moveControlPointAction);
+        connection.getActions().addAction(ActionFactory.createPopupMenuAction(edgeMenu));
+        return connection;
     }
 
     @Override

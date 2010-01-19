@@ -12,10 +12,15 @@ import javax.xml.bind.Unmarshaller;
 import org.glotaran.core.models.tgm.Dat;
 import org.glotaran.core.models.tgm.Tgm;
 import org.glotaran.tgmeditor.view.TgmToolBarMVElement;
+import org.netbeans.api.xml.cookies.CheckXMLCookie;
+import org.netbeans.api.xml.cookies.ValidateXMLCookie;
 import org.netbeans.modules.xml.multiview.DesignMultiViewDesc;
 import org.netbeans.modules.xml.multiview.ToolBarMultiViewElement;
 import org.netbeans.modules.xml.multiview.XmlMultiViewDataObject;
 import org.netbeans.modules.xml.multiview.XmlMultiViewDataSynchronizer;
+import org.netbeans.spi.xml.cookies.CheckXMLSupport;
+import org.netbeans.spi.xml.cookies.DataObjectAdapters;
+import org.netbeans.spi.xml.cookies.ValidateXMLSupport;
 import org.openide.ErrorManager;
 import org.openide.cookies.SaveCookie;
 import org.openide.filesystems.FileObject;
@@ -35,11 +40,11 @@ public class TgmDataObject extends XmlMultiViewDataObject implements SaveCookie{
         super(pf, loader);
         // Added code from vdblog
         modelSynchronizer = new ModelSynchronizer(this);
-//        org.xml.sax.InputSource in = DataObjectAdapters.inputSource(this);
-//        CheckXMLCookie checkCookie = new CheckXMLSupport(in);
-//        getCookieSet().add(checkCookie);
-//        ValidateXMLCookie validateCookie = new ValidateXMLSupport(in);
-//        getCookieSet().add(validateCookie);
+        org.xml.sax.InputSource in = DataObjectAdapters.inputSource(this);
+        CheckXMLCookie checkCookie = new CheckXMLSupport(in);
+        getCookieSet().add(checkCookie);
+        ValidateXMLCookie validateCookie = new ValidateXMLSupport(in);
+        getCookieSet().add(validateCookie);
         if (!(FileUtil.toFile(this.getPrimaryFile()) == null)) {
             try {
                 parseDocument();

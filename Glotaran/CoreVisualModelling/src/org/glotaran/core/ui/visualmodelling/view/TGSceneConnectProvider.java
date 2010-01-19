@@ -20,6 +20,7 @@ package org.glotaran.core.ui.visualmodelling.view;
 
 import org.glotaran.core.ui.visualmodelling.nodes.VisualAbstractNode;
 import java.awt.Point;
+import org.glotaran.core.models.gta.GtaConnection;
 import org.glotaran.tgmfilesupport.TgmDataNode;
 import org.netbeans.api.visual.action.ConnectProvider;
 import org.netbeans.api.visual.action.ConnectorState;
@@ -85,7 +86,8 @@ public class TGSceneConnectProvider implements ConnectProvider {
     int edgeCounter;
     public void createConnection(Widget sourceWidget, Widget targetWidget) {
         if (scene.findEdgesBetween(source, target).isEmpty()){
-            String edge = "edge" + edgeCounter ++;
+            GtaConnection edge = new GtaConnection();
+            edge.setName("edge" + edgeCounter ++);
             scene.addEdge(edge);
             scene.setEdgeSource(edge, source);
             scene.setEdgeTarget(edge, target);

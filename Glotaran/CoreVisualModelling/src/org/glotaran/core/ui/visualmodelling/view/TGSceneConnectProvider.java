@@ -21,6 +21,7 @@ package org.glotaran.core.ui.visualmodelling.view;
 import org.glotaran.core.ui.visualmodelling.nodes.VisualAbstractNode;
 import java.awt.Point;
 import org.glotaran.core.models.gta.GtaConnection;
+import org.glotaran.core.models.gta.GtaDatasetContainer;
 import org.glotaran.tgmfilesupport.TgmDataNode;
 import org.netbeans.api.visual.action.ConnectProvider;
 import org.netbeans.api.visual.action.ConnectorState;
@@ -51,27 +52,15 @@ public class TGSceneConnectProvider implements ConnectProvider {
     }
     
     public ConnectorState isTargetWidget(Widget sourceWidget, Widget targetWidget) {
-        Object object = scene.findObject(targetWidget);
-        if (scene.isNode(object)){
-            VisualAbstractNode targ = null;
-            if (object instanceof VisualAbstractNode){
-                targ = (VisualAbstractNode) object;
-                if (targ.getName().equalsIgnoreCase("Dataset Container")){
-                    if ((source instanceof VisualAbstractNode)&&
-                            (((VisualAbstractNode)source).getName().equalsIgnoreCase("Model"))){
-                        target = object;
-                        return ConnectorState.ACCEPT;// : ConnectorState.REJECT_AND_STOP;
-                    }
-                    else {
-                        if (source instanceof TgmDataNode){
-                            target = object;
-                            return ConnectorState.ACCEPT;// : ConnectorState.REJECT_AND_STOP;
-                        }
-                    }
-                }
+        target = scene.findObject(targetWidget);
+        if (scene.isNode(target)){
+            if (target instanceof GtaDatasetContainer){
+            return ConnectorState.ACCEPT;// : ConnectorState.REJECT_AND_STOP;
+            } else if (source instanceof TgmDataNode){
+             return ConnectorState.ACCEPT;// : ConnectorState.REJECT_AND_STOP;                        
             }
         }
-        return object != null ? ConnectorState.REJECT_AND_STOP : ConnectorState.REJECT;
+        return target != null ? ConnectorState.REJECT_AND_STOP : ConnectorState.REJECT;
     }
     
     public boolean hasCustomTargetWidgetResolver(Scene scene) {

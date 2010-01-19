@@ -127,17 +127,11 @@ public class GraphSceneImpl extends GraphScene { //TODO: implement <VisualAbstra
             cw = createMoveableComponent(new ModelContainer(myNode.getObject()), myNode.getDisplayName(), nodeCount++);
             mainLayer.addChild(cw);
         }
-        if (node instanceof VisualAbstractNode) {
-            VisualAbstractNode myNode = (VisualAbstractNode) node;
-            if (myNode.getName().equalsIgnoreCase("Model")) {
-                cw = createMoveableComponent(new ModelContainer(), myNode.getName(), nodeCount++);
-                mainLayer.addChild(cw);
-            }
-            if (myNode.getName().equalsIgnoreCase("Dataset Container")) {
-                cw = createMoveableComponent(new DatasetContainerComponent(), myNode.getName(), nodeCount++);
-                mainLayer.addChild(cw);
-            }
-        }
+        if (node instanceof GtaDatasetContainer) {
+            GtaDatasetContainer myNode = (GtaDatasetContainer) node;
+            cw = createMoveableComponent(new DatasetContainerComponent(), myNode.getId(), nodeCount++);
+            mainLayer.addChild(cw);
+            }        
         return cw;
     }
 
@@ -183,9 +177,8 @@ public class GraphSceneImpl extends GraphScene { //TODO: implement <VisualAbstra
         Dimension size;
         TimpDatasetDataObject tdobj;
         //TODO: get datasetContainer and add nodes
-        for (GtaDatasetContainer container : scheme.getDatasetContainer()) {
-            VisualAbstractNode newNode = new VisualAbstractNode("Dataset Container", "Modelling", nodeCount++);
-            widget = addNode(newNode);
+        for (GtaDatasetContainer container : scheme.getDatasetContainer()) {            
+            widget = addNode(container);
             location = new Point((int)Math.floor(container.getLayout().getXposition()), (int)Math.floor(container.getLayout().getYposition()));
             size = new Dimension((int) Math.floor(container.getLayout().getWidth()), (int) Math.floor(container.getLayout().getHeight()));
             widget.setPreferredLocation(location);

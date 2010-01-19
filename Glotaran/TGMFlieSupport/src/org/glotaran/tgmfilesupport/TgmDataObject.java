@@ -124,6 +124,7 @@ public class TgmDataObject extends XmlMultiViewDataObject implements SaveCookie{
     }
 
     public void save() throws IOException {
+        System.out.println("save");
         if (tgm == null) {
             return;
         }
@@ -131,7 +132,7 @@ public class TgmDataObject extends XmlMultiViewDataObject implements SaveCookie{
 
         Writer out = new StringWriter();
 
-        System.out.println("Before - "+String.valueOf(getPrimaryFile().isLocked()));
+//        System.out.println("Before - "+String.valueOf(getPrimaryFile().isLocked()));
         try {
             javax.xml.bind.JAXBContext jaxbCtx = javax.xml.bind.JAXBContext.newInstance(tgm.getClass().getPackage().getName());
             javax.xml.bind.Marshaller marshaller = jaxbCtx.createMarshaller();
@@ -149,8 +150,34 @@ public class TgmDataObject extends XmlMultiViewDataObject implements SaveCookie{
         setModified(false);
     }
 
+
+
+    public Tgm getTgm() { //perhaps IOExeption?
+        // If the Object "tgm" doesn't exist yet, read in from file
+
+        if (tgm == null) {
+            tgm = new Tgm();
+            try {
+                javax.xml.bind.JAXBContext jaxbCtx = javax.xml.bind.JAXBContext.newInstance(tgm.getClass().getPackage().getName());
+                javax.xml.bind.Unmarshaller unmarshaller = jaxbCtx.createUnmarshaller();
+                tgm = (Tgm) unmarshaller.unmarshal(FileUtil.toFile(this.getPrimaryFile())); //NOI18N //replaced: new java.io.File("File path") //Fix this: java.lang.IllegalArgumentException: file parameter must not be null
+            } catch (javax.xml.bind.JAXBException ex) {
+                // XXXTODO Handle exception
+                java.util.logging.Logger.getLogger("global").log(java.util.logging.Level.SEVERE, null, ex); //NOI18N
+            }
+        }
+        // Else simply return the object
+        return tgm;
+    }
+
+    public void modelUpdatedFromUI() {
+        System.out.println("modelUpdatedFromUI");
+        modelSynchronizer.requestUpdateData();
+//        setModified(true);
+    }
+
+
     private static class DesignView extends DesignMultiViewDesc {
-        
         //Added becuase of:
         //WARNING [org.openide.util.io.NbObjectOutputStream]: Serializable class nl.vu.nat.tgmfilesupport.TgmDataObject$DesignView does not declare serialVersionUID field. Encountered while storing: [org.openide.windows.TopComponent$Replacer, java.lang.Short, java.lang.Number, org.openide.windows.CloneableOpenSupport$Listener, org.openide.windows.CloneableTopComponent$Ref, org.netbeans.modules.xml.multiview.XmlMultiViewEditorSupport$XmlEnv, org.openide.text.DataEditorSupport$Env, org.openide.loaders.OpenSupport$Env, org.openide.loaders.DataObject$Replace, org.netbeans.modules.masterfs.filebasedfs.fileobjects.ReplaceForSerialization, org.netbeans.modules.xml.multiview.XmlMultiViewEditorSupport$MyCloseHandler] See also http://www.netbeans.org/issues/show_bug.cgi?id=19915
         private static final long serialVersionUID = 1L;
@@ -179,29 +206,6 @@ public class TgmDataObject extends XmlMultiViewDataObject implements SaveCookie{
         }
     }
 
-    public Tgm getTgm() { //perhaps IOExeption?
-        // If the Object "tgm" doesn't exist yet, read in from file
-
-        if (tgm == null) {
-            tgm = new Tgm();
-            try {
-                javax.xml.bind.JAXBContext jaxbCtx = javax.xml.bind.JAXBContext.newInstance(tgm.getClass().getPackage().getName());
-                javax.xml.bind.Unmarshaller unmarshaller = jaxbCtx.createUnmarshaller();
-                tgm = (Tgm) unmarshaller.unmarshal(FileUtil.toFile(this.getPrimaryFile())); //NOI18N //replaced: new java.io.File("File path") //Fix this: java.lang.IllegalArgumentException: file parameter must not be null
-            } catch (javax.xml.bind.JAXBException ex) {
-                // XXXTODO Handle exception
-                java.util.logging.Logger.getLogger("global").log(java.util.logging.Level.SEVERE, null, ex); //NOI18N
-            }
-        }
-        // Else simply return the object
-        return tgm;
-    }
-
-    public void modelUpdatedFromUI() {
-        modelSynchronizer.requestUpdateData();
-//        setModified(true);
-    }
-
     private class ModelSynchronizer extends XmlMultiViewDataSynchronizer {
 
         public ModelSynchronizer(XmlMultiViewDataObject dataObject) {
@@ -215,6 +219,7 @@ public class TgmDataObject extends XmlMultiViewDataObject implements SaveCookie{
 
         @Override
         protected void updateDataFromModel(Object model, org.openide.filesystems.FileLock lock, boolean modify) {
+            System.out.println("updateDataFromModel");
             if (model == null) {
                 return;
             }

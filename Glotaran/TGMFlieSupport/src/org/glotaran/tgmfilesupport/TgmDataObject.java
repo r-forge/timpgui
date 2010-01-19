@@ -17,6 +17,7 @@ import org.netbeans.modules.xml.multiview.ToolBarMultiViewElement;
 import org.netbeans.modules.xml.multiview.XmlMultiViewDataObject;
 import org.netbeans.modules.xml.multiview.XmlMultiViewDataSynchronizer;
 import org.openide.ErrorManager;
+import org.openide.cookies.SaveCookie;
 import org.openide.filesystems.FileObject;
 import org.openide.filesystems.FileUtil;
 import org.openide.loaders.DataObjectExistsException;
@@ -24,7 +25,7 @@ import org.openide.loaders.MultiFileLoader;
 import org.openide.nodes.Node;
 import org.openide.util.Lookup;
 
-public class TgmDataObject extends XmlMultiViewDataObject {
+public class TgmDataObject extends XmlMultiViewDataObject implements SaveCookie{
     // Model synchronizer takes care of two way synchronization between the view and the XML file
     private ModelSynchronizer modelSynchronizer;    // Here we declare the variable, representing the type of design view, which will be discussed in some future installment of this series:
     private static final int TYPE_TOOLBAR = 0;
@@ -46,6 +47,7 @@ public class TgmDataObject extends XmlMultiViewDataObject {
                 System.out.println("ex=" + ex);
             }
         }
+        getCookieSet();
     }
 
     @Override
@@ -121,6 +123,32 @@ public class TgmDataObject extends XmlMultiViewDataObject {
         }
     }
 
+    public void save() throws IOException {
+        if (tgm == null) {
+            return;
+        }
+//        modelUpdatedFromUI();
+
+        Writer out = new StringWriter();
+
+        System.out.println("Before - "+String.valueOf(getPrimaryFile().isLocked()));
+        try {
+            javax.xml.bind.JAXBContext jaxbCtx = javax.xml.bind.JAXBContext.newInstance(tgm.getClass().getPackage().getName());
+            javax.xml.bind.Marshaller marshaller = jaxbCtx.createMarshaller();
+            marshaller.setProperty(javax.xml.bind.Marshaller.JAXB_ENCODING, "UTF-8"); //NOI18N
+            marshaller.setProperty(javax.xml.bind.Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
+            marshaller.marshal(tgm, FileUtil.toFile(this.getPrimaryFile()));
+            out.close();
+             System.out.println("After - "+String.valueOf(getPrimaryFile().isLocked()));
+        } catch (javax.xml.bind.JAXBException ex) {
+            // XXXTODO Handle exception
+            java.util.logging.Logger.getLogger("global").log(java.util.logging.Level.SEVERE, null, ex); //NOI18N
+        } catch (IOException e) {
+            ErrorManager.getDefault().notify(ErrorManager.INFORMATIONAL, e);
+        }
+        setModified(false);
+    }
+
     private static class DesignView extends DesignMultiViewDesc {
         
         //Added becuase of:
@@ -171,7 +199,7 @@ public class TgmDataObject extends XmlMultiViewDataObject {
 
     public void modelUpdatedFromUI() {
         modelSynchronizer.requestUpdateData();
-        setModified(true);
+//        setModified(true);
     }
 
     private class ModelSynchronizer extends XmlMultiViewDataSynchronizer {

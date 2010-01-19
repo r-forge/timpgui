@@ -92,7 +92,7 @@ public class ModelContainer
 //==============filling up parameters ============
         if (!model.getTgm().getDat().getKMatrixPanel().getJVector().getVector().isEmpty()){
             manager.getRootContext().getChildren().add(
-                    new Node[]{new KmatrixNode(model.getTgm().getDat().getKMatrixPanel(), this)});
+                    new Node[]{new KmatrixNode(model, this)});
 
 //============== TODO implement Kmatrix case ==============
 
@@ -244,15 +244,7 @@ public class ModelContainer
                 model.getTgm().getDat().getKinparPanel().setPositivepar(false);
                 model.getTgm().getDat().getKinparPanel().setSeqmod(false);
             }
-
-
-            try {
-                model.setModified(true);
-                model.getCookie(SaveCookie.class).save();
-                model.setModified(false);
-            } catch (IOException ex) {
-                CoreErrorMessages.fileSaveError(model.getNodeDelegate().getName());
-            }
+            model.setModified(true);
             return;
 
         }
@@ -304,7 +296,7 @@ public class ModelContainer
                     }
                     case MEASURED_IRF: {
                         model.getTgm().getDat().getIrfparPanel().setMirf(Boolean.TRUE);
-                        //todo finish measured IRF
+                        //todo finish measured IRF implementation
                         break;
                     }
                 }               
@@ -316,14 +308,8 @@ public class ModelContainer
             if (evt.getPropertyName().equalsIgnoreCase("fixed")){
                 model.getTgm().getDat().getIrfparPanel().getFixed().set((Integer)evt.getOldValue(), (Boolean)evt.getNewValue());
             }
-
-            try {
-                model.setModified(true);
-                model.getCookie(SaveCookie.class).save();
-                model.setModified(false);
-            } catch (IOException ex) {
-                CoreErrorMessages.fileSaveError(model.getNodeDelegate().getName());
-            }
+                
+            model.setModified(true);
             return;
         }
         if (evt.getSource().getClass().equals(CohSpecNode.class)){
@@ -374,13 +360,8 @@ public class ModelContainer
                 model.getTgm().getDat().getCohspecPanel().getCohspec().setSet(false);
                 model.getTgm().getDat().getCohspecPanel().getCohspec().setType("");
             }
-            try {
-                model.setModified(true);
-                model.getCookie(SaveCookie.class).save();
-                model.setModified(false);
-            } catch (IOException ex) {
-                CoreErrorMessages.fileSaveError(model.getNodeDelegate().getName());
-            }
+
+            model.setModified(true);
             return;
 
         }
@@ -467,16 +448,7 @@ public class ModelContainer
 
             }
 
-
-            
-
-            try {
-                model.setModified(true);
-                model.getCookie(SaveCookie.class).save();
-                model.setModified(false);
-            } catch (IOException ex) {
-                CoreErrorMessages.fileSaveError(model.getNodeDelegate().getName());
-            }
+            model.setModified(true);
             return;
 
         }
@@ -515,13 +487,8 @@ public class ModelContainer
                 int index = (Integer)evt.getNewValue();
                 model.getTgm().getDat().getWeightParPanel().getWeightpar().remove(index);
             }
-            try {
-                model.setModified(true);
-                model.getCookie(SaveCookie.class).save();
-                model.setModified(false);
-            } catch (IOException ex) {
-                CoreErrorMessages.fileSaveError(model.getNodeDelegate().getName());
-            }
+
+            model.setModified(true);
             return;
 
         }

@@ -166,6 +166,7 @@
                 </dependency>
             </module-dependencies>
             <public-packages>
+                <package>org.glotaran.tgmeditor.panels</package>
                 <package>org.glotaran.tgmfilesupport</package>
             </public-packages>
         </data>

@@ -36,6 +36,7 @@ public class TgmDataNode extends DataNode implements Transferable{
         this.obj=obj;
 //        setIconBaseWithExtension(IMAGE_ICON_BASE);
  //       setDropTarget();
+        getCookieSet();
     }
 
     TgmDataNode(TgmDataObject obj, Lookup lookup) {
@@ -43,7 +44,9 @@ public class TgmDataNode extends DataNode implements Transferable{
         this.obj=obj;
  //       setIconBaseWithExtension(IMAGE_ICON_BASE);
     //    setDropTarget();
+        getCookieSet();
     }
+    
    @Override
     public Image getIcon(int type) {
         return ICON_ROOT;

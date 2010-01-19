@@ -44,7 +44,7 @@ public class TgmDataObject extends XmlMultiViewDataObject implements SaveCookie{
             try {
                 parseDocument();
             } catch (IOException ex) {
-                System.out.println("ex=" + ex);
+//                System.out.println("ex=" + ex);
             }
         }
         getCookieSet();
@@ -124,7 +124,7 @@ public class TgmDataObject extends XmlMultiViewDataObject implements SaveCookie{
     }
 
     public void save() throws IOException {
-        System.out.println("save");
+//        System.out.println("save");
         if (tgm == null) {
             return;
         }
@@ -140,7 +140,7 @@ public class TgmDataObject extends XmlMultiViewDataObject implements SaveCookie{
             marshaller.setProperty(javax.xml.bind.Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
             marshaller.marshal(tgm, FileUtil.toFile(this.getPrimaryFile()));
             out.close();
-             System.out.println("After - "+String.valueOf(getPrimaryFile().isLocked()));
+//             System.out.println("After - "+String.valueOf(getPrimaryFile().isLocked()));
         } catch (javax.xml.bind.JAXBException ex) {
             // XXXTODO Handle exception
             java.util.logging.Logger.getLogger("global").log(java.util.logging.Level.SEVERE, null, ex); //NOI18N
@@ -171,9 +171,9 @@ public class TgmDataObject extends XmlMultiViewDataObject implements SaveCookie{
     }
 
     public void modelUpdatedFromUI() {
-        System.out.println("modelUpdatedFromUI");
+//        System.out.println("modelUpdatedFromUI");
         modelSynchronizer.requestUpdateData();
-//        setModified(true);
+        setModified(true);
     }
 
 
@@ -219,7 +219,7 @@ public class TgmDataObject extends XmlMultiViewDataObject implements SaveCookie{
 
         @Override
         protected void updateDataFromModel(Object model, org.openide.filesystems.FileLock lock, boolean modify) {
-            System.out.println("updateDataFromModel");
+//            System.out.println("updateDataFromModel");
             if (model == null) {
                 return;
             }

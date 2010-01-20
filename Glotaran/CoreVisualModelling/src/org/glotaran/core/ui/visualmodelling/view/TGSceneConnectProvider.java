@@ -22,6 +22,7 @@ import org.glotaran.core.ui.visualmodelling.nodes.VisualAbstractNode;
 import java.awt.Point;
 import org.glotaran.core.models.gta.GtaConnection;
 import org.glotaran.core.models.gta.GtaDatasetContainer;
+import org.glotaran.core.models.gta.GtaModelReference;
 import org.glotaran.tgmfilesupport.TgmDataNode;
 import org.netbeans.api.visual.action.ConnectProvider;
 import org.netbeans.api.visual.action.ConnectorState;
@@ -38,6 +39,7 @@ public class TGSceneConnectProvider implements ConnectProvider {
     
     private Object source = null;
     private Object target = null;
+    int edgeCounter = 0;
     
     private GraphScene scene;
     
@@ -54,10 +56,10 @@ public class TGSceneConnectProvider implements ConnectProvider {
     public ConnectorState isTargetWidget(Widget sourceWidget, Widget targetWidget) {
         target = scene.findObject(targetWidget);
         if (scene.isNode(target)){
-            if (target instanceof GtaDatasetContainer){
+            if (target instanceof GtaDatasetContainer && source instanceof GtaModelReference){
             return ConnectorState.ACCEPT;// : ConnectorState.REJECT_AND_STOP;
-            } else if (source instanceof TgmDataNode){
-             return ConnectorState.ACCEPT;// : ConnectorState.REJECT_AND_STOP;                        
+            } else {
+             return ConnectorState.REJECT_AND_STOP;
             }
         }
         return target != null ? ConnectorState.REJECT_AND_STOP : ConnectorState.REJECT;
@@ -70,16 +72,27 @@ public class TGSceneConnectProvider implements ConnectProvider {
     public Widget resolveTargetWidget(Scene scene, Point sceneLocation) {
         return null;
     }
-
-    
-    int edgeCounter;
+        
     public void createConnection(Widget sourceWidget, Widget targetWidget) {
         if (scene.findEdgesBetween(source, target).isEmpty()){
-            GtaConnection edge = new GtaConnection();
-            edge.setName("edge" + edgeCounter ++);
-            scene.addEdge(edge);
-            scene.setEdgeSource(edge, source);
-            scene.setEdgeTarget(edge, target);
+            GtaConnection gtac = new GtaConnection();
+            gtac.setId(String.valueOf(edgeCounter));
+            gtac.setName("edge " + edgeCounter ++);
+            gtac.setActive(true);
+
+            source = scene.findObject(sourceWidget);
+            if (source instanceof GtaModelReference) {
+            
+            }
+
+            target = scene.findObject(targetWidget);
+            if (source instanceof TgmDataNode) {
+            
+            }
+                        
+            scene.addEdge(gtac);
+            scene.setEdgeSource(gtac, source);
+            scene.setEdgeTarget(gtac, target);
             scene.validate();
         }
     }

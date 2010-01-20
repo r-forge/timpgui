@@ -9,14 +9,18 @@ import java.awt.datatransfer.Transferable;
 import java.awt.datatransfer.UnsupportedFlavorException;
 import java.io.IOException;
 import org.glotaran.core.models.gta.GtaDatasetContainer;
+import org.glotaran.core.models.gta.GtaModelReference;
 import org.glotaran.core.ui.visualmodelling.common.VisualCommonFunctions;
 import org.glotaran.core.ui.visualmodelling.palette.PaletteItem;
 import org.glotaran.core.ui.visualmodelling.palette.PaletteNode;
 import org.glotaran.tgmfilesupport.TgmDataNode;
+import org.netbeans.api.project.ui.OpenProjects;
 import org.netbeans.api.visual.action.AcceptProvider;
 import org.netbeans.api.visual.action.ConnectorState;
 import org.netbeans.api.visual.graph.GraphScene;
 import org.netbeans.api.visual.widget.Widget;
+import org.openide.filesystems.FileObject;
+import org.openide.filesystems.FileUtil;
 import org.openide.util.Exceptions;
 
 /**
@@ -77,7 +81,13 @@ public class CustomSceneAcceptProvider implements AcceptProvider {
         if (transferable.isDataFlavorSupported(TgmDataNode.DATA_FLAVOR)) {
             try {
                 TgmDataNode tgmNode = (TgmDataNode) transferable.getTransferData(TgmDataNode.DATA_FLAVOR);
-                newWidget = scene.addNode(tgmNode);
+                GtaModelReference newModel = new GtaModelReference();
+                FileObject fo = tgmNode.getObject().getPrimaryFile();
+                String path = FileUtil.getRelativePath(OpenProjects.getDefault().getMainProject().getProjectDirectory(), fo);
+                newModel.setPath(path);
+                newModel.setFilename(fo.getName());
+                newModel.setId(path);
+                newWidget = scene.addNode(newModel);
             } catch (UnsupportedFlavorException ex) {
                 Exceptions.printStackTrace(ex);
             } catch (IOException ex) {

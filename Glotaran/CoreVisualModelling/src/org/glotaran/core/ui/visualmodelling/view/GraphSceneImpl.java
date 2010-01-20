@@ -86,7 +86,7 @@ public class GraphSceneImpl extends GraphScene { //TODO: implement <VisualAbstra
     private WidgetAction sceneAcceptAction = ActionFactory.createAcceptAction(new CustomSceneAcceptProvider(this));
     private NodeMenu nodeMenu = new NodeMenu(this);
     private EdgeMenu edgeMenu = new EdgeMenu(this);
-    private int nodeCount=0;
+    private Integer nodeCount=0;
 
     public GraphSceneImpl() {
         mainLayer = new LayerWidget(this);
@@ -107,24 +107,31 @@ public class GraphSceneImpl extends GraphScene { //TODO: implement <VisualAbstra
         loadScene(scheme);
     }
 
-//    protected void attachEdgeSourceAnchor(String edge, String oldSourceNode, String sourceNode) {
-//        ConnectionWidget widget = (ConnectionWidget) findWidget(edge);
-//        Widget sourceNodeWidget = findWidget(sourceNode);
-//        widget.setSourceAnchor(sourceNodeWidget != null ? AnchorFactory.createFreeRectangularAnchor(sourceNodeWidget, true) : null);
-//    }
-//
-//    protected void attachEdgeTargetAnchor(String edge, String oldTargetNode, String targetNode) {
-//        ConnectionWidget widget = (ConnectionWidget) findWidget(edge);
-//        Widget targetNodeWidget = findWidget(targetNode);
-//        widget.setTargetAnchor(targetNodeWidget != null ? AnchorFactory.createFreeRectangularAnchor(targetNodeWidget, true) : null);
-//    }
+    public Integer getNodeCount() {
+        return nodeCount;
+    }
 
     @Override
     protected Widget attachNodeWidget(Object node) {
+        TgmDataObject tgmDObj = null;
         Widget cw = null;
-        if (node instanceof TgmDataNode){
-            TgmDataNode myNode = (TgmDataNode) node;
-            cw = createMoveableComponent(new ModelContainer(myNode.getObject()), myNode.getDisplayName(), nodeCount++);
+        if (node instanceof GtaModelReference){            
+            GtaModelReference modelRef = (GtaModelReference) node;
+            
+            try {
+                File fl = new File(OpenProjects.getDefault().getMainProject().getProjectDirectory().getPath() + File.separator + modelRef.getPath());
+                FileObject test = FileUtil.createData(fl);
+                DataObject dObj = DataObject.find(test);
+                if (dObj!=null) {
+                    tgmDObj = (TgmDataObject) dObj;
+                }                
+            } catch (DataObjectExistsException ex) {
+                Exceptions.printStackTrace(ex);
+            } catch (IOException ex) {
+                Exceptions.printStackTrace(ex);
+            }                                    
+            
+            cw = createMoveableComponent(new ModelContainer(tgmDObj), modelRef.getFilename(), nodeCount++);
             mainLayer.addChild(cw);
         }
         if (node instanceof GtaDatasetContainer) {
@@ -157,10 +164,6 @@ public class GraphSceneImpl extends GraphScene { //TODO: implement <VisualAbstra
         ConnectionWidget widget = (ConnectionWidget) findWidget(edge);
         Widget sourceNodeWidget = findWidget(sourceNode);
         widget.setSourceAnchor(sourceNodeWidget != null ? AnchorFactory.createFreeRectangularAnchor(sourceNodeWidget, true) : null);
-
-//        VisualAbstractNode sourceMyNode = (VisualAbstractNode) sourceNode;
-//        VisualAbstractNode oldSourceMyNode = (VisualAbstractNode) oldSourceNode;
-//        attachEdgeSourceAnchor((String)edge, (String)oldSourceNode, (String)sourceNode);
     }
 
     @Override
@@ -168,16 +171,18 @@ public class GraphSceneImpl extends GraphScene { //TODO: implement <VisualAbstra
         ConnectionWidget widget = (ConnectionWidget) findWidget(edge);
         Widget targetNodeWidget = findWidget(targetNode);
         widget.setTargetAnchor(targetNodeWidget != null ? AnchorFactory.createFreeRectangularAnchor(targetNodeWidget, true) : null);
-//        attachEdgeTargetAnchor((String) edge, (String) oldTargetNode, (String) targetNode);
     }
 
-    public void loadScene(GtaProjectScheme scheme) {
+    public void loadScene(GtaProjectScheme gtaScheme) {
         Widget widget;
         Point location;
         Dimension size;
         TimpDatasetDataObject tdobj;
+        TgmDataObject tgmDObj = null;
+        nodeCount = Integer.valueOf(gtaScheme.getCounter());
+
         //TODO: get datasetContainer and add nodes
-        for (GtaDatasetContainer container : scheme.getDatasetContainer()) {            
+        for (GtaDatasetContainer container : gtaScheme.getDatasetContainer()) {
             widget = addNode(container);
             location = new Point((int)Math.floor(container.getLayout().getXposition()), (int)Math.floor(container.getLayout().getYposition()));
             size = new Dimension((int) Math.floor(container.getLayout().getWidth()), (int) Math.floor(container.getLayout().getHeight()));
@@ -212,11 +217,9 @@ public class GraphSceneImpl extends GraphScene { //TODO: implement <VisualAbstra
             }
 
             }
-        }
-        TgmDataObject fo;
-        TgmDataObject tgmDObj = null;
+        }        
 
-        for (GtaModelReference model : scheme.getModel()) {
+        for (GtaModelReference model : gtaScheme.getModel()) {
             try {
                 File fl = new File(OpenProjects.getDefault().getMainProject().getProjectDirectory().getPath() + File.separator + model.getPath());
                 FileObject test = FileUtil.createData(fl);
@@ -230,7 +233,7 @@ public class GraphSceneImpl extends GraphScene { //TODO: implement <VisualAbstra
             } catch (IOException ex) {
                 Exceptions.printStackTrace(ex);
             }
-            widget = addNode((TgmDataNode)tgmDObj.getNodeDelegate());
+            widget = addNode(model);
             location = new Point((int)Math.floor(model.getLayout().getXposition()), (int)Math.floor(model.getLayout().getYposition()));
             size = new Dimension((int) Math.floor(model.getLayout().getWidth()), (int) Math.floor(model.getLayout().getHeight()));
             widget.setPreferredLocation(location);
@@ -238,8 +241,15 @@ public class GraphSceneImpl extends GraphScene { //TODO: implement <VisualAbstra
             validate();
         }
 
-        for (GtaConnection connection : scheme.getConnection()) {
-            //cw = addEdge(connection);
+        for (GtaConnection connection : gtaScheme.getConnection()) {
+            //TODO: implement this
+//              String edge = getAttributeValue (element, EDGE_ID_ATTR);
+//                String sourceNode = getAttributeValue (element, EDGE_SOURCE_ATTR);
+//                String targetNode = getAttributeValue (element, EDGE_TARGET_ATTR);
+//                scene.addEdge (edge);
+//                scene.setEdgeSource (edge, sourceNode);
+//                scene.setEdgeTarget (edge, targetNode);
+            validate();
         }
         
     }

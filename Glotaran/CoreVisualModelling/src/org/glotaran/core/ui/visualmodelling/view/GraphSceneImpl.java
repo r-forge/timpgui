@@ -23,7 +23,6 @@ import org.glotaran.core.models.gta.GtaProjectScheme;
 import org.glotaran.core.ui.visualmodelling.menu.SceneMainMenu;
 import org.glotaran.core.ui.visualmodelling.menu.EdgeMenu;
 import org.glotaran.core.ui.visualmodelling.menu.NodeMenu;
-import org.glotaran.core.ui.visualmodelling.nodes.VisualAbstractNode;
 import org.netbeans.api.visual.action.ActionFactory;
 import org.netbeans.api.visual.action.SelectProvider;
 import org.netbeans.api.visual.action.WidgetAction;
@@ -54,7 +53,6 @@ import org.glotaran.core.models.gta.GtaModelReference;
 import org.glotaran.core.ui.visualmodelling.components.DatasetContainerComponent;
 import org.glotaran.core.ui.visualmodelling.components.ModelContainer;
 import org.glotaran.core.ui.visualmodelling.nodes.DatasetComponentNode;
-import org.glotaran.tgmfilesupport.TgmDataNode;
 import org.glotaran.tgmfilesupport.TgmDataObject;
 import org.netbeans.api.project.ui.OpenProjects;
 import org.netbeans.api.visual.border.BorderFactory;
@@ -65,7 +63,6 @@ import org.openide.filesystems.FileUtil;
 import org.openide.loaders.DataObject;
 import org.openide.nodes.Index;
 import org.openide.nodes.Node;
-
 
 /**
  * @author Alex
@@ -86,7 +83,7 @@ public class GraphSceneImpl extends GraphScene { //TODO: implement <VisualAbstra
     private WidgetAction sceneAcceptAction = ActionFactory.createAcceptAction(new CustomSceneAcceptProvider(this));
     private NodeMenu nodeMenu = new NodeMenu(this);
     private EdgeMenu edgeMenu = new EdgeMenu(this);
-    private Integer nodeCount=0;
+    private Integer nodeCount = 0;
 
     public GraphSceneImpl() {
         mainLayer = new LayerWidget(this);
@@ -111,34 +108,70 @@ public class GraphSceneImpl extends GraphScene { //TODO: implement <VisualAbstra
         return nodeCount;
     }
 
+    public Integer getNewNodeCount() {
+        nodeCount++;
+        return nodeCount;
+    }
+
+    public Object getNodeForID(String id) {
+        GtaDatasetContainer gdc = null;
+        GtaModelReference gmr = null;
+        for (Object node : getNodes()) {
+            if (node instanceof GtaDatasetContainer) {
+                gdc = (GtaDatasetContainer) node;
+                if (gdc.getId() != null) {
+                    if (gdc.getId().equals(id)) {
+                    return node;
+                }
+            }
+            }
+            if (node instanceof GtaModelReference) {
+                gmr = (GtaModelReference) node;
+                if (gmr.getId() != null) {
+                    if (gmr.getId().equals(id)) {
+                    return node;
+                    }
+                }
+            }
+        }
+        //TODO: find more elegant solution than returning null
+        return null;
+    }
+
     @Override
     protected Widget attachNodeWidget(Object node) {
         TgmDataObject tgmDObj = null;
         Widget cw = null;
-        if (node instanceof GtaModelReference){            
+        if (node instanceof GtaModelReference) {
             GtaModelReference modelRef = (GtaModelReference) node;
+           if (modelRef.getId()==null) {
+            modelRef.setId(String.valueOf(getNewNodeCount()));
+            }
             
             try {
                 File fl = new File(OpenProjects.getDefault().getMainProject().getProjectDirectory().getPath() + File.separator + modelRef.getPath());
                 FileObject test = FileUtil.createData(fl);
                 DataObject dObj = DataObject.find(test);
-                if (dObj!=null) {
+                if (dObj != null) {
                     tgmDObj = (TgmDataObject) dObj;
-                }                
+                }
             } catch (DataObjectExistsException ex) {
                 Exceptions.printStackTrace(ex);
             } catch (IOException ex) {
                 Exceptions.printStackTrace(ex);
-            }                                    
-            
-            cw = createMoveableComponent(new ModelContainer(tgmDObj), modelRef.getFilename(), nodeCount++);
+            }
+
+            cw = createMoveableComponent(new ModelContainer(tgmDObj), modelRef.getFilename());
             mainLayer.addChild(cw);
         }
         if (node instanceof GtaDatasetContainer) {
             GtaDatasetContainer myNode = (GtaDatasetContainer) node;
-            cw = createMoveableComponent(new DatasetContainerComponent(), myNode.getId(), nodeCount++);
+            if (myNode.getId()==null) {
+                myNode.setId(String.valueOf(getNewNodeCount()));
+            }
+            cw = createMoveableComponent(new DatasetContainerComponent(), myNode.getId());
             mainLayer.addChild(cw);
-            }        
+        }
         return cw;
     }
 
@@ -184,7 +217,7 @@ public class GraphSceneImpl extends GraphScene { //TODO: implement <VisualAbstra
         //TODO: get datasetContainer and add nodes
         for (GtaDatasetContainer container : gtaScheme.getDatasetContainer()) {
             widget = addNode(container);
-            location = new Point((int)Math.floor(container.getLayout().getXposition()), (int)Math.floor(container.getLayout().getYposition()));
+            location = new Point((int) Math.floor(container.getLayout().getXposition()), (int) Math.floor(container.getLayout().getYposition()));
             size = new Dimension((int) Math.floor(container.getLayout().getWidth()), (int) Math.floor(container.getLayout().getHeight()));
             widget.setPreferredLocation(location);
             widget.setPreferredSize(size);
@@ -192,39 +225,39 @@ public class GraphSceneImpl extends GraphScene { //TODO: implement <VisualAbstra
 
             for (GtaDataset dataset : container.getDatasets()) {
                 try {
-                File fl = new File(OpenProjects.getDefault().getMainProject().getProjectDirectory().getPath() + File.separator + dataset.getPath());
-                FileObject test = FileUtil.createData(fl);
-                DataObject dObj = DataObject.find(test);
-                if (dObj!=null) {
-                    tdobj = (TimpDatasetDataObject) dObj;
+                    File fl = new File(OpenProjects.getDefault().getMainProject().getProjectDirectory().getPath() + File.separator + dataset.getPath());
+                    FileObject test = FileUtil.createData(fl);
+                    DataObject dObj = DataObject.find(test);
+                    if (dObj != null) {
+                        tdobj = (TimpDatasetDataObject) dObj;
                         for (Widget testWidget : widget.getChildren()) {
-                        if (testWidget instanceof ComponentWidget) {
-                            ComponentWidget cw = ((ComponentWidget) testWidget);
-                            if (cw.getComponent() instanceof DatasetContainerComponent) {
-                                GtaDatasetContainer gdc = new GtaDatasetContainer();
-                                DatasetContainerComponent dcc = (DatasetContainerComponent) cw.getComponent();
+                            if (testWidget instanceof ComponentWidget) {
+                                ComponentWidget cw = ((ComponentWidget) testWidget);
+                                if (cw.getComponent() instanceof DatasetContainerComponent) {
+                                    GtaDatasetContainer gdc = new GtaDatasetContainer();
+                                    DatasetContainerComponent dcc = (DatasetContainerComponent) cw.getComponent();
 
-                                dcc.getExplorerManager().getRootContext().getChildren().add(new Node[]{
-                                    new DatasetComponentNode((TimpDatasetNode)tdobj.getNodeDelegate(), new Index.ArrayChildren())});
+                                    dcc.getExplorerManager().getRootContext().getChildren().add(new Node[]{
+                                                new DatasetComponentNode((TimpDatasetNode) tdobj.getNodeDelegate(), new Index.ArrayChildren())});
+                                }
                             }
                         }
                     }
+                } catch (DataObjectExistsException ex) {
+                    Exceptions.printStackTrace(ex);
+                } catch (IOException ex) {
+                    Exceptions.printStackTrace(ex);
                 }
-            } catch (DataObjectExistsException ex) {
-                Exceptions.printStackTrace(ex);
-            } catch (IOException ex) {
-                Exceptions.printStackTrace(ex);
-            }
 
             }
-        }        
+        }
 
         for (GtaModelReference model : gtaScheme.getModel()) {
             try {
                 File fl = new File(OpenProjects.getDefault().getMainProject().getProjectDirectory().getPath() + File.separator + model.getPath());
                 FileObject test = FileUtil.createData(fl);
                 DataObject dObj = DataObject.find(test);
-                if (dObj!=null) {
+                if (dObj != null) {
                     tgmDObj = (TgmDataObject) dObj;
                 }
                 //fo = new TgmDataObject(FileUtil.toFileObject(fl), null);
@@ -234,7 +267,7 @@ public class GraphSceneImpl extends GraphScene { //TODO: implement <VisualAbstra
                 Exceptions.printStackTrace(ex);
             }
             widget = addNode(model);
-            location = new Point((int)Math.floor(model.getLayout().getXposition()), (int)Math.floor(model.getLayout().getYposition()));
+            location = new Point((int) Math.floor(model.getLayout().getXposition()), (int) Math.floor(model.getLayout().getYposition()));
             size = new Dimension((int) Math.floor(model.getLayout().getWidth()), (int) Math.floor(model.getLayout().getHeight()));
             widget.setPreferredLocation(location);
             widget.setPreferredSize(size);
@@ -243,15 +276,14 @@ public class GraphSceneImpl extends GraphScene { //TODO: implement <VisualAbstra
 
         for (GtaConnection connection : gtaScheme.getConnection()) {
             //TODO: implement this
-//              String edge = getAttributeValue (element, EDGE_ID_ATTR);
-//                String sourceNode = getAttributeValue (element, EDGE_SOURCE_ATTR);
-//                String targetNode = getAttributeValue (element, EDGE_TARGET_ATTR);
-//                scene.addEdge (edge);
-//                scene.setEdgeSource (edge, sourceNode);
-//                scene.setEdgeTarget (edge, targetNode);
+            Object sourceNode = getNodeForID(connection.getModelID());
+            Object targetNode = getNodeForID(connection.getDatasetContainerID());
+            addEdge(connection);
+            setEdgeSource(connection, sourceNode);
+            setEdgeTarget(connection, targetNode);
             validate();
         }
-        
+
     }
 
     private class ObjectSelectProvider implements SelectProvider {
@@ -309,7 +341,7 @@ public class GraphSceneImpl extends GraphScene { //TODO: implement <VisualAbstra
         return selectAction;
     }
 
-    private Widget createMoveableComponent(Component component, String name, int id) {
+    private Widget createMoveableComponent(Component component, String name) {
         Widget widget = new Widget(this);
         widget.setLayout(LayoutFactory.createVerticalFlowLayout());
         widget.setBorder(BorderFactory.createLineBorder());//createRoundedBorder(5, 5, Color.gray, Color.black));//
@@ -318,7 +350,7 @@ public class GraphSceneImpl extends GraphScene { //TODO: implement <VisualAbstra
         widget.getActions().addAction(selectAction);
         widget.getActions().addAction(moveAction);
 
-        LabelWidget label = new LabelWidget(this, name + " " + id);
+        LabelWidget label = new LabelWidget(this, name);
 
         label.setOpaque(true);
         label.setBackground(Color.LIGHT_GRAY);
@@ -335,108 +367,4 @@ public class GraphSceneImpl extends GraphScene { //TODO: implement <VisualAbstra
         return widget;
     }
 }
-//public class GraphSceneImpl extends GraphScene<VisualAbstractNode, String> {
-//
-//    private LayerWidget mainLayer;
-//
-//    private WidgetAction editorAction = ActionFactory.createInplaceEditorAction(new LabelTextFieldEditor());
-//
-//    public GraphSceneImpl() {
-//
-//        mainLayer = new LayerWidget(this);
-//        addChild(mainLayer);
-//
-//        getActions().addAction(ActionFactory.createAcceptAction(new AcceptProvider() {
-//
-//            public ConnectorState isAcceptable(Widget widget, Point point, Transferable transferable) {
-//                Image dragImage = getImageFromTransferable(transferable);
-//                JComponent view = getView();
-//                Graphics2D g2 = (Graphics2D) view.getGraphics();
-//                Rectangle visRect = view.getVisibleRect();
-//                view.paintImmediately(visRect.x, visRect.y, visRect.width, visRect.height);
-//                g2.drawImage(dragImage,
-//                        AffineTransform.getTranslateInstance(point.getLocation().getX(),
-//                        point.getLocation().getY()),
-//                        null);
-//                return ConnectorState.ACCEPT;
-//            }
-//
-//            public void accept(Widget widget, Point point, Transferable transferable) {
-//                Image image = getImageFromTransferable(transferable);
-//                Widget w = GraphSceneImpl.this.addNode(new VisualAbstractNode(image));
-//                w.setPreferredLocation(widget.convertLocalToScene(point));
-//                repaint();
-//            }
-//
-//        }));
-//
-//        getActions().addAction(ActionFactory.createZoomAction());
-//        getActions().addAction(ActionFactory.createPanAction());
-//
-//    }
-//
-//    private Image getImageFromTransferable(Transferable transferable) {
-//        Object o = null;
-//        try {
-//            o = transferable.getTransferData(DataFlavor.imageFlavor);
-//        } catch (IOException ex) {
-//            ex.printStackTrace();
-//        } catch (UnsupportedFlavorException ex) {
-//            ex.printStackTrace();
-//        }
-//        return o instanceof Image ? (Image) o : Utilities.loadImage("org/netbeans/shapesample/palette/shape1.png");
-//    }
-//
-//    protected Widget attachNodeWidget(VisualAbstractNode node) {
-//        ComponentWidget widget = new ComponentWidget(this, new TestCustomComponent());
-//        TestCustomComponent testCustomComponent = (TestCustomComponent) widget.getComponent();
-//        widget.setPreferredBounds(new Rectangle(200, 200));
-//    //    testCustomComponent.jLabel1.setText("test");
-//        //setImage(node.getImage());
-//        //widget.setLabel(Long.toString(node.hashCode()));
-//
-//        //double-click, the event is consumed while double-clicking only:
-//        //widget.getLabelWidget().getActions().addAction(editorAction);
-//
-//        //single-click, the event is not consumed:
-//        widget.getActions().addAction(createSelectAction());
-//
-//        //mouse-dragged, the event is consumed while mouse is dragged:
-//        widget.getActions().addAction(ActionFactory.createMoveAction());
-//
-//        //mouse-over, the event is consumed while the mouse is over the widget:
-//        widget.getActions().addAction(createObjectHoverAction());
-//
-//        mainLayer.addChild(widget);
-//        return widget;
-//    }
-//
-//    protected Widget attachEdgeWidget(String arg0) {
-//        throw new UnsupportedOperationException("Not supported yet.");
-//    }
-//
-//    protected void attachEdgeSourceAnchor(String arg0, VisualAbstractNode arg1, VisualAbstractNode arg2) {
-//        throw new UnsupportedOperationException("Not supported yet.");
-//    }
-//
-//    protected void attachEdgeTargetAnchor(String arg0, VisualAbstractNode arg1, VisualAbstractNode arg2) {
-//        throw new UnsupportedOperationException("Not supported yet.");
-//    }
-//
-//    private class LabelTextFieldEditor implements TextFieldInplaceEditor {
-//
-//        public boolean isEnabled(Widget widget) {
-//            return true;
-//        }
-//
-//        public String getText(Widget widget) {
-//            return ((LabelWidget) widget).getLabel();
-//        }
-//
-//        public void setText(Widget widget, String text) {
-//            ((LabelWidget) widget).setLabel(text);
-//        }
-//
-//    }
-//
-//}
+

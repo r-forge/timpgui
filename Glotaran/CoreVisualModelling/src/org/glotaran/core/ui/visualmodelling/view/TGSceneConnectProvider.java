@@ -82,12 +82,12 @@ public class TGSceneConnectProvider implements ConnectProvider {
 
             source = scene.findObject(sourceWidget);
             if (source instanceof GtaModelReference) {
-            
+            gtac.setModelID(((GtaModelReference)source).getId());
             }
 
             target = scene.findObject(targetWidget);
-            if (source instanceof TgmDataNode) {
-            
+            if (target instanceof GtaDatasetContainer) {
+            gtac.setDatasetContainerID(((GtaDatasetContainer)target).getId());
             }
                         
             scene.addEdge(gtac);

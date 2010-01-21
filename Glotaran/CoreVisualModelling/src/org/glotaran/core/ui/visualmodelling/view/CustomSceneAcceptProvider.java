@@ -68,8 +68,7 @@ public class CustomSceneAcceptProvider implements AcceptProvider {
         if (transferable.isDataFlavorSupported(PaletteNode.DATA_FLAVOR)) {
             final PaletteItem item = VisualCommonFunctions.getPaletteItemTransferable(transferable);
             if (item.getName().equalsIgnoreCase("Dataset Container")) {
-                GtaDatasetContainer newDatasetContainer = new GtaDatasetContainer();
-                newDatasetContainer.setId("Dataset Container");
+                GtaDatasetContainer newDatasetContainer = new GtaDatasetContainer();                
                 newNode = newDatasetContainer;
             } else if (item.getName().equalsIgnoreCase("Model")) {
                 newNode = null;

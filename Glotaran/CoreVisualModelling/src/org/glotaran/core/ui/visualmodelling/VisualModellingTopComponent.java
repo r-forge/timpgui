@@ -17,6 +17,7 @@ import org.openide.windows.WindowManager;
 //import org.openide.util.ImageUtilities;
 import org.netbeans.api.settings.ConvertAsProperties;
 import org.openide.util.lookup.Lookups;
+import org.openide.windows.CloneableTopComponent;
 
 /**
  * Top component which displays something.
@@ -25,7 +26,7 @@ import org.openide.util.lookup.Lookups;
     dtd="-//org.glotaran.core.ui.visualmodelling//VisualModelling//EN",
     autostore=false
 )
-public final class VisualModellingTopComponent extends TopComponent {
+public final class VisualModellingTopComponent extends CloneableTopComponent {
 
     private static VisualModellingTopComponent instance;
     /** path to the icon used by the component and its open action */
@@ -120,7 +121,7 @@ public final class VisualModellingTopComponent extends TopComponent {
 
     @Override
     public int getPersistenceType() {
-        return TopComponent.PERSISTENCE_ALWAYS;
+        return TopComponent.PERSISTENCE_ONLY_OPENED;
     }
 
     @Override

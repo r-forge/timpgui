@@ -14,7 +14,7 @@ class GtaOpenSupport extends OpenSupport implements OpenCookie, CloseCookie {
 
     protected CloneableTopComponent createCloneableTopComponent() {
         GtaDataObject dobj = (GtaDataObject) entry.getDataObject();
-        VisualModellingTopComponent tc = new VisualModellingTopComponent();
+        VisualModellingTopComponent tc = new VisualModellingTopComponent(dobj);
         tc.setDisplayName(dobj.getName());
         return tc;
     }

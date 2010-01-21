@@ -9,13 +9,16 @@ import java.awt.BorderLayout;
 import java.util.logging.Logger;
 import javax.swing.JComponent;
 import org.glotaran.core.models.gta.GtaProjectScheme;
+import org.glotaran.core.ui.visualmodelling.filesupport.GtaDataObject;
 import org.glotaran.core.ui.visualmodelling.palette.PaletteSupport;
 import org.glotaran.core.ui.visualmodelling.view.GraphSceneImpl;
+import org.glotaran.core.ui.visualmodelling.view.SceneSerializer;
 import org.openide.util.NbBundle;
 import org.openide.windows.TopComponent;
 import org.openide.windows.WindowManager;
 //import org.openide.util.ImageUtilities;
 import org.netbeans.api.settings.ConvertAsProperties;
+import org.openide.filesystems.FileUtil;
 import org.openide.util.lookup.Lookups;
 import org.openide.windows.CloneableTopComponent;
 
@@ -52,8 +55,8 @@ public final class VisualModellingTopComponent extends CloneableTopComponent {
         associateLookup( Lookups.fixed( new Object[] { PaletteSupport.createPalette() } ) );
 
     }
-
-        public VisualModellingTopComponent(GtaProjectScheme scheme) {
+    
+    public VisualModellingTopComponent(GtaProjectScheme scheme) {
         initComponents();
         setName(NbBundle.getMessage(VisualModellingTopComponent.class, "CTL_VisualModellingTopComponent"));
         setToolTipText(NbBundle.getMessage(VisualModellingTopComponent.class, "HINT_VisualModellingTopComponent"));
@@ -65,10 +68,25 @@ public final class VisualModellingTopComponent extends CloneableTopComponent {
         add(scene.createSatelliteView(), BorderLayout.WEST);
 
         setFocusable (true);
-        setFocusTraversalKeysEnabled (false);
+        setFocusTraversalKeysEnabled (false); 
 
         associateLookup( Lookups.fixed( new Object[] { PaletteSupport.createPalette() } ) );
 
+    }
+
+    public VisualModellingTopComponent(GtaDataObject dobj) {        
+        initComponents();
+        setName(NbBundle.getMessage(VisualModellingTopComponent.class, "CTL_VisualModellingTopComponent"));
+        setToolTipText(NbBundle.getMessage(VisualModellingTopComponent.class, "HINT_VisualModellingTopComponent"));
+        GraphSceneImpl scene = new GraphSceneImpl();
+        SceneSerializer.deserialize(scene, FileUtil.toFile(dobj.getPrimaryFile()));
+        scene.validate ();
+        myView = scene.createView();
+        visualDesignScrollPane.setViewportView(myView);
+        add(scene.createSatelliteView(), BorderLayout.WEST);
+        setFocusable (true);
+        setFocusTraversalKeysEnabled (false);
+        associateLookup( Lookups.fixed( new Object[] { PaletteSupport.createPalette() } ) );
     }
 
     /** This method is called from within the constructor to

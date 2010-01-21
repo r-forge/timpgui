@@ -56,7 +56,7 @@ public class DatasetContainerComponent
         InputMap keys = getInputMap(JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
         keys.put(KeyStroke.getKeyStroke("DELETE"), "delete");
         lookup = ExplorerUtils.createLookup(manager, map);
-        manager.setRootContext(new DatasetsRootNode(new Index.ArrayChildren(), lookup));
+        manager.setRootContext(new DatasetsRootNode(new Index.ArrayChildren()));
         manager.addPropertyChangeListener(this);
 
     }

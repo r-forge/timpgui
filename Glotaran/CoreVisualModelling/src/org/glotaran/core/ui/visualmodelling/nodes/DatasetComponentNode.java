@@ -11,13 +11,18 @@ import java.awt.datatransfer.Transferable;
 import java.awt.datatransfer.UnsupportedFlavorException;
 import java.io.IOException;
 import org.glotaran.core.main.nodes.TimpDatasetNode;
+import org.glotaran.core.ui.visualmodelling.VisualModellingTopComponent;
+import org.glotaran.core.ui.visualmodelling.components.DatasetContainerComponent;
 import org.glotaran.core.ui.visualmodelling.palette.PaletteItem;
 import org.glotaran.core.ui.visualmodelling.palette.PaletteNode;
+import org.openide.explorer.ExplorerManager;
 import org.openide.nodes.Children;
+import org.openide.nodes.Index.ArrayChildren;
 import org.openide.nodes.Node;
 import org.openide.nodes.Sheet;
 import org.openide.util.Exceptions;
 import org.openide.util.ImageUtilities;
+import org.openide.util.Lookup;
 import org.openide.util.datatransfer.PasteType;
 
 /**
@@ -46,6 +51,17 @@ public class DatasetComponentNode extends PropertiesAbstractNode implements Tran
         setSheet(sheet);
     }
 
+    DatasetComponentNode(TimpDatasetNode tdn, Children children, Lookup lookup) {
+        super(tdn.getDisplayName(), children, lookup);
+        this.tdn = tdn;
+        Sheet sheet = Sheet.createDefault();
+        Sheet.Set set = Sheet.createPropertiesSet();
+        set.put(tdn.getPropertySets()[0].getProperties());
+        sheet.put(set);
+        setSheet(sheet);
+    }
+
+
     @Override
     public Image getIcon(int type) {
         return ICON;
@@ -69,13 +85,25 @@ public class DatasetComponentNode extends PropertiesAbstractNode implements Tran
     @Override
     public PasteType getDropType(Transferable t, int action, int index) {        
         if (t.isDataFlavorSupported(PaletteNode.DATA_FLAVOR)){
+//            getLookup().lookupAll(DatasetContainerComponent.class);
+//            getLookup().lookup(ExplorerManager.class);
+//            Lookup.getDefault().lookup(VisualModellingTopComponent.class);
             try {
                 final PaletteItem pi = (PaletteItem)t.getTransferData(PaletteNode.DATA_FLAVOR);
                 return new PasteType() {
                     @Override
                     public Transferable paste() throws IOException {
                         if (pi.getName().equals("FreeParam")){
-                            getChildren().add(new Node[]{new FreeParametersNode()});
+                            getChildren().add(new Node[]{new ModelDiffsNode("FreeParameter")});
+                        }
+                        if (pi.getName().equals("ChangeParam")){
+                            getChildren().add(new Node[]{new ModelDiffsNode("ChangeParameter")});
+                        }
+                        if (pi.getName().equals("AddParam")){
+                            getChildren().add(new Node[]{new ModelDiffsNode("AddParameter")});
+                        }
+                        if (pi.getName().equals("RemoveParam")){
+                            getChildren().add(new Node[]{new ModelDiffsNode("RemoveParameter")});
                         }
                         return null;
                     }

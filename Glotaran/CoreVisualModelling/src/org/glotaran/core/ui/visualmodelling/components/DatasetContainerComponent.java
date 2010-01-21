@@ -17,13 +17,13 @@ import java.beans.PropertyChangeListener;
 import javax.swing.ActionMap;
 import javax.swing.InputMap;
 import javax.swing.JComponent;
+import javax.swing.JPanel;
 import javax.swing.KeyStroke;
 import org.glotaran.core.ui.visualmodelling.nodes.DatasetsRootNode;
 import org.openide.explorer.ExplorerManager;
 import org.openide.explorer.ExplorerUtils;
 import org.openide.nodes.Index;
 import org.openide.util.Lookup;
-import org.openide.windows.TopComponent;
 import org.openide.windows.WindowManager;
 
 /**
@@ -31,7 +31,7 @@ import org.openide.windows.WindowManager;
  * @author slk230
  */
 public class DatasetContainerComponent
-        extends TopComponent
+        extends JPanel
         implements ExplorerManager.Provider, Lookup.Provider, PropertyChangeListener {
 
 /** path to the icon used by the component and its open action */
@@ -49,8 +49,6 @@ public class DatasetContainerComponent
         initComponents();
         jPDatasetsPanel.add(datasetView);       
         datasetView.setPreferredSize(new Dimension(150, 150));
-        manager.setRootContext(new DatasetsRootNode(new Index.ArrayChildren()));
-        manager.addPropertyChangeListener(this);
 //        ExplorerUtils.createLookup(manager, null)));
 //        new ProxyLookup(arg0)
         ActionMap map = this.getActionMap ();
@@ -58,7 +56,9 @@ public class DatasetContainerComponent
         InputMap keys = getInputMap(JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
         keys.put(KeyStroke.getKeyStroke("DELETE"), "delete");
         lookup = ExplorerUtils.createLookup(manager, map);
-        associateLookup(lookup);
+        manager.setRootContext(new DatasetsRootNode(new Index.ArrayChildren(), lookup));
+        manager.addPropertyChangeListener(this);
+
     }
 
     /** This method is called from within the constructor to

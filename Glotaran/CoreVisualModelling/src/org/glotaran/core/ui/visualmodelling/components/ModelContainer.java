@@ -300,7 +300,6 @@ public class ModelContainer
             }
             model.setModified(true);
             return;
-
         }
         if (evt.getSource().getClass().equals(IrfParametersNode.class)){
             if (evt.getPropertyName().equalsIgnoreCase("SetBackSweep")){

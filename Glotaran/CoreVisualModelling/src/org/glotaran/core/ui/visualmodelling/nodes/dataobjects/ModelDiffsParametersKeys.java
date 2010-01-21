@@ -7,7 +7,7 @@ package org.glotaran.core.ui.visualmodelling.nodes.dataobjects;
 
 import java.util.ArrayList;
 import java.util.List;
-import org.glotaran.core.ui.visualmodelling.nodes.FreeParametersSubNode;
+import org.glotaran.core.ui.visualmodelling.nodes.ModelDiffsSubNode;
 import org.openide.nodes.Children;
 import org.openide.nodes.Node;
 
@@ -41,7 +41,7 @@ public class ModelDiffsParametersKeys  extends Children.Keys{
 
     @Override
     protected Node[] createNodes(Object key) {
-       return new Node[] {new FreeParametersSubNode((ModelDiffsDO)key)};
+       return new Node[] {new ModelDiffsSubNode((ModelDiffsDO)key)};
     }
 
     public void addObj(ModelDiffsDO objToAdd){
@@ -86,7 +86,7 @@ public class ModelDiffsParametersKeys  extends Children.Keys{
     @Override
     public boolean remove(Node[] arg0) {
         for (int i = 0; i<arg0.length; i++){
-            FreeParametersSubNode node = (FreeParametersSubNode)arg0[i];
+            ModelDiffsSubNode node = (ModelDiffsSubNode)arg0[i];
             parameters.remove(node.getDataObj());
             setKeys(parameters);
         }

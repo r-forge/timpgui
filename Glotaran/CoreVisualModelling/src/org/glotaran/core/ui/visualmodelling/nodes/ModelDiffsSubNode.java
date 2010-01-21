@@ -20,11 +20,11 @@ import org.openide.util.lookup.Lookups;
  *
  * @author slapten
  */
-public class FreeParametersSubNode extends PropertiesAbstractNode implements PropertyChangeListener{
+public class ModelDiffsSubNode extends PropertiesAbstractNode implements PropertyChangeListener{
     private final Image ICON = ImageUtilities.loadImage("org/glotaran/core/ui/visualmodelling/resources/DiffsSubnode_16.png", true);
 //    private NonLinearParameter dataObj;
 
-    public FreeParametersSubNode(ModelDiffsDO data){
+    public ModelDiffsSubNode(ModelDiffsDO data){
         super("parameter",Children.LEAF, Lookups.singleton(data));
         data.addPropertyChangeListener(WeakListeners.propertyChange(this, data));
     }

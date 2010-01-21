@@ -17,12 +17,15 @@ import org.openide.util.ImageUtilities;
  *
  * @author slapten
  */
-public class FreeParametersNode  extends PropertiesAbstractNode{
-    private final Image ICON = ImageUtilities.loadImage("org/glotaran/core/ui/visualmodelling/resources/FreeParam_16.png", true);
+public class ModelDiffsNode  extends PropertiesAbstractNode{
+    private final Image FREE_ICON = ImageUtilities.loadImage("org/glotaran/core/ui/visualmodelling/resources/FreeParam_16.png", true);
+    private final Image CHANGE_ICON = ImageUtilities.loadImage("org/glotaran/core/ui/visualmodelling/resources/ChageParam_16.png", true);
+    private final Image ADD_ICON = ImageUtilities.loadImage("org/glotaran/core/ui/visualmodelling/resources/AddParam_16.png", true);
+    private final Image REMOVE_ICON = ImageUtilities.loadImage("org/glotaran/core/ui/visualmodelling/resources/RemoveParam_16.png", true);
     PropertyChangeListener propListner;
 
-    public FreeParametersNode(){
-        super("FreePar", new ModelDiffsParametersKeys(1));
+    public ModelDiffsNode(String type){
+        super(type, new ModelDiffsParametersKeys(1));
 //        propListner = listn;
 //        addPropertyChangeListener(WeakListeners.propertyChange(propListner, this));
     }
@@ -36,7 +39,19 @@ public class FreeParametersNode  extends PropertiesAbstractNode{
 
     @Override
     public Image getIcon(int type) {
-        return ICON;
+        if (super.getDisplayName().equals("FreeParameter")){
+            return FREE_ICON;
+        }
+        if (super.getDisplayName().equals("ChangeParameter")){
+            return CHANGE_ICON;
+        }
+        if (super.getDisplayName().equals("AddParameter")){
+            return ADD_ICON;
+        }
+        if (super.getDisplayName().equals("RemoveParameter")){
+            return REMOVE_ICON;
+        }
+        return super.getIcon(type);
     }
 
     @Override

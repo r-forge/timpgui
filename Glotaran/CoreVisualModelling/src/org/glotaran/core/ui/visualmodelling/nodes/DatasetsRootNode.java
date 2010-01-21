@@ -38,7 +38,7 @@ public class DatasetsRootNode extends AbstractNode{
                 public Transferable paste() throws IOException {
                     try {
                         getChildren().add(new Node[]{
-                            new DatasetComponentNode((TimpDatasetNode)t.getTransferData(TimpDatasetNode.DATA_FLAVOR), new Index.ArrayChildren())});
+                            new DatasetComponentNode((TimpDatasetNode)t.getTransferData(TimpDatasetNode.DATA_FLAVOR), new Index.ArrayChildren(), getLookup())});
                     } catch (UnsupportedFlavorException ex) {
                         Exceptions.printStackTrace(ex);
                     }

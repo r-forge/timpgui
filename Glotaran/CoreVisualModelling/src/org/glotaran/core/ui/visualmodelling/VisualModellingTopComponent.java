@@ -37,6 +37,7 @@ public final class VisualModellingTopComponent extends CloneableTopComponent {
 
     private static final String PREFERRED_ID = "VisualModellingTopComponent";
     private final JComponent myView;
+    private GtaDataObject dobj;
 
     public VisualModellingTopComponent() {
         initComponents();
@@ -55,7 +56,7 @@ public final class VisualModellingTopComponent extends CloneableTopComponent {
         associateLookup( Lookups.fixed( new Object[] { PaletteSupport.createPalette() } ) );
 
     }
-    
+
     public VisualModellingTopComponent(GtaProjectScheme scheme) {
         initComponents();
         setName(NbBundle.getMessage(VisualModellingTopComponent.class, "CTL_VisualModellingTopComponent"));
@@ -68,19 +69,19 @@ public final class VisualModellingTopComponent extends CloneableTopComponent {
         add(scene.createSatelliteView(), BorderLayout.WEST);
 
         setFocusable (true);
-        setFocusTraversalKeysEnabled (false); 
+        setFocusTraversalKeysEnabled (false);
 
         associateLookup( Lookups.fixed( new Object[] { PaletteSupport.createPalette() } ) );
-
     }
 
-    public VisualModellingTopComponent(GtaDataObject dobj) {        
+    public VisualModellingTopComponent(GtaDataObject dobj) {
         initComponents();
+        this.dobj = dobj;
+        GtaProjectScheme scheme = dobj.getProgectScheme();
         setName(NbBundle.getMessage(VisualModellingTopComponent.class, "CTL_VisualModellingTopComponent"));
         setToolTipText(NbBundle.getMessage(VisualModellingTopComponent.class, "HINT_VisualModellingTopComponent"));
-        GraphSceneImpl scene = new GraphSceneImpl();
-        SceneSerializer.deserialize(scene, FileUtil.toFile(dobj.getPrimaryFile()));
-        scene.validate ();
+        setIcon(dobj.getNodeDelegate().getIcon(0));
+        GraphSceneImpl scene = new GraphSceneImpl(scheme);
         myView = scene.createView();
         visualDesignScrollPane.setViewportView(myView);
         add(scene.createSatelliteView(), BorderLayout.WEST);
@@ -174,4 +175,6 @@ public final class VisualModellingTopComponent extends CloneableTopComponent {
     protected String preferredID() {
         return PREFERRED_ID;
     }
+
+
 }

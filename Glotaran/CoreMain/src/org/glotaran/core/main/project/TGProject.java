@@ -33,6 +33,8 @@ public class TGProject implements Project {
     public static final String RESULTS_DIR = "results";
     /** The name of the folder containing dataset files. */
     public static final String CACHE_DIR = "cache";
+    /** The name of the folder containing analysis schema files. */
+    public static final String SCHEMA_DIR = "schema";
     private final FileObject projectDir;
     private final ProjectState state;
     private final LogicalViewProvider logicalView = new TGLogicalView(this);
@@ -85,6 +87,19 @@ public class TGProject implements Project {
                 result = projectDir.createFolder(PREPROCESSING_DIR);
             } catch (IOException ioe) {
                 CoreErrorMessages.createFolderException(PREPROCESSING_DIR);
+            }
+        }
+        return result;
+    }
+
+    public FileObject getSchemaFolder(boolean create) {
+        FileObject result = projectDir.getFileObject(SCHEMA_DIR);
+
+        if (result == null && create) {
+            try {
+                result = projectDir.createFolder(SCHEMA_DIR);
+            } catch (IOException ioe) {
+                CoreErrorMessages.createFolderException(SCHEMA_DIR);
             }
         }
         return result;

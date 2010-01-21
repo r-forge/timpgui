@@ -93,11 +93,16 @@ class TGProjectNodeFilter extends FilterNode.Children{
         final FileObject file = dob.getPrimaryFile();
         if (file.equals(project.getDatasetsFolder(true))) {
             return new Node[]{new TGDatasetNode(node)};
-        } else if (file.equals(project.getModelsFolder(true))) {
-            return new Node[]{new TGModelsNode(node)};
-        } else if (file.equals(project.getResultsFolder(true))) {
-            return new Node[]{new TGResultsNode(node)};
-        }
+        } else 
+            if (file.equals(project.getModelsFolder(true))) {
+                return new Node[]{new TGModelsNode(node)};
+            } else
+                if (file.equals(project.getSchemaFolder(true))) {
+                    return new Node[]{new TGSchemaNode(node)};
+                } else
+                    if (file.equals(project.getResultsFolder(true))) {
+                        return new Node[]{new TGResultsNode(node)};
+                    }
         return new Node[]{};
     }
 

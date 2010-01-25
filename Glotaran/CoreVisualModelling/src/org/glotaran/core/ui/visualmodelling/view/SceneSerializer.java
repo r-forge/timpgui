@@ -28,8 +28,6 @@ import org.glotaran.core.models.gta.GtaModelReference;
 import org.glotaran.core.models.gta.GtaProjectScheme;
 import org.glotaran.core.ui.visualmodelling.components.DatasetContainerComponent;
 import org.glotaran.core.ui.visualmodelling.nodes.DatasetComponentNode;
-import org.glotaran.core.ui.visualmodelling.nodes.VisualAbstractNode;
-import org.glotaran.tgmfilesupport.TgmDataNode;
 import org.netbeans.api.project.ui.OpenProjects;
 import org.netbeans.api.visual.widget.ComponentWidget;
 import org.netbeans.api.visual.widget.Widget;

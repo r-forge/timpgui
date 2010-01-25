@@ -220,7 +220,11 @@ public class GraphSceneImpl extends GraphScene { //TODO: implement <VisualAbstra
         Dimension size;
         TimpDatasetDataObject tdobj;
         TgmDataObject tgmDObj = null;
-        nodeCount = Integer.valueOf(gtaScheme.getCounter());
+        if(gtaScheme.getCounter()!=null) {
+            nodeCount = gtaScheme.getCounter().isEmpty() ? 0 : Integer.valueOf(gtaScheme.getCounter());
+        } else {
+            nodeCount=0;
+        }
 
         //TODO: get datasetContainer and add nodes
         for (GtaDatasetContainer container : gtaScheme.getDatasetContainer()) {

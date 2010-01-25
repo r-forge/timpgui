@@ -48,7 +48,7 @@ public class DatasetContainerComponent
     public DatasetContainerComponent() {
         initComponents();
         jPDatasetsPanel.add(datasetView);       
-        datasetView.setPreferredSize(new Dimension(150, 150));
+        //datasetView.setPreferredSize(new Dimension(150, 150));
 //        ExplorerUtils.createLookup(manager, null)));
 //        new ProxyLookup(arg0)
         ActionMap map = this.getActionMap ();
@@ -80,6 +80,8 @@ public class DatasetContainerComponent
 
         jSplitPane1.setDividerLocation(150);
         jSplitPane1.setOrientation(javax.swing.JSplitPane.VERTICAL_SPLIT);
+        jSplitPane1.setMinimumSize(null);
+        jSplitPane1.setPreferredSize(null);
 
         modelDiffsPanel.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 0, 0));
         modelDiffsScrollPane.setViewportView(modelDiffsPanel);

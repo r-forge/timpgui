@@ -20,6 +20,7 @@ package org.glotaran.core.ui.visualmodelling.view;
 
 import java.io.IOException;
 import org.glotaran.core.models.gta.GtaProjectScheme;
+import org.glotaran.core.ui.visualmodelling.filesupport.GtaDataObject;
 import org.glotaran.core.ui.visualmodelling.menu.SceneMainMenu;
 import org.glotaran.core.ui.visualmodelling.menu.EdgeMenu;
 import org.glotaran.core.ui.visualmodelling.menu.NodeMenu;
@@ -84,6 +85,7 @@ public class GraphSceneImpl extends GraphScene { //TODO: implement <VisualAbstra
     private NodeMenu nodeMenu = new NodeMenu(this);
     private EdgeMenu edgeMenu = new EdgeMenu(this);
     private Integer nodeCount = 0;
+    private GtaDataObject dobj = null;
 
     public GraphSceneImpl() {
         mainLayer = new LayerWidget(this);
@@ -99,9 +101,15 @@ public class GraphSceneImpl extends GraphScene { //TODO: implement <VisualAbstra
         initGrids();
     }
 
-    public GraphSceneImpl(GtaProjectScheme scheme) {
+//    public GraphSceneImpl(GtaProjectScheme scheme) {
+//        this();
+//        loadScene(scheme);
+//    }
+
+    public GraphSceneImpl(GtaDataObject dobj) {
         this();
-        loadScene(scheme);
+        this.dobj = dobj;
+        loadScene(dobj.getProgectScheme());
     }
 
     public Integer getNodeCount() {

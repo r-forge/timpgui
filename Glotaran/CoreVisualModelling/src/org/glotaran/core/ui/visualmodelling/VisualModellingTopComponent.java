@@ -57,31 +57,30 @@ public final class VisualModellingTopComponent extends CloneableTopComponent {
 
     }
 
-    public VisualModellingTopComponent(GtaProjectScheme scheme) {
-        initComponents();
-        setName(NbBundle.getMessage(VisualModellingTopComponent.class, "CTL_VisualModellingTopComponent"));
-        setToolTipText(NbBundle.getMessage(VisualModellingTopComponent.class, "HINT_VisualModellingTopComponent"));
-//        setIcon(ImageUtilities.loadImage(ICON_PATH, true));
-
-        GraphSceneImpl scene = new GraphSceneImpl(scheme);
-        myView = scene.createView();
-        visualDesignScrollPane.setViewportView(myView);
-        add(scene.createSatelliteView(), BorderLayout.WEST);
-
-        setFocusable (true);
-        setFocusTraversalKeysEnabled (false);
-
-        associateLookup( Lookups.fixed( new Object[] { PaletteSupport.createPalette() } ) );
-    }
+//    public VisualModellingTopComponent(GtaProjectScheme scheme) {
+//        initComponents();
+//        setName(NbBundle.getMessage(VisualModellingTopComponent.class, "CTL_VisualModellingTopComponent"));
+//        setToolTipText(NbBundle.getMessage(VisualModellingTopComponent.class, "HINT_VisualModellingTopComponent"));
+////        setIcon(ImageUtilities.loadImage(ICON_PATH, true));
+//
+//        GraphSceneImpl scene = new GraphSceneImpl(scheme);
+//        myView = scene.createView();
+//        visualDesignScrollPane.setViewportView(myView);
+//        add(scene.createSatelliteView(), BorderLayout.WEST);
+//
+//        setFocusable (true);
+//        setFocusTraversalKeysEnabled (false);
+//
+//        associateLookup( Lookups.fixed( new Object[] { PaletteSupport.createPalette() } ) );
+//    }
 
     public VisualModellingTopComponent(GtaDataObject dobj) {
         initComponents();
         this.dobj = dobj;
-        GtaProjectScheme scheme = dobj.getProgectScheme();
         setName(NbBundle.getMessage(VisualModellingTopComponent.class, "CTL_VisualModellingTopComponent"));
         setToolTipText(NbBundle.getMessage(VisualModellingTopComponent.class, "HINT_VisualModellingTopComponent"));
         setIcon(dobj.getNodeDelegate().getIcon(0));
-        GraphSceneImpl scene = new GraphSceneImpl(scheme);
+        GraphSceneImpl scene = new GraphSceneImpl(dobj);
         myView = scene.createView();
         visualDesignScrollPane.setViewportView(myView);
         add(scene.createSatelliteView(), BorderLayout.WEST);

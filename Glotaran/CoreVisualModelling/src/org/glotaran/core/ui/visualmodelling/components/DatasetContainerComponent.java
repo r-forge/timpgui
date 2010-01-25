@@ -70,37 +70,126 @@ public class DatasetContainerComponent
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jSplitPane1 = new javax.swing.JSplitPane();
         modelDiffsScrollPane = new javax.swing.JScrollPane();
         modelDiffsPanel = new javax.swing.JPanel();
         datasetsScrollPane = new javax.swing.JScrollPane();
         jPDatasetsPanel = new javax.swing.JPanel();
+        jPanel1 = new javax.swing.JPanel();
+        jBRefreshModel = new javax.swing.JButton();
+        jBSaveModel = new javax.swing.JButton();
+        jBRemove = new javax.swing.JButton();
 
-        setLayout(new java.awt.BorderLayout());
-
-        jSplitPane1.setDividerLocation(150);
-        jSplitPane1.setOrientation(javax.swing.JSplitPane.VERTICAL_SPLIT);
-        jSplitPane1.setMinimumSize(null);
-        jSplitPane1.setPreferredSize(null);
-
-        modelDiffsPanel.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 0, 0));
         modelDiffsScrollPane.setViewportView(modelDiffsPanel);
 
-        jSplitPane1.setRightComponent(modelDiffsScrollPane);
+        datasetsScrollPane.setPreferredSize(null);
 
-        jPDatasetsPanel.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 0, 0));
+        jPDatasetsPanel.setPreferredSize(null);
         datasetsScrollPane.setViewportView(jPDatasetsPanel);
 
-        jSplitPane1.setLeftComponent(datasetsScrollPane);
+        jBRefreshModel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/glotaran/core/main/resources/Refresh.png"))); // NOI18N
+        jBRefreshModel.setText(org.openide.util.NbBundle.getMessage(DatasetContainerComponent.class, "DatasetContainerComponent.jBRefreshModel.text")); // NOI18N
+        jBRefreshModel.setToolTipText(org.openide.util.NbBundle.getMessage(DatasetContainerComponent.class, "DatasetContainerComponent.jBRefreshModel.toolTipText")); // NOI18N
+        jBRefreshModel.setFocusable(false);
+        jBRefreshModel.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jBRefreshModel.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        jBRefreshModel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBRefreshModelActionPerformed(evt);
+            }
+        });
 
-        add(jSplitPane1, java.awt.BorderLayout.CENTER);
+        jBSaveModel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/glotaran/core/main/resources/Save.png"))); // NOI18N
+        jBSaveModel.setText(org.openide.util.NbBundle.getMessage(DatasetContainerComponent.class, "DatasetContainerComponent.jBSaveModel.text")); // NOI18N
+        jBSaveModel.setToolTipText(org.openide.util.NbBundle.getMessage(DatasetContainerComponent.class, "DatasetContainerComponent.jBSaveModel.toolTipText")); // NOI18N
+        jBSaveModel.setFocusable(false);
+        jBSaveModel.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jBSaveModel.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        jBSaveModel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBSaveModelActionPerformed(evt);
+            }
+        });
+
+        jBRemove.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/glotaran/core/main/resources/Delete-icon-16.png"))); // NOI18N
+        jBRemove.setText(org.openide.util.NbBundle.getMessage(DatasetContainerComponent.class, "DatasetContainerComponent.jBRemove.text")); // NOI18N
+        jBRemove.setToolTipText(org.openide.util.NbBundle.getMessage(DatasetContainerComponent.class, "DatasetContainerComponent.jBRemove.toolTipText")); // NOI18N
+        jBRemove.setFocusable(false);
+        jBRemove.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jBRemove.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        jBRemove.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBRemoveActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addComponent(jBRefreshModel, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jBSaveModel, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 169, Short.MAX_VALUE)
+                .addComponent(jBRemove, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jBRefreshModel)
+            .addComponent(jBSaveModel)
+            .addComponent(jBRemove)
+        );
+
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
+        this.setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(datasetsScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 253, Short.MAX_VALUE)
+            .addComponent(modelDiffsScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 253, Short.MAX_VALUE)
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addComponent(datasetsScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 137, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(modelDiffsScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+        );
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jBRefreshModelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBRefreshModelActionPerformed
+        //manager.getRootContext().removePropertyChangeListener(this);
+        //manager.getRootContext().getChildren().remove(manager.getRootContext().getChildren().getNodes());
+        //manager.getRootContext().addPropertyChangeListener(this);
+//        fillInModel();
+//        model.setModified(false);
+}//GEN-LAST:event_jBRefreshModelActionPerformed
+
+    private void jBSaveModelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBSaveModelActionPerformed
+//        if (model.getCookie(SaveCookie.class)!=null){
+//            try {
+//                model.getCookie(SaveCookie.class).save();
+//            } catch (IOException ex) {
+//                Exceptions.printStackTrace(ex);
+//            }
+//        }
+}//GEN-LAST:event_jBSaveModelActionPerformed
+
+    private void jBRemoveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBRemoveActionPerformed
+//        container.remove(manager.getSelectedNodes());
+//        model.setModified(true);
+}//GEN-LAST:event_jBRemoveActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JScrollPane datasetsScrollPane;
+    private javax.swing.JButton jBRefreshModel;
+    private javax.swing.JButton jBRemove;
+    private javax.swing.JButton jBSaveModel;
     private javax.swing.JPanel jPDatasetsPanel;
-    private javax.swing.JSplitPane jSplitPane1;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel modelDiffsPanel;
     private javax.swing.JScrollPane modelDiffsScrollPane;
     // End of variables declaration//GEN-END:variables

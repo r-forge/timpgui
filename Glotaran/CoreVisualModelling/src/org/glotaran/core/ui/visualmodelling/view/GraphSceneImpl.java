@@ -150,6 +150,7 @@ public class GraphSceneImpl extends GraphScene { //TODO: implement <VisualAbstra
     protected Widget attachNodeWidget(Object node) {
         TgmDataObject tgmDObj = null;
         Widget cw = null;
+
         if (node instanceof GtaModelReference) {
             GtaModelReference modelRef = (GtaModelReference) node;
            if (modelRef.getId()==null) {

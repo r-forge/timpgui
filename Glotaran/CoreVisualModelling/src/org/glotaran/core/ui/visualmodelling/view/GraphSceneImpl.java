@@ -92,7 +92,6 @@ public class GraphSceneImpl extends GraphScene { //TODO: implement <VisualAbstra
         addChild(mainLayer);
         connectionLayer = new LayerWidget(this);
         addChild(connectionLayer);
-
         addChild(interractionLayer);
         getActions().addAction(ActionFactory.createRectangularSelectAction(this, backgroundLayer));
         getActions().addAction(ActionFactory.createPopupMenuAction(new SceneMainMenu(this)));
@@ -101,15 +100,19 @@ public class GraphSceneImpl extends GraphScene { //TODO: implement <VisualAbstra
         initGrids();
     }
 
-//    public GraphSceneImpl(GtaProjectScheme scheme) {
-//        this();
-//        loadScene(scheme);
-//    }
-
     public GraphSceneImpl(GtaDataObject dobj) {
         this();
         this.dobj = dobj;
         loadScene(dobj.getProgectScheme());
+
+    }
+
+    public GtaDataObject getDobj() {
+        return dobj;
+    }
+
+    public void setDobj(GtaDataObject dobj) {
+        this.dobj = dobj;
     }
 
     public Integer getNodeCount() {
@@ -153,10 +156,9 @@ public class GraphSceneImpl extends GraphScene { //TODO: implement <VisualAbstra
 
         if (node instanceof GtaModelReference) {
             GtaModelReference modelRef = (GtaModelReference) node;
-           if (modelRef.getId()==null) {
-            modelRef.setId(String.valueOf(getNewNodeCount()));
+            if (modelRef.getId()==null) {
+                modelRef.setId(String.valueOf(getNewNodeCount()));
             }
-            
             try {
                 File fl = new File(OpenProjects.getDefault().getMainProject().getProjectDirectory().getPath() + File.separator + modelRef.getPath());
                 FileObject test = FileUtil.createData(fl);
@@ -169,9 +171,10 @@ public class GraphSceneImpl extends GraphScene { //TODO: implement <VisualAbstra
             } catch (IOException ex) {
                 Exceptions.printStackTrace(ex);
             }
-
             cw = createMoveableComponent(new ModelContainer(tgmDObj), modelRef.getFilename());
             mainLayer.addChild(cw);
+//            dobj.getProgectScheme().getModel().add(modelRef);
+//            dobj.setModified(true);
         }
         if (node instanceof GtaDatasetContainer) {
             GtaDatasetContainer myNode = (GtaDatasetContainer) node;
@@ -233,7 +236,7 @@ public class GraphSceneImpl extends GraphScene { //TODO: implement <VisualAbstra
             location = new Point((int) Math.floor(container.getLayout().getXposition()), (int) Math.floor(container.getLayout().getYposition()));
             size = new Dimension((int) Math.floor(container.getLayout().getWidth()), (int) Math.floor(container.getLayout().getHeight()));
             widget.setPreferredLocation(location);
-            widget.setPreferredSize(size);
+            //widget.setPreferredSize(size);
             validate();
 
             for (GtaDataset dataset : container.getDatasets()) {
@@ -283,7 +286,7 @@ public class GraphSceneImpl extends GraphScene { //TODO: implement <VisualAbstra
             location = new Point((int) Math.floor(model.getLayout().getXposition()), (int) Math.floor(model.getLayout().getYposition()));
             size = new Dimension((int) Math.floor(model.getLayout().getWidth()), (int) Math.floor(model.getLayout().getHeight()));
             widget.setPreferredLocation(location);
-            widget.setPreferredSize(size);
+            //widget.setPreferredSize(size);
             validate();
         }
 

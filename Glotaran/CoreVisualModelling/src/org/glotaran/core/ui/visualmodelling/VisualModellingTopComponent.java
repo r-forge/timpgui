@@ -6,19 +6,26 @@
 package org.glotaran.core.ui.visualmodelling;
 
 import java.awt.BorderLayout;
+import java.util.Set;
 import java.util.logging.Logger;
 import javax.swing.JComponent;
-import org.glotaran.core.models.gta.GtaProjectScheme;
+import org.glotaran.core.main.mesages.CoreErrorMessages;
+import org.glotaran.core.models.gta.GtaConnection;
+import org.glotaran.core.models.gta.GtaDatasetContainer;
+import org.glotaran.core.models.gta.GtaModelReference;
 import org.glotaran.core.ui.visualmodelling.filesupport.GtaDataObject;
 import org.glotaran.core.ui.visualmodelling.palette.PaletteSupport;
 import org.glotaran.core.ui.visualmodelling.view.GraphSceneImpl;
-import org.glotaran.core.ui.visualmodelling.view.SceneSerializer;
+import org.netbeans.api.visual.model.ObjectSceneEvent;
+import org.netbeans.api.visual.model.ObjectState;
 import org.openide.util.NbBundle;
 import org.openide.windows.TopComponent;
 import org.openide.windows.WindowManager;
 //import org.openide.util.ImageUtilities;
 import org.netbeans.api.settings.ConvertAsProperties;
-import org.openide.filesystems.FileUtil;
+import org.netbeans.api.visual.model.ObjectSceneEventType;
+import org.netbeans.api.visual.model.ObjectSceneListener;
+import org.netbeans.api.visual.widget.ComponentWidget;
 import org.openide.util.lookup.Lookups;
 import org.openide.windows.CloneableTopComponent;
 
@@ -29,14 +36,15 @@ import org.openide.windows.CloneableTopComponent;
     dtd="-//org.glotaran.core.ui.visualmodelling//VisualModelling//EN",
     autostore=false
 )
-public final class VisualModellingTopComponent extends CloneableTopComponent {
+final public class VisualModellingTopComponent extends CloneableTopComponent implements ObjectSceneListener{
 
     private static VisualModellingTopComponent instance;
     /** path to the icon used by the component and its open action */
 //    static final String ICON_PATH = "SET/PATH/TO/ICON/HERE";
 
     private static final String PREFERRED_ID = "VisualModellingTopComponent";
-    private final JComponent myView;
+    //private final JComponent myView;
+    //private GraphSceneImpl scene;
     private GtaDataObject dobj;
 
     public VisualModellingTopComponent() {
@@ -46,33 +54,14 @@ public final class VisualModellingTopComponent extends CloneableTopComponent {
 //        setIcon(ImageUtilities.loadImage(ICON_PATH, true));
 
         GraphSceneImpl scene = new GraphSceneImpl();
-        myView = scene.createView();
+        JComponent myView = scene.createView();
         visualDesignScrollPane.setViewportView(myView);
         add(scene.createSatelliteView(), BorderLayout.WEST);
-
         setFocusable (true);
         setFocusTraversalKeysEnabled (false);
-
         associateLookup( Lookups.fixed( new Object[] { PaletteSupport.createPalette() } ) );
 
     }
-
-//    public VisualModellingTopComponent(GtaProjectScheme scheme) {
-//        initComponents();
-//        setName(NbBundle.getMessage(VisualModellingTopComponent.class, "CTL_VisualModellingTopComponent"));
-//        setToolTipText(NbBundle.getMessage(VisualModellingTopComponent.class, "HINT_VisualModellingTopComponent"));
-////        setIcon(ImageUtilities.loadImage(ICON_PATH, true));
-//
-//        GraphSceneImpl scene = new GraphSceneImpl(scheme);
-//        myView = scene.createView();
-//        visualDesignScrollPane.setViewportView(myView);
-//        add(scene.createSatelliteView(), BorderLayout.WEST);
-//
-//        setFocusable (true);
-//        setFocusTraversalKeysEnabled (false);
-//
-//        associateLookup( Lookups.fixed( new Object[] { PaletteSupport.createPalette() } ) );
-//    }
 
     public VisualModellingTopComponent(GtaDataObject dobj) {
         initComponents();
@@ -81,12 +70,15 @@ public final class VisualModellingTopComponent extends CloneableTopComponent {
         setToolTipText(NbBundle.getMessage(VisualModellingTopComponent.class, "HINT_VisualModellingTopComponent"));
         setIcon(dobj.getNodeDelegate().getIcon(0));
         GraphSceneImpl scene = new GraphSceneImpl(dobj);
-        myView = scene.createView();
+        JComponent myView = scene.createView();
         visualDesignScrollPane.setViewportView(myView);
         add(scene.createSatelliteView(), BorderLayout.WEST);
         setFocusable (true);
         setFocusTraversalKeysEnabled (false);
         associateLookup( Lookups.fixed( new Object[] { PaletteSupport.createPalette() } ) );
+        scene.addObjectSceneListener(this,
+                ObjectSceneEventType.OBJECT_ADDED,
+                ObjectSceneEventType.OBJECT_REMOVED);
     }
 
     /** This method is called from within the constructor to
@@ -175,5 +167,84 @@ public final class VisualModellingTopComponent extends CloneableTopComponent {
         return PREFERRED_ID;
     }
 
+    public void objectAdded(ObjectSceneEvent event, Object addedObject) {
+        if (addedObject instanceof GtaDatasetContainer){
+            GtaDatasetContainer container = (GtaDatasetContainer)addedObject;
+            container.getLayout().setHeight(240);
+            container.getLayout().setWidth(180);
+            if (dobj.getProgectScheme().getDatasetContainer()!=null){
+                dobj.getProgectScheme().getDatasetContainer().add(container);
+            }
+            else {
+                CoreErrorMessages.somethingStrange();
+            }
+        }
+        if (addedObject instanceof GtaModelReference){
+            GtaModelReference container = (GtaModelReference)addedObject;
+            container.getLayout().setHeight(240);
+            container.getLayout().setWidth(180);
+            if (dobj.getProgectScheme().getDatasetContainer()!=null){
+                dobj.getProgectScheme().getModel().add(container);
+            }
+            else {
+                CoreErrorMessages.somethingStrange();
+            }            
+        }
+        if (addedObject instanceof GtaConnection){
+            dobj.getProgectScheme().getConnection().add((GtaConnection)addedObject);
+        }
+        dobj.setModified(true);
+    }
 
+    @SuppressWarnings("element-type-mismatch")
+    public void objectRemoved(ObjectSceneEvent event, Object removedObject) {
+        if (removedObject instanceof GtaDatasetContainer){
+            GtaDatasetContainer container = (GtaDatasetContainer)removedObject;
+            dobj.getProgectScheme().getDatasetContainer().remove(removedObject);
+            for (int i = 0; i < dobj.getProgectScheme().getConnection().size(); i++){
+                if (dobj.getProgectScheme().getConnection().get(i).getDatasetContainerID().equalsIgnoreCase(container.getId())){
+                    dobj.getProgectScheme().getConnection().remove(i);
+                    i--;
+                }
+            }
+        }
+        if (removedObject instanceof GtaModelReference){
+            GtaModelReference container = (GtaModelReference)removedObject;
+            dobj.getProgectScheme().getModel().remove(removedObject);
+            for (int i = 0; i < dobj.getProgectScheme().getConnection().size(); i++){
+                if (dobj.getProgectScheme().getConnection().get(i).getModelID().equalsIgnoreCase(container.getId())){
+                    dobj.getProgectScheme().getConnection().remove(i);
+                    i--;
+                }
+            }
+        }
+        dobj.setModified(true);
+    }
+
+
+
+
+
+        
+    
+
+    public void objectStateChanged(ObjectSceneEvent event, Object changedObject, ObjectState previousState, ObjectState newState) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    public void selectionChanged(ObjectSceneEvent event, Set<Object> previousSelection, Set<Object> newSelection) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    public void highlightingChanged(ObjectSceneEvent event, Set<Object> previousHighlighting, Set<Object> newHighlighting) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    public void hoverChanged(ObjectSceneEvent event, Object previousHoveredObject, Object newHoveredObject) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    public void focusChanged(ObjectSceneEvent event, Object previousFocusedObject, Object newFocusedObject) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
 }

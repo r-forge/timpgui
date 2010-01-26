@@ -6,6 +6,7 @@ package org.glotaran.core.ui.visualmodelling.filesupport;
 
 import java.awt.Image;
 import java.io.IOException;
+import org.glotaran.core.main.mesages.CoreErrorMessages;
 import org.glotaran.core.models.gta.GtaProjectScheme;
 import org.openide.cookies.SaveCookie;
 import org.openide.filesystems.FileObject;
@@ -57,9 +58,11 @@ public class GtaDataObject extends MultiDataObject implements SaveCookie{
             marshaller.setProperty(javax.xml.bind.Marshaller.JAXB_ENCODING, "UTF-8"); //NOI18N
             marshaller.setProperty(javax.xml.bind.Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
             marshaller.marshal(gtaScheme, FileUtil.toFile(getPrimaryFile()));
+            setModified(false);
         } catch (javax.xml.bind.JAXBException ex) {
+            CoreErrorMessages.jaxbException();
             // XXXTODO Handle exception
-            java.util.logging.Logger.getLogger("global").log(java.util.logging.Level.SEVERE, null, ex); //NOI18N
+//            java.util.logging.Logger.getLogger("global").log(java.util.logging.Level.SEVERE, null, ex); //NOI18N
         }
     }
 

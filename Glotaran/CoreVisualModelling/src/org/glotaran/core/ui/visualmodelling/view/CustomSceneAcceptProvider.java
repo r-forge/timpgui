@@ -8,7 +8,9 @@ import java.awt.Point;
 import java.awt.datatransfer.Transferable;
 import java.awt.datatransfer.UnsupportedFlavorException;
 import java.io.IOException;
+import org.glotaran.core.main.mesages.CoreErrorMessages;
 import org.glotaran.core.models.gta.GtaDatasetContainer;
+import org.glotaran.core.models.gta.GtaLayout;
 import org.glotaran.core.models.gta.GtaModelReference;
 import org.glotaran.core.ui.visualmodelling.common.VisualCommonFunctions;
 import org.glotaran.core.ui.visualmodelling.palette.PaletteItem;
@@ -68,7 +70,11 @@ public class CustomSceneAcceptProvider implements AcceptProvider {
         if (transferable.isDataFlavorSupported(PaletteNode.DATA_FLAVOR)) {
             final PaletteItem item = VisualCommonFunctions.getPaletteItemTransferable(transferable);
             if (item.getName().equalsIgnoreCase("Dataset Container")) {
-                GtaDatasetContainer newDatasetContainer = new GtaDatasetContainer();                
+                GtaDatasetContainer newDatasetContainer = new GtaDatasetContainer();
+                GtaLayout widlayout = new GtaLayout();
+                widlayout.setXposition(point.getX());
+                widlayout.setYposition(point.getY());
+                newDatasetContainer.setLayout(widlayout);
                 newNode = newDatasetContainer;
             } else if (item.getName().equalsIgnoreCase("Model")) {
                 newNode = null;
@@ -86,11 +92,15 @@ public class CustomSceneAcceptProvider implements AcceptProvider {
                 newModel.setPath(path);
                 newModel.setFilename(fo.getName());
                 newModel.setId(path);
+                GtaLayout widlayout = new GtaLayout();
+                widlayout.setXposition(point.getX());
+                widlayout.setYposition(point.getY());
+                newModel.setLayout(widlayout);
                 newWidget = scene.addNode(newModel);
             } catch (UnsupportedFlavorException ex) {
                 Exceptions.printStackTrace(ex);
             } catch (IOException ex) {
-                Exceptions.printStackTrace(ex);
+                CoreErrorMessages.IOException("CustomScenAcceptProvider");
             }
         }
         newWidget.setPreferredLocation(point);

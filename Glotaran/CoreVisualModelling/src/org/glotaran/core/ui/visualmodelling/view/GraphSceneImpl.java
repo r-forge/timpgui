@@ -75,7 +75,7 @@ public class GraphSceneImpl extends GraphScene { //TODO: implement <VisualAbstra
     private LayerWidget connectionLayer;
     private LayerWidget interractionLayer = new LayerWidget(this);
     private LayerWidget backgroundLayer = new LayerWidget(this);
-    private WidgetAction moveAction = ActionFactory.createMoveAction();
+    private WidgetAction moveAction = ActionFactory.createMoveAction(ActionFactory.createFreeMoveStrategy() , new TGSMoveProvider());
     private Router router = RouterFactory.createFreeRouter();
     private WidgetAction connectAction = ActionFactory.createExtendedConnectAction(interractionLayer, new TGSceneConnectProvider(this));
     private WidgetAction reconnectAction = ActionFactory.createReconnectAction(new TGSceneReconnectProvider(this));
@@ -172,6 +172,7 @@ public class GraphSceneImpl extends GraphScene { //TODO: implement <VisualAbstra
                 Exceptions.printStackTrace(ex);
             }
             cw = createMoveableComponent(new ModelContainer(tgmDObj), modelRef.getFilename());
+            cw.getActions();
             mainLayer.addChild(cw);
 //            dobj.getProgectScheme().getModel().add(modelRef);
 //            dobj.setModified(true);
@@ -181,7 +182,7 @@ public class GraphSceneImpl extends GraphScene { //TODO: implement <VisualAbstra
             if (myNode.getId()==null) {
                 myNode.setId(String.valueOf(getNewNodeCount()));
             }
-            cw = createMoveableComponent(new DatasetContainerComponent(), myNode.getId());
+            cw = createMoveableComponent(new DatasetContainerComponent(myNode), myNode.getId());
             mainLayer.addChild(cw);
         }
         return cw;

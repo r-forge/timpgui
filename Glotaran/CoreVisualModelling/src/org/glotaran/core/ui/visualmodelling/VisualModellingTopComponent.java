@@ -25,7 +25,6 @@ import org.openide.windows.WindowManager;
 import org.netbeans.api.settings.ConvertAsProperties;
 import org.netbeans.api.visual.model.ObjectSceneEventType;
 import org.netbeans.api.visual.model.ObjectSceneListener;
-import org.netbeans.api.visual.widget.ComponentWidget;
 import org.openide.util.lookup.Lookups;
 import org.openide.windows.CloneableTopComponent;
 
@@ -193,6 +192,7 @@ final public class VisualModellingTopComponent extends CloneableTopComponent imp
         if (addedObject instanceof GtaConnection){
             dobj.getProgectScheme().getConnection().add((GtaConnection)addedObject);
         }
+        dobj.getProgectScheme().setCounter(String.valueOf(((GraphSceneImpl)event.getObjectScene()).getNodeCount()));
         dobj.setModified(true);
     }
 
@@ -220,13 +220,6 @@ final public class VisualModellingTopComponent extends CloneableTopComponent imp
         }
         dobj.setModified(true);
     }
-
-
-
-
-
-        
-    
 
     public void objectStateChanged(ObjectSceneEvent event, Object changedObject, ObjectState previousState, ObjectState newState) {
         throw new UnsupportedOperationException("Not supported yet.");

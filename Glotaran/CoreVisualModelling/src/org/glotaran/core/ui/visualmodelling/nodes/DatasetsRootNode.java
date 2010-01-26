@@ -7,15 +7,20 @@ package org.glotaran.core.ui.visualmodelling.nodes;
 
 import java.awt.datatransfer.Transferable;
 import java.awt.datatransfer.UnsupportedFlavorException;
+import java.beans.PropertyChangeListener;
 import java.io.IOException;
 import org.glotaran.core.main.nodes.TimpDatasetNode;
+import org.glotaran.core.models.gta.GtaDataset;
+import org.netbeans.api.project.ui.OpenProjects;
+import org.openide.filesystems.FileObject;
+import org.openide.filesystems.FileUtil;
 import org.openide.nodes.AbstractNode;
 import org.openide.nodes.Children;
 import org.openide.nodes.Index;
 import org.openide.nodes.Node;
 import org.openide.util.Exceptions;
-import org.openide.util.Lookup;
 import org.openide.util.datatransfer.PasteType;
+import org.openide.util.lookup.Lookups;
 
 /**
  *
@@ -26,8 +31,17 @@ public class DatasetsRootNode extends AbstractNode{
         super(children);
     }
 
-    public DatasetsRootNode(Children children, Lookup lookup){
-        super(children,lookup);
+    public DatasetsRootNode(Children children, PropertyChangeListener listn){
+        super(children);
+        addPropertyChangeListener(listn);
+    }
+
+    private GtaDataset createDatasetRef(TimpDatasetNode tdsNode){
+        FileObject fo = tdsNode.getObject().getPrimaryFile();
+        GtaDataset gtaDataset = new GtaDataset();
+        gtaDataset.setPath(FileUtil.getRelativePath(OpenProjects.getDefault().getMainProject().getProjectDirectory(), fo));
+        gtaDataset.setFilename(fo.getName());
+        return gtaDataset;
     }
 
     @Override
@@ -37,15 +51,20 @@ public class DatasetsRootNode extends AbstractNode{
                 @Override
                 public Transferable paste() throws IOException {
                     try {
+                        TimpDatasetNode timpDataNode = (TimpDatasetNode)t.getTransferData(TimpDatasetNode.DATA_FLAVOR);
+                        GtaDataset addedDataset = createDatasetRef(timpDataNode);
                         getChildren().add(new Node[]{
-                            new DatasetComponentNode((TimpDatasetNode)t.getTransferData(TimpDatasetNode.DATA_FLAVOR), new Index.ArrayChildren(), getLookup())});
-                    } catch (UnsupportedFlavorException ex) {
-                        Exceptions.printStackTrace(ex);
+                            new DatasetComponentNode(
+                                    timpDataNode,
+                                    new Index.ArrayChildren(),
+                                    Lookups.singleton(addedDataset))});
+                        firePropertyChange("datasetAdded", null, addedDataset);
+                    } catch (UnsupportedFlavorException exption) {
+                        Exceptions.printStackTrace(exption);
                     }
                     return null;
                 }
             };
-
         }
         else {
             return null;

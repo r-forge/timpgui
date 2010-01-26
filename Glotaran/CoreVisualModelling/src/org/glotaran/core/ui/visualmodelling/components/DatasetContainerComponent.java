@@ -18,6 +18,8 @@ import javax.swing.InputMap;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
 import javax.swing.KeyStroke;
+import org.glotaran.core.models.gta.GtaDataset;
+import org.glotaran.core.models.gta.GtaDatasetContainer;
 import org.glotaran.core.ui.visualmodelling.nodes.DatasetsRootNode;
 import org.openide.explorer.ExplorerManager;
 import org.openide.explorer.ExplorerUtils;
@@ -42,11 +44,12 @@ public class DatasetContainerComponent
     private DatasetSpecificationView datasetView  = new DatasetSpecificationView();
 //    private DatasetNodeContainer container = new DatasetNodeContainer();
     private Lookup lookup;
+    private GtaDatasetContainer datasetContainer;
 
     /** Creates new form DatasetContainerComponent */
     public DatasetContainerComponent() {
         initComponents();
-        
+        datasetContainer = null;
         jPDatasetsPanel.add(datasetView);
         datasetView.setPreferredSize(jPDatasetsPanel.getSize());
         //datasetView.setPreferredSize(new Dimension(150, 150));
@@ -60,6 +63,20 @@ public class DatasetContainerComponent
         manager.setRootContext(new DatasetsRootNode(new Index.ArrayChildren()));
         manager.addPropertyChangeListener(this);
 
+    }
+
+    public DatasetContainerComponent(GtaDatasetContainer myNode) {
+        initComponents();
+        jPDatasetsPanel.add(datasetView);
+        datasetView.setPreferredSize(jPDatasetsPanel.getSize());
+        datasetContainer = myNode;
+        ActionMap map = this.getActionMap ();
+        map.put("delete", ExplorerUtils.actionDelete(manager, true)); // or false
+        InputMap keys = getInputMap(JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
+        keys.put(KeyStroke.getKeyStroke("DELETE"), "delete");
+        lookup = ExplorerUtils.createLookup(manager, map);
+        manager.setRootContext(new DatasetsRootNode(new Index.ArrayChildren(), this));
+        manager.addPropertyChangeListener(this);
     }
 
     /** This method is called from within the constructor to
@@ -225,6 +242,9 @@ public class DatasetContainerComponent
         if (evt.getSource() == manager &&
                 ExplorerManager.PROP_SELECTED_NODES.equals(evt.getPropertyName())) {
             WindowManager.getDefault().getRegistry().getActivated().setActivatedNodes(manager.getSelectedNodes());
+        }
+        if (evt.getPropertyName().equals("datasetAdded")){
+            datasetContainer.getDatasets().add((GtaDataset)evt.getNewValue());
         }
     }
 }

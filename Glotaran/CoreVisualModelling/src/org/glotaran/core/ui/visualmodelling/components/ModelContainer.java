@@ -99,81 +99,105 @@ public class ModelContainer
      */
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
+        java.awt.GridBagConstraints gridBagConstraints;
 
         panel = new javax.swing.JPanel();
+        jPanel1 = new javax.swing.JPanel();
         jBRemove = new javax.swing.JButton();
         jBRefreshModel = new javax.swing.JButton();
         jBSaveModel = new javax.swing.JButton();
 
-        setMaximumSize(new java.awt.Dimension(160, 250));
-        setMinimumSize(new java.awt.Dimension(160, 250));
-        setPreferredSize(new java.awt.Dimension(160, 250));
+        setPreferredSize(new java.awt.Dimension(180, 240));
+        setLayout(new java.awt.GridBagLayout());
 
-        panel.setMaximumSize(new java.awt.Dimension(150, 200));
-        panel.setMinimumSize(new java.awt.Dimension(150, 200));
-        panel.setPreferredSize(new java.awt.Dimension(150, 200));
+        panel.setBackground(new java.awt.Color(255, 255, 255));
+        panel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, org.openide.util.NbBundle.getMessage(ModelContainer.class, "ModelContainer.panel.border.title_1"), javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION)); // NOI18N
+        panel.setPreferredSize(new java.awt.Dimension(180, 214));
         panel.setLayout(new java.awt.BorderLayout());
         panel.add(modelSpecificationView, BorderLayout.CENTER);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 1.0;
+        add(panel, gridBagConstraints);
+
+        jPanel1.setPreferredSize(new java.awt.Dimension(180, 26));
+        jPanel1.setLayout(new java.awt.GridBagLayout());
 
         jBRemove.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/glotaran/core/main/resources/Delete-icon-16.png"))); // NOI18N
         jBRemove.setText(org.openide.util.NbBundle.getMessage(ModelContainer.class, "ModelContainer.jBRemove.text")); // NOI18N
         jBRemove.setToolTipText(org.openide.util.NbBundle.getMessage(ModelContainer.class, "ModelContainer.jBRemove.toolTipText")); // NOI18N
         jBRemove.setFocusable(false);
         jBRemove.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jBRemove.setMaximumSize(new java.awt.Dimension(26, 26));
+        jBRemove.setMinimumSize(new java.awt.Dimension(26, 26));
         jBRemove.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         jBRemove.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jBRemoveActionPerformed(evt);
             }
         });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.ipadx = -26;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(0, 2, 0, 2);
+        jPanel1.add(jBRemove, gridBagConstraints);
 
         jBRefreshModel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/glotaran/core/main/resources/Refresh.png"))); // NOI18N
         jBRefreshModel.setText(org.openide.util.NbBundle.getMessage(ModelContainer.class, "ModelContainer.jBRefreshModel.text")); // NOI18N
         jBRefreshModel.setToolTipText(org.openide.util.NbBundle.getMessage(ModelContainer.class, "ModelContainer.jBRefreshModel.toolTipText")); // NOI18N
         jBRefreshModel.setFocusable(false);
         jBRefreshModel.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jBRefreshModel.setMaximumSize(new java.awt.Dimension(26, 26));
+        jBRefreshModel.setMinimumSize(new java.awt.Dimension(26, 26));
         jBRefreshModel.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         jBRefreshModel.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jBRefreshModelActionPerformed(evt);
             }
         });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.ipadx = -26;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(0, 2, 0, 2);
+        jPanel1.add(jBRefreshModel, gridBagConstraints);
 
         jBSaveModel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/glotaran/core/main/resources/Save.png"))); // NOI18N
         jBSaveModel.setText(org.openide.util.NbBundle.getMessage(ModelContainer.class, "ModelContainer.jBSaveModel.text")); // NOI18N
         jBSaveModel.setToolTipText(org.openide.util.NbBundle.getMessage(ModelContainer.class, "ModelContainer.jBSaveModel.toolTipText")); // NOI18N
         jBSaveModel.setFocusable(false);
         jBSaveModel.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jBSaveModel.setMaximumSize(new java.awt.Dimension(26, 26));
+        jBSaveModel.setMinimumSize(new java.awt.Dimension(26, 26));
         jBSaveModel.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         jBSaveModel.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jBSaveModelActionPerformed(evt);
             }
         });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.ipadx = -26;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(0, 2, 0, 2);
+        jPanel1.add(jBSaveModel, gridBagConstraints);
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-        this.setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jBRefreshModel, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jBSaveModel, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 82, Short.MAX_VALUE)
-                .addComponent(jBRemove, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addComponent(panel, javax.swing.GroupLayout.DEFAULT_SIZE, 160, Short.MAX_VALUE)
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addComponent(panel, javax.swing.GroupLayout.PREFERRED_SIZE, 218, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jBRemove)
-                    .addComponent(jBSaveModel)
-                    .addComponent(jBRefreshModel))
-                .addContainerGap())
-        );
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.weightx = 1.0;
+        add(jPanel1, gridBagConstraints);
     }// </editor-fold>//GEN-END:initComponents
 
     private void jBRemoveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBRemoveActionPerformed
@@ -204,6 +228,7 @@ public class ModelContainer
     private javax.swing.JButton jBRefreshModel;
     private javax.swing.JButton jBRemove;
     private javax.swing.JButton jBSaveModel;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel panel;
     // End of variables declaration//GEN-END:variables
 

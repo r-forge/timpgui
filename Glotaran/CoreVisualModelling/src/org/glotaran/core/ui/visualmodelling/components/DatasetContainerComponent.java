@@ -11,9 +11,6 @@
 
 package org.glotaran.core.ui.visualmodelling.components;
 
-import java.awt.BorderLayout;
-import java.awt.Dimension;
-import java.awt.FlowLayout;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import javax.swing.ActionMap;
@@ -75,50 +72,19 @@ public class DatasetContainerComponent
     private void initComponents() {
         java.awt.GridBagConstraints gridBagConstraints;
 
-        datasetsScrollPane = new javax.swing.JScrollPane();
-        jPDatasetsPanel = new javax.swing.JPanel();
-        modelDiffsScrollPane = new javax.swing.JScrollPane();
-        modelDiffsPanel = new javax.swing.JPanel();
         jPanel1 = new javax.swing.JPanel();
         jBRefreshModel = new javax.swing.JButton();
         jBSaveModel = new javax.swing.JButton();
         jBRemove = new javax.swing.JButton();
+        jPDatasetsPanel = new javax.swing.JPanel();
+        modelDiffsPanel = new javax.swing.JPanel();
 
         setPreferredSize(new java.awt.Dimension(180, 240));
         setLayout(new java.awt.GridBagLayout());
 
-        datasetsScrollPane.setPreferredSize(new java.awt.Dimension(180, 126));
-
-        jPDatasetsPanel.setBackground(new java.awt.Color(255, 255, 255));
-        jPDatasetsPanel.setPreferredSize(new java.awt.Dimension(180, 126));
-        jPDatasetsPanel.setLayout(new java.awt.BorderLayout());
-        datasetsScrollPane.setViewportView(jPDatasetsPanel);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.RELATIVE;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTH;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.weighty = 0.7;
-        add(datasetsScrollPane, gridBagConstraints);
-
-        modelDiffsScrollPane.setPreferredSize(new java.awt.Dimension(180, 86));
-
-        modelDiffsPanel.setPreferredSize(new java.awt.Dimension(180, 86));
-        modelDiffsScrollPane.setViewportView(modelDiffsPanel);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.RELATIVE;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.weighty = 0.3;
-        add(modelDiffsScrollPane, gridBagConstraints);
-
+        jPanel1.setBackground(new java.awt.Color(204, 255, 204));
         jPanel1.setPreferredSize(new java.awt.Dimension(180, 28));
+        jPanel1.setLayout(new java.awt.GridBagLayout());
 
         jBRefreshModel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/glotaran/core/main/resources/Refresh.png"))); // NOI18N
         jBRefreshModel.setText(org.openide.util.NbBundle.getMessage(DatasetContainerComponent.class, "DatasetContainerComponent.jBRefreshModel.text")); // NOI18N
@@ -131,6 +97,13 @@ public class DatasetContainerComponent
                 jBRefreshModelActionPerformed(evt);
             }
         });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.ipadx = -26;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(0, 2, 0, 2);
+        jPanel1.add(jBRefreshModel, gridBagConstraints);
 
         jBSaveModel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/glotaran/core/main/resources/Save.png"))); // NOI18N
         jBSaveModel.setText(org.openide.util.NbBundle.getMessage(DatasetContainerComponent.class, "DatasetContainerComponent.jBSaveModel.text")); // NOI18N
@@ -143,6 +116,13 @@ public class DatasetContainerComponent
                 jBSaveModelActionPerformed(evt);
             }
         });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.ipadx = -26;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(0, 2, 0, 2);
+        jPanel1.add(jBSaveModel, gridBagConstraints);
 
         jBRemove.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/glotaran/core/main/resources/Delete-icon-16.png"))); // NOI18N
         jBRemove.setText(org.openide.util.NbBundle.getMessage(DatasetContainerComponent.class, "DatasetContainerComponent.jBRemove.text")); // NOI18N
@@ -155,24 +135,14 @@ public class DatasetContainerComponent
                 jBRemoveActionPerformed(evt);
             }
         });
-
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addComponent(jBRefreshModel, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jBSaveModel, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 114, Short.MAX_VALUE)
-                .addComponent(jBRemove, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE))
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jBRefreshModel)
-            .addComponent(jBSaveModel)
-            .addComponent(jBRemove)
-        );
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.ipadx = -26;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(0, 2, 0, 2);
+        jPanel1.add(jBRemove, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -180,7 +150,33 @@ public class DatasetContainerComponent
         gridBagConstraints.gridwidth = java.awt.GridBagConstraints.RELATIVE;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.SOUTH;
+        gridBagConstraints.weightx = 1.0;
         add(jPanel1, gridBagConstraints);
+
+        jPDatasetsPanel.setBackground(new java.awt.Color(255, 255, 236));
+        jPDatasetsPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, org.openide.util.NbBundle.getMessage(DatasetContainerComponent.class, "DatasetContainerComponent.jPDatasetsPanel.border.title"), javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION)); // NOI18N
+        jPDatasetsPanel.setPreferredSize(new java.awt.Dimension(180, 126));
+        jPDatasetsPanel.setLayout(new java.awt.BorderLayout());
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 0.7;
+        add(jPDatasetsPanel, gridBagConstraints);
+
+        modelDiffsPanel.setBackground(new java.awt.Color(236, 255, 255));
+        modelDiffsPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, org.openide.util.NbBundle.getMessage(DatasetContainerComponent.class, "DatasetContainerComponent.modelDiffsPanel.border.title"), javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION)); // NOI18N
+        modelDiffsPanel.setPreferredSize(new java.awt.Dimension(180, 86));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 0.3;
+        add(modelDiffsPanel, gridBagConstraints);
     }// </editor-fold>//GEN-END:initComponents
 
     private void jBRefreshModelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBRefreshModelActionPerformed
@@ -208,14 +204,12 @@ public class DatasetContainerComponent
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JScrollPane datasetsScrollPane;
     private javax.swing.JButton jBRefreshModel;
     private javax.swing.JButton jBRemove;
     private javax.swing.JButton jBSaveModel;
     private javax.swing.JPanel jPDatasetsPanel;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel modelDiffsPanel;
-    private javax.swing.JScrollPane modelDiffsScrollPane;
     // End of variables declaration//GEN-END:variables
 
     public ExplorerManager getExplorerManager() {

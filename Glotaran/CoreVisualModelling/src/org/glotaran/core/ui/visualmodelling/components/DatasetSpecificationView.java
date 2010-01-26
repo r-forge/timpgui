@@ -4,7 +4,6 @@
  */
 package org.glotaran.core.ui.visualmodelling.components;
 
-import java.awt.dnd.DnDConstants;
 import org.openide.explorer.view.BeanTreeView;
 
 /**

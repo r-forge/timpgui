@@ -11,7 +11,9 @@
 
 package org.glotaran.core.ui.visualmodelling.components;
 
+import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import javax.swing.ActionMap;
@@ -47,7 +49,9 @@ public class DatasetContainerComponent
     /** Creates new form DatasetContainerComponent */
     public DatasetContainerComponent() {
         initComponents();
-        jPDatasetsPanel.add(datasetView);       
+        
+        jPDatasetsPanel.add(datasetView);
+        datasetView.setPreferredSize(jPDatasetsPanel.getSize());
         //datasetView.setPreferredSize(new Dimension(150, 150));
 //        ExplorerUtils.createLookup(manager, null)));
 //        new ProxyLookup(arg0)
@@ -71,10 +75,10 @@ public class DatasetContainerComponent
     private void initComponents() {
         java.awt.GridBagConstraints gridBagConstraints;
 
-        modelDiffsScrollPane = new javax.swing.JScrollPane();
-        modelDiffsPanel = new javax.swing.JPanel();
         datasetsScrollPane = new javax.swing.JScrollPane();
         jPDatasetsPanel = new javax.swing.JPanel();
+        modelDiffsScrollPane = new javax.swing.JScrollPane();
+        modelDiffsPanel = new javax.swing.JPanel();
         jPanel1 = new javax.swing.JPanel();
         jBRefreshModel = new javax.swing.JButton();
         jBSaveModel = new javax.swing.JButton();
@@ -83,23 +87,11 @@ public class DatasetContainerComponent
         setPreferredSize(new java.awt.Dimension(180, 240));
         setLayout(new java.awt.GridBagLayout());
 
-        modelDiffsScrollPane.setPreferredSize(new java.awt.Dimension(180, 106));
+        datasetsScrollPane.setPreferredSize(new java.awt.Dimension(180, 126));
 
-        modelDiffsPanel.setPreferredSize(new java.awt.Dimension(176, 100));
-        modelDiffsScrollPane.setViewportView(modelDiffsPanel);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.RELATIVE;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.weighty = 1.0;
-        add(modelDiffsScrollPane, gridBagConstraints);
-
-        datasetsScrollPane.setPreferredSize(new java.awt.Dimension(180, 106));
-
-        jPDatasetsPanel.setPreferredSize(new java.awt.Dimension(176, 100));
+        jPDatasetsPanel.setBackground(new java.awt.Color(255, 255, 255));
+        jPDatasetsPanel.setPreferredSize(new java.awt.Dimension(180, 126));
+        jPDatasetsPanel.setLayout(new java.awt.BorderLayout());
         datasetsScrollPane.setViewportView(jPDatasetsPanel);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -109,8 +101,22 @@ public class DatasetContainerComponent
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTH;
         gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.weighty = 1.0;
+        gridBagConstraints.weighty = 0.7;
         add(datasetsScrollPane, gridBagConstraints);
+
+        modelDiffsScrollPane.setPreferredSize(new java.awt.Dimension(180, 86));
+
+        modelDiffsPanel.setPreferredSize(new java.awt.Dimension(180, 86));
+        modelDiffsScrollPane.setViewportView(modelDiffsPanel);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.RELATIVE;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 0.3;
+        add(modelDiffsScrollPane, gridBagConstraints);
 
         jPanel1.setPreferredSize(new java.awt.Dimension(180, 28));
 
@@ -158,7 +164,7 @@ public class DatasetContainerComponent
                 .addComponent(jBRefreshModel, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jBSaveModel, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 96, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 114, Short.MAX_VALUE)
                 .addComponent(jBRemove, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         jPanel1Layout.setVerticalGroup(

@@ -85,6 +85,7 @@ public class EdgeMenu implements PopupMenuProvider, ActionListener {
         if(e.getActionCommand().equals(ADD_REMOVE_CP_ACTION)) {
             addRemoveControlPoint(point);
         } else if(e.getActionCommand().equals(DELETE_TRANSITION)) {
+            ((GtaConnection) scene.findObject (edge)).setActive(false);
             scene.removeEdge ((GtaConnection) scene.findObject (edge));
         }
     }

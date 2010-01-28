@@ -38,6 +38,8 @@ import org.openide.windows.CloneableTopComponent;
 final public class VisualModellingTopComponent extends CloneableTopComponent implements ObjectSceneListener{
 
     private static VisualModellingTopComponent instance;
+    private static final int DEFAULT_COMPONENT_HEIGHT = 240;
+    private static final int DEFAULT_COMPONENT_WIDTH = 180;
     /** path to the icon used by the component and its open action */
 //    static final String ICON_PATH = "SET/PATH/TO/ICON/HERE";
 
@@ -169,8 +171,8 @@ final public class VisualModellingTopComponent extends CloneableTopComponent imp
     public void objectAdded(ObjectSceneEvent event, Object addedObject) {
         if (addedObject instanceof GtaDatasetContainer){
             GtaDatasetContainer container = (GtaDatasetContainer)addedObject;
-            container.getLayout().setHeight(240);
-            container.getLayout().setWidth(180);
+            container.getLayout().setHeight(DEFAULT_COMPONENT_HEIGHT);
+            container.getLayout().setWidth(DEFAULT_COMPONENT_WIDTH);
             if (dobj.getProgectScheme().getDatasetContainer()!=null){
                 dobj.getProgectScheme().getDatasetContainer().add(container);
             }
@@ -180,8 +182,8 @@ final public class VisualModellingTopComponent extends CloneableTopComponent imp
         }
         if (addedObject instanceof GtaModelReference){
             GtaModelReference container = (GtaModelReference)addedObject;
-            container.getLayout().setHeight(240);
-            container.getLayout().setWidth(180);
+            container.getLayout().setHeight(DEFAULT_COMPONENT_HEIGHT);
+            container.getLayout().setWidth(DEFAULT_COMPONENT_WIDTH);
             if (dobj.getProgectScheme().getDatasetContainer()!=null){
                 dobj.getProgectScheme().getModel().add(container);
             }
@@ -190,7 +192,9 @@ final public class VisualModellingTopComponent extends CloneableTopComponent imp
             }            
         }
         if (addedObject instanceof GtaConnection){
+            if (!dobj.getProgectScheme().getConnection().contains((GtaConnection)addedObject)) {
             dobj.getProgectScheme().getConnection().add((GtaConnection)addedObject);
+            }
         }
         dobj.getProgectScheme().setCounter(String.valueOf(((GraphSceneImpl)event.getObjectScene()).getNodeCount()));
         dobj.setModified(true);

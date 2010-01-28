@@ -7,7 +7,7 @@ and open the template in the editor.
 <MIME-resolver>
     <file>
         <ext name="xml"/>
-        <resolver mime="text/tga+xml">
+        <resolver mime="text/gta+xml">
             <xml-rule>
                 <element ns="http://glotaran.org/schema/GlobalAndTargetAnalysisSchema"/>
             </xml-rule>

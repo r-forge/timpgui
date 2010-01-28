@@ -216,9 +216,12 @@
             </module-dependencies>
             <public-packages>
                 <package>org.glotaran.core.ui.visualmodelling</package>
+                <package>org.glotaran.core.ui.visualmodelling.common</package>
                 <package>org.glotaran.core.ui.visualmodelling.components</package>
                 <package>org.glotaran.core.ui.visualmodelling.filesupport</package>
+                <package>org.glotaran.core.ui.visualmodelling.menu</package>
                 <package>org.glotaran.core.ui.visualmodelling.nodes</package>
+                <package>org.glotaran.core.ui.visualmodelling.nodes.dataobjects</package>
                 <package>org.glotaran.core.ui.visualmodelling.palette</package>
                 <package>org.glotaran.core.ui.visualmodelling.view</package>
             </public-packages>

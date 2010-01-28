@@ -6,6 +6,7 @@ package org.glotaran.core.ui.visualmodelling.filesupport;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import org.openide.cookies.OpenCookie;
 
 public final class OpenGtaEditor implements ActionListener {
 
@@ -17,5 +18,6 @@ public final class OpenGtaEditor implements ActionListener {
 
     public void actionPerformed(ActionEvent ev) {
         // TODO use context
+        ((GtaOpenSupport)context.getCookie(OpenCookie.class)).createCloneableTopComponent().open();
     }
 }

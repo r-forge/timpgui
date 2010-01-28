@@ -60,7 +60,6 @@
     </folder>
     <folder name="Menu">
         <file name="BuildProject_hidden"/>
-        <file name="Edit_hidden"/>
         <folder name="File">
             <file name="Separator2.instance_hidden"/>
             <file name="Separator3.instance_hidden"/>

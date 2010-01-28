@@ -30,6 +30,8 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import org.glotaran.core.models.gta.GtaConnection;
+import org.glotaran.core.ui.visualmodelling.view.GraphSceneImpl;
+import org.glotaran.core.ui.visualmodelling.widgets.DatasetContainerWidget;
 
 /**
  *
@@ -41,13 +43,13 @@ public class EdgeMenu implements PopupMenuProvider, ActionListener {
 //    private static final String DELETE_ALL_CP_ACTION = "deleteAllCPAction"; // NOI18N
     private static final String DELETE_TRANSITION = "deleteTransition"; // NOI18N
 
-    private GraphScene scene;
+    private GraphSceneImpl scene;
 
     private JPopupMenu menu;
     private ConnectionWidget edge;
     private Point point;
 
-    public EdgeMenu(GraphScene scene) {
+    public EdgeMenu(GraphSceneImpl scene) {
         this.scene = scene;
         menu = new JPopupMenu("Transition Menu");
         JMenuItem item;
@@ -86,6 +88,10 @@ public class EdgeMenu implements PopupMenuProvider, ActionListener {
             addRemoveControlPoint(point);
         } else if(e.getActionCommand().equals(DELETE_TRANSITION)) {
             ((GtaConnection) scene.findObject (edge)).setActive(false);
+            Widget widget = scene.findWidget(scene.getNodeForID(((GtaConnection)scene.findObject (edge)).getDatasetContainerID()));
+            if (widget instanceof DatasetContainerWidget){
+                ((DatasetContainerWidget)widget).setConnected(false);
+            }
             scene.removeEdge ((GtaConnection) scene.findObject (edge));
         }
     }

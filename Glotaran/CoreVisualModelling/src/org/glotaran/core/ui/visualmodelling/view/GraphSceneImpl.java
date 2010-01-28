@@ -56,6 +56,8 @@ import org.glotaran.core.models.gta.GtaModelReference;
 import org.glotaran.core.ui.visualmodelling.components.DatasetContainerComponent;
 import org.glotaran.core.ui.visualmodelling.components.ModelContainer;
 import org.glotaran.core.ui.visualmodelling.nodes.DatasetComponentNode;
+import org.glotaran.core.ui.visualmodelling.widgets.DatasetContainerWidget;
+import org.glotaran.core.ui.visualmodelling.widgets.ModelContainerWidget;
 import org.glotaran.tgmfilesupport.TgmDataObject;
 import org.netbeans.api.project.ui.OpenProjects;
 import org.netbeans.api.visual.border.BorderFactory;
@@ -85,7 +87,7 @@ public class GraphSceneImpl extends GraphScene implements PropertyChangeListener
     private WidgetAction moveControlPointAction = ActionFactory.createFreeMoveControlPointAction();
     private WidgetAction selectAction = ActionFactory.createSelectAction(new ObjectSelectProvider());
     private WidgetAction sceneAcceptAction = ActionFactory.createAcceptAction(new CustomSceneAcceptProvider(this));
-    private NodeMenu nodeMenu = new NodeMenu(this);
+//    private NodeMenu nodeMenu = new NodeMenu(this);
     private EdgeMenu edgeMenu = new EdgeMenu(this);
     private Integer nodeCount = 0;
     private GtaDataObject dobj = null;
@@ -174,7 +176,7 @@ public class GraphSceneImpl extends GraphScene implements PropertyChangeListener
             } catch (IOException ex) {
                 Exceptions.printStackTrace(ex);
             }
-            cw = createMoveableComponent(new ModelContainer(tgmDObj), modelRef.getFilename());
+            cw = new ModelContainerWidget(this, new ModelContainer(tgmDObj), modelRef.getFilename());
             cw.getActions();
             mainLayer.addChild(cw);
 //            dobj.getProgectScheme().getModel().add(modelRef);
@@ -185,7 +187,7 @@ public class GraphSceneImpl extends GraphScene implements PropertyChangeListener
             if (myNode.getId()==null) {
                 myNode.setId(String.valueOf(getNewNodeCount()));
             }
-            cw = createMoveableComponent(new DatasetContainerComponent(myNode, this), myNode.getId());
+            cw = new DatasetContainerWidget(this, new DatasetContainerComponent(myNode, this), myNode.getId());
             mainLayer.addChild(cw);
         }
         return cw;
@@ -293,7 +295,6 @@ public class GraphSceneImpl extends GraphScene implements PropertyChangeListener
             location = new Point((int) Math.floor(model.getLayout().getXposition()), (int) Math.floor(model.getLayout().getYposition()));
             size = new Dimension((int) Math.floor(model.getLayout().getWidth()), (int) Math.floor(model.getLayout().getHeight()));
             widget.setPreferredLocation(location);
-            //widget.setPreferredSize(size);
             validate();
         }
 
@@ -325,6 +326,7 @@ public class GraphSceneImpl extends GraphScene implements PropertyChangeListener
             return true;
         }
 
+        @SuppressWarnings("element-type-mismatch")
         public void select(Widget widget, Point localLocation, boolean invertSelection) {
             Object object = findObject(widget);
 
@@ -370,30 +372,5 @@ public class GraphSceneImpl extends GraphScene implements PropertyChangeListener
         return selectAction;
     }
 
-    private Widget createMoveableComponent(Component component, String name) {
-        Widget widget = new Widget(this);
-        widget.setLayout(LayoutFactory.createVerticalFlowLayout());
-        widget.setBorder(BorderFactory.createLineBorder());//createRoundedBorder(5, 5, Color.gray, Color.black));//
-        widget.getActions().addAction(connectAction);
-        widget.getActions().addAction(reconnectAction);
-        widget.getActions().addAction(selectAction);
-        widget.getActions().addAction(moveAction);
-
-        LabelWidget label = new LabelWidget(this, name);
-
-        label.setOpaque(true);
-        label.setBackground(Color.LIGHT_GRAY);
-        label.getActions().addAction(connectAction);
-        label.getActions().addAction(reconnectAction);
-
-        widget.addChild(label);
-
-        ComponentWidget componentWidget = new ComponentWidget(this, component);
-        widget.addChild(componentWidget);
-        widget.getActions().addAction(ActionFactory.createPopupMenuAction(nodeMenu));
-//        pos += 100;
-//        widget.setPreferredLocation (new Point (pos, pos));
-        return widget;
-    }
 }
 

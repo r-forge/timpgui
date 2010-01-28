@@ -222,6 +222,9 @@ final public class VisualModellingTopComponent extends CloneableTopComponent imp
                 }
             }
         }
+        if (removedObject instanceof GtaConnection){
+
+        }
         dobj.setModified(true);
     }
 

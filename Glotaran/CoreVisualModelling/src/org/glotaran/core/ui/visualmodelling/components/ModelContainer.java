@@ -21,6 +21,7 @@ import javax.swing.JComponent;
 import javax.swing.KeyStroke;
 import org.glotaran.core.models.tgm.IrfparPanelModel;
 import org.glotaran.core.models.tgm.KinPar;
+import org.glotaran.core.models.tgm.Tgm;
 import org.glotaran.core.models.tgm.WeightPar;
 import org.glotaran.core.ui.visualmodelling.common.EnumTypes;
 import org.glotaran.core.ui.visualmodelling.common.EnumTypes.CohSpecTypes;
@@ -68,12 +69,10 @@ public class ModelContainer
         manager.addPropertyChangeListener(this);
         ActionMap map = this.getActionMap ();
         map.put("delete", ExplorerUtils.actionDelete(manager, true)); // or false
-
         InputMap keys = getInputMap(JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
         keys.put(KeyStroke.getKeyStroke("DELETE"), "delete");
         // following line tells the top component which lookup should be associated with it
         lookup = ExplorerUtils.createLookup (manager, map);
-        //new ProxyLookup(arg0)
     }
 
     public ModelContainer(TgmDataObject object) {
@@ -231,6 +230,10 @@ public class ModelContainer
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel panel;
     // End of variables declaration//GEN-END:variables
+
+    public Tgm getModel(){
+        return model.getTgm();
+    }
 
     private void fillInModel(){
 //==============filling up parameters ============

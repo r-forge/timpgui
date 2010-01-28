@@ -23,6 +23,7 @@ import org.glotaran.core.models.gta.GtaConnection;
 import org.glotaran.core.models.gta.GtaDatasetContainer;
 import org.glotaran.core.models.gta.GtaModelReference;
 import org.glotaran.core.models.gta.GtaProjectScheme;
+import org.glotaran.core.ui.visualmodelling.widgets.DatasetContainerWidget;
 import org.netbeans.api.visual.action.ConnectProvider;
 import org.netbeans.api.visual.action.ConnectorState;
 import org.netbeans.api.visual.graph.GraphScene;
@@ -52,12 +53,16 @@ public class TGSceneConnectProvider implements ConnectProvider {
 
     public ConnectorState isTargetWidget(Widget sourceWidget, Widget targetWidget) {
         target = scene.findObject(targetWidget);
-        if (scene.isNode(target)) {
-            if (target instanceof GtaDatasetContainer && source instanceof GtaModelReference) {
-                return ConnectorState.ACCEPT;// : ConnectorState.REJECT_AND_STOP;
-            } else {
-                return ConnectorState.REJECT_AND_STOP;
-            }
+        if (targetWidget instanceof DatasetContainerWidget){
+            if (!((DatasetContainerWidget) targetWidget).isConnected()) {
+                if (scene.isNode(target)) {
+                    if (target instanceof GtaDatasetContainer && source instanceof GtaModelReference) {
+                        return ConnectorState.ACCEPT;// : ConnectorState.REJECT_AND_STOP;
+                    } else {
+                        return ConnectorState.REJECT_AND_STOP;
+                    }
+                }
+             }
         }
         return target != null ? ConnectorState.REJECT_AND_STOP : ConnectorState.REJECT;
     }
@@ -88,6 +93,9 @@ public class TGSceneConnectProvider implements ConnectProvider {
                     scene.addEdge(connection);
                     scene.setEdgeSource(connection, source);
                     scene.setEdgeTarget(connection, target);
+                    if (targetWidget instanceof DatasetContainerWidget){
+                        ((DatasetContainerWidget)targetWidget).setConnected(true);
+                    }
                     scene.validate();
                     return;
                 }
@@ -104,15 +112,16 @@ public class TGSceneConnectProvider implements ConnectProvider {
             if (source instanceof GtaModelReference) {
                 gtac.setModelID(((GtaModelReference) source).getId());
             }
-
             target = scene.findObject(targetWidget);
             if (target instanceof GtaDatasetContainer) {
                 gtac.setDatasetContainerID(((GtaDatasetContainer) target).getId());
             }
-
             scene.addEdge(gtac);
             scene.setEdgeSource(gtac, source);
             scene.setEdgeTarget(gtac, target);
+            if (targetWidget instanceof DatasetContainerWidget){
+                ((DatasetContainerWidget)targetWidget).setConnected(true);
+            }
             scene.validate();
         }
     }

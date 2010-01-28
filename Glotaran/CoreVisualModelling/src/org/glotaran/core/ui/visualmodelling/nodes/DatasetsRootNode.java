@@ -27,6 +27,7 @@ import org.openide.util.lookup.Lookups;
  * @author slapten
  */
 public class DatasetsRootNode extends AbstractNode{
+    private PropertyChangeListener propListn;
     public DatasetsRootNode(Children children){
         super(children);
     }
@@ -34,6 +35,7 @@ public class DatasetsRootNode extends AbstractNode{
     public DatasetsRootNode(Children children, PropertyChangeListener listn){
         super(children);
         addPropertyChangeListener(listn);
+        propListn = listn;
     }
 
     private GtaDataset createDatasetRef(TimpDatasetNode tdsNode){
@@ -53,11 +55,13 @@ public class DatasetsRootNode extends AbstractNode{
                     try {
                         TimpDatasetNode timpDataNode = (TimpDatasetNode)t.getTransferData(TimpDatasetNode.DATA_FLAVOR);
                         GtaDataset addedDataset = createDatasetRef(timpDataNode);
+
                         getChildren().add(new Node[]{
                             new DatasetComponentNode(
                                     timpDataNode,
                                     new Index.ArrayChildren(),
-                                    Lookups.singleton(addedDataset))});
+                                    Lookups.singleton(addedDataset),
+                                    propListn)});
                         firePropertyChange("datasetAdded", null, addedDataset);
                     } catch (UnsupportedFlavorException exption) {
                         Exceptions.printStackTrace(exption);

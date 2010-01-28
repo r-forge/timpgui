@@ -57,7 +57,7 @@ public class PropertiesAbstractNode extends AbstractNode {
     public PropertySet[] getPropertySets() {
         return getSheet().toArray();
     }
-
+    
     @Override
     public boolean canDestroy() {
         return true;

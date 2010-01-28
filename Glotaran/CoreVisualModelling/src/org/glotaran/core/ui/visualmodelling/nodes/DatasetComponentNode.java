@@ -9,13 +9,12 @@ import java.awt.Image;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
 import java.awt.datatransfer.UnsupportedFlavorException;
+import java.beans.PropertyChangeListener;
 import java.io.IOException;
 import org.glotaran.core.main.nodes.TimpDatasetNode;
-import org.glotaran.core.ui.visualmodelling.VisualModellingTopComponent;
-import org.glotaran.core.ui.visualmodelling.components.DatasetContainerComponent;
+import org.glotaran.core.models.gta.GtaDataset;
 import org.glotaran.core.ui.visualmodelling.palette.PaletteItem;
 import org.glotaran.core.ui.visualmodelling.palette.PaletteNode;
-import org.openide.explorer.ExplorerManager;
 import org.openide.nodes.Children;
 import org.openide.nodes.Index.ArrayChildren;
 import org.openide.nodes.Node;
@@ -41,7 +40,7 @@ public class DatasetComponentNode extends PropertiesAbstractNode implements Tran
         name = tdn.getDisplayName();
     }
 
-    public DatasetComponentNode(TimpDatasetNode tdn, Children children) {
+    public DatasetComponentNode(TimpDatasetNode tdn, Children children, PropertyChangeListener propListn) {
         super(tdn.getDisplayName(), children);
         this.tdn = tdn;
         Sheet sheet = Sheet.createDefault();
@@ -51,7 +50,7 @@ public class DatasetComponentNode extends PropertiesAbstractNode implements Tran
         setSheet(sheet);
     }
 
-    DatasetComponentNode(TimpDatasetNode tdn, Children children, Lookup lookup) {
+    public DatasetComponentNode(TimpDatasetNode tdn, Children children, Lookup lookup, PropertyChangeListener propListn) {
         super(tdn.getDisplayName(), children, lookup);
         this.tdn = tdn;
         Sheet sheet = Sheet.createDefault();
@@ -59,8 +58,8 @@ public class DatasetComponentNode extends PropertiesAbstractNode implements Tran
         set.put(tdn.getPropertySets()[0].getProperties());
         sheet.put(set);
         setSheet(sheet);
+        addPropertyChangeListener(propListn);
     }
-
 
     @Override
     public Image getIcon(int type) {
@@ -85,9 +84,6 @@ public class DatasetComponentNode extends PropertiesAbstractNode implements Tran
     @Override
     public PasteType getDropType(Transferable t, int action, int index) {        
         if (t.isDataFlavorSupported(PaletteNode.DATA_FLAVOR)){
-//            getLookup().lookupAll(DatasetContainerComponent.class);
-//            getLookup().lookup(ExplorerManager.class);
-//            Lookup.getDefault().lookup(VisualModellingTopComponent.class);
             try {
                 final PaletteItem pi = (PaletteItem)t.getTransferData(PaletteNode.DATA_FLAVOR);
                 return new PasteType() {
@@ -140,5 +136,11 @@ public class DatasetComponentNode extends PropertiesAbstractNode implements Tran
     public TimpDatasetNode getTdn() {
         return tdn;
     }
-   
+
+    @Override
+    public void destroy() throws IOException {
+        firePropertyChange("mainNodeDeleted", null, getLookup().lookup(GtaDataset.class));
+        super.destroy();
+    }
+
 }

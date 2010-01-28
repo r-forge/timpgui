@@ -20,6 +20,7 @@ import javax.swing.JPanel;
 import javax.swing.KeyStroke;
 import org.glotaran.core.models.gta.GtaDataset;
 import org.glotaran.core.models.gta.GtaDatasetContainer;
+import org.glotaran.core.ui.visualmodelling.nodes.DatasetComponentNode;
 import org.glotaran.core.ui.visualmodelling.nodes.DatasetsRootNode;
 import org.openide.explorer.ExplorerManager;
 import org.openide.explorer.ExplorerUtils;
@@ -62,10 +63,9 @@ public class DatasetContainerComponent
         lookup = ExplorerUtils.createLookup(manager, map);
         manager.setRootContext(new DatasetsRootNode(new Index.ArrayChildren()));
         manager.addPropertyChangeListener(this);
-
     }
 
-    public DatasetContainerComponent(GtaDatasetContainer myNode) {
+    public DatasetContainerComponent(GtaDatasetContainer myNode, PropertyChangeListener listn) {
         initComponents();
         jPDatasetsPanel.add(datasetView);
         datasetView.setPreferredSize(jPDatasetsPanel.getSize());
@@ -77,6 +77,7 @@ public class DatasetContainerComponent
         lookup = ExplorerUtils.createLookup(manager, map);
         manager.setRootContext(new DatasetsRootNode(new Index.ArrayChildren(), this));
         manager.addPropertyChangeListener(this);
+        addPropertyChangeListener(listn);
     }
 
     /** This method is called from within the constructor to
@@ -243,8 +244,17 @@ public class DatasetContainerComponent
                 ExplorerManager.PROP_SELECTED_NODES.equals(evt.getPropertyName())) {
             WindowManager.getDefault().getRegistry().getActivated().setActivatedNodes(manager.getSelectedNodes());
         }
-        if (evt.getPropertyName().equals("datasetAdded")){
-            datasetContainer.getDatasets().add((GtaDataset)evt.getNewValue());
+        if (evt.getSource().getClass().equals(DatasetsRootNode.class)){
+            if (evt.getPropertyName().equals("datasetAdded")){
+                datasetContainer.getDatasets().add((GtaDataset)evt.getNewValue());
+            }
+            firePropertyChange("datasetNodeChenged", null, null);
+        }
+        if (evt.getSource().getClass().equals(DatasetComponentNode.class)){
+            if (evt.getPropertyName().equalsIgnoreCase("mainNodeDeleted")){
+                datasetContainer.getDatasets().remove((GtaDataset)evt.getNewValue());
+            }
+            firePropertyChange("datasetNodeChenged", null, null);
         }
     }
 }

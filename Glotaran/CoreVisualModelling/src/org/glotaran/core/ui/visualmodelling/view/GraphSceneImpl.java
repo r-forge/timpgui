@@ -18,6 +18,7 @@
  */
 package org.glotaran.core.ui.visualmodelling.view;
 
+import java.beans.PropertyChangeEvent;
 import java.io.IOException;
 import org.glotaran.core.models.gta.GtaProjectScheme;
 import org.glotaran.core.ui.visualmodelling.filesupport.GtaDataObject;
@@ -43,6 +44,7 @@ import org.openide.util.Utilities;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.beans.PropertyChangeListener;
 import java.io.File;
 import java.util.Collections;
 import org.glotaran.core.main.nodes.TimpDatasetNode;
@@ -64,11 +66,12 @@ import org.openide.filesystems.FileUtil;
 import org.openide.loaders.DataObject;
 import org.openide.nodes.Index;
 import org.openide.nodes.Node;
+import org.openide.util.lookup.Lookups;
 
 /**
  * @author Alex
  */
-public class GraphSceneImpl extends GraphScene { //TODO: implement <VisualAbstractNode, MyEdge>
+public class GraphSceneImpl extends GraphScene implements PropertyChangeListener{ //TODO: implement <VisualAbstractNode, MyEdge>
 
     private static final Image IMAGE = Utilities.loadImage("org/glotaran/core/ui/visualmodelling/resources/node.png"); // NOI18N
     private LayerWidget mainLayer;
@@ -182,7 +185,7 @@ public class GraphSceneImpl extends GraphScene { //TODO: implement <VisualAbstra
             if (myNode.getId()==null) {
                 myNode.setId(String.valueOf(getNewNodeCount()));
             }
-            cw = createMoveableComponent(new DatasetContainerComponent(myNode), myNode.getId());
+            cw = createMoveableComponent(new DatasetContainerComponent(myNode, this), myNode.getId());
             mainLayer.addChild(cw);
         }
         return cw;
@@ -253,9 +256,12 @@ public class GraphSceneImpl extends GraphScene { //TODO: implement <VisualAbstra
                                 if (cw.getComponent() instanceof DatasetContainerComponent) {
                                     GtaDatasetContainer gdc = new GtaDatasetContainer();
                                     DatasetContainerComponent dcc = (DatasetContainerComponent) cw.getComponent();
-
                                     dcc.getExplorerManager().getRootContext().getChildren().add(new Node[]{
-                                                new DatasetComponentNode((TimpDatasetNode) tdobj.getNodeDelegate(), new Index.ArrayChildren())});
+                                                new DatasetComponentNode(
+                                                        (TimpDatasetNode) tdobj.getNodeDelegate(),
+                                                        new Index.ArrayChildren(),
+                                                        Lookups.singleton(dataset),
+                                                        dcc)});
                                 }
                             }
                         }
@@ -301,6 +307,12 @@ public class GraphSceneImpl extends GraphScene { //TODO: implement <VisualAbstra
             validate();
         }
 
+    }
+
+    public void propertyChange(PropertyChangeEvent evt) {
+        if (evt.getPropertyName().equalsIgnoreCase("datasetNodeChenged")){
+            dobj.setModified(true);
+        }
     }
 
     private class ObjectSelectProvider implements SelectProvider {

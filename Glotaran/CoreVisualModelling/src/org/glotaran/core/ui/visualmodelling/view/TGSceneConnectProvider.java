@@ -53,8 +53,8 @@ public class TGSceneConnectProvider implements ConnectProvider {
 
     public ConnectorState isTargetWidget(Widget sourceWidget, Widget targetWidget) {
         target = scene.findObject(targetWidget);
-        if (targetWidget instanceof DatasetContainerWidget){
-            if (!((DatasetContainerWidget) targetWidget).isConnected()) {
+//        if (targetWidget instanceof DatasetContainerWidget){
+//            if (!((DatasetContainerWidget) targetWidget).isConnected()) {
                 if (scene.isNode(target)) {
                     if (target instanceof GtaDatasetContainer && source instanceof GtaModelReference) {
                         return ConnectorState.ACCEPT;// : ConnectorState.REJECT_AND_STOP;
@@ -62,8 +62,8 @@ public class TGSceneConnectProvider implements ConnectProvider {
                         return ConnectorState.REJECT_AND_STOP;
                     }
                 }
-             }
-        }
+//             }
+//        }
         return target != null ? ConnectorState.REJECT_AND_STOP : ConnectorState.REJECT;
     }
 
@@ -76,7 +76,6 @@ public class TGSceneConnectProvider implements ConnectProvider {
     }
 
     public void createConnection(Widget sourceWidget, Widget targetWidget) {
-
         GraphSceneImpl localScene = (GraphSceneImpl) sourceWidget.getScene();
         GtaProjectScheme gpc = localScene.getDobj().getProgectScheme();
         Object sourceObject = localScene.findObject(sourceWidget);

@@ -27,6 +27,7 @@ import org.netbeans.api.visual.widget.Widget;
 
 import java.awt.*;
 import org.glotaran.core.models.gta.GtaConnection;
+import org.glotaran.core.ui.visualmodelling.widgets.DatasetContainerWidget;
 
 /**
  *
@@ -38,14 +39,20 @@ public class TGSceneReconnectProvider implements ReconnectProvider {
     private Object originalNode;
     private Object replacementNode;
     
-    private GraphScene scene;
+    private GraphSceneImpl scene;
     
-    public TGSceneReconnectProvider(GraphScene scene){
+    public TGSceneReconnectProvider(GraphSceneImpl scene){
         this.scene=scene;
     }
     
     
     public void reconnectingStarted(ConnectionWidget connectionWidget, boolean reconnectingSource) {
+        if (!reconnectingSource){
+            Widget widget = scene.findWidget(scene.getNodeForID(((GtaConnection)scene.findObject(connectionWidget)).getDatasetContainerID()));
+            if (widget instanceof DatasetContainerWidget){
+                ((DatasetContainerWidget)widget).setConnected(false);
+            }
+        }
     }
     
     public void reconnectingFinished(ConnectionWidget connectionWidget, boolean reconnectingSource) {
@@ -84,10 +91,11 @@ public class TGSceneReconnectProvider implements ReconnectProvider {
     public void reconnect(ConnectionWidget connectionWidget, Widget replacementWidget, boolean reconnectingSource) {
         if (replacementWidget == null)
             scene.removeEdge(edge);
-        else if (reconnectingSource)
+        else if (reconnectingSource) {
             scene.setEdgeSource(edge, replacementNode);
-        else
+        } else {
             scene.setEdgeTarget(edge, replacementNode);
+        }
         scene.validate();
     }
     

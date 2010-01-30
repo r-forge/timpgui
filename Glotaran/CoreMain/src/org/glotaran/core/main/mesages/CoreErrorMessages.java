@@ -146,5 +146,15 @@ public class CoreErrorMessages {
         DialogDisplayer.getDefault().notify(errorMessage);
     }
 
+    public static void containerConnected(String container, String model){
+        NotifyDescriptor errorMessage =new NotifyDescriptor.Exception(
+                new Exception(NbBundle.getBundle("org/glotaran/core/main/Bundle").getString("datasetContainer")+
+                container+" "+
+                NbBundle.getBundle("org/glotaran/core/main/Bundle").getString("datasetContainerConnected")+
+                " "+model));
+        DialogDisplayer.getDefault().notify(errorMessage);
+    }
+
+
 
 }

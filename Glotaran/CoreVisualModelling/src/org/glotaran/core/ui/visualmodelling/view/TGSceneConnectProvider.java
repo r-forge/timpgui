@@ -19,6 +19,7 @@
 package org.glotaran.core.ui.visualmodelling.view;
 
 import java.awt.Point;
+import org.glotaran.core.main.mesages.CoreErrorMessages;
 import org.glotaran.core.models.gta.GtaConnection;
 import org.glotaran.core.models.gta.GtaDatasetContainer;
 import org.glotaran.core.models.gta.GtaModelReference;
@@ -88,14 +89,19 @@ public class TGSceneConnectProvider implements ConnectProvider {
             if (connection != null) {
                 if (connection.getModelID().equalsIgnoreCase(sourceId) && connection.getDatasetContainerID().equalsIgnoreCase(targetId)) {
                     //gpc.getConnection().remove(connection);
-                    connection.setActive(true);
-                    scene.addEdge(connection);
-                    scene.setEdgeSource(connection, source);
-                    scene.setEdgeTarget(connection, target);
-                    if (targetWidget instanceof DatasetContainerWidget){
-                        ((DatasetContainerWidget)targetWidget).setConnected(true);
+                    if (targetWidget.getParentWidget() instanceof DatasetContainerWidget) {
+                        if (!((DatasetContainerWidget) targetWidget.getParentWidget()).isConnected()) {
+                            connection.setActive(true);
+                            scene.addEdge(connection);
+                            scene.setEdgeSource(connection, source);
+                            scene.setEdgeTarget(connection, target);
+                            ((DatasetContainerWidget) targetWidget.getParentWidget()).setConnected(true);
+                            scene.validate();
+                        }
+                        else {
+                            CoreErrorMessages.containerConnected(targetId, sourceId);
+                        }
                     }
-                    scene.validate();
                     return;
                 }
             }

@@ -132,7 +132,7 @@ final public class VisualModellingTopComponent extends CloneableTopComponent imp
 
     @Override
     public int getPersistenceType() {
-        return TopComponent.PERSISTENCE_ONLY_OPENED;
+        return TopComponent.PERSISTENCE_NEVER;//  PERSISTENCE_ONLY_OPENED;
     }
 
     @Override
@@ -193,7 +193,7 @@ final public class VisualModellingTopComponent extends CloneableTopComponent imp
         }
         if (addedObject instanceof GtaConnection){
             if (!dobj.getProgectScheme().getConnection().contains((GtaConnection)addedObject)) {
-            dobj.getProgectScheme().getConnection().add((GtaConnection)addedObject);
+                dobj.getProgectScheme().getConnection().add((GtaConnection)addedObject);
             }
         }
         dobj.getProgectScheme().setCounter(String.valueOf(((GraphSceneImpl)event.getObjectScene()).getNodeCount()));
@@ -223,7 +223,7 @@ final public class VisualModellingTopComponent extends CloneableTopComponent imp
             }
         }
         if (removedObject instanceof GtaConnection){
-
+            
         }
         dobj.setModified(true);
     }

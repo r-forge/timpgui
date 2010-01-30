@@ -24,7 +24,6 @@ import org.glotaran.core.models.gta.GtaProjectScheme;
 import org.glotaran.core.ui.visualmodelling.filesupport.GtaDataObject;
 import org.glotaran.core.ui.visualmodelling.menu.SceneMainMenu;
 import org.glotaran.core.ui.visualmodelling.menu.EdgeMenu;
-import org.glotaran.core.ui.visualmodelling.menu.NodeMenu;
 import org.netbeans.api.visual.action.ActionFactory;
 import org.netbeans.api.visual.action.SelectProvider;
 import org.netbeans.api.visual.action.WidgetAction;
@@ -60,10 +59,7 @@ import org.glotaran.core.ui.visualmodelling.widgets.DatasetContainerWidget;
 import org.glotaran.core.ui.visualmodelling.widgets.ModelContainerWidget;
 import org.glotaran.tgmfilesupport.TgmDataObject;
 import org.netbeans.api.project.ui.OpenProjects;
-import org.netbeans.api.visual.border.BorderFactory;
-import org.netbeans.api.visual.layout.LayoutFactory;
 import org.netbeans.api.visual.widget.ComponentWidget;
-import org.netbeans.api.visual.widget.LabelWidget;
 import org.openide.filesystems.FileUtil;
 import org.openide.loaders.DataObject;
 import org.openide.nodes.Index;
@@ -179,8 +175,6 @@ public class GraphSceneImpl extends GraphScene implements PropertyChangeListener
             cw = new ModelContainerWidget(this, new ModelContainer(tgmDObj), modelRef.getFilename());
             cw.getActions();
             mainLayer.addChild(cw);
-//            dobj.getProgectScheme().getModel().add(modelRef);
-//            dobj.setModified(true);
         }
         if (node instanceof GtaDatasetContainer) {
             GtaDatasetContainer myNode = (GtaDatasetContainer) node;
@@ -236,7 +230,7 @@ public class GraphSceneImpl extends GraphScene implements PropertyChangeListener
             nodeCount=0;
         }
 
-        //TODO: get datasetContainer and add nodes
+        //get datasetContainer and add nodes
         for (GtaDatasetContainer container : gtaScheme.getDatasetContainer()) {
             widget = addNode(container);
             location = new Point((int) Math.floor(container.getLayout().getXposition()), (int) Math.floor(container.getLayout().getYposition()));
@@ -299,15 +293,15 @@ public class GraphSceneImpl extends GraphScene implements PropertyChangeListener
         }
 
         for (GtaConnection connection : gtaScheme.getConnection()) {
-            //TODO: implement this
-            Object sourceNode = getNodeForID(connection.getModelID());
-            Object targetNode = getNodeForID(connection.getDatasetContainerID());
-            addEdge(connection);
-            setEdgeSource(connection, sourceNode);
-            setEdgeTarget(connection, targetNode);
-            validate();
+            if (connection.isActive()){
+                Object sourceNode = getNodeForID(connection.getModelID());
+                Object targetNode = getNodeForID(connection.getDatasetContainerID());
+                addEdge(connection);
+                setEdgeSource(connection, sourceNode);
+                setEdgeTarget(connection, targetNode);
+                validate();
+            }
         }
-
     }
 
     public void propertyChange(PropertyChangeEvent evt) {

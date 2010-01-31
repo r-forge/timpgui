@@ -26,7 +26,10 @@ import org.netbeans.api.visual.widget.Scene;
 import org.netbeans.api.visual.widget.Widget;
 
 import java.awt.*;
+import org.glotaran.core.main.mesages.CoreErrorMessages;
 import org.glotaran.core.models.gta.GtaConnection;
+import org.glotaran.core.models.gta.GtaDatasetContainer;
+import org.glotaran.core.models.gta.GtaModelReference;
 import org.glotaran.core.ui.visualmodelling.widgets.DatasetContainerWidget;
 
 /**
@@ -56,6 +59,7 @@ public class TGSceneReconnectProvider implements ReconnectProvider {
     }
     
     public void reconnectingFinished(ConnectionWidget connectionWidget, boolean reconnectingSource) {
+
     }
     
     public boolean isSourceReconnectable(ConnectionWidget connectionWidget) {
@@ -75,9 +79,15 @@ public class TGSceneReconnectProvider implements ReconnectProvider {
     public ConnectorState isReplacementWidget(ConnectionWidget connectionWidget, Widget replacementWidget, boolean reconnectingSource) {
         Object object = scene.findObject(replacementWidget);
         replacementNode = scene.isNode(object) ? (Object) object : null;
-        if (replacementNode != null)
-            return ConnectorState.ACCEPT;
-        return object != null ? ConnectorState.REJECT_AND_STOP : ConnectorState.REJECT;
+        if (reconnectingSource){
+            return (object!= null && object instanceof GtaModelReference) ?
+                ConnectorState.ACCEPT : ConnectorState.REJECT_AND_STOP;
+        }
+        else {
+            return (object!= null && object instanceof GtaDatasetContainer) ?
+                ConnectorState.ACCEPT : ConnectorState.REJECT_AND_STOP;
+        }
+//        return object != null ? ConnectorState.REJECT_AND_STOP : ConnectorState.REJECT;
     }
     
     public boolean hasCustomReplacementWidgetResolver(Scene scene) {
@@ -94,9 +104,20 @@ public class TGSceneReconnectProvider implements ReconnectProvider {
         else if (reconnectingSource) {
             scene.setEdgeSource(edge, replacementNode);
         } else {
-            scene.setEdgeTarget(edge, replacementNode);
+            if (replacementWidget.getParentWidget() instanceof DatasetContainerWidget) {
+                if (!((DatasetContainerWidget) replacementWidget.getParentWidget()).isConnected()) {
+                    ((DatasetContainerWidget) replacementWidget.getParentWidget()).setConnected(true);
+                    scene.setEdgeTarget(edge, replacementNode);
+                }
+                else {
+                    CoreErrorMessages.containerConnected("","");
+//                    todo for sucsess
+                }
+            }
         }
         scene.validate();
     }
+
+
     
 }

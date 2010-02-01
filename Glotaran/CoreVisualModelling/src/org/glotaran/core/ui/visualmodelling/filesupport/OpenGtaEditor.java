@@ -17,7 +17,6 @@ public final class OpenGtaEditor implements ActionListener {
     }
 
     public void actionPerformed(ActionEvent ev) {
-        // TODO use context
-        ((GtaOpenSupport)context.getCookie(OpenCookie.class)).createCloneableTopComponent().open();
+        ((GtaOpenSupport)context.getCookie(OpenCookie.class)).view();        
     }
 }

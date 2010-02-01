@@ -18,13 +18,12 @@
         <folder name="text">
             <folder name="gta+xml">
                 <folder name="Actions">
-                    <file name="org-glotaran-core-ui-visualmodelling-filesupport-OpenGtaEditor-separatorAfter.instance">
-                        <attr name="instanceClass" stringvalue="javax.swing.JSeparator"/>
-                        <attr name="position" intvalue="-50"/>
+                    <file name="org-openide-actions-OpenAction.instance">
+                        <attr name="position" intvalue="100"/>
                     </file>
                     <file name="org-glotaran-core-ui-visualmodelling-filesupport-OpenGtaEditor.shadow">
                         <attr name="originalFile" stringvalue="Actions/Build/org-glotaran-core-ui-visualmodelling-filesupport-OpenGtaEditor.instance"/>
-                        <attr name="position" intvalue="-100"/>
+                        <attr name="position" intvalue="200"/>
                     </file>
                     <file name="org-openide-actions-CopyAction.instance">
                         <attr name="position" intvalue="400"/>

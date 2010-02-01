@@ -306,7 +306,7 @@ public class GraphSceneImpl extends GraphScene implements PropertyChangeListener
     }
 
     public void propertyChange(PropertyChangeEvent evt) {
-        if (evt.getPropertyName().equalsIgnoreCase("datasetNodeChenged")){
+        if (evt.getPropertyName().equalsIgnoreCase("datasetNodeChanged")){
             dobj.setModified(true);
         }
     }

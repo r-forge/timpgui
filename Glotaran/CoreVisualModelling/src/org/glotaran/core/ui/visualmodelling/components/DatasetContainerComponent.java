@@ -20,8 +20,11 @@ import javax.swing.JPanel;
 import javax.swing.KeyStroke;
 import org.glotaran.core.models.gta.GtaDataset;
 import org.glotaran.core.models.gta.GtaDatasetContainer;
+import org.glotaran.core.models.gta.GtaModelDifferences;
+import org.glotaran.core.models.tgm.Tgm;
 import org.glotaran.core.ui.visualmodelling.nodes.DatasetComponentNode;
 import org.glotaran.core.ui.visualmodelling.nodes.DatasetsRootNode;
+import org.glotaran.core.ui.visualmodelling.widgets.DatasetContainerWidget;
 import org.openide.explorer.ExplorerManager;
 import org.openide.explorer.ExplorerUtils;
 import org.openide.nodes.Index;
@@ -43,9 +46,10 @@ public class DatasetContainerComponent
 
     private ExplorerManager manager = new ExplorerManager();
     private DatasetSpecificationView datasetView  = new DatasetSpecificationView();
-//    private DatasetNodeContainer container = new DatasetNodeContainer();
     private Lookup lookup;
     private GtaDatasetContainer datasetContainer;
+    private Tgm connectedModel = null;
+    private GtaModelDifferences modelDifferences = null;
 
     /** Creates new form DatasetContainerComponent */
     public DatasetContainerComponent() {
@@ -239,22 +243,42 @@ public class DatasetContainerComponent
         return lookup;
     }
 
+    public Tgm getConnectedModel() {
+        return connectedModel;
+    }
+
+    public void setConnectedModel(Tgm connectedModel) {
+        this.connectedModel = connectedModel;
+    }
+
     public void propertyChange(PropertyChangeEvent evt) {
         if (evt.getSource() == manager &&
                 ExplorerManager.PROP_SELECTED_NODES.equals(evt.getPropertyName())) {
             WindowManager.getDefault().getRegistry().getActivated().setActivatedNodes(manager.getSelectedNodes());
         }
+
         if (evt.getSource().getClass().equals(DatasetsRootNode.class)){
             if (evt.getPropertyName().equals("datasetAdded")){
                 datasetContainer.getDatasets().add((GtaDataset)evt.getNewValue());
             }
-            firePropertyChange("datasetNodeChenged", null, null);
+            firePropertyChange("datasetNodeChanged", null, null);
         }
+
         if (evt.getSource().getClass().equals(DatasetComponentNode.class)){
             if (evt.getPropertyName().equalsIgnoreCase("mainNodeDeleted")){
                 datasetContainer.getDatasets().remove((GtaDataset)evt.getNewValue());
             }
-            firePropertyChange("datasetNodeChenged", null, null);
+            firePropertyChange("datasetNodeChanged", null, null);
         }
+
+        if (evt.getSource().getClass().equals(DatasetContainerWidget.class)){
+            if (evt.getPropertyName().equalsIgnoreCase("connectionChange")){
+                connectedModel = (Tgm) evt.getOldValue();
+                modelDifferences = (GtaModelDifferences) evt.getNewValue();
+            }
+//            firePropertyChange("datasetNodeChenged", null, null);
+        }
+
+
     }
 }

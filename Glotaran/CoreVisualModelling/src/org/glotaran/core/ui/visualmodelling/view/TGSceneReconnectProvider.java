@@ -110,8 +110,8 @@ public class TGSceneReconnectProvider implements ReconnectProvider {
                     scene.setEdgeTarget(edge, replacementNode);
                 }
                 else {
+                    ((DatasetContainerWidget)scene.findWidget(scene.getNodeForID(edge.getDatasetContainerID()))).setConnected(true);
                     CoreErrorMessages.containerConnected("","");
-//                    todo for sucsess
                 }
             }
         }

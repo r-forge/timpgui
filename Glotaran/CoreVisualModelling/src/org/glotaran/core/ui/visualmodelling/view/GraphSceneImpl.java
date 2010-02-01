@@ -299,6 +299,7 @@ public class GraphSceneImpl extends GraphScene implements PropertyChangeListener
                 addEdge(connection);
                 setEdgeSource(connection, sourceNode);
                 setEdgeTarget(connection, targetNode);
+                ((DatasetContainerWidget) findWidget(targetNode)).setConnected(true);
                 validate();
             }
         }

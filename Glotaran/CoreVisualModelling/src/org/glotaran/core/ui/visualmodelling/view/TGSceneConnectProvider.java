@@ -22,6 +22,8 @@ import java.awt.Point;
 import org.glotaran.core.main.mesages.CoreErrorMessages;
 import org.glotaran.core.models.gta.GtaConnection;
 import org.glotaran.core.models.gta.GtaDatasetContainer;
+import org.glotaran.core.models.gta.GtaModelDiffDO;
+import org.glotaran.core.models.gta.GtaModelDifferences;
 import org.glotaran.core.models.gta.GtaModelReference;
 import org.glotaran.core.models.gta.GtaProjectScheme;
 import org.glotaran.core.ui.visualmodelling.widgets.DatasetContainerWidget;

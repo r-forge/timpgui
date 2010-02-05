@@ -132,12 +132,14 @@
                 </dependency>
             </module-dependencies>
             <public-packages>
+                <package>org.glotaran.core.main.cookies</package>
                 <package>org.glotaran.core.main.interfaces</package>
                 <package>org.glotaran.core.main.mesages</package>
                 <package>org.glotaran.core.main.nodes</package>
                 <package>org.glotaran.core.main.nodes.dataobjects</package>
                 <package>org.glotaran.core.main.project</package>
                 <package>org.glotaran.core.main.resources</package>
+                <package>org.glotaran.core.main.services</package>
                 <package>org.glotaran.core.main.structures</package>
             </public-packages>
         </data>

@@ -17,6 +17,7 @@ public final class OpenGtaEditor implements ActionListener {
     }
 
     public void actionPerformed(ActionEvent ev) {
-        ((GtaOpenSupport)context.getCookie(OpenCookie.class)).view();        
+        ((GtaOpenSupport)context.getCookie(OpenCookie.class)).view();
+        //((GtaAnalysisSupport)context.getCookie(AnalysisCookie.class)).doAnalysis();
     }
 }

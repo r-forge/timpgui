@@ -6,6 +6,7 @@ package org.glotaran.core.ui.visualmodelling.filesupport;
 
 import java.awt.Image;
 import java.io.IOException;
+import org.glotaran.core.main.cookies.AnalysisCookie;
 import org.glotaran.core.main.mesages.CoreErrorMessages;
 import org.glotaran.core.models.gta.GtaProjectScheme;
 import org.openide.cookies.SaveCookie;
@@ -21,7 +22,7 @@ import org.openide.nodes.Children;
 import org.openide.util.ImageUtilities;
 import org.openide.util.Lookup;
 
-public class GtaDataObject extends MultiDataObject implements SaveCookie{
+public class GtaDataObject extends MultiDataObject implements SaveCookie {
     private GtaProjectScheme gtaScheme;
 
     private final Image ICON = ImageUtilities.loadImage("org/glotaran/core/ui/visualmodelling/resources/schema-icon.png", true);
@@ -30,7 +31,7 @@ public class GtaDataObject extends MultiDataObject implements SaveCookie{
         CookieSet cookies = getCookieSet();
         //cookies.add((Node.Cookie) DataEditorSupport.create(this, getPrimaryEntry(), cookies));
         cookies.add((Node.Cookie) new GtaOpenSupport(getPrimaryEntry()));
-
+        cookies.add((Node.Cookie) new GtaAnalysisSupport(getPrimaryEntry()));
     }
 
     @Override

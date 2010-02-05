@@ -46,10 +46,6 @@
                     <file name="org-openide-actions-ToolsAction.instance">
                         <attr name="position" intvalue="1300"/>
                     </file>
-                     <file name="org-glotaran-core-ui-visualmodelling-filesupport-OpenGtaEditor.shadow">
-                        <attr name="originalFile" stringvalue="Actions/Build/org-glotaran-core-ui-visualmodelling-filesupport-OpenGtaEditor.instance"/>
-                        <attr name="position" intvalue="0"/>
-                    </file>
                 </folder>
                 <folder name="Factories">
                     <file name="GtaDataLoader.instance">

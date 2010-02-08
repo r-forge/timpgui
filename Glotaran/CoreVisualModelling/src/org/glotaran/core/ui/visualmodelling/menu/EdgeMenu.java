@@ -91,6 +91,7 @@ public class EdgeMenu implements PopupMenuProvider, ActionListener {
             Widget widget = scene.findWidget(scene.getNodeForID(((GtaConnection)scene.findObject (edge)).getDatasetContainerID()));
             if (widget instanceof DatasetContainerWidget){
                 ((DatasetContainerWidget)widget).setConnected(false);
+                ((DatasetContainerWidget)widget).getContainerComponent().setConnectedModel(null);
             }
             scene.removeEdge ((GtaConnection) scene.findObject (edge));
         }

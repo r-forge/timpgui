@@ -20,10 +20,12 @@ import javax.swing.JPanel;
 import javax.swing.KeyStroke;
 import org.glotaran.core.models.gta.GtaDataset;
 import org.glotaran.core.models.gta.GtaDatasetContainer;
+import org.glotaran.core.models.gta.GtaModelDiffDO;
 import org.glotaran.core.models.gta.GtaModelDifferences;
 import org.glotaran.core.models.tgm.Tgm;
 import org.glotaran.core.ui.visualmodelling.nodes.DatasetComponentNode;
 import org.glotaran.core.ui.visualmodelling.nodes.DatasetsRootNode;
+import org.glotaran.core.ui.visualmodelling.nodes.ModelDiffsNode;
 import org.glotaran.core.ui.visualmodelling.widgets.DatasetContainerWidget;
 import org.openide.explorer.ExplorerManager;
 import org.openide.explorer.ExplorerUtils;
@@ -65,7 +67,7 @@ public class DatasetContainerComponent
         InputMap keys = getInputMap(JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
         keys.put(KeyStroke.getKeyStroke("DELETE"), "delete");
         lookup = ExplorerUtils.createLookup(manager, map);
-        manager.setRootContext(new DatasetsRootNode(new Index.ArrayChildren()));
+        manager.setRootContext(new DatasetsRootNode(new Index.ArrayChildren(), this));
         manager.addPropertyChangeListener(this);
     }
 
@@ -247,6 +249,10 @@ public class DatasetContainerComponent
         return connectedModel;
     }
 
+    public boolean isConnected(){
+        return connectedModel == null ? false : true;
+    }
+
     public void setConnectedModel(Tgm connectedModel) {
         this.connectedModel = connectedModel;
     }
@@ -276,9 +282,38 @@ public class DatasetContainerComponent
                 connectedModel = (Tgm) evt.getOldValue();
                 modelDifferences = (GtaModelDifferences) evt.getNewValue();
             }
-//            firePropertyChange("datasetNodeChenged", null, null);
+            firePropertyChange("datasetNodeChenged", null, null);
         }
 
+        if (evt.getSource().getClass().equals(DatasetComponentNode.class)){
+            firePropertyChange("datasetNodeChenged", null, null);
+        }
 
+        if (evt.getSource().getClass().equals(ModelDiffsNode.class)){
+            if (evt.getPropertyName().equalsIgnoreCase("mainNodeDeleted")){
+                if (evt.getOldValue().equals("FreeParameter")){
+                    if (modelDifferences.getFree()!=null){
+                        modelDifferences.getFree().clear();
+                    }
+                }
+                if (evt.getOldValue().equals("ChangeParameter")) {
+                    if (modelDifferences.getChanges()!=null){
+                        modelDifferences.getChanges().clear();
+                    }
+                }
+                if (evt.getOldValue().equals("AddParameter")) {
+                    if (modelDifferences.getAdd()!=null){
+                        modelDifferences.getAdd().clear();
+                    }
+                }
+                if (evt.getOldValue().equals("RemoveParameter")) {
+                    if (modelDifferences.getRemove()!=null){
+                        modelDifferences.getRemove().clear();
+                    }
+                }
+            }
+
+            firePropertyChange("datasetNodeChenged", null, null);
+        }
     }
 }

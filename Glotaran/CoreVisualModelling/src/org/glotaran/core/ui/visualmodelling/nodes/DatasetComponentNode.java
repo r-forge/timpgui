@@ -11,12 +11,13 @@ import java.awt.datatransfer.Transferable;
 import java.awt.datatransfer.UnsupportedFlavorException;
 import java.beans.PropertyChangeListener;
 import java.io.IOException;
+import org.glotaran.core.main.mesages.CoreErrorMessages;
 import org.glotaran.core.main.nodes.TimpDatasetNode;
 import org.glotaran.core.models.gta.GtaDataset;
+import org.glotaran.core.models.gta.GtaModelDiffDO;
 import org.glotaran.core.ui.visualmodelling.palette.PaletteItem;
 import org.glotaran.core.ui.visualmodelling.palette.PaletteNode;
 import org.openide.nodes.Children;
-import org.openide.nodes.Index.ArrayChildren;
 import org.openide.nodes.Node;
 import org.openide.nodes.Sheet;
 import org.openide.util.Exceptions;
@@ -32,8 +33,8 @@ public class DatasetComponentNode extends PropertiesAbstractNode implements Tran
 
     private final Image ICON = ImageUtilities.loadImage("org/glotaran/core/main/resources/doc.png", true);
     public static final DataFlavor DATA_FLAVOR = new DataFlavor(DatasetComponentNode.class, "DatasetComponentNode");
-
     private TimpDatasetNode tdn;
+    PropertyChangeListener propListner;
 
     public DatasetComponentNode(String name, Children children) {
         super(name, children);
@@ -43,16 +44,19 @@ public class DatasetComponentNode extends PropertiesAbstractNode implements Tran
     public DatasetComponentNode(TimpDatasetNode tdn, Children children, PropertyChangeListener propListn) {
         super(tdn.getDisplayName(), children);
         this.tdn = tdn;
+        this.propListner = propListn;
         Sheet sheet = Sheet.createDefault();
         Sheet.Set set = Sheet.createPropertiesSet();
         set.put(tdn.getPropertySets()[0].getProperties());
         sheet.put(set);
         setSheet(sheet);
+        addPropertyChangeListener(propListn);
     }
 
     public DatasetComponentNode(TimpDatasetNode tdn, Children children, Lookup lookup, PropertyChangeListener propListn) {
         super(tdn.getDisplayName(), children, lookup);
         this.tdn = tdn;
+        this.propListner = propListn;
         Sheet sheet = Sheet.createDefault();
         Sheet.Set set = Sheet.createPropertiesSet();
         set.put(tdn.getPropertySets()[0].getProperties());
@@ -89,17 +93,26 @@ public class DatasetComponentNode extends PropertiesAbstractNode implements Tran
                 return new PasteType() {
                     @Override
                     public Transferable paste() throws IOException {
-                        if (pi.getName().equals("FreeParam")){
-                            getChildren().add(new Node[]{new ModelDiffsNode("FreeParameter")});
+                        if (isConnected()){
+                            if (pi.getName().equals("FreeParam")){
+                                getChildren().add(new Node[]{new ModelDiffsNode("FreeParameter",propListner, getdatasetIndex())});
+                                return null;
+                            }
+                            if (pi.getName().equals("ChangeParam")){
+                                getChildren().add(new Node[]{new ModelDiffsNode("ChangeParameter",propListner, getdatasetIndex())});
+                                return null;
+                            }
+                            if (pi.getName().equals("AddParam")){
+                                getChildren().add(new Node[]{new ModelDiffsNode("AddParameter",propListner, getdatasetIndex())});
+                                return null;
+                            }
+                            if (pi.getName().equals("RemoveParam")){
+                                getChildren().add(new Node[]{new ModelDiffsNode("RemoveParameter",propListner, getdatasetIndex())});
+                                return null;
+                            }
                         }
-                        if (pi.getName().equals("ChangeParam")){
-                            getChildren().add(new Node[]{new ModelDiffsNode("ChangeParameter")});
-                        }
-                        if (pi.getName().equals("AddParam")){
-                            getChildren().add(new Node[]{new ModelDiffsNode("AddParameter")});
-                        }
-                        if (pi.getName().equals("RemoveParam")){
-                            getChildren().add(new Node[]{new ModelDiffsNode("RemoveParameter")});
+                        else {
+                            CoreErrorMessages.containerNotConnected();
                         }
                         return null;
                     }
@@ -143,4 +156,16 @@ public class DatasetComponentNode extends PropertiesAbstractNode implements Tran
         super.destroy();
     }
 
+    private boolean isConnected(){
+        return ((DatasetsRootNode)getParentNode()).getContainerComponent().isConnected();
+    }
+
+    private int getdatasetIndex(){
+        for (int i = 0; i < getParentNode().getChildren().getNodesCount(); i++){
+            if (getParentNode().getChildren().getNodes()[i].equals(this)){
+                return i+1;
+            }
+        }
+        return 1;
+    }
 }

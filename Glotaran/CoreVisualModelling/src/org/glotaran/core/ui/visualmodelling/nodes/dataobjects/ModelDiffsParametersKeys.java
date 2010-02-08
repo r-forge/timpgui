@@ -54,7 +54,7 @@ public class ModelDiffsParametersKeys  extends Children.Keys{
         setKeys(parameters);
     }
 
-    public void removeParams(int num){
+    public void removeParams(int num, int datasetInd, String type){
 //remove num last components
         if (parameters!=null){
             if (parameters.size()<num){
@@ -69,7 +69,7 @@ public class ModelDiffsParametersKeys  extends Children.Keys{
         setKeys(parameters);
     }
 
-    public void addDefaultObj(int numObj){
+    public void addDefaultObj(int numObj, int datasetInd, String type){
         if (parameters!=null){
             for (int i = 0; i<numObj; i++){
                 parameters.add(new ModelDiffsDO());

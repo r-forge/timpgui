@@ -7,11 +7,13 @@ package org.glotaran.core.ui.visualmodelling.nodes;
 
 import java.awt.Image;
 import java.beans.PropertyChangeListener;
+import java.io.IOException;
 import org.glotaran.core.ui.visualmodelling.nodes.dataobjects.ModelDiffsParametersKeys;
 import org.openide.nodes.PropertySupport;
 import org.openide.nodes.Sheet;
 import org.openide.util.Exceptions;
 import org.openide.util.ImageUtilities;
+import org.openide.util.WeakListeners;
 
 /**
  *
@@ -22,12 +24,14 @@ public class ModelDiffsNode  extends PropertiesAbstractNode{
     private final Image CHANGE_ICON = ImageUtilities.loadImage("org/glotaran/core/ui/visualmodelling/resources/ChageParam_16.png", true);
     private final Image ADD_ICON = ImageUtilities.loadImage("org/glotaran/core/ui/visualmodelling/resources/AddParam_16.png", true);
     private final Image REMOVE_ICON = ImageUtilities.loadImage("org/glotaran/core/ui/visualmodelling/resources/RemoveParam_16.png", true);
-    PropertyChangeListener propListner;
+    private PropertyChangeListener propListner;
+    private int datasetIndex;
 
-    public ModelDiffsNode(String type){
-        super(type, new ModelDiffsParametersKeys(1));
-//        propListner = listn;
-//        addPropertyChangeListener(WeakListeners.propertyChange(propListner, this));
+    public ModelDiffsNode(String type, PropertyChangeListener listn , int datasetInd){
+        super(type, new ModelDiffsParametersKeys(0));
+        propListner = listn;
+        datasetIndex = datasetInd;
+        addPropertyChangeListener(WeakListeners.propertyChange(propListner, this));
     }
 
     @Override
@@ -88,12 +92,20 @@ public class ModelDiffsNode  extends PropertiesAbstractNode{
         ModelDiffsParametersKeys childColection = (ModelDiffsParametersKeys)getChildren();
         int currCompNum = childColection.getNodesCount();
         if (currCompNum < compNum){
-            childColection.addDefaultObj(compNum-currCompNum);
+            childColection.addDefaultObj(compNum-currCompNum, datasetIndex, super.getDisplayName());
         } else {
-            childColection.removeParams(currCompNum-compNum);
+            childColection.removeParams(currCompNum-compNum, datasetIndex, super.getDisplayName());
         }
         fireDisplayNameChange(null, getDisplayName());
 //        firePropertyChange("Number of components", new Integer(currCompNum), compNum);
     }
+
+    @Override
+    public void destroy() throws IOException {
+        super.destroyNode();
+        firePropertyChange("mainNodeDeleted", super.getDisplayName(), null);
+    }
+
+
     
 }

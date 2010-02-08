@@ -11,6 +11,7 @@ import java.beans.PropertyChangeListener;
 import java.io.IOException;
 import org.glotaran.core.main.nodes.TimpDatasetNode;
 import org.glotaran.core.models.gta.GtaDataset;
+import org.glotaran.core.ui.visualmodelling.components.DatasetContainerComponent;
 import org.netbeans.api.project.ui.OpenProjects;
 import org.openide.filesystems.FileObject;
 import org.openide.filesystems.FileUtil;
@@ -27,15 +28,17 @@ import org.openide.util.lookup.Lookups;
  * @author slapten
  */
 public class DatasetsRootNode extends AbstractNode{
-    private PropertyChangeListener propListn;
     public DatasetsRootNode(Children children){
         super(children);
     }
 
-    public DatasetsRootNode(Children children, PropertyChangeListener listn){
-        super(children);
-        addPropertyChangeListener(listn);
-        propListn = listn;
+    public DatasetsRootNode(Children children, DatasetContainerComponent comp){
+        super(children, Lookups.singleton(comp));
+        addPropertyChangeListener(comp);
+    }
+
+    public DatasetContainerComponent getContainerComponent(){
+        return getLookup().lookup(DatasetContainerComponent.class);
     }
 
     private GtaDataset createDatasetRef(TimpDatasetNode tdsNode){
@@ -43,6 +46,7 @@ public class DatasetsRootNode extends AbstractNode{
         GtaDataset gtaDataset = new GtaDataset();
         gtaDataset.setPath(FileUtil.getRelativePath(OpenProjects.getDefault().getMainProject().getProjectDirectory(), fo));
         gtaDataset.setFilename(fo.getName());
+
         return gtaDataset;
     }
 
@@ -55,13 +59,13 @@ public class DatasetsRootNode extends AbstractNode{
                     try {
                         TimpDatasetNode timpDataNode = (TimpDatasetNode)t.getTransferData(TimpDatasetNode.DATA_FLAVOR);
                         GtaDataset addedDataset = createDatasetRef(timpDataNode);
-
                         getChildren().add(new Node[]{
                             new DatasetComponentNode(
                                     timpDataNode,
                                     new Index.ArrayChildren(),
                                     Lookups.singleton(addedDataset),
-                                    propListn)});
+                                    getContainerComponent())});
+                        
                         firePropertyChange("datasetAdded", null, addedDataset);
                     } catch (UnsupportedFlavorException exption) {
                         Exceptions.printStackTrace(exption);

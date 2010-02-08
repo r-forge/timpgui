@@ -54,6 +54,7 @@ public class TGSceneReconnectProvider implements ReconnectProvider {
             Widget widget = scene.findWidget(scene.getNodeForID(((GtaConnection)scene.findObject(connectionWidget)).getDatasetContainerID()));
             if (widget instanceof DatasetContainerWidget){
                 ((DatasetContainerWidget)widget).setConnected(false);
+                ((DatasetContainerWidget)widget).getContainerComponent().setConnectedModel(null);
             }
         }
     }
@@ -114,6 +115,7 @@ public class TGSceneReconnectProvider implements ReconnectProvider {
                     connection.setDatasetContainerID(((GtaDatasetContainer)replacementNode).getId());
                     scene.setEdgeTarget(edge, replacementNode);
                     scene.getDobj().setModified(true);
+                    //TODO finish implementing
                 }
                 else {
                     ((DatasetContainerWidget)scene.findWidget(scene.getNodeForID(edge.getDatasetContainerID()))).setConnected(true);

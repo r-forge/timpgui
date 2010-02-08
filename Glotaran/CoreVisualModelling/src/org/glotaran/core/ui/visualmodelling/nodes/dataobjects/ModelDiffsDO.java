@@ -31,6 +31,13 @@ public class ModelDiffsDO {
         start = null;
     }
 
+    public ModelDiffsDO(int ind){
+        what = null;
+        index = null;
+        dataset = ind;
+        start = null;
+    }
+
     public Integer getDataset() {
         return dataset;
     }

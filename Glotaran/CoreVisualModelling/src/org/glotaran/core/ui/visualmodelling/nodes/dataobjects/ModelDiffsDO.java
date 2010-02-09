@@ -70,12 +70,6 @@ public class ModelDiffsDO {
         this.what = what;
     }
 
-    //TODO: implement some XML class here
-
-    public ModelDiffsDO(Object object){
-
-    }
-
     public Double getStart() {
         return start;
     }

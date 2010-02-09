@@ -97,15 +97,17 @@ public class ModelDiffsNode  extends PropertiesAbstractNode{
             childColection.removeParams(currCompNum-compNum, datasetIndex, super.getDisplayName());
         }
         fireDisplayNameChange(null, getDisplayName());
-//        firePropertyChange("Number of components", new Integer(currCompNum), compNum);
+        firePropertyChange("Number of components", new Integer(currCompNum), compNum);
     }
 
-    @Override
-    public void destroy() throws IOException {
-        super.destroyNode();
-        firePropertyChange("mainNodeDeleted", super.getDisplayName(), null);
+//    @Override
+//    public void destroy() throws IOException {
+//        super.destroyNode();
+//        firePropertyChange("mainNodeDeleted", super.getDisplayName(), null);
+//    }
+
+    public int getDatasetIndex() {
+        return datasetIndex;
     }
-
-
     
 }

@@ -18,6 +18,7 @@ import javax.swing.InputMap;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
 import javax.swing.KeyStroke;
+import org.glotaran.core.models.gta.GtaChangesModel;
 import org.glotaran.core.models.gta.GtaDataset;
 import org.glotaran.core.models.gta.GtaDatasetContainer;
 import org.glotaran.core.models.gta.GtaModelDiffDO;
@@ -282,11 +283,12 @@ public class DatasetContainerComponent
                 connectedModel = (Tgm) evt.getOldValue();
                 modelDifferences = (GtaModelDifferences) evt.getNewValue();
             }
-            firePropertyChange("datasetNodeChenged", null, null);
+            firePropertyChange("datasetNodeChanged", null, null);
         }
 
         if (evt.getSource().getClass().equals(DatasetComponentNode.class)){
-            firePropertyChange("datasetNodeChenged", null, null);
+            
+            firePropertyChange("datasetNodeChanged", null, null);
         }
 
         if (evt.getSource().getClass().equals(ModelDiffsNode.class)){
@@ -313,7 +315,45 @@ public class DatasetContainerComponent
                 }
             }
 
-            firePropertyChange("datasetNodeChenged", null, null);
+            if (evt.getPropertyName().equalsIgnoreCase("Number of components")){
+                ModelDiffsNode sourceNode = (ModelDiffsNode)evt.getSource();
+                if ((Integer)evt.getNewValue()>(Integer)evt.getOldValue()){
+                    for (int i = 0; i < (Integer)evt.getNewValue()-(Integer)evt.getOldValue(); i++){
+                        GtaModelDiffDO newModelDiffs = new GtaModelDiffDO();
+                        newModelDiffs.setDataset(sourceNode.getDatasetIndex());
+                        if (sourceNode.getType().equals("FreeParameter")) {
+                            modelDifferences.getFree().add(newModelDiffs);
+                        }
+                        if (sourceNode.getType().equals("ChangeParameter")) {
+                            modelDifferences.getChanges().add(new GtaChangesModel());
+                        }
+                        if (sourceNode.getType().equals("AddParameter")) {
+                            modelDifferences.getAdd().add(newModelDiffs);
+                        }
+                        if (sourceNode.getType().equals("RemoveParameter")) {
+                            modelDifferences.getRemove().add(newModelDiffs);
+                        }
+                    }
+                } else {
+                    for (int i = 0; i < (Integer) evt.getOldValue() - (Integer) evt.getNewValue(); i++) {
+                        if (sourceNode.getType().equals("FreeParameter")) {
+                            modelDifferences.getFree().remove(modelDifferences.getFree().size()-1);
+                        }
+                        if (sourceNode.getType().equals("ChangeParameter")) {
+                            modelDifferences.getChanges().remove(modelDifferences.getFree().size()-1);
+                        }
+                        if (sourceNode.getType().equals("AddParameter")) {
+                            modelDifferences.getAdd().remove(modelDifferences.getFree().size()-1);
+                        }
+                        if (sourceNode.getType().equals("RemoveParameter")) {
+                            modelDifferences.getRemove().remove(modelDifferences.getFree().size()-1);
+                        }
+                    }
+                }
+            }
+
+
+            firePropertyChange("datasetNodeChanged", null, null);
         }
     }
 }

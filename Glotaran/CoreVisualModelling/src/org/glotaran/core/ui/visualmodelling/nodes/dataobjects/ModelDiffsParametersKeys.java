@@ -72,12 +72,12 @@ public class ModelDiffsParametersKeys  extends Children.Keys{
     public void addDefaultObj(int numObj, int datasetInd, String type){
         if (parameters!=null){
             for (int i = 0; i<numObj; i++){
-                parameters.add(new ModelDiffsDO());
+                parameters.add(new ModelDiffsDO(datasetInd));
             }
         } else {
             parameters = new ArrayList<ModelDiffsDO>();
             for (int i = 0; i<numObj; i++){
-                parameters.add(new ModelDiffsDO());
+                parameters.add(new ModelDiffsDO(datasetInd));
             }
         }
         setKeys(parameters);

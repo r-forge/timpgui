@@ -66,7 +66,7 @@ public class PropertiesAbstractNode extends AbstractNode {
     @Override
     public void destroy() throws IOException {
         super.destroy();
-        firePropertyChange("mainNodeDeleted", super.getDisplayName(), null);
+        firePropertyChange("mainNodeDeleted", getType(), null);
     }
 
     protected void destroyNode() throws IOException{

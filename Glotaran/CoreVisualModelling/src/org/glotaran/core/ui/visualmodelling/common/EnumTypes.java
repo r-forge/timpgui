@@ -66,7 +66,7 @@ public enum DispersionTypes {
     }
 };
 
-public static enum CohSpecTypes {
+public enum CohSpecTypes {
     IRF, FREE_IRF, IRF_MULTY, SEQ, MIXED;
     private static String[] strNames = new String[]{"Irf", "FreeIrfDisp", "IrfMulti", "Seq", "Mix"};
 

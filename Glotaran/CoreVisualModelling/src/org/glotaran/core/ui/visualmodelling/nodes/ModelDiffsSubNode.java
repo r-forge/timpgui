@@ -10,10 +10,12 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
 import java.util.Formatter;
-import org.glotaran.core.models.gta.GtaModelDiffDO;
+import org.glotaran.core.models.tgm.Tgm;
 import org.glotaran.core.ui.visualmodelling.nodes.dataobjects.ModelDiffsDO;
 import org.openide.nodes.Children;
+import org.openide.nodes.Node;
 import org.openide.nodes.PropertySupport;
 import org.openide.nodes.Sheet;
 import org.openide.util.Exceptions;
@@ -27,7 +29,12 @@ import org.openide.util.lookup.Lookups;
  */
 public class ModelDiffsSubNode extends PropertiesAbstractNode implements PropertyChangeListener{
     private final Image ICON = ImageUtilities.loadImage("org/glotaran/core/ui/visualmodelling/resources/DiffsSubnode_16.png", true);
-    //    private NonLinearParameter dataObj;
+    private String[] parameters = null;
+    private int[] paramInd = null;
+    private String[] paramValues = null;
+    private int[] paramValInd = null;
+    private Integer selectedType = new Integer(0);
+    private String[] paramNames = new String[]{"KinPar","IrfPar","ParMu","ParTau"};
 
     public ModelDiffsSubNode(ModelDiffsDO data){
         super("parameter",Children.LEAF, Lookups.singleton(data));
@@ -43,6 +50,127 @@ public class ModelDiffsSubNode extends PropertiesAbstractNode implements Propert
         return getLookup().lookup(ModelDiffsDO.class);
     }
 
+    private Tgm getConnectedModel(){
+        Node node = this;
+        while (!node.getClass().equals(DatasetsRootNode.class)){
+            node = node.getParentNode();
+        }
+        DatasetsRootNode rootNode = (DatasetsRootNode)node;
+        return rootNode.getContainerComponent().getConnectedModel();
+    }
+
+    private void getParamsFromModel(){
+        ArrayList<String> tempPar = new ArrayList<String>();
+        Tgm model = getConnectedModel();
+
+        if (!model.getDat().getKinparPanel().getKinpar().isEmpty()){
+            tempPar.add(paramNames[0]);
+        }
+        if (!model.getDat().getIrfparPanel().getIrf().isEmpty()){
+            tempPar.add(paramNames[1]);
+        }
+        if (!model.getDat().getIrfparPanel().getParmu().isEmpty()){
+            tempPar.add(paramNames[2]);
+        }
+        if (!model.getDat().getIrfparPanel().getPartau().isEmpty()){
+            tempPar.add(paramNames[3]);
+        }
+        parameters = new String[tempPar.size()];
+        paramInd = new int[tempPar.size()];
+        for (int i = 0; i < tempPar.size(); i++){
+            parameters[i] = tempPar.get(i);
+            paramInd[i] = i;
+        }
+    }
+
+    private void getParamList(){
+        Tgm model = getConnectedModel();
+        if (parameters[selectedType].equalsIgnoreCase(paramNames[0])){
+            paramValues = new String[model.getDat().getKinparPanel().getKinpar().size()];
+            paramValInd = new int[model.getDat().getKinparPanel().getKinpar().size()];
+            for (int i = 0; i < model.getDat().getKinparPanel().getKinpar().size(); i++){
+                paramValInd[i] = i;
+                paramValues[i] = "k"+(i+1)+" ("+
+                        new Formatter().format("%g",model.getDat().getKinparPanel().getKinpar().get(i).getStart()).toString()+")";
+            }
+        }
+        if (parameters[selectedType].equalsIgnoreCase(paramNames[1])){
+            paramValues = new String[model.getDat().getIrfparPanel().getIrf().size()];
+            paramValInd = new int[model.getDat().getIrfparPanel().getIrf().size()];
+            for (int i = 0; i < model.getDat().getIrfparPanel().getIrf().size(); i++){
+                paramValInd[i] = i;
+                paramValues[i] = "irf"+(i+1)+" ("+
+                        new Formatter().format("%g",model.getDat().getIrfparPanel().getIrf().get(i)).toString()+")";
+            }
+        }
+
+        if (parameters[selectedType].equalsIgnoreCase(paramNames[2])){
+//todo implement
+        }
+        if (parameters[selectedType].equalsIgnoreCase(paramNames[3])){
+//todo implement
+        }
+
+    }
+
+    private Property createFreParProperty(){
+        getParamList();
+        Property paramIndex = new Property(Integer.class) {
+            @Override
+            public boolean canRead() {
+                return true;
+            }
+            @Override
+            public Object getValue() throws IllegalAccessException, InvocationTargetException {
+                return getDataObj().getIndex();
+            }
+            @Override
+            public boolean canWrite() {
+                return true;
+            }
+            @Override
+            public void setValue(Object val) throws IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+                getDataObj().setIndex((Integer)val+1);
+            }
+        };
+        paramIndex.setValue("intValues",paramValInd);
+        paramIndex.setValue("stringKeys",paramValues);
+        paramIndex.setName("ParamValue");
+        return paramIndex;
+    }
+
+    private Property createFreParTypeProperty(){
+        getParamsFromModel();
+        Property freeParm = new Property(Integer.class) {
+            @Override
+            public boolean canRead() {
+                return true;
+            }
+            @Override
+            public Object getValue() throws IllegalAccessException, InvocationTargetException {
+                return selectedType;
+            }
+            @Override
+            public boolean canWrite() {
+                return true;
+            }
+            @Override
+            public void setValue(Object val) throws IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+                selectedType = (Integer)val;
+                updateFreParProperty();
+            }
+        };
+        freeParm.setValue("intValues",paramInd);
+        freeParm.setValue("stringKeys",parameters);
+        freeParm.setName("ParamType");
+        return freeParm;
+    }
+
+    private void updateFreParProperty(){
+        getSheet().get(Sheet.PROPERTIES).remove("ParamValue");
+        getSheet().get(Sheet.PROPERTIES).put(createFreParProperty());
+    }
+
     @Override
     public String getDisplayName() {
         return new Formatter().format("%g",getLookup().lookup(ModelDiffsDO.class).getStart()).toString();
@@ -53,16 +181,9 @@ public class ModelDiffsSubNode extends PropertiesAbstractNode implements Propert
     protected Sheet createSheet() {
         Sheet sheet = Sheet.createDefault();
         Sheet.Set set = Sheet.createPropertiesSet();
-        GtaModelDiffDO obj = getLookup().lookup(GtaModelDiffDO.class);
-        
+        ModelDiffsDO obj = getDataObj();
         Property modelDiffType = null;
-
         Property startingValue = null;
-//        Property fixedValue = null;
-//        Property constrainedValue = null;
-//        Property constrainedMin = null;
-//        Property constrainedMax = null;
-//
         try {
             modelDiffType = new PropertySupport.ReadOnly("Type", String.class, "Type", "Type of the modeldifference") {
                 @Override
@@ -71,25 +192,16 @@ public class ModelDiffsSubNode extends PropertiesAbstractNode implements Propert
                 }
             };
             startingValue = new PropertySupport.Reflection(obj, Double.class, "start");
-//            fixedValue = new PropertySupport.Reflection(obj, Boolean.class, "isFixed","setFixed");
-//            constrainedValue = new PropertySupport.Reflection(obj, Boolean.class, "isConstrained","setConstrained");
-//            constrainedMin = new PropertySupport.Reflection(obj, Double.class, "minimum");
-//            constrainedMax = new PropertySupport.Reflection(obj, Double.class, "maximum");
         } catch (NoSuchMethodException ex) {
             Exceptions.printStackTrace(ex);
         }
+
         startingValue.setName("Starting value");
-//        fixedValue.setName("Value fixed");
-//        constrainedValue.setName("Value constrained");
-//        constrainedMin.setName("Minimal value");
-//        constrainedMax.setName("Maximal value");
-//
-        set.put(startingValue);
-//        set.put(fixedValue);
-//        set.put(constrainedValue);
-//        set.put(constrainedMin);
-//        set.put(constrainedMax);
+
         set.put(modelDiffType);
+        set.put(startingValue);
+        set.put(createFreParTypeProperty());
+        set.put(createFreParProperty());
         sheet.put(set);
         return sheet;
     }

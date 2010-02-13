@@ -35,7 +35,7 @@ public class VisualCommonFunctions {
         return o instanceof PaletteItem ? (PaletteItem) o : null; //TODO: not null
     }
 
-        public static ArrayList<Double> strToParams(String paramStr){
+    public static ArrayList<Double> strToParams(String paramStr){
         ArrayList<Double> paramList = new ArrayList<Double>();
         String[] paramStrArr = paramStr.split(",");
         for (int i = 0; i < paramStrArr.length; i++){

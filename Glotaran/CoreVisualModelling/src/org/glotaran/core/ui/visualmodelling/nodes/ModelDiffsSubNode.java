@@ -13,6 +13,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Formatter;
 import org.glotaran.core.models.tgm.Tgm;
+import org.glotaran.core.ui.visualmodelling.common.VisualCommonFunctions;
 import org.glotaran.core.ui.visualmodelling.nodes.dataobjects.ModelDiffsDO;
 import org.openide.nodes.Children;
 import org.openide.nodes.Node;
@@ -105,10 +106,24 @@ public class ModelDiffsSubNode extends PropertiesAbstractNode implements Propert
         }
 
         if (parameters[selectedType].equalsIgnoreCase(paramNames[2])){
-//todo implement
+            ArrayList<Double> parMu = VisualCommonFunctions.strToParams(model.getDat().getIrfparPanel().getParmu());
+            paramValues = new String[parMu.size()];
+            paramValInd = new int[parMu.size()];
+            for (int i = 0; i < parMu.size(); i++){
+                paramValInd[i] = i;
+                paramValues[i] = "parmu"+(i+1)+" ("+
+                        new Formatter().format("%g",parMu.get(i)).toString()+")";
+            }
         }
         if (parameters[selectedType].equalsIgnoreCase(paramNames[3])){
-//todo implement
+            ArrayList<Double> parTau = VisualCommonFunctions.strToParams(model.getDat().getIrfparPanel().getPartau());
+            paramValues = new String[parTau.size()];
+            paramValInd = new int[parTau.size()];
+            for (int i = 0; i < parTau.size(); i++){
+                paramValInd[i] = i;
+                paramValues[i] = "partau"+(i+1)+" ("+
+                        new Formatter().format("%g",parTau.get(i)).toString()+")";
+            }
         }
 
     }

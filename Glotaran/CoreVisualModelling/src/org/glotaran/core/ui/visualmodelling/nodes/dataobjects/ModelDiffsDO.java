@@ -44,6 +44,7 @@ public class ModelDiffsDO extends AbstractParameterDO {
 
     public void setIndex(Integer index) {
         this.index = index;
+        fire("index", null, index);
     }
 
     public String getWhat() {
@@ -52,6 +53,7 @@ public class ModelDiffsDO extends AbstractParameterDO {
 
     public void setWhat(String what) {
         this.what = what;
+        fire("what", null, what);
     }
 
     public Double getStart() {

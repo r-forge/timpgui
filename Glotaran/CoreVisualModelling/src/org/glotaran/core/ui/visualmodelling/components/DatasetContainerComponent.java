@@ -292,6 +292,7 @@ public class DatasetContainerComponent
         }
 
         if (evt.getSource().getClass().equals(ModelDiffsNode.class)){
+            ModelDiffsNode sourceNode = (ModelDiffsNode)evt.getSource();
             if (evt.getPropertyName().equalsIgnoreCase("mainNodeDeleted")){
                 if (evt.getOldValue().equals("FreeParameter")){
                     if (modelDifferences.getFree()!=null){
@@ -316,7 +317,6 @@ public class DatasetContainerComponent
             }
 
             if (evt.getPropertyName().equalsIgnoreCase("Number of components")){
-                ModelDiffsNode sourceNode = (ModelDiffsNode)evt.getSource();
                 if ((Integer)evt.getNewValue()>(Integer)evt.getOldValue()){
                     for (int i = 0; i < (Integer)evt.getNewValue()-(Integer)evt.getOldValue(); i++){
                         GtaModelDiffDO newModelDiffs = new GtaModelDiffDO();
@@ -349,6 +349,11 @@ public class DatasetContainerComponent
                             modelDifferences.getRemove().remove(modelDifferences.getRemove().size()-1);
                         }
                     }
+                }
+            }
+            if (evt.getPropertyName().equalsIgnoreCase("start")){
+                if (sourceNode.getType().equals("FreeParameter")) {
+                    modelDifferences.getFree().get((Integer)evt.getOldValue()).setStart((Integer)evt.getNewValue());
                 }
             }
             firePropertyChange("datasetNodeChanged", null, null);

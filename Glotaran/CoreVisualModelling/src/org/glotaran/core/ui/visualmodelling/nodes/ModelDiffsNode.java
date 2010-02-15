@@ -63,7 +63,7 @@ public class ModelDiffsNode  extends PropertiesAbstractNode{
         return getIcon(type);
     }
 
-        @Override
+    @Override
     protected Sheet createSheet() {
         Sheet sheet = Sheet.createDefault();
         Sheet.Set set = Sheet.createPropertiesSet();

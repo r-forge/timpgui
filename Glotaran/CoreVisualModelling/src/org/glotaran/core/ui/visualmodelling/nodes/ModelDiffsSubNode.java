@@ -172,6 +172,7 @@ public class ModelDiffsSubNode extends PropertiesAbstractNode implements Propert
             @Override
             public void setValue(Object val) throws IllegalAccessException, IllegalArgumentException, InvocationTargetException {
                 selectedType = (Integer)val;
+                getDataObj().setWhat(paramNames[selectedType]);
                 updateFreeParProperty();
                 fireDisplayNameChange(null, getDisplayName());
             }
@@ -225,16 +226,15 @@ public class ModelDiffsSubNode extends PropertiesAbstractNode implements Propert
     }
 
     public void propertyChange(PropertyChangeEvent evt) {
-        if ("start".equals(evt.getPropertyName())) {
+        if (evt.getSource().getClass().equals(ModelDiffsDO.class)){
             int ind = 0;
-            for (int i = 0; i < getParentNode().getChildren().getNodes().length; i++){
-                if (this.equals(getParentNode().getChildren().getNodes()[i])){
-                    ind = i;
+                for (int i = 0; i < getParentNode().getChildren().getNodes().length; i++) {
+                    if (this.equals(getParentNode().getChildren().getNodes()[i])) {
+                        ind = i;
+                    }
                 }
+                ((PropertiesAbstractNode)this.getParentNode()).fire(ind, evt);
             }
-            ((PropertiesAbstractNode)this.getParentNode()).fire(ind, evt);
-        }
-
     }
 
     @Override

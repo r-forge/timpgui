@@ -183,6 +183,7 @@ public class ModelDiffsSubNode extends PropertiesAbstractNode implements Propert
     }
 
     private void updateFreeParProperty(){
+        getDataObj().setIndex(0);
         getSheet().get(Sheet.PROPERTIES).remove("ParamValue");
         getSheet().get(Sheet.PROPERTIES).put(createFreParProperty());
     }

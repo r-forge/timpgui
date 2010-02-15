@@ -145,7 +145,7 @@ public class ModelDiffsSubNode extends PropertiesAbstractNode implements Propert
             }
             @Override
             public void setValue(Object val) throws IllegalAccessException, IllegalArgumentException, InvocationTargetException {
-                getDataObj().setIndex((Integer)val+1);
+                getDataObj().setIndex((Integer)val);
             }
         };
         paramIndex.setValue("intValues",paramValInd);
@@ -172,7 +172,8 @@ public class ModelDiffsSubNode extends PropertiesAbstractNode implements Propert
             @Override
             public void setValue(Object val) throws IllegalAccessException, IllegalArgumentException, InvocationTargetException {
                 selectedType = (Integer)val;
-                updateFreParProperty();
+                updateFreeParProperty();
+                fireDisplayNameChange(null, getDisplayName());
             }
         };
         freeParm.setValue("intValues",paramInd);
@@ -181,14 +182,15 @@ public class ModelDiffsSubNode extends PropertiesAbstractNode implements Propert
         return freeParm;
     }
 
-    private void updateFreParProperty(){
+    private void updateFreeParProperty(){
         getSheet().get(Sheet.PROPERTIES).remove("ParamValue");
         getSheet().get(Sheet.PROPERTIES).put(createFreParProperty());
     }
 
     @Override
     public String getDisplayName() {
-        return new Formatter().format("%g",getLookup().lookup(ModelDiffsDO.class).getStart()).toString();
+        return paramNames[selectedType];
+//        return new Formatter().format("%g",getLookup().lookup(ModelDiffsDO.class).getStart()).toString();
     }
 
 
@@ -223,8 +225,6 @@ public class ModelDiffsSubNode extends PropertiesAbstractNode implements Propert
 
     public void propertyChange(PropertyChangeEvent evt) {
         if ("start".equals(evt.getPropertyName())) {
-            this.fireDisplayNameChange(null, getDisplayName());
-
             int ind = 0;
             for (int i = 0; i < getParentNode().getChildren().getNodes().length; i++){
                 if (this.equals(getParentNode().getChildren().getNodes()[i])){

@@ -60,6 +60,7 @@ public class DatasetContainerWidget extends Widget{
         return connected;
     }
 
+    @SuppressWarnings("unchecked")
     public void setConnected(boolean connected) {
         if (connected){
             GraphSceneImpl scene = (GraphSceneImpl) getScene();

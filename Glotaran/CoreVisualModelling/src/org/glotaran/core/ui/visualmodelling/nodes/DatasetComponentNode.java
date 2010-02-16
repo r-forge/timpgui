@@ -14,7 +14,6 @@ import java.io.IOException;
 import org.glotaran.core.main.mesages.CoreErrorMessages;
 import org.glotaran.core.main.nodes.TimpDatasetNode;
 import org.glotaran.core.models.gta.GtaDataset;
-import org.glotaran.core.models.gta.GtaModelDiffDO;
 import org.glotaran.core.ui.visualmodelling.palette.PaletteItem;
 import org.glotaran.core.ui.visualmodelling.palette.PaletteNode;
 import org.openide.nodes.Children;
@@ -152,7 +151,7 @@ public class DatasetComponentNode extends PropertiesAbstractNode implements Tran
 
     @Override
     public void destroy() throws IOException {
-        firePropertyChange("mainNodeDeleted", null, getLookup().lookup(GtaDataset.class));
+        firePropertyChange("mainNodeDeleted", getdatasetIndex(), getLookup().lookup(GtaDataset.class));
         super.destroy();
     }
 
@@ -160,7 +159,7 @@ public class DatasetComponentNode extends PropertiesAbstractNode implements Tran
         return ((DatasetsRootNode)getParentNode()).getContainerComponent().isConnected();
     }
 
-    private int getdatasetIndex(){
+    public int getdatasetIndex(){
         for (int i = 0; i < getParentNode().getChildren().getNodesCount(); i++){
             if (getParentNode().getChildren().getNodes()[i].equals(this)){
                 return i+1;

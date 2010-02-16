@@ -227,6 +227,7 @@ public class GraphSceneImpl extends GraphScene implements PropertyChangeListener
         widget.setTargetAnchor(targetNodeWidget != null ? AnchorFactory.createFreeRectangularAnchor(targetNodeWidget, true) : null);
     }
 
+    @SuppressWarnings("unchecked")
     public void loadScene(GtaProjectScheme gtaScheme) {
         Widget widget;
         Point location;

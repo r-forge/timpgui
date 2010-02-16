@@ -16,7 +16,7 @@ import org.openide.nodes.Node;
 public class CategoryChildren extends Children.Keys {
 
     private String[] Categories = new String[]{
-        "Containers","Modelling","Model differences"};
+        "Containers","Modelling","Model differences","Output"};
 
     public CategoryChildren() {
     }

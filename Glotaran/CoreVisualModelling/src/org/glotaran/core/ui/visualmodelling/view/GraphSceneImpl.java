@@ -46,17 +46,20 @@ import java.awt.image.BufferedImage;
 import java.beans.PropertyChangeListener;
 import java.io.File;
 import java.util.Collections;
+import javax.swing.JLabel;
 import org.glotaran.core.main.nodes.TimpDatasetNode;
 import org.glotaran.core.main.nodes.dataobjects.TimpDatasetDataObject;
 import org.glotaran.core.models.gta.GtaConnection;
 import org.glotaran.core.models.gta.GtaDataset;
 import org.glotaran.core.models.gta.GtaDatasetContainer;
 import org.glotaran.core.models.gta.GtaModelReference;
+import org.glotaran.core.models.gta.GtaOutput;
 import org.glotaran.core.ui.visualmodelling.components.DatasetContainerComponent;
 import org.glotaran.core.ui.visualmodelling.components.ModelContainer;
 import org.glotaran.core.ui.visualmodelling.nodes.DatasetComponentNode;
 import org.glotaran.core.ui.visualmodelling.widgets.DatasetContainerWidget;
 import org.glotaran.core.ui.visualmodelling.widgets.ModelContainerWidget;
+import org.glotaran.core.ui.visualmodelling.widgets.OutputWidget;
 import org.glotaran.tgmfilesupport.TgmDataObject;
 import org.netbeans.api.project.ui.OpenProjects;
 import org.netbeans.api.visual.widget.ComponentWidget;
@@ -182,6 +185,11 @@ public class GraphSceneImpl extends GraphScene implements PropertyChangeListener
                 myNode.setId(String.valueOf(getNewNodeCount()));
             }
             cw = new DatasetContainerWidget(this, new DatasetContainerComponent(myNode, this), myNode.getId());
+            mainLayer.addChild(cw);
+        }
+        if (node instanceof GtaOutput) {
+            GtaOutput myNode = (GtaOutput) node;
+            cw = new OutputWidget(this, new JLabel("test"), "test2");
             mainLayer.addChild(cw);
         }
         return cw;

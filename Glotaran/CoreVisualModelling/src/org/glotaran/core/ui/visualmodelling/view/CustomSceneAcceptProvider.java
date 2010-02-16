@@ -12,6 +12,7 @@ import org.glotaran.core.main.mesages.CoreErrorMessages;
 import org.glotaran.core.models.gta.GtaDatasetContainer;
 import org.glotaran.core.models.gta.GtaLayout;
 import org.glotaran.core.models.gta.GtaModelReference;
+import org.glotaran.core.models.gta.GtaOutput;
 import org.glotaran.core.ui.visualmodelling.common.VisualCommonFunctions;
 import org.glotaran.core.ui.visualmodelling.palette.PaletteItem;
 import org.glotaran.core.ui.visualmodelling.palette.PaletteNode;
@@ -42,8 +43,7 @@ public class CustomSceneAcceptProvider implements AcceptProvider {
         ConnectorState accept = ConnectorState.REJECT;
         if (transferable.isDataFlavorSupported(TgmDataNode.DATA_FLAVOR)) {
             accept = ConnectorState.ACCEPT;
-        } else {
-            if (transferable.isDataFlavorSupported(PaletteNode.DATA_FLAVOR)) {
+        } else if (transferable.isDataFlavorSupported(PaletteNode.DATA_FLAVOR)) {
                 PaletteItem item = null;
                 try {
                     item = (PaletteItem) transferable.getTransferData(PaletteNode.DATA_FLAVOR);
@@ -52,18 +52,19 @@ public class CustomSceneAcceptProvider implements AcceptProvider {
                 } catch (IOException ex) {
                     Exceptions.printStackTrace(ex);
                 }
-                if (item.getCategory().compareTo("Containers") == 0) {
+                if (item.getCategory().compareTo("Containers") == 0 ||
+                        item.getCategory().compareTo("Output") == 0) {
                     accept = ConnectorState.ACCEPT;
+                } else { 
+                    accept = ConnectorState.REJECT;
                 }
             } else {
                 accept = ConnectorState.REJECT;
-            }
-        }
+            }        
         return accept;
     }
 
     public void accept(Widget widget, Point point, Transferable transferable) {
-        Object newNode = null;
         Widget newWidget = null;
 
         // A new components is added from the Pallete
@@ -75,11 +76,11 @@ public class CustomSceneAcceptProvider implements AcceptProvider {
                 widlayout.setXposition(point.getX());
                 widlayout.setYposition(point.getY());
                 newDatasetContainer.setLayout(widlayout);
-                newNode = newDatasetContainer;
-            } else if (item.getName().equalsIgnoreCase("Model")) {
-                newNode = null;
-            }
-            newWidget = scene.addNode(newNode);
+                newWidget = scene.addNode(newDatasetContainer);
+            } else if (item.getName().equalsIgnoreCase("StandardOutput")) {
+                GtaOutput gtaOutput = new GtaOutput();
+                newWidget = scene.addNode(gtaOutput);
+            }           
         }
 
         // A existing dataobject is dragged from within the platform onto the GraphScene

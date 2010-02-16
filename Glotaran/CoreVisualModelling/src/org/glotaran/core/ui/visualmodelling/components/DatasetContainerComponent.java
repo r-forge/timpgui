@@ -18,21 +18,14 @@ import javax.swing.InputMap;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
 import javax.swing.KeyStroke;
-import org.glotaran.core.models.gta.GtaChangesModel;
-import org.glotaran.core.models.gta.GtaDataset;
 import org.glotaran.core.models.gta.GtaDatasetContainer;
-import org.glotaran.core.models.gta.GtaModelDiffDO;
 import org.glotaran.core.models.gta.GtaModelDifferences;
 import org.glotaran.core.models.tgm.Tgm;
-import org.glotaran.core.ui.visualmodelling.nodes.DatasetComponentNode;
 import org.glotaran.core.ui.visualmodelling.nodes.DatasetsRootNode;
-import org.glotaran.core.ui.visualmodelling.nodes.ModelDiffsNode;
-import org.glotaran.core.ui.visualmodelling.widgets.DatasetContainerWidget;
 import org.openide.explorer.ExplorerManager;
 import org.openide.explorer.ExplorerUtils;
 import org.openide.nodes.Index;
 import org.openide.util.Lookup;
-import org.openide.windows.WindowManager;
 
 /**
  *
@@ -259,104 +252,104 @@ public class DatasetContainerComponent
     }
 
     public void propertyChange(PropertyChangeEvent evt) {
-        if (evt.getSource() == manager &&
-                ExplorerManager.PROP_SELECTED_NODES.equals(evt.getPropertyName())) {
-            WindowManager.getDefault().getRegistry().getActivated().setActivatedNodes(manager.getSelectedNodes());
-        }
-
-        if (evt.getSource().getClass().equals(DatasetsRootNode.class)){
-            if (evt.getPropertyName().equals("datasetAdded")){
-                datasetContainer.getDatasets().add((GtaDataset)evt.getNewValue());
-            }
-            firePropertyChange("datasetNodeChanged", null, null);
-        }
-
-        if (evt.getSource().getClass().equals(DatasetComponentNode.class)){
-            if (evt.getPropertyName().equalsIgnoreCase("mainNodeDeleted")){
-                datasetContainer.getDatasets().remove((GtaDataset)evt.getNewValue());
-            }
-            firePropertyChange("datasetNodeChanged", null, null);
-        }
-
-        if (evt.getSource().getClass().equals(DatasetContainerWidget.class)){
-            if (evt.getPropertyName().equalsIgnoreCase("connectionChange")){
-                connectedModel = (Tgm) evt.getOldValue();
-                modelDifferences = (GtaModelDifferences) evt.getNewValue();
-            }
-            firePropertyChange("datasetNodeChanged", null, null);
-        }
-
-        if (evt.getSource().getClass().equals(DatasetComponentNode.class)){
-            
-            firePropertyChange("datasetNodeChanged", null, null);
-        }
-
-        if (evt.getSource().getClass().equals(ModelDiffsNode.class)){
-            ModelDiffsNode sourceNode = (ModelDiffsNode)evt.getSource();
-            if (evt.getPropertyName().equalsIgnoreCase("mainNodeDeleted")){
-                if (evt.getOldValue().equals("FreeParameter")){
-                    if (modelDifferences.getFree()!=null){
-                        modelDifferences.getFree().clear();
-                    }
-                }
-                if (evt.getOldValue().equals("ChangeParameter")) {
-                    if (modelDifferences.getChanges()!=null){
-                        modelDifferences.getChanges().clear();
-                    }
-                }
-                if (evt.getOldValue().equals("AddParameter")) {
-                    if (modelDifferences.getAdd()!=null){
-                        modelDifferences.getAdd().clear();
-                    }
-                }
-                if (evt.getOldValue().equals("RemoveParameter")) {
-                    if (modelDifferences.getRemove()!=null){
-                        modelDifferences.getRemove().clear();
-                    }
-                }
-            }
-
-            if (evt.getPropertyName().equalsIgnoreCase("Number of components")){
-                if ((Integer)evt.getNewValue()>(Integer)evt.getOldValue()){
-                    for (int i = 0; i < (Integer)evt.getNewValue()-(Integer)evt.getOldValue(); i++){
-                        GtaModelDiffDO newModelDiffs = new GtaModelDiffDO();
-                        newModelDiffs.setDataset(sourceNode.getDatasetIndex());
-                        if (sourceNode.getType().equals("FreeParameter")) {
-                            modelDifferences.getFree().add(newModelDiffs);
-                        }
-                        if (sourceNode.getType().equals("ChangeParameter")) {
-                            modelDifferences.getChanges().add(new GtaChangesModel());
-                        }
-                        if (sourceNode.getType().equals("AddParameter")) {
-                            modelDifferences.getAdd().add(newModelDiffs);
-                        }
-                        if (sourceNode.getType().equals("RemoveParameter")) {
-                            modelDifferences.getRemove().add(newModelDiffs);
-                        }
-                    }
-                } else {
-                    for (int i = 0; i < (Integer) evt.getOldValue() - (Integer) evt.getNewValue(); i++) {
-                        if (sourceNode.getType().equals("FreeParameter")) {
-                            modelDifferences.getFree().remove(modelDifferences.getFree().size()-1);
-                        }
-                        if (sourceNode.getType().equals("ChangeParameter")) {
-                            modelDifferences.getChanges().remove(modelDifferences.getChanges().size()-1);
-                        }
-                        if (sourceNode.getType().equals("AddParameter")) {
-                            modelDifferences.getAdd().remove(modelDifferences.getAdd().size()-1);
-                        }
-                        if (sourceNode.getType().equals("RemoveParameter")) {
-                            modelDifferences.getRemove().remove(modelDifferences.getRemove().size()-1);
-                        }
-                    }
-                }
-            }
-            if (evt.getPropertyName().equalsIgnoreCase("start")){
-                if (sourceNode.getType().equals("FreeParameter")) {
-                    modelDifferences.getFree().get((Integer)evt.getOldValue()).setStart((Integer)evt.getNewValue());
-                }
-            }
-            firePropertyChange("datasetNodeChanged", null, null);
-        }
+//        if (evt.getSource() == manager &&
+//                ExplorerManager.PROP_SELECTED_NODES.equals(evt.getPropertyName())) {
+//            WindowManager.getDefault().getRegistry().getActivated().setActivatedNodes(manager.getSelectedNodes());
+//        }
+//
+//        if (evt.getSource().getClass().equals(DatasetsRootNode.class)){
+//            if (evt.getPropertyName().equals("datasetAdded")){
+//                datasetContainer.getDatasets().add((GtaDataset)evt.getNewValue());
+//            }
+//            firePropertyChange("datasetNodeChanged", null, null);
+//        }
+//
+//        if (evt.getSource().getClass().equals(DatasetComponentNode.class)){
+//            if (evt.getPropertyName().equalsIgnoreCase("mainNodeDeleted")){
+//                datasetContainer.getDatasets().remove((GtaDataset)evt.getNewValue());
+//            }
+//            firePropertyChange("datasetNodeChanged", null, null);
+//        }
+//
+//        if (evt.getSource().getClass().equals(DatasetContainerWidget.class)){
+//            if (evt.getPropertyName().equalsIgnoreCase("connectionChange")){
+//                connectedModel = (Tgm) evt.getOldValue();
+//                modelDifferences = (GtaModelDifferences) evt.getNewValue();
+//            }
+//            firePropertyChange("datasetNodeChanged", null, null);
+//        }
+//
+//        if (evt.getSource().getClass().equals(DatasetComponentNode.class)){
+//
+//            firePropertyChange("datasetNodeChanged", null, null);
+//        }
+//
+//        if (evt.getSource().getClass().equals(ModelDiffsNode.class)){
+//            ModelDiffsNode sourceNode = (ModelDiffsNode)evt.getSource();
+//            if (evt.getPropertyName().equalsIgnoreCase("mainNodeDeleted")){
+//                if (evt.getOldValue().equals("FreeParameter")){
+//                    if (modelDifferences.getFree()!=null){
+//                        modelDifferences.getFree().clear();
+//                    }
+//                }
+//                if (evt.getOldValue().equals("ChangeParameter")) {
+//                    if (modelDifferences.getChanges()!=null){
+//                        modelDifferences.getChanges().clear();
+//                    }
+//                }
+//                if (evt.getOldValue().equals("AddParameter")) {
+//                    if (modelDifferences.getAdd()!=null){
+//                        modelDifferences.getAdd().clear();
+//                    }
+//                }
+//                if (evt.getOldValue().equals("RemoveParameter")) {
+//                    if (modelDifferences.getRemove()!=null){
+//                        modelDifferences.getRemove().clear();
+//                    }
+//                }
+//            }
+//
+//            if (evt.getPropertyName().equalsIgnoreCase("Number of components")){
+//                if ((Integer)evt.getNewValue()>(Integer)evt.getOldValue()){
+//                    for (int i = 0; i < (Integer)evt.getNewValue()-(Integer)evt.getOldValue(); i++){
+//                        GtaModelDiffDO newModelDiffs = new GtaModelDiffDO();
+//                        newModelDiffs.setDataset(sourceNode.getDatasetIndex());
+//                        if (sourceNode.getType().equals("FreeParameter")) {
+//                            modelDifferences.getFree().add(newModelDiffs);
+//                        }
+//                        if (sourceNode.getType().equals("ChangeParameter")) {
+//                            modelDifferences.getChanges().add(new GtaChangesModel());
+//                        }
+//                        if (sourceNode.getType().equals("AddParameter")) {
+//                            modelDifferences.getAdd().add(newModelDiffs);
+//                        }
+//                        if (sourceNode.getType().equals("RemoveParameter")) {
+//                            modelDifferences.getRemove().add(newModelDiffs);
+//                        }
+//                    }
+//                } else {
+//                    for (int i = 0; i < (Integer) evt.getOldValue() - (Integer) evt.getNewValue(); i++) {
+//                        if (sourceNode.getType().equals("FreeParameter")) {
+//                            modelDifferences.getFree().remove(modelDifferences.getFree().size()-1);
+//                        }
+//                        if (sourceNode.getType().equals("ChangeParameter")) {
+//                            modelDifferences.getChanges().remove(modelDifferences.getChanges().size()-1);
+//                        }
+//                        if (sourceNode.getType().equals("AddParameter")) {
+//                            modelDifferences.getAdd().remove(modelDifferences.getAdd().size()-1);
+//                        }
+//                        if (sourceNode.getType().equals("RemoveParameter")) {
+//                            modelDifferences.getRemove().remove(modelDifferences.getRemove().size()-1);
+//                        }
+//                    }
+//                }
+//            }
+//            if (evt.getPropertyName().equalsIgnoreCase("start")){
+//                if (sourceNode.getType().equals("FreeParameter")) {
+//                    modelDifferences.getFree().get((Integer)evt.getOldValue()).setStart((Integer)evt.getNewValue());
+//                }
+//            }
+//            firePropertyChange("datasetNodeChanged", null, null);
+//        }
     }
 }

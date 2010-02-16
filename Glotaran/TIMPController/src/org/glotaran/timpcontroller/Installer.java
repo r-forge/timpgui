@@ -18,7 +18,7 @@ import org.openide.modules.ModuleInstall;
  */
 public class Installer extends ModuleInstall {
 
-    private String[] theCommandLineArguments = new String[]{"/usr/lib64/R/bin/Rcmd","Rserve","--no-save"};
+    private String[] theCommandLineArguments = new String[]{"/usr/lib64/R/bin/ Rserve","--no-save"};
 
     @Override
     public void restored() {            

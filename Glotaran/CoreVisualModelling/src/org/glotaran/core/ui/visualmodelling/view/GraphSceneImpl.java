@@ -56,6 +56,7 @@ import org.glotaran.core.models.gta.GtaModelReference;
 import org.glotaran.core.models.gta.GtaOutput;
 import org.glotaran.core.ui.visualmodelling.components.DatasetContainerComponent;
 import org.glotaran.core.ui.visualmodelling.components.ModelContainer;
+import org.glotaran.core.ui.visualmodelling.components.OutputPanel;
 import org.glotaran.core.ui.visualmodelling.nodes.DatasetComponentNode;
 import org.glotaran.core.ui.visualmodelling.widgets.DatasetContainerWidget;
 import org.glotaran.core.ui.visualmodelling.widgets.ModelContainerWidget;
@@ -189,7 +190,7 @@ public class GraphSceneImpl extends GraphScene implements PropertyChangeListener
         }
         if (node instanceof GtaOutput) {
             GtaOutput myNode = (GtaOutput) node;
-            cw = new OutputWidget(this, new JLabel("test"), "test2");
+            cw = new OutputWidget(this, new OutputPanel(), "Output");
             mainLayer.addChild(cw);
         }
         return cw;

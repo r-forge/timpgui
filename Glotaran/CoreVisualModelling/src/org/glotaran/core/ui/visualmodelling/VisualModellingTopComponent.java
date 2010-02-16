@@ -12,6 +12,7 @@ import javax.swing.JComponent;
 import org.glotaran.core.main.mesages.CoreErrorMessages;
 import org.glotaran.core.models.gta.GtaConnection;
 import org.glotaran.core.models.gta.GtaDatasetContainer;
+import org.glotaran.core.models.gta.GtaLayout;
 import org.glotaran.core.models.gta.GtaModelReference;
 import org.glotaran.core.ui.visualmodelling.filesupport.GtaDataObject;
 import org.glotaran.core.ui.visualmodelling.palette.PaletteSupport;
@@ -171,6 +172,9 @@ final public class VisualModellingTopComponent extends CloneableTopComponent imp
     public void objectAdded(ObjectSceneEvent event, Object addedObject) {
         if (addedObject instanceof GtaDatasetContainer){
             GtaDatasetContainer container = (GtaDatasetContainer)addedObject;
+            if (container.getLayout()==null) {
+                container.setLayout(new GtaLayout());
+            }
             container.getLayout().setHeight(DEFAULT_COMPONENT_HEIGHT);
             container.getLayout().setWidth(DEFAULT_COMPONENT_WIDTH);
             if (dobj.getProgectScheme().getDatasetContainer()!=null){
@@ -182,6 +186,9 @@ final public class VisualModellingTopComponent extends CloneableTopComponent imp
         }
         if (addedObject instanceof GtaModelReference){
             GtaModelReference container = (GtaModelReference)addedObject;
+            if (container.getLayout()==null) {
+                container.setLayout(new GtaLayout());
+            }
             container.getLayout().setHeight(DEFAULT_COMPONENT_HEIGHT);
             container.getLayout().setWidth(DEFAULT_COMPONENT_WIDTH);
             if (dobj.getProgectScheme().getDatasetContainer()!=null){

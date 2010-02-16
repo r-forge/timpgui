@@ -116,11 +116,12 @@
                 <xsd:element name="version" type="xsd:string" nillable="true"/>
                 <xsd:element name="connection" type="tns:GtaConnection" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
                 <xsd:element name="counter" type="xsd:string"/>
-                <xsd:element name="output" type="tns:GtaOutput"/>
+                <xsd:element name="output" type="tns:GtaOutput" nillable="true"/>
             </xsd:sequence>
         </xsd:complexType>
     </xsd:element>
 </xsd:schema>
+
 
 
 

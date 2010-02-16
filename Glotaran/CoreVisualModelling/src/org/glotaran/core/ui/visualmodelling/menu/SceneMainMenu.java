@@ -13,6 +13,7 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import org.glotaran.core.main.mesages.CoreErrorMessages;
 import org.glotaran.core.main.project.TGProject;
+import org.glotaran.core.models.gta.GtaDatasetContainer;
 import org.glotaran.core.ui.visualmodelling.common.VisualCommonFunctions;
 import org.glotaran.core.ui.visualmodelling.view.SceneSerializer;
 import org.glotaran.tgmfilesupport.TgmDataNode;
@@ -45,10 +46,10 @@ public class SceneMainMenu implements PopupMenuProvider, ActionListener {
         menu = new JPopupMenu("Scene Menu");
         JMenuItem item;
         
-        item = new JMenuItem("Add New Model");
-        item.setActionCommand(ADD_NEW_MODEL);
-        item.addActionListener(this);
-        menu.add(item);
+//        item = new JMenuItem("Add New Model");
+//        item.setActionCommand(ADD_NEW_MODEL);
+//        item.addActionListener(this);
+//        menu.add(item);
 
         item = new JMenuItem("Add New Dataset container");
         item.setActionCommand(ADD_NEW_DATASET_CONTAINER);
@@ -61,17 +62,17 @@ public class SceneMainMenu implements PopupMenuProvider, ActionListener {
         item.addActionListener(this);
         menu.add(item);
 
-        item = new JMenuItem ("Load scene...");
-        item.setActionCommand(LOAD_SCENE);
-        item.addActionListener(this);
-        menu.add(item);
+//        item = new JMenuItem ("Load scene...");
+//        item.setActionCommand(LOAD_SCENE);
+//        item.addActionListener(this);
+//        menu.add(item);
     }
 
     public JPopupMenu getPopupMenu(Widget widget, Point point){
         this.point=point;
         return menu;
     }
-    
+
     public void actionPerformed(ActionEvent e) {        
         if(ADD_NEW_MODEL.equals (e.getActionCommand ())) {
  //           TgmDataNode newNode = null;
@@ -90,8 +91,9 @@ public class SceneMainMenu implements PopupMenuProvider, ActionListener {
         }
         if(ADD_NEW_DATASET_CONTAINER.equals (e.getActionCommand ())) {
             Widget newWidget = null;
-            VisualAbstractNode newNode = new VisualAbstractNode("Dataset Container", "Containers", nodeCount++); //TODO: move Mynode and rename
-            newWidget = scene.addNode(newNode);
+            GtaDatasetContainer container = new GtaDatasetContainer();
+            newWidget = scene.addNode(container);
+            scene.validate();
             newWidget.setPreferredLocation(point);
         }
         if(SAVE_SCENE.equals (e.getActionCommand ())) {

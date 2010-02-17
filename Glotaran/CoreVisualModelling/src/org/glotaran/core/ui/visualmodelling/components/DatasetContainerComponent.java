@@ -305,11 +305,13 @@ public class DatasetContainerComponent
 
         if (evt.getSource().getClass().equals(DatasetContainerWidget.class)){
             if (evt.getPropertyName().equalsIgnoreCase("connectionChange")){
-                connectedModel = (Tgm) evt.getOldValue();    
-                modelDifferences = (GtaModelDifferences) evt.getNewValue();
-                if (datasetContainer.getDatasets().size()>modelDifferences.getDifferences().size()){
-                    for (int i = 0; i < datasetContainer.getDatasets().size()-modelDifferences.getDifferences().size(); i++){
-                        modelDifferences.getDifferences().add(new GtaModelDiffContainer());
+                connectedModel = (Tgm) evt.getOldValue();
+                if (evt.getNewValue() != null) {
+                    modelDifferences = (GtaModelDifferences) evt.getNewValue();
+                    if (datasetContainer.getDatasets().size() > modelDifferences.getDifferences().size()) {
+                        for (int i = 0; i < datasetContainer.getDatasets().size() - modelDifferences.getDifferences().size(); i++) {
+                            modelDifferences.getDifferences().add(new GtaModelDiffContainer());
+                        }
                     }
                 }
             }

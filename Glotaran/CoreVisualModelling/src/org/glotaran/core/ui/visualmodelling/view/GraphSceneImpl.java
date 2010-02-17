@@ -18,12 +18,33 @@
  */
 package org.glotaran.core.ui.visualmodelling.view;
 
+import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+import java.io.File;
 import java.io.IOException;
+import java.util.Collections;
+import org.glotaran.core.main.nodes.TimpDatasetNode;
+import org.glotaran.core.main.nodes.dataobjects.TimpDatasetDataObject;
+import org.glotaran.core.models.gta.GtaConnection;
+import org.glotaran.core.models.gta.GtaDataset;
+import org.glotaran.core.models.gta.GtaDatasetContainer;
+import org.glotaran.core.models.gta.GtaModelReference;
+import org.glotaran.core.models.gta.GtaOutput;
 import org.glotaran.core.models.gta.GtaProjectScheme;
+import org.glotaran.core.ui.visualmodelling.components.DatasetContainerComponent;
+import org.glotaran.core.ui.visualmodelling.components.ModelContainer;
+import org.glotaran.core.ui.visualmodelling.components.OutputPanel;
 import org.glotaran.core.ui.visualmodelling.filesupport.GtaDataObject;
-import org.glotaran.core.ui.visualmodelling.menu.SceneMainMenu;
 import org.glotaran.core.ui.visualmodelling.menu.EdgeMenu;
+import org.glotaran.core.ui.visualmodelling.menu.SceneMainMenu;
+import org.glotaran.core.ui.visualmodelling.nodes.DatasetComponentNode;
+import org.glotaran.core.ui.visualmodelling.widgets.DatasetContainerWidget;
+import org.glotaran.core.ui.visualmodelling.widgets.ModelContainerWidget;
+import org.glotaran.core.ui.visualmodelling.widgets.OutputWidget;
+import org.glotaran.tgmfilesupport.TgmDataObject;
+import org.netbeans.api.project.ui.OpenProjects;
 import org.netbeans.api.visual.action.ActionFactory;
 import org.netbeans.api.visual.action.SelectProvider;
 import org.netbeans.api.visual.action.WidgetAction;
@@ -33,69 +54,44 @@ import org.netbeans.api.visual.anchor.PointShape;
 import org.netbeans.api.visual.graph.GraphScene;
 import org.netbeans.api.visual.router.Router;
 import org.netbeans.api.visual.router.RouterFactory;
+import org.netbeans.api.visual.widget.ComponentWidget;
 import org.netbeans.api.visual.widget.ConnectionWidget;
 import org.netbeans.api.visual.widget.LayerWidget;
 import org.netbeans.api.visual.widget.Widget;
 import org.openide.filesystems.FileObject;
-import org.openide.loaders.DataObjectExistsException;
-import org.openide.util.Exceptions;
-import org.openide.util.Utilities;
-
-import java.awt.*;
-import java.awt.image.BufferedImage;
-import java.beans.PropertyChangeListener;
-import java.io.File;
-import java.util.Collections;
-import javax.swing.JLabel;
-import org.glotaran.core.main.nodes.TimpDatasetNode;
-import org.glotaran.core.main.nodes.dataobjects.TimpDatasetDataObject;
-import org.glotaran.core.models.gta.GtaConnection;
-import org.glotaran.core.models.gta.GtaDataset;
-import org.glotaran.core.models.gta.GtaDatasetContainer;
-import org.glotaran.core.models.gta.GtaModelReference;
-import org.glotaran.core.models.gta.GtaOutput;
-import org.glotaran.core.ui.visualmodelling.components.DatasetContainerComponent;
-import org.glotaran.core.ui.visualmodelling.components.ModelContainer;
-import org.glotaran.core.ui.visualmodelling.components.OutputPanel;
-import org.glotaran.core.ui.visualmodelling.nodes.DatasetComponentNode;
-import org.glotaran.core.ui.visualmodelling.widgets.DatasetContainerWidget;
-import org.glotaran.core.ui.visualmodelling.widgets.ModelContainerWidget;
-import org.glotaran.core.ui.visualmodelling.widgets.OutputWidget;
-import org.glotaran.tgmfilesupport.TgmDataObject;
-import org.netbeans.api.project.ui.OpenProjects;
-import org.netbeans.api.visual.widget.ComponentWidget;
 import org.openide.filesystems.FileUtil;
 import org.openide.loaders.DataObject;
+import org.openide.loaders.DataObjectExistsException;
 import org.openide.nodes.Index;
 import org.openide.nodes.Node;
+import org.openide.util.Exceptions;
+import org.openide.util.ImageUtilities;
 import org.openide.util.lookup.Lookups;
 
 /**
  * @author Alex
  */
-public class GraphSceneImpl extends GraphScene implements PropertyChangeListener{ //TODO: implement <VisualAbstractNode, MyEdge>
+public class GraphSceneImpl extends GraphScene<Object, Object> implements PropertyChangeListener { //TODO: implement <VisualAbstractNode, MyEdge>
 
-    private static final Image IMAGE = Utilities.loadImage("org/glotaran/core/ui/visualmodelling/resources/node.png"); // NOI18N
-    private LayerWidget mainLayer;
-    private LayerWidget connectionLayer;
+    private LayerWidget mainLayer = new LayerWidget(this);
+    private LayerWidget connectionLayer = new LayerWidget(this);
     private LayerWidget interractionLayer = new LayerWidget(this);
-    private LayerWidget backgroundLayer = new LayerWidget(this);
-    private WidgetAction moveAction = ActionFactory.createMoveAction(ActionFactory.createFreeMoveStrategy() , new TGSMoveProvider());
+    private LayerWidget backgroundLayer = new LayerWidget(this);    
     private Router router = RouterFactory.createFreeRouter();
     private WidgetAction connectAction = ActionFactory.createExtendedConnectAction(interractionLayer, new TGSceneConnectProvider(this));
     private WidgetAction reconnectAction = ActionFactory.createReconnectAction(new TGSceneReconnectProvider(this));
     private WidgetAction moveControlPointAction = ActionFactory.createFreeMoveControlPointAction();
     private WidgetAction selectAction = ActionFactory.createSelectAction(new ObjectSelectProvider());
     private WidgetAction sceneAcceptAction = ActionFactory.createAcceptAction(new CustomSceneAcceptProvider(this));
-//    private NodeMenu nodeMenu = new NodeMenu(this);
+    private WidgetAction resizeAction = ActionFactory.createAlignWithResizeAction (mainLayer, interractionLayer, null);    
+    private WidgetAction moveAction;
+    //private WidgetAction eatAction = ActionFactory.createSelectAction (new EatEventSelectProvider ());
     private EdgeMenu edgeMenu = new EdgeMenu(this);
     private Integer nodeCount = 0;
     private GtaDataObject dobj = null;
 
     public GraphSceneImpl() {
-        mainLayer = new LayerWidget(this);
         addChild(mainLayer);
-        connectionLayer = new LayerWidget(this);
         addChild(connectionLayer);
         addChild(interractionLayer);
         getActions().addAction(ActionFactory.createRectangularSelectAction(this, backgroundLayer));
@@ -103,13 +99,16 @@ public class GraphSceneImpl extends GraphScene implements PropertyChangeListener
         getActions().addAction(sceneAcceptAction);
         setToolTipText("Drag components from the palette onto this design pane");
         initGrids();
+        GlotaranAlignWithMoveStrategyProvider sp = new GlotaranAlignWithMoveStrategyProvider(new GlotaranSingleLayerAlignWithCollector(mainLayer, true), interractionLayer, ActionFactory.createDefaultAlignWithMoveDecorator(), true);
+        moveAction = ActionFactory.createMoveAction(sp,sp);
     }
+
+
 
     public GraphSceneImpl(GtaDataObject dobj) {
         this();
         this.dobj = dobj;
         loadScene(dobj.getProgectScheme());
-
     }
 
     public GtaDataObject getDobj() {
@@ -130,38 +129,38 @@ public class GraphSceneImpl extends GraphScene implements PropertyChangeListener
     }
 
     public Object getNodeForID(String id) {
+        Object returnNode = null;
         GtaDatasetContainer gdc = null;
         GtaModelReference gmr = null;
-        for (Object node : getNodes()) {
-            if (node instanceof GtaDatasetContainer) {
-                gdc = (GtaDatasetContainer) node;
+        for (Object selectedNode : getNodes()) {
+            if (selectedNode instanceof GtaDatasetContainer) {
+                gdc = (GtaDatasetContainer) selectedNode;
                 if (gdc.getId() != null) {
                     if (gdc.getId().equals(id)) {
-                    return node;
+                        returnNode = selectedNode;
+                    }
                 }
             }
-            }
-            if (node instanceof GtaModelReference) {
-                gmr = (GtaModelReference) node;
+            if (selectedNode instanceof GtaModelReference) {
+                gmr = (GtaModelReference) selectedNode;
                 if (gmr.getId() != null) {
                     if (gmr.getId().equals(id)) {
-                    return node;
+                        returnNode = selectedNode;
                     }
                 }
             }
         }
-        //TODO: find more elegant solution than returning null
-        return null;
+        return returnNode;
     }
 
     @Override
-    protected Widget attachNodeWidget(Object node) {
+    protected Widget attachNodeWidget(Object node) {        
         TgmDataObject tgmDObj = null;
         Widget cw = null;
 
         if (node instanceof GtaModelReference) {
             GtaModelReference modelRef = (GtaModelReference) node;
-            if (modelRef.getId()==null) {
+            if (modelRef.getId() == null) {
                 modelRef.setId(String.valueOf(getNewNodeCount()));
             }
             try {
@@ -177,12 +176,11 @@ public class GraphSceneImpl extends GraphScene implements PropertyChangeListener
                 Exceptions.printStackTrace(ex);
             }
             cw = new ModelContainerWidget(this, new ModelContainer(tgmDObj), modelRef.getFilename());
-            cw.getActions();
             mainLayer.addChild(cw);
         }
         if (node instanceof GtaDatasetContainer) {
             GtaDatasetContainer myNode = (GtaDatasetContainer) node;
-            if (myNode.getId()==null) {
+            if (myNode.getId() == null) {
                 myNode.setId(String.valueOf(getNewNodeCount()));
             }
             cw = new DatasetContainerWidget(this, new DatasetContainerComponent(myNode, this), myNode.getId());
@@ -234,10 +232,10 @@ public class GraphSceneImpl extends GraphScene implements PropertyChangeListener
         Dimension size;
         TimpDatasetDataObject tdobj;
         TgmDataObject tgmDObj = null;
-        if(gtaScheme.getCounter()!=null) {
+        if (gtaScheme.getCounter() != null) {
             nodeCount = gtaScheme.getCounter().isEmpty() ? 0 : Integer.valueOf(gtaScheme.getCounter());
         } else {
-            nodeCount=0;
+            nodeCount = 0;
         }
 
         //get datasetContainer and add nodes
@@ -264,10 +262,10 @@ public class GraphSceneImpl extends GraphScene implements PropertyChangeListener
                                     DatasetContainerComponent dcc = (DatasetContainerComponent) cw.getComponent();
                                     dcc.getExplorerManager().getRootContext().getChildren().add(new Node[]{
                                                 new DatasetComponentNode(
-                                                        (TimpDatasetNode) tdobj.getNodeDelegate(),
-                                                        new Index.ArrayChildren(),
-                                                        Lookups.singleton(dataset),
-                                                        dcc)});
+                                                (TimpDatasetNode) tdobj.getNodeDelegate(),
+                                                new Index.ArrayChildren(),
+                                                Lookups.singleton(dataset),
+                                                dcc)});
                                 }
                             }
                         }
@@ -303,7 +301,7 @@ public class GraphSceneImpl extends GraphScene implements PropertyChangeListener
         }
 
         for (GtaConnection connection : gtaScheme.getConnection()) {
-            if (connection.isActive()){
+            if (connection.isActive()) {
                 Object sourceNode = getNodeForID(connection.getModelID());
                 Object targetNode = getNodeForID(connection.getDatasetContainerID());
                 addEdge(connection);
@@ -320,7 +318,7 @@ public class GraphSceneImpl extends GraphScene implements PropertyChangeListener
     }
 
     public void propertyChange(PropertyChangeEvent evt) {
-        if (evt.getPropertyName().equalsIgnoreCase("datasetNodeChanged")){
+        if (evt.getPropertyName().equalsIgnoreCase("datasetNodeChanged")) {
             dobj.setModified(true);
         }
     }
@@ -351,7 +349,7 @@ public class GraphSceneImpl extends GraphScene implements PropertyChangeListener
     }
 
     public void initGrids() {
-        Image sourceImage = Utilities.loadImage("org/glotaran/core/ui/visualmodelling/resources/paper_grid17.png"); // NOI18N
+        Image sourceImage = ImageUtilities.loadImage("org/glotaran/core/ui/visualmodelling/resources/paper_grid17.png"); // NOI18N
         int width = sourceImage.getWidth(null);
         int height = sourceImage.getHeight(null);
         BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
@@ -379,6 +377,14 @@ public class GraphSceneImpl extends GraphScene implements PropertyChangeListener
 
     public WidgetAction getSelectAction() {
         return selectAction;
+    }
+
+    public WidgetAction getResizeAction() {
+        return resizeAction;
+    }
+
+    public WidgetAction getMoveControlPointAction() {
+        return moveControlPointAction;
     }
 
 }

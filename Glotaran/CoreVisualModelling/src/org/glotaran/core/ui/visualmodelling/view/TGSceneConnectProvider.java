@@ -23,6 +23,7 @@ import org.glotaran.core.main.mesages.CoreErrorMessages;
 import org.glotaran.core.models.gta.GtaConnection;
 import org.glotaran.core.models.gta.GtaDatasetContainer;
 import org.glotaran.core.models.gta.GtaModelReference;
+import org.glotaran.core.models.gta.GtaOutput;
 import org.glotaran.core.models.gta.GtaProjectScheme;
 import org.glotaran.core.ui.visualmodelling.widgets.DatasetContainerWidget;
 import org.glotaran.core.ui.visualmodelling.widgets.ModelContainerWidget;
@@ -41,9 +42,9 @@ public class TGSceneConnectProvider implements ConnectProvider {
     private Object source = null;
     private Object target = null;
     int edgeCounter = 0;
-    private GraphScene scene;
+    private GraphSceneImpl scene;
 
-    public TGSceneConnectProvider(GraphScene scene) {
+    public TGSceneConnectProvider(GraphSceneImpl scene) {
         this.scene = scene;
     }
 
@@ -59,8 +60,11 @@ public class TGSceneConnectProvider implements ConnectProvider {
 //            if (!((DatasetContainerWidget) targetWidget).isConnected()) {
                 if (scene.isNode(target)) {
                     if (target instanceof GtaDatasetContainer && source instanceof GtaModelReference) {
-                        return ConnectorState.ACCEPT;// : ConnectorState.REJECT_AND_STOP;
-                    } else {
+                        return ConnectorState.ACCEPT;
+                    } else if (target instanceof GtaOutput && source instanceof GtaDatasetContainer) {
+                        return ConnectorState.ACCEPT;
+                    }
+                    else {
                         return ConnectorState.REJECT_AND_STOP;
                     }
                 }

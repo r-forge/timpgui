@@ -20,7 +20,6 @@ import org.glotaran.tgmfilesupport.TgmDataNode;
 import org.netbeans.api.project.ui.OpenProjects;
 import org.netbeans.api.visual.action.AcceptProvider;
 import org.netbeans.api.visual.action.ConnectorState;
-import org.netbeans.api.visual.graph.GraphScene;
 import org.netbeans.api.visual.widget.Widget;
 import org.openide.filesystems.FileObject;
 import org.openide.filesystems.FileUtil;
@@ -32,10 +31,10 @@ import org.openide.util.Exceptions;
  */
 public class CustomSceneAcceptProvider implements AcceptProvider {
 
-    private GraphScene scene;
+    private GraphSceneImpl scene;
 
-    public CustomSceneAcceptProvider(GraphScene scene) {
-        this.scene = (GraphScene) scene;
+    public CustomSceneAcceptProvider(GraphSceneImpl scene) {
+        this.scene = scene;
     }
 
     public ConnectorState isAcceptable(Widget widget, Point point, Transferable transferable) {

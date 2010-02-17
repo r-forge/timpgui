@@ -39,7 +39,9 @@ public class DatasetContainerWidget extends Widget{
         getActions().addAction(scene.getConnectAction());
         getActions().addAction(scene.getReconnectAction());
         getActions().addAction(scene.getSelectAction());
+        getActions().addAction(scene.getResizeAction());
         getActions().addAction(scene.getMoveAction());
+        setBorder (BorderFactory.createResizeBorder (4));
         LabelWidget label = new LabelWidget(scene, name);
         label.setOpaque(true);
         label.setBackground(Color.LIGHT_GRAY);

@@ -25,13 +25,17 @@ import org.netbeans.api.visual.widget.Widget;
 public class ModelContainerWidget extends Widget{
     public ModelContainerWidget(GraphSceneImpl scene, ModelContainer component, String name){
         super(scene);
+        LabelWidget label;
         setLayout(LayoutFactory.createVerticalFlowLayout());
         setBorder(BorderFactory.createLineBorder());//createRoundedBorder(5, 5, Color.gray, Color.black));//
+        getActions().addAction(scene.getResizeAction());
         getActions().addAction(scene.getConnectAction());
         getActions().addAction(scene.getReconnectAction());
         getActions().addAction(scene.getSelectAction());
+        getActions().addAction(scene.getResizeAction());
         getActions().addAction(scene.getMoveAction());
-        LabelWidget label = new LabelWidget(scene, name);
+        setBorder (BorderFactory.createResizeBorder (4));
+        label = new LabelWidget(scene, name);
         label.setOpaque(true);
         label.setBackground(Color.LIGHT_GRAY);
         label.getActions().addAction(scene.getConnectAction());
@@ -39,6 +43,12 @@ public class ModelContainerWidget extends Widget{
         addChild(0, label);
         ComponentWidget componentWidget = new ComponentWidget(scene, component);
         addChild(1, componentWidget);
+        label = new LabelWidget(scene, name +"2");
+        label.setOpaque(true);
+        label.setBackground(Color.LIGHT_GRAY);
+        label.getActions().addAction(scene.getConnectAction());
+        label.getActions().addAction(scene.getReconnectAction());
+        addChild(2, label);
         getActions().addAction(ActionFactory.createPopupMenuAction(new NodeMenu(scene)));
     }
 

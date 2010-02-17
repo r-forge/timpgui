@@ -15,6 +15,7 @@ import javax.swing.JComponent;
 import org.glotaran.core.models.gta.GtaConnection;
 import org.glotaran.core.models.gta.GtaModelDifferences;
 import org.glotaran.core.ui.visualmodelling.components.DatasetContainerComponent;
+import org.glotaran.core.ui.visualmodelling.components.OutputPanel;
 import org.glotaran.core.ui.visualmodelling.menu.NodeMenu;
 import org.glotaran.core.ui.visualmodelling.view.GraphSceneImpl;
 import org.netbeans.api.visual.action.ActionFactory;
@@ -55,8 +56,8 @@ public class OutputWidget extends Widget{
         //addPropertyChangeListener(component);
     }
 
-    public DatasetContainerComponent getContainerComponent(){        
-        return (DatasetContainerComponent)((ComponentWidget)getChildren().get(1)).getComponent();
+    public OutputPanel getContainerComponent(){
+        return (OutputPanel)((ComponentWidget)getChildren().get(1)).getComponent();
     }
 
     public boolean isConnected() {
@@ -64,26 +65,8 @@ public class OutputWidget extends Widget{
     }
 
     public void setConnected(boolean connected) {
-        if (connected){
-            GraphSceneImpl scene = (GraphSceneImpl) getScene();
-            for (Object connection : scene.findNodeEdges(scene.findObject(this), false, true)){
-                if (connection instanceof GtaConnection){
-                    if (((GtaConnection)connection).isActive()){
-                        GtaConnection gtaConnection = (GtaConnection)connection;
-                        if (gtaConnection.getModelDifferences()==null){
-                            gtaConnection.setModelDifferences(new GtaModelDifferences());
-                        }
-                        fire("connectionChange",
-                                ((ModelContainerWidget)scene.findWidget(scene.getNodeForID(gtaConnection.getSourceID()))).getModelTgm(),
-                                gtaConnection.getModelDifferences());
-                    }
-                }
-            }
-        }
-        else {
-            fire("connectionChange", null, null);
-        }
-        this.connected = connected;
+        //TODO: implementation code here
+     
     }
 
     public void addPropertyChangeListener(PropertyChangeListener pcl) {

@@ -4,13 +4,16 @@
  */
 package org.glotaran.timpcontroller;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.File;
-import java.io.OutputStream;
 import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 import org.netbeans.api.extexecution.ExecutionDescriptor;
 import org.netbeans.api.extexecution.ExecutionService;
 import org.openide.modules.ModuleInstall;
+import org.openide.util.Exceptions;
 
 /**
  * Manages a module's lifecycle. Remember that an installer is optional and
@@ -18,7 +21,7 @@ import org.openide.modules.ModuleInstall;
  */
 public class Installer extends ModuleInstall {
 
-    private String[] theCommandLineArguments = new String[]{"/usr/lib64/R/bin/ Rserve","--no-save"};
+    private String[] theCommandLineArguments = new String[]{"/usr/lib64/R/bin/Rserve","--no-save"};
 
     @Override
     public void restored() {            
@@ -26,13 +29,13 @@ public class Installer extends ModuleInstall {
 //            Callable<Process> processCallable = new ProcessLaunch(theCommandLineArguments);
 //            // Create a descriptor for the UI representation of the process.
 //            ExecutionDescriptor descriptor = new ExecutionDescriptor().controllable(true).frontWindow(true);
+//            descriptor.showProgress(true);
 //            descriptor.inputVisible(true);
 //            // Create an instance of ExecutionService and run the Callable<Process>
 //            ExecutionService exeService = ExecutionService.newService(processCallable,descriptor, "My Process");
 //            // Run the process and return the exitcode.
 //            Future<Integer> exitCode = exeService.run();
     }
-
 
     private class ProcessLaunch implements Callable<Process> {
 

@@ -220,7 +220,10 @@ public class GraphSceneImpl extends GraphScene<Object, Object> implements Proper
         }
         if (node instanceof GtaOutput) {
             GtaOutput myNode = (GtaOutput) node;
-            cw = new OutputWidget(this, new OutputPanel(), "Output");
+              if (myNode.getId() == null) {
+                myNode.setId(String.valueOf(getNewNodeCount()));
+            }
+            cw = new OutputWidget(this, new OutputPanel(), "Output" + myNode.getId());
             mainLayer.addChild(cw);
         }
         return cw;

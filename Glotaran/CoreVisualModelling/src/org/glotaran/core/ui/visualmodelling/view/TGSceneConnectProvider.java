@@ -130,13 +130,13 @@ public class TGSceneConnectProvider implements ConnectProvider {
                     gtac.setTargetType(scene.getDEFAULT_GTADATASETCONTAINER_TYPE());
                 } else if (target instanceof GtaOutput) {
                     gtac.setTargetID(((GtaOutput) target).getId());
-                    gtac.setTargetType(scene.getDEFAULT_GTADATASETCONTAINER_TYPE());
+                    gtac.setTargetType(scene.getDEFAULT_GTAOUTPUT_TYPE());
                 }
                 scene.addEdge(gtac);
                 scene.setEdgeSource(gtac, source);
                 scene.setEdgeTarget(gtac, target);
-                if (targetWidget instanceof DatasetContainerWidget) {
-                    ((DatasetContainerWidget) targetWidget).setConnected(true);
+                if (targetWidget.getParentWidget() instanceof DatasetContainerWidget) {
+                    ((DatasetContainerWidget) targetWidget.getParentWidget()).setConnected(true);
                 }
                 scene.validate();
             }

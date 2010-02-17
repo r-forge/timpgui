@@ -95,7 +95,7 @@ public class CustomSceneAcceptProvider implements AcceptProvider {
                 String path = FileUtil.getRelativePath(OpenProjects.getDefault().getMainProject().getProjectDirectory(), fo);
                 newModel.setPath(path);
                 newModel.setFilename(fo.getName());
-                newModel.setId(path);
+                newModel.setId(String.valueOf(scene.getNewNodeCount()));
                 GtaLayout widlayout = new GtaLayout();
                 widlayout.setXposition(point.getX());
                 widlayout.setYposition(point.getY());

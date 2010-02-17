@@ -51,7 +51,7 @@ public class TGSceneReconnectProvider implements ReconnectProvider {
     
     public void reconnectingStarted(ConnectionWidget connectionWidget, boolean reconnectingSource) {
         if (!reconnectingSource){
-            Widget widget = scene.findWidget(scene.getNodeForID(((GtaConnection)scene.findObject(connectionWidget)).getDatasetContainerID()));
+            Widget widget = scene.findWidget(scene.getNodeForID(((GtaConnection)scene.findObject(connectionWidget)).getTargetID()));
             if (widget instanceof DatasetContainerWidget){
                 ((DatasetContainerWidget)widget).setConnected(false);
                 ((DatasetContainerWidget)widget).getContainerComponent().setConnectedModel(null);
@@ -100,11 +100,12 @@ public class TGSceneReconnectProvider implements ReconnectProvider {
     }
     
     public void reconnect(ConnectionWidget connectionWidget, Widget replacementWidget, boolean reconnectingSource) {
-        if (replacementWidget == null)
+        if (replacementWidget == null) {
             scene.removeEdge(edge);
+        }
         else if (reconnectingSource) {
             GtaConnection connection = (GtaConnection) scene.findObject(connectionWidget);
-            connection.setModelID(((GtaModelReference)replacementNode).getId());
+            connection.setSourceID(((GtaModelReference)replacementNode).getId());
             scene.setEdgeSource(edge, replacementNode);
             scene.getDobj().setModified(true);
         } else {
@@ -112,13 +113,13 @@ public class TGSceneReconnectProvider implements ReconnectProvider {
                 if (!((DatasetContainerWidget) replacementWidget.getParentWidget()).isConnected()) {
                     ((DatasetContainerWidget) replacementWidget.getParentWidget()).setConnected(true);
                     GtaConnection connection = (GtaConnection) scene.findObject(connectionWidget);
-                    connection.setDatasetContainerID(((GtaDatasetContainer)replacementNode).getId());
+                    connection.setTargetID(((GtaDatasetContainer)replacementNode).getId());
                     scene.setEdgeTarget(edge, replacementNode);
                     scene.getDobj().setModified(true);
                     //TODO finish implementing
                 }
                 else {
-                    ((DatasetContainerWidget)scene.findWidget(scene.getNodeForID(edge.getDatasetContainerID()))).setConnected(true);
+                    ((DatasetContainerWidget)scene.findWidget(scene.getNodeForID(edge.getTargetID()))).setConnected(true);
                     CoreErrorMessages.containerConnected("","");
                 }
             }

@@ -104,6 +104,7 @@ final public class VisualModellingTopComponent extends CloneableTopComponent imp
      * Gets default instance. Do not use directly: reserved for *.settings files only,
      * i.e. deserialization routines; otherwise you could get a non-deserialized instance.
      * To obtain the singleton instance, use {@link #findInstance}.
+     * @return
      */
     public static synchronized VisualModellingTopComponent getDefault() {
         if (instance == null) {
@@ -114,6 +115,7 @@ final public class VisualModellingTopComponent extends CloneableTopComponent imp
 
     /**
      * Obtain the VisualModellingTopComponent instance. Never call {@link #getDefault} directly!
+     * @return
      */
     public static synchronized VisualModellingTopComponent findInstance() {
         TopComponent win = WindowManager.getDefault().findTopComponent(PREFERRED_ID);
@@ -203,7 +205,8 @@ final public class VisualModellingTopComponent extends CloneableTopComponent imp
                 dobj.getProgectScheme().getConnection().add((GtaConnection)addedObject);
             }
         }
-        dobj.getProgectScheme().setCounter(String.valueOf(((GraphSceneImpl)event.getObjectScene()).getNodeCount()));
+        dobj.getProgectScheme().setNodeCounter(String.valueOf(((GraphSceneImpl)event.getObjectScene()).getNodeCount()));
+        dobj.getProgectScheme().setEdgeCounter(String.valueOf(((GraphSceneImpl)event.getObjectScene()).getEdgeCount()));
         dobj.setModified(true);
     }
 
@@ -213,7 +216,7 @@ final public class VisualModellingTopComponent extends CloneableTopComponent imp
             GtaDatasetContainer container = (GtaDatasetContainer)removedObject;
             dobj.getProgectScheme().getDatasetContainer().remove(removedObject);
             for (int i = 0; i < dobj.getProgectScheme().getConnection().size(); i++){
-                if (dobj.getProgectScheme().getConnection().get(i).getDatasetContainerID().equalsIgnoreCase(container.getId())){
+                if (dobj.getProgectScheme().getConnection().get(i).getSourceID().equalsIgnoreCase(container.getId())){
                     dobj.getProgectScheme().getConnection().remove(i);
                     i--;
                 }
@@ -223,7 +226,7 @@ final public class VisualModellingTopComponent extends CloneableTopComponent imp
             GtaModelReference container = (GtaModelReference)removedObject;
             dobj.getProgectScheme().getModel().remove(removedObject);
             for (int i = 0; i < dobj.getProgectScheme().getConnection().size(); i++){
-                if (dobj.getProgectScheme().getConnection().get(i).getModelID().equalsIgnoreCase(container.getId())){
+                if (dobj.getProgectScheme().getConnection().get(i).getTargetID().equalsIgnoreCase(container.getId())){
                     dobj.getProgectScheme().getConnection().remove(i);
                     i--;
                 }

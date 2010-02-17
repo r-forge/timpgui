@@ -25,6 +25,7 @@ import org.glotaran.core.models.gta.GtaDataset;
 import org.glotaran.core.models.gta.GtaDatasetContainer;
 import org.glotaran.core.models.gta.GtaLayout;
 import org.glotaran.core.models.gta.GtaModelReference;
+import org.glotaran.core.models.gta.GtaOutput;
 import org.glotaran.core.models.gta.GtaProjectScheme;
 import org.glotaran.core.ui.visualmodelling.components.DatasetContainerComponent;
 import org.glotaran.core.ui.visualmodelling.nodes.DatasetComponentNode;
@@ -53,7 +54,7 @@ public class SceneSerializer {
         gtaScheme.setVersion(VERSION_VALUE);
         gtaScheme.setName(DEFAULT_NAME);
 
-        gtaScheme.setCounter(String.valueOf(scene.getNodeCount()));
+        gtaScheme.setNodeCounter(String.valueOf(scene.getNodeCount()));
 
         for (Object node : scene.getNodes()) {
 
@@ -103,6 +104,9 @@ public class SceneSerializer {
 
                 }
             }
+            if (node instanceof GtaOutput) {
+            gtaScheme.getOutput().add((GtaOutput)node);
+        }
 
         }
         for (Object edge : scene.getEdges()) {

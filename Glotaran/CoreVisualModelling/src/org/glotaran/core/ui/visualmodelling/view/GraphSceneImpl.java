@@ -76,19 +76,23 @@ public class GraphSceneImpl extends GraphScene<Object, Object> implements Proper
     private LayerWidget mainLayer = new LayerWidget(this);
     private LayerWidget connectionLayer = new LayerWidget(this);
     private LayerWidget interractionLayer = new LayerWidget(this);
-    private LayerWidget backgroundLayer = new LayerWidget(this);    
+    private LayerWidget backgroundLayer = new LayerWidget(this);
     private Router router = RouterFactory.createFreeRouter();
     private WidgetAction connectAction = ActionFactory.createExtendedConnectAction(interractionLayer, new TGSceneConnectProvider(this));
     private WidgetAction reconnectAction = ActionFactory.createReconnectAction(new TGSceneReconnectProvider(this));
     private WidgetAction moveControlPointAction = ActionFactory.createFreeMoveControlPointAction();
     private WidgetAction selectAction = ActionFactory.createSelectAction(new ObjectSelectProvider());
     private WidgetAction sceneAcceptAction = ActionFactory.createAcceptAction(new CustomSceneAcceptProvider(this));
-    private WidgetAction resizeAction = ActionFactory.createAlignWithResizeAction (mainLayer, interractionLayer, null);    
+    private WidgetAction resizeAction = ActionFactory.createAlignWithResizeAction(mainLayer, interractionLayer, null);
     private WidgetAction moveAction;
     //private WidgetAction eatAction = ActionFactory.createSelectAction (new EatEventSelectProvider ());
     private EdgeMenu edgeMenu = new EdgeMenu(this);
     private Integer nodeCount = 0;
+    private Integer edgeCount = 0;
     private GtaDataObject dobj = null;
+    private final String DEFAULT_GTADATASETCONTAINER_TYPE="Datasetcontainer";
+    private final String DEFAULT_GTAMODELREFERENCE_TYPE="ModelReference";
+    private final String DEFAULT_GTAOUTPUT_TYPE="Output";
 
     public GraphSceneImpl() {
         addChild(mainLayer);
@@ -100,10 +104,8 @@ public class GraphSceneImpl extends GraphScene<Object, Object> implements Proper
         setToolTipText("Drag components from the palette onto this design pane");
         initGrids();
         GlotaranAlignWithMoveStrategyProvider sp = new GlotaranAlignWithMoveStrategyProvider(new GlotaranSingleLayerAlignWithCollector(mainLayer, true), interractionLayer, ActionFactory.createDefaultAlignWithMoveDecorator(), true);
-        moveAction = ActionFactory.createMoveAction(sp,sp);
+        moveAction = ActionFactory.createMoveAction(sp, sp);
     }
-
-
 
     public GraphSceneImpl(GtaDataObject dobj) {
         this();
@@ -128,10 +130,32 @@ public class GraphSceneImpl extends GraphScene<Object, Object> implements Proper
         return nodeCount;
     }
 
+    public Integer getEdgeCount() {
+        return edgeCount;
+    }
+
+    public Integer getNewEdgeCount() {
+        edgeCount++;
+        return edgeCount;
+    }
+
+    public String getDEFAULT_GTADATASETCONTAINER_TYPE() {
+        return DEFAULT_GTADATASETCONTAINER_TYPE;
+    }
+
+    public String getDEFAULT_GTAMODELREFERENCE_TYPE() {
+        return DEFAULT_GTAMODELREFERENCE_TYPE;
+    }
+
+    public String getDEFAULT_GTAOUTPUT_TYPE() {
+        return DEFAULT_GTAOUTPUT_TYPE;
+    }
+
     public Object getNodeForID(String id) {
         Object returnNode = null;
         GtaDatasetContainer gdc = null;
         GtaModelReference gmr = null;
+        GtaOutput gtaOutputNode = null;
         for (Object selectedNode : getNodes()) {
             if (selectedNode instanceof GtaDatasetContainer) {
                 gdc = (GtaDatasetContainer) selectedNode;
@@ -149,12 +173,20 @@ public class GraphSceneImpl extends GraphScene<Object, Object> implements Proper
                     }
                 }
             }
+            if (selectedNode instanceof GtaOutput) {
+                gtaOutputNode = (GtaOutput) selectedNode;
+                if (gtaOutputNode.getId() != null) {
+                    if (gtaOutputNode.getId().equals(id)) {
+                        returnNode = gtaOutputNode;
+                    }
+                }
+            }
         }
         return returnNode;
     }
 
     @Override
-    protected Widget attachNodeWidget(Object node) {        
+    protected Widget attachNodeWidget(Object node) {
         TgmDataObject tgmDObj = null;
         Widget cw = null;
 
@@ -219,66 +251,86 @@ public class GraphSceneImpl extends GraphScene<Object, Object> implements Proper
     }
 
     @Override
+    protected void detachEdgeWidget(Object edge, Widget widget) {
+         GtaConnection connection = (GtaConnection)edge;
+         connection.setActive(false);
+         if (widget instanceof DatasetContainerWidget) {
+           ((DatasetContainerWidget) widget).setConnected(false);
+          ((DatasetContainerWidget) widget).getContainerComponent().setConnectedModel(null);
+         } else {
+             getDobj().getProgectScheme().getConnection().remove(connection);
+         }
+    }
+
+    @Override
     protected void attachEdgeTargetAnchor(Object edge, Object oldTargetNode, Object targetNode) {
         ConnectionWidget widget = (ConnectionWidget) findWidget(edge);
         Widget targetNodeWidget = findWidget(targetNode);
         widget.setTargetAnchor(targetNodeWidget != null ? AnchorFactory.createFreeRectangularAnchor(targetNodeWidget, true) : null);
     }
 
-    @SuppressWarnings("unchecked")
     public void loadScene(GtaProjectScheme gtaScheme) {
         Widget widget;
         Point location;
         Dimension size;
         TimpDatasetDataObject tdobj;
         TgmDataObject tgmDObj = null;
-        if (gtaScheme.getCounter() != null) {
-            nodeCount = gtaScheme.getCounter().isEmpty() ? 0 : Integer.valueOf(gtaScheme.getCounter());
+        if (gtaScheme.getNodeCounter() != null) {
+            nodeCount = gtaScheme.getNodeCounter().isEmpty() ? 0 : Integer.valueOf(gtaScheme.getNodeCounter());
         } else {
             nodeCount = 0;
         }
+        if (gtaScheme.getEdgeCounter() != null) {
+            edgeCount = gtaScheme.getEdgeCounter().isEmpty() ? 0 : Integer.valueOf(gtaScheme.getEdgeCounter());
+        } else {
+            edgeCount = 0;
+        }
 
-        //get datasetContainer and add nodes
+        // <editor-fold desc="GtaDatasetContainer">
         for (GtaDatasetContainer container : gtaScheme.getDatasetContainer()) {
-            widget = addNode(container);
-            location = new Point((int) Math.floor(container.getLayout().getXposition()), (int) Math.floor(container.getLayout().getYposition()));
-            size = new Dimension((int) Math.floor(container.getLayout().getWidth()), (int) Math.floor(container.getLayout().getHeight()));
-            widget.setPreferredLocation(location);
-            //widget.setPreferredSize(size);
-            validate();
+            if (container != null) {
+                widget = addNode(container);
+                location = new Point((int) Math.floor(container.getLayout().getXposition()), (int) Math.floor(container.getLayout().getYposition()));
+                size = new Dimension((int) Math.floor(container.getLayout().getWidth()), (int) Math.floor(container.getLayout().getHeight()));
+                widget.setPreferredLocation(location);
+                widget.setPreferredSize(size);
+                validate();
 
-            for (GtaDataset dataset : container.getDatasets()) {
-                try {
-                    File fl = new File(OpenProjects.getDefault().getMainProject().getProjectDirectory().getPath() + File.separator + dataset.getPath());
-                    FileObject test = FileUtil.createData(fl);
-                    DataObject dObj = DataObject.find(test);
-                    if (dObj != null) {
-                        tdobj = (TimpDatasetDataObject) dObj;
-                        for (Widget testWidget : widget.getChildren()) {
-                            if (testWidget instanceof ComponentWidget) {
-                                ComponentWidget cw = ((ComponentWidget) testWidget);
-                                if (cw.getComponent() instanceof DatasetContainerComponent) {
-                                    GtaDatasetContainer gdc = new GtaDatasetContainer();
-                                    DatasetContainerComponent dcc = (DatasetContainerComponent) cw.getComponent();
-                                    dcc.getExplorerManager().getRootContext().getChildren().add(new Node[]{
-                                                new DatasetComponentNode(
-                                                (TimpDatasetNode) tdobj.getNodeDelegate(),
-                                                new Index.ArrayChildren(),
-                                                Lookups.singleton(dataset),
-                                                dcc)});
+                for (GtaDataset dataset : container.getDatasets()) {
+                    try {
+                        File fl = new File(OpenProjects.getDefault().getMainProject().getProjectDirectory().getPath() + File.separator + dataset.getPath());
+                        FileObject test = FileUtil.createData(fl);
+                        DataObject dObj = DataObject.find(test);
+                        if (dObj != null) {
+                            tdobj = (TimpDatasetDataObject) dObj;
+                            for (Widget testWidget : widget.getChildren()) {
+                                if (testWidget instanceof ComponentWidget) {
+                                    ComponentWidget cw = ((ComponentWidget) testWidget);
+                                    if (cw.getComponent() instanceof DatasetContainerComponent) {
+                                        GtaDatasetContainer gdc = new GtaDatasetContainer();
+                                        DatasetContainerComponent dcc = (DatasetContainerComponent) cw.getComponent();
+                                        dcc.getExplorerManager().getRootContext().getChildren().add(new Node[]{
+                                                    new DatasetComponentNode(
+                                                    (TimpDatasetNode) tdobj.getNodeDelegate(),
+                                                    new Index.ArrayChildren(),
+                                                    Lookups.singleton(dataset),
+                                                    dcc)});
+                                    }
                                 }
                             }
                         }
+                    } catch (DataObjectExistsException ex) {
+                        Exceptions.printStackTrace(ex);
+                    } catch (IOException ex) {
+                        Exceptions.printStackTrace(ex);
                     }
-                } catch (DataObjectExistsException ex) {
-                    Exceptions.printStackTrace(ex);
-                } catch (IOException ex) {
-                    Exceptions.printStackTrace(ex);
-                }
 
+                }
             }
         }
+        // </editor-fold>
 
+        // <editor-fold desc="GtaModelReference">
         for (GtaModelReference model : gtaScheme.getModel()) {
             try {
                 File fl = new File(OpenProjects.getDefault().getMainProject().getProjectDirectory().getPath() + File.separator + model.getPath());
@@ -299,22 +351,36 @@ public class GraphSceneImpl extends GraphScene<Object, Object> implements Proper
             widget.setPreferredLocation(location);
             validate();
         }
+        // </editor-fold>
 
+         // <editor-fold desc="GtaOutput">
+        for (GtaOutput output : gtaScheme.getOutput()) {
+            widget = addNode(output);
+            location = new Point((int) Math.floor(output.getLayout().getHeight()), (int) Math.floor(output.getLayout().getYposition()));
+            size = new Dimension((int) Math.floor(output.getLayout().getWidth()), (int) Math.floor(output.getLayout().getHeight()));
+            widget.setPreferredLocation(location);
+        }
+        // </editor-fold>
+
+        // <editor-fold desc="GtaConnection">
         for (GtaConnection connection : gtaScheme.getConnection()) {
             if (connection.isActive()) {
-                Object sourceNode = getNodeForID(connection.getModelID());
-                Object targetNode = getNodeForID(connection.getDatasetContainerID());
+                Object sourceNode = getNodeForID(connection.getSourceID());
+                Object targetNode = getNodeForID(connection.getTargetID());
                 addEdge(connection);
                 setEdgeSource(connection, sourceNode);
                 setEdgeTarget(connection, targetNode);
+                if (findWidget(targetNode) instanceof DatasetContainerWidget) {
                 ((DatasetContainerWidget) findWidget(targetNode)).setConnected(true);
                 ((DatasetContainerWidget) findWidget(targetNode)).getContainerComponent().setConnectedModel(
                         ((ModelContainerWidget) findWidget(sourceNode)).getModelTgm());
                 ((DatasetContainerWidget) findWidget(targetNode)).getContainerComponent().setConnectedModel(
                         ((ModelContainerWidget) findWidget(sourceNode)).getModelTgm());
+                }
                 validate();
             }
         }
+        // </editor-fold>
     }
 
     public void propertyChange(PropertyChangeEvent evt) {
@@ -386,6 +452,5 @@ public class GraphSceneImpl extends GraphScene<Object, Object> implements Proper
     public WidgetAction getMoveControlPointAction() {
         return moveControlPointAction;
     }
-
 }
 

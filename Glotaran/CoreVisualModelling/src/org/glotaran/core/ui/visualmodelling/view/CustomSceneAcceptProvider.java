@@ -78,6 +78,10 @@ public class CustomSceneAcceptProvider implements AcceptProvider {
                 newWidget = scene.addNode(newDatasetContainer);
             } else if (item.getName().equalsIgnoreCase("StandardOutput")) {
                 GtaOutput gtaOutput = new GtaOutput();
+                GtaLayout widlayout = new GtaLayout();
+                widlayout.setXposition(point.getX());
+                widlayout.setYposition(point.getY());
+                gtaOutput.setLayout(widlayout);
                 newWidget = scene.addNode(gtaOutput);
             }           
         }

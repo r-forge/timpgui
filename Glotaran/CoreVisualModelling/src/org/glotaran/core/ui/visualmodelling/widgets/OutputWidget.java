@@ -74,7 +74,7 @@ public class OutputWidget extends Widget{
                             gtaConnection.setModelDifferences(new GtaModelDifferences());
                         }
                         fire("connectionChange",
-                                ((ModelContainerWidget)scene.findWidget(scene.getNodeForID(gtaConnection.getModelID()))).getModelTgm(),
+                                ((ModelContainerWidget)scene.findWidget(scene.getNodeForID(gtaConnection.getSourceID()))).getModelTgm(),
                                 gtaConnection.getModelDifferences());
                     }
                 }

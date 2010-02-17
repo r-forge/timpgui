@@ -384,6 +384,27 @@ public class DatasetContainerComponent
                     modelDifferences.getDifferences().get(datasetIndex).getFree().get((Integer)evt.getOldValue()).setStart((Double)evt.getNewValue());
                 }
             }
+
+            if (evt.getPropertyName().equalsIgnoreCase("index")){
+                if (sourceNode.getType().equals("FreeParameter")) {
+                    modelDifferences.getDifferences().get(datasetIndex).getFree().get((Integer)evt.getOldValue()).setIndex((Integer)evt.getNewValue()+1);
+                }
+            }
+
+            if (evt.getPropertyName().equalsIgnoreCase("what")){
+                if (sourceNode.getType().equals("FreeParameter")) {
+                    modelDifferences.getDifferences().get(datasetIndex).getFree().get((Integer)evt.getOldValue()).setWhat((String)evt.getNewValue());
+                }
+            }
+
+            if (evt.getPropertyName().equalsIgnoreCase("delete")){
+                int index = (Integer)evt.getOldValue();
+                if (sourceNode.getType().equals("FreeParameter")) {
+                    modelDifferences.getDifferences().get(datasetIndex).getFree().remove(index);
+                }
+            }
+
+
             firePropertyChange("datasetNodeChanged", null, null);
         }
     }

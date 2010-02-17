@@ -82,6 +82,7 @@ public class ModelDiffsSubNode extends PropertiesAbstractNode implements Propert
             parameters[i] = tempPar.get(i);
             paramInd[i] = i;
         }
+        getDataObj().setWhat(parameters[0]);
     }
 
     private void getParamList(){
@@ -128,15 +129,15 @@ public class ModelDiffsSubNode extends PropertiesAbstractNode implements Propert
 
     }
 
-    private Property createFreParProperty(){
+    private Property<Integer> createFreParProperty(){
         getParamList();
-        Property paramIndex = new Property(Integer.class) {
+        Property<Integer> paramIndex = new Property<Integer>(Integer.class) {
             @Override
             public boolean canRead() {
                 return true;
             }
             @Override
-            public Object getValue() throws IllegalAccessException, InvocationTargetException {
+            public Integer getValue() throws IllegalAccessException, InvocationTargetException {
                 return getDataObj().getIndex();
             }
             @Override
@@ -144,8 +145,8 @@ public class ModelDiffsSubNode extends PropertiesAbstractNode implements Propert
                 return true;
             }
             @Override
-            public void setValue(Object val) throws IllegalAccessException, IllegalArgumentException, InvocationTargetException {
-                getDataObj().setIndex((Integer)val);
+            public void setValue(Integer val) throws IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+                getDataObj().setIndex(val);
             }
         };
         paramIndex.setValue("intValues",paramValInd);
@@ -154,15 +155,15 @@ public class ModelDiffsSubNode extends PropertiesAbstractNode implements Propert
         return paramIndex;
     }
 
-    private Property createFreParTypeProperty(){
+    private Property<Integer> createFreParTypeProperty(){
         getParamsFromModel();
-        Property freeParm = new Property(Integer.class) {
+        Property<Integer> freeParm = new Property<Integer>(Integer.class) {
             @Override
             public boolean canRead() {
                 return true;
             }
             @Override
-            public Object getValue() throws IllegalAccessException, InvocationTargetException {
+            public Integer getValue() throws IllegalAccessException, InvocationTargetException {
                 return selectedType;
             }
             @Override
@@ -170,8 +171,8 @@ public class ModelDiffsSubNode extends PropertiesAbstractNode implements Propert
                 return true;
             }
             @Override
-            public void setValue(Object val) throws IllegalAccessException, IllegalArgumentException, InvocationTargetException {
-                selectedType = (Integer)val;
+            public void setValue(Integer val) throws IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+                selectedType = val;
                 getDataObj().setWhat(paramNames[selectedType]);
                 updateFreeParProperty();
                 fireDisplayNameChange(null, getDisplayName());
@@ -201,16 +202,16 @@ public class ModelDiffsSubNode extends PropertiesAbstractNode implements Propert
         Sheet sheet = Sheet.createDefault();
         Sheet.Set set = Sheet.createPropertiesSet();
         ModelDiffsDO obj = getDataObj();
-        Property modelDiffType = null;
-        Property startingValue = null;
+        Property<String> modelDiffType = null;
+        Property<Double> startingValue = null;
         try {
-            modelDiffType = new PropertySupport.ReadOnly("Type", String.class, "Type", "Type of the modeldifference") {
+            modelDiffType = new PropertySupport.ReadOnly<String>("Type", String.class, "Type", "Type of the modeldifference") {
                 @Override
-                public Object getValue() throws IllegalAccessException, InvocationTargetException {
+                public String getValue() throws IllegalAccessException, InvocationTargetException {
                     return ((ModelDiffsNode) getParentNode()).getType();
                 }
             };
-            startingValue = new PropertySupport.Reflection(obj, Double.class, "start");
+            startingValue = new PropertySupport.Reflection<Double>(obj, Double.class, "start");
         } catch (NoSuchMethodException ex) {
             Exceptions.printStackTrace(ex);
         }
@@ -226,7 +227,7 @@ public class ModelDiffsSubNode extends PropertiesAbstractNode implements Propert
     }
 
     public void propertyChange(PropertyChangeEvent evt) {
-        if (evt.getSource().getClass().equals(ModelDiffsDO.class)){
+//        if (evt.getSource().getClass().equals(ModelDiffsDO.class)){
             int ind = 0;
                 for (int i = 0; i < getParentNode().getChildren().getNodes().length; i++) {
                     if (this.equals(getParentNode().getChildren().getNodes()[i])) {
@@ -234,11 +235,12 @@ public class ModelDiffsSubNode extends PropertiesAbstractNode implements Propert
                     }
                 }
                 ((PropertiesAbstractNode)this.getParentNode()).fire(ind, evt);
-            }
+ //           }
     }
 
     @Override
     public void destroy() throws IOException {
+        propertyChange(new PropertyChangeEvent(this, "delete", null, null));
         PropertiesAbstractNode parent = (PropertiesAbstractNode)getParentNode();
         super.destroy();
         parent.updateName();

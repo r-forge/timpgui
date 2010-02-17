@@ -56,18 +56,18 @@ public class ParametersSubNode extends PropertiesAbstractNode implements Propert
         Sheet.Set set = Sheet.createPropertiesSet();
         NonLinearParameter obj = getLookup().lookup(NonLinearParameter.class);
 
-        Property startingValue = null;
-        Property fixedValue = null;
-        Property constrainedValue = null;
-        Property constrainedMin = null;
-        Property constrainedMax = null;
+        Property<Double> startingValue = null;
+        Property<Boolean> fixedValue = null;
+        Property<Boolean> constrainedValue = null;
+        Property<Double> constrainedMin = null;
+        Property<Double> constrainedMax = null;
 
         try {
-            startingValue = new PropertySupport.Reflection(obj, Double.class, "start");
-            fixedValue = new PropertySupport.Reflection(obj, Boolean.class, "isFixed","setFixed");
-            constrainedValue = new PropertySupport.Reflection(obj, Boolean.class, "isConstrained","setConstrained");
-            constrainedMin = new PropertySupport.Reflection(obj, Double.class, "minimum");
-            constrainedMax = new PropertySupport.Reflection(obj, Double.class, "maximum");
+            startingValue = new PropertySupport.Reflection<Double>(obj, Double.class, "start");
+            fixedValue = new PropertySupport.Reflection<Boolean>(obj, Boolean.class, "isFixed","setFixed");
+            constrainedValue = new PropertySupport.Reflection<Boolean>(obj, Boolean.class, "isConstrained","setConstrained");
+            constrainedMin = new PropertySupport.Reflection<Double>(obj, Double.class, "minimum");
+            constrainedMax = new PropertySupport.Reflection<Double>(obj, Double.class, "maximum");
         } catch (NoSuchMethodException ex) {
             Exceptions.printStackTrace(ex);
         }

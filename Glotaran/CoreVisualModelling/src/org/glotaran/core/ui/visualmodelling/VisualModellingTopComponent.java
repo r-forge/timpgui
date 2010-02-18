@@ -26,7 +26,11 @@ import org.openide.windows.WindowManager;
 import org.netbeans.api.settings.ConvertAsProperties;
 import org.netbeans.api.visual.model.ObjectSceneEventType;
 import org.netbeans.api.visual.model.ObjectSceneListener;
+import org.openide.cookies.SaveCookie;
 import org.openide.nodes.Node;
+import org.openide.util.Utilities;
+import org.openide.util.lookup.AbstractLookup;
+import org.openide.util.lookup.InstanceContent;
 import org.openide.util.lookup.Lookups;
 import org.openide.windows.CloneableTopComponent;
 
@@ -38,6 +42,7 @@ autostore = false)
 final public class VisualModellingTopComponent extends CloneableTopComponent implements ObjectSceneListener {
 
     private static VisualModellingTopComponent instance;
+    private InstanceContent content;
     private static final int DEFAULT_COMPONENT_HEIGHT = 240;
     private static final int DEFAULT_COMPONENT_WIDTH = 180;
     /** path to the icon used by the component and its open action */
@@ -51,15 +56,14 @@ final public class VisualModellingTopComponent extends CloneableTopComponent imp
         initComponents();
         setName(NbBundle.getMessage(VisualModellingTopComponent.class, "CTL_VisualModellingTopComponent"));
         setToolTipText(NbBundle.getMessage(VisualModellingTopComponent.class, "HINT_VisualModellingTopComponent"));
-//        setIcon(ImageUtilities.loadImage(ICON_PATH, true));
-
+        // setIcon(ImageUtilities.loadImage(ICON_PATH, true));
         GlotaranGraphScene scene = new GlotaranGraphScene();
         JComponent myView = scene.createView();
         visualDesignScrollPane.setViewportView(myView);
         add(scene.createSatelliteView(), BorderLayout.WEST);
         setFocusable(true);
         setFocusTraversalKeysEnabled(false);
-        associateLookup(Lookups.fixed(new Object[]{PaletteSupport.createPalette()}));
+
     }
 
     public VisualModellingTopComponent(GtaDataObject dobj) {
@@ -74,11 +78,10 @@ final public class VisualModellingTopComponent extends CloneableTopComponent imp
         add(scene.createSatelliteView(), BorderLayout.WEST);
         setFocusable(true);
         setFocusTraversalKeysEnabled(false);
-        associateLookup(Lookups.fixed(new Object[]{PaletteSupport.createPalette()}));
         scene.addObjectSceneListener(this,
         ObjectSceneEventType.OBJECT_ADDED,
-                ObjectSceneEventType.OBJECT_REMOVED);
-        setActivatedNodes(new Node[]{dobj.getNodeDelegate()});
+        ObjectSceneEventType.OBJECT_REMOVED);
+        associateLookup(Lookups.fixed(new Object[]{PaletteSupport.createPalette()}));
     }
 
     /** This method is called from within the constructor to

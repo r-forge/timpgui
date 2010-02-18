@@ -31,6 +31,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import org.glotaran.core.models.gta.GtaConnection;
 import org.glotaran.core.models.gta.GtaDatasetContainer;
+import org.glotaran.core.ui.visualmodelling.common.EnumTypes;
+import org.glotaran.core.ui.visualmodelling.nodes.DatasetsRootNode;
 import org.glotaran.core.ui.visualmodelling.view.GraphSceneImpl;
 import org.glotaran.core.ui.visualmodelling.widgets.DatasetContainerWidget;
 
@@ -91,9 +93,15 @@ public class EdgeMenu implements PopupMenuProvider, ActionListener {
     }
 
     private void removeConnection(){
-        scene.removeEdge((GtaConnection) scene.findObject(edge));
         GtaConnection connection = (GtaConnection) scene.findObject(edge);
-        GtaDatasetContainer datasetContainer = (GtaDatasetContainer) scene.getNodeForID(connection.getTargetID());
+        if (connection.getTargetType().equalsIgnoreCase(EnumTypes.ConnectionTypes.GTADATASETCONTAINER.toString())){
+            DatasetsRootNode rootNode = (DatasetsRootNode) ((DatasetContainerWidget)scene.findWidget(scene.getNodeForID(connection.getTargetID()))).getContainerComponent().getExplorerManager().getRootContext();
+            for (int i = 0; i < rootNode.getChildren().getNodesCount(); i++){
+                rootNode.getChildren().getNodes()[i].getChildren().remove(
+                        rootNode.getChildren().getNodes()[i].getChildren().getNodes());
+            }
+        }
+        scene.removeEdge((GtaConnection) scene.findObject(edge));
     }
     
     private void addRemoveControlPoint(Point localLocation) {

@@ -10,6 +10,36 @@ package org.glotaran.core.ui.visualmodelling.common;
  * @author slapten
  */
 public class EnumTypes {
+    public enum ConnectionTypes{
+        GTADATASETCONTAINER,GTAMODELREFERENCE,GTAOUTPUT;
+        private String[] strNames = new String[]{"Datasetcontainer","ModelReference","Output"};
+
+        @Override
+        public String toString() {
+            switch (this) {
+                case GTADATASETCONTAINER: return strNames[0];
+                case GTAMODELREFERENCE: return strNames[1];
+                case GTAOUTPUT: return strNames[2];
+                default: return strNames[0];
+            }
+        }
+
+        public ConnectionTypes setFromStr(String str) {
+            int index = 0;
+            for (int i = 0; i < strNames.length; i++) {
+                if (strNames[i].equalsIgnoreCase(str)) {
+                    index = i;
+                }
+            }
+            switch (index) {
+                case 0: return GTADATASETCONTAINER;
+                case 1: return GTAMODELREFERENCE;
+                case 2: return GTAOUTPUT;
+                default: return GTADATASETCONTAINER;
+            }
+        }
+    }
+
     public enum IRFTypes {
         GAUSSIAN, DOUBLE_GAUSSIAN, MEASURED_IRF;
         private String[] strNames = new String[]{"Gaussian", "Double Gaussian", "Measured IRF"};

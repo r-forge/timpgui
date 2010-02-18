@@ -13,6 +13,7 @@ import java.util.LinkedList;
 import java.util.List;
 import org.glotaran.core.models.gta.GtaConnection;
 import org.glotaran.core.models.gta.GtaModelDifferences;
+import org.glotaran.core.ui.visualmodelling.common.EnumTypes;
 import org.glotaran.core.ui.visualmodelling.components.DatasetContainerComponent;
 import org.glotaran.core.ui.visualmodelling.menu.NodeMenu;
 import org.glotaran.core.ui.visualmodelling.view.GlotaranGraphScene;
@@ -30,7 +31,7 @@ import org.netbeans.api.visual.widget.Widget;
 public class DatasetContainerWidget extends Widget{
 
     private boolean connected = false;
-    private List listeners = Collections.synchronizedList(new LinkedList());
+    private List<PropertyChangeListener> listeners = Collections.synchronizedList(new LinkedList<PropertyChangeListener>());
 
     public DatasetContainerWidget(GlotaranGraphScene scene, DatasetContainerComponent component, String name){
         super(scene);
@@ -62,14 +63,14 @@ public class DatasetContainerWidget extends Widget{
         return connected;
     }
 
-    @SuppressWarnings("unchecked")
     public void setConnected(boolean connected) {
         if (connected){
             GlotaranGraphScene scene = (GlotaranGraphScene) getScene();
             for (Object connection : scene.findNodeEdges(scene.findObject(this), false, true)){
-                if (connection instanceof GtaConnection){
-                    if (((GtaConnection)connection).isActive()){
-                        GtaConnection gtaConnection = (GtaConnection)connection;
+                if ((connection instanceof GtaConnection)&&
+                        (((GtaConnection)connection).getTargetType().equalsIgnoreCase(EnumTypes.ConnectionTypes.GTADATASETCONTAINER.toString()))){
+                    GtaConnection gtaConnection = (GtaConnection)connection;
+                    if (gtaConnection.isActive()){
                         if (gtaConnection.getModelDifferences()==null){
                             gtaConnection.setModelDifferences(new GtaModelDifferences());
                         }
@@ -96,8 +97,7 @@ public class DatasetContainerWidget extends Widget{
 
     public void fire(String propertyName, Object old, Object nue) {
         //Passing 0 below on purpose, so you only synchronize for one atomic call:
-        @SuppressWarnings("unchecked")
-        PropertyChangeListener[] pcls = (PropertyChangeListener[]) listeners.toArray(new PropertyChangeListener[0]);
+        PropertyChangeListener[] pcls = listeners.toArray(new PropertyChangeListener[0]);
         for (int i = 0; i < pcls.length; i++) {
             pcls[i].propertyChange(new PropertyChangeEvent(this, propertyName, old, nue));
         }

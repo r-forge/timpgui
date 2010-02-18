@@ -20,7 +20,6 @@ package org.glotaran.core.ui.visualmodelling.view;
 
 import org.netbeans.api.visual.action.ConnectorState;
 import org.netbeans.api.visual.action.ReconnectProvider;
-import org.netbeans.api.visual.graph.GraphScene;
 import org.netbeans.api.visual.widget.ConnectionWidget;
 import org.netbeans.api.visual.widget.Scene;
 import org.netbeans.api.visual.widget.Widget;
@@ -66,20 +65,20 @@ public class GlotaranReconnectProvider implements ReconnectProvider {
     public boolean isSourceReconnectable(ConnectionWidget connectionWidget) {
         Object object = scene.findObject(connectionWidget);
         edge = scene.isEdge(object) ? (GtaConnection) object : null;
-        originalNode = edge != null ? (Object) scene.getEdgeSource(edge)  : null;
+        originalNode = edge != null ? scene.getEdgeSource(edge)  : null;
         return originalNode != null;
     }
     
     public boolean isTargetReconnectable(ConnectionWidget connectionWidget) {
         Object object = scene.findObject(connectionWidget);
         edge = scene.isEdge(object) ? (GtaConnection) object : null;
-        originalNode = edge != null ? (Object) scene.getEdgeTarget(edge)  : null;
+        originalNode = edge != null ? scene.getEdgeTarget(edge)  : null;
         return originalNode != null;
     }
     
     public ConnectorState isReplacementWidget(ConnectionWidget connectionWidget, Widget replacementWidget, boolean reconnectingSource) {
         Object object = scene.findObject(replacementWidget);
-        replacementNode = scene.isNode(object) ? (Object) object : null;
+        replacementNode = scene.isNode(object) ?  object : null;
         if (reconnectingSource){
             return (object!= null && object instanceof GtaModelReference) ?
                 ConnectorState.ACCEPT : ConnectorState.REJECT_AND_STOP;

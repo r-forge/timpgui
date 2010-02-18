@@ -5,6 +5,8 @@
 
 package org.glotaran.core.ui.visualmodelling.nodes.dataobjects;
 
+import org.glotaran.core.models.gta.GtaModelDiffDO;
+
 /**
  *
  * @author jsg210
@@ -28,6 +30,13 @@ public class ModelDiffsDO extends AbstractParameterDO {
         index = 0;
         dataset = ind;
         start = 0.0;
+    }
+
+    public ModelDiffsDO(GtaModelDiffDO gtaDO) {
+        what = gtaDO.getWhat();
+        index = gtaDO.getIndex();
+        dataset = gtaDO.getDataset();
+        start = gtaDO.getStart();
     }
 
     public Integer getDataset() {

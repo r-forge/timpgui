@@ -7,7 +7,11 @@ package org.glotaran.core.ui.visualmodelling.nodes;
 
 import java.awt.Image;
 import java.beans.PropertyChangeListener;
-import java.io.IOException;
+import java.util.List;
+import org.glotaran.core.models.gta.GtaChangesModel;
+import org.glotaran.core.models.gta.GtaModelDiffDO;
+import org.glotaran.core.ui.visualmodelling.components.DatasetContainerComponent;
+import org.glotaran.core.ui.visualmodelling.nodes.dataobjects.ModelDiffsDO;
 import org.glotaran.core.ui.visualmodelling.nodes.dataobjects.ModelDiffsParametersKeys;
 import org.openide.nodes.PropertySupport;
 import org.openide.nodes.Sheet;
@@ -33,6 +37,24 @@ public class ModelDiffsNode  extends PropertiesAbstractNode{
         datasetIndex = datasetInd;
         addPropertyChangeListener(WeakListeners.propertyChange(propListner, this));
     }
+
+    public ModelDiffsNode(String type, int datasetInd, List<GtaModelDiffDO> diffs, PropertyChangeListener listn ) {
+        super(type, new ModelDiffsParametersKeys(0));
+        propListner = listn;
+        datasetIndex = datasetInd+1;
+        ModelDiffsParametersKeys childColection = (ModelDiffsParametersKeys)getChildren();
+        for (int i = 0; i < diffs.size(); i++){
+            childColection.addObj(new ModelDiffsDO(diffs.get(i)));
+        }
+        addPropertyChangeListener(WeakListeners.propertyChange(propListner, this));
+    }
+
+    public ModelDiffsNode(String type, int datasetInd, List<GtaChangesModel> changes, DatasetContainerComponent aThis) {
+        super(type, new ModelDiffsParametersKeys(0));
+    }
+
+
+
 
     @Override
     public String getDisplayName() {

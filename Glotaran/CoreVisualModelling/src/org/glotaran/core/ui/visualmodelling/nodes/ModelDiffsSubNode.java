@@ -82,7 +82,15 @@ public class ModelDiffsSubNode extends PropertiesAbstractNode implements Propert
             parameters[i] = tempPar.get(i);
             paramInd[i] = i;
         }
-        getDataObj().setWhat(parameters[0]);
+        if (getDataObj().getWhat()!=null){
+            for (int i = 0; i < parameters.length; i++){
+                if(parameters[i].equalsIgnoreCase(getDataObj().getWhat())){
+                    selectedType = i;
+                }
+            }
+        } else {
+            getDataObj().setWhat(parameters[0]);
+        }
     }
 
     private void getParamList(){
@@ -192,6 +200,9 @@ public class ModelDiffsSubNode extends PropertiesAbstractNode implements Propert
 
     @Override
     public String getDisplayName() {
+        if (getDataObj().getWhat()!=null){
+            return getDataObj().getWhat();
+        }
         return paramNames[selectedType];
 //        return new Formatter().format("%g",getLookup().lookup(ModelDiffsDO.class).getStart()).toString();
     }

@@ -32,6 +32,7 @@ import org.glotaran.core.ui.visualmodelling.widgets.DatasetContainerWidget;
 import org.openide.explorer.ExplorerManager;
 import org.openide.explorer.ExplorerUtils;
 import org.openide.nodes.Index;
+import org.openide.nodes.Node;
 import org.openide.util.Lookup;
 import org.openide.windows.WindowManager;
 
@@ -309,6 +310,7 @@ public class DatasetContainerComponent
                 if (evt.getNewValue() != null) {
                     modelDifferences = (GtaModelDifferences) evt.getNewValue();
                     int diffNum = modelDifferences.getDifferences().size();
+                    updateModelDiffsNodes(modelDifferences);
                     if (datasetContainer.getDatasets().size() > diffNum) {
                         for (int i = 0; i < datasetContainer.getDatasets().size() - diffNum; i++) {
                             modelDifferences.getDifferences().add(new GtaModelDiffContainer());
@@ -408,5 +410,26 @@ public class DatasetContainerComponent
 
             firePropertyChange("datasetNodeChanged", null, null);
         }
+    }
+
+    private void updateModelDiffsNodes(GtaModelDifferences modelDifferences) {
+        int number = manager.getRootContext().getChildren().getNodesCount() > modelDifferences.getDifferences().size() ?
+            modelDifferences.getDifferences().size() : manager.getRootContext().getChildren().getNodesCount();
+        Node[] datasets = manager.getRootContext().getChildren().getNodes();
+        for (int i = 0; i< number; i++){
+            if (!modelDifferences.getDifferences().get(i).getFree().isEmpty()){    
+                datasets[i].getChildren().add(new Node[]{new ModelDiffsNode("FreeParameter", i, modelDifferences.getDifferences().get(i).getFree(), this)});
+            }
+            if (!modelDifferences.getDifferences().get(i).getAdd().isEmpty()){
+                datasets[i].getChildren().add(new Node[]{new ModelDiffsNode("AddParameter", i, modelDifferences.getDifferences().get(i).getAdd(), this)});
+            }
+            if (!modelDifferences.getDifferences().get(i).getRemove().isEmpty()){
+                datasets[i].getChildren().add(new Node[]{new ModelDiffsNode("RemoveParameter", i, modelDifferences.getDifferences().get(i).getRemove(), this)});
+            }
+            if (!modelDifferences.getDifferences().get(i).getChanges().isEmpty()){
+                datasets[i].getChildren().add(new Node[]{new ModelDiffsNode("ChangeParameter", i, modelDifferences.getDifferences().get(i).getChanges(), this)});
+            }
+        }
+       
     }
 }

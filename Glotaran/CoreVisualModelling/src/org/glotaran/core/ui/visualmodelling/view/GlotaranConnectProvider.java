@@ -98,7 +98,7 @@ public class GlotaranConnectProvider implements ConnectProvider {
                                         scene.setEdgeTarget(connection, target);
                                         ((DatasetContainerWidget) targetWidget.getParentWidget()).setConnected(true);
                                         scene.validate();
-                                        return;
+//                                        return;
                                     } else {
                                         CoreErrorMessages.containerConnected(targetId, sourceId);
                                     }
@@ -107,7 +107,6 @@ public class GlotaranConnectProvider implements ConnectProvider {
                         }
                     }
                 }
-
             }
 
             if (scene.findEdgesBetween(source, target).isEmpty()) {
@@ -144,7 +143,7 @@ public class GlotaranConnectProvider implements ConnectProvider {
 
         } //end of isempty
 
-
+     scene.validate();
 
     }
 }

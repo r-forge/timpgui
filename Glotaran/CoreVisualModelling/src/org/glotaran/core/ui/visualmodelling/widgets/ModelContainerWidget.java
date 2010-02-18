@@ -6,6 +6,8 @@
 package org.glotaran.core.ui.visualmodelling.widgets;
 
 import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Rectangle;
 import org.glotaran.core.models.tgm.Tgm;
 import org.glotaran.core.ui.visualmodelling.components.DatasetContainerComponent;
 import org.glotaran.core.ui.visualmodelling.components.ModelContainer;
@@ -13,6 +15,7 @@ import org.glotaran.core.ui.visualmodelling.menu.NodeMenu;
 import org.glotaran.core.ui.visualmodelling.view.GlotaranGraphScene;
 import org.netbeans.api.visual.action.ActionFactory;
 import org.netbeans.api.visual.border.BorderFactory;
+import org.netbeans.api.visual.layout.Layout;
 import org.netbeans.api.visual.layout.LayoutFactory;
 import org.netbeans.api.visual.widget.ComponentWidget;
 import org.netbeans.api.visual.widget.LabelWidget;
@@ -26,8 +29,8 @@ public class ModelContainerWidget extends Widget{
     public ModelContainerWidget(GlotaranGraphScene scene, ModelContainer component, String name){
         super(scene);
         LabelWidget label;
-        setLayout(LayoutFactory.createVerticalFlowLayout());
-        setBorder(BorderFactory.createLineBorder());//createRoundedBorder(5, 5, Color.gray, Color.black));//
+        setLayout(LayoutFactory.createOverlayLayout());
+        setBorder(BorderFactory.createRoundedBorder(5, 5, Color.gray, Color.black));//createRoundedBorder(5, 5, Color.gray, Color.black));//
         getActions().addAction(scene.getResizeAction());
         getActions().addAction(scene.getConnectAction());
         getActions().addAction(scene.getReconnectAction());
@@ -40,16 +43,15 @@ public class ModelContainerWidget extends Widget{
         label.setBackground(Color.LIGHT_GRAY);
         label.getActions().addAction(scene.getConnectAction());
         label.getActions().addAction(scene.getReconnectAction());
+        label.setPreferredBounds(new Rectangle(new Dimension(200, 20)));
         addChild(0, label);
         ComponentWidget componentWidget = new ComponentWidget(scene, component);
         addChild(1, componentWidget);
-        label = new LabelWidget(scene, name +"2");
-        label.setOpaque(true);
-        label.setBackground(Color.LIGHT_GRAY);
-        label.getActions().addAction(scene.getConnectAction());
-        label.getActions().addAction(scene.getReconnectAction());
-        addChild(2, label);
+        //componentWidget.setPreferredBounds(new Rectangle(new Dimension(200, 200)));                
         getActions().addAction(ActionFactory.createPopupMenuAction(new NodeMenu(scene)));
+        
+        //setChildConstraint(componentWidget,new Double(0.95));
+        //setChildConstraint(label,new Double(0.05));
     }
 
     public Tgm getModelTgm(){

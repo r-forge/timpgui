@@ -26,6 +26,7 @@ import org.openide.windows.WindowManager;
 import org.netbeans.api.settings.ConvertAsProperties;
 import org.netbeans.api.visual.model.ObjectSceneEventType;
 import org.netbeans.api.visual.model.ObjectSceneListener;
+import org.openide.nodes.Node;
 import org.openide.util.lookup.Lookups;
 import org.openide.windows.CloneableTopComponent;
 
@@ -59,7 +60,6 @@ final public class VisualModellingTopComponent extends CloneableTopComponent imp
         setFocusable(true);
         setFocusTraversalKeysEnabled(false);
         associateLookup(Lookups.fixed(new Object[]{PaletteSupport.createPalette()}));
-
     }
 
     public VisualModellingTopComponent(GtaDataObject dobj) {
@@ -76,8 +76,9 @@ final public class VisualModellingTopComponent extends CloneableTopComponent imp
         setFocusTraversalKeysEnabled(false);
         associateLookup(Lookups.fixed(new Object[]{PaletteSupport.createPalette()}));
         scene.addObjectSceneListener(this,
-                ObjectSceneEventType.OBJECT_ADDED,
+        ObjectSceneEventType.OBJECT_ADDED,
                 ObjectSceneEventType.OBJECT_REMOVED);
+        setActivatedNodes(new Node[]{dobj.getNodeDelegate()});
     }
 
     /** This method is called from within the constructor to

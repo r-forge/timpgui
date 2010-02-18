@@ -25,6 +25,7 @@ import org.glotaran.core.models.gta.GtaDatasetContainer;
 import org.glotaran.core.models.gta.GtaModelReference;
 import org.glotaran.core.models.gta.GtaOutput;
 import org.glotaran.core.models.gta.GtaProjectScheme;
+import org.glotaran.core.ui.visualmodelling.common.EnumTypes;
 import org.glotaran.core.ui.visualmodelling.widgets.DatasetContainerWidget;
 import org.netbeans.api.visual.action.ConnectProvider;
 import org.netbeans.api.visual.action.ConnectorState;
@@ -118,19 +119,19 @@ public class GlotaranConnectProvider implements ConnectProvider {
                 source = scene.findObject(sourceWidget);
                 if (source instanceof GtaModelReference) {
                     gtac.setSourceID(((GtaModelReference) source).getId());
-                    gtac.setSourceType(scene.getDEFAULT_GTAMODELREFERENCE_TYPE());
+                    gtac.setSourceType(EnumTypes.ConnectionTypes.GTAMODELREFERENCE.toString());
                 } else if (source instanceof GtaDatasetContainer) {
                     gtac.setSourceID(((GtaDatasetContainer) source).getId());
-                    gtac.setSourceType(scene.getDEFAULT_GTADATASETCONTAINER_TYPE());
+                    gtac.setSourceType(EnumTypes.ConnectionTypes.GTADATASETCONTAINER.toString());
                 }
 
                 target = scene.findObject(targetWidget);
                 if (target instanceof GtaDatasetContainer) {
                     gtac.setTargetID(((GtaDatasetContainer) target).getId());
-                    gtac.setTargetType(scene.getDEFAULT_GTADATASETCONTAINER_TYPE());
+                    gtac.setTargetType(EnumTypes.ConnectionTypes.GTADATASETCONTAINER.toString());
                 } else if (target instanceof GtaOutput) {
                     gtac.setTargetID(((GtaOutput) target).getId());
-                    gtac.setTargetType(scene.getDEFAULT_GTAOUTPUT_TYPE());
+                    gtac.setTargetType(EnumTypes.ConnectionTypes.GTAOUTPUT.toString());
                 }
                 scene.addEdge(gtac);
                 scene.setEdgeSource(gtac, source);

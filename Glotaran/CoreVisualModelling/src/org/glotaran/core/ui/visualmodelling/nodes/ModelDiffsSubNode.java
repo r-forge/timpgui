@@ -227,15 +227,13 @@ public class ModelDiffsSubNode extends PropertiesAbstractNode implements Propert
     }
 
     public void propertyChange(PropertyChangeEvent evt) {
-//        if (evt.getSource().getClass().equals(ModelDiffsDO.class)){
-            int ind = 0;
-                for (int i = 0; i < getParentNode().getChildren().getNodes().length; i++) {
-                    if (this.equals(getParentNode().getChildren().getNodes()[i])) {
-                        ind = i;
-                    }
-                }
-                ((PropertiesAbstractNode)this.getParentNode()).fire(ind, evt);
- //           }
+        int ind = 0;
+        for (int i = 0; i < getParentNode().getChildren().getNodes().length; i++) {
+            if (this.equals(getParentNode().getChildren().getNodes()[i])) {
+                ind = i;
+            }
+        }
+        ((PropertiesAbstractNode) this.getParentNode()).fire(ind, evt);
     }
 
     @Override

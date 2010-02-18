@@ -67,12 +67,12 @@ public class ModelDiffsNode  extends PropertiesAbstractNode{
     protected Sheet createSheet() {
         Sheet sheet = Sheet.createDefault();
         Sheet.Set set = Sheet.createPropertiesSet();
-        Property numberOfComponents = null;
-        Property name = null;
+        Property<Integer> numberOfComponents = null;
+        Property<String> name = null;
 
         try {
-            numberOfComponents = new PropertySupport.Reflection(this, Integer.class, "getCompNum", "setCompNum");
-            name = new PropertySupport.Reflection(this, String.class, "getDisplayName", null);
+            numberOfComponents = new PropertySupport.Reflection<Integer>(this, Integer.class, "getCompNum", "setCompNum");
+            name = new PropertySupport.Reflection<String>(this, String.class, "getDisplayName", null);
         } catch (NoSuchMethodException ex) {
             Exceptions.printStackTrace(ex);
         }

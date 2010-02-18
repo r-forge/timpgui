@@ -90,9 +90,6 @@ public class GlotaranGraphScene extends GraphScene<Object, Object> implements Pr
     private Integer nodeCount = 0;
     private Integer edgeCount = 0;
     private GtaDataObject dobj = null;
-    private final String DEFAULT_GTADATASETCONTAINER_TYPE="Datasetcontainer";
-    private final String DEFAULT_GTAMODELREFERENCE_TYPE="ModelReference";
-    private final String DEFAULT_GTAOUTPUT_TYPE="Output";
 
     public GlotaranGraphScene() {
         addChild(mainLayer);
@@ -138,19 +135,7 @@ public class GlotaranGraphScene extends GraphScene<Object, Object> implements Pr
         edgeCount++;
         return edgeCount;
     }
-
-    public String getDEFAULT_GTADATASETCONTAINER_TYPE() {
-        return DEFAULT_GTADATASETCONTAINER_TYPE;
-    }
-
-    public String getDEFAULT_GTAMODELREFERENCE_TYPE() {
-        return DEFAULT_GTAMODELREFERENCE_TYPE;
-    }
-
-    public String getDEFAULT_GTAOUTPUT_TYPE() {
-        return DEFAULT_GTAOUTPUT_TYPE;
-    }
-
+    
     public Object getNodeForID(String id) {
         Object returnNode = null;
         GtaDatasetContainer gdc = null;

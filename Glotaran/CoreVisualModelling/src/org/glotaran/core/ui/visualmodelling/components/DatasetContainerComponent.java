@@ -308,8 +308,9 @@ public class DatasetContainerComponent
                 connectedModel = (Tgm) evt.getOldValue();
                 if (evt.getNewValue() != null) {
                     modelDifferences = (GtaModelDifferences) evt.getNewValue();
-                    if (datasetContainer.getDatasets().size() > modelDifferences.getDifferences().size()) {
-                        for (int i = 0; i < datasetContainer.getDatasets().size() - modelDifferences.getDifferences().size(); i++) {
+                    int diffNum = modelDifferences.getDifferences().size();
+                    if (datasetContainer.getDatasets().size() > diffNum) {
+                        for (int i = 0; i < datasetContainer.getDatasets().size() - diffNum; i++) {
                             modelDifferences.getDifferences().add(new GtaModelDiffContainer());
                         }
                     }

@@ -15,7 +15,7 @@ import org.glotaran.core.models.gta.GtaConnection;
 import org.glotaran.core.models.gta.GtaModelDifferences;
 import org.glotaran.core.ui.visualmodelling.components.DatasetContainerComponent;
 import org.glotaran.core.ui.visualmodelling.menu.NodeMenu;
-import org.glotaran.core.ui.visualmodelling.view.GraphSceneImpl;
+import org.glotaran.core.ui.visualmodelling.view.GlotaranGraphScene;
 import org.netbeans.api.visual.action.ActionFactory;
 import org.netbeans.api.visual.border.BorderFactory;
 import org.netbeans.api.visual.layout.LayoutFactory;
@@ -32,7 +32,7 @@ public class DatasetContainerWidget extends Widget{
     private boolean connected = false;
     private List listeners = Collections.synchronizedList(new LinkedList());
 
-    public DatasetContainerWidget(GraphSceneImpl scene, DatasetContainerComponent component, String name){
+    public DatasetContainerWidget(GlotaranGraphScene scene, DatasetContainerComponent component, String name){
         super(scene);
         setLayout(LayoutFactory.createVerticalFlowLayout());
         setBorder(BorderFactory.createLineBorder());//createRoundedBorder(5, 5, Color.gray, Color.black));//
@@ -65,7 +65,7 @@ public class DatasetContainerWidget extends Widget{
     @SuppressWarnings("unchecked")
     public void setConnected(boolean connected) {
         if (connected){
-            GraphSceneImpl scene = (GraphSceneImpl) getScene();
+            GlotaranGraphScene scene = (GlotaranGraphScene) getScene();
             for (Object connection : scene.findNodeEdges(scene.findObject(this), false, true)){
                 if (connection instanceof GtaConnection){
                     if (((GtaConnection)connection).isActive()){

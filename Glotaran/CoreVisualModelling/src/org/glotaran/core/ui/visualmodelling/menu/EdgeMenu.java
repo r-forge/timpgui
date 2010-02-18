@@ -33,7 +33,7 @@ import org.glotaran.core.models.gta.GtaConnection;
 import org.glotaran.core.models.gta.GtaDatasetContainer;
 import org.glotaran.core.ui.visualmodelling.common.EnumTypes;
 import org.glotaran.core.ui.visualmodelling.nodes.DatasetsRootNode;
-import org.glotaran.core.ui.visualmodelling.view.GraphSceneImpl;
+import org.glotaran.core.ui.visualmodelling.view.GlotaranGraphScene;
 import org.glotaran.core.ui.visualmodelling.widgets.DatasetContainerWidget;
 
 /**
@@ -45,12 +45,12 @@ public class EdgeMenu implements PopupMenuProvider, ActionListener {
     private static final String ADD_REMOVE_CP_ACTION = "addRemoveCPAction"; // NOI18N
 //    private static final String DELETE_ALL_CP_ACTION = "deleteAllCPAction"; // NOI18N
     private static final String DELETE_TRANSITION = "deleteTransition"; // NOI18N
-    private GraphSceneImpl scene;
+    private GlotaranGraphScene scene;
     private JPopupMenu menu;
     private ConnectionWidget edge;
     private Point point;
 
-    public EdgeMenu(GraphSceneImpl scene) {
+    public EdgeMenu(GlotaranGraphScene scene) {
         this.scene = scene;
         menu = new JPopupMenu("Transition Menu");
         JMenuItem item;

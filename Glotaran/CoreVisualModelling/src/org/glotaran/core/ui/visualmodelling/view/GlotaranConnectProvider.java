@@ -35,14 +35,14 @@ import org.netbeans.api.visual.widget.Widget;
  *
  * @author alex
  */
-public class TGSceneConnectProvider implements ConnectProvider {
+public class GlotaranConnectProvider implements ConnectProvider {
 
     private Object source = null;
     private Object target = null;
     int edgeCounter = 0;
-    private GraphSceneImpl scene;
+    private GlotaranGraphScene scene;
 
-    public TGSceneConnectProvider(GraphSceneImpl scene) {
+    public GlotaranConnectProvider(GlotaranGraphScene scene) {
         this.scene = scene;
     }
 

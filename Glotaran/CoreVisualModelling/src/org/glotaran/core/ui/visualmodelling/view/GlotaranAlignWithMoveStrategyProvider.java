@@ -56,7 +56,7 @@ public final class GlotaranAlignWithMoveStrategyProvider extends GlotaranAlignWi
     }
 
     public void movementFinished (Widget widget) {        
-      GraphSceneImpl scene = (GraphSceneImpl)widget.getScene();
+      GlotaranGraphScene scene = (GlotaranGraphScene)widget.getScene();
         if (scene.findObject(widget) instanceof GtaModelReference){
             ((GtaModelReference)scene.findObject(widget)).getLayout().setXposition(widget.getPreferredLocation().getX());
             ((GtaModelReference)scene.findObject(widget)).getLayout().setYposition(widget.getPreferredLocation().getY());

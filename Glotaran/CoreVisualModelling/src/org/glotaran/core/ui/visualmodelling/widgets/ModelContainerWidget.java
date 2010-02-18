@@ -10,7 +10,7 @@ import org.glotaran.core.models.tgm.Tgm;
 import org.glotaran.core.ui.visualmodelling.components.DatasetContainerComponent;
 import org.glotaran.core.ui.visualmodelling.components.ModelContainer;
 import org.glotaran.core.ui.visualmodelling.menu.NodeMenu;
-import org.glotaran.core.ui.visualmodelling.view.GraphSceneImpl;
+import org.glotaran.core.ui.visualmodelling.view.GlotaranGraphScene;
 import org.netbeans.api.visual.action.ActionFactory;
 import org.netbeans.api.visual.border.BorderFactory;
 import org.netbeans.api.visual.layout.LayoutFactory;
@@ -23,7 +23,7 @@ import org.netbeans.api.visual.widget.Widget;
  * @author slapten
  */
 public class ModelContainerWidget extends Widget{
-    public ModelContainerWidget(GraphSceneImpl scene, ModelContainer component, String name){
+    public ModelContainerWidget(GlotaranGraphScene scene, ModelContainer component, String name){
         super(scene);
         LabelWidget label;
         setLayout(LayoutFactory.createVerticalFlowLayout());

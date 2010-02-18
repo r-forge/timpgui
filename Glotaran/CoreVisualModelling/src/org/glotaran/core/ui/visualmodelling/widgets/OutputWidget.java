@@ -17,7 +17,7 @@ import org.glotaran.core.models.gta.GtaModelDifferences;
 import org.glotaran.core.ui.visualmodelling.components.DatasetContainerComponent;
 import org.glotaran.core.ui.visualmodelling.components.OutputPanel;
 import org.glotaran.core.ui.visualmodelling.menu.NodeMenu;
-import org.glotaran.core.ui.visualmodelling.view.GraphSceneImpl;
+import org.glotaran.core.ui.visualmodelling.view.GlotaranGraphScene;
 import org.netbeans.api.visual.action.ActionFactory;
 import org.netbeans.api.visual.border.BorderFactory;
 import org.netbeans.api.visual.layout.LayoutFactory;
@@ -34,7 +34,7 @@ public class OutputWidget extends Widget{
     private boolean connected = false;
     private List listeners = Collections.synchronizedList(new LinkedList());
 
-    public OutputWidget(GraphSceneImpl scene, JComponent component, String name){
+    public OutputWidget(GlotaranGraphScene scene, JComponent component, String name){
         super(scene);
         setLayout(LayoutFactory.createOverlayLayout());
         setBorder(BorderFactory.createLineBorder());//createRoundedBorder(5, 5, Color.gray, Color.black));//

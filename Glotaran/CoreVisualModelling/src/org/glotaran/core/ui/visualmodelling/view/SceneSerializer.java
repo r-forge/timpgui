@@ -45,7 +45,7 @@ public class SceneSerializer {
     private static final String DEFAULT_NAME = "Global and Target Analysis Model"; // NOI18N
 
     // call in AWT to serialize scene
-    public static void serialize(GraphSceneImpl scene, File file) {
+    public static void serialize(GlotaranGraphScene scene, File file) {
         GtaLayout layout;
         FileObject fo;
 
@@ -129,7 +129,7 @@ public class SceneSerializer {
     }
 
     // call in AWT to deserialize scene
-    public static void deserialize(GraphSceneImpl scene, File file) {
+    public static void deserialize(GlotaranGraphScene scene, File file) {
         GtaProjectScheme gtaProjectScheme = null;
         if (gtaProjectScheme == null) {
             gtaProjectScheme = new GtaProjectScheme();

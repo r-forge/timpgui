@@ -36,15 +36,15 @@ import org.glotaran.core.ui.visualmodelling.widgets.DatasetContainerWidget;
  *
  * @author alex
  */
-public class TGSceneReconnectProvider implements ReconnectProvider {
+public class GlotaranReconnectProvider implements ReconnectProvider {
     
     private GtaConnection edge;
     private Object originalNode;
     private Object replacementNode;
     
-    private GraphSceneImpl scene;
+    private GlotaranGraphScene scene;
     
-    public TGSceneReconnectProvider(GraphSceneImpl scene){
+    public GlotaranReconnectProvider(GlotaranGraphScene scene){
         this.scene=scene;
     }
     

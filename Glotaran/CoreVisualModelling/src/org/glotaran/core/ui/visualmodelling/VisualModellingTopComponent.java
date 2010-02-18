@@ -16,7 +16,7 @@ import org.glotaran.core.models.gta.GtaModelReference;
 import org.glotaran.core.models.gta.GtaOutput;
 import org.glotaran.core.ui.visualmodelling.filesupport.GtaDataObject;
 import org.glotaran.core.ui.visualmodelling.palette.PaletteSupport;
-import org.glotaran.core.ui.visualmodelling.view.GraphSceneImpl;
+import org.glotaran.core.ui.visualmodelling.view.GlotaranGraphScene;
 import org.netbeans.api.visual.model.ObjectSceneEvent;
 import org.netbeans.api.visual.model.ObjectState;
 import org.openide.util.NbBundle;
@@ -43,7 +43,7 @@ final public class VisualModellingTopComponent extends CloneableTopComponent imp
 //    static final String ICON_PATH = "SET/PATH/TO/ICON/HERE";
     private static final String PREFERRED_ID = "VisualModellingTopComponent";
     //private final JComponent myView;
-    //private GraphSceneImpl scene;
+    //private GlotaranGraphScene scene;
     private GtaDataObject dobj;
 
     public VisualModellingTopComponent() {
@@ -52,7 +52,7 @@ final public class VisualModellingTopComponent extends CloneableTopComponent imp
         setToolTipText(NbBundle.getMessage(VisualModellingTopComponent.class, "HINT_VisualModellingTopComponent"));
 //        setIcon(ImageUtilities.loadImage(ICON_PATH, true));
 
-        GraphSceneImpl scene = new GraphSceneImpl();
+        GlotaranGraphScene scene = new GlotaranGraphScene();
         JComponent myView = scene.createView();
         visualDesignScrollPane.setViewportView(myView);
         add(scene.createSatelliteView(), BorderLayout.WEST);
@@ -68,7 +68,7 @@ final public class VisualModellingTopComponent extends CloneableTopComponent imp
         setName(NbBundle.getMessage(VisualModellingTopComponent.class, "CTL_VisualModellingTopComponent"));
         setToolTipText(NbBundle.getMessage(VisualModellingTopComponent.class, "HINT_VisualModellingTopComponent"));
         setIcon(dobj.getNodeDelegate().getIcon(0));
-        GraphSceneImpl scene = new GraphSceneImpl(dobj);
+        GlotaranGraphScene scene = new GlotaranGraphScene(dobj);
         JComponent myView = scene.createView();
         visualDesignScrollPane.setViewportView(myView);
         add(scene.createSatelliteView(), BorderLayout.WEST);
@@ -216,8 +216,8 @@ final public class VisualModellingTopComponent extends CloneableTopComponent imp
             }
         }
 
-        dobj.getProgectScheme().setNodeCounter(String.valueOf(((GraphSceneImpl) event.getObjectScene()).getNodeCount()));
-        dobj.getProgectScheme().setEdgeCounter(String.valueOf(((GraphSceneImpl) event.getObjectScene()).getEdgeCount()));
+        dobj.getProgectScheme().setNodeCounter(String.valueOf(((GlotaranGraphScene) event.getObjectScene()).getNodeCount()));
+        dobj.getProgectScheme().setEdgeCounter(String.valueOf(((GlotaranGraphScene) event.getObjectScene()).getEdgeCount()));
         dobj.setModified(true);
     }
 

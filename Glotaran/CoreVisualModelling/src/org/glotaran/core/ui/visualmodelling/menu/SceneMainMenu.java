@@ -1,7 +1,7 @@
 package org.glotaran.core.ui.visualmodelling.menu;
 
 import org.glotaran.core.ui.visualmodelling.nodes.VisualAbstractNode;
-import org.glotaran.core.ui.visualmodelling.view.GraphSceneImpl;
+import org.glotaran.core.ui.visualmodelling.view.GlotaranGraphScene;
 import org.netbeans.api.visual.action.PopupMenuProvider;
 import org.netbeans.api.visual.graph.GraphScene;
 import org.netbeans.api.visual.widget.Widget;
@@ -132,7 +132,7 @@ public class SceneMainMenu implements PopupMenuProvider, ActionListener {
         chooser.setMultiSelectionEnabled (false);
         chooser.setFileSelectionMode (JFileChooser.FILES_ONLY);
         if (chooser.showSaveDialog (scene.getView ()) == JFileChooser.APPROVE_OPTION) {
-           SceneSerializer.serialize ((GraphSceneImpl) scene, chooser.getSelectedFile ());
+           SceneSerializer.serialize ((GlotaranGraphScene) scene, chooser.getSelectedFile ());
         }
     }
 
@@ -146,7 +146,7 @@ public class SceneMainMenu implements PopupMenuProvider, ActionListener {
 //                scene.removeEdge (edge);
 //            for (String node : new ArrayList<String> (scene.getNodes ()))
 //                scene.removeNode (node);
-            SceneSerializer.deserialize ((GraphSceneImpl) scene, chooser.getSelectedFile ());
+            SceneSerializer.deserialize ((GlotaranGraphScene) scene, chooser.getSelectedFile ());
             scene.validate ();
         }
     }

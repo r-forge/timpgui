@@ -71,18 +71,18 @@ import org.openide.util.lookup.Lookups;
 /**
  * @author Alex
  */
-public class GraphSceneImpl extends GraphScene<Object, Object> implements PropertyChangeListener {
+public class GlotaranGraphScene extends GraphScene<Object, Object> implements PropertyChangeListener {
 
     private LayerWidget mainLayer = new LayerWidget(this);
     private LayerWidget connectionLayer = new LayerWidget(this);
     private LayerWidget interractionLayer = new LayerWidget(this);
     private LayerWidget backgroundLayer = new LayerWidget(this);
     private Router router = RouterFactory.createFreeRouter();
-    private WidgetAction connectAction = ActionFactory.createExtendedConnectAction(interractionLayer, new TGSceneConnectProvider(this));
-    private WidgetAction reconnectAction = ActionFactory.createReconnectAction(new TGSceneReconnectProvider(this));
+    private WidgetAction connectAction = ActionFactory.createExtendedConnectAction(interractionLayer, new GlotaranConnectProvider(this));
+    private WidgetAction reconnectAction = ActionFactory.createReconnectAction(new GlotaranReconnectProvider(this));
     private WidgetAction moveControlPointAction = ActionFactory.createFreeMoveControlPointAction();
     private WidgetAction selectAction = ActionFactory.createSelectAction(new ObjectSelectProvider());
-    private WidgetAction sceneAcceptAction = ActionFactory.createAcceptAction(new CustomSceneAcceptProvider(this));
+    private WidgetAction sceneAcceptAction = ActionFactory.createAcceptAction(new GlotaranSceneAcceptProvider(this));
     private WidgetAction resizeAction = ActionFactory.createAlignWithResizeAction(mainLayer, interractionLayer, null);
     private WidgetAction moveAction;
     //private WidgetAction eatAction = ActionFactory.createSelectAction (new EatEventSelectProvider ());
@@ -94,7 +94,7 @@ public class GraphSceneImpl extends GraphScene<Object, Object> implements Proper
     private final String DEFAULT_GTAMODELREFERENCE_TYPE="ModelReference";
     private final String DEFAULT_GTAOUTPUT_TYPE="Output";
 
-    public GraphSceneImpl() {
+    public GlotaranGraphScene() {
         addChild(mainLayer);
         addChild(connectionLayer);
         addChild(interractionLayer);
@@ -107,7 +107,7 @@ public class GraphSceneImpl extends GraphScene<Object, Object> implements Proper
         moveAction = ActionFactory.createMoveAction(sp, sp);
     }
 
-    public GraphSceneImpl(GtaDataObject dobj) {
+    public GlotaranGraphScene(GtaDataObject dobj) {
         this();
         this.dobj = dobj;
         loadScene(dobj.getProgectScheme());

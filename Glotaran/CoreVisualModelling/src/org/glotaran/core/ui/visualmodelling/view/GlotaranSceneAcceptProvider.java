@@ -29,11 +29,11 @@ import org.openide.util.Exceptions;
  *
  * @author jsg210
  */
-public class CustomSceneAcceptProvider implements AcceptProvider {
+public class GlotaranSceneAcceptProvider implements AcceptProvider {
 
-    private GraphSceneImpl scene;
+    private GlotaranGraphScene scene;
 
-    public CustomSceneAcceptProvider(GraphSceneImpl scene) {
+    public GlotaranSceneAcceptProvider(GlotaranGraphScene scene) {
         this.scene = scene;
     }
 

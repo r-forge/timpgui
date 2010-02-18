@@ -36,7 +36,7 @@ public class OutputWidget extends Widget{
 
     public OutputWidget(GraphSceneImpl scene, JComponent component, String name){
         super(scene);
-        setLayout(LayoutFactory.createVerticalFlowLayout());
+        setLayout(LayoutFactory.createOverlayLayout());
         setBorder(BorderFactory.createLineBorder());//createRoundedBorder(5, 5, Color.gray, Color.black));//
         getActions().addAction(scene.getConnectAction());
         getActions().addAction(scene.getReconnectAction());

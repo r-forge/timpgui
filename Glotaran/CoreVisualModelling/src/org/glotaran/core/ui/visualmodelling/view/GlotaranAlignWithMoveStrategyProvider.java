@@ -10,6 +10,7 @@ import java.awt.Point;
 import java.awt.Rectangle;
 import org.glotaran.core.models.gta.GtaDatasetContainer;
 import org.glotaran.core.models.gta.GtaModelReference;
+import org.glotaran.core.models.gta.GtaOutput;
 import org.netbeans.api.visual.action.ActionFactory;
 import org.netbeans.api.visual.action.AlignWithMoveDecorator;
 import org.netbeans.api.visual.action.AlignWithWidgetCollector;
@@ -63,6 +64,10 @@ public final class GlotaranAlignWithMoveStrategyProvider extends GlotaranAlignWi
         if (scene.findObject(widget) instanceof GtaDatasetContainer){
             ((GtaDatasetContainer)scene.findObject(widget)).getLayout().setXposition(widget.getPreferredLocation().getX());
             ((GtaDatasetContainer)scene.findObject(widget)).getLayout().setYposition(widget.getPreferredLocation().getY());
+        }
+        if (scene.findObject(widget) instanceof GtaOutput){
+            ((GtaOutput)scene.findObject(widget)).getLayout().setXposition(widget.getPreferredLocation().getX());
+            ((GtaOutput)scene.findObject(widget)).getLayout().setYposition(widget.getPreferredLocation().getY());
         }
         scene.getDobj().setModified(true);
         hide ();

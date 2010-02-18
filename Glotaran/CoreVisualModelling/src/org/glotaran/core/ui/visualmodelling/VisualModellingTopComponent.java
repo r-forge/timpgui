@@ -2,7 +2,6 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package org.glotaran.core.ui.visualmodelling;
 
 import java.awt.BorderLayout;
@@ -14,6 +13,7 @@ import org.glotaran.core.models.gta.GtaConnection;
 import org.glotaran.core.models.gta.GtaDatasetContainer;
 import org.glotaran.core.models.gta.GtaLayout;
 import org.glotaran.core.models.gta.GtaModelReference;
+import org.glotaran.core.models.gta.GtaOutput;
 import org.glotaran.core.ui.visualmodelling.filesupport.GtaDataObject;
 import org.glotaran.core.ui.visualmodelling.palette.PaletteSupport;
 import org.glotaran.core.ui.visualmodelling.view.GraphSceneImpl;
@@ -32,18 +32,15 @@ import org.openide.windows.CloneableTopComponent;
 /**
  * Top component which displays something.
  */
-@ConvertAsProperties(
-    dtd="-//org.glotaran.core.ui.visualmodelling//VisualModelling//EN",
-    autostore=false
-)
-final public class VisualModellingTopComponent extends CloneableTopComponent implements ObjectSceneListener{
+@ConvertAsProperties(dtd = "-//org.glotaran.core.ui.visualmodelling//VisualModelling//EN",
+autostore = false)
+final public class VisualModellingTopComponent extends CloneableTopComponent implements ObjectSceneListener {
 
     private static VisualModellingTopComponent instance;
     private static final int DEFAULT_COMPONENT_HEIGHT = 240;
     private static final int DEFAULT_COMPONENT_WIDTH = 180;
     /** path to the icon used by the component and its open action */
 //    static final String ICON_PATH = "SET/PATH/TO/ICON/HERE";
-
     private static final String PREFERRED_ID = "VisualModellingTopComponent";
     //private final JComponent myView;
     //private GraphSceneImpl scene;
@@ -59,9 +56,9 @@ final public class VisualModellingTopComponent extends CloneableTopComponent imp
         JComponent myView = scene.createView();
         visualDesignScrollPane.setViewportView(myView);
         add(scene.createSatelliteView(), BorderLayout.WEST);
-        setFocusable (true);
-        setFocusTraversalKeysEnabled (false);
-        associateLookup( Lookups.fixed( new Object[] { PaletteSupport.createPalette() } ) );
+        setFocusable(true);
+        setFocusTraversalKeysEnabled(false);
+        associateLookup(Lookups.fixed(new Object[]{PaletteSupport.createPalette()}));
 
     }
 
@@ -75,9 +72,9 @@ final public class VisualModellingTopComponent extends CloneableTopComponent imp
         JComponent myView = scene.createView();
         visualDesignScrollPane.setViewportView(myView);
         add(scene.createSatelliteView(), BorderLayout.WEST);
-        setFocusable (true);
-        setFocusTraversalKeysEnabled (false);
-        associateLookup( Lookups.fixed( new Object[] { PaletteSupport.createPalette() } ) );
+        setFocusable(true);
+        setFocusTraversalKeysEnabled(false);
+        associateLookup(Lookups.fixed(new Object[]{PaletteSupport.createPalette()}));
         scene.addObjectSceneListener(this,
                 ObjectSceneEventType.OBJECT_ADDED,
                 ObjectSceneEventType.OBJECT_REMOVED);
@@ -96,10 +93,10 @@ final public class VisualModellingTopComponent extends CloneableTopComponent imp
         setLayout(new java.awt.BorderLayout());
         add(visualDesignScrollPane, java.awt.BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JScrollPane visualDesignScrollPane;
     // End of variables declaration//GEN-END:variables
+
     /**
      * Gets default instance. Do not use directly: reserved for *.settings files only,
      * i.e. deserialization routines; otherwise you could get a non-deserialized instance.
@@ -128,8 +125,8 @@ final public class VisualModellingTopComponent extends CloneableTopComponent imp
             return (VisualModellingTopComponent) win;
         }
         Logger.getLogger(VisualModellingTopComponent.class.getName()).warning(
-                "There seem to be multiple components with the '" + PREFERRED_ID +
-                "' ID. That is a potential source of errors and unexpected behavior.");
+                "There seem to be multiple components with the '" + PREFERRED_ID
+                + "' ID. That is a potential source of errors and unexpected behavior.");
         return getDefault();
     }
 
@@ -172,68 +169,81 @@ final public class VisualModellingTopComponent extends CloneableTopComponent imp
     }
 
     public void objectAdded(ObjectSceneEvent event, Object addedObject) {
-        if (addedObject instanceof GtaDatasetContainer){
-            GtaDatasetContainer container = (GtaDatasetContainer)addedObject;
-            if (container.getLayout()==null) {
+        if (addedObject instanceof GtaDatasetContainer) {
+            GtaDatasetContainer container = (GtaDatasetContainer) addedObject;
+            if (container.getLayout() == null) {
                 container.setLayout(new GtaLayout());
+                container.getLayout().setHeight(DEFAULT_COMPONENT_HEIGHT);
+                container.getLayout().setWidth(DEFAULT_COMPONENT_WIDTH);
             }
-            container.getLayout().setHeight(DEFAULT_COMPONENT_HEIGHT);
-            container.getLayout().setWidth(DEFAULT_COMPONENT_WIDTH);
-            if (dobj.getProgectScheme().getDatasetContainer()!=null){
+
+            if (dobj.getProgectScheme().getDatasetContainer() != null) {
                 dobj.getProgectScheme().getDatasetContainer().add(container);
-            }
-            else {
+            } else {
                 CoreErrorMessages.somethingStrange();
             }
         }
-        if (addedObject instanceof GtaModelReference){
-            GtaModelReference container = (GtaModelReference)addedObject;
-            if (container.getLayout()==null) {
+        if (addedObject instanceof GtaModelReference) {
+            GtaModelReference container = (GtaModelReference) addedObject;
+            if (container.getLayout() == null) {
                 container.setLayout(new GtaLayout());
+                container.getLayout().setHeight(DEFAULT_COMPONENT_HEIGHT);
+                container.getLayout().setWidth(DEFAULT_COMPONENT_WIDTH);
             }
-            container.getLayout().setHeight(DEFAULT_COMPONENT_HEIGHT);
-            container.getLayout().setWidth(DEFAULT_COMPONENT_WIDTH);
-            if (dobj.getProgectScheme().getDatasetContainer()!=null){
+
+            if (dobj.getProgectScheme().getDatasetContainer() != null) {
                 dobj.getProgectScheme().getModel().add(container);
-            }
-            else {
+            } else {
                 CoreErrorMessages.somethingStrange();
-            }            
-        }
-        if (addedObject instanceof GtaConnection){
-            if (!dobj.getProgectScheme().getConnection().contains((GtaConnection)addedObject)) {
-                dobj.getProgectScheme().getConnection().add((GtaConnection)addedObject);
             }
         }
-        dobj.getProgectScheme().setNodeCounter(String.valueOf(((GraphSceneImpl)event.getObjectScene()).getNodeCount()));
-        dobj.getProgectScheme().setEdgeCounter(String.valueOf(((GraphSceneImpl)event.getObjectScene()).getEdgeCount()));
+        if (addedObject instanceof GtaOutput) {
+            GtaOutput container = (GtaOutput) addedObject;
+            if (container.getLayout() == null) {
+                container.setLayout(new GtaLayout());
+                container.getLayout().setHeight(DEFAULT_COMPONENT_HEIGHT);
+                container.getLayout().setWidth(DEFAULT_COMPONENT_WIDTH);
+            }
+            if (dobj.getProgectScheme().getOutput() != null) {
+                dobj.getProgectScheme().getOutput().add(container);
+            } else {
+                CoreErrorMessages.somethingStrange();
+            }
+        }
+        if (addedObject instanceof GtaConnection) {
+            if (!dobj.getProgectScheme().getConnection().contains((GtaConnection) addedObject)) {
+                dobj.getProgectScheme().getConnection().add((GtaConnection) addedObject);
+            }
+        }
+
+        dobj.getProgectScheme().setNodeCounter(String.valueOf(((GraphSceneImpl) event.getObjectScene()).getNodeCount()));
+        dobj.getProgectScheme().setEdgeCounter(String.valueOf(((GraphSceneImpl) event.getObjectScene()).getEdgeCount()));
         dobj.setModified(true);
     }
 
     @SuppressWarnings("element-type-mismatch")
     public void objectRemoved(ObjectSceneEvent event, Object removedObject) {
-        if (removedObject instanceof GtaDatasetContainer){
-            GtaDatasetContainer container = (GtaDatasetContainer)removedObject;
+        if (removedObject instanceof GtaDatasetContainer) {
+            GtaDatasetContainer container = (GtaDatasetContainer) removedObject;
             dobj.getProgectScheme().getDatasetContainer().remove(removedObject);
-            for (int i = 0; i < dobj.getProgectScheme().getConnection().size(); i++){
-                if (dobj.getProgectScheme().getConnection().get(i).getSourceID().equalsIgnoreCase(container.getId())){
+            for (int i = 0; i < dobj.getProgectScheme().getConnection().size(); i++) {
+                if (dobj.getProgectScheme().getConnection().get(i).getSourceID().equalsIgnoreCase(container.getId())) {
                     dobj.getProgectScheme().getConnection().remove(i);
                     i--;
                 }
             }
         }
-        if (removedObject instanceof GtaModelReference){
-            GtaModelReference container = (GtaModelReference)removedObject;
+        if (removedObject instanceof GtaModelReference) {
+            GtaModelReference container = (GtaModelReference) removedObject;
             dobj.getProgectScheme().getModel().remove(removedObject);
-            for (int i = 0; i < dobj.getProgectScheme().getConnection().size(); i++){
-                if (dobj.getProgectScheme().getConnection().get(i).getTargetID().equalsIgnoreCase(container.getId())){
+            for (int i = 0; i < dobj.getProgectScheme().getConnection().size(); i++) {
+                if (dobj.getProgectScheme().getConnection().get(i).getTargetID().equalsIgnoreCase(container.getId())) {
                     dobj.getProgectScheme().getConnection().remove(i);
                     i--;
                 }
             }
         }
-        if (removedObject instanceof GtaConnection){
-            
+        if (removedObject instanceof GtaConnection) {
         }
         dobj.setModified(true);
     }

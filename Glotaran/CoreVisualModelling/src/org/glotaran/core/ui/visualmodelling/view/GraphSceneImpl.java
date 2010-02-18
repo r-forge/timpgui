@@ -254,6 +254,11 @@ public class GraphSceneImpl extends GraphScene<Object, Object> implements Proper
     }
 
     @Override
+    protected void detachNodeWidget(Object node, Widget widget) {
+        super.detachNodeWidget(node, widget);
+    }
+
+    @Override
     protected void detachEdgeWidget(Object edge, Widget widget) {
          GtaConnection connection = (GtaConnection)edge;
          connection.setActive(false);
@@ -296,7 +301,7 @@ public class GraphSceneImpl extends GraphScene<Object, Object> implements Proper
                 location = new Point((int) Math.floor(container.getLayout().getXposition()), (int) Math.floor(container.getLayout().getYposition()));
                 size = new Dimension((int) Math.floor(container.getLayout().getWidth()), (int) Math.floor(container.getLayout().getHeight()));
                 widget.setPreferredLocation(location);
-                widget.setPreferredSize(size);
+                //widget.setPreferredSize(size);
                 validate();
 
                 for (GtaDataset dataset : container.getDatasets()) {
@@ -352,6 +357,7 @@ public class GraphSceneImpl extends GraphScene<Object, Object> implements Proper
             location = new Point((int) Math.floor(model.getLayout().getXposition()), (int) Math.floor(model.getLayout().getYposition()));
             size = new Dimension((int) Math.floor(model.getLayout().getWidth()), (int) Math.floor(model.getLayout().getHeight()));
             widget.setPreferredLocation(location);
+            //widget.setPreferredSize(size);
             validate();
         }
         // </editor-fold>
@@ -362,6 +368,7 @@ public class GraphSceneImpl extends GraphScene<Object, Object> implements Proper
             location = new Point((int) Math.floor(output.getLayout().getHeight()), (int) Math.floor(output.getLayout().getYposition()));
             size = new Dimension((int) Math.floor(output.getLayout().getWidth()), (int) Math.floor(output.getLayout().getHeight()));
             widget.setPreferredLocation(location);
+            //widget.setPreferredSize(size);
         }
         // </editor-fold>
 

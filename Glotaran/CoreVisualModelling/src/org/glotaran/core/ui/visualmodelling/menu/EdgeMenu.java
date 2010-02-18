@@ -30,6 +30,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import org.glotaran.core.models.gta.GtaConnection;
+import org.glotaran.core.models.gta.GtaDatasetContainer;
 import org.glotaran.core.ui.visualmodelling.view.GraphSceneImpl;
 import org.glotaran.core.ui.visualmodelling.widgets.DatasetContainerWidget;
 
@@ -85,10 +86,16 @@ public class EdgeMenu implements PopupMenuProvider, ActionListener {
         if (e.getActionCommand().equals(ADD_REMOVE_CP_ACTION)) {
             addRemoveControlPoint(point);
         } else if (e.getActionCommand().equals(DELETE_TRANSITION)) {          
-            scene.removeEdge((GtaConnection) scene.findObject(edge));
+            removeConnection();
         }
     }
 
+    private void removeConnection(){
+        scene.removeEdge((GtaConnection) scene.findObject(edge));
+        GtaConnection connection = (GtaConnection) scene.findObject(edge);
+        GtaDatasetContainer datasetContainer = (GtaDatasetContainer) scene.getNodeForID(connection.getTargetID());
+    }
+    
     private void addRemoveControlPoint(Point localLocation) {
         ArrayList<Point> list = new ArrayList<Point>(edge.getControlPoints());
         double createSensitivity = 1.00, deleteSensitivity = 5.00;

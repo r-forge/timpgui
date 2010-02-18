@@ -71,7 +71,7 @@ import org.openide.util.lookup.Lookups;
 /**
  * @author Alex
  */
-public class GraphSceneImpl extends GraphScene<Object, Object> implements PropertyChangeListener { //TODO: implement <VisualAbstractNode, MyEdge>
+public class GraphSceneImpl extends GraphScene<Object, Object> implements PropertyChangeListener {
 
     private LayerWidget mainLayer = new LayerWidget(this);
     private LayerWidget connectionLayer = new LayerWidget(this);

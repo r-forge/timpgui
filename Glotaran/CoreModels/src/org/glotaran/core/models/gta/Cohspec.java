@@ -11,22 +11,21 @@ package org.glotaran.core.models.gta;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlSchemaType;
 import javax.xml.bind.annotation.XmlType;
 
 
 /**
- * <p>Java class for GtaChangesModel complex type.
+ * <p>Java class for Cohspec complex type.
  * 
  * <p>The following schema fragment specifies the expected content contained within this class.
  * 
  * <pre>
- * &lt;complexType name="GtaChangesModel">
+ * &lt;complexType name="Cohspec">
  *   &lt;complexContent>
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
- *         &lt;element name="filename" type="{http://www.w3.org/2001/XMLSchema}string"/>
- *         &lt;element name="path" type="{http://www.w3.org/2001/XMLSchema}anyURI"/>
+ *         &lt;element name="type" type="{http://www.w3.org/2001/XMLSchema}string"/>
+ *         &lt;element name="set" type="{http://www.w3.org/2001/XMLSchema}boolean"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
  *   &lt;/complexContent>
@@ -36,64 +35,55 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "GtaChangesModel", namespace = "http://glotaran.org/schema/GlobalAndTargetAnalysisSchema", propOrder = {
-    "filename",
-    "path"
+@XmlType(name = "Cohspec", propOrder = {
+    "type",
+    "set"
 })
-public class GtaChangesModel {
+public class Cohspec {
 
     @XmlElement(required = true)
-    protected String filename;
-    @XmlElement(required = true)
-    @XmlSchemaType(name = "anyURI")
-    protected String path;
+    protected String type;
+    @XmlElement(defaultValue = "false")
+    protected boolean set;
 
     /**
-     * Gets the value of the filename property.
+     * Gets the value of the type property.
      * 
      * @return
      *     possible object is
      *     {@link String }
      *     
      */
-    public String getFilename() {
-        return filename;
+    public String getType() {
+        return type;
     }
 
     /**
-     * Sets the value of the filename property.
+     * Sets the value of the type property.
      * 
      * @param value
      *     allowed object is
      *     {@link String }
      *     
      */
-    public void setFilename(String value) {
-        this.filename = value;
+    public void setType(String value) {
+        this.type = value;
     }
 
     /**
-     * Gets the value of the path property.
+     * Gets the value of the set property.
      * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
      */
-    public String getPath() {
-        return path;
+    public boolean isSet() {
+        return set;
     }
 
     /**
-     * Sets the value of the path property.
+     * Sets the value of the set property.
      * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
      */
-    public void setPath(String value) {
-        this.path = value;
+    public void setSet(boolean value) {
+        this.set = value;
     }
 
 }

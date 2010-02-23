@@ -17,12 +17,17 @@ import org.glotaran.core.models.gta.GtaOutput;
  */
 public class StartAnalysis implements AnalysisInterface {
 
+    public StartAnalysis() {
+        //TODO: implement constructor
+    }
+
     public void runAnalysis(GtaOutput gtaOutput, GtaDatasetContainer gtaDatasetContainer, GtaModelReference gtaModelReference, GtaModelDifferences gtaModelDifferences) {
         //TODO: load the model to be analyzed from disk
         //TODO: load the datasets to be used into memory
         //TODO: create the initModel call
         //TODO: parse the model differences
-        //TODO: 
+        //TODO:
+        System.out.println("test");
     }
 
 }

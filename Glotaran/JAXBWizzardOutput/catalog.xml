@@ -13,8 +13,11 @@
     <system systemId="file:/home/jsg210/NetBeansProjects/JAXBWizzardOutput/src/org/glotaran/core/models/tgm/TgmSchema.xsd" uri="xml-resources/jaxb/TgmBinding/TgmSchema.xsd"/>
     <system systemId="file:/home/jsg210/NetBeansProjects/JAXBWizzardOutput/src/org/glotaran/core/models/tgd/TgdSchema.xsd" uri="xml-resources/jaxb/tgd/TgdSchema.xsd"/>
     <system systemId="file:/home/jsg210/NetBeansProjects/Glotaran/JAXBWizzardOutput/src/org/glotaran/core/models/tgd/TgdSchema.xsd" uri="xml-resources/jaxb/TgdBinding/TgdSchema.xsd"/>
+    <system systemId="file:/home/jsg210/NetBeansProjects/Glotaran/JAXBWizzardOutput/src/org/glotaran/core/models/tgm/TgmSchema.xsd" uri="xml-resources/jaxb/TgmBinding/TgmSchema.xsd"/>
     <system systemId="file:/home/jsg210/NetBeansProjects/Glotaran/JAXBWizzardOutput/src/org/glotaran/core/models/gta/GlobalAndTargetAnalysisSchema.xsd" uri="xml-resources/jaxb/GtaBinding/GlobalAndTargetAnalysisSchema.xsd"/>
 </catalog>
+
+
 
 
 

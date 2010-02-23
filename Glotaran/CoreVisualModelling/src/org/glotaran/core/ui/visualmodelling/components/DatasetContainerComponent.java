@@ -356,7 +356,7 @@ public class DatasetContainerComponent
                             modelDifferences.getDifferences().get(datasetIndex).getFree().add(newModelDiffs);
                         }
                         if (sourceNode.getType().equals("ChangeParameter")) {
-                            modelDifferences.getDifferences().get(datasetIndex).getChanges().add(new GtaChangesModel());
+                            //modelDifferences.getDifferences().get(datasetIndex).getChanges().add(new GtaChangesModel());
                         }
                         if (sourceNode.getType().equals("AddParameter")) {
                             modelDifferences.getDifferences().get(datasetIndex).getAdd().add(newModelDiffs);
@@ -427,7 +427,7 @@ public class DatasetContainerComponent
                 datasets[i].getChildren().add(new Node[]{new ModelDiffsNode("RemoveParameter", i, modelDifferences.getDifferences().get(i).getRemove(), this)});
             }
             if (!modelDifferences.getDifferences().get(i).getChanges().isEmpty()){
-                datasets[i].getChildren().add(new Node[]{new ModelDiffsNode("ChangeParameter", i, modelDifferences.getDifferences().get(i).getChanges(), this)});
+                //datasets[i].getChildren().add(new Node[]{new ModelDiffsNode("ChangeParameter", i, modelDifferences.getDifferences().get(i).getChanges(), this)});
             }
         }
        

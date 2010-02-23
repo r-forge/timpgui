@@ -5,6 +5,7 @@
 
 package org.glotaran.core.main.interfaces;
 
+import java.io.File;
 import org.glotaran.core.models.gta.GtaDatasetContainer;
 import org.glotaran.core.models.gta.GtaModelDifferences;
 import org.glotaran.core.models.gta.GtaModelReference;
@@ -16,4 +17,5 @@ import org.glotaran.core.models.gta.GtaOutput;
  */
 public interface AnalysisInterface {
     public void runAnalysis(GtaOutput gtaOutput, GtaDatasetContainer gtaDatasetContainer, GtaModelReference gtaModelReference, GtaModelDifferences gtaModelDifferences);
+    public void runAnalysis(GtaOutput gtaOutput, GtaDatasetContainer gtaDatasetContainer, GtaModelReference gtaModelReference, GtaModelDifferences gtaModelDifferences, File projectPath);
 }

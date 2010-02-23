@@ -100,6 +100,8 @@
             <xsd:element name="outputModule" minOccurs="0" maxOccurs="unbounded" nillable="true" type="xsd:string"/>
             <xsd:element name="layout" type="tns:GtaLayout"></xsd:element>
             <xsd:element name="id" type="xsd:string"></xsd:element>
+            <xsd:element name="outputPath" type="xsd:string" nillable="true"></xsd:element>
+            <xsd:element name="iterations" type="xsd:string" nillable="true"></xsd:element>
         </xsd:sequence>
     </xsd:complexType>
     <xsd:complexType name="GtaModelDiffContainer">

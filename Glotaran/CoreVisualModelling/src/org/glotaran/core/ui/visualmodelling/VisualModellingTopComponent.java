@@ -219,7 +219,6 @@ final public class VisualModellingTopComponent extends CloneableTopComponent imp
                 dobj.getProgectScheme().getConnection().add((GtaConnection) addedObject);
             }
         }
-
         dobj.getProgectScheme().setNodeCounter(String.valueOf(((GlotaranGraphScene) event.getObjectScene()).getNodeCount()));
         dobj.getProgectScheme().setEdgeCounter(String.valueOf(((GlotaranGraphScene) event.getObjectScene()).getEdgeCount()));
         dobj.setModified(true);

@@ -24,8 +24,7 @@ import org.openide.util.WeakListeners;
  * @author slapten
  */
 public class ModelDiffsNode  extends PropertiesAbstractNode{
-    private final Image FREE_ICON = ImageUtilities.loadImage("org/glotaran/core/ui/visualmodelling/resources/FreeParam_16.png", true);
-    private final Image CHANGE_ICON = ImageUtilities.loadImage("org/glotaran/core/ui/visualmodelling/resources/ChageParam_16.png", true);
+    private final Image FREE_ICON = ImageUtilities.loadImage("org/glotaran/core/ui/visualmodelling/resources/FreeParam_16.png", true);   
     private final Image ADD_ICON = ImageUtilities.loadImage("org/glotaran/core/ui/visualmodelling/resources/AddParam_16.png", true);
     private final Image REMOVE_ICON = ImageUtilities.loadImage("org/glotaran/core/ui/visualmodelling/resources/RemoveParam_16.png", true);
     private PropertyChangeListener propListner;
@@ -52,10 +51,7 @@ public class ModelDiffsNode  extends PropertiesAbstractNode{
     public ModelDiffsNode(String type, int datasetInd, List<GtaChangesModel> changes, DatasetContainerComponent aThis) {
         super(type, new ModelDiffsParametersKeys(0));
     }
-
-
-
-
+    
     @Override
     public String getDisplayName() {
         String name = super.getDisplayName();
@@ -67,9 +63,6 @@ public class ModelDiffsNode  extends PropertiesAbstractNode{
     public Image getIcon(int type) {
         if (super.getDisplayName().equals("FreeParameter")){
             return FREE_ICON;
-        }
-        if (super.getDisplayName().equals("ChangeParameter")){
-            return CHANGE_ICON;
         }
         if (super.getDisplayName().equals("AddParameter")){
             return ADD_ICON;

@@ -23,14 +23,12 @@ import java.util.ArrayList;
 import org.netbeans.api.visual.action.PopupMenuProvider;
 import org.netbeans.api.visual.widget.ConnectionWidget;
 import org.netbeans.api.visual.widget.Widget;
-import org.netbeans.api.visual.graph.GraphScene;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import org.glotaran.core.models.gta.GtaConnection;
-import org.glotaran.core.models.gta.GtaDatasetContainer;
 import org.glotaran.core.ui.visualmodelling.common.EnumTypes;
 import org.glotaran.core.ui.visualmodelling.nodes.DatasetsRootNode;
 import org.glotaran.core.ui.visualmodelling.view.GlotaranGraphScene;

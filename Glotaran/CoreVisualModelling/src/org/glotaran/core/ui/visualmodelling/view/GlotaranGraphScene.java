@@ -250,8 +250,9 @@ public class GlotaranGraphScene extends GraphScene<Object, Object> implements Pr
          connection.setActive(false);
          if (connection.getSourceType().equals(EnumTypes.ConnectionTypes.GTAMODELREFERENCE.toString()) &&
                  connection.getTargetType().equals(EnumTypes.ConnectionTypes.GTADATASETCONTAINER.toString())) {
-           ((DatasetContainerWidget) widget).setConnected(false);
-          ((DatasetContainerWidget) widget).getContainerComponent().setConnectedModel(null);
+             DatasetContainerWidget datasetWidget = (DatasetContainerWidget) findWidget(getNodeForID(connection.getTargetID()));
+             datasetWidget.setConnected(false);
+             datasetWidget.getContainerComponent().setConnectedModel(null);
          } else {
              getDobj().getProgectScheme().getConnection().remove(connection);
          }

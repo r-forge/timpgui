@@ -98,7 +98,7 @@ public class DatasetComponentNode extends PropertiesAbstractNode implements Tran
                                 return null;
                             }
                             if (pi.getName().equals("ChangeParam")){
-                                getChildren().add(new Node[]{new ModelDiffsNode("ChangeParameter",propListner, getdatasetIndex())});
+                                getChildren().add(new Node[]{new ModelDiffsChangeNode("ChangeParameter",propListner, getdatasetIndex())});
                                 return null;
                             }
                             if (pi.getName().equals("AddParam")){

@@ -26,6 +26,7 @@ import org.glotaran.core.models.gta.GtaModelDifferences;
 import org.glotaran.core.models.tgm.Tgm;
 import org.glotaran.core.ui.visualmodelling.nodes.DatasetComponentNode;
 import org.glotaran.core.ui.visualmodelling.nodes.DatasetsRootNode;
+import org.glotaran.core.ui.visualmodelling.nodes.KineticParametersNode;
 import org.glotaran.core.ui.visualmodelling.nodes.ModelDiffsNode;
 import org.glotaran.core.ui.visualmodelling.widgets.DatasetContainerWidget;
 import org.openide.explorer.ExplorerManager;
@@ -329,11 +330,6 @@ public class DatasetContainerComponent
                         modelDifferences.getDifferences().get(datasetIndex).getFree().clear();
                     }
                 }
-                if (evt.getOldValue().equals("ChangeParameter")) {
-                    if (modelDifferences.getDifferences().get(datasetIndex).getChanges()!=null){
-                        //modelDifferences.getDifferences().get(datasetIndex).getChanges().clear();
-                    }
-                }
                 if (evt.getOldValue().equals("AddParameter")) {
                     if (modelDifferences.getDifferences().get(datasetIndex).getAdd()!=null){
                         modelDifferences.getDifferences().get(datasetIndex).getAdd().clear();
@@ -354,9 +350,6 @@ public class DatasetContainerComponent
                         if (sourceNode.getType().equals("FreeParameter")) {
                             modelDifferences.getDifferences().get(datasetIndex).getFree().add(newModelDiffs);
                         }
-                        if (sourceNode.getType().equals("ChangeParameter")) {
-                            //modelDifferences.getDifferences().get(datasetIndex).getChanges().add(new GtaChangesModel());
-                        }
                         if (sourceNode.getType().equals("AddParameter")) {
                             modelDifferences.getDifferences().get(datasetIndex).getAdd().add(newModelDiffs);
                         }
@@ -368,9 +361,6 @@ public class DatasetContainerComponent
                     for (int i = 0; i < (Integer) evt.getOldValue() - (Integer) evt.getNewValue(); i++) {
                         if (sourceNode.getType().equals("FreeParameter")) {
                             modelDifferences.getDifferences().get(datasetIndex).getFree().remove(modelDifferences.getDifferences().get(datasetIndex).getFree().size()-1);
-                        }
-                        if (sourceNode.getType().equals("ChangeParameter")) {
-                            //modelDifferences.getDifferences().get(datasetIndex).getChanges().remove(modelDifferences.getDifferences().get(datasetIndex).getChanges().size()-1);
                         }
                         if (sourceNode.getType().equals("AddParameter")) {
                             modelDifferences.getDifferences().get(datasetIndex).getAdd().remove(modelDifferences.getDifferences().get(datasetIndex).getAdd().size()-1);
@@ -405,6 +395,12 @@ public class DatasetContainerComponent
                     modelDifferences.getDifferences().get(datasetIndex).getFree().remove(index);
                 }
             }
+
+
+            firePropertyChange("datasetNodeChanged", null, null);
+        }
+        if (evt.getSource().getClass().equals(KineticParametersNode.class)){
+
 
 
             firePropertyChange("datasetNodeChanged", null, null);

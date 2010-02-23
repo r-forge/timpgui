@@ -332,7 +332,7 @@ public class DatasetContainerComponent
                 }
                 if (evt.getOldValue().equals("ChangeParameter")) {
                     if (modelDifferences.getDifferences().get(datasetIndex).getChanges()!=null){
-                        modelDifferences.getDifferences().get(datasetIndex).getChanges().clear();
+                        //modelDifferences.getDifferences().get(datasetIndex).getChanges().clear();
                     }
                 }
                 if (evt.getOldValue().equals("AddParameter")) {
@@ -371,7 +371,7 @@ public class DatasetContainerComponent
                             modelDifferences.getDifferences().get(datasetIndex).getFree().remove(modelDifferences.getDifferences().get(datasetIndex).getFree().size()-1);
                         }
                         if (sourceNode.getType().equals("ChangeParameter")) {
-                            modelDifferences.getDifferences().get(datasetIndex).getChanges().remove(modelDifferences.getDifferences().get(datasetIndex).getChanges().size()-1);
+                            //modelDifferences.getDifferences().get(datasetIndex).getChanges().remove(modelDifferences.getDifferences().get(datasetIndex).getChanges().size()-1);
                         }
                         if (sourceNode.getType().equals("AddParameter")) {
                             modelDifferences.getDifferences().get(datasetIndex).getAdd().remove(modelDifferences.getDifferences().get(datasetIndex).getAdd().size()-1);
@@ -426,9 +426,9 @@ public class DatasetContainerComponent
             if (!modelDifferences.getDifferences().get(i).getRemove().isEmpty()){
                 datasets[i].getChildren().add(new Node[]{new ModelDiffsNode("RemoveParameter", i, modelDifferences.getDifferences().get(i).getRemove(), this)});
             }
-            if (!modelDifferences.getDifferences().get(i).getChanges().isEmpty()){
+//            if (!modelDifferences.getDifferences().get(i).getChanges().isEmpty()){
                 //datasets[i].getChildren().add(new Node[]{new ModelDiffsNode("ChangeParameter", i, modelDifferences.getDifferences().get(i).getChanges(), this)});
-            }
+ //           }
         }
        
     }

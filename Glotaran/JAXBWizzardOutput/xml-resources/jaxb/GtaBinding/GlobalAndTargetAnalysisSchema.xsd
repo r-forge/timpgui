@@ -107,7 +107,7 @@
             <xsd:element name="free" type="tns:GtaModelDiffDO" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
             <xsd:element name="remove" type="tns:GtaModelDiffDO" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
             <xsd:element name="add" type="tns:GtaModelDiffDO" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
-            <xsd:element name="changes" type="ns0:Dat" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+            <xsd:element name="changes" type="ns0:Dat" nillable="true" minOccurs="1" maxOccurs="1"/>
         </xsd:sequence>
     </xsd:complexType>
     <xsd:element name="GtaProjectScheme">
@@ -126,6 +126,7 @@
         </xsd:complexType>
     </xsd:element>
 </xsd:schema>
+
 
 
 

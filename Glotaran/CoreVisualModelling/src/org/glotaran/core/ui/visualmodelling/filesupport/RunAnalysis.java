@@ -12,6 +12,7 @@ import org.glotaran.core.main.interfaces.AnalysisInterface;
 import org.glotaran.core.models.gta.GtaConnection;
 import org.glotaran.core.models.gta.GtaDatasetContainer;
 import org.glotaran.core.models.gta.GtaModelDiffContainer;
+import org.glotaran.core.models.gta.GtaModelDifferences;
 import org.glotaran.core.models.gta.GtaModelReference;
 import org.glotaran.core.models.gta.GtaOutput;
 import org.glotaran.core.models.gta.GtaProjectScheme;
@@ -34,10 +35,10 @@ public final class RunAnalysis implements ActionListener {
                 scheme = ((GtaDataObject) context).getProgectScheme();
                 if (isRunnable(scheme)) {
                     for(GtaOutput output : scheme.getOutput()) {
-                        for(GtaDatasetContainer datasetContainer : getConnectedDatasetContainers()) {
-                            for(GtaModelReference modelReference : getConnectedModelreferences()) {
-                                GtaModelDiffContainer modelDiffContainer = getModelDiffContainer(modelReference, datasetContainer);
-                                startAnalysis(output, datasetContainer, modelReference);
+                        for(GtaDatasetContainer datasetContainer : getConnectedDatasetContainers(output)) {
+                            for(GtaModelReference modelReference : getConnectedModelreferences(datasetContainer)) {
+                                GtaModelDifferences modelDifferences = getModelDifferences(modelReference, datasetContainer);
+                                startAnalysis(output, datasetContainer, modelReference, modelDifferences);
                             }
                         }
 
@@ -59,7 +60,7 @@ public final class RunAnalysis implements ActionListener {
                 }
             }
         }
-        return runnable;
+        return true;
     }
 
     private boolean hasValidConnection(Object object) {
@@ -89,37 +90,64 @@ public final class RunAnalysis implements ActionListener {
         return null;
     }
 
-    private void startAnalysis(GtaOutput output,GtaDatasetContainer datasetContainer,GtaModelReference modelReference) {
+    private void startAnalysis(GtaOutput output,GtaDatasetContainer datasetContainer,GtaModelReference modelReference, GtaModelDifferences modelDifferences) {
         //TODO: create a runnable for every analysis and send it off somewhere
         //TODO: use "output", "datasetContainer and "modelReference" to start an analysis
         //TODO: lookup the StartAnalyis Interface
         AnalysisInterface controller = Lookup.getDefault().lookup(AnalysisInterface.class);
-
-        //controller.runAnalysis();
-
+        controller.runAnalysis(output, datasetContainer, modelReference, modelDifferences);
     }
 
-    private ArrayList<GtaDatasetContainer> getConnectedDatasetContainers() {
+    private ArrayList<GtaDatasetContainer> getConnectedDatasetContainers(GtaOutput output) {
         ArrayList<GtaDatasetContainer> datasetContainers = new ArrayList<GtaDatasetContainer>();
-        datasetContainers.add(getConnectedDatasetContainer());
+        for (GtaConnection connection : scheme.getConnection()) {
+            if (connection.getTargetID().equalsIgnoreCase(output.getId())) {
+                datasetContainers.add(getConnectedDatasetContainer(connection.getSourceID()));
+            }
+        }
         return datasetContainers;
     }
 
-    private GtaDatasetContainer getConnectedDatasetContainer() {
-        throw new UnsupportedOperationException("Not yet implemented");
+    private GtaDatasetContainer getConnectedDatasetContainer(String sourceID) {
+        GtaDatasetContainer connectedDatasetContainer = null;
+        for (GtaDatasetContainer container: scheme.getDatasetContainer()) {
+            if(container.getId().equalsIgnoreCase(sourceID)) {
+            connectedDatasetContainer = container;
+            }
+        }
+        return connectedDatasetContainer;
     }
 
-    private ArrayList<GtaModelReference> getConnectedModelreferences() {
+    private ArrayList<GtaModelReference> getConnectedModelreferences(GtaDatasetContainer datasetContainer) {
         ArrayList<GtaModelReference> models = new ArrayList<GtaModelReference>();
-        models.add(getConnectedModelreference());
+         for (GtaConnection connection : scheme.getConnection()) {
+            if (connection.getTargetID().equalsIgnoreCase(datasetContainer.getId())) {
+                models.add(getConnectedModelreference(connection.getSourceID()));
+            }
+        }
+        
         return models;
     }
 
-    private GtaModelReference getConnectedModelreference() {
-        throw new UnsupportedOperationException("Not yet implemented");
+    private GtaModelReference getConnectedModelreference(String sourceID) {
+         GtaModelReference connectedModelReference = null;
+         for (GtaModelReference model: scheme.getModel()) {
+            if(model.getId().equalsIgnoreCase(sourceID)) {
+            connectedModelReference = model;
+            }
+        }
+        return connectedModelReference;
     }
 
-    private GtaModelDiffContainer getModelDiffContainer(GtaModelReference modelReference, GtaDatasetContainer datasetContainer) {
-        throw new UnsupportedOperationException("Not yet implemented");
+    private GtaModelDifferences getModelDifferences(GtaModelReference modelReference, GtaDatasetContainer datasetContainer) {
+        GtaModelDifferences modelDifferences = null;
+        for (GtaConnection connection : scheme.getConnection()) {
+            if (connection.getTargetID().equalsIgnoreCase(datasetContainer.getId()) &&
+                    connection.getSourceID().equalsIgnoreCase(modelReference.getId()))  {
+                modelDifferences = connection.getModelDifferences();
+            }
+        }
+        return modelDifferences;
     }
+
 }

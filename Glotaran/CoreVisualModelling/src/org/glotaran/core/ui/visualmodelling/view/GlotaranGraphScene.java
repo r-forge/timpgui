@@ -33,6 +33,7 @@ import org.glotaran.core.models.gta.GtaDatasetContainer;
 import org.glotaran.core.models.gta.GtaModelReference;
 import org.glotaran.core.models.gta.GtaOutput;
 import org.glotaran.core.models.gta.GtaProjectScheme;
+import org.glotaran.core.ui.visualmodelling.common.EnumTypes;
 import org.glotaran.core.ui.visualmodelling.components.DatasetContainerComponent;
 import org.glotaran.core.ui.visualmodelling.components.ModelContainer;
 import org.glotaran.core.ui.visualmodelling.components.OutputPanel;
@@ -247,7 +248,8 @@ public class GlotaranGraphScene extends GraphScene<Object, Object> implements Pr
     protected void detachEdgeWidget(Object edge, Widget widget) {
          GtaConnection connection = (GtaConnection)edge;
          connection.setActive(false);
-         if (widget instanceof DatasetContainerWidget) {
+         if (connection.getSourceType().equals(EnumTypes.ConnectionTypes.GTAMODELREFERENCE.toString()) &&
+                 connection.getTargetType().equals(EnumTypes.ConnectionTypes.GTADATASETCONTAINER.toString())) {
            ((DatasetContainerWidget) widget).setConnected(false);
           ((DatasetContainerWidget) widget).getContainerComponent().setConnectedModel(null);
          } else {

@@ -224,11 +224,10 @@ final public class VisualModellingTopComponent extends CloneableTopComponent imp
         dobj.setModified(true);
     }
 
-    @SuppressWarnings("element-type-mismatch")
     public void objectRemoved(ObjectSceneEvent event, Object removedObject) {
         if (removedObject instanceof GtaDatasetContainer) {
             GtaDatasetContainer container = (GtaDatasetContainer) removedObject;
-            dobj.getProgectScheme().getDatasetContainer().remove(removedObject);
+            dobj.getProgectScheme().getDatasetContainer().remove(container);
             for (int i = 0; i < dobj.getProgectScheme().getConnection().size(); i++) {
                 if (dobj.getProgectScheme().getConnection().get(i).getSourceID().equalsIgnoreCase(container.getId())) {
                     dobj.getProgectScheme().getConnection().remove(i);
@@ -238,7 +237,7 @@ final public class VisualModellingTopComponent extends CloneableTopComponent imp
         }
         if (removedObject instanceof GtaModelReference) {
             GtaModelReference container = (GtaModelReference) removedObject;
-            dobj.getProgectScheme().getModel().remove(removedObject);
+            dobj.getProgectScheme().getModel().remove(container);
             for (int i = 0; i < dobj.getProgectScheme().getConnection().size(); i++) {
                 if (dobj.getProgectScheme().getConnection().get(i).getTargetID().equalsIgnoreCase(container.getId())) {
                     dobj.getProgectScheme().getConnection().remove(i);

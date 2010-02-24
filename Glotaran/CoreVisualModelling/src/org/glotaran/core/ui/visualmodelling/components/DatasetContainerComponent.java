@@ -400,11 +400,42 @@ public class DatasetContainerComponent
             firePropertyChange("datasetNodeChanged", null, null);
         }
         if (evt.getSource().getClass().equals(KineticParametersNode.class)){
-
-
-
+//if (evt.getPropertyName().equalsIgnoreCase("Number of components")){
+//                if ((Integer)evt.getNewValue()>(Integer)evt.getOldValue()){
+//                    for (int i = 0; i < (Integer)evt.getNewValue()-(Integer)evt.getOldValue(); i++){
+//                        model.getTgm().getDat().getKinparPanel().getKinpar().add(new KinPar());
+//                    }
+//                } else {
+//                        for (int i = 0; i < (Integer)evt.getOldValue()-(Integer)evt.getNewValue(); i++){
+//                            model.getTgm().getDat().getKinparPanel().getKinpar().remove(
+//                                    model.getTgm().getDat().getKinparPanel().getKinpar().size()-1);
+//                    }
+//                }
+//            }
+//            if (evt.getPropertyName().equalsIgnoreCase("Positise rates")){
+//                model.getTgm().getDat().getKinparPanel().setPositivepar((Boolean)evt.getNewValue());
+//            }
+//            if (evt.getPropertyName().equalsIgnoreCase("Sequential model")){
+//                model.getTgm().getDat().getKinparPanel().setSeqmod((Boolean)evt.getNewValue());
+//            }
+//            if (evt.getPropertyName().equalsIgnoreCase("start")){
+//                model.getTgm().getDat().getKinparPanel().getKinpar().get((Integer)evt.getOldValue()).setStart((Double)evt.getNewValue());
+//            }
+//            if (evt.getPropertyName().equalsIgnoreCase("fixed")){
+//                model.getTgm().getDat().getKinparPanel().getKinpar().get((Integer)evt.getOldValue()).setFixed((Boolean)evt.getNewValue());
+//            }
+//            if (evt.getPropertyName().equalsIgnoreCase("delete")){
+//                int index = (Integer)evt.getNewValue();
+//                model.getTgm().getDat().getKinparPanel().getKinpar().remove(index);
+//            }
+//            if (evt.getPropertyName().equalsIgnoreCase("mainNodeDeleted")){
+//                model.getTgm().getDat().getKinparPanel().getKinpar().clear();
+//                model.getTgm().getDat().getKinparPanel().setPositivepar(false);
+//                model.getTgm().getDat().getKinparPanel().setSeqmod(false);
+//            }
             firePropertyChange("datasetNodeChanged", null, null);
         }
+
     }
 
     private void updateModelDiffsNodes(GtaModelDifferences modelDifferences) {

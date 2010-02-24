@@ -3,8 +3,7 @@
 <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
     targetNamespace="http://glotaran.org/schema/GlobalAndTargetAnalysisSchema"
     xmlns:tns="http://glotaran.org/schema/GlobalAndTargetAnalysisSchema"
-    elementFormDefault="qualified" xmlns:ns0="http://www.nat.vu.nl/~jsnel/Schema/TgmSchema">
-    <xsd:import schemaLocation="../../../../../org/glotaran/core/models/tgm/TgmSchema.xsd" namespace="http://www.nat.vu.nl/~jsnel/Schema/TgmSchema"/>
+    elementFormDefault="qualified">
     <xsd:complexType name="GtaDatasetContainer">
         <xsd:sequence>
             <xsd:element name="layout" type="tns:GtaLayout"/>
@@ -67,7 +66,7 @@
     <xsd:complexType name="GtaChangesModel">
         <xsd:sequence>
             <xsd:element name="filename" type="xsd:string"/>
-            <xsd:element name="path" type="xsd:anyURI"/>
+            <xsd:element name="path" type="xsd:string"/>
         </xsd:sequence>
     </xsd:complexType>
     <xsd:complexType name="GtaLinkCLP">
@@ -109,7 +108,7 @@
             <xsd:element name="free" type="tns:GtaModelDiffDO" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
             <xsd:element name="remove" type="tns:GtaModelDiffDO" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
             <xsd:element name="add" type="tns:GtaModelDiffDO" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
-            <xsd:element name="changes" type="ns0:Dat" nillable="true" minOccurs="1" maxOccurs="1"/>
+            <xsd:element name="changes" nillable="true" minOccurs="1" maxOccurs="1" type="tns:GtaChangesModel"></xsd:element>
         </xsd:sequence>
     </xsd:complexType>
     <xsd:element name="GtaProjectScheme">
@@ -128,6 +127,7 @@
         </xsd:complexType>
     </xsd:element>
 </xsd:schema>
+
 
 
 

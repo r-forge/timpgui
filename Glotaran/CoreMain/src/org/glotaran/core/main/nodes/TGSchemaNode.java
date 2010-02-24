@@ -56,12 +56,21 @@ public class TGSchemaNode extends FilterNode {
         @Override
         protected Node[] createNodes(Node n) {
             if (n.getLookup().lookup(DataFolder.class) != null) {
-                return new Node[]{new TGSchemaNode(n)};
+                if (false){
+                    DataFolder folder = n.getLookup().lookup(DataFolder.class);
+                    for (int i = 0; i < folder.getChildren().length; i++){
+//                        if (folder.getChildren()[i] instanceof
+                    }
+                } else {
+                    return new Node[]{new TGSchemaNode(n)};
+                }
             } else {
+
 //                if (n.getLookup().lookup(Tgmdataobject.class)!=null){
 //                    return new Node[]{new TgdDataNode(n.getLookup().lookup(TgdDataObject.class))};
 //                }
             }
+//            return new Node[]{};
             return new Node[]{new FilterNode(n)};
         }
     }

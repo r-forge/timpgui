@@ -95,6 +95,12 @@ public class DatasetContainerWidget extends Widget{
         listeners.remove(pcl);
     }
 
+    public String getSchemaPath(){
+        String path =
+                ((GlotaranGraphScene)getScene()).getDobj().getPrimaryFile().getPath();
+        return path;
+    }
+    
     public void fire(String propertyName, Object old, Object nue) {
         //Passing 0 below on purpose, so you only synchronize for one atomic call:
         PropertyChangeListener[] pcls = listeners.toArray(new PropertyChangeListener[0]);

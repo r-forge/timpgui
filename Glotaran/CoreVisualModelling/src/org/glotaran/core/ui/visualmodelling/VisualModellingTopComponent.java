@@ -26,10 +26,6 @@ import org.openide.windows.WindowManager;
 import org.netbeans.api.settings.ConvertAsProperties;
 import org.netbeans.api.visual.model.ObjectSceneEventType;
 import org.netbeans.api.visual.model.ObjectSceneListener;
-import org.openide.cookies.SaveCookie;
-import org.openide.nodes.Node;
-import org.openide.util.Utilities;
-import org.openide.util.lookup.AbstractLookup;
 import org.openide.util.lookup.InstanceContent;
 import org.openide.util.lookup.Lookups;
 import org.openide.windows.CloneableTopComponent;
@@ -37,19 +33,15 @@ import org.openide.windows.CloneableTopComponent;
 /**
  * Top component which displays something.
  */
-@ConvertAsProperties(dtd = "-//org.glotaran.core.ui.visualmodelling//VisualModelling//EN",
-autostore = false)
+@ConvertAsProperties(dtd = "-//org.glotaran.core.ui.visualmodelling//VisualModelling//EN",autostore = false)
 final public class VisualModellingTopComponent extends CloneableTopComponent implements ObjectSceneListener {
 
     private static VisualModellingTopComponent instance;
+    private static final long serialVersionUID = 1;
     private InstanceContent content;
     private static final int DEFAULT_COMPONENT_HEIGHT = 240;
     private static final int DEFAULT_COMPONENT_WIDTH = 180;
-    /** path to the icon used by the component and its open action */
-//    static final String ICON_PATH = "SET/PATH/TO/ICON/HERE";
     private static final String PREFERRED_ID = "VisualModellingTopComponent";
-    //private final JComponent myView;
-    //private GlotaranGraphScene scene;
     private GtaDataObject dobj;
 
     public VisualModellingTopComponent() {

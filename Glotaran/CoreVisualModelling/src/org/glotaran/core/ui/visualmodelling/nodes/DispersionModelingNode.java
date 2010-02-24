@@ -67,8 +67,8 @@ public class DispersionModelingNode extends PropertiesAbstractNode {
 
     @Override
     public void destroy() throws IOException {
-        super.destroyNode();
         firePropertyChange("mainNodeDeleted", disptype, null);
+        super.destroyNode();
     }
 
     @Override
@@ -92,18 +92,18 @@ public class DispersionModelingNode extends PropertiesAbstractNode {
     protected Sheet createSheet() {
         Sheet sheet = Sheet.createDefault();
         Sheet.Set set = Sheet.createPropertiesSet();
-        Property numberOfComponents = null;
-        Property name = null;
-        Property lambdaC = null;
-        PropertySupport.Reflection dispType = null;
+        Property<Integer> numberOfComponents = null;
+        Property<String> name = null;
+        Property<Double> lambdaC = null;
+        PropertySupport.Reflection<EnumTypes.DispersionTypes> dispType = null;
         try {
             dispType = (single) ?
-                new PropertySupport.Reflection(this, EnumTypes.DispersionTypes.class, "disptype") :
-                new PropertySupport.Reflection(this, EnumTypes.DispersionTypes.class, "getDisptype", null);
+                new PropertySupport.Reflection<EnumTypes.DispersionTypes>(this, EnumTypes.DispersionTypes.class, "disptype") :
+                new PropertySupport.Reflection<EnumTypes.DispersionTypes>(this, EnumTypes.DispersionTypes.class, "getDisptype", null);
             dispType.setPropertyEditorClass(EnumPropertyEditor.class); 
-            numberOfComponents = new PropertySupport.Reflection(this, Integer.class, "getCompNum", "setCompNum");
-            name = new PropertySupport.Reflection(this, String.class, "getDisplayName", null);
-            lambdaC = new PropertySupport.Reflection(this, Double.class,"centralWave");
+            numberOfComponents = new PropertySupport.Reflection<Integer>(this, Integer.class, "getCompNum", "setCompNum");
+            name = new PropertySupport.Reflection<String>(this, String.class, "getDisplayName", null);
+            lambdaC = new PropertySupport.Reflection<Double>(this, Double.class,"centralWave");
         } catch (NoSuchMethodException ex) {
             Exceptions.printStackTrace(ex);
         }

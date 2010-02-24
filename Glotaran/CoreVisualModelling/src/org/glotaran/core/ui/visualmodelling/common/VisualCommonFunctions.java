@@ -14,7 +14,6 @@ import java.util.ArrayList;
 import org.glotaran.core.models.tgm.Dat;
 import org.glotaran.core.models.tgm.IrfparPanelModel;
 import org.glotaran.core.models.tgm.KinPar;
-import org.glotaran.core.models.tgm.Tgm;
 import org.glotaran.core.models.tgm.WeightPar;
 import org.glotaran.core.ui.visualmodelling.common.EnumTypes.CohSpecTypes;
 import org.glotaran.core.ui.visualmodelling.common.EnumTypes.IRFTypes;
@@ -27,6 +26,7 @@ import org.glotaran.core.ui.visualmodelling.nodes.WeightParametersNode;
 import org.glotaran.core.ui.visualmodelling.palette.PaletteItem;
 import org.glotaran.tgmfilesupport.TgmDataNode;
 import org.openide.filesystems.FileObject;
+import org.openide.nodes.Children;
 
 /**
  *
@@ -212,12 +212,14 @@ public class VisualCommonFunctions {
         if (evt.getSource().getClass().equals(DispersionModelingNode.class)) {
             boolean parMu = evt.getOldValue().equals(EnumTypes.DispersionTypes.PARMU);
             if (evt.getPropertyName().equalsIgnoreCase("mainNodeDeleted")) {
-//                for (int i = 0; i < getExplorerManager().getRootContext().getChildren().getNodesCount(); i++){
-//                    if (getExplorerManager().getRootContext().getChildren().getNodes()[i] instanceof DispersionModelingNode){
-//                        ((DispersionModelingNode)getExplorerManager().getRootContext().getChildren().getNodes()[i]).setSingle(true);
-//                        ((DispersionModelingNode)getExplorerManager().getRootContext().getChildren().getNodes()[i]).recreateSheet();
-//                    }
-//                }
+                Children nodes = ((DispersionModelingNode)evt.getSource()).getParentNode().getChildren();
+
+                for (int i = 0; i < nodes.getNodesCount(); i++){
+                    if (nodes.getNodes()[i] instanceof DispersionModelingNode){
+                        ((DispersionModelingNode)nodes.getNodes()[i]).setSingle(true);
+                        ((DispersionModelingNode)nodes.getNodes()[i]).recreateSheet();
+                    }
+                }
                 if (parMu) {
                     model.getIrfparPanel().setParmufixed(false);
                     model.getIrfparPanel().setDispmufun("");

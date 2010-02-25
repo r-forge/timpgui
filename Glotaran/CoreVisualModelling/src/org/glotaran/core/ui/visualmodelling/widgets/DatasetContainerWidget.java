@@ -23,6 +23,7 @@ import org.netbeans.api.visual.layout.LayoutFactory;
 import org.netbeans.api.visual.widget.ComponentWidget;
 import org.netbeans.api.visual.widget.LabelWidget;
 import org.netbeans.api.visual.widget.Widget;
+import org.openide.filesystems.FileObject;
 
 /**
  *
@@ -95,9 +96,9 @@ public class DatasetContainerWidget extends Widget{
         listeners.remove(pcl);
     }
 
-    public String getSchemaPath(){
-        String path =
-                ((GlotaranGraphScene)getScene()).getDobj().getPrimaryFile().getPath();
+    public FileObject getSchemaPath(){
+        FileObject path = null;
+        path = ((GlotaranGraphScene)getScene()).getDobj().getPrimaryFile();
         return path;
     }
     

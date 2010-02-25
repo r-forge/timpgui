@@ -26,11 +26,11 @@ import org.glotaran.core.models.gta.GtaModelDifferences;
 import org.glotaran.core.models.tgm.Tgm;
 import org.glotaran.core.ui.visualmodelling.nodes.DatasetComponentNode;
 import org.glotaran.core.ui.visualmodelling.nodes.DatasetsRootNode;
-import org.glotaran.core.ui.visualmodelling.nodes.KineticParametersNode;
 import org.glotaran.core.ui.visualmodelling.nodes.ModelDiffsNode;
 import org.glotaran.core.ui.visualmodelling.widgets.DatasetContainerWidget;
 import org.openide.explorer.ExplorerManager;
 import org.openide.explorer.ExplorerUtils;
+import org.openide.filesystems.FileObject;
 import org.openide.nodes.Index;
 import org.openide.nodes.Node;
 import org.openide.util.Lookup;
@@ -56,7 +56,7 @@ public class DatasetContainerComponent
     private GtaDatasetContainer datasetContainer;
     private Tgm connectedModel = null;
     private GtaModelDifferences modelDifferences = null;
-    private String schemaFolder;
+    private FileObject schemaFolder;
 
     /** Creates new form DatasetContainerComponent */
     public DatasetContainerComponent() {
@@ -303,6 +303,10 @@ public class DatasetContainerComponent
                     }
                 }
             }
+            if (evt.getPropertyName().equalsIgnoreCase("ChangeParamAdded")){
+                //TODO implement creatinng new empty TGM file and fill in changes;
+
+            }
             firePropertyChange("datasetNodeChanged", null, null);
         }
 
@@ -310,7 +314,8 @@ public class DatasetContainerComponent
             if (evt.getPropertyName().equalsIgnoreCase("connectionChange")){
 
                 schemaFolder = ((DatasetContainerWidget)evt.getSource()).getSchemaPath();
-                schemaFolder = schemaFolder.substring(0,schemaFolder.lastIndexOf("."));
+                schemaFolder = schemaFolder.getParent();
+
                 connectedModel = (Tgm) evt.getOldValue();
                 if (evt.getNewValue() != null) {
                     modelDifferences = (GtaModelDifferences) evt.getNewValue();
@@ -405,14 +410,13 @@ public class DatasetContainerComponent
             firePropertyChange("datasetNodeChanged", null, null);
         }
 
+        if (evt.getSource().getClass().equals(ModelDiffsNode.class)){
+
+        }
 
 //        if (VisualCommonFunctions.modelParametersChange(modelDifferences.getDifferences().get(0).getChanges(), evt)){
 //
 //        }
-        if (evt.getSource().getClass().equals(KineticParametersNode.class)){
-
-            firePropertyChange("datasetNodeChanged", null, null);
-        }
 
     }
 

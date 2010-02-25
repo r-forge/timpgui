@@ -2,10 +2,13 @@
 package org.glotaran.core.main.nodes;
 
 import java.awt.Image;
+import java.util.Collection;
+import org.glotaran.core.main.interfaces.XMLFilesSupportIntarface;
 import org.openide.nodes.FilterNode;
 import org.openide.nodes.Node;
 import org.openide.util.ImageUtilities;
 import org.openide.loaders.DataFolder;
+import org.openide.util.Lookup;
 import org.openide.util.NbBundle;
 
 /**
@@ -55,12 +58,17 @@ public class TGModelsNode extends FilterNode {
 
         @Override
         protected Node[] createNodes(Node n) {
+            Collection<? extends XMLFilesSupportIntarface> services =
+                    Lookup.getDefault().lookupAll(XMLFilesSupportIntarface.class);
+            for (XMLFilesSupportIntarface service : services){
+                if (service.getType().equalsIgnoreCase("TGMataObject")){
+                    if (n.getLookup().lookup(service.getDataObjectClass().getClass()) != null) {
+                        return new Node[]{new TGSchemaNode(n)};
+                    }
+                }
+            }
             if (n.getLookup().lookup(DataFolder.class) != null) {
-                return new Node[]{new TGModelsNode(n)};
-            } else {
-//                if (n.getLookup().lookup(Tgmdataobject.class)!=null){
-//                    return new Node[]{new TgdDataNode(n.getLookup().lookup(TgdDataObject.class))};
-//                }
+                return new Node[]{new TGSchemaNode(n)};
             }
             return new Node[]{new FilterNode(n)};
         }

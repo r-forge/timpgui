@@ -5,7 +5,6 @@
 package org.glotaran.core.resultdisplayers.flim;
 
 import Jama.Matrix;
-import Jama.SingularValueDecomposition;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Font;

@@ -34,6 +34,7 @@ public class TgmDataObject extends XmlMultiViewDataObject implements SaveCookie{
     // Model synchronizer takes care of two way synchronization between the view and the XML file
     private ModelSynchronizer modelSynchronizer;    // Here we declare the variable, representing the type of design view, which will be discussed in some future installment of this series:
     private static final int TYPE_TOOLBAR = 0;
+    private static final long serialVersionUID = 1;
     Tgm tgm;
 
     public TgmDataObject(FileObject pf, MultiFileLoader loader) throws DataObjectExistsException, IOException {
@@ -180,7 +181,6 @@ public class TgmDataObject extends XmlMultiViewDataObject implements SaveCookie{
         modelSynchronizer.requestUpdateData();
         setModified(true);
     }
-
 
     private static class DesignView extends DesignMultiViewDesc {
         //Added becuase of:

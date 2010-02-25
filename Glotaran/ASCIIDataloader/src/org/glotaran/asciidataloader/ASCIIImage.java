@@ -34,7 +34,9 @@ public class ASCIIImage implements TGDatasetInterface{
             } else {
                if (loadedString.trim().equalsIgnoreCase("FLIM image")) {
                     return "FLIMascii";
-            } else return "error";
+            } else {
+                    return "error";
+                }
 
             }
         } catch (Exception e) {

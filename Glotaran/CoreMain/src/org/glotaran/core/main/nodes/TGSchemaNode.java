@@ -2,10 +2,14 @@
 package org.glotaran.core.main.nodes;
 
 import java.awt.Image;
+import java.util.Collection;
+import org.glotaran.core.main.interfaces.XMLFilesSupportIntarface;
 import org.openide.nodes.FilterNode;
 import org.openide.nodes.Node;
 import org.openide.util.ImageUtilities;
 import org.openide.loaders.DataFolder;
+import org.openide.loaders.DataObject;
+import org.openide.util.Lookup;
 import org.openide.util.NbBundle;
 
 /**
@@ -55,23 +59,22 @@ public class TGSchemaNode extends FilterNode {
 
         @Override
         protected Node[] createNodes(Node n) {
-            if (n.getLookup().lookup(DataFolder.class) != null) {
-                if (false){
-                    DataFolder folder = n.getLookup().lookup(DataFolder.class);
+            Collection<? extends XMLFilesSupportIntarface> services =
+                    Lookup.getDefault().lookupAll(XMLFilesSupportIntarface.class);
+            for(XMLFilesSupportIntarface service : services){
+                if (service.getType().equalsIgnoreCase("GTADataObject")){
+                    DataFolder folder = n.getLookup().lookup(DataFolder.class);    
                     for (int i = 0; i < folder.getChildren().length; i++){
-//                        if (folder.getChildren()[i] instanceof
+                        if (folder.getChildren()[i].getClass().equals(service.getDataObjectClass())){
+                            return new Node[]{folder.getChildren()[i].getNodeDelegate()};
+                        }
                     }
-                } else {
-                    return new Node[]{new TGSchemaNode(n)};
                 }
-            } else {
-
-//                if (n.getLookup().lookup(Tgmdataobject.class)!=null){
-//                    return new Node[]{new TgdDataNode(n.getLookup().lookup(TgdDataObject.class))};
-//                }
             }
-//            return new Node[]{};
-            return new Node[]{new FilterNode(n)};
+            if (n.getLookup().lookup(DataFolder.class) != null) {
+                return new Node[]{new TGSchemaNode(n)};
+            }
+            return new Node[]{};
         }
     }
 }

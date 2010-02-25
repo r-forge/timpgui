@@ -24,6 +24,7 @@ import org.openide.util.actions.CookieAction;
 
 
 public final class OpenDataset extends CookieAction {
+    private static final long serialVersionUID = 1;
     private final Collection<? extends TGDatasetInterface> services;
 
     public OpenDataset() {

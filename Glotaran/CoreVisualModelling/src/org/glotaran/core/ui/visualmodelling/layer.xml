@@ -1,12 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE filesystem PUBLIC "-//NetBeans//DTD Filesystem 1.2//EN" "http://www.netbeans.org/dtds/filesystem-1_2.dtd">
 <filesystem>
-    <folder name="Actions">
-        <folder name="Analysis">
-            <file name="org-glotaran-core-ui-StartAnalysis.instance_hidden"/>
-        </folder>
-        <folder name="Build"/>       
-    </folder>
     <folder name="Windows2">
         <folder name="Components">
             <file name="VisualModellingTopComponent.settings" url="VisualModellingTopComponentSettings.xml"/>

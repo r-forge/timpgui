@@ -50,7 +50,7 @@
     <folder name="Templates">
         <folder name="Other">
             <file name="GtaTemplate.xml" url="GtaTemplate.xml">
-                <attr name="displayName" bundlevalue="org.glotaran.core.ui.visualmodelling.Bundle#Templates/Other/GtaTemplate.xml"/>
+                <attr name="displayName" bundlevalue="org.glotaran.gtafilesupport.Bundle#Templates/Other/GtaTemplate.xml"/>
                 <attr name="template" boolvalue="true"/>
             </file>
         </folder>

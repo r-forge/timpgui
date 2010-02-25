@@ -1,19 +1,15 @@
 package org.glotaran.core.ui.visualmodelling.filesupport;
 
 import org.glotaran.gtafilesupport.GtaDataObject;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-import org.openide.cookies.OpenCookie;
+import org.glotaran.core.ui.visualmodelling.VisualModellingTopComponent;
+import org.glotaran.gtafilesupport.api.GtaEditorProvider;
+import org.openide.windows.CloneableTopComponent;
 
-public final class OpenGtaEditor implements ActionListener {
+public final class OpenGtaEditor implements GtaEditorProvider {
 
-    private final GtaDataObject context;
-
-    public OpenGtaEditor(GtaDataObject context) {
-        this.context = context;
-    }
-
-    public void actionPerformed(ActionEvent ev) {
-        ((GtaOpenSupport)context.getCookie(OpenCookie.class)).view();
+    public CloneableTopComponent getCloneableTopComponent(GtaDataObject dataObject) {
+        VisualModellingTopComponent tc = new VisualModellingTopComponent(dataObject);
+        tc.setDisplayName(dataObject.getName());
+        return tc;
     }
 }

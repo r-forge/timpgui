@@ -14,7 +14,7 @@ package org.glotaran.core.resultdisplayers.flim;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.image.BufferedImage;
-import org.glotaran.core.main.mesages.CoreErrorMessages;
+import org.glotaran.core.messages.CoreErrorMessages;
 import org.glotaran.jfreechartcustom.GraphPanel;
 import org.glotaran.jfreechartcustom.ImageUtilities;
 import org.glotaran.jfreechartcustom.IntensImageDataset;

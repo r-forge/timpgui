@@ -31,7 +31,7 @@ import org.openide.windows.WindowManager;
 import java.io.File;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
-import org.glotaran.core.main.mesages.CoreErrorMessages;
+import org.glotaran.core.messages.CoreErrorMessages;
 import org.glotaran.core.main.nodes.TgdDataChildren;
 import org.glotaran.core.main.nodes.TgdDataNode;
 import org.glotaran.core.main.nodes.dataobjects.TgdDataObject;

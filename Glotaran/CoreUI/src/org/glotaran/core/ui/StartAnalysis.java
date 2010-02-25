@@ -14,8 +14,8 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Formatter;
 import org.glotaran.core.main.interfaces.TimpControllerInterface;
-import org.glotaran.core.main.mesages.CoreErrorMessages;
-import org.glotaran.core.main.mesages.CoreWarningMessages;
+import org.glotaran.core.messages.CoreErrorMessages;
+import org.glotaran.core.messages.CoreWarningMessages;
 import org.glotaran.core.main.nodes.TimpDatasetNode;
 import org.glotaran.core.main.nodes.dataobjects.TimpDatasetDataObject;
 import org.glotaran.core.main.project.TGProject;
@@ -87,7 +87,8 @@ public final class StartAnalysis implements ActionListener {
                     if (run) {
                         controller = Lookup.getDefault().lookup(TimpControllerInterface.class);
                         if (controller != null) {
-                            results = controller.runAnalysis(datasets, models, NO_OF_ITERATIONS);
+                            //TODO: fix this
+//                            results = controller.runAnalysis(datasets, models, NO_OF_ITERATIONS);
 
                         } else {
                             CoreErrorMessages.noRFoundException();

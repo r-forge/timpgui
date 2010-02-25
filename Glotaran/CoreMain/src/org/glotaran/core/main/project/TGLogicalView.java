@@ -1,6 +1,6 @@
 package org.glotaran.core.main.project;
 
-import org.glotaran.core.main.mesages.CoreErrorMessages;
+import org.glotaran.core.messages.CoreErrorMessages;
 import org.glotaran.core.main.nodes.TGProjectNode;
 import org.netbeans.spi.project.ui.LogicalViewProvider;
 

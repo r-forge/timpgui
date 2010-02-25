@@ -19,7 +19,7 @@
 package org.glotaran.core.ui.visualmodelling.view;
 
 import java.awt.Point;
-import org.glotaran.core.main.mesages.CoreErrorMessages;
+import org.glotaran.core.messages.CoreErrorMessages;
 import org.glotaran.core.models.gta.GtaConnection;
 import org.glotaran.core.models.gta.GtaDatasetContainer;
 import org.glotaran.core.models.gta.GtaModelReference;

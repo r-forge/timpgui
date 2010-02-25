@@ -12,7 +12,7 @@ import javax.swing.SpinnerNumberModel;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableModel;
-import org.glotaran.core.main.mesages.CoreErrorMessages;
+import org.glotaran.core.messages.CoreErrorMessages;
 import org.glotaran.core.models.tgm.IrfparPanelModel;
 import org.glotaran.jfreechartcustom.GraphPanel;
 import org.glotaran.tgmfilesupport.TgmDataObject;

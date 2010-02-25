@@ -3,7 +3,7 @@ package org.glotaran.core.main.nodes.dataobjects;
 import org.glotaran.core.models.tgd.Tgd;
 import java.io.IOException;
 import javax.xml.bind.Unmarshaller;
-import org.glotaran.core.main.mesages.CoreErrorMessages;
+import org.glotaran.core.messages.CoreErrorMessages;
 import org.glotaran.core.main.nodes.TgdDataNode;
 import org.openide.filesystems.FileObject;
 import org.openide.filesystems.FileUtil;

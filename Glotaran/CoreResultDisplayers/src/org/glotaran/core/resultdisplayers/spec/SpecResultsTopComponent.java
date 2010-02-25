@@ -13,7 +13,7 @@ import java.util.Formatter;
 import java.util.logging.Logger;
 import javax.swing.JPanel;
 import org.glotaran.core.main.interfaces.TimpControllerInterface;
-import org.glotaran.core.main.mesages.CoreErrorMessages;
+import org.glotaran.core.messages.CoreErrorMessages;
 import org.glotaran.core.main.nodes.dataobjects.TimpResultDataObject;
 import org.glotaran.core.main.structures.TimpResultDataset;
 import org.glotaran.core.resultdisplayers.common.panels.CommonTools;

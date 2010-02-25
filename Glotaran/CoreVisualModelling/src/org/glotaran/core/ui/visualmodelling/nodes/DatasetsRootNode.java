@@ -7,7 +7,6 @@ package org.glotaran.core.ui.visualmodelling.nodes;
 
 import java.awt.datatransfer.Transferable;
 import java.awt.datatransfer.UnsupportedFlavorException;
-import java.beans.PropertyChangeListener;
 import java.io.IOException;
 import org.glotaran.core.main.nodes.TimpDatasetNode;
 import org.glotaran.core.models.gta.GtaDataset;

@@ -6,7 +6,7 @@ package org.glotaran.core.main.nodes;
 
 import java.awt.Image;
 import java.io.IOException;
-import org.glotaran.core.main.mesages.CoreErrorMessages;
+import org.glotaran.core.messages.CoreErrorMessages;
 import org.glotaran.core.main.nodes.dataobjects.TgdDataObject;
 import org.glotaran.core.main.project.TGProject;
 import org.openide.loaders.DataNode;

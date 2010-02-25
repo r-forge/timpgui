@@ -8,7 +8,7 @@ import java.awt.Point;
 import java.awt.datatransfer.Transferable;
 import java.awt.datatransfer.UnsupportedFlavorException;
 import java.io.IOException;
-import org.glotaran.core.main.mesages.CoreErrorMessages;
+import org.glotaran.core.messages.CoreErrorMessages;
 import org.glotaran.core.models.gta.GtaDatasetContainer;
 import org.glotaran.core.models.gta.GtaLayout;
 import org.glotaran.core.models.gta.GtaModelReference;

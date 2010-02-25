@@ -2,7 +2,7 @@ package org.glotaran.core.main.nodes.actions;
 
 import java.util.Collection;
 import org.glotaran.core.main.interfaces.ResultsLoaderInterface;
-import org.glotaran.core.main.mesages.CoreErrorMessages;
+import org.glotaran.core.messages.CoreErrorMessages;
 import org.glotaran.core.main.nodes.dataobjects.TimpResultDataObject;
 import org.glotaran.core.main.structures.TimpResultDataset;
 import org.openide.loaders.DataObject;

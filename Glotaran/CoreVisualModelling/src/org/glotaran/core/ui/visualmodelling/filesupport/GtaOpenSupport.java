@@ -1,5 +1,6 @@
 package org.glotaran.core.ui.visualmodelling.filesupport;
 
+import org.glotaran.gtafilesupport.GtaDataObject;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import org.glotaran.core.ui.visualmodelling.VisualModellingTopComponent;

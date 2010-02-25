@@ -2,12 +2,12 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.glotaran.core.ui.visualmodelling.filesupport;
+package org.glotaran.analysis.actions;
 
+import org.glotaran.gtafilesupport.GtaDataObject;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.util.ArrayList;
-import org.glotaran.core.main.interfaces.AnalysisInterface;
 import org.glotaran.core.models.gta.GtaConnection;
 import org.glotaran.core.models.gta.GtaDatasetContainer;
 import org.glotaran.core.models.gta.GtaModelDifferences;
@@ -15,7 +15,6 @@ import org.glotaran.core.models.gta.GtaModelReference;
 import org.glotaran.core.models.gta.GtaOutput;
 import org.glotaran.core.models.gta.GtaProjectScheme;
 import org.openide.loaders.DataObject;
-import org.openide.util.Lookup;
 
 public final class RunAnalysis implements ActionListener {
 
@@ -92,8 +91,8 @@ public final class RunAnalysis implements ActionListener {
         //TODO: create a runnable for every analysis and send it off somewhere
         //TODO: use "output", "datasetContainer and "modelReference" to start an analysis
         //TODO: lookup the StartAnalyis Interface
-        AnalysisInterface controller = Lookup.getDefault().lookup(AnalysisInterface.class);
-        controller.runAnalysis(output, datasetContainer, modelReference, modelDifferences);
+//        AnalysisInterface controller = Lookup.getDefault().lookup(AnalysisInterface.class);
+//        controller.runAnalysis(output, datasetContainer, modelReference, modelDifferences);
     }
 
     private ArrayList<GtaDatasetContainer> getConnectedDatasetContainers(GtaOutput output) {

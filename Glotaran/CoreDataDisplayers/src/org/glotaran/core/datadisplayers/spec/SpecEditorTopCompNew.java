@@ -18,7 +18,7 @@ import java.util.ArrayList;
 import java.util.logging.Logger;
 import javax.swing.SpinnerNumberModel;
 import org.glotaran.core.main.interfaces.TimpControllerInterface;
-import org.glotaran.core.main.mesages.CoreErrorMessages;
+import org.glotaran.core.messages.CoreErrorMessages;
 import org.glotaran.core.main.nodes.TgdDataChildren;
 import org.glotaran.core.main.nodes.dataobjects.TgdDataObject;
 import org.glotaran.core.main.nodes.dataobjects.TimpDatasetDataObject;

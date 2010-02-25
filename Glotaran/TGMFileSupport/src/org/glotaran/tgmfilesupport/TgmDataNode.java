@@ -9,9 +9,9 @@ import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
 import java.awt.datatransfer.UnsupportedFlavorException;
 import java.io.IOException;
-import org.glotaran.core.models.tgm.KinPar;
 import org.glotaran.core.main.nodes.TimpResultsNode;
 import org.glotaran.core.main.structures.TimpResultDataset;
+import org.glotaran.core.models.tgm.KinPar;
 import org.netbeans.api.project.FileOwnerQuery;
 import org.netbeans.api.project.Project;
 import org.openide.DialogDisplayer;
@@ -27,7 +27,7 @@ import org.openide.util.datatransfer.PasteType;
 
 
 public class TgmDataNode extends DataNode implements Transferable{
-    private final Image ICON_ROOT = ImageUtilities.loadImage("org/glotaran/core/main/resources/Model-icon-16.png", true);
+    private final Image ICON_ROOT = ImageUtilities.loadImage("org/glotaran/tgmfilesupport/resources/Model-icon-16.png", true);
     public static final DataFlavor DATA_FLAVOR = new DataFlavor(TgmDataNode.class, "TgmDataNode");
     private TgmDataObject obj;
 

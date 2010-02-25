@@ -18,14 +18,13 @@
  */
 package org.glotaran.core.ui.visualmodelling.view;
 
+import java.awt.*;
+import org.glotaran.core.messages.CoreErrorMessages;
 import org.netbeans.api.visual.action.ConnectorState;
 import org.netbeans.api.visual.action.ReconnectProvider;
 import org.netbeans.api.visual.widget.ConnectionWidget;
 import org.netbeans.api.visual.widget.Scene;
 import org.netbeans.api.visual.widget.Widget;
-
-import java.awt.*;
-import org.glotaran.core.main.mesages.CoreErrorMessages;
 import org.glotaran.core.models.gta.GtaConnection;
 import org.glotaran.core.models.gta.GtaDatasetContainer;
 import org.glotaran.core.models.gta.GtaModelReference;

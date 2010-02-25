@@ -2,12 +2,11 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.glotaran.core.ui.visualmodelling.filesupport;
+package org.glotaran.gtafilesupport;
 
 import java.awt.Image;
 import java.io.IOException;
-import org.glotaran.core.main.cookies.AnalysisCookie;
-import org.glotaran.core.main.mesages.CoreErrorMessages;
+import org.glotaran.core.messages.CoreErrorMessages;
 import org.glotaran.core.models.gta.GtaProjectScheme;
 import org.openide.cookies.SaveCookie;
 import org.openide.filesystems.FileObject;
@@ -31,8 +30,8 @@ public class GtaDataObject extends MultiDataObject implements SaveCookie {
         super(pf, loader);
         CookieSet cookies = getCookieSet();
         //cookies.add((Node.Cookie) DataEditorSupport.create(this, getPrimaryEntry(), cookies));
-        cookies.add((Node.Cookie) new GtaOpenSupport(getPrimaryEntry()));
-        cookies.add((Node.Cookie) new GtaAnalysisSupport(getPrimaryEntry()));
+        //cookies.add((Node.Cookie) new GtaOpenSupport(getPrimaryEntry()));
+        //cookies.add((Node.Cookie) new GtaAnalysisSupport(getPrimaryEntry()));
     }
 
     @Override

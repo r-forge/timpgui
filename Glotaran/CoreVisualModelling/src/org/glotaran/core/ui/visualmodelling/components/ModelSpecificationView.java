@@ -12,7 +12,7 @@ import java.awt.dnd.DropTargetDragEvent;
 import java.awt.dnd.DropTargetDropEvent;
 import java.beans.PropertyChangeListener;
 import java.io.IOException;
-import org.glotaran.core.main.mesages.CoreErrorMessages;
+import org.glotaran.core.messages.CoreErrorMessages;
 import org.glotaran.core.ui.visualmodelling.common.EnumTypes;
 import org.glotaran.core.ui.visualmodelling.nodes.CohSpecNode;
 import org.glotaran.core.ui.visualmodelling.nodes.DispersionModelingNode;

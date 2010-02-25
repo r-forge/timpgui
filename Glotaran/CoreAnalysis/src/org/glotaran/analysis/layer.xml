@@ -1,4 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE filesystem PUBLIC "-//NetBeans//DTD Filesystem 1.1//EN" "http://www.netbeans.org/dtds/filesystem-1_1.dtd">
 <filesystem>
+    <Actions>
+         <folder name="Analysis">
+            <file name="org-glotaran-analysis-actions-RunAnalysis.instance">
+                <attr name="delegate" methodvalue="org.openide.awt.Actions.inject"/>
+                <attr name="displayName" bundlevalue="org.glotaran.analysis.Bundle#CTL_RunAnalysis"/>
+                <attr name="injectable" stringvalue="org.glotaran.analysis.actions.RunAnalysis"/>
+                <attr name="instanceCreate" methodvalue="org.openide.awt.Actions.context"/>
+                <attr name="noIconInMenu" boolvalue="false"/>
+                <attr name="selectionType" stringvalue="EXACTLY_ONE"/>
+                <attr name="type" stringvalue="org.openide.loaders.DataObject"/>
+            </file>
+        </folder>
+        </Actions>
 </filesystem>

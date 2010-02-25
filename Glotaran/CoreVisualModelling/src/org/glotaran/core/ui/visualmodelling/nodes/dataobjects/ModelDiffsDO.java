@@ -7,6 +7,7 @@ package org.glotaran.core.ui.visualmodelling.nodes.dataobjects;
 
 import org.glotaran.core.models.gta.GtaModelDiffDO;
 
+
 /**
  *
  * @author jsg210

@@ -15,7 +15,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import javax.swing.JComponent;
 import javax.swing.KeyStroke;
-import org.glotaran.core.main.mesages.CoreErrorMessages;
+import org.glotaran.core.messages.CoreErrorMessages;
 import org.glotaran.tgmfilesupport.TgmDataNode;
 import org.openide.explorer.ExplorerManager;
 import org.openide.explorer.view.TreeTableView;

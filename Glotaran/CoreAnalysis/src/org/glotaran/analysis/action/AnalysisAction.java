@@ -2,8 +2,11 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.glotaran.analysis.actions;
+package org.glotaran.analysis.action;
 
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+import org.openide.loaders.DataObject;
 import org.glotaran.gtafilesupport.GtaDataObject;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -16,18 +19,18 @@ import org.glotaran.core.models.gta.GtaOutput;
 import org.glotaran.core.models.gta.GtaProjectScheme;
 import org.openide.loaders.DataObject;
 
-public final class RunAnalysis implements ActionListener {
+public final class AnalysisAction implements ActionListener {
 
     private final DataObject context;
     private GtaProjectScheme scheme;
 
-    public RunAnalysis(DataObject context) {
+    public AnalysisAction(DataObject context) {
         this.context = context;
     }
 
-    public void actionPerformed(ActionEvent ev) {
+ public void actionPerformed(ActionEvent ev) {
         // TODO use context
-        if (ev.getActionCommand().equalsIgnoreCase("Start Analysis")) {
+        if (ev.getActionCommand().equalsIgnoreCase("Run Analysis")) {
             if (context instanceof GtaDataObject) {
                 scheme = ((GtaDataObject) context).getProgectScheme();
                 if (isRunnable(scheme)) {
@@ -67,7 +70,7 @@ public final class RunAnalysis implements ActionListener {
                 for (GtaConnection connection : scheme.getConnection()) {
                     if(connection.isActive()) {
                         valid = ((GtaOutput) object).getId().equals(connection.getTargetID());
-                    }                 
+                    }
                 }
             }
             if (object instanceof GtaDatasetContainer) {
@@ -122,7 +125,7 @@ public final class RunAnalysis implements ActionListener {
                 models.add(getConnectedModelreference(connection.getSourceID()));
             }
         }
-        
+
         return models;
     }
 
@@ -146,5 +149,4 @@ public final class RunAnalysis implements ActionListener {
         }
         return modelDifferences;
     }
-
 }

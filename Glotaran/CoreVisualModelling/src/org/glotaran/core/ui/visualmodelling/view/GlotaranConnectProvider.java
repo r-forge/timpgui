@@ -77,73 +77,71 @@ public class GlotaranConnectProvider implements ConnectProvider {
 
     public void createConnection(Widget sourceWidget, Widget targetWidget) {
         GtaProjectScheme gtaProjectScheme = scene.getDobj().getProgectScheme();
-
-        Object sourceObject = scene.findObject(sourceWidget);
-        Object targetObject = scene.findObject(targetWidget);
+        GtaConnection connection = null;
 
         if (scene.findEdgesBetween(source, target).isEmpty()) {
-
+            Object sourceObject = scene.findObject(sourceWidget);
+            Object targetObject = scene.findObject(targetWidget);
+            // Check if connection already exists in file.
             if (sourceObject instanceof GtaModelReference && targetObject instanceof GtaDatasetContainer) {
                 String sourceId = ((GtaModelReference) sourceObject).getId();
                 String targetId = ((GtaDatasetContainer) targetObject).getId();
-                for (GtaConnection connection : gtaProjectScheme.getConnection()) {
-                    if (connection != null) {
-                        if (connection.getSourceID() != null && connection.getTargetID() != null) {
-                            if (connection.getSourceID().equalsIgnoreCase(sourceId) && connection.getTargetID().equalsIgnoreCase(targetId)) {
-                                if (targetWidget.getParentWidget() instanceof DatasetContainerWidget) {
-                                    if (!((DatasetContainerWidget) targetWidget.getParentWidget()).isConnected()) {
-                                        connection.setActive(true);
-                                        scene.addEdge(connection);
-                                        scene.setEdgeSource(connection, source);
-                                        scene.setEdgeTarget(connection, target);
-                                        ((DatasetContainerWidget) targetWidget.getParentWidget()).setConnected(true);
-                                        scene.validate();
-//                                        return;
-                                    } else {
-                                        CoreErrorMessages.containerConnected(targetId, sourceId);
-                                    }
-                                }
-                            }
-                        }
+                connection = getExistingConnection(gtaProjectScheme, sourceId, targetId);
+                if (connection != null) {
+                    connection.setActive(true);
+                    if (targetWidget.getParentWidget() instanceof DatasetContainerWidget) {
+                        ((DatasetContainerWidget) targetWidget.getParentWidget()).setConnected(true);
                     }
                 }
             }
-
-            if (scene.findEdgesBetween(source, target).isEmpty()) {
-                GtaConnection gtac = new GtaConnection();
-                gtac.setId(String.valueOf(scene.getNewEdgeCount()));
-                gtac.setName("Connection " + scene.getEdgeCount());
-                gtac.setActive(true);
-
+            if (connection==null) {
+                connection = new GtaConnection();
                 source = scene.findObject(sourceWidget);
                 if (source instanceof GtaModelReference) {
-                    gtac.setSourceID(((GtaModelReference) source).getId());
-                    gtac.setSourceType(EnumTypes.ConnectionTypes.GTAMODELREFERENCE.toString());
+                    connection.setSourceID(((GtaModelReference) source).getId());
+                    connection.setSourceType(EnumTypes.ConnectionTypes.GTAMODELREFERENCE.toString());
                 } else if (source instanceof GtaDatasetContainer) {
-                    gtac.setSourceID(((GtaDatasetContainer) source).getId());
-                    gtac.setSourceType(EnumTypes.ConnectionTypes.GTADATASETCONTAINER.toString());
+                    connection.setSourceID(((GtaDatasetContainer) source).getId());
+                    connection.setSourceType(EnumTypes.ConnectionTypes.GTADATASETCONTAINER.toString());
                 }
 
                 target = scene.findObject(targetWidget);
                 if (target instanceof GtaDatasetContainer) {
-                    gtac.setTargetID(((GtaDatasetContainer) target).getId());
-                    gtac.setTargetType(EnumTypes.ConnectionTypes.GTADATASETCONTAINER.toString());
+                    connection.setTargetID(((GtaDatasetContainer) target).getId());
+                    connection.setTargetType(EnumTypes.ConnectionTypes.GTADATASETCONTAINER.toString());
                 } else if (target instanceof GtaOutput) {
-                    gtac.setTargetID(((GtaOutput) target).getId());
-                    gtac.setTargetType(EnumTypes.ConnectionTypes.GTAOUTPUT.toString());
+                    connection.setTargetID(((GtaOutput) target).getId());
+                    connection.setTargetType(EnumTypes.ConnectionTypes.GTAOUTPUT.toString());
                 }
-                scene.addEdge(gtac);
-                scene.setEdgeSource(gtac, source);
-                scene.setEdgeTarget(gtac, target);
-                if (targetWidget.getParentWidget() instanceof DatasetContainerWidget) {
-                    ((DatasetContainerWidget) targetWidget.getParentWidget()).setConnected(true);
+
+                if (connection.getSourceID() != null && connection.getTargetID() != null) {
+
+                    connection.setId(String.valueOf(scene.getNewEdgeCount()));
+                    connection.setName("Connection " + scene.getEdgeCount());
+                    if (targetWidget.getParentWidget() instanceof DatasetContainerWidget) {
+                        ((DatasetContainerWidget) targetWidget.getParentWidget()).setConnected(true);
+                    }
                 }
+            }
+            if (connection != null) {
+                connection.setActive(true);
+                scene.addEdge(connection);
+                scene.setEdgeSource(connection, source);
+                scene.setEdgeTarget(connection, target);
                 scene.validate();
             }
+        }
+    }
 
-        } //end of isempty
-
-     scene.validate();
-
+    private GtaConnection getExistingConnection(GtaProjectScheme gtaProjectScheme, String sourceId, String targetId) {
+        GtaConnection connection = null;
+        for (GtaConnection testConnection : gtaProjectScheme.getConnection()) {
+            if (testConnection.getSourceID() != null && testConnection.getTargetID() != null) {
+                if (testConnection.getSourceID().equalsIgnoreCase(sourceId) && testConnection.getTargetID().equalsIgnoreCase(targetId)) {
+                    connection = testConnection;
+                }
+            }
+        }
+        return connection;
     }
 }

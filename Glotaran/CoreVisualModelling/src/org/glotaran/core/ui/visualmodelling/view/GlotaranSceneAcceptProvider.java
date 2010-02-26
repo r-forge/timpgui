@@ -37,8 +37,7 @@ public class GlotaranSceneAcceptProvider implements AcceptProvider {
         this.scene = scene;
     }
 
-    public ConnectorState isAcceptable(Widget widget, Point point, Transferable transferable) {
-        //Image dragImage = getImageFromTransferable(transferable);
+    public ConnectorState isAcceptable(Widget widget, Point point, Transferable transferable) {        
         ConnectorState accept = ConnectorState.REJECT;
         if (transferable.isDataFlavorSupported(TgmDataNode.DATA_FLAVOR)) {
             accept = ConnectorState.ACCEPT;
@@ -75,6 +74,7 @@ public class GlotaranSceneAcceptProvider implements AcceptProvider {
                 widlayout.setXposition(point.getX());
                 widlayout.setYposition(point.getY());
                 newDatasetContainer.setLayout(widlayout);
+                newDatasetContainer.setId(String.valueOf(scene.getNewNodeCount()));
                 newWidget = scene.addNode(newDatasetContainer);
             } else if (item.getName().equalsIgnoreCase("StandardOutput")) {
                 GtaOutput gtaOutput = new GtaOutput();
@@ -82,6 +82,7 @@ public class GlotaranSceneAcceptProvider implements AcceptProvider {
                 widlayout.setXposition(point.getX());
                 widlayout.setYposition(point.getY());
                 gtaOutput.setLayout(widlayout);
+                gtaOutput.setId(String.valueOf(scene.getNewNodeCount()));
                 newWidget = scene.addNode(gtaOutput);
             }           
         }
@@ -92,6 +93,7 @@ public class GlotaranSceneAcceptProvider implements AcceptProvider {
                 TgmDataNode tgmNode = (TgmDataNode) transferable.getTransferData(TgmDataNode.DATA_FLAVOR);
                 GtaModelReference newModel = new GtaModelReference();
                 FileObject fo = tgmNode.getObject().getPrimaryFile();
+                //TODO: Use something more reliable than OpenProjects.getDefault().getMainProject()
                 String path = FileUtil.getRelativePath(OpenProjects.getDefault().getMainProject().getProjectDirectory(), fo);
                 newModel.setPath(path);
                 newModel.setFilename(fo.getName());
@@ -104,7 +106,7 @@ public class GlotaranSceneAcceptProvider implements AcceptProvider {
             } catch (UnsupportedFlavorException ex) {
                 Exceptions.printStackTrace(ex);
             } catch (IOException ex) {
-                CoreErrorMessages.IOException("CustomScenAcceptProvider");
+                CoreErrorMessages.IOException("CustomSceneAcceptProvider");
             }
         }
         newWidget.setPreferredLocation(point);

@@ -278,7 +278,9 @@ public class StartAnalysis {
             try {
                 try {
                     for (int i = 0; i < results.length; i++) {
-                        params = (double[]) results[i].getClass().getMethod(slots[k], null).invoke(results[i], null);
+                        //TODO: verify the next line
+                        //params = (double[]) results[i].getClass().getMethod(slots[k], null).invoke(results[i], null);
+                        params = (double[]) results[i].getClass().getMethod(slots[k], new Class[] { results[i].getClass().getClass() }).invoke(results[i], new Object[] { results });
                         if (params != null) {
 
                             output.append("Estimated "+slotsName[k]+": ");

@@ -4,13 +4,11 @@
  */
 package org.glotaran.analysis.action;
 
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-import org.openide.loaders.DataObject;
 import org.glotaran.gtafilesupport.GtaDataObject;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.util.ArrayList;
+import org.glotaran.analysis.AnalysisWorker;
 import org.glotaran.core.models.gta.GtaConnection;
 import org.glotaran.core.models.gta.GtaDatasetContainer;
 import org.glotaran.core.models.gta.GtaModelDifferences;
@@ -18,6 +16,7 @@ import org.glotaran.core.models.gta.GtaModelReference;
 import org.glotaran.core.models.gta.GtaOutput;
 import org.glotaran.core.models.gta.GtaProjectScheme;
 import org.openide.loaders.DataObject;
+import org.openide.util.RequestProcessor;
 
 public final class AnalysisAction implements ActionListener {
 
@@ -28,15 +27,15 @@ public final class AnalysisAction implements ActionListener {
         this.context = context;
     }
 
- public void actionPerformed(ActionEvent ev) {
+    public void actionPerformed(ActionEvent ev) {
         // TODO use context
         if (ev.getActionCommand().equalsIgnoreCase("Run Analysis")) {
             if (context instanceof GtaDataObject) {
                 scheme = ((GtaDataObject) context).getProgectScheme();
                 if (isRunnable(scheme)) {
-                    for(GtaOutput output : scheme.getOutput()) {
-                        for(GtaDatasetContainer datasetContainer : getConnectedDatasetContainers(output)) {
-                            for(GtaModelReference modelReference : getConnectedModelreferences(datasetContainer)) {
+                    for (GtaOutput output : scheme.getOutput()) {
+                        for (GtaDatasetContainer datasetContainer : getConnectedDatasetContainers(output)) {
+                            for (GtaModelReference modelReference : getConnectedModelreferences(datasetContainer)) {
                                 GtaModelDifferences modelDifferences = getModelDifferences(modelReference, datasetContainer);
                                 startAnalysis(output, datasetContainer, modelReference, modelDifferences);
                             }
@@ -68,7 +67,7 @@ public final class AnalysisAction implements ActionListener {
         if (scheme.getConnection() != null) {
             if (object instanceof GtaOutput) {
                 for (GtaConnection connection : scheme.getConnection()) {
-                    if(connection.isActive()) {
+                    if (connection.isActive()) {
                         valid = ((GtaOutput) object).getId().equals(connection.getTargetID());
                     }
                 }
@@ -84,18 +83,15 @@ public final class AnalysisAction implements ActionListener {
     }
 
     private GtaDatasetContainer getDatasetContainer(Object object) {
-        if(object instanceof GtaOutput) {
-
+        if (object instanceof GtaOutput) {
         }
         return null;
     }
 
-    private void startAnalysis(GtaOutput output,GtaDatasetContainer datasetContainer,GtaModelReference modelReference, GtaModelDifferences modelDifferences) {
-        //TODO: create a runnable for every analysis and send it off somewhere
-        //TODO: use "output", "datasetContainer and "modelReference" to start an analysis
-        //TODO: lookup the StartAnalyis Interface
-//        AnalysisInterface controller = Lookup.getDefault().lookup(AnalysisInterface.class);
-//        controller.runAnalysis(output, datasetContainer, modelReference, modelDifferences);
+    private void startAnalysis(GtaOutput output, GtaDatasetContainer datasetContainer, GtaModelReference modelReference, GtaModelDifferences modelDifferences) {
+        //TODO: run the worker object in a seperate thread
+        Runnable worker = new AnalysisWorker(output, datasetContainer, modelReference, modelDifferences);
+        RequestProcessor.Task myTask = RequestProcessor.getDefault().post( worker );       
     }
 
     private ArrayList<GtaDatasetContainer> getConnectedDatasetContainers(GtaOutput output) {
@@ -110,9 +106,9 @@ public final class AnalysisAction implements ActionListener {
 
     private GtaDatasetContainer getConnectedDatasetContainer(String sourceID) {
         GtaDatasetContainer connectedDatasetContainer = null;
-        for (GtaDatasetContainer container: scheme.getDatasetContainer()) {
-            if(container.getId().equalsIgnoreCase(sourceID)) {
-            connectedDatasetContainer = container;
+        for (GtaDatasetContainer container : scheme.getDatasetContainer()) {
+            if (container.getId().equalsIgnoreCase(sourceID)) {
+                connectedDatasetContainer = container;
             }
         }
         return connectedDatasetContainer;
@@ -120,7 +116,7 @@ public final class AnalysisAction implements ActionListener {
 
     private ArrayList<GtaModelReference> getConnectedModelreferences(GtaDatasetContainer datasetContainer) {
         ArrayList<GtaModelReference> models = new ArrayList<GtaModelReference>();
-         for (GtaConnection connection : scheme.getConnection()) {
+        for (GtaConnection connection : scheme.getConnection()) {
             if (connection.getTargetID().equalsIgnoreCase(datasetContainer.getId())) {
                 models.add(getConnectedModelreference(connection.getSourceID()));
             }
@@ -130,10 +126,10 @@ public final class AnalysisAction implements ActionListener {
     }
 
     private GtaModelReference getConnectedModelreference(String sourceID) {
-         GtaModelReference connectedModelReference = null;
-         for (GtaModelReference model: scheme.getModel()) {
-            if(model.getId().equalsIgnoreCase(sourceID)) {
-            connectedModelReference = model;
+        GtaModelReference connectedModelReference = null;
+        for (GtaModelReference model : scheme.getModel()) {
+            if (model.getId().equalsIgnoreCase(sourceID)) {
+                connectedModelReference = model;
             }
         }
         return connectedModelReference;
@@ -142,9 +138,11 @@ public final class AnalysisAction implements ActionListener {
     private GtaModelDifferences getModelDifferences(GtaModelReference modelReference, GtaDatasetContainer datasetContainer) {
         GtaModelDifferences modelDifferences = null;
         for (GtaConnection connection : scheme.getConnection()) {
-            if (connection.getTargetID().equalsIgnoreCase(datasetContainer.getId()) &&
-                    connection.getSourceID().equalsIgnoreCase(modelReference.getId()))  {
-                modelDifferences = connection.getModelDifferences();
+            if (connection.isActive() && connection.getModelDifferences() != null) {
+                if (connection.getTargetID().equalsIgnoreCase(datasetContainer.getId())
+                        && connection.getSourceID().equalsIgnoreCase(modelReference.getId())) {
+                    modelDifferences = connection.getModelDifferences();
+                }
             }
         }
         return modelDifferences;

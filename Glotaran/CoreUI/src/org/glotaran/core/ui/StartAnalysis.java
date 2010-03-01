@@ -111,19 +111,21 @@ public final class StartAnalysis implements ActionListener {
                         try {
                             while (!folderOK){
                             res = DialogDisplayer.getDefault().notify(resultNameDialog);
-                            if (res.equals(NotifyDescriptor.OK_OPTION)) {
-                                //get results directory
-                                resultsfolder = proj.getResultsFolder(true);
-                                if (resultsfolder.getFileObject(resultNameDialog.getInputText())!=null){
-                                   res2 = CoreWarningMessages.folderExistsWarning();
-                                   if (res2.equals(NotifyDescriptor.OK_OPTION)) {
-                                       resultsfolder.getFileObject(resultNameDialog.getInputText()).delete();
-                                       folderOK = true;
-                                   }
-                                } else
+                                if (res.equals(NotifyDescriptor.OK_OPTION)) {
+                                    //get results directory
+                                    resultsfolder = proj.getResultsFolder(true);
+                                    if (resultsfolder.getFileObject(resultNameDialog.getInputText()) != null) {
+                                        res2 = CoreWarningMessages.folderExistsWarning();
+                                        if (res2.equals(NotifyDescriptor.OK_OPTION)) {
+                                            resultsfolder.getFileObject(resultNameDialog.getInputText()).delete();
+                                            folderOK = true;
+                                        }
+                                    } else {
+                                        folderOK = true;
+                                    }
+                                } else {
                                     folderOK = true;
-                                } else
-                                    folderOK = true;
+                                }
                             }
                             if (res.equals(NotifyDescriptor.OK_OPTION)) {
                                 resultsfolder = resultsfolder.createFolder(resultNameDialog.getInputText());
@@ -132,7 +134,7 @@ public final class StartAnalysis implements ActionListener {
                                     timpResultDataset.setType(datasets[i].getType());
                                     //TODO: change this
                                     if (models[0].getDat().getIrfparPanel().getLamda() != null) {
-                                    timpResultDataset.setLamdac(models[0].getDat().getIrfparPanel().getLamda());
+                                        timpResultDataset.setLamdac(models[0].getDat().getIrfparPanel().getLamda());
                                     }
                                     if (datasets[i].getType().equalsIgnoreCase("flim")) {
                                         timpResultDataset.setOrheigh(datasets[i].getOriginalHeight());

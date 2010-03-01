@@ -209,7 +209,7 @@ public class GlotaranGraphScene extends GraphScene<Object, Object> implements Pr
               if (myNode.getId() == null) {
                 myNode.setId(String.valueOf(getNewNodeCount()));
             }
-            cw = new OutputWidget(this, new OutputPanel(), "Output" + myNode.getId());
+            cw = new OutputWidget(this, new OutputPanel(myNode, this), "Output" + myNode.getId());
             mainLayer.addChild(cw);
         }
         return cw;
@@ -353,10 +353,11 @@ public class GlotaranGraphScene extends GraphScene<Object, Object> implements Pr
          // <editor-fold desc="GtaOutput">
         for (GtaOutput output : gtaScheme.getOutput()) {
             widget = addNode(output);
-            location = new Point((int) Math.floor(output.getLayout().getHeight()), (int) Math.floor(output.getLayout().getYposition()));
+            location = new Point((int) Math.floor(output.getLayout().getXposition()), (int) Math.floor(output.getLayout().getYposition()));
             size = new Dimension((int) Math.floor(output.getLayout().getWidth()), (int) Math.floor(output.getLayout().getHeight()));
             widget.setPreferredLocation(location);
             //widget.setPreferredSize(size);
+            validate();
         }
         // </editor-fold>
 
@@ -382,7 +383,7 @@ public class GlotaranGraphScene extends GraphScene<Object, Object> implements Pr
     }
 
     public void propertyChange(PropertyChangeEvent evt) {
-        if (evt.getPropertyName().equalsIgnoreCase("datasetNodeChanged")) {
+        if (evt.getPropertyName().equalsIgnoreCase("modelChanged")) {
             dobj.setModified(true);
         }
     }

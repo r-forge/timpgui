@@ -37,7 +37,6 @@ import org.openide.explorer.ExplorerUtils;
 import org.openide.filesystems.FileObject;
 import org.openide.nodes.Index;
 import org.openide.nodes.Node;
-import org.openide.util.Exceptions;
 import org.openide.util.Lookup;
 import org.openide.windows.WindowManager;
 
@@ -280,7 +279,7 @@ public class DatasetContainerComponent
                     modelDifferences.getDifferences().add(new GtaModelDiffContainer());
                 }
             }
-            firePropertyChange("datasetNodeChanged", null, null);
+            firePropertyChange("modelChanged", null, null);
         }
 
         if (evt.getSource().getClass().equals(DatasetComponentNode.class)){
@@ -326,7 +325,7 @@ public class DatasetContainerComponent
                 }
 
             }
-            firePropertyChange("datasetNodeChanged", null, null);
+            firePropertyChange("modelChanged", null, null);
         }
 
         if (evt.getSource().getClass().equals(DatasetContainerWidget.class)){
@@ -347,7 +346,7 @@ public class DatasetContainerComponent
                     }
                 }
             }
-            firePropertyChange("datasetNodeChanged", null, null);
+            firePropertyChange("modelChanged", null, null);
         }
 
         if (evt.getSource().getClass().equals(ModelDiffsNode.class)){
@@ -426,7 +425,7 @@ public class DatasetContainerComponent
             }
 
 
-            firePropertyChange("datasetNodeChanged", null, null);
+            firePropertyChange("modelChanged", null, null);
         }
 
         if (evt.getSource().getClass().equals(ModelDiffsNode.class)){

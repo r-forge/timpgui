@@ -11,15 +11,35 @@
 
 package org.glotaran.core.ui.visualmodelling.components;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+import javax.swing.JPanel;
+import org.glotaran.core.models.gta.GtaOutput;
+import org.glotaran.core.ui.visualmodelling.view.GlotaranGraphScene;
+
 /**
  *
  * @author jsg210
  */
-public class OutputPanel extends DesignPanel {
+public class OutputPanel 
+        extends JPanel
+        implements PropertyChangeListener {
 
-    /** Creates new form OutputPanel */
+    private static final long serialVersionUID = 1;
+    private GtaOutput outputDO;
+
     public OutputPanel() {
         initComponents();
+    }
+
+    public OutputPanel(GtaOutput myNode, PropertyChangeListener listn) {
+        initComponents();
+        outputDO = myNode;
+        if (outputDO.getIterations()!=null){
+            jSIterationsNum.getModel().setValue(Integer.parseInt(outputDO.getIterations()));
+        }
+        jTFFileName.setText(outputDO.getOutputPath());
+        addPropertyChangeListener(listn);
     }
 
     /** This method is called from within the constructor to
@@ -33,26 +53,21 @@ public class OutputPanel extends DesignPanel {
 
         jPanel1 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
-        jTextField2 = new javax.swing.JTextField();
+        jTFFileName = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jCheckBox3 = new javax.swing.JCheckBox();
         jCheckBox2 = new javax.swing.JCheckBox();
         jCheckBox1 = new javax.swing.JCheckBox();
         jPanel3 = new javax.swing.JPanel();
-        jTextField1 = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
+        jSIterationsNum = new javax.swing.JSpinner();
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 204));
 
         jLabel2.setText(org.openide.util.NbBundle.getMessage(OutputPanel.class, "OutputPanel.jLabel2.text")); // NOI18N
 
-        jTextField2.setText(org.openide.util.NbBundle.getMessage(OutputPanel.class, "OutputPanel.jTextField2.text")); // NOI18N
-        jTextField2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField2ActionPerformed(evt);
-            }
-        });
+        jTFFileName.setText(org.openide.util.NbBundle.getMessage(OutputPanel.class, "OutputPanel.jTFFileName.text")); // NOI18N
 
         jButton1.setText(org.openide.util.NbBundle.getMessage(OutputPanel.class, "OutputPanel.jButton1.text")); // NOI18N
         jButton1.setMaximumSize(new java.awt.Dimension(25, 20));
@@ -72,7 +87,7 @@ public class OutputPanel extends DesignPanel {
                 .addContainerGap()
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextField2, javax.swing.GroupLayout.DEFAULT_SIZE, 116, Short.MAX_VALUE)
+                .addComponent(jTFFileName, javax.swing.GroupLayout.DEFAULT_SIZE, 116, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
@@ -83,7 +98,7 @@ public class OutputPanel extends DesignPanel {
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTFFileName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -98,11 +113,6 @@ public class OutputPanel extends DesignPanel {
 
         jCheckBox1.setBackground(new java.awt.Color(153, 255, 153));
         jCheckBox1.setText(org.openide.util.NbBundle.getMessage(OutputPanel.class, "OutputPanel.jCheckBox1.text")); // NOI18N
-        jCheckBox1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jCheckBox1ActionPerformed(evt);
-            }
-        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -130,11 +140,14 @@ public class OutputPanel extends DesignPanel {
 
         jPanel3.setBackground(new java.awt.Color(255, 255, 204));
 
-        jTextField1.setText(org.openide.util.NbBundle.getMessage(OutputPanel.class, "OutputPanel.jTextField1.text")); // NOI18N
-        jTextField1.setMinimumSize(new java.awt.Dimension(25, 20));
-        jTextField1.setPreferredSize(new java.awt.Dimension(25, 20));
-
         jLabel1.setText(org.openide.util.NbBundle.getMessage(OutputPanel.class, "OutputPanel.jLabel1.text")); // NOI18N
+
+        jSIterationsNum.setModel(new javax.swing.SpinnerNumberModel(Integer.valueOf(0), Integer.valueOf(0), null, Integer.valueOf(1)));
+        jSIterationsNum.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                jSIterationsNumStateChanged(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -143,9 +156,9 @@ public class OutputPanel extends DesignPanel {
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel1)
-                .addGap(28, 28, 28)
-                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(134, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jSIterationsNum, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(126, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -153,7 +166,7 @@ public class OutputPanel extends DesignPanel {
                 .addContainerGap()
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jSIterationsNum, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
 
@@ -175,24 +188,22 @@ public class OutputPanel extends DesignPanel {
                 .addContainerGap()
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 91, Short.MAX_VALUE)
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 96, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jCheckBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jCheckBox1ActionPerformed
-
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
+
+        
     }//GEN-LAST:event_jButton1ActionPerformed
 
-    private void jTextField2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField2ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField2ActionPerformed
+    private void jSIterationsNumStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jSIterationsNumStateChanged
+        outputDO.setIterations(jSIterationsNum.getModel().getValue().toString());
+        firePropertyChange("modelChanged", null, null);
+    }//GEN-LAST:event_jSIterationsNumStateChanged
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -205,8 +216,12 @@ public class OutputPanel extends DesignPanel {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
+    private javax.swing.JSpinner jSIterationsNum;
+    private javax.swing.JTextField jTFFileName;
     // End of variables declaration//GEN-END:variables
+
+    public void propertyChange(PropertyChangeEvent evt) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
 
 }

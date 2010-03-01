@@ -19,20 +19,14 @@ import javax.swing.ActionMap;
 import javax.swing.InputMap;
 import javax.swing.JComponent;
 import javax.swing.KeyStroke;
-import org.glotaran.core.models.tgm.IrfparPanelModel;
-import org.glotaran.core.models.tgm.KinPar;
 import org.glotaran.core.models.tgm.Tgm;
-import org.glotaran.core.models.tgm.WeightPar;
 import org.glotaran.core.ui.visualmodelling.common.EnumTypes;
-import org.glotaran.core.ui.visualmodelling.common.EnumTypes.CohSpecTypes;
-import org.glotaran.core.ui.visualmodelling.common.EnumTypes.IRFTypes;
 import org.glotaran.core.ui.visualmodelling.common.VisualCommonFunctions;
 import org.glotaran.core.ui.visualmodelling.nodes.CohSpecNode;
 import org.glotaran.core.ui.visualmodelling.nodes.DispersionModelingNode;
 import org.glotaran.core.ui.visualmodelling.nodes.IrfParametersNode;
 import org.glotaran.core.ui.visualmodelling.nodes.KineticParametersNode;
 import org.glotaran.core.ui.visualmodelling.nodes.KmatrixNode;
-import org.glotaran.core.ui.visualmodelling.nodes.ParametersSubNode;
 import org.glotaran.core.ui.visualmodelling.nodes.PropertiesAbstractNode;
 import org.glotaran.core.ui.visualmodelling.nodes.WeightParametersNode;
 import org.glotaran.tgmfilesupport.TgmDataObject;
@@ -57,7 +51,7 @@ public class ModelContainer
 //    static final String ICON_PATH = "SET/PATH/TO/ICON/HERE";
 
     private static final String PREFERRED_ID = "ModelSpecificationView";
-
+    private static final long serialVersionUID = 1;
     private ExplorerManager manager = new ExplorerManager();
     private ModelSpecificationView    modelSpecificationView  = new ModelSpecificationView();
     private ModelSpecificationNodeContainer   container = new ModelSpecificationNodeContainer();

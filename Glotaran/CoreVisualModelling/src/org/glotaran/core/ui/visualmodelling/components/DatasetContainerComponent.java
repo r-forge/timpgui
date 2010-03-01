@@ -13,11 +13,14 @@ package org.glotaran.core.ui.visualmodelling.components;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.io.IOException;
 import javax.swing.ActionMap;
 import javax.swing.InputMap;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
 import javax.swing.KeyStroke;
+import org.glotaran.core.messages.CoreErrorMessages;
+import org.glotaran.core.models.gta.GtaChangesModel;
 import org.glotaran.core.models.gta.GtaDataset;
 import org.glotaran.core.models.gta.GtaDatasetContainer;
 import org.glotaran.core.models.gta.GtaModelDiffContainer;
@@ -28,11 +31,13 @@ import org.glotaran.core.ui.visualmodelling.nodes.DatasetComponentNode;
 import org.glotaran.core.ui.visualmodelling.nodes.DatasetsRootNode;
 import org.glotaran.core.ui.visualmodelling.nodes.ModelDiffsNode;
 import org.glotaran.core.ui.visualmodelling.widgets.DatasetContainerWidget;
+import org.glotaran.tgmfilesupport.TgmDataObject;
 import org.openide.explorer.ExplorerManager;
 import org.openide.explorer.ExplorerUtils;
 import org.openide.filesystems.FileObject;
 import org.openide.nodes.Index;
 import org.openide.nodes.Node;
+import org.openide.util.Exceptions;
 import org.openide.util.Lookup;
 import org.openide.windows.WindowManager;
 
@@ -304,7 +309,19 @@ public class DatasetContainerComponent
                 }
             }
             if (evt.getPropertyName().equalsIgnoreCase("ChangeParamAdded")){
-                //TODO implement creatinng new empty TGM file and fill in changes;
+                try {
+
+                    FileObject newTgmFile = schemaFolder.createData("newTGMFile.xml");
+                    TgmDataObject newTgmData = (TgmDataObject)TgmDataObject.find(newTgmFile);
+                    
+                    GtaChangesModel gtaChanges = new GtaChangesModel();
+                    gtaChanges.setPath(schemaFolder.getName());
+                    gtaChanges.setFilename("newTGMFile.xml");
+                    modelDifferences.getDifferences().get((Integer)evt.getOldValue()).setChanges(gtaChanges);
+                    //TODO implement creatinng new empty TGM file and fill in changes;
+                } catch (IOException ex) {
+                    CoreErrorMessages.fileSaveError("newtgmfile");
+                }
 
             }
             firePropertyChange("datasetNodeChanged", null, null);

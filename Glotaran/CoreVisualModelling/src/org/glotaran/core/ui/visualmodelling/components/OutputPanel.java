@@ -15,15 +15,13 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import javax.swing.JPanel;
 import org.glotaran.core.models.gta.GtaOutput;
-import org.glotaran.core.ui.visualmodelling.view.GlotaranGraphScene;
 
 /**
  *
  * @author jsg210
  */
 public class OutputPanel 
-        extends JPanel
-        implements PropertyChangeListener {
+        extends JPanel {
 
     private static final long serialVersionUID = 1;
     private GtaOutput outputDO;

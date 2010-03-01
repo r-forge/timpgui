@@ -4,6 +4,7 @@
  */
 package org.glotaran.tgmfilesupport;
 
+import java.awt.Image;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.io.Writer;
@@ -28,6 +29,7 @@ import org.openide.filesystems.FileUtil;
 import org.openide.loaders.DataObjectExistsException;
 import org.openide.loaders.MultiFileLoader;
 import org.openide.nodes.Node;
+import org.openide.util.ImageUtilities;
 import org.openide.util.Lookup;
 
 public class TgmDataObject extends XmlMultiViewDataObject implements SaveCookie{
@@ -201,8 +203,8 @@ public class TgmDataObject extends XmlMultiViewDataObject implements SaveCookie{
         }
 
         @Override
-        public java.awt.Image getIcon() {
-            return org.openide.util.Utilities.loadImage("org/glotaran/core/main/resources/Model-icon-16.png"); //NOI18N
+        public Image getIcon() {
+            return ImageUtilities.loadImage("org/glotaran/core/main/resources/Model-icon-16.png", true);
         }
 
         @Override

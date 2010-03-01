@@ -9,11 +9,13 @@ import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
 import java.awt.datatransfer.UnsupportedFlavorException;
 import java.beans.PropertyChangeEvent;
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import org.glotaran.core.models.tgm.Dat;
 import org.glotaran.core.models.tgm.IrfparPanelModel;
 import org.glotaran.core.models.tgm.KinPar;
+import org.glotaran.core.models.tgm.Tgm;
 import org.glotaran.core.models.tgm.WeightPar;
 import org.glotaran.core.ui.visualmodelling.common.EnumTypes.CohSpecTypes;
 import org.glotaran.core.ui.visualmodelling.common.EnumTypes.IRFTypes;
@@ -25,7 +27,6 @@ import org.glotaran.core.ui.visualmodelling.nodes.ParametersSubNode;
 import org.glotaran.core.ui.visualmodelling.nodes.WeightParametersNode;
 import org.glotaran.core.ui.visualmodelling.palette.PaletteItem;
 import org.glotaran.tgmfilesupport.TgmDataNode;
-import org.openide.filesystems.FileObject;
 import org.openide.nodes.Children;
 
 /**
@@ -33,7 +34,19 @@ import org.openide.nodes.Children;
  * @author slapten
  */
 public class VisualCommonFunctions {
-    public static TgmDataNode createNewTgmFile(FileObject modelsFolder){
+    public static TgmDataNode createNewTgmFile(File file, Tgm tgm){
+        try {
+            javax.xml.bind.JAXBContext jaxbCtx = javax.xml.bind.JAXBContext.newInstance(tgm.getClass().getPackage().getName());
+            javax.xml.bind.Marshaller marshaller = jaxbCtx.createMarshaller();
+            marshaller.setProperty(javax.xml.bind.Marshaller.JAXB_ENCODING, "UTF-8"); //NOI18N
+            marshaller.setProperty(javax.xml.bind.Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
+            marshaller.marshal(tgm, file);
+        } catch (javax.xml.bind.JAXBException ex) {
+            // XXXTODO Handle exception
+            java.util.logging.Logger.getLogger("global").log(java.util.logging.Level.SEVERE, null, ex); //NOI18N
+        }
+
+
         return null;
     }
 

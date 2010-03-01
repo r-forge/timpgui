@@ -9,12 +9,15 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.util.ArrayList;
 import org.glotaran.analysis.AnalysisWorker;
+import org.glotaran.core.main.project.TGProject;
 import org.glotaran.core.models.gta.GtaConnection;
 import org.glotaran.core.models.gta.GtaDatasetContainer;
 import org.glotaran.core.models.gta.GtaModelDifferences;
 import org.glotaran.core.models.gta.GtaModelReference;
 import org.glotaran.core.models.gta.GtaOutput;
 import org.glotaran.core.models.gta.GtaProjectScheme;
+import org.netbeans.api.project.FileOwnerQuery;
+import org.openide.filesystems.FileObject;
 import org.openide.loaders.DataObject;
 import org.openide.util.RequestProcessor;
 
@@ -22,9 +25,11 @@ public final class AnalysisAction implements ActionListener {
 
     private final DataObject context;
     private GtaProjectScheme scheme;
+    private TGProject project;
 
     public AnalysisAction(DataObject context) {
         this.context = context;
+        this.project = (TGProject)FileOwnerQuery.getOwner(context.getPrimaryFile());
     }
 
     public void actionPerformed(ActionEvent ev) {
@@ -90,8 +95,17 @@ public final class AnalysisAction implements ActionListener {
 
     private void startAnalysis(GtaOutput output, GtaDatasetContainer datasetContainer, GtaModelReference modelReference, GtaModelDifferences modelDifferences) {
         //TODO: run the worker object in a seperate thread
-        Runnable worker = new AnalysisWorker(output, datasetContainer, modelReference, modelDifferences);
-        RequestProcessor.Task myTask = RequestProcessor.getDefault().post( worker );       
+        boolean folderOK = false;
+        if(output.getOutputPath()!=null) {
+            Runnable worker = new AnalysisWorker(project, output, datasetContainer, modelReference, modelDifferences);
+            RequestProcessor.Task myTask = RequestProcessor.getDefault().post(worker);
+//        Cancellable myCancellable = ...
+//        ProgressHandle myProgressHandle =
+//        ProgressHandleFactory.createHandle("Cooking noodles, please wait...", myCancellable );
+//        myProgressHandle.start();
+//        myProgressHandle.finish();
+
+        }
     }
 
     private ArrayList<GtaDatasetContainer> getConnectedDatasetContainers(GtaOutput output) {

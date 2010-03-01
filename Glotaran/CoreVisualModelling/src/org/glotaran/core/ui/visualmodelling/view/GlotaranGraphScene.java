@@ -27,6 +27,7 @@ import java.io.IOException;
 import java.util.Collections;
 import org.glotaran.core.main.nodes.TimpDatasetNode;
 import org.glotaran.core.main.nodes.dataobjects.TimpDatasetDataObject;
+import org.glotaran.core.main.project.TGProject;
 import org.glotaran.core.models.gta.GtaConnection;
 import org.glotaran.core.models.gta.GtaDataset;
 import org.glotaran.core.models.gta.GtaDatasetContainer;
@@ -45,6 +46,7 @@ import org.glotaran.core.ui.visualmodelling.widgets.ModelContainerWidget;
 import org.glotaran.core.ui.visualmodelling.widgets.OutputWidget;
 import org.glotaran.gtafilesupport.GtaDataObject;
 import org.glotaran.tgmfilesupport.TgmDataObject;
+import org.netbeans.api.project.FileOwnerQuery;
 import org.netbeans.api.project.ui.OpenProjects;
 import org.netbeans.api.visual.action.ActionFactory;
 import org.netbeans.api.visual.action.SelectProvider;
@@ -209,7 +211,8 @@ public class GlotaranGraphScene extends GraphScene<Object, Object> implements Pr
               if (myNode.getId() == null) {
                 myNode.setId(String.valueOf(getNewNodeCount()));
             }
-            cw = new OutputWidget(this, new OutputPanel(myNode, this), "Output" + myNode.getId());
+            FileObject resultsFolder = ((TGProject)FileOwnerQuery.getOwner(getDobj().getPrimaryFile())).getResultsFolder(true);
+            cw = new OutputWidget(this, new OutputPanel(myNode, resultsFolder, this), "Output" + myNode.getId());
             mainLayer.addChild(cw);
         }
         return cw;

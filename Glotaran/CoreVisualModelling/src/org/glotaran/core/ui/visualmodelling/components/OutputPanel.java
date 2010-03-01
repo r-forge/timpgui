@@ -13,8 +13,13 @@ package org.glotaran.core.ui.visualmodelling.components;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.io.File;
+import javax.swing.JFileChooser;
 import javax.swing.JPanel;
+import javax.swing.filechooser.FileSystemView;
 import org.glotaran.core.models.gta.GtaOutput;
+import org.openide.filesystems.FileObject;
+import org.openide.filesystems.FileUtil;
 
 /**
  *
@@ -25,12 +30,13 @@ public class OutputPanel
 
     private static final long serialVersionUID = 1;
     private GtaOutput outputDO;
+    private FileObject root;
 
     public OutputPanel() {
         initComponents();
     }
 
-    public OutputPanel(GtaOutput myNode, PropertyChangeListener listn) {
+    public OutputPanel(GtaOutput myNode, FileObject resultsFolder, PropertyChangeListener listn) {
         initComponents();
         outputDO = myNode;
         if (outputDO.getIterations()!=null){
@@ -38,6 +44,7 @@ public class OutputPanel
         }
         jTFFileName.setText(outputDO.getOutputPath());
         addPropertyChangeListener(listn);
+        root=resultsFolder;
     }
 
     /** This method is called from within the constructor to
@@ -194,8 +201,18 @@ public class OutputPanel
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-
-        
+        FileSystemView fsv = new SingleRootFileSystemView(FileUtil.toFile(root));
+        JFileChooser chooser = new JFileChooser (fsv);
+        chooser.setDialogTitle ("Select Output Folder ...");
+        chooser.setMultiSelectionEnabled (false);
+        chooser.setFileSelectionMode (JFileChooser.DIRECTORIES_ONLY);
+        if (chooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
+            File folder = chooser.getSelectedFile();
+            String path = FileUtil.getRelativePath(root,FileUtil.toFileObject(folder));
+            jTFFileName.setText(path);
+            outputDO.setOutputPath(path);
+            firePropertyChange("modelChanged", null, null);
+        }        
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jSIterationsNumStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jSIterationsNumStateChanged

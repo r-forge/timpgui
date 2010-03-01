@@ -36,7 +36,7 @@ public class FormattedASCIIFileLoader {
         loadedString = sc.nextLine();
         loadedString = sc.nextLine();
         if (loadedString.trim().equalsIgnoreCase("Time explicit")){
-            sc.skip(Pattern.compile("Intervalnr",2));
+            sc.skip(Pattern.compile("Intervalnr",Pattern.CASE_INSENSITIVE));
             nt = sc.nextInt();
             dataset.setNt(nt);
             x = new double[nt];

@@ -9,7 +9,7 @@ import java.io.RandomAccessFile;
 import java.nio.ByteOrder;
 import javax.imageio.stream.FileImageInputStream;
 import javax.imageio.stream.ImageInputStream;
-import org.glotaran.core.main.interfaces.TGDatasetInterface;
+import org.glotaran.core.interfaces.TGDatasetInterface;
 import org.glotaran.sdtdataloader.sdtstructures.BHFileBlockHeader;
 import org.glotaran.sdtdataloader.sdtstructures.FileHeader;
 import org.glotaran.sdtdataloader.sdtstructures.MeasureInfo;
@@ -111,10 +111,13 @@ public class FlimImage implements TGDatasetInterface {
     public int getCannelN(){return cannelN;}
     public double getCannelW(){return cannelW;}
     public int[] getData(){
-        if (binned==1)
-           return binnedData;
-        else
-           return data;
+        return binned==1 ? binnedData : data;
+//        if (binned==1) {
+//            return binnedData;
+//        }
+//        else {
+//            return data;
+//        }
     }
     public int[] getIntMap(){return intmap;}
     public int[] getPixTrace(int i, int j){
@@ -154,17 +157,21 @@ public class FlimImage implements TGDatasetInterface {
         for (int i=0; i<curvenum; i++){
             tmp=this.getDataPoint(i*cannelN);
             for (int j=1; j<cannelN; j++){
-                if (mode==1)
-                   tmp+=this.getDataPoint(i*cannelN+j);
+                if (mode==1) {
+                    tmp += this.getDataPoint(i * cannelN + j);
+                }
                 else
-                   if (this.getDataPoint(i*cannelN+j)>tmp)
-                      tmp=this.getDataPoint(i*cannelN+j);
+                   if (this.getDataPoint(i*cannelN+j)>tmp) {
+                    tmp = this.getDataPoint(i * cannelN + j);
+                }
             }
             intmap[i]=tmp;
-            if (amplmin>tmp)
-                amplmin=tmp;
-            if (amplmax<tmp)
-                amplmax=tmp;
+            if (amplmin>tmp) {
+                amplmin = tmp;
+            }
+            if (amplmax<tmp) {
+                amplmax = tmp;
+            }
         }
     } 
            
@@ -189,10 +196,12 @@ public class FlimImage implements TGDatasetInterface {
     }
 
     public int getDataPoint(int index){
-        if (binned==1)
-           return binnedData[index];
-        else
-           return data[index];
+        if (binned==1) {
+            return binnedData[index];
+        }
+        else {
+            return data[index];
+        }
 }
 
     public void makeBinnedImage(int bin){
@@ -234,8 +243,9 @@ public class FlimImage implements TGDatasetInterface {
 //        MeasureInfo measinf = new MeasureInfo();
         header.fread(f);
 
-         if (header.header_valid == 0X5555)
-             return true;
+         if (header.header_valid == 0X5555) {
+            return true;
+        }
          else{
             Confirmation msg = new NotifyDescriptor.Confirmation(
                     NbBundle.getBundle("org/glotaran/core/main/Bundle").getString("headerNotValid"),

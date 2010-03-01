@@ -5,7 +5,7 @@ import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
 import java.util.Collection;
-import org.glotaran.core.main.interfaces.TGDatasetInterface;
+import org.glotaran.core.interfaces.TGDatasetInterface;
 import org.glotaran.core.messages.CoreErrorMessages;
 import org.glotaran.core.main.project.TGProject;
 import org.glotaran.core.models.tgd.Tgd;

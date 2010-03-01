@@ -313,7 +313,9 @@ public class DatasetContainerComponent
 
                     FileObject newTgmFile = schemaFolder.createData("newTGMFile.xml");
                     TgmDataObject newTgmData = (TgmDataObject)TgmDataObject.find(newTgmFile);
-                    
+
+                    Tgm newTgm = new Tgm();
+
                     GtaChangesModel gtaChanges = new GtaChangesModel();
                     gtaChanges.setPath(schemaFolder.getName());
                     gtaChanges.setFilename("newTGMFile.xml");

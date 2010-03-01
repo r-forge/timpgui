@@ -17,10 +17,10 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Formatter;
 import java.util.logging.Logger;
-import org.glotaran.core.main.interfaces.TimpControllerInterface;
+import org.glotaran.core.interfaces.TimpControllerInterface;
 import org.glotaran.core.messages.CoreErrorMessages;
 import org.glotaran.core.main.nodes.dataobjects.TimpResultDataObject;
-import org.glotaran.core.main.structures.TimpResultDataset;
+import org.glotaran.core.models.structures.TimpResultDataset;
 import org.glotaran.core.resultdisplayers.common.panels.CommonTools;
 import org.glotaran.core.resultdisplayers.common.panels.SelectTracesForPlot;
 import org.glotaran.jfreechartcustom.GraphPanel;
@@ -1034,10 +1034,12 @@ private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
                 aveLifeTimes[i]=aveLifeTimes[i]+1/kinpar[j]*amplitudes.get(j, i)/sumOfConc; 
                 normAmpl.set(j, i, amplitudes.get(j, i)/sumOfConc);
             }
-            if (maxAveLifetime < aveLifeTimes[i])
+            if (maxAveLifetime < aveLifeTimes[i]) {
                 maxAveLifetime = aveLifeTimes[i];
-            if (minAveLifetime > aveLifeTimes[i])
+            }
+            if (minAveLifetime > aveLifeTimes[i]) {
                 minAveLifetime = aveLifeTimes[i];
+            }
         }
         return aveLifeTimes;
     }

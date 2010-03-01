@@ -1,4 +1,4 @@
-   package org.glotaran.core.main.interfaces;
+   package org.glotaran.core.interfaces;
 
 import java.io.File;
 import java.io.FileNotFoundException;

@@ -37,7 +37,7 @@ import org.glotaran.core.main.nodes.TgdDataNode;
 import org.glotaran.core.main.nodes.dataobjects.TgdDataObject;
 import org.glotaran.core.main.nodes.dataobjects.TimpDatasetDataObject;
 import org.glotaran.core.main.project.TGProject;
-import org.glotaran.core.main.structures.DatasetTimp;
+import org.glotaran.core.models.structures.DatasetTimp;
 import org.glotaran.jfreechartcustom.FastXYPlot;
 import org.glotaran.jfreechartcustom.GraphPanel;
 import org.glotaran.jfreechartcustom.GrayPaintScalePlus;

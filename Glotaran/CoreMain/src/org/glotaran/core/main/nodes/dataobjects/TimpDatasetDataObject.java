@@ -10,7 +10,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import org.glotaran.core.messages.CoreErrorMessages;
 import org.glotaran.core.main.nodes.TimpDatasetNode;
-import org.glotaran.core.main.structures.DatasetTimp;
+import org.glotaran.core.models.structures.DatasetTimp;
 import org.openide.filesystems.FileObject;
 import org.openide.filesystems.FileUtil;
 import org.openide.loaders.DataObjectExistsException;

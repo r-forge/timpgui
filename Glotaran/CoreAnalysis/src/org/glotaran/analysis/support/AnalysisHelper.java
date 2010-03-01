@@ -5,7 +5,7 @@
 
 package org.glotaran.analysis.support;
 
-import org.glotaran.core.main.structures.TimpResultDataset;
+import org.glotaran.core.models.structures.TimpResultDataset;
 
 /**
  *

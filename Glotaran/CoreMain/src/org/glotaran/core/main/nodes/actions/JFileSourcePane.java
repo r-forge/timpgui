@@ -23,7 +23,7 @@ package org.glotaran.core.main.nodes.actions;
 import java.io.File;
 import java.util.Collection;
 import javax.swing.filechooser.FileNameExtensionFilter;
-import org.glotaran.core.main.interfaces.TGDatasetInterface;
+import org.glotaran.core.interfaces.TGDatasetInterface;
 import org.openide.util.Lookup;
 
 final class JFileSourcePane extends javax.swing.JPanel {

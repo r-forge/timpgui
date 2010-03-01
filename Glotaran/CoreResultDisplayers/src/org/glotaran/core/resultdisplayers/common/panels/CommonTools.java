@@ -9,7 +9,7 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
 import javax.swing.JPanel;
-import org.glotaran.core.main.structures.TimpResultDataset;
+import org.glotaran.core.models.structures.TimpResultDataset;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;

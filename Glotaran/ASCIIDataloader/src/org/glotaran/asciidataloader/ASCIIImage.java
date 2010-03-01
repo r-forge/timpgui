@@ -5,7 +5,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Scanner;
-import org.glotaran.core.main.interfaces.TGDatasetInterface;
+import org.glotaran.core.interfaces.TGDatasetInterface;
 import org.glotaran.core.messages.CoreErrorMessages;
 
 /**

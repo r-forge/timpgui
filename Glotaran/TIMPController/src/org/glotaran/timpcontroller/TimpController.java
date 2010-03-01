@@ -4,12 +4,12 @@
  */
 package org.glotaran.timpcontroller;
 
-import org.glotaran.core.main.interfaces.TimpControllerInterface;
+import org.glotaran.core.interfaces.TimpControllerInterface;
 import Jama.Matrix;
 import java.util.ArrayList;
 import java.util.List;
-import org.glotaran.core.main.structures.DatasetTimp;
-import org.glotaran.core.main.structures.TimpResultDataset;
+import org.glotaran.core.models.structures.DatasetTimp;
+import org.glotaran.core.models.structures.TimpResultDataset;
 import org.glotaran.core.messages.CoreErrorMessages;
 import org.glotaran.core.models.tgm.Tgm;
 import org.rosuda.irconnect.IREXP;

@@ -1,6 +1,5 @@
 package org.glotaran.core.resultdisplayers;
 
-import java.awt.Window;
 import java.util.Set;
 import org.glotaran.core.main.interfaces.ResultsLoaderInterface;
 import org.glotaran.core.main.nodes.dataobjects.TimpResultDataObject;

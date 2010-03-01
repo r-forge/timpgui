@@ -5,7 +5,7 @@
 
 package org.glotaran.tgmfilesupport;
 
-import org.glotaran.core.main.interfaces.XMLFilesSupportIntarface;
+import org.glotaran.core.interfaces.XMLFilesSupportIntarface;
 
 /**
  *

@@ -4,7 +4,7 @@ import java.util.Collection;
 import org.glotaran.core.main.interfaces.DatasetLoaderInterface;
 import org.glotaran.core.messages.CoreErrorMessages;
 import org.glotaran.core.main.nodes.dataobjects.TimpDatasetDataObject;
-import org.glotaran.core.main.structures.DatasetTimp;
+import org.glotaran.core.models.structures.DatasetTimp;
 import org.openide.loaders.DataObject;
 import org.openide.nodes.Node;
 import org.openide.util.HelpCtx;

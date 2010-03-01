@@ -3,7 +3,7 @@
  * and open the template in the editor.
  */
 
-package org.glotaran.core.main.interfaces;
+package org.glotaran.core.interfaces;
 
 /**
  *

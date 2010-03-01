@@ -7,7 +7,7 @@
             <suite-component/>
             <module-dependencies>
                 <dependency>
-                    <code-name-base>org.glotaran.core.main</code-name-base>
+                    <code-name-base>org.glotaran.core.interfaces</code-name-base>
                     <build-prerequisite/>
                     <compile-dependency/>
                     <run-dependency>

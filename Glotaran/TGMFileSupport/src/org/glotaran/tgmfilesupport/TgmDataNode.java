@@ -10,7 +10,7 @@ import java.awt.datatransfer.Transferable;
 import java.awt.datatransfer.UnsupportedFlavorException;
 import java.io.IOException;
 import org.glotaran.core.main.nodes.TimpResultsNode;
-import org.glotaran.core.main.structures.TimpResultDataset;
+import org.glotaran.core.models.structures.TimpResultDataset;
 import org.glotaran.core.models.tgm.KinPar;
 import org.netbeans.api.project.FileOwnerQuery;
 import org.netbeans.api.project.Project;

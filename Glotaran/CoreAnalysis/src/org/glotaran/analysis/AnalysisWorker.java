@@ -148,9 +148,8 @@ public class AnalysisWorker implements Runnable {
         return run;
     }
 
-    private void writeSummary(FileObject resultsfolder) throws IOException {
-        FileObject writeTo;
-        writeTo = resultsfolder.createData(resultsfolder.getName(), "summary");
+    private void writeSummary(FileObject resultsfolder,String freeFilename) throws IOException {
+        writeTo = resultsfolder.createData(freeFilename, "summary");
         BufferedWriter outputWriter = new BufferedWriter(new FileWriter(FileUtil.toFile(writeTo)));
         //TODO: Complete the summary here:
         outputWriter.append("Summary");
@@ -291,11 +290,12 @@ public class AnalysisWorker implements Runnable {
                         }
 
                         try {
-                            writeTo = resultsfolder.createData(resultsfolder.getName() + "_d" + (i + 1) + "_" + timpResultDataset.getDatasetName(), "timpres");
+                            String freeFilename = FileUtil.findFreeFileName(resultsfolder, resultsfolder.getName() + "_d" + (i + 1) + "_" + timpResultDataset.getDatasetName(), "timpres");
+                            writeTo = resultsfolder.createData(freeFilename, "timpres");
                             ObjectOutputStream stream = new ObjectOutputStream(writeTo.getOutputStream());
                             stream.writeObject(timpResultDataset);
                             stream.close();
-                            writeSummary(resultsfolder);
+                            writeSummary(resultsfolder,freeFilename);
                         } catch (IOException ex) {
                             Exceptions.printStackTrace(ex);
                         }

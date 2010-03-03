@@ -33,10 +33,30 @@ public class CoreErrorMessages {
         }
         DialogDisplayer.getDefault().notify(errorMessage);
     }
-    
+
+    public static void fileLoadException(String filetype){
+        NotifyDescriptor errorMessage =new NotifyDescriptor.Exception(
+                new Exception(filetype+" "+
+                NbBundle.getBundle("org/glotaran/core/messages/Bundle").getString("fileLoadException")));
+        DialogDisplayer.getDefault().notify(errorMessage);
+    }
+
+    public static void fileDeleteException(String filetype){
+        NotifyDescriptor errorMessage =new NotifyDescriptor.Exception(
+                new Exception(filetype+" "+
+                NbBundle.getBundle("org/glotaran/core/messages/Bundle").getString("fileDeleteException")));
+        DialogDisplayer.getDefault().notify(errorMessage);
+    }
+
     public static void noMainProjectFound(){
         NotifyDescriptor errorMessage =new NotifyDescriptor.Exception(
             new Exception(NbBundle.getBundle("org/glotaran/core/messages/Bundle").getString("selMainProj")));
+        DialogDisplayer.getDefault().notify(errorMessage);
+    }
+
+    public static void projectFolderException(){
+        NotifyDescriptor errorMessage =new NotifyDescriptor.Exception(
+                new Exception(NbBundle.getBundle("org/glotaran/core/messages/Bundle").getString("projectFolderException")));
         DialogDisplayer.getDefault().notify(errorMessage);
     }
 
@@ -72,12 +92,6 @@ public class CoreErrorMessages {
         DialogDisplayer.getDefault().notify(errorMessage);
     }
 
-    public static void projectFolderException(){
-        NotifyDescriptor errorMessage =new NotifyDescriptor.Exception(
-                new Exception(NbBundle.getBundle("org/glotaran/core/messages/Bundle").getString("projectFolderException")));
-        DialogDisplayer.getDefault().notify(errorMessage);
-    }
-
     public static void createFolderException(String foldername){
         NotifyDescriptor errorMessage =new NotifyDescriptor.Exception(
                 new Exception(NbBundle.getBundle("org/glotaran/core/messages/Bundle").getString("createFolderException")
@@ -103,12 +117,6 @@ public class CoreErrorMessages {
         DialogDisplayer.getDefault().notify(errorMessage);
     }
 
-    public static void fileLoadException(String filetype){
-        NotifyDescriptor errorMessage =new NotifyDescriptor.Exception(
-                new Exception(filetype+" "+
-                NbBundle.getBundle("org/glotaran/core/messages/Bundle").getString("fileLoadException")));
-        DialogDisplayer.getDefault().notify(errorMessage);
-    }
 
     public static void dragDropException(){
         NotifyDescriptor errorMessage =new NotifyDescriptor.Exception(

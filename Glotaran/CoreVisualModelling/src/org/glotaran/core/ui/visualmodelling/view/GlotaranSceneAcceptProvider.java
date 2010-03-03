@@ -94,7 +94,13 @@ public class GlotaranSceneAcceptProvider implements AcceptProvider {
                 GtaModelReference newModel = new GtaModelReference();
                 FileObject fo = tgmNode.getObject().getPrimaryFile();
                 //TODO: Use something more reliable than OpenProjects.getDefault().getMainProject()
-                String path = FileUtil.getRelativePath(OpenProjects.getDefault().getMainProject().getProjectDirectory(), fo);
+                String path = null;
+                try {
+                    path = FileUtil.getRelativePath(OpenProjects.getDefault().getMainProject().getProjectDirectory(), fo);
+                } catch (Exception e) {
+                    CoreErrorMessages.noMainProjectFound();
+                    return;
+                }
                 newModel.setPath(path);
                 newModel.setFilename(fo.getName());
                 newModel.setId(String.valueOf(scene.getNewNodeCount()));

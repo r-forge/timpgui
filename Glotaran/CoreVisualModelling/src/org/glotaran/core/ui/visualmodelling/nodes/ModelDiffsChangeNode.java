@@ -64,7 +64,7 @@ public class ModelDiffsChangeNode extends PropertiesAbstractNode{
                             }
                         }
                         present = false;
-                        //================ irf parameter node creation ===================
+//================ irf parameter node creation ===================
                         if (pi.getName().equalsIgnoreCase("IRF Parameters")) {
                             for (int i = 0; i < getChildren().getNodesCount(); i++) {
                                 if (getChildren().getNodes()[i] instanceof IrfParametersNode) {

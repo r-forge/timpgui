@@ -89,47 +89,45 @@ public class GlotaranConnectProvider implements ConnectProvider {
                 connection = getExistingConnection(gtaProjectScheme, sourceId, targetId);
                 if (connection != null) {
                     connection.setActive(true);
+                    scene.addEdge(connection);
+                    scene.setEdgeSource(connection, source);
+                    scene.setEdgeTarget(connection, target);
                     if (targetWidget.getParentWidget() instanceof DatasetContainerWidget) {
                         ((DatasetContainerWidget) targetWidget.getParentWidget()).setConnected(true);
                     }
                 }
-            }
-            if (connection==null) {
-                connection = new GtaConnection();
-                source = scene.findObject(sourceWidget);
-                if (source instanceof GtaModelReference) {
-                    connection.setSourceID(((GtaModelReference) source).getId());
-                    connection.setSourceType(EnumTypes.ConnectionTypes.GTAMODELREFERENCE.toString());
-                } else if (source instanceof GtaDatasetContainer) {
-                    connection.setSourceID(((GtaDatasetContainer) source).getId());
-                    connection.setSourceType(EnumTypes.ConnectionTypes.GTADATASETCONTAINER.toString());
-                }
+                else {
+                    connection = new GtaConnection();
+                    source = scene.findObject(sourceWidget);
+                    if (source instanceof GtaModelReference) {
+                        connection.setSourceID(((GtaModelReference) source).getId());
+                        connection.setSourceType(EnumTypes.ConnectionTypes.GTAMODELREFERENCE.toString());
+                    } else if (source instanceof GtaDatasetContainer) {
+                        connection.setSourceID(((GtaDatasetContainer) source).getId());
+                        connection.setSourceType(EnumTypes.ConnectionTypes.GTADATASETCONTAINER.toString());
+                    }
+                    target = scene.findObject(targetWidget);
+                    if (target instanceof GtaDatasetContainer) {
+                        connection.setTargetID(((GtaDatasetContainer) target).getId());
+                        connection.setTargetType(EnumTypes.ConnectionTypes.GTADATASETCONTAINER.toString());
+                    } else if (target instanceof GtaOutput) {
+                        connection.setTargetID(((GtaOutput) target).getId());
+                        connection.setTargetType(EnumTypes.ConnectionTypes.GTAOUTPUT.toString());
+                    }
 
-                target = scene.findObject(targetWidget);
-                if (target instanceof GtaDatasetContainer) {
-                    connection.setTargetID(((GtaDatasetContainer) target).getId());
-                    connection.setTargetType(EnumTypes.ConnectionTypes.GTADATASETCONTAINER.toString());
-                } else if (target instanceof GtaOutput) {
-                    connection.setTargetID(((GtaOutput) target).getId());
-                    connection.setTargetType(EnumTypes.ConnectionTypes.GTAOUTPUT.toString());
-                }
-
-                if (connection.getSourceID() != null && connection.getTargetID() != null) {
-
-                    connection.setId(String.valueOf(scene.getNewEdgeCount()));
-                    connection.setName("Connection " + scene.getEdgeCount());
-                    if (targetWidget.getParentWidget() instanceof DatasetContainerWidget) {
-                        ((DatasetContainerWidget) targetWidget.getParentWidget()).setConnected(true);
+                    if (connection.getSourceID() != null && connection.getTargetID() != null) {
+                        connection.setId(String.valueOf(scene.getNewEdgeCount()));
+                        connection.setName("Connection " + scene.getEdgeCount());
+                        scene.addEdge(connection);
+                        scene.setEdgeSource(connection, source);
+                        scene.setEdgeTarget(connection, target);
+                        if (targetWidget.getParentWidget() instanceof DatasetContainerWidget) {
+                            ((DatasetContainerWidget) targetWidget.getParentWidget()).setConnected(true);
+                        }
                     }
                 }
             }
-            if (connection != null) {
-                connection.setActive(true);
-                scene.addEdge(connection);
-                scene.setEdgeSource(connection, source);
-                scene.setEdgeTarget(connection, target);
-                scene.validate();
-            }
+            scene.validate();
         }
     }
 

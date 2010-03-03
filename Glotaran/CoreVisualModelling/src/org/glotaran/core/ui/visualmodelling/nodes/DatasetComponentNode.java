@@ -93,23 +93,67 @@ public class DatasetComponentNode extends PropertiesAbstractNode implements Tran
                     @Override
                     public Transferable paste() throws IOException {
                         if (isConnected()){
+                            Boolean present = false;
                             if (pi.getName().equals("FreeParam")){
-                                getChildren().add(new Node[]{new ModelDiffsNode("FreeParameter",propListner, getdatasetIndex())});
-                                return null;
+                                for (int i = 0; i < getChildren().getNodesCount(); i++) {
+                                    if (getChildren().getNodes()[i] instanceof ModelDiffsNode &&
+                                            (((ModelDiffsNode)getChildren().getNodes()[i])).getType().equalsIgnoreCase("FreeParameter")){
+                                        present = true;
+                                    }
+                                }
+                                if (!present){
+                                    getChildren().add(new Node[]{new ModelDiffsNode("FreeParameter",propListner, getdatasetIndex())});
+                                    return null;
+                                } else {
+                                    CoreErrorMessages.parametersExists("Free Parameter");
+                                }
                             }
-                            if (pi.getName().equals("ChangeParam")){
-                                getChildren().add(new Node[]{new ModelDiffsChangeNode("ChangeParameter",propListner, getdatasetIndex())});
-                                firePropertyChange("ChangeParamAdded", getdatasetIndex(), null );
-                                return null;
-                            }
+                            
                             if (pi.getName().equals("AddParam")){
-                                getChildren().add(new Node[]{new ModelDiffsNode("AddParameter",propListner, getdatasetIndex())});
-                                return null;
+                                for (int i = 0; i < getChildren().getNodesCount(); i++) {
+                                    if (getChildren().getNodes()[i] instanceof ModelDiffsNode &&
+                                            (((ModelDiffsNode)getChildren().getNodes()[i])).getType().equalsIgnoreCase("AddParameter")){
+                                        present = true;
+                                    }
+                                }
+                                if (!present){
+                                    getChildren().add(new Node[]{new ModelDiffsNode("AddParameter",propListner, getdatasetIndex())});
+                                    return null;
+                                } else {
+                                    CoreErrorMessages.parametersExists("Add Parameter");
+                                }
                             }
                             if (pi.getName().equals("RemoveParam")){
-                                getChildren().add(new Node[]{new ModelDiffsNode("RemoveParameter",propListner, getdatasetIndex())});
-                                return null;
+                                for (int i = 0; i < getChildren().getNodesCount(); i++) {
+                                    if (getChildren().getNodes()[i] instanceof ModelDiffsNode &&
+                                            (((ModelDiffsNode)getChildren().getNodes()[i])).getType().equalsIgnoreCase("RemoveParameter")){
+                                        present = true;
+                                    }
+                                }
+                                if (!present){
+                                    getChildren().add(new Node[]{new ModelDiffsNode("RemoveParameter",propListner, getdatasetIndex())});
+                                    return null;
+                                } else {
+                                    CoreErrorMessages.parametersExists("Remove Parameter");
+                                }
                             }
+                        
+                            
+                            if (pi.getName().equals("ChangeParam")){
+                                for (int i = 0; i < getChildren().getNodesCount(); i++) {
+                                    if (getChildren().getNodes()[i] instanceof ModelDiffsChangeNode) {
+                                        present = true;
+                                    }
+                                }
+                                if (!present){
+                                    getChildren().add(new Node[]{new ModelDiffsChangeNode("ChangeParameter",propListner, getdatasetIndex())});
+                                    firePropertyChange("ChangeParamAdded", getdatasetIndex(), null );
+                                    return null;
+                                } else {
+                                    CoreErrorMessages.parametersExists("Change Parameter");
+                                }
+                            }
+
                         }
                         else {
                             CoreErrorMessages.containerNotConnected();
@@ -117,7 +161,6 @@ public class DatasetComponentNode extends PropertiesAbstractNode implements Tran
                         return null;
                     }
                 };
-
             } catch (UnsupportedFlavorException ex) {
                 Exceptions.printStackTrace(ex);
             } catch (IOException ex) {

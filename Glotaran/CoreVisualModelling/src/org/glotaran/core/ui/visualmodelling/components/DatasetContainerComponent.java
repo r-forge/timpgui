@@ -30,15 +30,20 @@ import org.glotaran.core.models.tgm.Tgm;
 import org.glotaran.core.ui.visualmodelling.common.VisualCommonFunctions;
 import org.glotaran.core.ui.visualmodelling.nodes.DatasetComponentNode;
 import org.glotaran.core.ui.visualmodelling.nodes.DatasetsRootNode;
+import org.glotaran.core.ui.visualmodelling.nodes.ModelDiffsChangeNode;
 import org.glotaran.core.ui.visualmodelling.nodes.ModelDiffsNode;
+import org.glotaran.core.ui.visualmodelling.nodes.PropertiesAbstractNode;
 import org.glotaran.core.ui.visualmodelling.widgets.DatasetContainerWidget;
 import org.glotaran.tgmfilesupport.TgmDataObject;
 import org.openide.explorer.ExplorerManager;
 import org.openide.explorer.ExplorerUtils;
 import org.openide.filesystems.FileObject;
 import org.openide.filesystems.FileUtil;
+import org.openide.loaders.DataObject;
+import org.openide.loaders.DataObjectNotFoundException;
 import org.openide.nodes.Index;
 import org.openide.nodes.Node;
+import org.openide.util.Exceptions;
 import org.openide.util.Lookup;
 import org.openide.windows.WindowManager;
 
@@ -272,6 +277,7 @@ public class DatasetContainerComponent
         if (evt.getSource() == manager &&
                 ExplorerManager.PROP_SELECTED_NODES.equals(evt.getPropertyName())) {
             WindowManager.getDefault().getRegistry().getActivated().setActivatedNodes(manager.getSelectedNodes());
+            return;
         }
 
         if (evt.getSource().getClass().equals(DatasetsRootNode.class)){
@@ -282,6 +288,7 @@ public class DatasetContainerComponent
                 }
             }
             firePropertyChange("modelChanged", null, null);
+            return;
         }
 
         if (evt.getSource().getClass().equals(DatasetComponentNode.class)){
@@ -289,6 +296,13 @@ public class DatasetContainerComponent
                 datasetContainer.getDatasets().remove((GtaDataset) evt.getNewValue());
                 if ((evt.getNewValue() != null)&&(isConnected())) {
                     int ind = ((DatasetComponentNode) evt.getSource()).getdatasetIndex();
+                    if (modelDifferences.getDifferences().get(ind-1).getChanges()!=null){
+                        try {
+                            schemaFolder.getFileObject(modelDifferences.getDifferences().get(ind - 1).getChanges().getFilename()).delete();
+                        } catch (IOException ex) {
+                            CoreErrorMessages.fileDeleteException(modelDifferences.getDifferences().get(ind - 1).getChanges().getFilename());
+                        }
+                    }
                     modelDifferences.getDifferences().remove(ind-1);
                     for (int i = ind-1; i < modelDifferences.getDifferences().size(); i++){
                         if (!modelDifferences.getDifferences().get(i).getAdd().isEmpty()){
@@ -311,19 +325,20 @@ public class DatasetContainerComponent
             }
             if (evt.getPropertyName().equalsIgnoreCase("ChangeParamAdded")){
                 try {
-                    FileObject newTgmFile = schemaFolder.createData("newTGMFile.xml");
+                    String newTgmFileName = datasetContainer.getId()+"mdChange_"+String.valueOf(System.currentTimeMillis());
+                    FileObject newTgmFile = schemaFolder.createData(newTgmFileName);
                     VisualCommonFunctions.createNewTgmFile(FileUtil.toFile(newTgmFile), new Tgm());
                     GtaChangesModel gtaChanges = new GtaChangesModel();
                     gtaChanges.setPath(schemaFolder.getName());
-                    gtaChanges.setFilename("newTGMFile.xml");
-                    modelDifferences.getDifferences().get((Integer)evt.getOldValue()).setChanges(gtaChanges);
-                    //TODO implement creatinng new empty TGM file and fill in changes;
+                    gtaChanges.setFilename(newTgmFileName);
+                    modelDifferences.getDifferences().get((Integer)evt.getOldValue()-1).setChanges(gtaChanges);
                 } catch (IOException ex) {
                     CoreErrorMessages.fileSaveError("newtgmfile");
                 }
 
             }
             firePropertyChange("modelChanged", null, null);
+            return;
         }
 
         if (evt.getSource().getClass().equals(DatasetContainerWidget.class)){
@@ -331,8 +346,7 @@ public class DatasetContainerComponent
 
                 schemaFolder = ((DatasetContainerWidget)evt.getSource()).getSchemaPath();
                 schemaFolder = schemaFolder.getParent();
-
-                connectedModel = (Tgm) evt.getOldValue();
+                connectedModel = (Tgm)evt.getOldValue();
                 if (evt.getNewValue() != null) {
                     modelDifferences = (GtaModelDifferences) evt.getNewValue();
                     int diffNum = modelDifferences.getDifferences().size();
@@ -345,6 +359,7 @@ public class DatasetContainerComponent
                 }
             }
             firePropertyChange("modelChanged", null, null);
+            return;
         }
 
         if (evt.getSource().getClass().equals(ModelDiffsNode.class)){
@@ -421,18 +436,42 @@ public class DatasetContainerComponent
                     modelDifferences.getDifferences().get(datasetIndex).getFree().remove(index);
                 }
             }
-
-
             firePropertyChange("modelChanged", null, null);
+            return;
         }
 
-        if (evt.getSource().getClass().equals(ModelDiffsNode.class)){
-
+        if (evt.getSource().getClass().equals(ModelDiffsChangeNode.class)){
+            ModelDiffsChangeNode sourceNode = (ModelDiffsChangeNode)evt.getSource();
+            int datasetIndex = ((DatasetComponentNode)sourceNode.getParentNode()).getdatasetIndex()-1;
+            if (evt.getPropertyName().equalsIgnoreCase("mainNodeDeleted")){
+                try {
+                    schemaFolder.getFileObject(modelDifferences.getDifferences().get(datasetIndex).getChanges().getFilename()).delete();
+                } catch (IOException ex) {
+                    CoreErrorMessages.fileDeleteException(modelDifferences.getDifferences().get(datasetIndex).getChanges().getFilename());
+                }
+                modelDifferences.getDifferences().get(datasetIndex).setChanges(null);
+            }
+            firePropertyChange("modelChanged", null, null);
+            return;
         }
 
-//        if (VisualCommonFunctions.modelParametersChange(modelDifferences.getDifferences().get(0).getChanges(), evt)){
-//
-//        }
+        if (evt.getSource().getClass().getSuperclass().equals(PropertiesAbstractNode.class)){
+            if (((PropertiesAbstractNode)evt.getSource()).getParentNode().getClass().equals(ModelDiffsChangeNode.class)){
+                ModelDiffsChangeNode changeNode = (ModelDiffsChangeNode)((PropertiesAbstractNode)evt.getSource()).getParentNode();
+                int datasetIndex = ((DatasetComponentNode)changeNode.getParentNode()).getdatasetIndex()-1;
+                FileObject tgmFile = schemaFolder.getFileObject(modelDifferences.getDifferences().get(datasetIndex).getChanges().getFilename());
+                try {
+                    TgmDataObject tgmDO = (TgmDataObject)TgmDataObject.find(tgmFile);
+                    boolean state = VisualCommonFunctions.modelParametersChange(tgmDO.getTgm().getDat(), evt);
+                    tgmDO.setModified(state);
+                } catch (DataObjectNotFoundException ex) {
+                    CoreErrorMessages.fileLoadException("tgm changes");
+                }
+            }
+        }
+
+
+
 
     }
 

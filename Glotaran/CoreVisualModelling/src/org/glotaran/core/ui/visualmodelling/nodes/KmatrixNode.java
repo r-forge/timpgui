@@ -31,7 +31,7 @@ public class KmatrixNode extends PropertiesAbstractNode{
         this.addPropertyChangeListener(listn);
     }
 
-    public KmatrixNode(TgmDataObject model, ModelContainer listn) {
+    public KmatrixNode(TgmDataObject model, PropertyChangeListener listn) {
         super("Kmatrix", Children.LEAF,Lookups.singleton(model));
         this.addPropertyChangeListener(listn);
     }

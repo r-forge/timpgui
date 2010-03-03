@@ -26,7 +26,6 @@ import org.glotaran.core.models.gta.GtaDatasetContainer;
 import org.glotaran.core.models.gta.GtaModelDiffContainer;
 import org.glotaran.core.models.gta.GtaModelDiffDO;
 import org.glotaran.core.models.gta.GtaModelDifferences;
-import org.glotaran.core.models.tgm.Dat;
 import org.glotaran.core.models.tgm.Tgm;
 import org.glotaran.core.ui.visualmodelling.common.VisualCommonFunctions;
 import org.glotaran.core.ui.visualmodelling.nodes.DatasetComponentNode;
@@ -40,12 +39,9 @@ import org.openide.explorer.ExplorerManager;
 import org.openide.explorer.ExplorerUtils;
 import org.openide.filesystems.FileObject;
 import org.openide.filesystems.FileUtil;
-import org.openide.loaders.DataObject;
 import org.openide.loaders.DataObjectNotFoundException;
-import org.openide.loaders.TemplateWizard;
 import org.openide.nodes.Index;
 import org.openide.nodes.Node;
-import org.openide.util.Exceptions;
 import org.openide.util.Lookup;
 import org.openide.windows.WindowManager;
 
@@ -345,7 +341,6 @@ public class DatasetContainerComponent
 
         if (evt.getSource().getClass().equals(DatasetContainerWidget.class)){
             if (evt.getPropertyName().equalsIgnoreCase("connectionChange")){
-
                 schemaFolder = ((DatasetContainerWidget)evt.getSource()).getSchemaPath();
                 schemaFolder = schemaFolder.getParent();
                 connectedModel = (Tgm)evt.getOldValue();
@@ -471,10 +466,6 @@ public class DatasetContainerComponent
                 }
             }
         }
-
-
-
-
     }
 
     private void updateModelDiffsNodes(GtaModelDifferences modelDifferences) {
@@ -491,9 +482,9 @@ public class DatasetContainerComponent
             if (!modelDifferences.getDifferences().get(i).getRemove().isEmpty()){
                 datasets[i].getChildren().add(new Node[]{new ModelDiffsNode("RemoveParameter", i, modelDifferences.getDifferences().get(i).getRemove(), this)});
             }
-//            if (!modelDifferences.getDifferences().get(i).getChanges().isEmpty()){
-                //datasets[i].getChildren().add(new Node[]{new ModelDiffsNode("ChangeParameter", i, modelDifferences.getDifferences().get(i).getChanges(), this)});
- //           }
+            if (modelDifferences.getDifferences().get(i).getChanges()!=null){
+                datasets[i].getChildren().add(new Node[]{new ModelDiffsChangeNode("ChangeParameter", i, modelDifferences.getDifferences().get(i).getChanges(), this)});
+            }
         }
        
     }

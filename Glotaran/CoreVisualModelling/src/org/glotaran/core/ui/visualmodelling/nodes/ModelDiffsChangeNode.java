@@ -9,11 +9,19 @@ import java.awt.Image;
 import java.awt.datatransfer.Transferable;
 import java.awt.datatransfer.UnsupportedFlavorException;
 import java.beans.PropertyChangeListener;
+import java.io.File;
 import java.io.IOException;
 import org.glotaran.core.messages.CoreErrorMessages;
+import org.glotaran.core.models.gta.GtaChangesModel;
+import org.glotaran.core.models.tgm.Dat;
 import org.glotaran.core.ui.visualmodelling.common.EnumTypes;
 import org.glotaran.core.ui.visualmodelling.palette.PaletteItem;
 import org.glotaran.core.ui.visualmodelling.palette.PaletteNode;
+import org.glotaran.tgmfilesupport.TgmDataObject;
+import org.openide.filesystems.FileObject;
+import org.openide.filesystems.FileUtil;
+import org.openide.loaders.DataObject;
+import org.openide.loaders.DataObjectNotFoundException;
 import org.openide.nodes.Index;
 import org.openide.nodes.Node;
 import org.openide.util.Exceptions;
@@ -34,6 +42,14 @@ public class ModelDiffsChangeNode extends PropertiesAbstractNode{
         super(type, new Index.ArrayChildren());
         propListner = listn;
         datasetIndex = datasetInd;
+        addPropertyChangeListener(WeakListeners.propertyChange(propListner, this));
+    }
+
+    public ModelDiffsChangeNode(String type, int datasetInd, GtaChangesModel changes, PropertyChangeListener listn) {
+        super(type, new Index.ArrayChildren());
+        propListner = listn;
+        datasetIndex = datasetInd+1;
+        updateChangesNodes(changes);
         addPropertyChangeListener(WeakListeners.propertyChange(propListner, this));
     }
 
@@ -157,4 +173,60 @@ public class ModelDiffsChangeNode extends PropertiesAbstractNode{
         }
     }
 
+    private void updateChangesNodes(GtaChangesModel changes){
+        FileObject tgmFO = FileUtil.toFileObject(new File(changes.getPath()+File.separator +changes.getFilename()));
+        Dat tgmDat = null;
+        TgmDataObject tgmDO = null;
+        if (tgmFO!=null){
+            try {
+                tgmDO = ((TgmDataObject)DataObject.find(tgmFO));
+                tgmDat = tgmDO.getTgm().getDat();
+            } catch (DataObjectNotFoundException ex) {
+                CoreErrorMessages.fileLoadException("changes TGM");
+                return;
+            }
+
+            if (tgmDat.getKMatrixPanel() != null) {
+                if (tgmDat.getKMatrixPanel().getJVector().getVector().isEmpty()) {
+                    getChildren().add(
+                            new Node[]{new KmatrixNode(tgmDO, propListner)});
+                }
+            } else {
+                if (tgmDat.getKinparPanel() != null) {
+                    if (!tgmDat.getKinparPanel().getKinpar().isEmpty()) {
+                        getChildren().add(
+                                new Node[]{new KineticParametersNode(tgmDat.getKinparPanel(), propListner)});
+                    }
+                }
+            }
+
+            if (tgmDat.getIrfparPanel() != null) {
+                if (!tgmDat.getIrfparPanel().getIrf().isEmpty()
+                        && (!tgmDat.getIrfparPanel().isMirf())) {
+                    getChildren().add(
+                            new Node[]{new IrfParametersNode(tgmDat.getIrfparPanel(), propListner)});
+                }
+
+                if (tgmDat.getIrfparPanel().getParmu().length() != 0) {
+                    getChildren().add(
+                            new Node[]{new DispersionModelingNode(tgmDat.getIrfparPanel(), EnumTypes.DispersionTypes.PARMU, propListner)});
+                }
+
+                if (tgmDat.getIrfparPanel().getPartau().length() != 0) {
+                    getChildren().add(
+                            new Node[]{new DispersionModelingNode(tgmDat.getIrfparPanel(), EnumTypes.DispersionTypes.PARTAU, propListner)});
+                }
+            }
+
+            if (tgmDat.getWeightParPanel()!=null) {
+                getChildren().add(
+                        new Node[]{new WeightParametersNode(tgmDat.getWeightParPanel().getWeightpar(), propListner)});
+            }
+
+            if (tgmDat.getCohspecPanel()!=null) {
+                getChildren().add(
+                        new Node[]{new CohSpecNode(tgmDat.getCohspecPanel(), propListner)});
+            }
+        }
+    }
 }

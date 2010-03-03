@@ -80,7 +80,6 @@ public class ModelContainer
         map.put("delete", ExplorerUtils.actionDelete(manager, true)); // or false
         InputMap keys = getInputMap(JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
         keys.put(KeyStroke.getKeyStroke("DELETE"), "delete");
-
         // following line tells the top component which lookup should be associated with it
         lookup = ExplorerUtils.createLookup (manager, map);
         fillInModel();
@@ -235,8 +234,6 @@ public class ModelContainer
         if (!model.getTgm().getDat().getKMatrixPanel().getJVector().getVector().isEmpty()){
             manager.getRootContext().getChildren().add(
                     new Node[]{new KmatrixNode(model, this)});
-//============== TODO implement Kmatrix case ==============
-
         }
         else {
             if (!model.getTgm().getDat().getKinparPanel().getKinpar().isEmpty()){

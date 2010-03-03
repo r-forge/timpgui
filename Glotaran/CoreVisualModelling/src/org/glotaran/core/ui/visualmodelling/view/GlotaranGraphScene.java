@@ -298,8 +298,8 @@ public class GlotaranGraphScene extends GraphScene<Object, Object> implements Pr
                 for (GtaDataset dataset : container.getDatasets()) {
                     try {
                         File fl = new File(OpenProjects.getDefault().getMainProject().getProjectDirectory().getPath() + File.separator + dataset.getPath());
-                        FileObject test = FileUtil.createData(fl);
-                        DataObject dObj = DataObject.find(test);
+                        FileObject fo = FileUtil.createData(fl);
+                        DataObject dObj = DataObject.find(fo);
                         if (dObj != null) {
                             tdobj = (TimpDatasetDataObject) dObj;
                             for (Widget testWidget : widget.getChildren()) {
@@ -374,8 +374,6 @@ public class GlotaranGraphScene extends GraphScene<Object, Object> implements Pr
                 setEdgeTarget(connection, targetNode);
                 if (findWidget(targetNode) instanceof DatasetContainerWidget) {
                 ((DatasetContainerWidget) findWidget(targetNode)).setConnected(true);
-                ((DatasetContainerWidget) findWidget(targetNode)).getContainerComponent().setConnectedModel(
-                        ((ModelContainerWidget) findWidget(sourceNode)).getModelTgm());
                 ((DatasetContainerWidget) findWidget(targetNode)).getContainerComponent().setConnectedModel(
                         ((ModelContainerWidget) findWidget(sourceNode)).getModelTgm());
                 }

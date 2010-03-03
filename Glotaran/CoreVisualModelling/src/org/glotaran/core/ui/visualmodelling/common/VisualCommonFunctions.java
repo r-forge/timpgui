@@ -12,11 +12,14 @@ import java.beans.PropertyChangeEvent;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import org.glotaran.core.models.tgm.CohspecPanelModel;
 import org.glotaran.core.models.tgm.Dat;
 import org.glotaran.core.models.tgm.IrfparPanelModel;
 import org.glotaran.core.models.tgm.KinPar;
+import org.glotaran.core.models.tgm.KinparPanelModel;
 import org.glotaran.core.models.tgm.Tgm;
 import org.glotaran.core.models.tgm.WeightPar;
+import org.glotaran.core.models.tgm.WeightParPanelModel;
 import org.glotaran.core.ui.visualmodelling.common.EnumTypes.CohSpecTypes;
 import org.glotaran.core.ui.visualmodelling.common.EnumTypes.IRFTypes;
 import org.glotaran.core.ui.visualmodelling.nodes.CohSpecNode;
@@ -34,13 +37,24 @@ import org.openide.nodes.Children;
  * @author slapten
  */
 public class VisualCommonFunctions {
-    public static TgmDataNode createNewTgmFile(File file, Tgm tgm){
+    public static TgmDataNode createNewTgmFile(File file){
+        Tgm tgm = new Tgm();
+        tgm.setDat(new Dat());
+//        tgm.getDat().setCohspecPanel(new CohspecPanelModel());
+//        tgm.getDat().setIrfparPanel(new IrfparPanelModel());
+//        tgm.getDat().setKMatrixPanel(new KMatrixPanelModel());
+//        tgm.getDat().setKinparPanel(new KinparPanelModel());
+        tgm.getDat().setModType("ModelDifferences");
+        tgm.getDat().setModelName(file.getName());
+//        tgm.getDat().setWeightParPanel(new WeightParPanelModel());
+
         try {
             javax.xml.bind.JAXBContext jaxbCtx = javax.xml.bind.JAXBContext.newInstance(tgm.getClass().getPackage().getName());
             javax.xml.bind.Marshaller marshaller = jaxbCtx.createMarshaller();
             marshaller.setProperty(javax.xml.bind.Marshaller.JAXB_ENCODING, "UTF-8"); //NOI18N
             marshaller.setProperty(javax.xml.bind.Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
             marshaller.marshal(tgm, file);
+
         } catch (javax.xml.bind.JAXBException ex) {
             // XXXTODO Handle exception
             java.util.logging.Logger.getLogger("global").log(java.util.logging.Level.SEVERE, null, ex); //NOI18N
@@ -74,6 +88,9 @@ public class VisualCommonFunctions {
 
     public static boolean modelParametersChange(Dat model, PropertyChangeEvent evt) {
         if (evt.getSource().getClass().equals(KineticParametersNode.class)) {
+            if (model.getKinparPanel()==null){
+                model.setKinparPanel(new KinparPanelModel());
+            }
             if (evt.getPropertyName().equalsIgnoreCase("Number of components")) {
                 if ((Integer) evt.getNewValue() > (Integer) evt.getOldValue()) {
                     for (int i = 0; i < (Integer) evt.getNewValue() - (Integer) evt.getOldValue(); i++) {
@@ -110,6 +127,9 @@ public class VisualCommonFunctions {
             return true;
         }
         if (evt.getSource().getClass().equals(IrfParametersNode.class)) {
+            if (model.getIrfparPanel()==null){
+                model.setIrfparPanel(new IrfparPanelModel());
+            }
             if (evt.getPropertyName().equalsIgnoreCase("SetBackSweep")) {
                 model.getIrfparPanel().setBacksweepEnabled((Boolean) evt.getNewValue());
             }
@@ -172,6 +192,9 @@ public class VisualCommonFunctions {
             return true;
         }
         if (evt.getSource().getClass().equals(CohSpecNode.class)) {
+            if (model.getCohspecPanel()==null){
+                model.setCohspecPanel(new CohspecPanelModel());
+            }
             if (evt.getPropertyName().equalsIgnoreCase("setClpMax")) {
                 model.getCohspecPanel().setClp0Max((Double) evt.getNewValue());
             }
@@ -223,6 +246,9 @@ public class VisualCommonFunctions {
 
         }
         if (evt.getSource().getClass().equals(DispersionModelingNode.class)) {
+            if (model.getIrfparPanel()==null){
+                model.setIrfparPanel(new IrfparPanelModel());
+            }
             boolean parMu = evt.getOldValue().equals(EnumTypes.DispersionTypes.PARMU);
             if (evt.getPropertyName().equalsIgnoreCase("mainNodeDeleted")) {
                 Children nodes = ((DispersionModelingNode)evt.getSource()).getParentNode().getChildren();
@@ -305,6 +331,9 @@ public class VisualCommonFunctions {
 
         }
         if (evt.getSource().getClass().equals(WeightParametersNode.class)) {
+            if (model.getWeightParPanel()==null){
+                model.setWeightParPanel(new WeightParPanelModel());
+            }
             if (evt.getPropertyName().equalsIgnoreCase("Number of components")) {
                 if ((Integer) evt.getNewValue() > (Integer) evt.getOldValue()) {
                     for (int i = 0; i < (Integer) evt.getNewValue() - (Integer) evt.getOldValue(); i++) {

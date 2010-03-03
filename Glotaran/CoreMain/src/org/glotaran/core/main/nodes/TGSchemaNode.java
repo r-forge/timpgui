@@ -58,22 +58,22 @@ public class TGSchemaNode extends FilterNode {
 
         @Override
         protected Node[] createNodes(Node n) {
-            Collection<? extends XMLFilesSupportIntarface> services =
-                    Lookup.getDefault().lookupAll(XMLFilesSupportIntarface.class);
-            for(XMLFilesSupportIntarface service : services){
-                if (service.getType().equalsIgnoreCase("GTADataObject")){
-                    DataFolder folder = n.getLookup().lookup(DataFolder.class);    
-                    for (int i = 0; i < folder.getChildren().length; i++){
-                        if (folder.getChildren()[i].getClass().equals(service.getDataObjectClass())){
-                            return new Node[]{folder.getChildren()[i].getNodeDelegate()};
-                        }
-                    }
-                }
-            }
+//            Collection<? extends XMLFilesSupportIntarface> services =
+//                    Lookup.getDefault().lookupAll(XMLFilesSupportIntarface.class);
+//            for(XMLFilesSupportIntarface service : services){
+//                if (service.getType().equalsIgnoreCase("GTADataObject")){
+//                    DataFolder folder = n.getLookup().lookup(DataFolder.class);
+//                    for (int i = 0; i < folder.getChildren().length; i++){
+//                        if (folder.getChildren()[i].getClass().equals(service.getDataObjectClass())){
+//                            return new Node[]{folder.getChildren()[i].getNodeDelegate()};
+//                        }
+//                    }
+//                }
+//            }
             if (n.getLookup().lookup(DataFolder.class) != null) {
                 return new Node[]{new TGSchemaNode(n)};
             }
-            return new Node[]{};
+            return new Node[]{new FilterNode(n)};
         }
     }
 }

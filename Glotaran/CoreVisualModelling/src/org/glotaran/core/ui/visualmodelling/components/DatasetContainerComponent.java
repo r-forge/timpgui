@@ -26,6 +26,7 @@ import org.glotaran.core.models.gta.GtaDatasetContainer;
 import org.glotaran.core.models.gta.GtaModelDiffContainer;
 import org.glotaran.core.models.gta.GtaModelDiffDO;
 import org.glotaran.core.models.gta.GtaModelDifferences;
+import org.glotaran.core.models.tgm.Dat;
 import org.glotaran.core.models.tgm.Tgm;
 import org.glotaran.core.ui.visualmodelling.common.VisualCommonFunctions;
 import org.glotaran.core.ui.visualmodelling.nodes.DatasetComponentNode;
@@ -41,6 +42,7 @@ import org.openide.filesystems.FileObject;
 import org.openide.filesystems.FileUtil;
 import org.openide.loaders.DataObject;
 import org.openide.loaders.DataObjectNotFoundException;
+import org.openide.loaders.TemplateWizard;
 import org.openide.nodes.Index;
 import org.openide.nodes.Node;
 import org.openide.util.Exceptions;
@@ -325,11 +327,11 @@ public class DatasetContainerComponent
             }
             if (evt.getPropertyName().equalsIgnoreCase("ChangeParamAdded")){
                 try {
-                    String newTgmFileName = datasetContainer.getId()+"mdChange_"+String.valueOf(System.currentTimeMillis());
+                    String newTgmFileName = datasetContainer.getId()+"mdChange"+String.valueOf(System.currentTimeMillis()+".xml");
                     FileObject newTgmFile = schemaFolder.createData(newTgmFileName);
-                    VisualCommonFunctions.createNewTgmFile(FileUtil.toFile(newTgmFile), new Tgm());
+                    VisualCommonFunctions.createNewTgmFile(FileUtil.toFile(newTgmFile));
                     GtaChangesModel gtaChanges = new GtaChangesModel();
-                    gtaChanges.setPath(schemaFolder.getName());
+                    gtaChanges.setPath(schemaFolder.getPath());
                     gtaChanges.setFilename(newTgmFileName);
                     modelDifferences.getDifferences().get((Integer)evt.getOldValue()-1).setChanges(gtaChanges);
                 } catch (IOException ex) {

@@ -6,7 +6,6 @@
 package org.glotaran.core.ui.visualmodelling.nodes;
 
 import java.awt.Image;
-import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import org.glotaran.core.models.tgm.IrfparPanelModel;
 import org.glotaran.core.ui.visualmodelling.common.EnumPropertyEditor;
@@ -30,8 +29,8 @@ public class IrfParametersNode extends PropertiesAbstractNode {
 
     public IrfParametersNode(PropertyChangeListener listn){
         super("IRFPar", new IrfParametersKeys(2));
-        addPropertyChangeListener(listn);
         setIRFType(irfTypeProperty);
+        addPropertyChangeListener(listn);
     }
 
     public IrfParametersNode(IrfparPanelModel irfparPanel, PropertyChangeListener listn) {
@@ -62,7 +61,7 @@ public class IrfParametersNode extends PropertiesAbstractNode {
         this.backSweep = backSweep;
         if (backSweep) {
             try {
-                Property sweepPeriodValue = new PropertySupport.Reflection(this, Double.class, "sweepPeriod");
+                Property<Double> sweepPeriodValue = new PropertySupport.Reflection<Double>(this, Double.class, "sweepPeriod");
                 sweepPeriodValue.setName(propNames[3]);
                 getSheet().get(Sheet.PROPERTIES).put(sweepPeriodValue);
             } catch (NoSuchMethodException ex) {
@@ -107,13 +106,13 @@ public class IrfParametersNode extends PropertiesAbstractNode {
         Sheet sheet = Sheet.createDefault();
         Sheet.Set set = Sheet.createPropertiesSet();
         PropertySupport.Reflection irfType = null;
-        Property name = null;
-        Property sweep = null;
+        Property<String> name = null;
+        Property<Boolean> sweep = null;
        try {
             irfType = new PropertySupport.Reflection(this, EnumTypes.IRFTypes.class, "getIRFType", "setIRFType");
             irfType.setPropertyEditorClass(EnumPropertyEditor.class);
-            name = new PropertySupport.Reflection(this, String.class, "getDisplayName", null);
-            sweep = new PropertySupport.Reflection(this, Boolean.class, "backSweep");
+            name = new PropertySupport.Reflection<String>(this, String.class, "getDisplayName", null);
+            sweep = new PropertySupport.Reflection<Boolean>(this, Boolean.class, "backSweep");
         } catch (NoSuchMethodException ex) {
             Exceptions.printStackTrace(ex);
         }
@@ -175,7 +174,7 @@ public class IrfParametersNode extends PropertiesAbstractNode {
 
     private void addStreackProp(){
         try {
-            Property sweep = new PropertySupport.Reflection(this, Boolean.class, "backSweep");
+            Property<Boolean> sweep = new PropertySupport.Reflection<Boolean>(this, Boolean.class, "backSweep");
             sweep.setName(propNames[2]);
             getSheet().get(Sheet.PROPERTIES).put(sweep);
         } catch (NoSuchMethodException ex) {
@@ -184,7 +183,7 @@ public class IrfParametersNode extends PropertiesAbstractNode {
 
         if (backSweep) {
             try {
-                Property sweepPeriodValue = new PropertySupport.Reflection(this, Double.class, "sweepPeriod");
+                Property<Double> sweepPeriodValue = new PropertySupport.Reflection<Double>(this, Double.class, "sweepPeriod");
                 sweepPeriodValue.setName(propNames[3]);
                 getSheet().get(Sheet.PROPERTIES).put(sweepPeriodValue);
             } catch (NoSuchMethodException ex) {

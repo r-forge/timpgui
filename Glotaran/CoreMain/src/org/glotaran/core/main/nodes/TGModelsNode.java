@@ -8,6 +8,7 @@ import org.openide.nodes.FilterNode;
 import org.openide.nodes.Node;
 import org.openide.util.ImageUtilities;
 import org.openide.loaders.DataFolder;
+import org.openide.loaders.DataObject;
 import org.openide.util.Lookup;
 import org.openide.util.NbBundle;
 
@@ -58,17 +59,20 @@ public class TGModelsNode extends FilterNode {
 
         @Override
         protected Node[] createNodes(Node n) {
-            Collection<? extends XMLFilesSupportIntarface> services =
-                    Lookup.getDefault().lookupAll(XMLFilesSupportIntarface.class);
-            for (XMLFilesSupportIntarface service : services){
-                if (service.getType().equalsIgnoreCase("TGMataObject")){
-                    if (n.getLookup().lookup(service.getDataObjectClass().getClass()) != null) {
-                        return new Node[]{new TGSchemaNode(n)};
-                    }
-                }
-            }
+//            Collection<? extends XMLFilesSupportIntarface> services =
+//                    Lookup.getDefault().lookupAll(XMLFilesSupportIntarface.class);
+//            String s = null;
+//            for (int i = 0; i < services.size(); i++){
+//                XMLFilesSupportIntarface service = (XMLFilesSupportIntarface)services.toArray()[i];
+//                if (service.getType().equalsIgnoreCase("TGMDataObject")){
+//                    if (n.getLookup().lookup(service.getDataObjectClass().getClass()) != null) {
+//                        s = service.getType();
+//                        return new Node[]{n};
+//                    }
+//                }
+//            }
             if (n.getLookup().lookup(DataFolder.class) != null) {
-                return new Node[]{new TGSchemaNode(n)};
+                return new Node[]{new TGModelsNode(n)};
             }
             return new Node[]{new FilterNode(n)};
         }

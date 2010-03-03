@@ -19,6 +19,8 @@ import org.glotaran.core.models.structures.DatasetTimp;
 import org.glotaran.core.models.structures.TimpResultDataset;
 import org.glotaran.core.models.gta.GtaDataset;
 import org.glotaran.core.models.gta.GtaDatasetContainer;
+import org.glotaran.core.models.gta.GtaModelDiffContainer;
+import org.glotaran.core.models.gta.GtaModelDiffDO;
 import org.glotaran.core.models.gta.GtaModelDifferences;
 import org.glotaran.core.models.gta.GtaModelReference;
 import org.glotaran.core.models.gta.GtaOutput;
@@ -259,6 +261,7 @@ public class AnalysisWorker implements Runnable {
 
                 datasets = getDatasets(datasetContainer);
                 models[0] = getModel(modelReference);
+                String modelDiffsCall = getModelDifferences(modelDifferences);
 
                 if (isValidAnalysis(datasets, models)) {
                     timpcontroller = Lookup.getDefault().lookup(TimpControllerInterface.class);
@@ -304,6 +307,28 @@ public class AnalysisWorker implements Runnable {
                 }
             }
         }
+    }
+
+    private String getModelDifferences(GtaModelDifferences modelDifferences) {
+        String result = "";
+
+        //TODO: implement LinkCLP
+        //modelDifferences.getLinkCLP()
+        if(modelDifferences!=null){
+            for(GtaModelDiffContainer diffContainer : modelDifferences.getDifferences()) {
+                result = result + "free = list (";
+                for(GtaModelDiffDO modelDiffDO : diffContainer.getFree()) {
+                    result = result +
+                            "list(what = \"" + modelDiffDO.getWhat() + "\"" +
+                            "ind = \"" + modelDiffDO.getIndex() + "\"" +
+                            "dataset = \"" + modelDiffDO.getDataset() + "\"" +
+                            "start = \"" + modelDiffDO.getStart() + "\"";
+
+                }
+            }
+        }
+        //modelDifferences.getDifferences().get(0).getFree().get(0)
+        return result;
     }
 }
 

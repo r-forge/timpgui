@@ -5,25 +5,14 @@
 
 package org.glotaran.analysis.support;
 
-import org.glotaran.core.models.structures.TimpResultDataset;
-
 /**
  *
  * @author jsg210
  */
-public class AnalysisHelper implements Runnable {
-
-    private TimpResultDataset[] results = null;
+public class AnalysisHelper {
 
     public AnalysisHelper() {
     }
 
-    public TimpResultDataset[] getResults() {
-        return results;
-    }
-
-    public void run() {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
 
 }

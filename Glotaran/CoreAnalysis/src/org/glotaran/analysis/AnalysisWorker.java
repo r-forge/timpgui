@@ -15,10 +15,12 @@ import java.util.Formatter;
 import org.glotaran.core.interfaces.TimpControllerInterface;
 import org.glotaran.core.main.nodes.dataobjects.TimpDatasetDataObject;
 import org.glotaran.core.main.project.TGProject;
+import org.glotaran.core.models.gta.GtaChangesModel;
 import org.glotaran.core.models.structures.DatasetTimp;
 import org.glotaran.core.models.structures.TimpResultDataset;
 import org.glotaran.core.models.gta.GtaDataset;
 import org.glotaran.core.models.gta.GtaDatasetContainer;
+import org.glotaran.core.models.gta.GtaLinkCLP;
 import org.glotaran.core.models.gta.GtaModelDiffContainer;
 import org.glotaran.core.models.gta.GtaModelDiffDO;
 import org.glotaran.core.models.gta.GtaModelDifferences;
@@ -32,6 +34,7 @@ import org.openide.filesystems.FileObject;
 import org.openide.filesystems.FileUtil;
 import org.openide.loaders.DataObject;
 import org.openide.loaders.DataObjectExistsException;
+import org.openide.loaders.DataObjectNotFoundException;
 import org.openide.util.Exceptions;
 import org.openide.util.Lookup;
 
@@ -57,7 +60,7 @@ public class AnalysisWorker implements Runnable {
     public AnalysisWorker() {
         //TODO: implement constructor
     }
-    
+
     public AnalysisWorker(TGProject currentProject, GtaOutput gtaOutput, GtaDatasetContainer gtaDatasetContainer, GtaModelReference gtaModelReference, GtaModelDifferences gtaModelDifferences) {
         this.output = gtaOutput;
         this.datasetContainer = gtaDatasetContainer;
@@ -150,7 +153,7 @@ public class AnalysisWorker implements Runnable {
         return run;
     }
 
-    private void writeSummary(FileObject resultsfolder,String freeFilename) throws IOException {
+    private void writeSummary(FileObject resultsfolder, String freeFilename) throws IOException {
         writeTo = resultsfolder.createData(freeFilename, "summary");
         BufferedWriter outputWriter = new BufferedWriter(new FileWriter(FileUtil.toFile(writeTo)));
         //TODO: Complete the summary here:
@@ -210,7 +213,7 @@ public class AnalysisWorker implements Runnable {
                     for (int i = 0; i < results.length; i++) {
                         //TODO: verify the next line
                         //params = (double[]) results[i].getClass().getMethod(slots[k], new Class[]{results[i].getClass().getClass()}).invoke(results[i], new Object[]{results});
-                        params = (double[]) results[i].getClass().getMethod(slots[k], null).invoke(results[i], null);                        
+                        params = (double[]) results[i].getClass().getMethod(slots[k], null).invoke(results[i], null);
                         if (params != null) {
 
                             outputWriter.append("Estimated " + slotsName[k] + ": ");
@@ -298,7 +301,7 @@ public class AnalysisWorker implements Runnable {
                             ObjectOutputStream stream = new ObjectOutputStream(writeTo.getOutputStream());
                             stream.writeObject(timpResultDataset);
                             stream.close();
-                            writeSummary(resultsfolder,freeFilename);
+                            writeSummary(resultsfolder, freeFilename);
                         } catch (IOException ex) {
                             Exceptions.printStackTrace(ex);
                         }
@@ -314,20 +317,56 @@ public class AnalysisWorker implements Runnable {
 
         //TODO: implement LinkCLP
         //modelDifferences.getLinkCLP()
-        if(modelDifferences!=null){
-            for(GtaModelDiffContainer diffContainer : modelDifferences.getDifferences()) {
-                result = result + "free = list (";
-                for(GtaModelDiffDO modelDiffDO : diffContainer.getFree()) {
-                    result = result +
-                            "list(what = \"" + modelDiffDO.getWhat() + "\"" +
-                            "ind = \"" + modelDiffDO.getIndex() + "\"" +
-                            "dataset = \"" + modelDiffDO.getDataset() + "\"" +
-                            "start = \"" + modelDiffDO.getStart() + "\"";
+        if (modelDifferences != null) {
+            //Fill in the "linkcpl" parameter
+            for (GtaLinkCLP linkCLP : modelDifferences.getLinkCLP()) {
+                if (linkCLP != null) {
+                    result = result + "linkclp = list(";
+                    result = result + ")";
+                }
+            }
+
+            //Fill in the "free" parameter
+            for (GtaModelDiffContainer diffContainer : modelDifferences.getDifferences()) {
+                if (diffContainer != null) {
+                    for (int i = 0; i < diffContainer.getFree().size(); i++) {
+                        GtaModelDiffDO modelDiffDO = diffContainer.getFree().get(i);
+                        if (modelDiffDO != null) {
+                            if (i > 0 && i < diffContainer.getFree().size()) {
+                                result = result + ",";
+                            } else {
+                                result = "free = list(";
+                            }
+                            result = result
+                                    + "list(what = \"" + modelDiffDO.getWhat() + "\""
+                                    + "ind = " + modelDiffDO.getIndex() + ""
+                                    + "dataset = " + modelDiffDO.getDataset() + ""
+                                    + "start = " + modelDiffDO.getStart() + ")";
+                        }
+                    }
+                }
+            }
+
+            //Fill in the "change" parameter
+            for (GtaModelDiffContainer diffContainer : modelDifferences.getDifferences()) {
+                if (diffContainer != null) {
+                    GtaChangesModel changes = diffContainer.getChanges();
+                    String fileName = changes.getFilename();
+                    String pathName = changes.getPath();
+                    String projectPath = project.getProjectDirectory().getPath();
+                    FileObject changesFO = FileUtil.toFileObject(new File(projectPath + File.separator + pathName + File.separator + fileName));
+                    try {
+                        DataObject dataObj = DataObject.find(changesFO);
+                        if (dataObj instanceof TgmDataObject) {
+                            Tgm tgm = ((TgmDataObject)dataObj).getTgm();
+                        }
+                    } catch (DataObjectNotFoundException ex) {
+                        Exceptions.printStackTrace(ex);
+                    }
 
                 }
             }
         }
-        //modelDifferences.getDifferences().get(0).getFree().get(0)
         return result;
     }
 }

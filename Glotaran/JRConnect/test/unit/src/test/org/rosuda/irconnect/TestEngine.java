@@ -19,7 +19,7 @@ public class TestEngine extends TestCase{
     @Override
 	protected void setUp() throws Exception {		
 		super.setUp();
-		connection = new RConnection();				
+		connection = new RConnection();
 	}
 
     @Override

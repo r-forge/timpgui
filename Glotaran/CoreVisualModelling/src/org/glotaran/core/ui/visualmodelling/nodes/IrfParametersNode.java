@@ -46,9 +46,11 @@ public class IrfParametersNode extends PropertiesAbstractNode {
                 setIRFType(EnumTypes.IRFTypes.DOUBLE_GAUSSIAN);
             }
         }
-        if (irfparPanel.isBacksweepEnabled()){
-            backSweep = irfparPanel.isBacksweepEnabled();
-            sweepPeriod = irfparPanel.getBacksweepPeriod();
+        if (irfparPanel.isBacksweepEnabled() != null) {
+            if (irfparPanel.isBacksweepEnabled()) {
+                backSweep = irfparPanel.isBacksweepEnabled();
+                sweepPeriod = irfparPanel.getBacksweepPeriod();
+            }
         }
         addPropertyChangeListener(listn);
     }

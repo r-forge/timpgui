@@ -207,14 +207,18 @@ public class ModelDiffsChangeNode extends PropertiesAbstractNode{
                             new Node[]{new IrfParametersNode(tgmDat.getIrfparPanel(), propListner)});
                 }
 
-                if (tgmDat.getIrfparPanel().getParmu().length() != 0) {
-                    getChildren().add(
-                            new Node[]{new DispersionModelingNode(tgmDat.getIrfparPanel(), EnumTypes.DispersionTypes.PARMU, propListner)});
+                if (tgmDat.getIrfparPanel().getParmu() != null) {
+                    if (tgmDat.getIrfparPanel().getParmu().length() != 0) {
+                        getChildren().add(
+                                new Node[]{new DispersionModelingNode(tgmDat.getIrfparPanel(), EnumTypes.DispersionTypes.PARMU, propListner)});
+                    }
                 }
 
-                if (tgmDat.getIrfparPanel().getPartau().length() != 0) {
-                    getChildren().add(
-                            new Node[]{new DispersionModelingNode(tgmDat.getIrfparPanel(), EnumTypes.DispersionTypes.PARTAU, propListner)});
+                if (tgmDat.getIrfparPanel().getPartau() != null) {
+                    if (tgmDat.getIrfparPanel().getPartau().length() != 0) {
+                        getChildren().add(
+                                new Node[]{new DispersionModelingNode(tgmDat.getIrfparPanel(), EnumTypes.DispersionTypes.PARTAU, propListner)});
+                    }
                 }
             }
 

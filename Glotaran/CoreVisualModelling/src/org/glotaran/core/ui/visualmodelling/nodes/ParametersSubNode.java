@@ -44,6 +44,9 @@ public class ParametersSubNode extends PropertiesAbstractNode implements Propert
     @Override
     public String getDisplayName() {
         String name = new Formatter().format("%g",getLookup().lookup(NonLinearParameter.class).getStart()).toString();
+        if(getLookup().lookup(NonLinearParameter.class).isFixed()==null){
+            getLookup().lookup(NonLinearParameter.class).setFixed(false);
+        }
         if (getLookup().lookup(NonLinearParameter.class).isFixed()){
             name = name + " (f)";
         }

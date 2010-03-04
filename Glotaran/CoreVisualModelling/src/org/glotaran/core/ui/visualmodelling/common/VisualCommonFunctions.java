@@ -94,7 +94,10 @@ public class VisualCommonFunctions {
             if (evt.getPropertyName().equalsIgnoreCase("Number of components")) {
                 if ((Integer) evt.getNewValue() > (Integer) evt.getOldValue()) {
                     for (int i = 0; i < (Integer) evt.getNewValue() - (Integer) evt.getOldValue(); i++) {
-                        model.getKinparPanel().getKinpar().add(new KinPar());
+                        KinPar newkp = new KinPar();
+                        newkp.setFixed(Boolean.FALSE);
+                        newkp.setConstrained(Boolean.FALSE);
+                        model.getKinparPanel().getKinpar().add(newkp);
                     }
                 } else {
                     for (int i = 0; i < (Integer) evt.getOldValue() - (Integer) evt.getNewValue(); i++) {
@@ -145,48 +148,19 @@ public class VisualCommonFunctions {
                 model.getIrfparPanel().setMirf(Boolean.FALSE);
             }
             if (evt.getPropertyName().equalsIgnoreCase("SetIRFType")) {
-                EnumTypes.IRFTypes irfType = (IRFTypes) evt.getNewValue();
-                switch (irfType) {
-                    case GAUSSIAN: {
-                        model.getIrfparPanel().setMirf(Boolean.FALSE);
-                        if (model.getIrfparPanel().getIrf() != null) {
-                            model.getIrfparPanel().getIrf().clear();
-                            model.getIrfparPanel().getFixed().clear();
-                        }
-                        for (int i = 0; i < 2; i++) {
-                            model.getIrfparPanel().getIrf().add(
-                                    ((ParametersSubNode) ((IrfParametersNode) evt.getSource()).getChildren().getNodes()[i]).getDataObj().getStart());
-                            model.getIrfparPanel().getFixed().add(
-                                    ((ParametersSubNode) ((IrfParametersNode) evt.getSource()).getChildren().getNodes()[i]).getDataObj().isFixed());
-                        }
-                        break;
-                    }
-                    case DOUBLE_GAUSSIAN: {
-                        model.getIrfparPanel().setMirf(Boolean.FALSE);
-                        if (model.getIrfparPanel().getIrf() != null) {
-                            model.getIrfparPanel().getIrf().clear();
-                            model.getIrfparPanel().getFixed().clear();
-                        }
-                        for (int i = 0; i < 4; i++) {
-                            model.getIrfparPanel().getIrf().add(
-                                    ((ParametersSubNode) ((IrfParametersNode) evt.getSource()).getChildren().getNodes()[i]).getDataObj().getStart());
-                            model.getIrfparPanel().getFixed().add(
-                                    ((ParametersSubNode) ((IrfParametersNode) evt.getSource()).getChildren().getNodes()[i]).getDataObj().isFixed());
-                        }
-                        break;
-                    }
-                    case MEASURED_IRF: {
-                        model.getIrfparPanel().setMirf(Boolean.TRUE);
-                        //todo finish measured IRF implementation
-                        break;
-                    }
-                }
+                setIrfType(model, evt, (IRFTypes)evt.getNewValue());
             }
 
             if (evt.getPropertyName().equalsIgnoreCase("start")) {
+                if (model.getIrfparPanel().getIrf().isEmpty()){
+                    setIrfType(model, evt, ((IrfParametersNode)evt.getSource()).getIRFType());
+                }
                 model.getIrfparPanel().getIrf().set((Integer) evt.getOldValue(), (Double) evt.getNewValue());
             }
             if (evt.getPropertyName().equalsIgnoreCase("fixed")) {
+                if (model.getIrfparPanel().getIrf().isEmpty()){
+                    setIrfType(model, evt, ((IrfParametersNode)evt.getSource()).getIRFType());
+                }
                 model.getIrfparPanel().getFixed().set((Integer) evt.getOldValue(), (Boolean) evt.getNewValue());
             }
             return true;
@@ -373,6 +347,45 @@ public class VisualCommonFunctions {
         return false;
     }
 
+    private static void setIrfType(Dat model, PropertyChangeEvent evt, EnumTypes.IRFTypes type){
+        EnumTypes.IRFTypes irfType = type;
+        switch (irfType) {
+            case GAUSSIAN: {
+                model.getIrfparPanel().setMirf(Boolean.FALSE);
+                if (model.getIrfparPanel().getIrf() != null) {
+                    model.getIrfparPanel().getIrf().clear();
+                    model.getIrfparPanel().getFixed().clear();
+                }
+                for (int i = 0; i < 2; i++) {
+                    model.getIrfparPanel().getIrf().add(
+                            ((ParametersSubNode) ((IrfParametersNode) evt.getSource()).getChildren().getNodes()[i]).getDataObj().getStart());
+                    model.getIrfparPanel().getFixed().add(
+                            ((ParametersSubNode) ((IrfParametersNode) evt.getSource()).getChildren().getNodes()[i]).getDataObj().isFixed());
+                }
+                break;
+            }
+            case DOUBLE_GAUSSIAN: {
+                model.getIrfparPanel().setMirf(Boolean.FALSE);
+                if (model.getIrfparPanel().getIrf() != null) {
+                    model.getIrfparPanel().getIrf().clear();
+                    model.getIrfparPanel().getFixed().clear();
+                }
+                for (int i = 0; i < 4; i++) {
+                    model.getIrfparPanel().getIrf().add(
+                            ((ParametersSubNode) ((IrfParametersNode) evt.getSource()).getChildren().getNodes()[i]).getDataObj().getStart());
+                    model.getIrfparPanel().getFixed().add(
+                            ((ParametersSubNode) ((IrfParametersNode) evt.getSource()).getChildren().getNodes()[i]).getDataObj().isFixed());
+                }
+                break;
+            }
+            case MEASURED_IRF: {
+                model.getIrfparPanel().setMirf(Boolean.TRUE);
+                //todo finish measured IRF implementation
+                break;
+            }
+        }
+
+    }
 
 
 

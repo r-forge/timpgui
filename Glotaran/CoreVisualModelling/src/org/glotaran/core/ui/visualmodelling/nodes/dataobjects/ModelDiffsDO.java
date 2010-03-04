@@ -28,7 +28,7 @@ public class ModelDiffsDO extends AbstractParameterDO {
 
     public ModelDiffsDO(int ind){
         what = null;
-        index = 1;
+        index = 0;
         dataset = ind;
         start = 0.0;
     }

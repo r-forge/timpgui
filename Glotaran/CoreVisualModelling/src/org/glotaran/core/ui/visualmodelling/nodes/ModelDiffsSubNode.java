@@ -234,6 +234,8 @@ public class ModelDiffsSubNode extends PropertiesAbstractNode implements Propert
         set.put(createFreParTypeProperty());
         set.put(createFreParProperty());
         sheet.put(set);
+        getDataObj().setWhat(paramNames[selectedType]);
+        getDataObj().setIndex(selectedType);
         return sheet;
     }
 

@@ -880,15 +880,19 @@ private void jTButBinActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
             tempSelectedPixels[i] = -1;
         }
     }
-    if (jTButBin.isSelected())
-        flimImage.setBinned(1);
-    else
-        flimImage.setBinned(0);
+    if (jTButBin.isSelected()) {
+            flimImage.setBinned(1);
+        }
+    else {
+            flimImage.setBinned(0);
+        }
     
-    if ( jTButAmpl.isSelected())
-        flimImage.buildIntMap(0);
-    else
-        flimImage.buildIntMap(1);
+    if ( jTButAmpl.isSelected()) {
+            flimImage.buildIntMap(0);
+        }
+    else {
+            flimImage.buildIntMap(1);
+        }
 
     dataset.SetIntenceImage(flimImage.getIntMap().clone());
 
@@ -909,10 +913,12 @@ private void jTButAmplActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIR
             tempSelectedPixels[i] = -1;
         }
     }
-    if ( jTButAmpl.isSelected())
-        flimImage.buildIntMap(0);
-    else
-        flimImage.buildIntMap(1);
+    if ( jTButAmpl.isSelected()) {
+            flimImage.buildIntMap(0);
+        }
+    else {
+            flimImage.buildIntMap(1);
+        }
 
     dataset.SetIntenceImage(flimImage.getIntMap().clone());
     for (int i=0; i<flimImage.getCurveNum(); i++){
@@ -1109,8 +1115,9 @@ private void jPanel4ComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIR
             }
         }
      }
-     for (int i = 0; i<flimImage.getCannelN(); i++)
-         seria.add(flimImage.getCannelW()*i, sumTrace[i]);
+     for (int i = 0; i<flimImage.getCannelN(); i++) {
+            seria.add(flimImage.getCannelW() * i, sumTrace[i]);
+        }
     trace.addSeries(seria);
     tracechart = ChartFactory.createXYLineChart(
         "Sum Trace",
@@ -1233,8 +1240,9 @@ private void jPanel4ComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIR
         tracechart.setBackgroundPaint(JFreeChart.DEFAULT_BACKGROUND_PAINT);
 //        tracechart.getXYPlot().setDomainZeroBaselineVisible(true);
         if (compleateSet){
-            for (int i = 0; i < flimImage.getCurveNum(); i++)
+            for (int i = 0; i < flimImage.getCurveNum(); i++) {
                 tracechart.getXYPlot().getRenderer().setSeriesVisible(i, false);
+            }
         }
         chpanSelectedTrace = new GraphPanel(tracechart);
         chpanSelectedTrace.setSize(jPSelectedTrace.getMaximumSize());

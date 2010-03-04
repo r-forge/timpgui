@@ -28,14 +28,14 @@ public class ModelDiffsDO extends AbstractParameterDO {
 
     public ModelDiffsDO(int ind){
         what = null;
-        index = 0;
+        index = 1;
         dataset = ind;
         start = 0.0;
     }
 
     public ModelDiffsDO(GtaModelDiffDO gtaDO) {
         what = gtaDO.getWhat();
-        index = gtaDO.getIndex();
+        index = gtaDO.getIndex()-1;
         dataset = gtaDO.getDataset();
         start = gtaDO.getStart();
     }

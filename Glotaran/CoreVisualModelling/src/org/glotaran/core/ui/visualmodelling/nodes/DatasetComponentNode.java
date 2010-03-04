@@ -33,7 +33,8 @@ public class DatasetComponentNode extends PropertiesAbstractNode implements Tran
     private final Image ICON = ImageUtilities.loadImage("org/glotaran/core/main/resources/doc.png", true);
     public static final DataFlavor DATA_FLAVOR = new DataFlavor(DatasetComponentNode.class, "DatasetComponentNode");
     private TimpDatasetNode tdn;
-    PropertyChangeListener propListner;
+    private PropertyChangeListener propListner;
+    private Integer group;
 
     public DatasetComponentNode(String name, Children children) {
         super(name, children);
@@ -44,11 +45,11 @@ public class DatasetComponentNode extends PropertiesAbstractNode implements Tran
         super(tdn.getDisplayName(), children);
         this.tdn = tdn;
         this.propListner = propListn;
-        Sheet sheet = Sheet.createDefault();
-        Sheet.Set set = Sheet.createPropertiesSet();
-        set.put(tdn.getPropertySets()[0].getProperties());
-        sheet.put(set);
-        setSheet(sheet);
+//        Sheet sheet = Sheet.createDefault();
+//        Sheet.Set set = Sheet.createPropertiesSet();
+//        set.put(tdn.getPropertySets()[0].getProperties());
+//        sheet.put(set);
+//        setSheet(sheet);
         addPropertyChangeListener(propListn);
     }
 
@@ -56,11 +57,11 @@ public class DatasetComponentNode extends PropertiesAbstractNode implements Tran
         super(tdn.getDisplayName(), children, lookup);
         this.tdn = tdn;
         this.propListner = propListn;
-        Sheet sheet = Sheet.createDefault();
-        Sheet.Set set = Sheet.createPropertiesSet();
-        set.put(tdn.getPropertySets()[0].getProperties());
-        sheet.put(set);
-        setSheet(sheet);
+//        Sheet sheet = Sheet.createDefault();
+//        Sheet.Set set = Sheet.createPropertiesSet();
+//        set.put(tdn.getPropertySets()[0].getProperties());
+//        sheet.put(set);
+//        setSheet(sheet);
         addPropertyChangeListener(propListn);
     }
 
@@ -79,10 +80,31 @@ public class DatasetComponentNode extends PropertiesAbstractNode implements Tran
         return this;
     }
 
-    @Override
-    public PropertySet[] getPropertySets() {
-        return getSheet().toArray();
-    }
+//    @Override
+//    protected Sheet createSheet() {
+//        Sheet sheet = Sheet.createDefault();
+//        Sheet.Set set = Sheet.createPropertiesSet();
+//        PropertySupport.Reflection<EnumTypes.IRFTypes> irfType = null;
+//        Property<String> name = null;
+//        Property<Boolean> sweep = null;
+//       try {
+//            irfType = new PropertySupport.Reflection<EnumTypes.IRFTypes>(this, EnumTypes.IRFTypes.class, "getIRFType", "setIRFType");
+//            irfType.setPropertyEditorClass(EnumPropertyEditor.class);
+//            name = new PropertySupport.Reflection<String>(this, String.class, "getDisplayName", null);
+//            sweep = new PropertySupport.Reflection<Boolean>(this, Boolean.class, "backSweep");
+//        } catch (NoSuchMethodException ex) {
+//            Exceptions.printStackTrace(ex);
+//        }
+//        irfType.setName(propNames[1]);
+//        name.setName(propNames[0]);
+//        sweep.setName(propNames[2]);
+//
+//        set.put(name);
+//        set.put(irfType);
+//        set.put(sweep);
+//        sheet.put(set);
+//        return sheet;
+//    }
 
     @Override
     public PasteType getDropType(Transferable t, int action, int index) {        

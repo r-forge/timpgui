@@ -53,7 +53,7 @@ public class ModelDiffsDO extends AbstractParameterDO {
     }
 
     public void setIndex(Integer index) {
-        this.index = index;
+        this.index = index+1;
         fire("index", null, index);
     }
 

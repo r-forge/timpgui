@@ -107,11 +107,11 @@ public class IrfParametersNode extends PropertiesAbstractNode {
     protected Sheet createSheet() {
         Sheet sheet = Sheet.createDefault();
         Sheet.Set set = Sheet.createPropertiesSet();
-        PropertySupport.Reflection irfType = null;
+        PropertySupport.Reflection<EnumTypes.IRFTypes> irfType = null;
         Property<String> name = null;
         Property<Boolean> sweep = null;
        try {
-            irfType = new PropertySupport.Reflection(this, EnumTypes.IRFTypes.class, "getIRFType", "setIRFType");
+            irfType = new PropertySupport.Reflection<EnumTypes.IRFTypes>(this, EnumTypes.IRFTypes.class, "getIRFType", "setIRFType");
             irfType.setPropertyEditorClass(EnumPropertyEditor.class);
             name = new PropertySupport.Reflection<String>(this, String.class, "getDisplayName", null);
             sweep = new PropertySupport.Reflection<Boolean>(this, Boolean.class, "backSweep");

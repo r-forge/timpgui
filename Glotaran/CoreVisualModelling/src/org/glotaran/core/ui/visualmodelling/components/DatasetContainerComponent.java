@@ -466,6 +466,7 @@ public class DatasetContainerComponent
                 }
             }
         }
+        
     }
 
     private void updateModelDiffsNodes(GtaModelDifferences modelDifferences) {

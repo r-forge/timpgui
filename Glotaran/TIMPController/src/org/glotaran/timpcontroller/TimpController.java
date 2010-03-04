@@ -4,10 +4,10 @@
  */
 package org.glotaran.timpcontroller;
 
-import org.glotaran.core.interfaces.TimpControllerInterface;
 import Jama.Matrix;
 import java.util.ArrayList;
 import java.util.List;
+import org.glotaran.core.interfaces.TimpControllerInterface;
 import org.glotaran.core.models.structures.DatasetTimp;
 import org.glotaran.core.models.structures.TimpResultDataset;
 import org.glotaran.core.messages.CoreErrorMessages;
@@ -22,9 +22,9 @@ import org.rosuda.rengine.REngineConnectionFactory;
 public class TimpController implements TimpControllerInterface {
 
     private static ITwoWayConnection connection = null;
-    private static final String NAME_OF_RESULT_OBJECT = "fitResult";
     private ArrayList<String> initModelCall;
     private String fitModelCall;
+
 
     public TimpController() {
         if (connection==null) {
@@ -37,85 +37,36 @@ public class TimpController implements TimpControllerInterface {
     }
 
     public TimpResultDataset[] runAnalysis(DatasetTimp[] datasets, Tgm[] models, int iterations) {
-
-        TimpResultDataset[] result = null;
-        String[] listOfDatasets;
-        String[] listOfModels;
-        String modelType = null;
-        String options = null;
-
-        listOfDatasets = new String[datasets.length];
-        for (int i = 0; i < datasets.length; i++) {
-            DatasetTimp dataset = datasets[i];
-            listOfDatasets[i] = dataset.getDatasetName();
-            sendDataset(dataset, i);
-        }
-
-        listOfModels = new String[models.length];
-        for (int i = 0; i < models.length; i++) {
-            Tgm tgm = models[i];
-            listOfModels[i] = tgm.getDat().getModelName();
-            Boolean correctSend = sendModel(tgm, i);
-            if (correctSend==null || correctSend ==false) {
-                return null;
-            }
-        }
-        //TODO: check for model type
-        modelType = models[0].getDat().getModType();
-        options = getOptions(modelType, iterations);
-
-        result = fitModel(listOfDatasets, listOfModels, options);
-        return result;
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 
-    private TimpResultDataset[] fitModel(String[] listOfDatasets, String[] listOfModels, String optResult) {
-        TimpResultDataset[] timpResults = null;
+    public TimpResultDataset[] runAnalysis(DatasetTimp[] datasets, ArrayList<String> initModelCalls, String fitModelCall) {
+        
+        TimpResultDataset[] results = null;
         String cmd = null;
-        cmd = NAME_OF_RESULT_OBJECT + " <- fitModel(";
-        if (listOfDatasets != null) {
-            cmd = cmd.concat("list(");
-            for (int i = 0; i < listOfDatasets.length; i++) {
-                if (i > 0) {
-                    cmd = cmd + ",";
-                }
-                cmd = cmd.concat("dataset" + String.valueOf(i + 1));
-            }
-            cmd = cmd.concat(")");
+
+        for (int i = 0; i < datasets.length; i++) {
+            sendDataset(datasets[i], i);
         }
 
-        if (listOfModels != null) {
-            cmd = cmd.concat(",list(");
-            for (int i = 0; i < listOfModels.length; i++) {
-                if (i > 1) {
-                    cmd = cmd + ",";
-                }
-                cmd = cmd.concat("model" + String.valueOf(i + 1));
-            }
-            cmd = cmd.concat(")");
+        for (int i = 0; i < initModelCalls.size(); i++) {
+            sendModel(initModelCalls.get(i), i);
         }
 
-        if (optResult != null) {
-            cmd = cmd.concat(",");
-            cmd = cmd.concat(optResult);
-        }
-
-        cmd = cmd.concat(")");
-        addFitModelCall(cmd);
-        connection.voidEval("try("+cmd+")");
+        cmd = NAME_OF_RESULT_OBJECT + "<-" + fitModelCall;
+        connection.voidEval("try("+fitModelCall+")");
         //TODO: store this somewhere, possible as private variable
         if (getBool("exists(\""+NAME_OF_RESULT_OBJECT+"\")")) {
-        if (listOfDatasets != null) {
-            timpResults = new TimpResultDataset[listOfDatasets.length];
-            for (int i = 0; i < listOfDatasets.length; i++) {
-                timpResults[i] = getTimpResultDataset(listOfDatasets[i], i);
+            results = new TimpResultDataset[datasets.length];
+            for (int i = 0; i < datasets.length; i++) {
+                results[i] = getTimpResultDataset(i);
             }
             connection.voidEval("try(rm(list=ls()))");
             connection.voidEval("try(gc())");
+            //TODO: make sure this is possible
+            connection.close();
         }
-        } else {
-            return null;
-        }
-        return timpResults;
+        return results;
     }
 
     private Matrix getTempMatrix(String cmd) {
@@ -141,19 +92,15 @@ public class TimpController implements TimpControllerInterface {
         connection.eval("dim(psisim) <- c(nt, nl)");
 
 
-        connection.eval("dataset" + String.valueOf(index) + " <- dat(psi.df = psisim, x = x, nt = nt, x2 = x2, nl = nl, " +
+        connection.eval(NAME_OF_DATASET + String.valueOf(index) + " <- dat(psi.df = psisim, x = x, nt = nt, x2 = x2, nl = nl, " +
                 "inten = intenceIm)");
     }
 
-    private Boolean sendModel(Tgm tgm, int index) {
-        String nameOfModel, modelCall;
-        String modelString = InitModel.parseModel(tgm);
-        if (index++ < 2){
-            getInitModelCalls().clear();
-        }
-        nameOfModel = "model" + String.valueOf(index);
+    private Boolean sendModel(String modelString, int index) {
+        String nameOfModel, modelCall;        
+        nameOfModel = NAME_OF_MODEL + String.valueOf(index);
         modelCall = nameOfModel + " <- " + modelString;
-        addInitModelCall(modelCall);
+
         //TODO: remove this ugly try and catch, by checking if the model is valid before we send it to R
         try {
             connection.voidEval("try(" + modelCall + ")");
@@ -172,9 +119,9 @@ public class TimpController implements TimpControllerInterface {
         return result;
     }
 
-    private TimpResultDataset getTimpResultDataset(String datasetName, int datasetNumber) {
+    private TimpResultDataset getTimpResultDataset(int datasetNumber) {
 
-        String name = "dataset" + String.valueOf(datasetNumber);
+        String datasetName = "dataset" + String.valueOf(datasetNumber);
         datasetNumber++;
         TimpResultDataset result = new TimpResultDataset();
 
@@ -580,25 +527,6 @@ public class TimpController implements TimpControllerInterface {
 
     public void getVector(String cmd) {
         throw new UnsupportedOperationException("Not yet implemented");
-    }
-
-    public void addInitModelCall(String call) {
-        getInitModelCalls().add(call);
-    }
-
-    public void addFitModelCall(String call) {
-        this.fitModelCall = call;
-    }
-
-    public ArrayList<String> getInitModelCalls() {
-        if (initModelCall == null) {
-            initModelCall = new ArrayList<String>();
-        }
-        return this.initModelCall;
-    }
-
-    public String getFitModelCall() {
-        return fitModelCall;
     }
 
     public ArrayList<Matrix> doSingularValueDecomposition(Matrix matrix) {

@@ -12,6 +12,7 @@ import java.io.ObjectOutputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Formatter;
+import org.glotaran.analysis.support.InitModel;
 import org.glotaran.core.interfaces.TimpControllerInterface;
 import org.glotaran.core.main.nodes.dataobjects.TimpDatasetDataObject;
 import org.glotaran.core.main.project.TGProject;
@@ -34,7 +35,6 @@ import org.openide.filesystems.FileObject;
 import org.openide.filesystems.FileUtil;
 import org.openide.loaders.DataObject;
 import org.openide.loaders.DataObjectExistsException;
-import org.openide.loaders.DataObjectNotFoundException;
 import org.openide.util.Exceptions;
 import org.openide.util.Lookup;
 
@@ -46,7 +46,6 @@ public class AnalysisWorker implements Runnable {
 
     private int NO_OF_ITERATIONS = 0;
     private DatasetTimp[] datasets;
-    private Tgm[] models = new Tgm[1];
     private TimpResultDataset[] results = null;
     private GtaOutput output;
     private GtaDatasetContainer datasetContainer;
@@ -56,6 +55,12 @@ public class AnalysisWorker implements Runnable {
     private FileObject writeTo;
     private TGProject project;
     private TimpControllerInterface timpcontroller;
+    private ArrayList<String> modelCalls = new ArrayList<String>();
+    private String fitModelCall;
+    private static final String NAME_OF_RESULT_OBJECT = "fitResult";
+    public final static String NAME_OF_DATASET = "gtaDataset";
+    public final static String NAME_OF_MODEL = "gtaModel";
+    private int numIterations;
 
     public AnalysisWorker() {
         //TODO: implement constructor
@@ -101,6 +106,26 @@ public class AnalysisWorker implements Runnable {
         return datasets;
     }
 
+    private Tgm getModel(String filename, String relativeFilePath) {
+        TgmDataObject tgmDO;
+        Tgm model = null;
+        String newPath = project.getProjectDirectory() + File.separator + relativeFilePath + File.separator + filename;
+        try {
+            File datasetF = new File(newPath);
+            FileObject datasetFO = FileUtil.createData(datasetF);
+            DataObject datasetDO = DataObject.find(datasetFO);
+            if (datasetDO != null) {
+                tgmDO = (TgmDataObject) datasetDO;
+                model = tgmDO.getTgm();
+            }
+        } catch (DataObjectExistsException ex) {
+            Exceptions.printStackTrace(ex);
+        } catch (IOException ex) {
+            Exceptions.printStackTrace(ex);
+        }
+        return model;
+    }
+
     private Tgm getModel(GtaModelReference gtaModelReference) {
         TgmDataObject tgmDO = null;
         Tgm model = null;
@@ -121,7 +146,7 @@ public class AnalysisWorker implements Runnable {
         return model;
     }
 
-    private boolean isValidAnalysis(DatasetTimp[] datasets, Tgm[] models) {
+    private boolean isValidAnalysis(DatasetTimp[] datasets, Tgm tgm) {
         String feedback = null;
         boolean run = true;
         for (DatasetTimp dataset : datasets) {
@@ -129,7 +154,7 @@ public class AnalysisWorker implements Runnable {
                 run = false;
             }
         }
-        for (Tgm tgm : models) {
+
             if (!tgm.getDat().getIrfparPanel().isMirf()) {
                 if (tgm.getDat().getIrfparPanel().getParmu() != null || tgm.getDat().getIrfparPanel().getPartau() != null) {
                     if (!tgm.getDat().getIrfparPanel().getParmu().isEmpty() || !tgm.getDat().getIrfparPanel().getPartau().isEmpty()) {
@@ -142,7 +167,7 @@ public class AnalysisWorker implements Runnable {
                 }
             }
 
-        }
+        
         if (feedback != null) {
             NotifyDescriptor errorMessage = new NotifyDescriptor.Exception(
                     new Exception("Invalid Model: \n"
@@ -170,12 +195,12 @@ public class AnalysisWorker implements Runnable {
         outputWriter.newLine();
         outputWriter.newLine();
         outputWriter.append("Used model(s): ");
-        for (int j = 0; j < models.length; j++) {
-            if (j > 0) {
-                outputWriter.append(", ");
-            }
-            outputWriter.append(models[j].getDat().getModelName());
-        }
+//        for (int j = 0; j < models.length; j++) {
+//            if (j > 0) {
+//                outputWriter.append(", ");
+//            }
+//            outputWriter.append(models[j].getDat().getModelName());
+//        }
         outputWriter.newLine();
         outputWriter.newLine();
 
@@ -186,7 +211,7 @@ public class AnalysisWorker implements Runnable {
 
         outputWriter.append("R Call fot TIMP function initModel: ");
         outputWriter.newLine();
-        ArrayList<String> list = timpcontroller.getInitModelCalls();
+        ArrayList<String> list = modelCalls;
         for (String string : list) {
             outputWriter.append(string);
             outputWriter.newLine();
@@ -194,7 +219,7 @@ public class AnalysisWorker implements Runnable {
         outputWriter.newLine();
         outputWriter.append("R Call fot TIMP function fitModel: ");
         outputWriter.newLine();
-        outputWriter.write(timpcontroller.getFitModelCall());
+        outputWriter.write(fitModelCall);
         outputWriter.newLine();
         outputWriter.newLine();
 
@@ -254,22 +279,26 @@ public class AnalysisWorker implements Runnable {
     }
 
     public void run() {
-        String numIterations = "0";
-        NO_OF_ITERATIONS = Integer.parseInt(numIterations);
 
         if (project != null) {
+            if (!output.getIterations().isEmpty()) {
+                numIterations = Integer.parseInt(output.getIterations());
+            } else {
+                numIterations = NO_OF_ITERATIONS;
+            }
             if (output.getOutputPath() != null) {
                 String outputPath = project.getResultsFolder(true) + File.separator + output.getOutputPath();
                 resultsfolder = FileUtil.toFileObject(new File(outputPath));
 
                 datasets = getDatasets(datasetContainer);
-                models[0] = getModel(modelReference);
-                String modelDiffsCall = getModelDifferences(modelDifferences);
+                modelCalls.add(getModelCall(modelReference,0));
+                Tgm model = getModel(modelReference);
+                fitModelCall = getFitModelCall(datasets, modelCalls, modelDifferences, numIterations);
 
-                if (isValidAnalysis(datasets, models)) {
+                if (isValidAnalysis(datasets, model)) {
                     timpcontroller = Lookup.getDefault().lookup(TimpControllerInterface.class);
                     if (timpcontroller != null) {
-                        results = timpcontroller.runAnalysis(datasets, models, NO_OF_ITERATIONS);
+                        results = timpcontroller.runAnalysis(datasets, modelCalls, fitModelCall);
                     }
                 } else {
                     //TODO: CoreErrorMessages warning
@@ -281,8 +310,8 @@ public class AnalysisWorker implements Runnable {
                         TimpResultDataset timpResultDataset = results[i];
                         timpResultDataset.setType(datasets[i].getType());
 
-                        if (models[0].getDat().getIrfparPanel().getLamda() != null) {
-                            timpResultDataset.setLamdac(models[0].getDat().getIrfparPanel().getLamda());
+                        if (model.getDat().getIrfparPanel().getLamda() != null) {
+                            timpResultDataset.setLamdac(model.getDat().getIrfparPanel().getLamda());
                         }
 
                         if (datasets[i].getType().equalsIgnoreCase("flim")) {
@@ -312,7 +341,84 @@ public class AnalysisWorker implements Runnable {
         }
     }
 
-    private String getModelDifferences(GtaModelDifferences modelDifferences) {
+    private ArrayList<String> getModelCalls(ArrayList<GtaModelReference> modelReferences) {
+        ArrayList<String> result = new ArrayList<String>();
+        for (int i = 0; i < modelReferences.size(); i++) {
+            GtaModelReference ref = modelReferences.get(i);
+            result.add(getModelCall(ref,i));
+        }
+        return result;
+    }
+
+    private String getModelCall(GtaModelReference modelReference, int i) {
+        String result;
+        Tgm tgm = getModel(modelReference);
+        String modelCall = InitModel.parseModel(tgm);
+        result = NAME_OF_MODEL + (i+1) +" <- " + modelCall;
+        return result;
+    }
+
+    private String getFitModelCall(DatasetTimp[] datasets, ArrayList<String> modelCalls, GtaModelDifferences modelDifferences, int numIterations) {
+        String result = "";
+
+        ArrayList<String> listOfDatasets = new ArrayList<String>();
+        for (int i = 0; i < datasets.length; i++) {
+            listOfDatasets.add(NAME_OF_DATASET + (i + 1));
+        }
+
+        ArrayList<String> listOfModels = new ArrayList<String>();
+        for (int i = 0; i < modelCalls.size(); i++) {
+            listOfModels.add(NAME_OF_MODEL + (i + 1));
+        }
+
+        result = NAME_OF_RESULT_OBJECT + " <- fitModel(";
+
+        if (listOfDatasets != null) {
+            result = result.concat("data = list(");
+            for (int i = 0; i < listOfDatasets.size(); i++) {
+                if (i > 0) {
+                    result = result + ",";
+                }
+                result = result.concat(listOfDatasets.get(i));
+            }
+            result = result.concat(")");
+        }
+
+        if (listOfModels != null) {
+            result = result.concat(",modspec = list(");
+            for (int i = 0; i < listOfModels.size(); i++) {
+                if (i > 0) {
+                    result = result + ",";
+                }
+                result = result.concat(listOfModels.get(i));
+            }
+            result = result.concat(")");
+        }
+
+        String modeldiffsCall = getModelDifferences(modelDifferences);
+        if (!modeldiffsCall.isEmpty()) {
+            result = result.concat(",");
+            result = result.concat(modeldiffsCall);
+        }
+
+        String optResult = getOptResult("kin", numIterations);
+        if (!optResult.isEmpty()) {
+            result = result.concat(",");
+            result = result.concat(optResult);
+        }
+
+        result = result.concat(")");
+        return result;
+    }
+
+    private String getOptResult(String modelType, int iterations) {
+        String result = "opt = " + modelType + "opt("
+                + "iter = " + String.valueOf(iterations)
+                + ", plot=FALSE)";
+        return result;
+    }
+
+    public String getModelDifferences(GtaModelDifferences modelDifferences) {
         String result = "";
 
         //TODO: implement LinkCLP
@@ -320,53 +426,76 @@ public class AnalysisWorker implements Runnable {
         if (modelDifferences != null) {
             //Fill in the "linkcpl" parameter
             for (GtaLinkCLP linkCLP : modelDifferences.getLinkCLP()) {
-                if (linkCLP != null) {
-                    result = result + "linkclp = list(";
-                    result = result + ")";
-                }
+                result = result + getModelDiffsLinkCLP(linkCLP);
+
             }
 
-            //Fill in the "free" parameter
             for (GtaModelDiffContainer diffContainer : modelDifferences.getDifferences()) {
-                if (diffContainer != null) {
-                    for (int i = 0; i < diffContainer.getFree().size(); i++) {
-                        GtaModelDiffDO modelDiffDO = diffContainer.getFree().get(i);
-                        if (modelDiffDO != null) {
-                            if (i > 0 && i < diffContainer.getFree().size()) {
-                                result = result + ",";
-                            } else {
-                                result = "free = list(";
-                            }
-                            result = result
-                                    + "list(what = \"" + modelDiffDO.getWhat() + "\""
-                                    + "ind = " + modelDiffDO.getIndex() + ""
-                                    + "dataset = " + modelDiffDO.getDataset() + ""
-                                    + "start = " + modelDiffDO.getStart() + ")";
-                        }
-                    }
-                }
+                result = result + getModelDiffsFree(diffContainer);
             }
 
             //Fill in the "change" parameter
             for (GtaModelDiffContainer diffContainer : modelDifferences.getDifferences()) {
-                if (diffContainer != null) {
-                    GtaChangesModel changes = diffContainer.getChanges();
-                    String fileName = changes.getFilename();
-                    String pathName = changes.getPath();
-                    String projectPath = project.getProjectDirectory().getPath();
-                    FileObject changesFO = FileUtil.toFileObject(new File(projectPath + File.separator + pathName + File.separator + fileName));
-                    try {
-                        DataObject dataObj = DataObject.find(changesFO);
-                        if (dataObj instanceof TgmDataObject) {
-                            Tgm tgm = ((TgmDataObject)dataObj).getTgm();
-                        }
-                    } catch (DataObjectNotFoundException ex) {
-                        Exceptions.printStackTrace(ex);
-                    }
-
-                }
+                result = result + getModelDiffsChange(diffContainer);
             }
         }
+        if (!result.isEmpty()) {
+            result = "modeldiffs = list(" + result + ")";
+        }
+        return result;
+    }
+
+    private String getModelDiffsFree(GtaModelDiffContainer diffContainer) {
+        String result = "";
+        //Fill in the "free" parameter
+        if (diffContainer != null) {
+            for (int i = 0; i < diffContainer.getFree().size(); i++) {
+                GtaModelDiffDO modelDiffDO = diffContainer.getFree().get(i);
+                if (modelDiffDO != null) {
+                    if (i > 0 && i < diffContainer.getFree().size()) {
+                        result = result + ",";
+                    } else {
+                        result = "free = list(";
+                    }
+                    result = result
+                            + "list(what = \"" + modelDiffDO.getWhat() + "\","
+                            + "ind = " + modelDiffDO.getIndex() + ","
+                            + "dataset = " + modelDiffDO.getDataset() + ","
+                            + "start = " + modelDiffDO.getStart() + ")";
+                }
+                result = result + ")";
+            }
+        }
+        return result;
+    }
+
+    private String getModelDiffsLinkCLP(GtaLinkCLP linkCLP) {
+        String result = "";
+        if (linkCLP != null) {
+            result = result + "linkclp = list(";
+            result = result + ")";
+        }
+        return result;
+    }
+
+    private String getModelDiffsChange(GtaModelDiffContainer diffContainer) {
+        String result = "";
+
+        TgmDataObject tgmDO;
+        Tgm changesModel = null;
+        if (diffContainer != null) {
+            if (diffContainer.getChanges() != null) {
+                GtaChangesModel changes = diffContainer.getChanges();
+                String fileName = changes.getFilename();
+                String pathName = changes.getPath();
+                changesModel = getModel(fileName, pathName);
+            }
+
+        }
+//        if(!changesModel.getDat().getKinparPanel().getKinpar().isEmpty()) {
+//
+//        }
+
         return result;
     }
 }

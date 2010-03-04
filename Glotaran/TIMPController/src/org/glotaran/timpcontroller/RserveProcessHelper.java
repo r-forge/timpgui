@@ -9,7 +9,6 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import org.rosuda.REngine.Rserve.RConnection;
 
 /**
  *
@@ -17,7 +16,10 @@ import org.rosuda.REngine.Rserve.RConnection;
  */
 public class RserveProcessHelper {
 
-    /** shortcut to <code>launchRserve(cmd, "--no-save --slave", "--no-save --slave", false)</code> */
+    /** shortcut to <code>launchRserve(cmd, "--no-save --slave", "--no-save --slave", false)</code>
+     * @param cmd
+     * @return
+     */
     public static String[] generateRserveCommand(String cmd) {
         //return generateRserveCommand(cmd, "--no-save --slave", "--no-save --slave", false);
         return generateRserveCommand(cmd, "--no-save", "--no-save", false);
@@ -27,7 +29,8 @@ public class RserveProcessHelper {
     @param cmd command necessary to start R
     @param rargs arguments are are to be passed to R
     @param rsrvargs arguments to be passed to Rserve
-    @return <code>true</code> if Rserve is running or was successfully started, <code>false</code> otherwise.
+     * @param debug
+     * @return <code>true</code> if Rserve is running or was successfully started, <code>false</code> otherwise.
      */
     public static String[] generateRserveCommand(String cmd, String rargs, String rsrvargs, boolean debug) {
         String[] command;
@@ -42,7 +45,9 @@ public class RserveProcessHelper {
         return command;
     }
 
-    /** checks whether Rserve is running and if that's not the case it attempts to start it using the defaults for the platform where it is run on. This method is meant to be set-and-forget and cover most default setups. For special setups you may get more control over R with <<code>launchRserve</code> instead. */
+    /** checks whether Rserve is running and if that's not the case it attempts to start it using the defaults for the platform where it is run on. This method is meant to be set-and-forget and cover most default setups. For special setups you may get more control over R with <<code>launchRserve</code> instead.
+     * @return
+     */
     public static String[] checkLocalRserve() {
         String osname = System.getProperty("os.name");
         if (osname != null && osname.length() >= 7 && osname.substring(0, 7).equals("Windows")) {
@@ -77,26 +82,13 @@ public class RserveProcessHelper {
             return generateRserveCommand("/sw/bin/R");
         } else if (new File("/usr/common/bin/R").exists()) {
             return generateRserveCommand("/usr/common/bin/R");
-        } else if (new File("/usr/common/bin/R").exists()) {
-            return generateRserveCommand("/usr/common/bin/R");
+        } else if (new File("/usr/local/lib64/R/bin/R").exists()) {
+            return generateRserveCommand("/usr/local/lib/R/bin/R");
+        } else if (new File("/usr/lib64/R/bin/R").exists()) {
+            return generateRserveCommand("/usr/lib64/R/bin/R");
         } else {
             return null;
         }
-    }
-
-    /** check whether Rserve is currently running (on local machine and default port).
-    @return <code>true</code> if local Rserve instance is running, <code>false</code> otherwise
-     */
-    public static boolean isRserveRunning() {
-        try {
-            RConnection c = new RConnection();
-            System.out.println("Rserve is running.");
-            c.close();
-            return true;
-        } catch (Exception e) {
-            System.out.println("First connect try failed with: " + e.getMessage());
-        }
-        return false;
     }
 }
 

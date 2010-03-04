@@ -9,6 +9,7 @@ import java.io.IOException;
 import org.glotaran.core.messages.CoreErrorMessages;
 import org.glotaran.core.main.nodes.dataobjects.TgdDataObject;
 import org.glotaran.core.main.project.TGProject;
+import org.netbeans.api.project.FileOwnerQuery;
 import org.openide.loaders.DataNode;
 import org.openide.nodes.Node;
 import org.openide.util.ImageUtilities;
@@ -53,15 +54,7 @@ public class TgdDataNode extends DataNode {
     }
 
     public TGProject findProject(){
-        Node n = this;
-        while (n.getParentNode()!=null){
-            n = n.getParentNode();
-        }
-        try {
-            return ((TGProjectNode)n).getProject();
-        } catch (Exception e) {
-            CoreErrorMessages.projectFolderException();
-        }
-        return null;
+        return (TGProject) FileOwnerQuery.getOwner(obj.getPrimaryFile());
     }
+        
 }

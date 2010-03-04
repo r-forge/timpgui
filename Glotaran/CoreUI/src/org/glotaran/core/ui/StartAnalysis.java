@@ -193,20 +193,6 @@ public final class StartAnalysis implements ActionListener {
         output.append(String.valueOf(NO_OF_ITERATIONS));
         output.newLine();output.newLine();
 
-        output.append("R Call fot TIMP function initModel: ");
-        output.newLine();
-        ArrayList<String> list = controller.getInitModelCalls();
-        for (String string : list) {
-            output.append(string);
-            output.newLine();
-        }
-        output.newLine();
-        output.append("R Call fot TIMP function fitModel: ");
-        output.newLine();
-        output.write(controller.getFitModelCall());
-        output.newLine();
-        output.newLine();
-
         output.append("Final residual standard error: ");
         output.append((new Formatter().format("%g",results[0].getRms())).toString());
         output.newLine();output.newLine();

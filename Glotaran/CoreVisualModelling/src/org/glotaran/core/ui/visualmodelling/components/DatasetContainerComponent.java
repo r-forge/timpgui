@@ -35,6 +35,7 @@ import org.glotaran.core.ui.visualmodelling.nodes.ModelDiffsNode;
 import org.glotaran.core.ui.visualmodelling.nodes.PropertiesAbstractNode;
 import org.glotaran.core.ui.visualmodelling.widgets.DatasetContainerWidget;
 import org.glotaran.tgmfilesupport.TgmDataObject;
+import org.netbeans.api.project.FileOwnerQuery;
 import org.openide.explorer.ExplorerManager;
 import org.openide.explorer.ExplorerUtils;
 import org.openide.filesystems.FileObject;
@@ -327,7 +328,7 @@ public class DatasetContainerComponent
                     FileObject newTgmFile = schemaFolder.createData(newTgmFileName);
                     VisualCommonFunctions.createNewTgmFile(FileUtil.toFile(newTgmFile));
                     GtaChangesModel gtaChanges = new GtaChangesModel();
-                    gtaChanges.setPath(schemaFolder.getPath());
+                    gtaChanges.setPath(FileUtil.getRelativePath(FileOwnerQuery.getOwner(schemaFolder).getProjectDirectory(), schemaFolder));
                     gtaChanges.setFilename(newTgmFileName);
                     modelDifferences.getDifferences().get((Integer)evt.getOldValue()-1).setChanges(gtaChanges);
                 } catch (IOException ex) {

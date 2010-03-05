@@ -23,6 +23,7 @@ import org.glotaran.core.messages.CoreErrorMessages;
 import org.glotaran.core.models.gta.GtaChangesModel;
 import org.glotaran.core.models.gta.GtaDataset;
 import org.glotaran.core.models.gta.GtaDatasetContainer;
+import org.glotaran.core.models.gta.GtaLinkCLP;
 import org.glotaran.core.models.gta.GtaModelDiffContainer;
 import org.glotaran.core.models.gta.GtaModelDiffDO;
 import org.glotaran.core.models.gta.GtaModelDifferences;
@@ -335,6 +336,11 @@ public class DatasetContainerComponent
                     CoreErrorMessages.fileSaveError("newtgmfile");
                 }
 
+            }
+
+            if (evt.getPropertyName().equalsIgnoreCase("groupIndexChanged")){
+                modelDifferences.getLinkCLP().set((Integer)evt.getOldValue(), new GtaLinkCLP());
+                modelDifferences.getLinkCLP().get((Integer)evt.getOldValue()).setGroupNumber((Integer)evt.getNewValue());
             }
             firePropertyChange("modelChanged", null, null);
             return;

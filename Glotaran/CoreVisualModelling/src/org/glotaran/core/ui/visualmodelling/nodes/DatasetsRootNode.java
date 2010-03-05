@@ -49,6 +49,12 @@ public class DatasetsRootNode extends AbstractNode{
         return gtaDataset;
     }
 
+    public void updateChildrensProperties(){
+        for(Node child : getChildren().getNodes()){
+            ((DatasetComponentNode)child).updatePropSheet();
+        }
+    }
+
     @Override
     public PasteType getDropType(final Transferable t, int action, int index) {
         if (t.isDataFlavorSupported(TimpDatasetNode.DATA_FLAVOR)){
@@ -64,8 +70,8 @@ public class DatasetsRootNode extends AbstractNode{
                                     new Index.ArrayChildren(),
                                     Lookups.singleton(addedDataset),
                                     getContainerComponent())});
-                        
                         firePropertyChange("datasetAdded", null, addedDataset);
+                        updateChildrensProperties();
                     } catch (UnsupportedFlavorException exption) {
                         Exceptions.printStackTrace(exption);
                     }

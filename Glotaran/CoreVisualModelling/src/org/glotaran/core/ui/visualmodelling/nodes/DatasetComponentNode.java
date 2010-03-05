@@ -11,6 +11,7 @@ import java.awt.datatransfer.Transferable;
 import java.awt.datatransfer.UnsupportedFlavorException;
 import java.beans.PropertyChangeListener;
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import org.glotaran.core.messages.CoreErrorMessages;
 import org.glotaran.core.main.nodes.TimpDatasetNode;
 import org.glotaran.core.models.gta.GtaDataset;
@@ -34,7 +35,7 @@ public class DatasetComponentNode extends PropertiesAbstractNode implements Tran
     public static final DataFlavor DATA_FLAVOR = new DataFlavor(DatasetComponentNode.class, "DatasetComponentNode");
     private TimpDatasetNode tdn;
     private PropertyChangeListener propListner;
-    private Integer group;
+    private Integer group = 0;
 
     public DatasetComponentNode(String name, Children children) {
         super(name, children);
@@ -66,6 +67,30 @@ public class DatasetComponentNode extends PropertiesAbstractNode implements Tran
     }
 
     @Override
+    public String getDisplayName() {
+        String name = super.getDisplayName();
+        return name+" ["+String.valueOf(getGroup()+1)+"]";
+    }
+
+    public Integer getGroup() {
+        if (group >= getParentNode().getChildren().getNodesCount()){
+            setGroup(getParentNode().getChildren().getNodesCount()-1);
+//            CoreErrorMessages.selCorrChNum();
+        }
+        return group;
+    }
+
+    public void setGroup(Integer group) {
+        if (group < getParentNode().getChildren().getNodesCount()){
+            this.group = group;
+            fireNameChange(null, getDisplayName());
+            firePropertyChange("groupIndexChanged", getdatasetIndex(), this.group);
+        } else {
+            CoreErrorMessages.selCorrChNum();
+        }
+    }
+
+    @Override
     public Image getIcon(int type) {
         return ICON;
     }
@@ -80,31 +105,62 @@ public class DatasetComponentNode extends PropertiesAbstractNode implements Tran
         return this;
     }
 
-//    @Override
-//    protected Sheet createSheet() {
-//        Sheet sheet = Sheet.createDefault();
-//        Sheet.Set set = Sheet.createPropertiesSet();
-//        PropertySupport.Reflection<EnumTypes.IRFTypes> irfType = null;
-//        Property<String> name = null;
-//        Property<Boolean> sweep = null;
-//       try {
-//            irfType = new PropertySupport.Reflection<EnumTypes.IRFTypes>(this, EnumTypes.IRFTypes.class, "getIRFType", "setIRFType");
-//            irfType.setPropertyEditorClass(EnumPropertyEditor.class);
-//            name = new PropertySupport.Reflection<String>(this, String.class, "getDisplayName", null);
-//            sweep = new PropertySupport.Reflection<Boolean>(this, Boolean.class, "backSweep");
-//        } catch (NoSuchMethodException ex) {
-//            Exceptions.printStackTrace(ex);
-//        }
-//        irfType.setName(propNames[1]);
-//        name.setName(propNames[0]);
-//        sweep.setName(propNames[2]);
-//
-//        set.put(name);
-//        set.put(irfType);
-//        set.put(sweep);
-//        sheet.put(set);
-//        return sheet;
-//    }
+    @Override
+    protected Sheet createSheet() {
+        Sheet sheet = Sheet.createDefault();
+        Sheet.Set set = Sheet.createPropertiesSet();
+        set.put(createGroupProperty());
+        sheet.put(set);
+        return sheet;
+    }
+
+    private String[] craeteGroupList(){
+        int count = getParentNode().getChildren().getNodesCount();
+        String[] groupList = new String[count];
+        for (int i = 0; i < count; i++){
+            groupList[i] = "Group"+String.valueOf(i+1);
+        }
+        return groupList;
+    }
+
+    private int[] craeteIndList(){
+        int count = getParentNode().getChildren().getNodesCount();
+        int[] groupInd = new int[count];
+        for (int i = 0; i < count; i++){
+            groupInd[i] = i;
+        }
+        return groupInd;
+    }
+
+    private Property<Integer> createGroupProperty(){
+
+        Property<Integer> paramIndex = new Property<Integer>(Integer.class) {
+            @Override
+            public boolean canRead() {
+                return true;
+            }
+            @Override
+            public Integer getValue() throws IllegalAccessException, InvocationTargetException {
+                return getGroup();
+            }
+            @Override
+            public boolean canWrite() {
+                return true;
+            }
+            @Override
+            public void setValue(Integer val) throws IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+                setGroup(val);
+            }
+        };
+        paramIndex.setValue("intValues",craeteIndList());
+        paramIndex.setValue("stringKeys",craeteGroupList());
+        paramIndex.setName("GroupIndex");
+        return paramIndex;
+    }
+
+    public void updatePropSheet(){
+        setSheet(createSheet());
+    }
 
     @Override
     public PasteType getDropType(Transferable t, int action, int index) {        
@@ -217,8 +273,10 @@ public class DatasetComponentNode extends PropertiesAbstractNode implements Tran
 
     @Override
     public void destroy() throws IOException {
+        DatasetsRootNode parNode = (DatasetsRootNode) getParentNode();
         firePropertyChange("mainNodeDeleted", getdatasetIndex(), getLookup().lookup(GtaDataset.class));
         super.destroy();
+        parNode.updateChildrensProperties();
     }
 
     private boolean isConnected(){

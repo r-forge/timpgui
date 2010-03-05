@@ -342,7 +342,7 @@ public class DatasetContainerComponent
 
             if (evt.getPropertyName().equalsIgnoreCase("groupIndexChanged")){
 //                modelDifferences.getLinkCLP().set((Integer)evt.getOldValue(), new GtaLinkCLP());
-                modelDifferences.getLinkCLP().get((Integer)evt.getOldValue()).setGroupNumber((Integer)evt.getNewValue()-1);
+                modelDifferences.getLinkCLP().get((Integer)evt.getOldValue()).setGroupNumber((Integer)evt.getNewValue());
             }
             firePropertyChange("modelChanged", null, null);
             return;

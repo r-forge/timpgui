@@ -22,9 +22,6 @@ import org.rosuda.rengine.REngineConnectionFactory;
 public class TimpController implements TimpControllerInterface {
 
     private static ITwoWayConnection connection = null;
-    private ArrayList<String> initModelCall;
-    private String fitModelCall;
-
 
     public TimpController() {
         if (connection==null) {
@@ -43,7 +40,6 @@ public class TimpController implements TimpControllerInterface {
     public TimpResultDataset[] runAnalysis(DatasetTimp[] datasets, ArrayList<String> initModelCalls, String fitModelCall) {
         
         TimpResultDataset[] results = null;
-        String cmd = null;
 
         for (int i = 0; i < datasets.length; i++) {
             sendDataset(datasets[i], i);
@@ -53,9 +49,7 @@ public class TimpController implements TimpControllerInterface {
             sendModel(initModelCalls.get(i), i);
         }
 
-        cmd = NAME_OF_RESULT_OBJECT + "<-" + fitModelCall;
         connection.voidEval("try("+fitModelCall+")");
-        //TODO: store this somewhere, possible as private variable
         if (getBool("exists(\""+NAME_OF_RESULT_OBJECT+"\")")) {
             results = new TimpResultDataset[datasets.length];
             for (int i = 0; i < datasets.length; i++) {
@@ -64,7 +58,7 @@ public class TimpController implements TimpControllerInterface {
             connection.voidEval("try(rm(list=ls()))");
             connection.voidEval("try(gc())");
             //TODO: make sure this is possible
-            connection.close();
+            //connection.close();
         }
         return results;
     }

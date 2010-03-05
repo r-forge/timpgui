@@ -57,9 +57,6 @@ public class AnalysisWorker implements Runnable {
     private TimpControllerInterface timpcontroller;
     private ArrayList<String> modelCalls = new ArrayList<String>();
     private String fitModelCall;
-    private static final String NAME_OF_RESULT_OBJECT = "fitResult";
-    public final static String NAME_OF_DATASET = "gtaDataset";
-    public final static String NAME_OF_MODEL = "gtaModel";
     private int numIterations;
 
     public AnalysisWorker() {
@@ -155,19 +152,19 @@ public class AnalysisWorker implements Runnable {
             }
         }
 
-            if (!tgm.getDat().getIrfparPanel().isMirf()) {
-                if (tgm.getDat().getIrfparPanel().getParmu() != null || tgm.getDat().getIrfparPanel().getPartau() != null) {
-                    if (!tgm.getDat().getIrfparPanel().getParmu().isEmpty() || !tgm.getDat().getIrfparPanel().getPartau().isEmpty()) {
-                        Double test = tgm.getDat().getIrfparPanel().getLamda();
-                        if (test == null || test.isNaN()) {
-                            run = false;
-                            feedback = "Parmu or Partau specified but no center wavelength was specified.";
-                        }
+        if (!tgm.getDat().getIrfparPanel().isMirf()) {
+            if (tgm.getDat().getIrfparPanel().getParmu() != null || tgm.getDat().getIrfparPanel().getPartau() != null) {
+                if (!tgm.getDat().getIrfparPanel().getParmu().isEmpty() || !tgm.getDat().getIrfparPanel().getPartau().isEmpty()) {
+                    Double test = tgm.getDat().getIrfparPanel().getLamda();
+                    if (test == null || test.isNaN()) {
+                        run = false;
+                        feedback = "Parmu or Partau specified but no center wavelength was specified.";
                     }
                 }
             }
+        }
 
-        
+
         if (feedback != null) {
             NotifyDescriptor errorMessage = new NotifyDescriptor.Exception(
                     new Exception("Invalid Model: \n"
@@ -184,32 +181,32 @@ public class AnalysisWorker implements Runnable {
         //TODO: Complete the summary here:
         outputWriter.append("Summary");
         outputWriter.newLine();
-        outputWriter.append("Used dataset(s): ");
-        for (int j = 0; j < datasets.length; j++) {
-            DatasetTimp dataset = datasets[j];
-            if (j > 0) {
-                outputWriter.append(", ");
-            }
-            outputWriter.append(dataset.getDatasetName());
-        }
-        outputWriter.newLine();
-        outputWriter.newLine();
-        outputWriter.append("Used model(s): ");
+//        outputWriter.append("Used dataset(s): ");
+//        for (int j = 0; j < datasets.length; j++) {
+//            DatasetTimp dataset = datasets[j];
+//            if (j > 0) {
+//                outputWriter.append(", ");
+//            }
+//            outputWriter.append(dataset.getDatasetName());
+//        }
+//        outputWriter.newLine();
+//        outputWriter.newLine();
+//        outputWriter.append("Used model(s): ");
 //        for (int j = 0; j < models.length; j++) {
 //            if (j > 0) {
 //                outputWriter.append(", ");
 //            }
 //            outputWriter.append(models[j].getDat().getModelName());
 //        }
-        outputWriter.newLine();
-        outputWriter.newLine();
+//        outputWriter.newLine();
+//        outputWriter.newLine();
 
         outputWriter.append("Number of iterations: ");
-        outputWriter.append(String.valueOf(NO_OF_ITERATIONS));
+        outputWriter.append(String.valueOf(numIterations));
         outputWriter.newLine();
         outputWriter.newLine();
 
-        outputWriter.append("R Call fot TIMP function initModel: ");
+        outputWriter.append("R Call for the TIMP function \"initModel\": ");
         outputWriter.newLine();
         ArrayList<String> list = modelCalls;
         for (String string : list) {
@@ -217,63 +214,71 @@ public class AnalysisWorker implements Runnable {
             outputWriter.newLine();
         }
         outputWriter.newLine();
-        outputWriter.append("R Call fot TIMP function fitModel: ");
+        outputWriter.append("R Call for the TIMP function \"fitModel\": ");
         outputWriter.newLine();
         outputWriter.write(fitModelCall);
         outputWriter.newLine();
         outputWriter.newLine();
 
-        outputWriter.append("Final residual standard error: ");
-        outputWriter.append((new Formatter().format("%g", results[0].getRms())).toString());
-        outputWriter.newLine();
-        outputWriter.newLine();
+        if (results != null) {
 
-        String[] slots = {"getKineticParameters", "getSpectralParameters", "getIrfpar", "getSpecdisppar", "getParmu", "getPartau", "getKinscal", "getPrel", "getJvec"};
-        String[] slotsName = {"Kinetic parameters", "Spectral parameters", "Irf parameters", "Specdisppar", "Parmu", "Partau", "Kinscal", "Prel", "J vector"};
-        double[] params = null;
+            outputWriter.append("Final residual standard error: ");
+            outputWriter.append((new Formatter().format("%g", results[0].getRms())).toString());
+            outputWriter.newLine();
+            outputWriter.newLine();
 
-        for (int k = 0; k < slots.length; k++) {
-            try {
+            String[] slots = {"getKineticParameters", "getSpectralParameters", "getIrfpar", "getSpecdisppar", "getParmu", "getPartau", "getKinscal", "getPrel", "getJvec"};
+            String[] slotsName = {"Kinetic parameters", "Spectral parameters", "Irf parameters", "Specdisppar", "Parmu", "Partau", "Kinscal", "Prel", "J vector"};
+            double[] params = null;
+
+            for (int k = 0; k < slots.length; k++) {
                 try {
-                    for (int i = 0; i < results.length; i++) {
-                        //TODO: verify the next line
-                        //params = (double[]) results[i].getClass().getMethod(slots[k], new Class[]{results[i].getClass().getClass()}).invoke(results[i], new Object[]{results});
-                        params = (double[]) results[i].getClass().getMethod(slots[k], null).invoke(results[i], null);
-                        if (params != null) {
+                    try {
+                        for (int i = 0; i < results.length; i++) {
+                            //TODO: verify the next line
+                            //params = (double[]) results[i].getClass().getMethod(slots[k], new Class[]{results[i].getClass().getClass()}).invoke(results[i], new Object[]{results});
+                            params = (double[]) results[i].getClass().getMethod(slots[k], null).invoke(results[i], null);
+                            if (params != null) {
 
-                            outputWriter.append("Estimated " + slotsName[k] + ": ");
-                            outputWriter.newLine();
-                            outputWriter.append("Dataset" + (i + 1) + ": ");
-                            for (int j = 0; j < params.length / 2; j++) {
-                                if (j > 0) {
-                                    outputWriter.append(", ");
+                                outputWriter.append("Estimated " + slotsName[k] + ": ");
+                                outputWriter.newLine();
+                                outputWriter.append("Dataset" + (i + 1) + ": ");
+                                for (int j = 0; j < params.length / 2; j++) {
+                                    if (j > 0) {
+                                        outputWriter.append(", ");
+                                    }
+                                    outputWriter.append((new Formatter().format("%g", params[j])).toString());
                                 }
-                                outputWriter.append((new Formatter().format("%g", params[j])).toString());
-                            }
-                            outputWriter.newLine();
-                            outputWriter.append("Standard errors: ");
-                            for (int j = 0; j < params.length / 2; j++) {
-                                if (j > 0) {
-                                    outputWriter.append(", ");
+                                outputWriter.newLine();
+                                outputWriter.append("Standard errors: ");
+                                for (int j = 0; j < params.length / 2; j++) {
+                                    if (j > 0) {
+                                        outputWriter.append(", ");
+                                    }
+                                    outputWriter.append((new Formatter().format("%g",
+                                            params[j + params.length / 2])).toString());
                                 }
-                                outputWriter.append((new Formatter().format("%g",
-                                        params[j + params.length / 2])).toString());
+                                outputWriter.newLine();
                             }
-                            outputWriter.newLine();
                         }
+                    } catch (IllegalAccessException ex) {
+                        Exceptions.printStackTrace(ex);
+                    } catch (IllegalArgumentException ex) {
+                        Exceptions.printStackTrace(ex);
+                    } catch (InvocationTargetException ex) {
+                        Exceptions.printStackTrace(ex);
                     }
-                } catch (IllegalAccessException ex) {
+                } catch (NoSuchMethodException ex) {
                     Exceptions.printStackTrace(ex);
-                } catch (IllegalArgumentException ex) {
-                    Exceptions.printStackTrace(ex);
-                } catch (InvocationTargetException ex) {
+                } catch (SecurityException ex) {
                     Exceptions.printStackTrace(ex);
                 }
-            } catch (NoSuchMethodException ex) {
-                Exceptions.printStackTrace(ex);
-            } catch (SecurityException ex) {
-                Exceptions.printStackTrace(ex);
             }
+        } else {
+            outputWriter.newLine();
+            outputWriter.append("Error: The analysis did not return valid results.");
+            outputWriter.newLine();
+            outputWriter.append("Try again with different parameters.");
         }
         outputWriter.close();
     }
@@ -291,7 +296,7 @@ public class AnalysisWorker implements Runnable {
                 resultsfolder = FileUtil.toFileObject(new File(outputPath));
 
                 datasets = getDatasets(datasetContainer);
-                modelCalls.add(getModelCall(modelReference,0));
+                modelCalls.add(getModelCall(modelReference, 0));
                 Tgm model = getModel(modelReference);
                 fitModelCall = getFitModelCall(datasets, modelCalls, modelDifferences, numIterations);
 
@@ -336,6 +341,12 @@ public class AnalysisWorker implements Runnable {
                         }
 
                     }
+                } else {
+                    try {
+                        writeSummary(resultsfolder, FileUtil.findFreeFileName(resultsfolder, resultsfolder.getName() + "_errorlog", "summary"));
+                    } catch (IOException ex) {
+                        Exceptions.printStackTrace(ex);
+                    }
                 }
             }
         }
@@ -345,7 +356,7 @@ public class AnalysisWorker implements Runnable {
         ArrayList<String> result = new ArrayList<String>();
         for (int i = 0; i < modelReferences.size(); i++) {
             GtaModelReference ref = modelReferences.get(i);
-            result.add(getModelCall(ref,i));
+            result.add(getModelCall(ref, i));
         }
         return result;
     }
@@ -354,7 +365,7 @@ public class AnalysisWorker implements Runnable {
         String result;
         Tgm tgm = getModel(modelReference);
         String modelCall = InitModel.parseModel(tgm);
-        result = NAME_OF_MODEL + (i+1) +" <- " + modelCall;
+        result = TimpControllerInterface.NAME_OF_MODEL + (i + 1) + " <- " + modelCall;
         return result;
     }
 
@@ -363,15 +374,14 @@ public class AnalysisWorker implements Runnable {
 
         ArrayList<String> listOfDatasets = new ArrayList<String>();
         for (int i = 0; i < datasets.length; i++) {
-            listOfDatasets.add(NAME_OF_DATASET + (i + 1));
+            listOfDatasets.add(TimpControllerInterface.NAME_OF_DATASET + (i + 1));
         }
 
         ArrayList<String> listOfModels = new ArrayList<String>();
         for (int i = 0; i < modelCalls.size(); i++) {
-            listOfModels.add(NAME_OF_MODEL + (i + 1));
+            listOfModels.add(TimpControllerInterface.NAME_OF_MODEL + (i + 1));
         }
-
-        result = NAME_OF_RESULT_OBJECT + " <- fitModel(";
+        result = TimpControllerInterface.NAME_OF_RESULT_OBJECT + " <- fitModel(";
 
         if (listOfDatasets != null) {
             result = result.concat("data = list(");
@@ -425,14 +435,10 @@ public class AnalysisWorker implements Runnable {
         //modelDifferences.getLinkCLP()
         if (modelDifferences != null) {
             //Fill in the "linkcpl" parameter
-            for (GtaLinkCLP linkCLP : modelDifferences.getLinkCLP()) {
-                result = result + getModelDiffsLinkCLP(linkCLP);
 
-            }
+            result = result + getModelDiffsLinkCLP(modelDifferences.getLinkCLP());
 
-            for (GtaModelDiffContainer diffContainer : modelDifferences.getDifferences()) {
-                result = result + getModelDiffsFree(diffContainer);
-            }
+            result = result + getModelDiffsFree(modelDifferences.getDifferences());
 
             //Fill in the "change" parameter
             for (GtaModelDiffContainer diffContainer : modelDifferences.getDifferences()) {
@@ -445,35 +451,61 @@ public class AnalysisWorker implements Runnable {
         return result;
     }
 
-    private String getModelDiffsFree(GtaModelDiffContainer diffContainer) {
+    private String getModelDiffsFree(java.util.List<GtaModelDiffContainer> diffContainers) {
         String result = "";
         //Fill in the "free" parameter
-        if (diffContainer != null) {
-            for (int i = 0; i < diffContainer.getFree().size(); i++) {
-                GtaModelDiffDO modelDiffDO = diffContainer.getFree().get(i);
-                if (modelDiffDO != null) {
-                    if (i > 0 && i < diffContainer.getFree().size()) {
-                        result = result + ",";
-                    } else {
-                        result = "free = list(";
+        for (GtaModelDiffContainer diffContainer : diffContainers) {
+            if (diffContainer != null) {
+                for (int i = 0; i < diffContainer.getFree().size(); i++) {
+                    GtaModelDiffDO modelDiffDO = diffContainer.getFree().get(i);
+                    if (modelDiffDO != null) {
+                        if (!result.isEmpty()) {
+                            result = result + ",";
+                        }
+                        result = result
+                                + "list(what = \"" + modelDiffDO.getWhat() + "\","
+                                + "ind = " + (modelDiffDO.getIndex() + 1) + ","
+                                + "dataset = " + modelDiffDO.getDataset() + ","
+                                + "start = " + modelDiffDO.getStart() + ")";
                     }
-                    result = result
-                            + "list(what = \"" + modelDiffDO.getWhat() + "\","
-                            + "ind = " + modelDiffDO.getIndex() + ","
-                            + "dataset = " + modelDiffDO.getDataset() + ","
-                            + "start = " + modelDiffDO.getStart() + ")";
                 }
-                result = result + ")";
             }
+        }
+        if (!result.isEmpty()) {
+            result = "free = list(" + result + ")";
         }
         return result;
     }
 
-    private String getModelDiffsLinkCLP(GtaLinkCLP linkCLP) {
+    private String getModelDiffsLinkCLP(java.util.List<GtaLinkCLP> gtaLinkCLPList) {
         String result = "";
-        if (linkCLP != null) {
-            result = result + "linkclp = list(";
-            result = result + ")";
+        if (gtaLinkCLPList != null) {
+            int total = gtaLinkCLPList.size();
+            String[] listOfCLP = new String[total];
+            for (int i = 0; i < listOfCLP.length; i++) {
+                listOfCLP[i] = "";
+            }
+            for (int i = 0; i < gtaLinkCLPList.size(); i++) {
+                int num = gtaLinkCLPList.get(i).getGroupNumber();
+                if (listOfCLP[i].isEmpty()) {
+                    listOfCLP[i] = listOfCLP[i] + String.valueOf(num);
+                } else {
+                    listOfCLP[i] = listOfCLP[i] + "," + String.valueOf(num);
+                }
+            }
+            String clp = "";
+            for (int i = 0; i < listOfCLP.length; i++) {
+                if (!listOfCLP[i].isEmpty()) {
+                    if (!clp.isEmpty()) {
+                        clp = clp + ',';
+                    }
+                    clp = clp + "c(" + listOfCLP[i] + ")";
+                }
+
+            }
+            if (!clp.isEmpty()) {
+                result = result + "linkclp = list(" + clp + ")";
+            }
         }
         return result;
     }

@@ -35,7 +35,7 @@ public class ModelDiffsSubNode extends PropertiesAbstractNode implements Propert
     private String[] paramValues = null;
     private int[] paramValInd = null;
     private Integer selectedType = new Integer(0);
-    private String[] paramNames = new String[]{"KinPar","IrfPar","ParMu","ParTau"};
+    private String[] paramNames = new String[]{"kinpar","irfpar","parmu","partau"};
 
     public ModelDiffsSubNode(ModelDiffsDO data){
         super("parameter",Children.LEAF, Lookups.singleton(data));

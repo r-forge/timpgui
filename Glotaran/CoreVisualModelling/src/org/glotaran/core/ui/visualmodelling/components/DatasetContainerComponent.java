@@ -285,6 +285,8 @@ public class DatasetContainerComponent
                 datasetContainer.getDatasets().add((GtaDataset)evt.getNewValue());
                 if (isConnected()){
                     modelDifferences.getDifferences().add(new GtaModelDiffContainer());
+                    modelDifferences.getLinkCLP().add(new GtaLinkCLP());
+                    modelDifferences.getLinkCLP().get(modelDifferences.getLinkCLP().size()-1).setGroupNumber(1);
                 }
             }
             firePropertyChange("modelChanged", null, null);
@@ -339,8 +341,8 @@ public class DatasetContainerComponent
             }
 
             if (evt.getPropertyName().equalsIgnoreCase("groupIndexChanged")){
-                modelDifferences.getLinkCLP().set((Integer)evt.getOldValue(), new GtaLinkCLP());
-                modelDifferences.getLinkCLP().get((Integer)evt.getOldValue()).setGroupNumber((Integer)evt.getNewValue());
+//                modelDifferences.getLinkCLP().set((Integer)evt.getOldValue(), new GtaLinkCLP());
+                modelDifferences.getLinkCLP().get((Integer)evt.getOldValue()).setGroupNumber((Integer)evt.getNewValue()-1);
             }
             firePropertyChange("modelChanged", null, null);
             return;

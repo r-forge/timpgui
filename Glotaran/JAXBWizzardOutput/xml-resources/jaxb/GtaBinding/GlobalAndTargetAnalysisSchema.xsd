@@ -71,8 +71,7 @@
     </xsd:complexType>
     <xsd:complexType name="GtaLinkCLP">
         <xsd:sequence>
-            <xsd:element name="from" type="xsd:int"/>
-            <xsd:element name="to" type="xsd:int"/>
+            <xsd:element name="groupNumber" type="xsd:int"/>
         </xsd:sequence>
     </xsd:complexType>
     <xsd:complexType name="GtaDatasetScaling">
@@ -127,6 +126,7 @@
         </xsd:complexType>
     </xsd:element>
 </xsd:schema>
+
 
 
 

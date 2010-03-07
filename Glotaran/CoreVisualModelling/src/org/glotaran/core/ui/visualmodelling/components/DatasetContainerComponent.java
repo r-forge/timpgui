@@ -362,6 +362,8 @@ public class DatasetContainerComponent
                             modelDifferences.getDifferences().add(new GtaModelDiffContainer());
                         }
                     }
+                } else {
+
                 }
             }
             firePropertyChange("modelChanged", null, null);
@@ -483,6 +485,11 @@ public class DatasetContainerComponent
             modelDifferences.getDifferences().size() : manager.getRootContext().getChildren().getNodesCount();
         Node[] datasets = manager.getRootContext().getChildren().getNodes();
         for (int i = 0; i< number; i++){
+            if (modelDifferences.getLinkCLP().size()<i+1){
+                modelDifferences.getLinkCLP().add(new GtaLinkCLP());
+                modelDifferences.getLinkCLP().get(i).setGroupNumber(1);
+            }
+            ((DatasetComponentNode)datasets[i]).setGroup(modelDifferences.getLinkCLP().get(i).getGroupNumber()-1);
             if (!modelDifferences.getDifferences().get(i).getFree().isEmpty()){    
                 datasets[i].getChildren().add(new Node[]{new ModelDiffsNode("FreeParameter", i, modelDifferences.getDifferences().get(i).getFree(), this)});
             }
@@ -496,6 +503,5 @@ public class DatasetContainerComponent
                 datasets[i].getChildren().add(new Node[]{new ModelDiffsChangeNode("ChangeParameter", i, modelDifferences.getDifferences().get(i).getChanges(), this)});
             }
         }
-       
     }
 }

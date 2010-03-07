@@ -19,6 +19,7 @@ import org.glotaran.core.ui.visualmodelling.palette.PaletteItem;
 import org.glotaran.core.ui.visualmodelling.palette.PaletteNode;
 import org.openide.nodes.Children;
 import org.openide.nodes.Node;
+import org.openide.nodes.PropertySupport;
 import org.openide.nodes.Sheet;
 import org.openide.util.Exceptions;
 import org.openide.util.ImageUtilities;
@@ -69,7 +70,10 @@ public class DatasetComponentNode extends PropertiesAbstractNode implements Tran
     @Override
     public String getDisplayName() {
         String name = super.getDisplayName();
-        return name+" ["+String.valueOf(getGroup()+1)+"]";
+        if (isConnected()){
+            return name+" ["+String.valueOf(getGroup()+1)+"]";
+        }
+        return name;
     }
 
     public Integer getGroup() {
@@ -109,7 +113,17 @@ public class DatasetComponentNode extends PropertiesAbstractNode implements Tran
     protected Sheet createSheet() {
         Sheet sheet = Sheet.createDefault();
         Sheet.Set set = Sheet.createPropertiesSet();
-        set.put(createGroupProperty());
+        Property<String> datasetNname= null;
+        datasetNname = new PropertySupport.ReadOnly<String>("name", String.class, "Name", "Name of the dataset") {
+            @Override
+            public String getValue() throws IllegalAccessException, InvocationTargetException {
+                return tdn.getDisplayName();
+            }
+        };
+        set.put(datasetNname);
+        if (isConnected()){
+            set.put(createGroupProperty());
+        }
         sheet.put(set);
         return sheet;
     }

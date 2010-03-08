@@ -46,6 +46,7 @@ import org.openide.nodes.Index;
 import org.openide.nodes.Node;
 import org.openide.util.Lookup;
 import org.openide.windows.WindowManager;
+import static java.lang.Math.floor;
 
 /**
  *
@@ -118,6 +119,8 @@ public class DatasetContainerComponent
         jBRemove = new javax.swing.JButton();
         jPDatasetsPanel = new javax.swing.JPanel();
         modelDiffsPanel = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
+        jTFThresh = new javax.swing.JTextField();
 
         setPreferredSize(new java.awt.Dimension(180, 240));
         setLayout(new java.awt.GridBagLayout());
@@ -203,19 +206,35 @@ public class DatasetContainerComponent
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.weighty = 0.7;
+        gridBagConstraints.weighty = 0.9;
         add(jPDatasetsPanel, gridBagConstraints);
 
         modelDiffsPanel.setBackground(new java.awt.Color(236, 255, 255));
         modelDiffsPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, org.openide.util.NbBundle.getMessage(DatasetContainerComponent.class, "DatasetContainerComponent.modelDiffsPanel.border.title"), javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION)); // NOI18N
         modelDiffsPanel.setPreferredSize(new java.awt.Dimension(180, 86));
+
+        jLabel1.setText(org.openide.util.NbBundle.getMessage(DatasetContainerComponent.class, "DatasetContainerComponent.jLabel1.text")); // NOI18N
+        modelDiffsPanel.add(jLabel1);
+
+        jTFThresh.setHorizontalAlignment(javax.swing.JTextField.TRAILING);
+        jTFThresh.setText(org.openide.util.NbBundle.getMessage(DatasetContainerComponent.class, "DatasetContainerComponent.jTFThresh.text")); // NOI18N
+        jTFThresh.setEnabled(false);
+        jTFThresh.setMinimumSize(new java.awt.Dimension(20, 19));
+        jTFThresh.setPreferredSize(new java.awt.Dimension(60, 19));
+        jTFThresh.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTFThreshActionPerformed(evt);
+            }
+        });
+        modelDiffsPanel.add(jTFThresh);
+
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.weighty = 0.3;
+        gridBagConstraints.weighty = 0.1;
         add(modelDiffsPanel, gridBagConstraints);
     }// </editor-fold>//GEN-END:initComponents
 
@@ -242,13 +261,28 @@ public class DatasetContainerComponent
 //        model.setModified(true);
 }//GEN-LAST:event_jBRemoveActionPerformed
 
+    private void jTFThreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTFThreshActionPerformed
+        Double thresh = null;
+        if (isConnected()) {
+            try {
+                thresh = Double.parseDouble(jTFThresh.getText());
+                modelDifferences.setThreshold(thresh);
+                firePropertyChange("modelChanged", null, null);
+            } catch (Exception e) {
+                CoreErrorMessages.numberFormatException();
+            }
+        }
+    }//GEN-LAST:event_jTFThreshActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jBRefreshModel;
     private javax.swing.JButton jBRemove;
     private javax.swing.JButton jBSaveModel;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPDatasetsPanel;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JTextField jTFThresh;
     private javax.swing.JPanel modelDiffsPanel;
     // End of variables declaration//GEN-END:variables
 
@@ -342,8 +376,7 @@ public class DatasetContainerComponent
             }
 
             if (evt.getPropertyName().equalsIgnoreCase("groupIndexChanged")){
-//                modelDifferences.getLinkCLP().set((Integer)evt.getOldValue(), new GtaLinkCLP());
-                modelDifferences.getLinkCLP().get((Integer)evt.getOldValue()).setGroupNumber((Integer)evt.getNewValue());
+                modelDifferences.getLinkCLP().get(((DatasetComponentNode)evt.getSource()).getdatasetIndex()-1).setGroupNumber((Integer)evt.getNewValue());
             }
             firePropertyChange("modelChanged", null, null);
             return;
@@ -363,6 +396,8 @@ public class DatasetContainerComponent
                             modelDifferences.getDifferences().add(new GtaModelDiffContainer());
                         }
                     }
+                    jTFThresh.setEnabled(true);
+                    jTFThresh.setText(String.valueOf(modelDifferences.getThreshold()));
                 } else {
                     DatasetsRootNode rootNode = (DatasetsRootNode) manager.getRootContext();
                     for (int i = 0; i < rootNode.getChildren().getNodesCount(); i++){
@@ -370,6 +405,7 @@ public class DatasetContainerComponent
                         datasetNode.getChildren().remove(datasetNode.getChildren().getNodes());
                         datasetNode.setGroup(1);
                         datasetNode.updatePropSheet();
+                        jTFThresh.setEnabled(false);
                     }
                 }
             }
@@ -429,24 +465,24 @@ public class DatasetContainerComponent
             }
             if (evt.getPropertyName().equalsIgnoreCase("start")){
                 if (sourceNode.getType().equals("FreeParameter")) {
-                    modelDifferences.getDifferences().get(datasetIndex).getFree().get((Integer)evt.getOldValue()).setStart((Double)evt.getNewValue());
+                    modelDifferences.getDifferences().get(datasetIndex).getFree().get((int)floor((Double)evt.getOldValue())).setStart((Double)evt.getNewValue());
                 }
             }
 
             if (evt.getPropertyName().equalsIgnoreCase("index")){
                 if (sourceNode.getType().equals("FreeParameter")) {
-                    modelDifferences.getDifferences().get(datasetIndex).getFree().get((Integer)evt.getOldValue()).setIndex((Integer)evt.getNewValue()+1);
+                    modelDifferences.getDifferences().get(datasetIndex).getFree().get((int)floor((Double)evt.getOldValue())).setIndex((Integer)evt.getNewValue()+1);
                 }
             }
 
             if (evt.getPropertyName().equalsIgnoreCase("what")){
                 if (sourceNode.getType().equals("FreeParameter")) {
-                    modelDifferences.getDifferences().get(datasetIndex).getFree().get((Integer)evt.getOldValue()).setWhat((String)evt.getNewValue());
+                    modelDifferences.getDifferences().get(datasetIndex).getFree().get((int)floor((Double)evt.getOldValue())).setWhat((String)evt.getNewValue());
                 }
             }
 
             if (evt.getPropertyName().equalsIgnoreCase("delete")){
-                int index = (Integer)evt.getOldValue();
+                int index = (int)floor((Double)evt.getOldValue());
                 if (sourceNode.getType().equals("FreeParameter")) {
                     modelDifferences.getDifferences().get(datasetIndex).getFree().remove(index);
                 }

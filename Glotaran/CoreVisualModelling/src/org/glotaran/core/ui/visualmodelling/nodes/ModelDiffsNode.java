@@ -34,7 +34,7 @@ public class ModelDiffsNode  extends PropertiesAbstractNode{
         super(type, new ModelDiffsParametersKeys(0));
         propListner = listn;
         datasetIndex = datasetInd;
-        addPropertyChangeListener(WeakListeners.propertyChange(propListner, this));
+        addPropertyChangeListener(propListner);
     }
 
     public ModelDiffsNode(String type, int datasetInd, List<GtaModelDiffDO> diffs, PropertyChangeListener listn ) {
@@ -45,7 +45,7 @@ public class ModelDiffsNode  extends PropertiesAbstractNode{
         for (int i = 0; i < diffs.size(); i++){
             childColection.addObj(new ModelDiffsDO(diffs.get(i)));
         }
-        addPropertyChangeListener(WeakListeners.propertyChange(propListner, this));
+        addPropertyChangeListener(propListner);
     }
 
     public ModelDiffsNode(String type, int datasetInd, List<GtaChangesModel> changes, DatasetContainerComponent aThis) {

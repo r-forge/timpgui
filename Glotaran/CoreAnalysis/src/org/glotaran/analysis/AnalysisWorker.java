@@ -438,9 +438,24 @@ public class AnalysisWorker implements Runnable {
         String result = "";
         String tempString = "";
         if (modelDifferences != null) {
-            result = result + getModelDiffsLinkCLP(modelDifferences.getLinkCLP());
+            if (modelDifferences.getThreshold()!=null){
+                if (modelDifferences.getThreshold()!=0){
+                    result = result + "thresh = " + String.valueOf(modelDifferences.getThreshold());
+                }
+            }
+
+            tempString = getModelDiffsLinkCLP(modelDifferences.getLinkCLP());
 
             tempString = getModelDiffsFree(modelDifferences.getDifferences());
+            if (!tempString.isEmpty()){
+                if (!result.isEmpty()){
+                    result = result + ", ";
+                }
+                result = result + tempString;
+            }
+            tempString = "";
+            tempString = getModelDiffsFree(modelDifferences.getDifferences());
+
             if (!tempString.isEmpty()){
                 if (!result.isEmpty()){
                     result = result + ", ";
@@ -473,7 +488,7 @@ public class AnalysisWorker implements Runnable {
                         }
                         result = result
                                 + "list(what = \"" + modelDiffDO.getWhat() + "\","
-                                + "ind = " + (modelDiffDO.getIndex() + 1) + ","
+                                + "ind = " + (modelDiffDO.getIndex()) + ","
                                 + "dataset = " + modelDiffDO.getDataset() + ","
                                 + "start = " + modelDiffDO.getStart() + ")";
                     }

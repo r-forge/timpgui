@@ -88,7 +88,7 @@ public class DatasetComponentNode extends PropertiesAbstractNode implements Tran
         if (group < getParentNode().getChildren().getNodesCount()){
             this.group = group;
             fireNameChange(null, getDisplayName());
-            firePropertyChange("groupIndexChanged", getdatasetIndex()-1, this.group+1);
+            firePropertyChange("groupIndexChanged", null, this.group+1);
 //            System.out.println(String.valueOf(group));
         } else {
             CoreErrorMessages.selCorrChNum();
@@ -149,6 +149,32 @@ public class DatasetComponentNode extends PropertiesAbstractNode implements Tran
 
     private Property<Integer> createGroupProperty(){
 
+        Property<Integer> paramIndex = new Property<Integer>(Integer.class) {
+            @Override
+            public boolean canRead() {
+                return true;
+            }
+            @Override
+            public Integer getValue() throws IllegalAccessException, InvocationTargetException {
+                return getGroup();
+            }
+            @Override
+            public boolean canWrite() {
+                return true;
+            }
+            @Override
+            public void setValue(Integer val) throws IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+                setGroup(val);
+            }
+        };
+        paramIndex.setValue("intValues",craeteIndList());
+        paramIndex.setValue("stringKeys",craeteGroupList());
+        paramIndex.setName("GroupIndex");
+        return paramIndex;
+    }
+
+    //TODO implement dscal property (only for datasets same group)
+    private Property<Integer> createDScalProperty(){
         Property<Integer> paramIndex = new Property<Integer>(Integer.class) {
             @Override
             public boolean canRead() {

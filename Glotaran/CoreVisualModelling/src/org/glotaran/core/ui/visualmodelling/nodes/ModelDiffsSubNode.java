@@ -247,6 +247,7 @@ public class ModelDiffsSubNode extends PropertiesAbstractNode implements Propert
             }
         }
         ((PropertiesAbstractNode) this.getParentNode()).fire(ind, evt);
+
     }
 
     @Override

@@ -363,7 +363,13 @@ public class DatasetContainerComponent
                         }
                     }
                 } else {
-
+                    DatasetsRootNode rootNode = (DatasetsRootNode) manager.getRootContext();
+                    for (int i = 0; i < rootNode.getChildren().getNodesCount(); i++){
+                        DatasetComponentNode datasetNode = (DatasetComponentNode) rootNode.getChildren().getNodes()[i];
+                        datasetNode.getChildren().remove(datasetNode.getChildren().getNodes());
+                        datasetNode.setGroup(1);
+                        datasetNode.updatePropSheet();
+                    }
                 }
             }
             firePropertyChange("modelChanged", null, null);
@@ -490,6 +496,7 @@ public class DatasetContainerComponent
                 modelDifferences.getLinkCLP().get(i).setGroupNumber(1);
             }
             ((DatasetComponentNode)datasets[i]).setGroup(modelDifferences.getLinkCLP().get(i).getGroupNumber()-1);
+            ((DatasetComponentNode)datasets[i]).updatePropSheet();
             if (!modelDifferences.getDifferences().get(i).getFree().isEmpty()){    
                 datasets[i].getChildren().add(new Node[]{new ModelDiffsNode("FreeParameter", i, modelDifferences.getDifferences().get(i).getFree(), this)});
             }

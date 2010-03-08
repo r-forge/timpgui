@@ -92,13 +92,13 @@ public class EdgeMenu implements PopupMenuProvider, ActionListener {
 
     private void removeConnection(){
         GtaConnection connection = (GtaConnection) scene.findObject(edge);
-        if (connection.getTargetType().equalsIgnoreCase(EnumTypes.ConnectionTypes.GTADATASETCONTAINER.toString())){
-            DatasetsRootNode rootNode = (DatasetsRootNode) ((DatasetContainerWidget)scene.findWidget(scene.getNodeForID(connection.getTargetID()))).getContainerComponent().getExplorerManager().getRootContext();
-            for (int i = 0; i < rootNode.getChildren().getNodesCount(); i++){
-                rootNode.getChildren().getNodes()[i].getChildren().remove(
-                        rootNode.getChildren().getNodes()[i].getChildren().getNodes());
-            }
-        }
+//        if (connection.getTargetType().equalsIgnoreCase(EnumTypes.ConnectionTypes.GTADATASETCONTAINER.toString())){
+//            DatasetsRootNode rootNode = (DatasetsRootNode) ((DatasetContainerWidget)scene.findWidget(scene.getNodeForID(connection.getTargetID()))).getContainerComponent().getExplorerManager().getRootContext();
+//            for (int i = 0; i < rootNode.getChildren().getNodesCount(); i++){
+//                rootNode.getChildren().getNodes()[i].getChildren().remove(
+//                        rootNode.getChildren().getNodes()[i].getChildren().getNodes());
+//            }
+//        }
         scene.removeEdge((GtaConnection) scene.findObject(edge));
     }
     

@@ -89,6 +89,7 @@ public class DatasetComponentNode extends PropertiesAbstractNode implements Tran
             this.group = group;
             fireNameChange(null, getDisplayName());
             firePropertyChange("groupIndexChanged", getdatasetIndex()-1, this.group+1);
+//            System.out.println(String.valueOf(group));
         } else {
             CoreErrorMessages.selCorrChNum();
         }

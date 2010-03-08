@@ -72,7 +72,7 @@ public class ModelContainer
 
     public ModelContainer(TgmDataObject object) {
         initComponents();
-        manager.setRootContext(new PropertiesAbstractNode("Model specification",container, lookup, this));//,ExplorerUtils.createLookup(manager, null)));
+        manager.setRootContext(new PropertiesAbstractNode(object.getName(),container, lookup, this));//,ExplorerUtils.createLookup(manager, null)));
         manager.addPropertyChangeListener(this);
         modelSpecificationView.addPropertyChangeListener(this);
         model = object;

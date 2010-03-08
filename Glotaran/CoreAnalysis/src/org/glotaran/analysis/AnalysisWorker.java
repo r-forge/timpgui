@@ -311,6 +311,13 @@ public class AnalysisWorker implements Runnable {
                 }
 
                 if (results != null) {
+                    String freeResultsFilename = FileUtil.findFreeFileName(resultsfolder, resultsfolder.getName() + "analysisSummary", "summary");
+                    try {
+                        writeSummary(resultsfolder, freeResultsFilename);
+                    } catch (IOException ex) {
+                        Exceptions.printStackTrace(ex);
+                    }
+
                     for (int i = 0; i < results.length; i++) {
                         TimpResultDataset timpResultDataset = results[i];
                         timpResultDataset.setType(datasets[i].getType());
@@ -335,7 +342,6 @@ public class AnalysisWorker implements Runnable {
                             ObjectOutputStream stream = new ObjectOutputStream(writeTo.getOutputStream());
                             stream.writeObject(timpResultDataset);
                             stream.close();
-                            writeSummary(resultsfolder, freeFilename);
                         } catch (IOException ex) {
                             Exceptions.printStackTrace(ex);
                         }
@@ -430,16 +436,19 @@ public class AnalysisWorker implements Runnable {
 
     public String getModelDifferences(GtaModelDifferences modelDifferences) {
         String result = "";
-
-        //TODO: implement LinkCLP
-        //modelDifferences.getLinkCLP()
+        String tempString = "";
         if (modelDifferences != null) {
-            //Fill in the "linkcpl" parameter
-
             result = result + getModelDiffsLinkCLP(modelDifferences.getLinkCLP());
 
-            result = result + getModelDiffsFree(modelDifferences.getDifferences());
-
+            tempString = getModelDiffsFree(modelDifferences.getDifferences());
+            if (!tempString.isEmpty()){
+                if (!result.isEmpty()){
+                    result = result + ", ";
+                }
+                result = result + tempString;
+            }
+            tempString = "";
+            
             //Fill in the "change" parameter
             for (GtaModelDiffContainer diffContainer : modelDifferences.getDifferences()) {
                 result = result + getModelDiffsChange(diffContainer);
@@ -486,11 +495,11 @@ public class AnalysisWorker implements Runnable {
                 listOfCLP[i] = "";
             }
             for (int i = 0; i < gtaLinkCLPList.size(); i++) {
-                int num = gtaLinkCLPList.get(i).getGroupNumber();
-                if (listOfCLP[i].isEmpty()) {
-                    listOfCLP[i] = listOfCLP[i] + String.valueOf(num);
+                int num = gtaLinkCLPList.get(i).getGroupNumber()-1;
+                if (listOfCLP[num].isEmpty()) {
+                    listOfCLP[num] = listOfCLP[num] + String.valueOf(i+1);
                 } else {
-                    listOfCLP[i] = listOfCLP[i] + "," + String.valueOf(num);
+                    listOfCLP[num] = listOfCLP[num] + "," + String.valueOf(i+1);
                 }
             }
             String clp = "";

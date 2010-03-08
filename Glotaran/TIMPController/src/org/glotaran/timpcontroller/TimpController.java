@@ -122,8 +122,8 @@ public class TimpController implements TimpControllerInterface {
         result.setDatasetName(datasetName);
         result.setSpectra(getCLP(NAME_OF_RESULT_OBJECT, datasetNumber));
         result.setSpectraErr(getCLP(NAME_OF_RESULT_OBJECT, true,datasetNumber));
-        result.setX(getdim1(NAME_OF_RESULT_OBJECT));
-        result.setX2(getdim2(NAME_OF_RESULT_OBJECT));
+        result.setX(getdim1(NAME_OF_RESULT_OBJECT, datasetNumber));
+        result.setX2(getdim2(NAME_OF_RESULT_OBJECT, datasetNumber));
         result.setResiduals(getResiduals(NAME_OF_RESULT_OBJECT, datasetNumber));
         result.setTraces(getData(NAME_OF_RESULT_OBJECT, datasetNumber)); //if weighted=TRUE then use 3rd argument
         result.setFittedTraces(getTraces(NAME_OF_RESULT_OBJECT, datasetNumber));
@@ -387,10 +387,18 @@ public class TimpController implements TimpControllerInterface {
         return connection.eval("getdim1(" + resultVariable + ")").asDoubleArray();
     }
 
+    public double[] getdim1(String resultVariable, int datasetIndex){
+        return connection.eval("getdim1(" + resultVariable + ", dataset = " + String.valueOf(datasetIndex) +")").asDoubleArray();
+    }
+
     public double[] getdim2(String resultVariable) {
         //getdim2(cmd)
         return connection.eval("getdim2(" + resultVariable + ")").asDoubleArray();
+    }
 
+    public double[] getdim2(String resultVariable, int datasetIndex) {
+        //getdim2(cmd)
+        return connection.eval("getdim2(" + resultVariable + ", dataset = " + String.valueOf(datasetIndex)  + ")").asDoubleArray();
     }
 
     public boolean existsInR(String varname) {

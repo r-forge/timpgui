@@ -138,9 +138,9 @@
             <description>Core Files</description>
             <file targetdir="$INSTALL_PATH" src="bin" override="true" />
             <file targetdir="$INSTALL_PATH" src="etc" override="true" />
-            <file targetdir="$INSTALL_PATH" src="ide11" override="true" />
-            <file targetdir="$INSTALL_PATH" src="java2" override="true" />
-            <file targetdir="$INSTALL_PATH" src="platform10" override="true" />
+            <file targetdir="$INSTALL_PATH" src="ide12" override="true" />
+            <file targetdir="$INSTALL_PATH" src="java3" override="true" />
+            <file targetdir="$INSTALL_PATH" src="platform11" override="true" />
             <file targetdir="$INSTALL_PATH" src="glotaran" override="true" />
             <file targetdir="$INSTALL_PATH" src="legal" override="true" />
             <file targetdir="$INSTALL_PATH" src="readme.html" override="true" />

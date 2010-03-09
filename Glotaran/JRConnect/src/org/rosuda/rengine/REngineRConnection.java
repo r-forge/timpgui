@@ -5,6 +5,7 @@ import java.net.SocketException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.rosuda.REngine.Rserve.RConnection;
+import org.rosuda.REngine.Rserve.RSession;
 import org.rosuda.REngine.Rserve.RserveException;
 import org.rosuda.irconnect.ARConnection;
 import org.rosuda.irconnect.IRConnection;
@@ -31,6 +32,20 @@ public class REngineRConnection extends ARConnection implements IRConnection {
 	
 	public void close() {
 		delegate.close();
+	}
+
+        /**
+         *
+         * @return
+         */
+        public RSession detach() {
+            RSession session = null;
+        try {
+            session = delegate.detach();
+        } catch (RserveException ex) {
+            Logger.getLogger(REngineRConnection.class.getName()).log(Level.SEVERE, null, ex);
+        }
+            return session;
 	}
 
 	public IREXP eval(final String query) {

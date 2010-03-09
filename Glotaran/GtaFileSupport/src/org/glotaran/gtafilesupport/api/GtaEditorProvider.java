@@ -7,7 +7,6 @@ package org.glotaran.gtafilesupport.api;
 
 
 import org.glotaran.gtafilesupport.GtaDataObject;
-import org.openide.loaders.MultiDataObject.Entry;
 import org.openide.windows.CloneableTopComponent;
 
 

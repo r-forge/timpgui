@@ -22,18 +22,19 @@ import org.netbeans.api.visual.model.ObjectState;
 import org.openide.util.NbBundle;
 import org.openide.windows.TopComponent;
 import org.openide.windows.WindowManager;
-//import org.openide.util.ImageUtilities;
-import org.netbeans.api.settings.ConvertAsProperties;
 import org.netbeans.api.visual.model.ObjectSceneEventType;
 import org.netbeans.api.visual.model.ObjectSceneListener;
+import org.openide.explorer.propertysheet.PropertyPanel;
+import org.openide.nodes.Node;
 import org.openide.util.lookup.InstanceContent;
 import org.openide.util.lookup.Lookups;
 import org.openide.windows.CloneableTopComponent;
 
+import org.openide.nodes.NodeOperation;
+
 /**
  * Top component which displays something.
  */
-@ConvertAsProperties(dtd = "-//org.glotaran.core.ui.visualmodelling//VisualModelling//EN",autostore = false)
 final public class VisualModellingTopComponent extends CloneableTopComponent implements ObjectSceneListener {
 
     private static VisualModellingTopComponent instance;
@@ -55,7 +56,6 @@ final public class VisualModellingTopComponent extends CloneableTopComponent imp
         add(scene.createSatelliteView(), BorderLayout.WEST);
         setFocusable(true);
         setFocusTraversalKeysEnabled(false);
-
     }
 
     public VisualModellingTopComponent(GtaDataObject dobj) {
@@ -74,6 +74,11 @@ final public class VisualModellingTopComponent extends CloneableTopComponent imp
         ObjectSceneEventType.OBJECT_ADDED,
         ObjectSceneEventType.OBJECT_REMOVED);
         associateLookup(Lookups.fixed(new Object[]{PaletteSupport.createPalette()}));
+        TopComponent t = WindowManager.getDefault().findTopComponent("properties"); // NOI18N
+        if(null != t) {
+            t.requestVisible();
+            t.open();
+        }
     }
 
     /** This method is called from within the constructor to
@@ -128,6 +133,8 @@ final public class VisualModellingTopComponent extends CloneableTopComponent imp
 
     @Override
     public int getPersistenceType() {
+        // TODO changed to PERSISTENCE_ONLY_OPENED once componentOpened() and
+        // componentClosed() are implemented.
         return TopComponent.PERSISTENCE_NEVER;//  PERSISTENCE_ONLY_OPENED;
     }
 

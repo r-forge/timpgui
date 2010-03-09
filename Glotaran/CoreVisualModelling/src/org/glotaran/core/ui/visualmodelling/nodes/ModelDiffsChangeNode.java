@@ -37,6 +37,7 @@ public class ModelDiffsChangeNode extends PropertiesAbstractNode{
     private final Image CHANGE_ICON = ImageUtilities.loadImage("org/glotaran/core/ui/visualmodelling/resources/ChageParam_16.png", true);
     private PropertyChangeListener propListner;
     private int datasetIndex;
+    private FileObject parentFolder = null;
 
     public ModelDiffsChangeNode(String type, PropertyChangeListener listn , int datasetInd){
         super(type, new Index.ArrayChildren());
@@ -45,10 +46,11 @@ public class ModelDiffsChangeNode extends PropertiesAbstractNode{
         addPropertyChangeListener(WeakListeners.propertyChange(propListner, this));
     }
 
-    public ModelDiffsChangeNode(String type, int datasetInd, GtaChangesModel changes, PropertyChangeListener listn) {
+    public ModelDiffsChangeNode(String type, int datasetInd, GtaChangesModel changes, FileObject schemaFolder, PropertyChangeListener listn) {
         super(type, new Index.ArrayChildren());
         propListner = listn;
         datasetIndex = datasetInd+1;
+        parentFolder = schemaFolder;
         updateChangesNodes(changes);
         addPropertyChangeListener(WeakListeners.propertyChange(propListner, this));
     }
@@ -174,7 +176,15 @@ public class ModelDiffsChangeNode extends PropertiesAbstractNode{
     }
 
     private void updateChangesNodes(GtaChangesModel changes){
-        FileObject tgmFO = FileUtil.toFileObject(new File(changes.getPath()+File.separator +changes.getFilename()));
+        String pathToSchemaFolder;
+        if (parentFolder!=null) {
+          pathToSchemaFolder = parentFolder.getPath();
+        } else if(getParentNode() != null) {
+          pathToSchemaFolder = ((DatasetsRootNode)getParentNode().getParentNode()).getContainerComponent().getSchemaFolder().getPath();
+        } else {
+            pathToSchemaFolder = "";
+        }
+        FileObject tgmFO = FileUtil.toFileObject(new File(pathToSchemaFolder + File.separator + changes.getFilename()));
         Dat tgmDat = null;
         TgmDataObject tgmDO = null;
         if (tgmFO!=null){

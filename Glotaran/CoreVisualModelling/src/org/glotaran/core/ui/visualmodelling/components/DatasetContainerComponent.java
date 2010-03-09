@@ -523,6 +523,10 @@ public class DatasetContainerComponent
         
     }
 
+    public FileObject getSchemaFolder() {
+        return schemaFolder;
+    }
+
     private void updateModelDiffsNodes(GtaModelDifferences modelDifferences) {
         int number = manager.getRootContext().getChildren().getNodesCount() > modelDifferences.getDifferences().size() ?
             modelDifferences.getDifferences().size() : manager.getRootContext().getChildren().getNodesCount();
@@ -544,7 +548,7 @@ public class DatasetContainerComponent
                 datasets[i].getChildren().add(new Node[]{new ModelDiffsNode("RemoveParameter", i, modelDifferences.getDifferences().get(i).getRemove(), this)});
             }
             if (modelDifferences.getDifferences().get(i).getChanges()!=null){
-                datasets[i].getChildren().add(new Node[]{new ModelDiffsChangeNode("ChangeParameter", i, modelDifferences.getDifferences().get(i).getChanges(), this)});
+                datasets[i].getChildren().add(new Node[]{new ModelDiffsChangeNode("ChangeParameter", i, modelDifferences.getDifferences().get(i).getChanges(), schemaFolder, this)});
             }
         }
     }

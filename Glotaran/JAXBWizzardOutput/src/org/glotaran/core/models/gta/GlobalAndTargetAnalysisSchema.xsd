@@ -76,9 +76,8 @@
     </xsd:complexType>
     <xsd:complexType name="GtaDatasetScaling">
         <xsd:sequence>
-            <xsd:element name="from" type="xsd:int"/>
-            <xsd:element name="to" type="xsd:int"/>
-            <xsd:element name="value" type="xsd:double"/>
+            <xsd:element name="value" type="xsd:double" nillable="true"/>
+            <xsd:element name="enabled" type="xsd:boolean" nillable="true"></xsd:element>
         </xsd:sequence>
     </xsd:complexType>
     <xsd:complexType name="GtaRelation">
@@ -126,6 +125,7 @@
         </xsd:complexType>
     </xsd:element>
 </xsd:schema>
+
 
 
 

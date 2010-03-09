@@ -37,7 +37,6 @@ public class DatasetComponentNode extends PropertiesAbstractNode implements Tran
     private TimpDatasetNode tdn;
     private PropertyChangeListener propListner;
     private Integer group = 0;
-    private Boolean scalEnabled = false;
     private Double dscalValue = 1.0;
     private String[] propNames = new String[]{"Name","Group Index","Scaling enabled","Scaling value"};
 
@@ -98,28 +97,28 @@ public class DatasetComponentNode extends PropertiesAbstractNode implements Tran
     }
 
     
-    public Boolean getScalEnabled() {
-        return scalEnabled;
-    }
-
-    public void setScalEnabled(Boolean scalEnabled) {
-        this.scalEnabled = scalEnabled;
-        if (scalEnabled) {
-            try {
-                Property<Double> dscalVal = new PropertySupport.Reflection<Double>(this, Double.class, "dscalValue");
-                dscalVal.setName(propNames[3]);
-                getSheet().get(Sheet.PROPERTIES).put(dscalVal);
-                firePropertyChange("dscalEnabled", null, scalEnabled);
-            } catch (NoSuchMethodException ex) {
-                Exceptions.printStackTrace(ex);
-            }
-        }
-        else {
-            getSheet().get(Sheet.PROPERTIES).remove(propNames[3]);
-        }
-//        firePropertyChange("SetBackSweep", null, backSweep);
-        
-    }
+//    public Boolean getScalEnabled() {
+//        return scalEnabled;
+//    }
+//
+//    public void setScalEnabled(Boolean scalEnabled) {
+//        this.scalEnabled = scalEnabled;
+//        if (scalEnabled) {
+//            try {
+//                Property<Double> dscalVal = new PropertySupport.Reflection<Double>(this, Double.class, "dscalValue");
+//                dscalVal.setName(propNames[3]);
+//                getSheet().get(Sheet.PROPERTIES).put(dscalVal);
+//                firePropertyChange("dscalEnabled", null, scalEnabled);
+//            } catch (NoSuchMethodException ex) {
+//                Exceptions.printStackTrace(ex);
+//            }
+//        }
+//        else {
+//            getSheet().get(Sheet.PROPERTIES).remove(propNames[3]);
+//        }
+////        firePropertyChange("SetBackSweep", null, backSweep);
+//
+//    }
     
     @Override
     public Image getIcon(int type) {
@@ -141,7 +140,7 @@ public class DatasetComponentNode extends PropertiesAbstractNode implements Tran
         Sheet sheet = Sheet.createDefault();
         Sheet.Set set = Sheet.createPropertiesSet();
         Property<String> datasetNname= null;
-        Property<Boolean> discalEnabled = null;
+//        Property<Boolean> discalEnabled = null;
         Property<Double> discalVal = null;
         datasetNname = new PropertySupport.ReadOnly<String>(propNames[0], String.class, "Name", "Name of the dataset") {
             @Override
@@ -150,9 +149,9 @@ public class DatasetComponentNode extends PropertiesAbstractNode implements Tran
             }
         };
         try {
-            discalEnabled = new PropertySupport.Reflection<Boolean>(this, Boolean.class, "scalEnabled");
+//            discalEnabled = new PropertySupport.Reflection<Boolean>(this, Boolean.class, "scalEnabled");
             discalVal = new PropertySupport.Reflection<Double>(this, Double.class, "dscalValue");
-            discalEnabled.setName(propNames[2]);
+//            discalEnabled.setName(propNames[2]);
             discalVal.setName(propNames[3]);
         } catch (NoSuchMethodException ex) {
             Exceptions.printStackTrace(ex);
@@ -161,10 +160,7 @@ public class DatasetComponentNode extends PropertiesAbstractNode implements Tran
         if (isConnected()){
             set.put(createGroupProperty());
             if (enableDscalProperty()){
-                set.put(discalEnabled);
-                if (scalEnabled){
                     set.put(discalVal);
-                }
             }
         }
         sheet.put(set);
@@ -231,8 +227,10 @@ public class DatasetComponentNode extends PropertiesAbstractNode implements Tran
             }
         }
         if (groupMembCount > 1){
+            firePropertyChange("dscalEnabled", null, true);
             return true;
         }
+        firePropertyChange("dscalEnabled", null, false);
         return false;
     }
 

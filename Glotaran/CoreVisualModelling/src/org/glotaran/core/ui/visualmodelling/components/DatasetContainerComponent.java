@@ -23,6 +23,7 @@ import org.glotaran.core.messages.CoreErrorMessages;
 import org.glotaran.core.models.gta.GtaChangesModel;
 import org.glotaran.core.models.gta.GtaDataset;
 import org.glotaran.core.models.gta.GtaDatasetContainer;
+import org.glotaran.core.models.gta.GtaDatasetScaling;
 import org.glotaran.core.models.gta.GtaLinkCLP;
 import org.glotaran.core.models.gta.GtaModelDiffContainer;
 import org.glotaran.core.models.gta.GtaModelDiffDO;
@@ -332,6 +333,9 @@ public class DatasetContainerComponent
                     modelDifferences.getDifferences().add(new GtaModelDiffContainer());
                     modelDifferences.getLinkCLP().add(new GtaLinkCLP());
                     modelDifferences.getLinkCLP().get(modelDifferences.getLinkCLP().size()-1).setGroupNumber(1);
+                    modelDifferences.getDscal().add(new GtaDatasetScaling());
+                    modelDifferences.getDscal().get(modelDifferences.getDscal().size()-1).setEnabled(Boolean.FALSE);
+                    modelDifferences.getDscal().get(modelDifferences.getDscal().size()-1).setValue(1.0);
                 }
             }
             firePropertyChange("modelChanged", null, null);
@@ -392,8 +396,11 @@ public class DatasetContainerComponent
             }
 
             if (evt.getPropertyName().equalsIgnoreCase("dscalValue")){
-//                modelDifferences.getDscal().get(((DatasetComponentNode)evt.getSource()).getdatasetIndex()-1).setGroupNumber((Integer)evt.getNewValue());
-                updateChildrenProp();
+                modelDifferences.getDscal().get(((DatasetComponentNode)evt.getSource()).getdatasetIndex()-1).setValue((Double)evt.getNewValue());
+            }
+
+            if (evt.getPropertyName().equalsIgnoreCase("dscalEnabled")){
+                modelDifferences.getDscal().get(((DatasetComponentNode)evt.getSource()).getdatasetIndex()-1).setEnabled((Boolean)evt.getNewValue());
             }
 
             firePropertyChange("modelChanged", null, null);
@@ -554,8 +561,13 @@ public class DatasetContainerComponent
                 modelDifferences.getLinkCLP().add(new GtaLinkCLP());
                 modelDifferences.getLinkCLP().get(i).setGroupNumber(1);
             }
+            if (modelDifferences.getDscal().size()<i+1){
+                modelDifferences.getDscal().add(new GtaDatasetScaling());
+                modelDifferences.getDscal().get(i).setEnabled(Boolean.FALSE);
+                modelDifferences.getDscal().get(i).setValue(1.0);
+            }
             ((DatasetComponentNode)datasets[i]).setGroup(modelDifferences.getLinkCLP().get(i).getGroupNumber()-1);
-            ((DatasetComponentNode)datasets[i]).updatePropSheet();
+            ((DatasetComponentNode)datasets[i]).setDscalValue(modelDifferences.getDscal().get(i).getValue());
             if (!modelDifferences.getDifferences().get(i).getFree().isEmpty()){    
                 datasets[i].getChildren().add(new Node[]{new ModelDiffsNode("FreeParameter", i, modelDifferences.getDifferences().get(i).getFree(), this)});
             }
@@ -569,5 +581,6 @@ public class DatasetContainerComponent
                 datasets[i].getChildren().add(new Node[]{new ModelDiffsChangeNode("ChangeParameter", i, modelDifferences.getDifferences().get(i).getChanges(), schemaFolder, this)});
             }
         }
+        updateChildrenProp();
     }
 }

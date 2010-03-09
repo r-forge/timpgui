@@ -37,6 +37,9 @@ public class DatasetComponentNode extends PropertiesAbstractNode implements Tran
     private TimpDatasetNode tdn;
     private PropertyChangeListener propListner;
     private Integer group = 0;
+    private Boolean scalEnabled = false;
+    private Double dscalValue = 1.0;
+    private String[] propNames = new String[]{"Name","Group Index","Scaling enabled","Scaling value"};
 
     public DatasetComponentNode(String name, Children children) {
         super(name, children);
@@ -47,11 +50,6 @@ public class DatasetComponentNode extends PropertiesAbstractNode implements Tran
         super(tdn.getDisplayName(), children);
         this.tdn = tdn;
         this.propListner = propListn;
-//        Sheet sheet = Sheet.createDefault();
-//        Sheet.Set set = Sheet.createPropertiesSet();
-//        set.put(tdn.getPropertySets()[0].getProperties());
-//        sheet.put(set);
-//        setSheet(sheet);
         addPropertyChangeListener(propListn);
     }
 
@@ -59,11 +57,6 @@ public class DatasetComponentNode extends PropertiesAbstractNode implements Tran
         super(tdn.getDisplayName(), children, lookup);
         this.tdn = tdn;
         this.propListner = propListn;
-//        Sheet sheet = Sheet.createDefault();
-//        Sheet.Set set = Sheet.createPropertiesSet();
-//        set.put(tdn.getPropertySets()[0].getProperties());
-//        sheet.put(set);
-//        setSheet(sheet);
         addPropertyChangeListener(propListn);
     }
 
@@ -95,6 +88,39 @@ public class DatasetComponentNode extends PropertiesAbstractNode implements Tran
         }
     }
 
+    public Double getDscalValue() {
+        return dscalValue;
+    }
+
+    public void setDscalValue(Double dscalValue) {
+        this.dscalValue = dscalValue;
+        firePropertyChange("dscalValue", null, dscalValue);
+    }
+
+    
+    public Boolean getScalEnabled() {
+        return scalEnabled;
+    }
+
+    public void setScalEnabled(Boolean scalEnabled) {
+        this.scalEnabled = scalEnabled;
+        if (scalEnabled) {
+            try {
+                Property<Double> dscalVal = new PropertySupport.Reflection<Double>(this, Double.class, "dscalValue");
+                dscalVal.setName(propNames[3]);
+                getSheet().get(Sheet.PROPERTIES).put(dscalVal);
+                firePropertyChange("dscalEnabled", null, scalEnabled);
+            } catch (NoSuchMethodException ex) {
+                Exceptions.printStackTrace(ex);
+            }
+        }
+        else {
+            getSheet().get(Sheet.PROPERTIES).remove(propNames[3]);
+        }
+//        firePropertyChange("SetBackSweep", null, backSweep);
+        
+    }
+    
     @Override
     public Image getIcon(int type) {
         return ICON;
@@ -115,15 +141,31 @@ public class DatasetComponentNode extends PropertiesAbstractNode implements Tran
         Sheet sheet = Sheet.createDefault();
         Sheet.Set set = Sheet.createPropertiesSet();
         Property<String> datasetNname= null;
-        datasetNname = new PropertySupport.ReadOnly<String>("name", String.class, "Name", "Name of the dataset") {
+        Property<Boolean> discalEnabled = null;
+        Property<Double> discalVal = null;
+        datasetNname = new PropertySupport.ReadOnly<String>(propNames[0], String.class, "Name", "Name of the dataset") {
             @Override
             public String getValue() throws IllegalAccessException, InvocationTargetException {
                 return tdn.getDisplayName();
             }
         };
+        try {
+            discalEnabled = new PropertySupport.Reflection<Boolean>(this, Boolean.class, "scalEnabled");
+            discalVal = new PropertySupport.Reflection<Double>(this, Double.class, "dscalValue");
+            discalEnabled.setName(propNames[2]);
+            discalVal.setName(propNames[3]);
+        } catch (NoSuchMethodException ex) {
+            Exceptions.printStackTrace(ex);
+        }
         set.put(datasetNname);
         if (isConnected()){
             set.put(createGroupProperty());
+            if (enableDscalProperty()){
+                set.put(discalEnabled);
+                if (scalEnabled){
+                    set.put(discalVal);
+                }
+            }
         }
         sheet.put(set);
         return sheet;
@@ -169,34 +211,29 @@ public class DatasetComponentNode extends PropertiesAbstractNode implements Tran
         };
         paramIndex.setValue("intValues",craeteIndList());
         paramIndex.setValue("stringKeys",craeteGroupList());
-        paramIndex.setName("GroupIndex");
+        paramIndex.setName(propNames[1]);
         return paramIndex;
     }
 
     //TODO implement dscal property (only for datasets same group)
-    private Property<Integer> createDScalProperty(){
-        Property<Integer> paramIndex = new Property<Integer>(Integer.class) {
-            @Override
-            public boolean canRead() {
-                return true;
+
+
+    private boolean enableDscalProperty(){
+        int groupMembCount = 0;
+        if (isConnected()) {
+            if (((DatasetsRootNode) getParentNode()).getContainerComponent().getModelDifferences().getThreshold() >= 0) {
+                int groupIndex = getGroup();
+                for (Node node : getParentNode().getChildren().getNodes()) {
+                    if (((DatasetComponentNode) node).getGroup() == groupIndex) {
+                        groupMembCount++;
+                    }
+                }
             }
-            @Override
-            public Integer getValue() throws IllegalAccessException, InvocationTargetException {
-                return getGroup();
-            }
-            @Override
-            public boolean canWrite() {
-                return true;
-            }
-            @Override
-            public void setValue(Integer val) throws IllegalAccessException, IllegalArgumentException, InvocationTargetException {
-                setGroup(val);
-            }
-        };
-        paramIndex.setValue("intValues",craeteIndList());
-        paramIndex.setValue("stringKeys",craeteGroupList());
-        paramIndex.setName("GroupIndex");
-        return paramIndex;
+        }
+        if (groupMembCount > 1){
+            return true;
+        }
+        return false;
     }
 
     public void updatePropSheet(){

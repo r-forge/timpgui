@@ -267,6 +267,7 @@ public class DatasetContainerComponent
             try {
                 thresh = Double.parseDouble(jTFThresh.getText());
                 modelDifferences.setThreshold(thresh);
+                updateChildrenProp();
                 firePropertyChange("modelChanged", null, null);
             } catch (Exception e) {
                 CoreErrorMessages.numberFormatException();
@@ -286,6 +287,12 @@ public class DatasetContainerComponent
     private javax.swing.JPanel modelDiffsPanel;
     // End of variables declaration//GEN-END:variables
 
+    private void updateChildrenProp(){
+        for (Node node : manager.getRootContext().getChildren().getNodes()){
+            ((DatasetComponentNode)node).updatePropSheet();
+        }
+    }
+
     public ExplorerManager getExplorerManager() {
         return manager;
     }
@@ -295,6 +302,10 @@ public class DatasetContainerComponent
         return lookup;
     }
 
+    public GtaModelDifferences getModelDifferences() {
+        return modelDifferences;
+    }
+    
     public Tgm getConnectedModel() {
         return connectedModel;
     }
@@ -377,7 +388,14 @@ public class DatasetContainerComponent
 
             if (evt.getPropertyName().equalsIgnoreCase("groupIndexChanged")){
                 modelDifferences.getLinkCLP().get(((DatasetComponentNode)evt.getSource()).getdatasetIndex()-1).setGroupNumber((Integer)evt.getNewValue());
+                updateChildrenProp();
             }
+
+            if (evt.getPropertyName().equalsIgnoreCase("dscalValue")){
+//                modelDifferences.getDscal().get(((DatasetComponentNode)evt.getSource()).getdatasetIndex()-1).setGroupNumber((Integer)evt.getNewValue());
+                updateChildrenProp();
+            }
+
             firePropertyChange("modelChanged", null, null);
             return;
         }

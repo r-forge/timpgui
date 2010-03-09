@@ -35,21 +35,21 @@ public class IrfParametersNode extends PropertiesAbstractNode {
 
     public IrfParametersNode(IrfparPanelModel irfparPanel, PropertyChangeListener listn) {
         super("IRFPar", new IrfParametersKeys(irfparPanel.getIrf(), irfparPanel.getFixed()));
+        if (irfparPanel.isBacksweepEnabled() != null) {
+            if (irfparPanel.isBacksweepEnabled()) {
+                backSweep = irfparPanel.isBacksweepEnabled();
+                sweepPeriod = irfparPanel.getBacksweepPeriod();
+            }
+        }
         if (irfparPanel.isMirf()){
             setIRFType(EnumTypes.IRFTypes.MEASURED_IRF);
-//============ todo finish it =================
+//============ todo finish measured irf =================
         } else {
             if (irfparPanel.getIrf().size()==2){
                 setIRFType(EnumTypes.IRFTypes.GAUSSIAN);
             }
             else {
                 setIRFType(EnumTypes.IRFTypes.DOUBLE_GAUSSIAN);
-            }
-        }
-        if (irfparPanel.isBacksweepEnabled() != null) {
-            if (irfparPanel.isBacksweepEnabled()) {
-                backSweep = irfparPanel.isBacksweepEnabled();
-                sweepPeriod = irfparPanel.getBacksweepPeriod();
             }
         }
         addPropertyChangeListener(listn);

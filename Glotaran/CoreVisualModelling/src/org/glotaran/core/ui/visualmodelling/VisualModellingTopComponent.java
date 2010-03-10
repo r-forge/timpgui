@@ -228,7 +228,7 @@ final public class VisualModellingTopComponent extends CloneableTopComponent imp
             GtaDatasetContainer container = (GtaDatasetContainer) removedObject;
             dobj.getProgectScheme().getDatasetContainer().remove(container);
             for (int i = 0; i < dobj.getProgectScheme().getConnection().size(); i++) {
-                if (dobj.getProgectScheme().getConnection().get(i).getSourceID().equalsIgnoreCase(container.getId())) {
+                if (dobj.getProgectScheme().getConnection().get(i).getTargetID().equalsIgnoreCase(container.getId())) {
                     dobj.getProgectScheme().getConnection().remove(i);
                     i--;
                 }

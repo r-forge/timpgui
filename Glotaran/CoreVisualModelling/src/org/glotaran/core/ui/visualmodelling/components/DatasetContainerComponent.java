@@ -415,13 +415,28 @@ public class DatasetContainerComponent
                 connectedModel = (Tgm)evt.getOldValue();
                 if (evt.getNewValue() != null) {
                     modelDifferences = (GtaModelDifferences) evt.getNewValue();
-                    int diffNum = modelDifferences.getDifferences().size();
-                    updateModelDiffsNodes(modelDifferences);
-                    if (datasetContainer.getDatasets().size() > diffNum) {
-                        for (int i = 0; i < datasetContainer.getDatasets().size() - diffNum; i++) {
+                    int paranNum = modelDifferences.getDifferences().size();
+                    if (datasetContainer.getDatasets().size() > paranNum) {
+                        for (int i = 0; i < datasetContainer.getDatasets().size() - paranNum; i++) {
                             modelDifferences.getDifferences().add(new GtaModelDiffContainer());
                         }
                     }
+                    paranNum = modelDifferences.getDscal().size();
+                    if (datasetContainer.getDatasets().size() > paranNum) {
+                        for (int i = 0; i < datasetContainer.getDatasets().size() - paranNum; i++) { 
+                            modelDifferences.getDscal().add(new GtaDatasetScaling());
+                            modelDifferences.getDscal().get(i).setEnabled(Boolean.FALSE);
+                            modelDifferences.getDscal().get(i).setValue(1.0);
+                        }
+                    }
+                    paranNum = modelDifferences.getLinkCLP().size();
+                    if (datasetContainer.getDatasets().size() > paranNum) {
+                        for (int i = 0; i < datasetContainer.getDatasets().size() - paranNum; i++) {
+                            modelDifferences.getLinkCLP().add(new GtaLinkCLP());
+                            modelDifferences.getLinkCLP().get(i).setGroupNumber(1);
+                        }
+                    }
+                    updateModelDiffsNodes(modelDifferences);
                     jTFThresh.setEnabled(true);
                     jTFThresh.setText(String.valueOf(modelDifferences.getThreshold()));
                 } else {
@@ -429,7 +444,7 @@ public class DatasetContainerComponent
                     for (int i = 0; i < rootNode.getChildren().getNodesCount(); i++){
                         DatasetComponentNode datasetNode = (DatasetComponentNode) rootNode.getChildren().getNodes()[i];
                         datasetNode.getChildren().remove(datasetNode.getChildren().getNodes());
-                        datasetNode.setGroup(1);
+//                        datasetNode.setGroup(1);
                         datasetNode.updatePropSheet();
                         jTFThresh.setEnabled(false);
                     }

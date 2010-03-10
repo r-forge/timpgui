@@ -217,6 +217,9 @@ public class DatasetComponentNode extends PropertiesAbstractNode implements Tran
     private boolean enableDscalProperty(){
         int groupMembCount = 0;
         if (isConnected()) {
+            if (((DatasetsRootNode) getParentNode()).getContainerComponent().getModelDifferences().getThreshold()==null){
+                ((DatasetsRootNode) getParentNode()).getContainerComponent().getModelDifferences().setThreshold(0.0);
+            }
             if (((DatasetsRootNode) getParentNode()).getContainerComponent().getModelDifferences().getThreshold() >= 0) {
                 int groupIndex = getGroup();
                 for (Node node : getParentNode().getChildren().getNodes()) {
@@ -227,14 +230,15 @@ public class DatasetComponentNode extends PropertiesAbstractNode implements Tran
             }
         }
         if (groupMembCount > 1){
-            firePropertyChange("dscalEnabled", null, true);
+//            firePropertyChange("dscalEnabled", null, true);
             return true;
         }
-        firePropertyChange("dscalEnabled", null, false);
+//        firePropertyChange("dscalEnabled", null, false);
         return false;
     }
 
     public void updatePropSheet(){
+        fireNameChange(null, getDisplayName());
         setSheet(createSheet());
     }
 

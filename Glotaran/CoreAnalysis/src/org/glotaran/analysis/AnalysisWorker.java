@@ -242,6 +242,7 @@ public class AnalysisWorker implements Runnable {
 
                                 outputWriter.append("Estimated " + slotsName[k] + ": ");
                                 outputWriter.newLine();
+                                outputWriter.newLine();
                                 outputWriter.append("Dataset" + (i + 1) + ": ");
                                 for (int j = 0; j < params.length / 2; j++) {
                                     if (j > 0) {
@@ -249,6 +250,7 @@ public class AnalysisWorker implements Runnable {
                                     }
                                     outputWriter.append((new Formatter().format("%g", params[j])).toString());
                                 }
+                                outputWriter.newLine();
                                 outputWriter.newLine();
                                 outputWriter.append("Standard errors: ");
                                 for (int j = 0; j < params.length / 2; j++) {
@@ -258,6 +260,7 @@ public class AnalysisWorker implements Runnable {
                                     outputWriter.append((new Formatter().format("%g",
                                             params[j + params.length / 2])).toString());
                                 }
+                                outputWriter.newLine();
                                 outputWriter.newLine();
                             }
                         }
@@ -417,7 +420,7 @@ public class AnalysisWorker implements Runnable {
             result = result.concat(modeldiffsCall);
         }
 
-        String optResult = getOptResult("kin", numIterations);
+        String optResult = getOptResult(getModelType(modelCalls), numIterations);
         if (!optResult.isEmpty()) {
             result = result.concat(",");
             result = result.concat(optResult);
@@ -552,6 +555,25 @@ public class AnalysisWorker implements Runnable {
 //
 //        }
 
+        return result;
+    }
+
+    private String getModelType(ArrayList<String> modelCalls) {
+        String result = "";
+        for (String string : modelCalls) {
+            if (string.contains("mod_type = \"kin\"")) {
+            result = "kin";
+            } else if (string.contains("mod_type = \"spec\"")) {
+                result = "spec";
+            } else if (string.contains("mod_type = \"mass\"")) {
+                result = "mass";
+            } else {
+                result = "kin";
+            }
+            if (!result.isEmpty()) {
+                return result;
+            }
+        }
         return result;
     }
 }

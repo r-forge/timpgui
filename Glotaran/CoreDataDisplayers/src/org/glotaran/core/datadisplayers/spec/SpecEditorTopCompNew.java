@@ -98,6 +98,7 @@ final public class SpecEditorTopCompNew extends CloneableTopComponent
     private Range wholeYRange;
     private ArrayList<Matrix> svdResult;
     private TimpControllerInterface controller;
+    private TGProject project;
 
     public SpecEditorTopCompNew() {
         data = new DatasetTimp();
@@ -716,9 +717,14 @@ final public class SpecEditorTopCompNew extends CloneableTopComponent
             newdataset.calcRangeInt();
 
             FileObject cachefolder = null;
-            final TGProject proj = (TGProject) FileOwnerQuery.getOwner(dataObject.getPrimaryFile());
-            if (proj!=null){
-                cachefolder = proj.getCacheFolder(true);
+
+            if(dataObject!=null) {
+                project = (TGProject) FileOwnerQuery.getOwner(dataObject.getPrimaryFile());
+            } else if (dataObject2!=null) {
+                project = (TGProject) FileOwnerQuery.getOwner(dataObject2.getPrimaryFile());
+            }
+            if (project!=null){
+                cachefolder = project.getCacheFolder(true);
                 if ((dataObject==null)&&(dataObject2!=null)){
                     cachefolder = dataObject2.getFolder().getPrimaryFile();
                 } else {

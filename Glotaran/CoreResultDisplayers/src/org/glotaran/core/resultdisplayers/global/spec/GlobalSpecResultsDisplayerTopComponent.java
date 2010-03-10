@@ -4,21 +4,25 @@
  */
 package org.glotaran.core.resultdisplayers.global.spec;
 
+import java.util.List;
 import java.util.logging.Logger;
+import org.glotaran.core.models.structures.TimpResultDataset;
 import org.openide.util.NbBundle;
 import org.openide.windows.TopComponent;
 import org.openide.windows.WindowManager;
 //import org.openide.util.ImageUtilities;
 import org.netbeans.api.settings.ConvertAsProperties;
+import org.openide.windows.CloneableTopComponent;
 
 /**
  * Top component which displays something.
  */
 @ConvertAsProperties(dtd = "-//org.glotaran.core.resultdisplayers.global.spec//GlobalSpecResultsDisplayer//EN",
 autostore = false)
-public final class GlobalSpecResultsDisplayerTopComponent extends TopComponent {
+public final class GlobalSpecResultsDisplayerTopComponent extends CloneableTopComponent {
 
     private static GlobalSpecResultsDisplayerTopComponent instance;
+    private final static long serialVersionUID = 1L;
     /** path to the icon used by the component and its open action */
 //    static final String ICON_PATH = "SET/PATH/TO/ICON/HERE";
     private static final String PREFERRED_ID = "GlobalSpecResultsDisplayerTopComponent";
@@ -29,6 +33,13 @@ public final class GlobalSpecResultsDisplayerTopComponent extends TopComponent {
         setToolTipText(NbBundle.getMessage(GlobalSpecResultsDisplayerTopComponent.class, "HINT_GlobalSpecResultsDisplayerTopComponent"));
 //        setIcon(ImageUtilities.loadImage(ICON_PATH, true));
 
+    }
+
+    public GlobalSpecResultsDisplayerTopComponent(List<TimpResultDataset> results) {
+        initComponents();
+        setName(NbBundle.getMessage(GlobalSpecResultsDisplayerTopComponent.class, "CTL_GlobalSpecResultsDisplayerTopComponent"));
+        setToolTipText(NbBundle.getMessage(GlobalSpecResultsDisplayerTopComponent.class, "HINT_GlobalSpecResultsDisplayerTopComponent"));
+//        setIcon(ImageUtilities.loadImage(ICON_PATH, true));
     }
 
     /** This method is called from within the constructor to
@@ -46,7 +57,7 @@ public final class GlobalSpecResultsDisplayerTopComponent extends TopComponent {
         jPanel9 = new javax.swing.JPanel();
         jPanel10 = new javax.swing.JPanel();
         jSlider1 = new javax.swing.JSlider();
-        jPOverviewTab = new javax.swing.JPanel();
+        jPSpectraTab = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
         jPanel1 = new javax.swing.JPanel();
         jPanel5 = new javax.swing.JPanel();
@@ -189,29 +200,29 @@ public final class GlobalSpecResultsDisplayerTopComponent extends TopComponent {
             .addGap(0, 71, Short.MAX_VALUE)
         );
 
-        javax.swing.GroupLayout jPOverviewTabLayout = new javax.swing.GroupLayout(jPOverviewTab);
-        jPOverviewTab.setLayout(jPOverviewTabLayout);
-        jPOverviewTabLayout.setHorizontalGroup(
-            jPOverviewTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        javax.swing.GroupLayout jPSpectraTabLayout = new javax.swing.GroupLayout(jPSpectraTab);
+        jPSpectraTab.setLayout(jPSpectraTabLayout);
+        jPSpectraTabLayout.setHorizontalGroup(
+            jPSpectraTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(jPanel3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 476, Short.MAX_VALUE)
         );
-        jPOverviewTabLayout.setVerticalGroup(
-            jPOverviewTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPOverviewTabLayout.createSequentialGroup()
+        jPSpectraTabLayout.setVerticalGroup(
+            jPSpectraTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPSpectraTabLayout.createSequentialGroup()
                 .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, 362, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
-        jTabbedPane1.addTab(org.openide.util.NbBundle.getMessage(GlobalSpecResultsDisplayerTopComponent.class, "GlobalSpecResultsDisplayerTopComponent.jPOverviewTab.TabConstraints.tabTitle"), jPOverviewTab); // NOI18N
+        jTabbedPane1.addTab(org.openide.util.NbBundle.getMessage(GlobalSpecResultsDisplayerTopComponent.class, "GlobalSpecResultsDisplayerTopComponent.jPSpectraTab.TabConstraints.tabTitle"), jPSpectraTab); // NOI18N
 
         add(jTabbedPane1, java.awt.BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel jPMultiTraces;
-    private javax.swing.JPanel jPOverviewTab;
+    private javax.swing.JPanel jPSpectraTab;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel10;
     private javax.swing.JPanel jPanel3;
@@ -257,7 +268,7 @@ public final class GlobalSpecResultsDisplayerTopComponent extends TopComponent {
 
     @Override
     public int getPersistenceType() {
-        return TopComponent.PERSISTENCE_ALWAYS;
+        return TopComponent.PERSISTENCE_NEVER;
     }
 
     @Override

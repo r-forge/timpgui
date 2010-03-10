@@ -8,7 +8,6 @@ import java.awt.Image;
 import java.io.IOException;
 import org.glotaran.core.messages.CoreErrorMessages;
 import org.glotaran.core.models.gta.GtaProjectScheme;
-import org.glotaran.gtafilesupport.api.GtaEditorProvider;
 import org.openide.cookies.SaveCookie;
 import org.openide.filesystems.FileObject;
 import org.openide.filesystems.FileUtil;
@@ -32,6 +31,7 @@ public class GtaDataObject extends MultiDataObject implements SaveCookie {
         CookieSet cookies = getCookieSet();
         //cookies.add((Node.Cookie) DataEditorSupport.create(this, getPrimaryEntry(), cookies));
         cookies.add((Node.Cookie) new GtaOpenSupport(getPrimaryEntry()));
+        cookies.add((Node.Cookie) this);
         //cookies.add((Node.Cookie) new GtaAnalysisSupport(getPrimaryEntry()));       
     }
 

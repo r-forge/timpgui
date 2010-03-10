@@ -348,6 +348,7 @@ public class DatasetContainerComponent
                 if ((evt.getNewValue() != null)&&(isConnected())) {
                     int ind = ((DatasetComponentNode) evt.getSource()).getdatasetIndex();
                     modelDifferences.getLinkCLP().remove(ind-1);
+                    modelDifferences.getDscal().remove(ind-1);
                     if (modelDifferences.getDifferences().get(ind-1).getChanges()!=null){
                         try {
                             schemaFolder.getFileObject(modelDifferences.getDifferences().get(ind - 1).getChanges().getFilename()).delete();

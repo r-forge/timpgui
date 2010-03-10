@@ -12,6 +12,7 @@ import java.io.ObjectOutputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Formatter;
+import java.util.List;
 import org.glotaran.analysis.support.InitModel;
 import org.glotaran.core.interfaces.TimpControllerInterface;
 import org.glotaran.core.main.nodes.dataobjects.TimpDatasetDataObject;
@@ -446,7 +447,6 @@ public class AnalysisWorker implements Runnable {
                     result = result + "thresh = " + String.valueOf(modelDifferences.getThreshold());
                 }
             }
-
             tempString = getModelDiffsLinkCLP(modelDifferences.getLinkCLP());
 
             tempString = getModelDiffsFree(modelDifferences.getDifferences());
@@ -457,6 +457,16 @@ public class AnalysisWorker implements Runnable {
                 result = result + tempString;
             }
             tempString = "";
+
+            tempString = getModelDiffsDScal(modelDifferences);
+            if (!tempString.isEmpty()){
+                if (!result.isEmpty()){
+                    result = result + ", ";
+                }
+                result = result + tempString;
+            }
+            tempString = "";
+
             tempString = getModelDiffsFree(modelDifferences.getDifferences());
 
             if (!tempString.isEmpty()){
@@ -551,10 +561,53 @@ public class AnalysisWorker implements Runnable {
             }
 
         }
-//        if(!changesModel.getDat().getKinparPanel().getKinpar().isEmpty()) {
-//
-//        }
 
+        return result;
+    }
+
+    private String getModelDiffsDScal(GtaModelDifferences modelDiffs) {
+        String result = "";
+        int datasetNum = modelDiffs.getLinkCLP().size();
+
+        ArrayList<ArrayList<Integer>> groups = new ArrayList<ArrayList<Integer>>();
+        for (int i = 0; i< datasetNum; i++){
+            groups.add(new ArrayList<Integer>());
+        }
+
+        for (int i = 0; i< datasetNum; i++){
+            groups.get(modelDiffs.getLinkCLP().get(i).getGroupNumber()-1).add(i);
+        }
+
+        String tempString = "";
+
+        for (int i = 0; i < datasetNum; i++){
+            if (groups.get(i).size()>1){
+//index of first dataset in the group
+                int fromInd = groups.get(i).get(0);
+//scaling parameter from first dataset in the group
+                double fromVal = modelDiffs.getDscal().get(fromInd).getValue()!=null ?
+                    modelDiffs.getDscal().get(groups.get(i).get(0)).getValue() : 1;
+                double toVal;
+                for (int j = 1; j < groups.get(i).size(); j++){
+//scaling parameter to
+                toVal = modelDiffs.getDscal().get(groups.get(i).get(j)).getValue()!=null ?
+                    modelDiffs.getDscal().get(groups.get(i).get(j)).getValue()/fromVal : 1/fromVal;
+                if (!tempString.isEmpty()){
+                    tempString = tempString+", ";
+                }
+                tempString = tempString + "list(to = "+String.valueOf(groups.get(i).get(j)+1)+
+                                 ", from = "+String.valueOf(fromInd+1)+
+                                 ", value = "+ toVal +
+                                 ")";
+                }
+
+            }
+
+        }
+
+        if (!tempString.isEmpty()){
+            result = "dscal = list("+tempString+")";                        
+        }
         return result;
     }
 

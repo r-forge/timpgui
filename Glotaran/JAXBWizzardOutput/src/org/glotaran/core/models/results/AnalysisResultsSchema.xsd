@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+    targetNamespace="http://xml.netbeans.org/schema/AnalysisResultsSchema"
+    xmlns:tns="http://xml.netbeans.org/schema/AnalysisResultsSchema"
+    elementFormDefault="qualified">
+    <xsd:complexType name="Dataset">
+        <xsd:sequence>
+            <xsd:element name="datasetFile" maxOccurs="1" type="tns:OutputFile" nillable="true"/>
+            <xsd:element name="resultFile" nillable="true" type="tns:OutputFile"/>
+            <xsd:element name="id" type="xsd:string"/>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="OutputFile">
+        <xsd:sequence>
+            <xsd:element name="filename"/>
+            <xsd:element name="path"/>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="Summary">
+        <xsd:sequence>
+            <xsd:element name="usedAnalysisSchema"/>
+            <xsd:element name="initModelCall"/>
+            <xsd:element name="fitModelCall"/>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="DatasetRelation">
+        <xsd:sequence>
+            <xsd:element name="from" type="xsd:string"/>
+            <xsd:element name="to" type="xsd:string"/>
+            <xsd:element name="values" type="xsd:double" maxOccurs="unbounded" nillable="false"/>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:element name="results">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element name="datasets" type="tns:Dataset" nillable="true" maxOccurs="unbounded"/>
+                <xsd:element name="summary" type="tns:Summary"/>
+                <xsd:element name="datasetRelations" type="tns:DatasetRelation" maxOccurs="unbounded" nillable="true" minOccurs="0"/>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+</xsd:schema>

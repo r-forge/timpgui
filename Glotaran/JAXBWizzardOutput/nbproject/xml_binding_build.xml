@@ -55,5 +55,19 @@
         <copy todir="${build.generated.sources.dir}/jaxb">
             <fileset dir="build/generated/jaxbCache/GtaBinding"/>
         </copy>
+        <mkdir dir="build/generated/jaxbCache/ResultsBinding"/>
+        <xjc package="org.glotaran.core.model.results" destdir="build/generated/jaxbCache/ResultsBinding" catalog="catalog.xml">
+            <classpath>
+                <pathelement location="${src.dir}"/>
+                <pathelement path="${jaxbwiz.xjcrun.classpath}"/>
+            </classpath>
+            <arg value="-xmlschema"/>
+            <schema file="xml-resources/jaxb/ResultsBinding/AnalysisResultsSchema.xsd"/>
+            <depends file="xml-resources/jaxb/ResultsBinding/AnalysisResultsSchema.xsd"/>
+            <produces dir="build/generated/jaxbCache/ResultsBinding"/>
+        </xjc>
+        <copy todir="${build.generated.sources.dir}/jaxb">
+            <fileset dir="build/generated/jaxbCache/ResultsBinding"/>
+        </copy>
     </target>
 </project>

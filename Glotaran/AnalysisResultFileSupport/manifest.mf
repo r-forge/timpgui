@@ -1,0 +1,6 @@
+Manifest-Version: 1.0
+OpenIDE-Module: org.glotaran.analysisresultfilesupport
+OpenIDE-Module-Layer: org/glotaran/analysisresultfilesupport/layer.xml
+OpenIDE-Module-Localizing-Bundle: org/glotaran/analysisresultfilesupport/Bundle.properties
+OpenIDE-Module-Specification-Version: 1.0
+

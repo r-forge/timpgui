@@ -12,7 +12,6 @@ import java.io.ObjectOutputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Formatter;
-import java.util.List;
 import org.glotaran.analysis.support.InitModel;
 import org.glotaran.core.interfaces.TimpControllerInterface;
 import org.glotaran.core.main.nodes.dataobjects.TimpDatasetDataObject;

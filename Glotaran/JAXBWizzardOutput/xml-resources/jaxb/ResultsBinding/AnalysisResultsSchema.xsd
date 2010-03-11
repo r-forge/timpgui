@@ -13,15 +13,15 @@
     </xsd:complexType>
     <xsd:complexType name="OutputFile">
         <xsd:sequence>
-            <xsd:element name="filename"/>
-            <xsd:element name="path"/>
+            <xsd:element name="filename" type="xsd:string"/>
+            <xsd:element name="path" type="xsd:string"/>
         </xsd:sequence>
     </xsd:complexType>
     <xsd:complexType name="Summary">
         <xsd:sequence>
             <xsd:element name="usedAnalysisSchema"/>
-            <xsd:element name="initModelCall"/>
-            <xsd:element name="fitModelCall"/>
+            <xsd:element name="initModelCall" type="xsd:string"/>
+            <xsd:element name="fitModelCall" type="xsd:string"/>
         </xsd:sequence>
     </xsd:complexType>
     <xsd:complexType name="DatasetRelation">
@@ -41,3 +41,4 @@
         </xsd:complexType>
     </xsd:element>
 </xsd:schema>
+

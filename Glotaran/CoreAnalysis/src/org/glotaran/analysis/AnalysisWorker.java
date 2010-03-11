@@ -673,9 +673,9 @@ public class AnalysisWorker implements Runnable {
             resultsObject.getDatasetRelations().get(i).setTo(String.valueOf((int)floor(relationsList.get(i)[0])));
             resultsObject.getDatasetRelations().get(i).setFrom(String.valueOf((int)floor(relationsList.get(i)[1])));
             //TODO do this in a different way
-
-            String cmd = timpcontroller.NAME_OF_RESULT_OBJECT + "$currTheta[["+ (int)floor(relationsList.get(i)[1]) +"]]@drel";
-            resultsObject.getDatasetRelations().get(i).getValues().add(timpcontroller.getDouble(cmd));
+            resultsObject.getDatasetRelations().get(i).getValues().add(relationsList.get(i)[2]);
+//            String cmd = timpcontroller.NAME_OF_RESULT_OBJECT + "$currTheta[["+ (int)floor(relationsList.get(i)[1]) +"]]@drel";
+//            resultsObject.getDatasetRelations().get(i).getValues().add(timpcontroller.getDouble(cmd));
         }
         
         createAnalysisResultsFile(resultsObject, FileUtil.toFile(newAnResFile));

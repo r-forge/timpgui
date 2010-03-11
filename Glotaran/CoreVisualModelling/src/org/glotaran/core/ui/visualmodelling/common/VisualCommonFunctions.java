@@ -31,6 +31,7 @@ import org.glotaran.core.ui.visualmodelling.nodes.WeightParametersNode;
 import org.glotaran.core.ui.visualmodelling.palette.PaletteItem;
 import org.glotaran.tgmfilesupport.TgmDataNode;
 import org.openide.nodes.Children;
+import static java.lang.Math.floor;
 
 /**
  *
@@ -108,10 +109,10 @@ public class VisualCommonFunctions {
                 model.getKinparPanel().setSeqmod((Boolean) evt.getNewValue());
             }
             if (evt.getPropertyName().equalsIgnoreCase("start")) {
-                model.getKinparPanel().getKinpar().get((Integer) evt.getOldValue()).setStart((Double) evt.getNewValue());
+                model.getKinparPanel().getKinpar().get((int)floor((Double)evt.getOldValue())).setStart((Double) evt.getNewValue());
             }
             if (evt.getPropertyName().equalsIgnoreCase("fixed")) {
-                model.getKinparPanel().getKinpar().get((Integer) evt.getOldValue()).setFixed((Boolean) evt.getNewValue());
+                model.getKinparPanel().getKinpar().get((int)floor((Double)evt.getOldValue())).setFixed((Boolean) evt.getNewValue());
             }
             if (evt.getPropertyName().equalsIgnoreCase("delete")) {
                 int index = (Integer) evt.getNewValue();
@@ -150,13 +151,13 @@ public class VisualCommonFunctions {
                 if (model.getIrfparPanel().getIrf().isEmpty()){
                     setIrfType(model, evt, ((IrfParametersNode)evt.getSource()).getIRFType());
                 }
-                model.getIrfparPanel().getIrf().set((Integer) evt.getOldValue(), (Double) evt.getNewValue());
+                model.getIrfparPanel().getIrf().set((int)floor((Double)evt.getOldValue()), (Double) evt.getNewValue());
             }
             if (evt.getPropertyName().equalsIgnoreCase("fixed")) {
                 if (model.getIrfparPanel().getIrf().isEmpty()){
                     setIrfType(model, evt, ((IrfParametersNode)evt.getSource()).getIRFType());
                 }
-                model.getIrfparPanel().getFixed().set((Integer) evt.getOldValue(), (Boolean) evt.getNewValue());
+                model.getIrfparPanel().getFixed().set((int)floor((Double)evt.getOldValue()), (Boolean) evt.getNewValue());
             }
             return true;
         }
@@ -319,19 +320,19 @@ public class VisualCommonFunctions {
                 model.getWeightParPanel().getWeightpar().clear();
             }
             if (evt.getPropertyName().equalsIgnoreCase("weight")) {
-                model.getWeightParPanel().getWeightpar().get((Integer) evt.getOldValue()).setWeight((Double) evt.getNewValue());
+                model.getWeightParPanel().getWeightpar().get((int)floor((Double)evt.getOldValue())).setWeight((Double) evt.getNewValue());
             }
             if (evt.getPropertyName().equalsIgnoreCase("setmin1")) {
-                model.getWeightParPanel().getWeightpar().get((Integer) evt.getOldValue()).setMin1((Double) evt.getNewValue());
+                model.getWeightParPanel().getWeightpar().get((int)floor((Double)evt.getOldValue())).setMin1((Double) evt.getNewValue());
             }
             if (evt.getPropertyName().equalsIgnoreCase("setmin2")) {
-                model.getWeightParPanel().getWeightpar().get((Integer) evt.getOldValue()).setMin2((Double) evt.getNewValue());
+                model.getWeightParPanel().getWeightpar().get((int)floor((Double)evt.getOldValue())).setMin2((Double) evt.getNewValue());
             }
             if (evt.getPropertyName().equalsIgnoreCase("setmax1")) {
-                model.getWeightParPanel().getWeightpar().get((Integer) evt.getOldValue()).setMax1((Double) evt.getNewValue());
+                model.getWeightParPanel().getWeightpar().get((int)floor((Double)evt.getOldValue())).setMax1((Double) evt.getNewValue());
             }
             if (evt.getPropertyName().equalsIgnoreCase("setmax2")) {
-                model.getWeightParPanel().getWeightpar().get((Integer) evt.getOldValue()).setMax2((Double) evt.getNewValue());
+                model.getWeightParPanel().getWeightpar().get((int)floor((Double)evt.getOldValue())).setMax2((Double) evt.getNewValue());
             }
             if (evt.getPropertyName().equalsIgnoreCase("delete")) {
                 int index = (Integer) evt.getNewValue();

@@ -19,7 +19,9 @@ public interface TimpControllerInterface {
     public static final String NAME_OF_RESULT_OBJECT = "gtaFitResult";
     public final static String NAME_OF_DATASET = "gtaDataset";
     public final static String NAME_OF_MODEL = "gtaModel";
-    public TimpResultDataset[] runAnalysis(DatasetTimp[] datasets, Tgm[] models, int iterations);
-    public TimpResultDataset[] runAnalysis(DatasetTimp[] datasets, ArrayList<String> initModelCalls, String fitModelCall);
-    public ArrayList<Matrix> doSingularValueDecomposition(Matrix matrix);
+    TimpResultDataset[] runAnalysis(DatasetTimp[] datasets, Tgm[] models, int iterations);
+    TimpResultDataset[] runAnalysis(DatasetTimp[] datasets, ArrayList<String> initModelCalls, String fitModelCall);
+    ArrayList<Matrix> doSingularValueDecomposition(Matrix matrix);
+    double getDouble(String cmd);
+    double[] getDoubleArray(String cmd);
 }

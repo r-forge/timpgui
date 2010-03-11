@@ -7,7 +7,6 @@ import org.netbeans.spi.project.ui.LogicalViewProvider;
 import org.openide.loaders.DataObject;
 import org.openide.loaders.DataObjectNotFoundException;
 import org.openide.nodes.Node;
-import org.openide.util.Exceptions;
 
 public class TGLogicalView implements LogicalViewProvider {
 

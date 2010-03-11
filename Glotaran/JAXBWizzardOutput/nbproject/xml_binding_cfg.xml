@@ -30,4 +30,14 @@
 		</bindings>
 		<catalog/>
 	</schema>
+	<schema type='-xmlschema' package='org.glotaran.core.model.results' name='ResultsBinding'>
+		<xjc-options>
+		</xjc-options>
+		<schema-sources>
+			<schema-source location='xml-resources/jaxb/ResultsBinding/AnalysisResultsSchema.xsd' origLocation='src/org/glotaran/core/models/results/AnalysisResultsSchema.xsd'/>
+		</schema-sources>
+		<bindings>
+		</bindings>
+		<catalog/>
+	</schema>
 </schemas>

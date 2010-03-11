@@ -63,7 +63,7 @@ public final class OpenDataset extends CookieAction {
                                             tgd.setFilename(f.getName());
                                             tgd.setFiletype(service.getType(f));
                                             tgd.setPath(f.getParent());
-                                            tgd.setRelativePath(FileUtil.getRelativePath((FileObject)proj.getProjectDirectory(), FileUtil.toFileObject(f)));
+                                            tgd.setRelativePath(FileUtil.getRelativePath( proj.getProjectDirectory(), FileUtil.toFileObject(f)));
                                             // Get Dataset folder if exists, else recreate it.
                                             FileObject d = dataObject.getPrimaryFile();
 

@@ -489,16 +489,6 @@ public class AnalysisWorker implements Runnable {
                 result = result + tempString;
             }
             tempString = "";
-
-            tempString = getModelDiffsFree(modelDifferences.getDifferences());
-
-            if (!tempString.isEmpty()){
-                if (!result.isEmpty()){
-                    result = result + ", ";
-                }
-                result = result + tempString;
-            }
-            tempString = "";
             
             //Fill in the "change" parameter
             for (GtaModelDiffContainer diffContainer : modelDifferences.getDifferences()) {

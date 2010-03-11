@@ -4,6 +4,7 @@
  */
 package org.glotaran.analysisresultfilesupport;
 
+import java.awt.Image;
 import java.io.IOException;
 import org.openide.filesystems.FileObject;
 import org.openide.loaders.DataNode;
@@ -15,6 +16,7 @@ import org.openide.nodes.Node;
 import org.openide.nodes.Children;
 import org.openide.util.Lookup;
 import org.openide.text.DataEditorSupport;
+import org.openide.util.ImageUtilities;
 
 public class AnalysisResultDataObject extends MultiDataObject {
 
@@ -26,7 +28,14 @@ public class AnalysisResultDataObject extends MultiDataObject {
 
     @Override
     protected Node createNodeDelegate() {
-        return new DataNode(this, Children.LEAF, getLookup());
+        return new DataNode(this, Children.LEAF, getLookup()){
+            private final Image ICON = ImageUtilities.loadImage("org/glotaran/analysisresultfilesupport/AnalysisResultsObject16.png", true);
+            @Override
+            public Image getIcon(int type) {
+                return ICON;
+            }
+
+        };
     }
 
     @Override

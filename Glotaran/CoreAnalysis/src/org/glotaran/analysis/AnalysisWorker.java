@@ -659,7 +659,7 @@ public class AnalysisWorker implements Runnable {
 
     private void writeResultsXml(Results resultsObject ) throws IOException {
 
-        String newAnResFileName = FileUtil.findFreeFileName(resultsfolder, resultsfolder.getName() +modelReference.getFilename() + "_results" , "xml");
+        String newAnResFileName = FileUtil.findFreeFileName(resultsfolder, resultsfolder.getName()+"_"+modelReference.getFilename()+"_results" , "xml");
         FileObject newAnResFile = resultsfolder.createData(newAnResFileName,"xml");
         resultsObject.setSummary(new Summary());
         resultsObject.getSummary().setFitModelCall(fitModelCall);

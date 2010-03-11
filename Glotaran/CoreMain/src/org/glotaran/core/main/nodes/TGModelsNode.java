@@ -2,14 +2,10 @@
 package org.glotaran.core.main.nodes;
 
 import java.awt.Image;
-import java.util.Collection;
-import org.glotaran.core.interfaces.XMLFilesSupportIntarface;
 import org.openide.nodes.FilterNode;
 import org.openide.nodes.Node;
 import org.openide.util.ImageUtilities;
 import org.openide.loaders.DataFolder;
-import org.openide.loaders.DataObject;
-import org.openide.util.Lookup;
 import org.openide.util.NbBundle;
 
 /**

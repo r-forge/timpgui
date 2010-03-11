@@ -70,7 +70,7 @@ public class TGResultsNode extends FilterNode {
                     }
                 }
             }
-            return new Node[]{};
+            return new Node[]{new FilterNode(n)};
         }
     }
 

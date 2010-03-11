@@ -40,13 +40,8 @@ public class VisualCommonFunctions {
     public static TgmDataNode createNewTgmFile(File file){
         Tgm tgm = new Tgm();
         tgm.setDat(new Dat());
-//        tgm.getDat().setCohspecPanel(new CohspecPanelModel());
-//        tgm.getDat().setIrfparPanel(new IrfparPanelModel());
-//        tgm.getDat().setKMatrixPanel(new KMatrixPanelModel());
-//        tgm.getDat().setKinparPanel(new KinparPanelModel());
         tgm.getDat().setModType("ModelDifferences");
         tgm.getDat().setModelName(file.getName());
-//        tgm.getDat().setWeightParPanel(new WeightParPanelModel());
 
         try {
             javax.xml.bind.JAXBContext jaxbCtx = javax.xml.bind.JAXBContext.newInstance(tgm.getClass().getPackage().getName());

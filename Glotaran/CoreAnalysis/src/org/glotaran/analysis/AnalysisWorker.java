@@ -27,6 +27,11 @@ import org.glotaran.core.models.gta.GtaModelDiffDO;
 import org.glotaran.core.models.gta.GtaModelDifferences;
 import org.glotaran.core.models.gta.GtaModelReference;
 import org.glotaran.core.models.gta.GtaOutput;
+import org.glotaran.core.models.results.Dataset;
+import org.glotaran.core.models.results.DatasetRelation;
+import org.glotaran.core.models.results.OutputFile;
+import org.glotaran.core.models.results.Results;
+import org.glotaran.core.models.results.Summary;
 import org.glotaran.core.models.tgm.Tgm;
 import org.glotaran.tgmfilesupport.TgmDataObject;
 import org.openide.DialogDisplayer;
@@ -37,6 +42,7 @@ import org.openide.loaders.DataObject;
 import org.openide.loaders.DataObjectExistsException;
 import org.openide.util.Exceptions;
 import org.openide.util.Lookup;
+import static java.lang.Math.floor;
 
 /**
  *
@@ -58,6 +64,7 @@ public class AnalysisWorker implements Runnable {
     private ArrayList<String> modelCalls = new ArrayList<String>();
     private String fitModelCall;
     private int numIterations;
+    private ArrayList<Double[]> relationsList = new ArrayList<Double[]>();
 
     public AnalysisWorker() {
         //TODO: implement constructor
@@ -314,6 +321,7 @@ public class AnalysisWorker implements Runnable {
                 }
 
                 if (results != null) {
+                    Results newResultsObject = new Results();
                     String freeResultsFilename = FileUtil.findFreeFileName(resultsfolder, resultsfolder.getName() + "analysisSummary", "summary");
                     try {
                         writeSummary(resultsfolder, freeResultsFilename);
@@ -324,6 +332,12 @@ public class AnalysisWorker implements Runnable {
                     for (int i = 0; i < results.length; i++) {
                         TimpResultDataset timpResultDataset = results[i];
                         timpResultDataset.setType(datasets[i].getType());
+
+                        newResultsObject.getDatasets().add(new Dataset());
+                        newResultsObject.getDatasets().get(i).setDatasetFile(new OutputFile());
+                        newResultsObject.getDatasets().get(i).getDatasetFile().setFilename(datasetContainer.getDatasets().get(i).getFilename());
+                        newResultsObject.getDatasets().get(i).getDatasetFile().setPath(datasetContainer.getDatasets().get(i).getPath());
+                        newResultsObject.getDatasets().get(i).setId(String.valueOf(i+1));
 
                         if (model.getDat().getIrfparPanel().getLamda() != null) {
                             timpResultDataset.setLamdac(model.getDat().getIrfparPanel().getLamda());
@@ -345,10 +359,20 @@ public class AnalysisWorker implements Runnable {
                             ObjectOutputStream stream = new ObjectOutputStream(writeTo.getOutputStream());
                             stream.writeObject(timpResultDataset);
                             stream.close();
+
+                            newResultsObject.getDatasets().get(i).setResultFile(new OutputFile());
+                            newResultsObject.getDatasets().get(i).getResultFile().setFilename(freeFilename);
+                            newResultsObject.getDatasets().get(i).getResultFile().setPath(resultsfolder.getPath());
+
                         } catch (IOException ex) {
                             Exceptions.printStackTrace(ex);
                         }
 
+                    }
+                    try {
+                        writeResultsXml(newResultsObject);
+                    } catch (IOException ex) {
+                        Exceptions.printStackTrace(ex);
                     }
                 } else {
                     try {
@@ -587,17 +611,21 @@ public class AnalysisWorker implements Runnable {
                 double fromVal = modelDiffs.getDscal().get(fromInd).getValue()!=null ?
                     modelDiffs.getDscal().get(groups.get(i).get(0)).getValue() : 1;
                 double toVal;
-                for (int j = 1; j < groups.get(i).size(); j++){
+                for (int j = 1; j < groups.get(i).size(); j++) {
 //scaling parameter to
-                toVal = modelDiffs.getDscal().get(groups.get(i).get(j)).getValue()!=null ?
-                    modelDiffs.getDscal().get(groups.get(i).get(j)).getValue()/fromVal : 1/fromVal;
-                if (!tempString.isEmpty()){
-                    tempString = tempString+", ";
-                }
-                tempString = tempString + "list(to = "+String.valueOf(groups.get(i).get(j)+1)+
-                                 ", from = "+String.valueOf(fromInd+1)+
-                                 ", value = "+ toVal +
-                                 ")";
+                    toVal = modelDiffs.getDscal().get(groups.get(i).get(j)).getValue() != null
+                            ? modelDiffs.getDscal().get(groups.get(i).get(j)).getValue() / fromVal : 1 / fromVal;
+                    if (!tempString.isEmpty()) {
+                        tempString = tempString + ", ";
+                    }
+                    relationsList.add(new Double[3]);
+                    relationsList.get(relationsList.size()-1)[0] = (double)groups.get(i).get(j) + 1;
+                    relationsList.get(relationsList.size()-1)[1] = (double)fromInd + 1;
+                    relationsList.get(relationsList.size()-1)[2] = toVal;
+                    tempString = tempString + "list(to = " + String.valueOf(groups.get(i).get(j) + 1)
+                            + ", from = " + String.valueOf(fromInd + 1)
+                            + ", value = " + toVal
+                            + ")";
                 }
 
             }
@@ -627,6 +655,45 @@ public class AnalysisWorker implements Runnable {
             }
         }
         return result;
+    }
+
+    private void writeResultsXml(Results resultsObject ) throws IOException {
+
+        String newAnResFileName = FileUtil.findFreeFileName(resultsfolder, resultsfolder.getName() +modelReference.getFilename() + "_results" , "xml");
+        FileObject newAnResFile = resultsfolder.createData(newAnResFileName,"xml");
+        resultsObject.setSummary(new Summary());
+        resultsObject.getSummary().setFitModelCall(fitModelCall);
+//TODO resolve problem with multiple modelcalls        
+        resultsObject.getSummary().setInitModelCall(modelCalls.get(0));
+//TODO fill it used schema file        
+        resultsObject.getSummary().setUsedAnalysisSchema(null); 
+
+        for (int i = 0; i < relationsList.size(); i++){
+            resultsObject.getDatasetRelations().add(new DatasetRelation());
+            resultsObject.getDatasetRelations().get(i).setTo(String.valueOf((int)floor(relationsList.get(i)[0])));
+            resultsObject.getDatasetRelations().get(i).setFrom(String.valueOf((int)floor(relationsList.get(i)[1])));
+//TODO fill in drel values!!
+            resultsObject.getDatasetRelations().get(i).getValues().add(1.1);
+            
+        }
+        
+        createAnalysisResultsFile(resultsObject, FileUtil.toFile(newAnResFile));
+
+    }
+
+
+    private void createAnalysisResultsFile(Results resultsObject, File file){
+        try {
+            javax.xml.bind.JAXBContext jaxbCtx = javax.xml.bind.JAXBContext.newInstance(resultsObject.getClass().getPackage().getName());
+            javax.xml.bind.Marshaller marshaller = jaxbCtx.createMarshaller();
+            marshaller.setProperty(javax.xml.bind.Marshaller.JAXB_ENCODING, "UTF-8"); //NOI18N
+            marshaller.setProperty(javax.xml.bind.Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
+            marshaller.marshal(resultsObject, file);
+
+        } catch (javax.xml.bind.JAXBException ex) {
+            // XXXTODO Handle exception
+            java.util.logging.Logger.getLogger("global").log(java.util.logging.Level.SEVERE, null, ex); //NOI18N
+        }
     }
 }
 

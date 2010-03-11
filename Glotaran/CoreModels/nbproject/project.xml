@@ -43,6 +43,7 @@
             </module-dependencies>
             <public-packages>
                 <package>org.glotaran.core.models.gta</package>
+                <package>org.glotaran.core.models.results</package>
                 <package>org.glotaran.core.models.structures</package>
                 <package>org.glotaran.core.models.tgd</package>
                 <package>org.glotaran.core.models.tgm</package>

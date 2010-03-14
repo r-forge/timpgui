@@ -308,7 +308,7 @@ public class AnalysisWorker implements Runnable {
                 datasets = getDatasets(datasetContainer);
                 modelCalls.add(getModelCall(modelReference, 0));
                 Tgm model = getModel(modelReference);
-                fitModelCall = getFitModelCall(datasets, modelCalls, modelDifferences, numIterations);
+                fitModelCall = getFitModelCall(datasets, modelCalls, modelDifferences, output, numIterations);
 
                 if (isValidAnalysis(datasets, model)) {
                     timpcontroller = Lookup.getDefault().lookup(TimpControllerInterface.class);
@@ -337,7 +337,7 @@ public class AnalysisWorker implements Runnable {
                         newResultsObject.getDatasets().get(i).setDatasetFile(new OutputFile());
                         newResultsObject.getDatasets().get(i).getDatasetFile().setFilename(datasetContainer.getDatasets().get(i).getFilename());
                         newResultsObject.getDatasets().get(i).getDatasetFile().setPath(datasetContainer.getDatasets().get(i).getPath());
-                        newResultsObject.getDatasets().get(i).setId(String.valueOf(i+1));
+                        newResultsObject.getDatasets().get(i).setId(String.valueOf(i + 1));
 
                         if (model.getDat().getIrfparPanel().getLamda() != null) {
                             timpResultDataset.setLamdac(model.getDat().getIrfparPanel().getLamda());
@@ -402,7 +402,7 @@ public class AnalysisWorker implements Runnable {
         return result;
     }
 
-    private String getFitModelCall(DatasetTimp[] datasets, ArrayList<String> modelCalls, GtaModelDifferences modelDifferences, int numIterations) {
+    private String getFitModelCall(DatasetTimp[] datasets, ArrayList<String> modelCalls, GtaModelDifferences modelDifferences, GtaOutput gtaOutput, int numIterations) {
         String result = "";
 
         ArrayList<String> listOfDatasets = new ArrayList<String>();
@@ -444,7 +444,7 @@ public class AnalysisWorker implements Runnable {
             result = result.concat(modeldiffsCall);
         }
 
-        String optResult = getOptResult(getModelType(modelCalls), numIterations);
+        String optResult = getOptResult(getModelType(modelCalls), gtaOutput, numIterations);
         if (!optResult.isEmpty()) {
             result = result.concat(",");
             result = result.concat(optResult);
@@ -454,10 +454,17 @@ public class AnalysisWorker implements Runnable {
         return result;
     }
 
-    private String getOptResult(String modelType, int iterations) {
+    private String getOptResult(String modelType, GtaOutput gtaOutput, int iterations) {
         String result = "opt = " + modelType + "opt("
-                + "iter = " + String.valueOf(iterations)
-                + ", plot=FALSE)";
+                + "iter = " + String.valueOf(iterations);
+        if (gtaOutput.isGenerateErrorBars()!=null) {
+            if (gtaOutput.isGenerateErrorBars() && modelType.equalsIgnoreCase("kin")) {
+                result = result + ", stderrclp = TRUE, kinspecerr = TRUE";
+            }
+        } else {
+            result = result + ", stderrclp = TRUE";
+        }
+        result = result + ", plot = FALSE)";
         return result;
     }
 
@@ -465,16 +472,16 @@ public class AnalysisWorker implements Runnable {
         String result = "";
         String tempString = "";
         if (modelDifferences != null) {
-            if (modelDifferences.getThreshold()!=null){
-                if (modelDifferences.getThreshold()!=0){
+            if (modelDifferences.getThreshold() != null) {
+                if (modelDifferences.getThreshold() != 0) {
                     result = result + "thresh = " + String.valueOf(modelDifferences.getThreshold());
                 }
             }
             tempString = getModelDiffsLinkCLP(modelDifferences.getLinkCLP());
 
             tempString = getModelDiffsFree(modelDifferences.getDifferences());
-            if (!tempString.isEmpty()){
-                if (!result.isEmpty()){
+            if (!tempString.isEmpty()) {
+                if (!result.isEmpty()) {
                     result = result + ", ";
                 }
                 result = result + tempString;
@@ -482,14 +489,14 @@ public class AnalysisWorker implements Runnable {
             tempString = "";
 
             tempString = getModelDiffsDScal(modelDifferences);
-            if (!tempString.isEmpty()){
-                if (!result.isEmpty()){
+            if (!tempString.isEmpty()) {
+                if (!result.isEmpty()) {
                     result = result + ", ";
                 }
                 result = result + tempString;
             }
             tempString = "";
-            
+
             //Fill in the "change" parameter
             for (GtaModelDiffContainer diffContainer : modelDifferences.getDifferences()) {
                 result = result + getModelDiffsChange(diffContainer);
@@ -536,11 +543,11 @@ public class AnalysisWorker implements Runnable {
                 listOfCLP[i] = "";
             }
             for (int i = 0; i < gtaLinkCLPList.size(); i++) {
-                int num = gtaLinkCLPList.get(i).getGroupNumber()-1;
+                int num = gtaLinkCLPList.get(i).getGroupNumber() - 1;
                 if (listOfCLP[num].isEmpty()) {
-                    listOfCLP[num] = listOfCLP[num] + String.valueOf(i+1);
+                    listOfCLP[num] = listOfCLP[num] + String.valueOf(i + 1);
                 } else {
-                    listOfCLP[num] = listOfCLP[num] + "," + String.valueOf(i+1);
+                    listOfCLP[num] = listOfCLP[num] + "," + String.valueOf(i + 1);
                 }
             }
             String clp = "";
@@ -583,23 +590,23 @@ public class AnalysisWorker implements Runnable {
         int datasetNum = modelDiffs.getLinkCLP().size();
 
         ArrayList<ArrayList<Integer>> groups = new ArrayList<ArrayList<Integer>>();
-        for (int i = 0; i< datasetNum; i++){
+        for (int i = 0; i < datasetNum; i++) {
             groups.add(new ArrayList<Integer>());
         }
 
-        for (int i = 0; i< datasetNum; i++){
-            groups.get(modelDiffs.getLinkCLP().get(i).getGroupNumber()-1).add(i);
+        for (int i = 0; i < datasetNum; i++) {
+            groups.get(modelDiffs.getLinkCLP().get(i).getGroupNumber() - 1).add(i);
         }
 
         String tempString = "";
 
-        for (int i = 0; i < datasetNum; i++){
-            if (groups.get(i).size()>1){
+        for (int i = 0; i < datasetNum; i++) {
+            if (groups.get(i).size() > 1) {
 //index of first dataset in the group
                 int fromInd = groups.get(i).get(0);
 //scaling parameter from first dataset in the group
-                double fromVal = modelDiffs.getDscal().get(fromInd).getValue()!=null ?
-                    modelDiffs.getDscal().get(groups.get(i).get(0)).getValue() : 1;
+                double fromVal = modelDiffs.getDscal().get(fromInd).getValue() != null
+                        ? modelDiffs.getDscal().get(groups.get(i).get(0)).getValue() : 1;
                 double toVal;
                 for (int j = 1; j < groups.get(i).size(); j++) {
 //scaling parameter to
@@ -609,9 +616,9 @@ public class AnalysisWorker implements Runnable {
                         tempString = tempString + ", ";
                     }
                     relationsList.add(new Double[3]);
-                    relationsList.get(relationsList.size()-1)[0] = (double)groups.get(i).get(j) + 1;
-                    relationsList.get(relationsList.size()-1)[1] = (double)fromInd + 1;
-                    relationsList.get(relationsList.size()-1)[2] = toVal;
+                    relationsList.get(relationsList.size() - 1)[0] = (double) groups.get(i).get(j) + 1;
+                    relationsList.get(relationsList.size() - 1)[1] = (double) fromInd + 1;
+                    relationsList.get(relationsList.size() - 1)[2] = toVal;
                     tempString = tempString + "list(to = " + String.valueOf(groups.get(i).get(j) + 1)
                             + ", from = " + String.valueOf(fromInd + 1)
                             + ", value = " + toVal
@@ -622,8 +629,8 @@ public class AnalysisWorker implements Runnable {
 
         }
 
-        if (!tempString.isEmpty()){
-            result = "dscal = list("+tempString+")";                        
+        if (!tempString.isEmpty()) {
+            result = "dscal = list(" + tempString + ")";
         }
         return result;
     }
@@ -632,7 +639,7 @@ public class AnalysisWorker implements Runnable {
         String result = "";
         for (String string : modelCalls) {
             if (string.contains("mod_type = \"kin\"")) {
-            result = "kin";
+                result = "kin";
             } else if (string.contains("mod_type = \"spec\"")) {
                 result = "spec";
             } else if (string.contains("mod_type = \"mass\"")) {
@@ -647,33 +654,32 @@ public class AnalysisWorker implements Runnable {
         return result;
     }
 
-    private void writeResultsXml(Results resultsObject ) throws IOException {
+    private void writeResultsXml(Results resultsObject) throws IOException {
 
-        String newAnResFileName = FileUtil.findFreeFileName(resultsfolder, resultsfolder.getName()+"_"+modelReference.getFilename()+"_results" , "xml");
-        FileObject newAnResFile = resultsfolder.createData(newAnResFileName,"xml");
+        String newAnResFileName = FileUtil.findFreeFileName(resultsfolder, resultsfolder.getName() + "_" + modelReference.getFilename() + "_results", "xml");
+        FileObject newAnResFile = resultsfolder.createData(newAnResFileName, "xml");
         resultsObject.setSummary(new Summary());
         resultsObject.getSummary().setFitModelCall(fitModelCall);
 //TODO resolve problem with multiple modelcalls        
         resultsObject.getSummary().setInitModelCall(modelCalls.get(0));
 //TODO fill it used schema file        
-        resultsObject.getSummary().setUsedAnalysisSchema(null); 
+        resultsObject.getSummary().setUsedAnalysisSchema(null);
 
-        for (int i = 0; i < relationsList.size(); i++){
+        for (int i = 0; i < relationsList.size(); i++) {
             resultsObject.getDatasetRelations().add(new DatasetRelation());
-            resultsObject.getDatasetRelations().get(i).setTo(String.valueOf((int)floor(relationsList.get(i)[0])));
-            resultsObject.getDatasetRelations().get(i).setFrom(String.valueOf((int)floor(relationsList.get(i)[1])));
+            resultsObject.getDatasetRelations().get(i).setTo(String.valueOf((int) floor(relationsList.get(i)[0])));
+            resultsObject.getDatasetRelations().get(i).setFrom(String.valueOf((int) floor(relationsList.get(i)[1])));
             //TODO do this in a different way
             resultsObject.getDatasetRelations().get(i).getValues().add(relationsList.get(i)[2]);
 //            String cmd = timpcontroller.NAME_OF_RESULT_OBJECT + "$currTheta[["+ (int)floor(relationsList.get(i)[1]) +"]]@drel";
 //            resultsObject.getDatasetRelations().get(i).getValues().add(timpcontroller.getDouble(cmd));
         }
-        
+
         createAnalysisResultsFile(resultsObject, FileUtil.toFile(newAnResFile));
 
     }
 
-
-    private void createAnalysisResultsFile(Results resultsObject, File file){
+    private void createAnalysisResultsFile(Results resultsObject, File file) {
         try {
             javax.xml.bind.JAXBContext jaxbCtx = javax.xml.bind.JAXBContext.newInstance(resultsObject.getClass().getPackage().getName());
             javax.xml.bind.Marshaller marshaller = jaxbCtx.createMarshaller();

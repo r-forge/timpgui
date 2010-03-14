@@ -43,6 +43,11 @@ public class OutputPanel
             jSIterationsNum.getModel().setValue(Integer.parseInt(outputDO.getIterations()));
         }
         jTFFileName.setText(outputDO.getOutputPath());
+        if (outputDO.isGenerateErrorBars()!=null) {
+        jCCalculateErrors.setSelected(outputDO.isGenerateErrorBars());
+        } else {
+            jCCalculateErrors.setSelected(false);
+        }
         addPropertyChangeListener(listn);
         root=resultsFolder;
     }
@@ -61,9 +66,8 @@ public class OutputPanel
         jTFFileName = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
-        jCheckBox3 = new javax.swing.JCheckBox();
         jCheckBox2 = new javax.swing.JCheckBox();
-        jCheckBox1 = new javax.swing.JCheckBox();
+        jCCalculateErrors = new javax.swing.JCheckBox();
         jPanel3 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jSIterationsNum = new javax.swing.JSpinner();
@@ -92,7 +96,7 @@ public class OutputPanel
                 .addContainerGap()
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTFFileName, javax.swing.GroupLayout.DEFAULT_SIZE, 116, Short.MAX_VALUE)
+                .addComponent(jTFFileName, javax.swing.GroupLayout.DEFAULT_SIZE, 117, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
@@ -110,14 +114,21 @@ public class OutputPanel
 
         jPanel2.setBackground(new java.awt.Color(255, 255, 204));
 
-        jCheckBox3.setBackground(new java.awt.Color(153, 255, 153));
-        jCheckBox3.setText(org.openide.util.NbBundle.getMessage(OutputPanel.class, "OutputPanel.jCheckBox3.text")); // NOI18N
-
         jCheckBox2.setBackground(new java.awt.Color(153, 255, 153));
         jCheckBox2.setText(org.openide.util.NbBundle.getMessage(OutputPanel.class, "OutputPanel.jCheckBox2.text")); // NOI18N
 
-        jCheckBox1.setBackground(new java.awt.Color(153, 255, 153));
-        jCheckBox1.setText(org.openide.util.NbBundle.getMessage(OutputPanel.class, "OutputPanel.jCheckBox1.text")); // NOI18N
+        jCCalculateErrors.setBackground(new java.awt.Color(153, 255, 153));
+        jCCalculateErrors.setText(org.openide.util.NbBundle.getMessage(OutputPanel.class, "OutputPanel.jCCalculateErrors.text")); // NOI18N
+        jCCalculateErrors.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                jCCalculateErrorsStateChanged(evt);
+            }
+        });
+        jCCalculateErrors.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jCCalculateErrorsActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -126,20 +137,17 @@ public class OutputPanel
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jCheckBox1)
-                    .addComponent(jCheckBox3)
+                    .addComponent(jCCalculateErrors)
                     .addComponent(jCheckBox2))
-                .addContainerGap(121, Short.MAX_VALUE))
+                .addContainerGap(122, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jCheckBox1)
+                .addComponent(jCCalculateErrors)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jCheckBox2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jCheckBox3)
                 .addContainerGap())
         );
 
@@ -162,8 +170,8 @@ public class OutputPanel
                 .addContainerGap()
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jSIterationsNum, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(126, Short.MAX_VALUE))
+                .addComponent(jSIterationsNum, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(116, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -179,24 +187,24 @@ public class OutputPanel
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+            .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+            .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 96, Short.MAX_VALUE)
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -220,12 +228,21 @@ public class OutputPanel
         firePropertyChange("modelChanged", null, null);
     }//GEN-LAST:event_jSIterationsNumStateChanged
 
+    private void jCCalculateErrorsStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jCCalculateErrorsStateChanged
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jCCalculateErrorsStateChanged
+
+    private void jCCalculateErrorsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCCalculateErrorsActionPerformed
+        // TODO add your handling code here:
+        outputDO.setGenerateErrorBars(jCCalculateErrors.isSelected());
+        firePropertyChange("modelChanged", null, null);
+    }//GEN-LAST:event_jCCalculateErrorsActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
-    private javax.swing.JCheckBox jCheckBox1;
+    private javax.swing.JCheckBox jCCalculateErrors;
     private javax.swing.JCheckBox jCheckBox2;
-    private javax.swing.JCheckBox jCheckBox3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
@@ -234,9 +251,5 @@ public class OutputPanel
     private javax.swing.JSpinner jSIterationsNum;
     private javax.swing.JTextField jTFFileName;
     // End of variables declaration//GEN-END:variables
-
-    public void propertyChange(PropertyChangeEvent evt) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
 
 }

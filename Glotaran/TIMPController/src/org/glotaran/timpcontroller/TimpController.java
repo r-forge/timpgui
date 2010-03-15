@@ -120,7 +120,8 @@ public class TimpController implements TimpControllerInterface {
         TimpResultDataset result = new TimpResultDataset();
 
         result.setDatasetName(datasetName);
-        result.setSpectra(getCLP(NAME_OF_RESULT_OBJECT, datasetNumber));
+//        result.setSpectra(getCLP(NAME_OF_RESULT_OBJECT, datasetNumber));
+        result.setSpectra(getSpectra(NAME_OF_RESULT_OBJECT, datasetNumber));
         result.setSpectraErr(getCLP(NAME_OF_RESULT_OBJECT, true,datasetNumber));
         result.setX(getdim1(NAME_OF_RESULT_OBJECT, datasetNumber));
         result.setX2(getdim2(NAME_OF_RESULT_OBJECT, datasetNumber));
@@ -268,6 +269,22 @@ public class TimpController implements TimpControllerInterface {
             ls.add(i, getCLP(resultVariable, getclperr, i));
         }
         return ls;
+    }
+
+    public Matrix getSpectra(String resultVariable, int dataset) {
+        Matrix sas = getCLP(resultVariable, false, dataset);
+        Matrix das = getDAS(resultVariable, dataset);
+        Matrix results = new Matrix(sas.getRowDimension()*2, sas.getColumnDimension());
+        results.setMatrix(0, sas.getRowDimension()-1, 0, sas.getColumnDimension()-1, sas);
+        results.setMatrix(sas.getRowDimension(), sas.getRowDimension()*2-1, 0, sas.getColumnDimension()-1, das);
+        return results;
+    }
+
+    private Matrix getDAS(String resultVariable, int dataset){
+        //TODO: Have Ralf fix this bug related to asMatrix not working.
+        //return getDoubleMatrix("t(getCLP(" + resultVariable + ", getclperr = " + getclperrStr + ", dataset =" + dataset + "))");
+        String cmd = "t(getDAS(" + resultVariable + ", dataset =" + dataset + "))";
+        return getTempMatrix(cmd);
     }
 
     public Matrix getCLP(String resultVariable, int dataset) {

@@ -1467,6 +1467,7 @@ public final class SpecResultsTopComponent extends TopComponent implements Chart
 
         int compNum = 0;
         double maxAmpl = 0;
+        double maxDasAmpl = 0;
         if (jTBShowChohSpec.isSelected()) {
             compNum = numberOfComponents + 1;
         }
@@ -1476,39 +1477,53 @@ public final class SpecResultsTopComponent extends TopComponent implements Chart
 
         YIntervalSeriesCollection realSasCollection = new YIntervalSeriesCollection();
         YIntervalSeriesCollection normSasCollection = new YIntervalSeriesCollection();
-        YIntervalSeriesCollection realDasCollection = new YIntervalSeriesCollection();
-        YIntervalSeriesCollection normDasCollection = new YIntervalSeriesCollection();
+        XYSeriesCollection realDasCollection = new XYSeriesCollection();
+        XYSeriesCollection normDasCollection = new XYSeriesCollection();
         YIntervalSeries seria;
+        XYSeries dasSeria;
 //        XYSeries seria;
 //create collection of real sas and normalizes all of them to max or abs(max) and creates collection with normSAS
 //TODO create collection of real das and normalizes all of them to max and creates collection with normDAS
         for (int j = 0; j < compNum; j++) {
             seria =new YIntervalSeries(specName + (j + 1));// new XYSeries(specName + (j + 1));
+            dasSeria = new XYSeries("DAS" + (j + 1));
             maxAmpl = 0;
             for (int i = 0; i < res.getX2().length; i++) {
                 seria.add(res.getX2()[i], res.getSpectra().get(j, i),
                         res.getSpectra().get(j, i)-res.getSpectraErr().get(j,i),
                         res.getSpectra().get(j, i)+res.getSpectraErr().get(j,i));
+                dasSeria.add(res.getX2()[i], res.getSpectra().get(j+compNum, i));
                 if (jTBNormToMax.isSelected()){
                     if (maxAmpl<(res.getSpectra().get(j, i))){
                         maxAmpl=(res.getSpectra().get(j, i));
                     }
+                    if (maxDasAmpl<(res.getSpectra().get(j+compNum, i))){
+                        maxDasAmpl=(res.getSpectra().get(j+compNum, i));
+                    }
+
                 }
                 else {
                     if (maxAmpl<abs(res.getSpectra().get(j, i))){
                         maxAmpl=abs(res.getSpectra().get(j, i));
                     }
+                    if (maxDasAmpl<abs(res.getSpectra().get(j+compNum, i))){
+                        maxDasAmpl=abs(res.getSpectra().get(j+compNum, i));
+                    }
                 }
             }
             realSasCollection.addSeries(seria);
+            realDasCollection.addSeries(dasSeria);
+
             seria = new YIntervalSeries("Norm"+specName + (j + 1));
+            dasSeria = new XYSeries("NormDas" + (j + 1));
             for (int i = 0; i < res.getX2().length; i++) {
                 seria.add(res.getX2()[i], res.getSpectra().get(j, i)/maxAmpl,
                         res.getSpectra().get(j, i)/maxAmpl-res.getSpectraErr().get(j,i)/maxAmpl,
                         res.getSpectra().get(j, i)/maxAmpl+res.getSpectraErr().get(j,i)/maxAmpl);
-//                seria.add(res.getX2()[i], res.getSpectra().get(j, i)/maxAmpl,0,0);
+                dasSeria.add(res.getX2()[i], res.getSpectra().get(j+compNum, i)/maxDasAmpl);
             }
             normSasCollection.addSeries(seria);
+            normDasCollection.addSeries(dasSeria);
         }
 
         JFreeChart tracechart = ChartFactory.createXYLineChart(
@@ -1549,13 +1564,8 @@ public final class SpecResultsTopComponent extends TopComponent implements Chart
                 false,
                 false,
                 false);
-        tracechart.setBackgroundPaint(JFreeChart.DEFAULT_BACKGROUND_PAINT);
         tracechart.getXYPlot().getDomainAxis().setUpperBound(res.getX2()[res.getX2().length - 1]);
-        tracechart.getXYPlot().setRangeZeroBaselineVisible(true);
-//        for (int i = 0; i < numberOfComponents; i++)
-//            tracechart.getXYPlot().getRenderer().setSeriesPaint(i, ((AbstractRenderer) tracechart.getXYPlot().getRenderer()).lookupSeriesPaint(i));
-        chpan = new GraphPanel(tracechart, errorBars);
-//        chpan.setSize(jPDAS.getSize());
+        chpan = new GraphPanel(tracechart, false);
         jPDAS.removeAll();
         jPDAS.add(chpan);
 
@@ -1568,13 +1578,8 @@ public final class SpecResultsTopComponent extends TopComponent implements Chart
                 false,
                 false,
                 false);
-        tracechart.setBackgroundPaint(JFreeChart.DEFAULT_BACKGROUND_PAINT);
         tracechart.getXYPlot().getDomainAxis().setUpperBound(res.getX2()[res.getX2().length - 1]);
-        tracechart.getXYPlot().setRangeZeroBaselineVisible(true);
-//        for (int i = 0; i < compNum; i++)
-//            tracechart.getXYPlot().getRenderer().setSeriesPaint(i, ((AbstractRenderer) tracechart.getXYPlot().getRenderer()).lookupSeriesPaint(i));
-        chpan = new GraphPanel(tracechart, errorBars);
-//        chpan.setSize(jPDASnorm.getSize());
+        chpan = new GraphPanel(tracechart, false);
         jPDASnorm.removeAll();
         jPDASnorm.add(chpan);
 

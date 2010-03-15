@@ -9,7 +9,7 @@ package org.glotaran.core.interfaces;
  *
  * @author slapten
  */
-public interface XMLFilesSupportIntarface {
+public interface SupportedXMLFilesInterface {
 
 //return dataobject for a given node
     public Object getDataObjectClass();

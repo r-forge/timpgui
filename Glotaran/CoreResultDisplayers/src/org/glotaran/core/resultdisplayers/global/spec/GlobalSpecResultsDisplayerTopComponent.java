@@ -6,6 +6,7 @@ package org.glotaran.core.resultdisplayers.global.spec;
 
 import java.util.List;
 import java.util.logging.Logger;
+import org.glotaran.core.models.results.GtaResult;
 import org.glotaran.core.models.structures.TimpResultDataset;
 import org.openide.util.NbBundle;
 import org.openide.windows.TopComponent;
@@ -35,7 +36,7 @@ public final class GlobalSpecResultsDisplayerTopComponent extends CloneableTopCo
 
     }
 
-    public GlobalSpecResultsDisplayerTopComponent(List<TimpResultDataset> results) {
+    public GlobalSpecResultsDisplayerTopComponent(List<TimpResultDataset> results, GtaResult gtaResult) {
         initComponents();
         setName(NbBundle.getMessage(GlobalSpecResultsDisplayerTopComponent.class, "CTL_GlobalSpecResultsDisplayerTopComponent"));
         setToolTipText(NbBundle.getMessage(GlobalSpecResultsDisplayerTopComponent.class, "HINT_GlobalSpecResultsDisplayerTopComponent"));

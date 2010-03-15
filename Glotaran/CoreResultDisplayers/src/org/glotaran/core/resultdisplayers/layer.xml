@@ -2,12 +2,35 @@
 <!DOCTYPE filesystem PUBLIC "-//NetBeans//DTD Filesystem 1.2//EN" "http://www.netbeans.org/dtds/filesystem-1_2.dtd">
 <filesystem>
     <folder name="Actions">
+        <folder name="Analysis">
+            <file name="org-glotaran-core-main-nodes-actions-CompareTimpResultsAction.instance">
+                <attr name="delegate" methodvalue="org.openide.awt.Actions.inject"/>
+                <attr name="displayName" bundlevalue="org.glotaran.core.main.nodes.actions.Bundle#CTL_CompareTimpResults"/>
+                <attr name="injectable" stringvalue="org.glotaran.core.resultdisplayers.actions.CompareTimpResultsAction"/>
+                <attr name="instanceCreate" methodvalue="org.openide.awt.Actions.context"/>
+                <attr name="noIconInMenu" boolvalue="false"/>
+                <attr name="selectionType" stringvalue="ANY"/>
+                <attr name="type" stringvalue="org.openide.loaders.DataObject"/>
+            </file>
+        </folder>
         <folder name="Window">
             <file name="org-glotaran-core-resultdisplayers-global-spec-GlobalSpecResultsDisplayerAction.instance">
                 <attr name="component" methodvalue="org.glotaran.core.resultdisplayers.global.spec.GlobalSpecResultsDisplayerTopComponent.findInstance"/>
                 <attr name="displayName" bundlevalue="org.glotaran.core.resultdisplayers.global.spec.Bundle#CTL_GlobalSpecResultsDisplayerAction"/>
                 <attr name="instanceCreate" methodvalue="org.openide.windows.TopComponent.openAction"/>
             </file>
+        </folder>
+    </folder>
+    <folder name="Loaders">
+        <folder name="text">
+            <folder name="x-timpres">
+                <folder name="Actions">
+                    <file name="org-glotaran-core-main-nodes-actions-CompareTimpResults.shadow">
+                        <attr name="originalFile" stringvalue="Actions/Analysis/org-glotaran-core-main-nodes-actions-CompareTimpResultsAction.instance"/>
+                        <attr name="position" intvalue="100"/>
+                    </file>
+                </folder>
+            </folder>
         </folder>
     </folder>
     <folder name="Menu">

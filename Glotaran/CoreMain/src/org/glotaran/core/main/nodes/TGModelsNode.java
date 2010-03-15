@@ -55,11 +55,11 @@ public class TGModelsNode extends FilterNode {
 
         @Override
         protected Node[] createNodes(Node n) {
-//            Collection<? extends XMLFilesSupportIntarface> services =
-//                    Lookup.getDefault().lookupAll(XMLFilesSupportIntarface.class);
+//            Collection<? extends SupportedXMLFilesInterface> services =
+//                    Lookup.getDefault().lookupAll(SupportedXMLFilesInterface.class);
 //            String s = null;
 //            for (int i = 0; i < services.size(); i++){
-//                XMLFilesSupportIntarface service = (XMLFilesSupportIntarface)services.toArray()[i];
+//                SupportedXMLFilesInterface service = (SupportedXMLFilesInterface)services.toArray()[i];
 //                if (service.getType().equalsIgnoreCase("TGMDataObject")){
 //                    if (n.getLookup().lookup(service.getDataObjectClass().getClass()) != null) {
 //                        s = service.getType();

@@ -3,7 +3,7 @@
  * and open the template in the editor.
  */
 
-package org.glotaran.tgmfilesupport;
+package org.glotaran.analysisresultfilesupport;
 
 import org.glotaran.core.interfaces.SupportedXMLFilesInterface;
 
@@ -11,14 +11,14 @@ import org.glotaran.core.interfaces.SupportedXMLFilesInterface;
  *
  * @author slapten
  */
-public class TGMClassInterfaceProvider implements SupportedXMLFilesInterface {
+public class AnalysisResultClassInterfaceProvider implements SupportedXMLFilesInterface {
 
     public Object getDataObjectClass() {
-        return TgmDataObject.class;
+        return AnalysisResultDataObject.class;
     }
 
     public String getType() {
-        return "TgmDataObject";
+        return "AnalysisResultDataObject";
     }
 
 }

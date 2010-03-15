@@ -29,8 +29,8 @@ import org.glotaran.core.models.gta.GtaModelReference;
 import org.glotaran.core.models.gta.GtaOutput;
 import org.glotaran.core.models.results.Dataset;
 import org.glotaran.core.models.results.DatasetRelation;
+import org.glotaran.core.models.results.GtaResult;
 import org.glotaran.core.models.results.OutputFile;
-import org.glotaran.core.models.results.Results;
 import org.glotaran.core.models.results.Summary;
 import org.glotaran.core.models.tgm.Tgm;
 import org.glotaran.tgmfilesupport.TgmDataObject;
@@ -65,10 +65,6 @@ public class AnalysisWorker implements Runnable {
     private String fitModelCall;
     private int numIterations;
     private ArrayList<Double[]> relationsList = new ArrayList<Double[]>();
-
-    public AnalysisWorker() {
-        //TODO: implement constructor
-    }
 
     public AnalysisWorker(TGProject currentProject, GtaOutput gtaOutput, GtaDatasetContainer gtaDatasetContainer, GtaModelReference gtaModelReference, GtaModelDifferences gtaModelDifferences) {
         this.output = gtaOutput;
@@ -150,241 +146,6 @@ public class AnalysisWorker implements Runnable {
         return model;
     }
 
-    private boolean isValidAnalysis(DatasetTimp[] datasets, Tgm tgm) {
-        String feedback = null;
-        boolean run = true;
-        for (DatasetTimp dataset : datasets) {
-            if (dataset == null) {
-                run = false;
-            }
-        }
-
-        if (!tgm.getDat().getIrfparPanel().isMirf()) {
-            if (tgm.getDat().getIrfparPanel().getParmu() != null || tgm.getDat().getIrfparPanel().getPartau() != null) {
-                if (!tgm.getDat().getIrfparPanel().getParmu().isEmpty() || !tgm.getDat().getIrfparPanel().getPartau().isEmpty()) {
-                    Double test = tgm.getDat().getIrfparPanel().getLamda();
-                    if (test == null || test.isNaN()) {
-                        run = false;
-                        feedback = "Parmu or Partau specified but no center wavelength was specified.";
-                    }
-                }
-            }
-        }
-
-
-        if (feedback != null) {
-            NotifyDescriptor errorMessage = new NotifyDescriptor.Exception(
-                    new Exception("Invalid Model: \n"
-                    + "" + feedback + "\n"
-                    + "Analysis was not started."));
-            DialogDisplayer.getDefault().notify(errorMessage);
-        }
-        return run;
-    }
-
-    private void writeSummary(FileObject resultsfolder, String freeFilename) throws IOException {
-        writeTo = resultsfolder.createData(freeFilename, "summary");
-        BufferedWriter outputWriter = new BufferedWriter(new FileWriter(FileUtil.toFile(writeTo)));
-        //TODO: Complete the summary here:
-        outputWriter.append("Summary");
-        outputWriter.newLine();
-//        outputWriter.append("Used dataset(s): ");
-//        for (int j = 0; j < datasets.length; j++) {
-//            DatasetTimp dataset = datasets[j];
-//            if (j > 0) {
-//                outputWriter.append(", ");
-//            }
-//            outputWriter.append(dataset.getDatasetName());
-//        }
-//        outputWriter.newLine();
-//        outputWriter.newLine();
-//        outputWriter.append("Used model(s): ");
-//        for (int j = 0; j < models.length; j++) {
-//            if (j > 0) {
-//                outputWriter.append(", ");
-//            }
-//            outputWriter.append(models[j].getDat().getModelName());
-//        }
-//        outputWriter.newLine();
-//        outputWriter.newLine();
-
-        outputWriter.append("Number of iterations: ");
-        outputWriter.append(String.valueOf(numIterations));
-        outputWriter.newLine();
-        outputWriter.newLine();
-
-        outputWriter.append("R Call for the TIMP function \"initModel\": ");
-        outputWriter.newLine();
-        ArrayList<String> list = modelCalls;
-        for (String string : list) {
-            outputWriter.append(string);
-            outputWriter.newLine();
-        }
-        outputWriter.newLine();
-        outputWriter.append("R Call for the TIMP function \"fitModel\": ");
-        outputWriter.newLine();
-        outputWriter.write(fitModelCall);
-        outputWriter.newLine();
-        outputWriter.newLine();
-
-        if (results != null) {
-
-            outputWriter.append("Final residual standard error: ");
-            outputWriter.append((new Formatter().format("%g", results[0].getRms())).toString());
-            outputWriter.newLine();
-            outputWriter.newLine();
-
-            String[] slots = {"getKineticParameters", "getSpectralParameters", "getIrfpar", "getSpecdisppar", "getParmu", "getPartau", "getKinscal", "getPrel", "getJvec"};
-            String[] slotsName = {"Kinetic parameters", "Spectral parameters", "Irf parameters", "Specdisppar", "Parmu", "Partau", "Kinscal", "Prel", "J vector"};
-            double[] params = null;
-
-            for (int k = 0; k < slots.length; k++) {
-                try {
-                    try {
-                        for (int i = 0; i < results.length; i++) {
-                            //TODO: verify the next line
-                            //params = (double[]) results[i].getClass().getMethod(slots[k], new Class[]{results[i].getClass().getClass()}).invoke(results[i], new Object[]{results});
-                            params = (double[]) results[i].getClass().getMethod(slots[k], null).invoke(results[i], null);
-                            if (params != null) {
-
-                                outputWriter.append("Estimated " + slotsName[k] + ": ");
-                                outputWriter.newLine();
-                                outputWriter.newLine();
-                                outputWriter.append("Dataset" + (i + 1) + ": ");
-                                for (int j = 0; j < params.length / 2; j++) {
-                                    if (j > 0) {
-                                        outputWriter.append(", ");
-                                    }
-                                    outputWriter.append((new Formatter().format("%g", params[j])).toString());
-                                }
-                                outputWriter.newLine();
-                                outputWriter.newLine();
-                                outputWriter.append("Standard errors: ");
-                                for (int j = 0; j < params.length / 2; j++) {
-                                    if (j > 0) {
-                                        outputWriter.append(", ");
-                                    }
-                                    outputWriter.append((new Formatter().format("%g",
-                                            params[j + params.length / 2])).toString());
-                                }
-                                outputWriter.newLine();
-                                outputWriter.newLine();
-                            }
-                        }
-                    } catch (IllegalAccessException ex) {
-                        Exceptions.printStackTrace(ex);
-                    } catch (IllegalArgumentException ex) {
-                        Exceptions.printStackTrace(ex);
-                    } catch (InvocationTargetException ex) {
-                        Exceptions.printStackTrace(ex);
-                    }
-                } catch (NoSuchMethodException ex) {
-                    Exceptions.printStackTrace(ex);
-                } catch (SecurityException ex) {
-                    Exceptions.printStackTrace(ex);
-                }
-            }
-        } else {
-            outputWriter.newLine();
-            outputWriter.append("Error: The analysis did not return valid results.");
-            outputWriter.newLine();
-            outputWriter.append("Try again with different parameters.");
-        }
-        outputWriter.close();
-    }
-
-    public void run() {
-
-        if (project != null) {
-            if (!output.getIterations().isEmpty()) {
-                numIterations = Integer.parseInt(output.getIterations());
-            } else {
-                numIterations = NO_OF_ITERATIONS;
-            }
-            if (output.getOutputPath() != null) {
-                String outputPath = project.getResultsFolder(true) + File.separator + output.getOutputPath();
-                resultsfolder = FileUtil.toFileObject(new File(outputPath));
-
-                datasets = getDatasets(datasetContainer);
-                modelCalls.add(getModelCall(modelReference, 0));
-                Tgm model = getModel(modelReference);
-                fitModelCall = getFitModelCall(datasets, modelCalls, modelDifferences, output, numIterations);
-
-                if (isValidAnalysis(datasets, model)) {
-                    timpcontroller = Lookup.getDefault().lookup(TimpControllerInterface.class);
-                    if (timpcontroller != null) {
-                        results = timpcontroller.runAnalysis(datasets, modelCalls, fitModelCall);
-                    }
-                } else {
-                    //TODO: CoreErrorMessages warning
-                    return;
-                }
-
-                if (results != null) {
-                    Results newResultsObject = new Results();
-                    String freeResultsFilename = FileUtil.findFreeFileName(resultsfolder, resultsfolder.getName() + "analysisSummary", "summary");
-                    try {
-                        writeSummary(resultsfolder, freeResultsFilename);
-                    } catch (IOException ex) {
-                        Exceptions.printStackTrace(ex);
-                    }
-
-                    for (int i = 0; i < results.length; i++) {
-                        TimpResultDataset timpResultDataset = results[i];
-                        timpResultDataset.setType(datasets[i].getType());
-
-                        newResultsObject.getDatasets().add(new Dataset());
-                        newResultsObject.getDatasets().get(i).setDatasetFile(new OutputFile());
-                        newResultsObject.getDatasets().get(i).getDatasetFile().setFilename(datasetContainer.getDatasets().get(i).getFilename());
-                        newResultsObject.getDatasets().get(i).getDatasetFile().setPath(datasetContainer.getDatasets().get(i).getPath());
-                        newResultsObject.getDatasets().get(i).setId(String.valueOf(i + 1));
-
-                        if (model.getDat().getIrfparPanel().getLamda() != null) {
-                            timpResultDataset.setLamdac(model.getDat().getIrfparPanel().getLamda());
-                        }
-
-                        if (datasets[i].getType().equalsIgnoreCase("flim")) {
-                            timpResultDataset.setOrheigh(datasets[i].getOriginalHeight());
-                            timpResultDataset.setOrwidth(datasets[i].getOriginalWidth());
-                            timpResultDataset.setIntenceIm(datasets[i].getIntenceIm().clone());
-                            timpResultDataset.setMaxInt(datasets[i].getMaxInt());
-                            timpResultDataset.setMinInt(datasets[i].getMinInt());
-                            timpResultDataset.setX(datasets[i].getX().clone());
-                            timpResultDataset.setX2(datasets[i].getX2().clone());
-                        }
-
-                        try {
-                            String freeFilename = FileUtil.findFreeFileName(resultsfolder, resultsfolder.getName() + "_d" + (i + 1) + "_" + timpResultDataset.getDatasetName(), "timpres");
-                            writeTo = resultsfolder.createData(freeFilename, "timpres");
-                            ObjectOutputStream stream = new ObjectOutputStream(writeTo.getOutputStream());
-                            stream.writeObject(timpResultDataset);
-                            stream.close();
-
-                            newResultsObject.getDatasets().get(i).setResultFile(new OutputFile());
-                            newResultsObject.getDatasets().get(i).getResultFile().setFilename(freeFilename);
-                            newResultsObject.getDatasets().get(i).getResultFile().setPath(resultsfolder.getPath());
-
-                        } catch (IOException ex) {
-                            Exceptions.printStackTrace(ex);
-                        }
-
-                    }
-                    try {
-                        writeResultsXml(newResultsObject);
-                    } catch (IOException ex) {
-                        Exceptions.printStackTrace(ex);
-                    }
-                } else {
-                    try {
-                        writeSummary(resultsfolder, FileUtil.findFreeFileName(resultsfolder, resultsfolder.getName() + "_errorlog", "summary"));
-                    } catch (IOException ex) {
-                        Exceptions.printStackTrace(ex);
-                    }
-                }
-            }
-        }
-    }
-
     private ArrayList<String> getModelCalls(ArrayList<GtaModelReference> modelReferences) {
         ArrayList<String> result = new ArrayList<String>();
         for (int i = 0; i < modelReferences.size(); i++) {
@@ -394,11 +155,11 @@ public class AnalysisWorker implements Runnable {
         return result;
     }
 
-    private String getModelCall(GtaModelReference modelReference, int i) {
+    private String getModelCall(GtaModelReference modelReference, int modelIndex) {
         String result;
         Tgm tgm = getModel(modelReference);
         String modelCall = InitModel.parseModel(tgm);
-        result = TimpControllerInterface.NAME_OF_MODEL + (i + 1) + " <- " + modelCall;
+        result = TimpControllerInterface.NAME_OF_MODEL + (modelIndex + 1) + " <- " + modelCall;
         return result;
     }
 
@@ -457,7 +218,7 @@ public class AnalysisWorker implements Runnable {
     private String getOptResult(String modelType, GtaOutput gtaOutput, int iterations) {
         String result = "opt = " + modelType + "opt("
                 + "iter = " + String.valueOf(iterations);
-        if (gtaOutput.isGenerateErrorBars()!=null) {
+        if (gtaOutput.isGenerateErrorBars() != null) {
             if (gtaOutput.isGenerateErrorBars() && modelType.equalsIgnoreCase("kin")) {
                 result = result + ", stderrclp = TRUE, kinspecerr = TRUE";
             }
@@ -665,7 +426,208 @@ public class AnalysisWorker implements Runnable {
         return result;
     }
 
-    private void writeResultsXml(Results resultsObject) throws IOException {
+    private boolean isValidAnalysis(DatasetTimp[] datasets, GtaModelReference gtaModelReference) {
+        Tgm tgm = getModel(gtaModelReference);
+        String feedback = null;
+
+        boolean run = true;
+        for (DatasetTimp dataset : datasets) {
+            if (dataset == null) {
+                run = false;
+            }
+        }
+
+        if (!tgm.getDat().getIrfparPanel().isMirf()) {
+            if (tgm.getDat().getIrfparPanel().getParmu() != null || tgm.getDat().getIrfparPanel().getPartau() != null) {
+                if (!tgm.getDat().getIrfparPanel().getParmu().isEmpty() || !tgm.getDat().getIrfparPanel().getPartau().isEmpty()) {
+                    Double test = tgm.getDat().getIrfparPanel().getLamda();
+                    if (test == null || test.isNaN()) {
+                        run = false;
+                        feedback = "Parmu or Partau specified but no center wavelength was specified.";
+                    }
+                }
+            }
+        }
+
+
+        if (feedback != null) {
+            NotifyDescriptor errorMessage = new NotifyDescriptor.Exception(
+                    new Exception("Invalid Model: \n"
+                    + "" + feedback + "\n"
+                    + "Analysis was not started."));
+            DialogDisplayer.getDefault().notify(errorMessage);
+        }
+        return run;
+    }
+
+    public void run() {
+
+        if (project != null) {
+            if (!output.getIterations().isEmpty()) {
+                numIterations = Integer.parseInt(output.getIterations());
+            } else {
+                numIterations = NO_OF_ITERATIONS;
+            }
+            if (output.getOutputPath() != null) {
+                String outputPath = project.getResultsFolder(true) + File.separator + output.getOutputPath();
+                File outputFolder = new File(outputPath);
+                if(outputFolder.exists()) {
+                    resultsfolder = FileUtil.toFileObject(outputFolder);
+                    if (resultsfolder.getChildren().length>0) {
+                        try {
+                            resultsfolder = FileUtil.createFolder(resultsfolder.getParent(), FileUtil.findFreeFolderName(resultsfolder.getParent(), resultsfolder.getName()));
+                        } catch (IOException ex) {
+                            Exceptions.printStackTrace(ex);
+                        }
+                    }                   
+                } else {                                
+                    try {
+                        FileUtil.createFolder(outputFolder);
+                        resultsfolder = outputFolder.exists() ? FileUtil.toFileObject(outputFolder) : null;
+                    } catch (IOException ex) {
+                        Exceptions.printStackTrace(ex);
+                    }                                        
+                }
+
+                datasets = getDatasets(datasetContainer);
+                modelCalls.add(getModelCall(modelReference, 0));
+                
+                fitModelCall = getFitModelCall(datasets, modelCalls, modelDifferences, output, numIterations);
+
+                if (isValidAnalysis(datasets, modelReference)) {
+                    timpcontroller = Lookup.getDefault().lookup(TimpControllerInterface.class);
+                    if (timpcontroller != null) {
+                        results = timpcontroller.runAnalysis(datasets, modelCalls, fitModelCall);
+                    }
+                } else {
+                    //TODO: CoreErrorMessages warning
+                    return;
+                }
+
+                if (results != null) {
+                    writeResults(results, modelReference);
+
+                } else {
+                    try {
+                        writeSummary(resultsfolder, FileUtil.findFreeFileName(resultsfolder, resultsfolder.getName() + "_errorlog", "summary"));
+                    } catch (IOException ex) {
+                        Exceptions.printStackTrace(ex);
+                    }
+                }
+            }
+        }
+    }
+
+    private void writeSummary(FileObject resultsfolder, String freeFilename) throws IOException {
+        writeTo = resultsfolder.createData(freeFilename, "summary");
+        BufferedWriter outputWriter = new BufferedWriter(new FileWriter(FileUtil.toFile(writeTo)));
+        //TODO: Complete the summary here:
+        outputWriter.append("Summary");
+        outputWriter.newLine();
+//        outputWriter.append("Used dataset(s): ");
+//        for (int j = 0; j < datasets.length; j++) {
+//            DatasetTimp dataset = datasets[j];
+//            if (j > 0) {
+//                outputWriter.append(", ");
+//            }
+//            outputWriter.append(dataset.getDatasetName());
+//        }
+//        outputWriter.newLine();
+//        outputWriter.newLine();
+//        outputWriter.append("Used model(s): ");
+//        for (int j = 0; j < models.length; j++) {
+//            if (j > 0) {
+//                outputWriter.append(", ");
+//            }
+//            outputWriter.append(models[j].getDat().getModelName());
+//        }
+//        outputWriter.newLine();
+//        outputWriter.newLine();
+
+        outputWriter.append("Number of iterations: ");
+        outputWriter.append(String.valueOf(numIterations));
+        outputWriter.newLine();
+        outputWriter.newLine();
+
+        outputWriter.append("R Call for the TIMP function \"initModel\": ");
+        outputWriter.newLine();
+        ArrayList<String> list = modelCalls;
+        for (String string : list) {
+            outputWriter.append(string);
+            outputWriter.newLine();
+        }
+        outputWriter.newLine();
+        outputWriter.append("R Call for the TIMP function \"fitModel\": ");
+        outputWriter.newLine();
+        outputWriter.write(fitModelCall);
+        outputWriter.newLine();
+        outputWriter.newLine();
+
+        if (results != null) {
+
+            outputWriter.append("Final residual standard error: ");
+            outputWriter.append((new Formatter().format("%g", results[0].getRms())).toString());
+            outputWriter.newLine();
+            outputWriter.newLine();
+
+            String[] slots = {"getKineticParameters", "getSpectralParameters", "getIrfpar", "getSpecdisppar", "getParmu", "getPartau", "getKinscal", "getPrel", "getJvec"};
+            String[] slotsName = {"Kinetic parameters", "Spectral parameters", "Irf parameters", "Specdisppar", "Parmu", "Partau", "Kinscal", "Prel", "J vector"};
+            double[] params = null;
+
+            for (int k = 0; k < slots.length; k++) {
+                try {
+                    try {
+                        for (int i = 0; i < results.length; i++) {
+                            //TODO: verify the next line
+                            //params = (double[]) results[i].getClass().getMethod(slots[k], new Class[]{results[i].getClass().getClass()}).invoke(results[i], new Object[]{results});
+                            params = (double[]) results[i].getClass().getMethod(slots[k], null).invoke(results[i], null);
+                            if (params != null) {
+                                if (i==0) {
+                                    outputWriter.newLine();
+                                    outputWriter.append("Estimated " + slotsName[k] + ": ");
+                                }
+                                outputWriter.append("Dataset" + (i + 1) + ": ");
+                                for (int j = 0; j < params.length / 2; j++) {
+                                    if (j > 0) {
+                                        outputWriter.append(", ");
+                                    }
+                                    outputWriter.append((new Formatter().format("%g", params[j])).toString());
+                                }
+                                outputWriter.newLine();
+                                outputWriter.append("Standard errors: ");
+                                for (int j = 0; j < params.length / 2; j++) {
+                                    if (j > 0) {
+                                        outputWriter.append(", ");
+                                    }
+                                    outputWriter.append((new Formatter().format("%g",
+                                            params[j + params.length / 2])).toString());
+                                }
+                                outputWriter.newLine();
+                            }
+                        }
+                    } catch (IllegalAccessException ex) {
+                        Exceptions.printStackTrace(ex);
+                    } catch (IllegalArgumentException ex) {
+                        Exceptions.printStackTrace(ex);
+                    } catch (InvocationTargetException ex) {
+                        Exceptions.printStackTrace(ex);
+                    }
+                } catch (NoSuchMethodException ex) {
+                    Exceptions.printStackTrace(ex);
+                } catch (SecurityException ex) {
+                    Exceptions.printStackTrace(ex);
+                }
+            }
+        } else {
+            outputWriter.newLine();
+            outputWriter.append("Error: The analysis did not return valid results.");
+            outputWriter.newLine();
+            outputWriter.append("Try again with different parameters.");
+        }
+        outputWriter.close();
+    }
+
+    private void writeResultsXml(GtaResult resultsObject) throws IOException {
 
         String newAnResFileName = FileUtil.findFreeFileName(resultsfolder, resultsfolder.getName() + "_" + modelReference.getFilename() + "_results", "xml");
         FileObject newAnResFile = resultsfolder.createData(newAnResFileName, "xml");
@@ -690,7 +652,7 @@ public class AnalysisWorker implements Runnable {
 
     }
 
-    private void createAnalysisResultsFile(Results resultsObject, File file) {
+    private void createAnalysisResultsFile(GtaResult resultsObject, File file) {
         try {
             javax.xml.bind.JAXBContext jaxbCtx = javax.xml.bind.JAXBContext.newInstance(resultsObject.getClass().getPackage().getName());
             javax.xml.bind.Marshaller marshaller = jaxbCtx.createMarshaller();
@@ -703,6 +665,64 @@ public class AnalysisWorker implements Runnable {
             java.util.logging.Logger.getLogger("global").log(java.util.logging.Level.SEVERE, null, ex); //NOI18N
         }
     }
+
+    private void writeResults(TimpResultDataset[] results, GtaModelReference modelReference) {
+        Tgm model = getModel(modelReference);
+        GtaResult newResultsObject = new GtaResult();
+        String freeResultsFilename = FileUtil.findFreeFileName(resultsfolder, resultsfolder.getName(), "summary");
+        try {
+            writeSummary(resultsfolder, freeResultsFilename);
+        } catch (IOException ex) {
+            Exceptions.printStackTrace(ex);
+        }
+
+        for (int i = 0; i < results.length; i++) {
+            TimpResultDataset timpResultDataset = results[i];
+            timpResultDataset.setType(datasets[i].getType());
+
+            newResultsObject.getDatasets().add(new Dataset());
+            newResultsObject.getDatasets().get(i).setDatasetFile(new OutputFile());
+            newResultsObject.getDatasets().get(i).getDatasetFile().setFilename(datasetContainer.getDatasets().get(i).getFilename());
+            newResultsObject.getDatasets().get(i).getDatasetFile().setPath(datasetContainer.getDatasets().get(i).getPath());
+            newResultsObject.getDatasets().get(i).setId(String.valueOf(i + 1));
+
+            if (model.getDat().getIrfparPanel().getLamda() != null) {
+                timpResultDataset.setLamdac(model.getDat().getIrfparPanel().getLamda());
+            }
+
+            if (datasets[i].getType().equalsIgnoreCase("flim")) {
+                timpResultDataset.setOrheigh(datasets[i].getOriginalHeight());
+                timpResultDataset.setOrwidth(datasets[i].getOriginalWidth());
+                timpResultDataset.setIntenceIm(datasets[i].getIntenceIm().clone());
+                timpResultDataset.setMaxInt(datasets[i].getMaxInt());
+                timpResultDataset.setMinInt(datasets[i].getMinInt());
+                timpResultDataset.setX(datasets[i].getX().clone());
+                timpResultDataset.setX2(datasets[i].getX2().clone());
+            }
+
+            try {
+                String freeFilename = FileUtil.findFreeFileName(resultsfolder, resultsfolder.getName() + "_d" + (i + 1) + "_" + timpResultDataset.getDatasetName(), "timpres");
+                writeTo = resultsfolder.createData(freeFilename, "timpres");
+                ObjectOutputStream stream = new ObjectOutputStream(writeTo.getOutputStream());
+                stream.writeObject(timpResultDataset);
+                stream.close();
+
+                newResultsObject.getDatasets().get(i).setResultFile(new OutputFile());
+                newResultsObject.getDatasets().get(i).getResultFile().setFilename(freeFilename);
+                newResultsObject.getDatasets().get(i).getResultFile().setPath(resultsfolder.getPath());
+
+            } catch (IOException ex) {
+                Exceptions.printStackTrace(ex);
+            }
+
+        }
+        try {
+            writeResultsXml(newResultsObject);
+        } catch (IOException ex) {
+            Exceptions.printStackTrace(ex);
+        }
+    }
+
 }
 
 

@@ -55,9 +55,9 @@ public class TGSchemaNode extends FilterNode {
 
         @Override
         protected Node[] createNodes(Node n) {
-//            Collection<? extends XMLFilesSupportIntarface> services =
-//                    Lookup.getDefault().lookupAll(XMLFilesSupportIntarface.class);
-//            for(XMLFilesSupportIntarface service : services){
+//            Collection<? extends SupportedXMLFilesInterface> services =
+//                    Lookup.getDefault().lookupAll(SupportedXMLFilesInterface.class);
+//            for(SupportedXMLFilesInterface service : services){
 //                if (service.getType().equalsIgnoreCase("GTADataObject")){
 //                    DataFolder folder = n.getLookup().lookup(DataFolder.class);
 //                    for (int i = 0; i < folder.getChildren().length; i++){

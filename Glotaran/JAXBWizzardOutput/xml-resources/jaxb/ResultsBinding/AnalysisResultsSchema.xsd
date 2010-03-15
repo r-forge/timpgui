@@ -31,7 +31,7 @@
             <xsd:element name="values" type="xsd:double" maxOccurs="unbounded" nillable="false"/>
         </xsd:sequence>
     </xsd:complexType>
-    <xsd:element name="results">
+    <xsd:element name="GtaResult">
         <xsd:complexType>
             <xsd:sequence>
                 <xsd:element name="datasets" type="tns:Dataset" nillable="true" maxOccurs="unbounded"/>
@@ -41,4 +41,5 @@
         </xsd:complexType>
     </xsd:element>
 </xsd:schema>
+
 

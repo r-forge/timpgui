@@ -5,13 +5,13 @@
 
 package org.glotaran.gtafilesupport;
 
-import org.glotaran.core.interfaces.XMLFilesSupportIntarface;
+import org.glotaran.core.interfaces.SupportedXMLFilesInterface;
 
 /**
  *
  * @author slapten
  */
-public class GTAClassInterfaceProvider implements XMLFilesSupportIntarface {
+public class GTAClassInterfaceProvider implements SupportedXMLFilesInterface {
 
     public Object getDataObjectClass() {
         return GtaDataObject.class;

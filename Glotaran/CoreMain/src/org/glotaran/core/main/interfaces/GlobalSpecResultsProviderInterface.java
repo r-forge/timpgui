@@ -6,6 +6,7 @@
 package org.glotaran.core.main.interfaces;
 
 import java.util.ArrayList;
+import org.glotaran.core.models.results.GtaResult;
 import org.glotaran.core.models.structures.TimpResultDataset;
 import org.openide.windows.CloneableTopComponent;
 
@@ -15,6 +16,6 @@ import org.openide.windows.CloneableTopComponent;
  */
 public interface GlobalSpecResultsProviderInterface {
 
-   public CloneableTopComponent getCloneableTopComponent(ArrayList<TimpResultDataset> results);
+   public CloneableTopComponent getCloneableTopComponent(ArrayList<TimpResultDataset> timpResultDatasets, GtaResult gtaResult);
 
 }

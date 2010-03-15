@@ -6,7 +6,9 @@ package org.glotaran.analysisresultfilesupport;
 
 import java.awt.Image;
 import java.io.IOException;
+import org.glotaran.core.models.results.GtaResult;
 import org.openide.filesystems.FileObject;
+import org.openide.filesystems.FileUtil;
 import org.openide.loaders.DataNode;
 import org.openide.loaders.DataObjectExistsException;
 import org.openide.loaders.MultiDataObject;
@@ -19,6 +21,9 @@ import org.openide.text.DataEditorSupport;
 import org.openide.util.ImageUtilities;
 
 public class AnalysisResultDataObject extends MultiDataObject {
+
+    private GtaResult gtaResult;
+    private static final long serialVersionUID = 1L;
 
     public AnalysisResultDataObject(FileObject pf, MultiFileLoader loader) throws DataObjectExistsException, IOException {
         super(pf, loader);
@@ -41,5 +46,21 @@ public class AnalysisResultDataObject extends MultiDataObject {
     @Override
     public Lookup getLookup() {
         return getCookieSet().getLookup();
+    }
+
+    public GtaResult getAnalysisResult() {
+        if (gtaResult == null) {
+            gtaResult = new GtaResult();
+            try {
+                javax.xml.bind.JAXBContext jaxbCtx = javax.xml.bind.JAXBContext.newInstance(gtaResult.getClass().getPackage().getName());
+                javax.xml.bind.Unmarshaller unmarshaller = jaxbCtx.createUnmarshaller();
+                gtaResult = (GtaResult) unmarshaller.unmarshal(FileUtil.toFile(this.getPrimaryFile())); //NOI18N //replaced: new java.io.File("File path") //Fix this: java.lang.IllegalArgumentException: file parameter must not be null
+            } catch (javax.xml.bind.JAXBException ex) {
+                // XXXTODO Handle exception
+                java.util.logging.Logger.getLogger("global").log(java.util.logging.Level.SEVERE, null, ex); //NOI18N
+            }
+        }
+        // Else simply return the object
+        return gtaResult;
     }
 }

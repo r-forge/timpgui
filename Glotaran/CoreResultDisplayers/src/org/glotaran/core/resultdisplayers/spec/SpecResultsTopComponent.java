@@ -1488,26 +1488,32 @@ public final class SpecResultsTopComponent extends TopComponent implements Chart
             seria =new YIntervalSeries(specName + (j + 1));// new XYSeries(specName + (j + 1));
             dasSeria = new XYSeries("DAS" + (j + 1));
             maxAmpl = 0;
+            maxDasAmpl = 0;
             for (int i = 0; i < res.getX2().length; i++) {
                 seria.add(res.getX2()[i], res.getSpectra().get(j, i),
                         res.getSpectra().get(j, i)-res.getSpectraErr().get(j,i),
                         res.getSpectra().get(j, i)+res.getSpectraErr().get(j,i));
-                dasSeria.add(res.getX2()[i], res.getSpectra().get(j+compNum, i));
+                if (res.getSpectra().getRowDimension()>compNum){
+                    dasSeria.add(res.getX2()[i], res.getSpectra().get(j+compNum, i));
+                }
                 if (jTBNormToMax.isSelected()){
                     if (maxAmpl<(res.getSpectra().get(j, i))){
                         maxAmpl=(res.getSpectra().get(j, i));
                     }
-                    if (maxDasAmpl<(res.getSpectra().get(j+compNum, i))){
-                        maxDasAmpl=(res.getSpectra().get(j+compNum, i));
+                    if (res.getSpectra().getRowDimension()>compNum){
+                        if (maxDasAmpl<(res.getSpectra().get(j+compNum, i))){
+                            maxDasAmpl=(res.getSpectra().get(j+compNum, i));
+                        }
                     }
-
                 }
                 else {
                     if (maxAmpl<abs(res.getSpectra().get(j, i))){
                         maxAmpl=abs(res.getSpectra().get(j, i));
                     }
-                    if (maxDasAmpl<abs(res.getSpectra().get(j+compNum, i))){
-                        maxDasAmpl=abs(res.getSpectra().get(j+compNum, i));
+                    if (res.getSpectra().getRowDimension()>compNum){
+                        if (maxDasAmpl<abs(res.getSpectra().get(j+compNum, i))){
+                            maxDasAmpl=abs(res.getSpectra().get(j+compNum, i));
+                        }
                     }
                 }
             }
@@ -1520,7 +1526,9 @@ public final class SpecResultsTopComponent extends TopComponent implements Chart
                 seria.add(res.getX2()[i], res.getSpectra().get(j, i)/maxAmpl,
                         res.getSpectra().get(j, i)/maxAmpl-res.getSpectraErr().get(j,i)/maxAmpl,
                         res.getSpectra().get(j, i)/maxAmpl+res.getSpectraErr().get(j,i)/maxAmpl);
-                dasSeria.add(res.getX2()[i], res.getSpectra().get(j+compNum, i)/maxDasAmpl);
+                if (res.getSpectra().getRowDimension()>compNum){
+                    dasSeria.add(res.getX2()[i], res.getSpectra().get(j+compNum, i)/maxDasAmpl);
+                }
             }
             normSasCollection.addSeries(seria);
             normDasCollection.addSeries(dasSeria);

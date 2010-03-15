@@ -29,9 +29,13 @@ import org.glotaran.core.messages.CoreErrorMessages;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.plot.PlotOrientation;
+import org.jfree.chart.plot.XYPlot;
+import org.jfree.chart.renderer.AbstractRenderer;
+import org.jfree.chart.renderer.xy.XYErrorRenderer;
+import org.jfree.chart.renderer.xy.XYLineAndShapeRenderer;
 import org.jfree.data.xy.AbstractXYDataset;
-import org.jfree.data.xy.XYSeriesCollection;
 import org.jfree.ui.ExtensionFileFilter;
+import org.jfree.ui.RectangleInsets;
 import org.openide.windows.TopComponent;
 import org.w3c.dom.DOMImplementation;
 import org.w3c.dom.Document;
@@ -41,13 +45,22 @@ import org.w3c.dom.Document;
  * @author slapten
  */
 public class GraphPanel extends ChartPanel{
-    public static final String SAVE_ASCII_COMMAND = "SAVE_ASCII";
-    public static final String SAVE_SVG_COMMAND = "SAVE_SVG";
-    public static final String SAVE_PNG_COMMAND = "SAVE_PNG";
-    public static final String OPEN_IN_NEW_WINDOW_COMMAND = "OPEN_IN_NEW_WINDOW";
+    private final static long serialVersionUID = 1L;
+    private static final String SAVE_ASCII_COMMAND = "SAVE_ASCII";
+    private static final String SAVE_SVG_COMMAND = "SAVE_SVG";
+    private static final String SAVE_PNG_COMMAND = "SAVE_PNG";
+    private static final String OPEN_IN_NEW_WINDOW_COMMAND = "OPEN_IN_NEW_WINDOW";
+    private static final String SHOW_ERRORBARS = "SHOW_ERRORBARS";
+    private boolean errorBars = false;
+    private boolean errorBarsSown = false;
 
     public GraphPanel(JFreeChart chart){
-        this(chart, true, false, true, true, true);
+        this(chart, true, false, true, true, true, false);
+    }
+
+    public GraphPanel(JFreeChart chart, boolean errBars){
+        this(chart, true, false, true, true, true, errBars);
+        
     }
 
     public GraphPanel(JFreeChart chart,
@@ -55,11 +68,12 @@ public class GraphPanel extends ChartPanel{
                       boolean save,
                       boolean print,
                       boolean zoom,
-                      boolean tooltips){
+                      boolean tooltips,
+                      boolean errBars){
          super(chart, properties, save, print, zoom, tooltips);
+         errorBars = errBars;
          addCommandsToPopupMenu();
-         updateSelectRectangle();
-         setPannable();
+         updateAppearance();
     }
 
     @Override
@@ -104,6 +118,10 @@ public class GraphPanel extends ChartPanel{
             }
         }
 
+        if (command.equals(SHOW_ERRORBARS)){
+            doShowErrorBars();
+        }
+
     }
 
     private void addCommandsToPopupMenu(){
@@ -112,29 +130,53 @@ public class GraphPanel extends ChartPanel{
         JMenuItem saveToASCIIItem = new JMenuItem("Save data to ASCII");
         saveToASCIIItem.setActionCommand(SAVE_ASCII_COMMAND);
         saveToASCIIItem.addActionListener(this);
-        popmenu.insert(saveToASCIIItem,3);
+        popmenu.insert(saveToASCIIItem,4);
 
         JMenuItem saveToPNGItem = new JMenuItem("Render chart to PNG");
         saveToPNGItem.setActionCommand(SAVE_PNG_COMMAND);
         saveToPNGItem.addActionListener(this);
-        popmenu.insert(saveToPNGItem,4);
+        popmenu.insert(saveToPNGItem,5);
 
         JMenuItem saveToSVGItem = new JMenuItem("Render chart to SVG");
         saveToSVGItem.setActionCommand(SAVE_SVG_COMMAND);
         saveToSVGItem.addActionListener(this);
-        popmenu.insert(saveToSVGItem,5);
+        popmenu.insert(saveToSVGItem,6);
 
         JMenuItem openInSepWindItem = new JMenuItem("Open in new window");
         openInSepWindItem.setActionCommand(OPEN_IN_NEW_WINDOW_COMMAND);
         openInSepWindItem.addActionListener(this);
-        popmenu.insert(openInSepWindItem,0);
-        popmenu.insert(new JPopupMenu.Separator(),1);
+        popmenu.insert(openInSepWindItem,0); 
+
+        JMenuItem showErrorBars = new JMenuItem("Show error bars");
+        showErrorBars.setActionCommand(SHOW_ERRORBARS);
+        showErrorBars.addActionListener(this);
+        showErrorBars.setEnabled(errorBars);
+        popmenu.insert(showErrorBars,1);
+
+        popmenu.insert(new JPopupMenu.Separator(),2);
     }
 
-    private void updateSelectRectangle(){
+    private void updateAppearance(){
         this.setFillZoomRectangle(true);
         this.setMouseWheelEnabled(true);
         this.setZoomFillPaint(new Color(68, 68, 78, 63));
+        if (this.getChart().getLegend() != null){
+            this.getChart().getLegend().setVisible(false);
+        }
+        this.getChart().setBackgroundPaint(JFreeChart.DEFAULT_BACKGROUND_PAINT);
+        if (this.getChart().getXYPlot()!=null){
+            XYPlot plot = this.getChart().getXYPlot();
+            plot.setRangeZeroBaselineVisible(true);
+            plot.setBackgroundPaint(Color.lightGray);
+            plot.setDomainGridlinePaint(Color.white);
+            plot.setRangeGridlinePaint(Color.white);
+            plot.setAxisOffset(RectangleInsets.ZERO_INSETS);
+            errorBarsSown = plot.getRenderer() instanceof XYErrorRenderer ? true : false;
+            for (int i = 0; i < this.getChart().getXYPlot().getSeriesCount(); i++) {
+                plot.getRenderer().setSeriesPaint(i, ((AbstractRenderer) plot.getRenderer()).lookupSeriesPaint(i));
+            }
+        }
+        setPannable();
     }
 
     private void doSaveTracesToAscii() throws IOException {
@@ -176,6 +218,7 @@ public class GraphPanel extends ChartPanel{
     private void doOpenInSeparateWindow() throws CloneNotSupportedException {
         TopComponent win = new TopComponent()
         {
+            private final static long serialVersionUID = 1L;
             @Override
             public int getPersistenceType() {
                 return TopComponent.PERSISTENCE_NEVER;
@@ -190,7 +233,9 @@ public class GraphPanel extends ChartPanel{
             chart.getXYPlot().setOrientation(PlotOrientation.VERTICAL);
             chart.getXYPlot().getDomainAxis().setInverted(false);
         }
-        win.add(new GraphPanel(chart));
+        GraphPanel newPanel = new GraphPanel(chart, errorBars);
+
+        win.add(newPanel);
         win.open();
         win.requestActive();
     }
@@ -237,5 +282,33 @@ public class GraphPanel extends ChartPanel{
             this.getChart().getXYPlot().setDomainPannable(true);
             this.getChart().getXYPlot().setRangePannable(true);
         }
+    }
+
+    private void doShowErrorBars() {
+        if (!errorBarsSown){
+            XYErrorRenderer renderer = new XYErrorRenderer();
+            renderer.setBaseLinesVisible(true);
+            renderer.setBaseShapesVisible(false);
+
+            this.getChart().setBackgroundPaint(JFreeChart.DEFAULT_BACKGROUND_PAINT);
+            XYPlot plot = new XYPlot(this.getChart().getXYPlot().getDataset(),
+                    this.getChart().getXYPlot().getDomainAxis(),
+                    this.getChart().getXYPlot().getRangeAxis(), renderer);
+            plot.setBackgroundPaint(JFreeChart.DEFAULT_BACKGROUND_PAINT);
+            JFreeChart chart = new JFreeChart(plot);
+            this.setChart(chart);
+        }
+        else {
+            XYLineAndShapeRenderer renderer = new XYLineAndShapeRenderer();
+            renderer.setBaseLinesVisible(true);
+            renderer.setBaseShapesVisible(false);
+            XYPlot plot = new XYPlot(this.getChart().getXYPlot().getDataset(),
+                    this.getChart().getXYPlot().getDomainAxis(),
+                    this.getChart().getXYPlot().getRangeAxis(), renderer);
+//            plot.setBackgroundPaint(JFreeChart.DEFAULT_BACKGROUND_PAINT);
+            JFreeChart chart = new JFreeChart(plot);
+            this.setChart(chart);
+        }
+        updateAppearance();
     }
 }

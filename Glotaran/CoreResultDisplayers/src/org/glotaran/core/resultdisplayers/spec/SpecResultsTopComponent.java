@@ -51,6 +51,8 @@ import org.jfree.data.Range;
 import org.jfree.data.xy.XYDataset;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
+import org.jfree.data.xy.YIntervalSeries;
+import org.jfree.data.xy.YIntervalSeriesCollection;
 import org.jfree.ui.Layer;
 import org.jfree.ui.RectangleAnchor;
 import org.jfree.ui.RectangleEdge;
@@ -70,6 +72,7 @@ import static java.lang.Math.abs;
 public final class SpecResultsTopComponent extends TopComponent implements ChartChangeListener, ChartMouseListener {
 
     private static SpecResultsTopComponent instance;
+    private final static long serialVersionUID = 1L;
     /** path to the icon used by the component and its open action */
 //    static final String ICON_PATH = "SET/PATH/TO/ICON/HERE";
     private static final String PREFERRED_ID = "StreakOutTopComponent";
@@ -104,10 +107,12 @@ public final class SpecResultsTopComponent extends TopComponent implements Chart
         this.dataObject = dataObj;
         res = dataObject.getTimpResultDataset();
         res.calcRangeInt();
-        if (res.getJvec()!=null)
-            numberOfComponents = res.getJvec().length/2;
-        else
-            numberOfComponents = res.getKineticParameters().length/2;
+        if (res.getJvec()!=null) {
+            numberOfComponents = res.getJvec().length / 2;
+        }
+        else {
+            numberOfComponents = res.getKineticParameters().length / 2;
+        }
         Object[] rates = new Object[res.getKineticParameters().length];
 
         DecimalFormat paramFormat = new DecimalFormat("##0.0000");
@@ -133,14 +138,18 @@ public final class SpecResultsTopComponent extends TopComponent implements Chart
         double[] dispParam;
         double timeZero;
         centrWave = res.getLamdac();
-        if (res.getParmu()!=null)
+        if (res.getParmu()!=null) {
             dispParam = res.getParmu();
-        else
+        }
+        else {
             dispParam = new double[]{0};
-        if (res.getIrfpar()!=null)
+        }
+        if (res.getIrfpar()!=null) {
             timeZero = res.getIrfpar()[0];
-        else
+        }
+        else {
             timeZero = 0;
+        }
 
         calculateDispersionCurve(centrWave, dispParam, timeZero, dispParam.length/2);
         if (res.getSpectra().getRowDimension()>numberOfComponents){
@@ -168,8 +177,9 @@ public final class SpecResultsTopComponent extends TopComponent implements Chart
         jTFCentrWave.setText(String.valueOf(res.getLamdac()));
         String parmuStr = "";
         for (int i = 0; i < res.getParmu().length/2; i++){
-            if (i > 0)
-                parmuStr = parmuStr+",";
+            if (i > 0) {
+                parmuStr = parmuStr + ",";
+            }
             parmuStr += paramFormat.format(res.getParmu()[i]);
         }
         jTFCurvParam.setText(parmuStr);
@@ -739,7 +749,7 @@ public final class SpecResultsTopComponent extends TopComponent implements Chart
                     .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 493, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel15, javax.swing.GroupLayout.PREFERRED_SIZE, 263, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(379, Short.MAX_VALUE))
+                .addContainerGap(378, Short.MAX_VALUE))
         );
 
         jScrollPane6.setViewportView(jPanel3);
@@ -1390,8 +1400,9 @@ public final class SpecResultsTopComponent extends TopComponent implements Chart
 
         NumberAxis yAxis = new NumberAxis();
 
-        for (int i = 0; i < traceNumber; i++)
+        for (int i = 0; i < traceNumber; i++) {
             logPlot.getRenderer().setSeriesPaint(i, ((AbstractRenderer) linPlot.getRenderer()).lookupSeriesPaint(i));
+        }
 
         CombinedRangeXYPlot plot = new CombinedRangeXYPlot(yAxis);
         plot.setGap(-7.5);
@@ -1433,42 +1444,51 @@ public final class SpecResultsTopComponent extends TopComponent implements Chart
         tracechart.getXYPlot().getDomainAxis().setUpperBound(res.getX()[res.getX().length - 1]);
         tracechart.getXYPlot().setRangeZeroBaselineVisible(true);
 
-        for (int i = 0; i < traceNumber; i++)
+        for (int i = 0; i < traceNumber; i++) {
             tracechart.getXYPlot().getRenderer().setSeriesPaint(i, ((AbstractRenderer) tracechart.getXYPlot().getRenderer()).lookupSeriesPaint(i));
+        }
 
-        GraphPanel chpan = new GraphPanel(tracechart);
+        GraphPanel chpan = new GraphPanel(tracechart, false);
         chpan.getChartRenderingInfo().setEntityCollection(null);
         return chpan;
     }
 
     private void plotSpectrTrace() {
         String specName = null;
-
+        boolean errorBars = false;
         if (res.getJvec()!=null){
             specName = "SAS";
         } else {
             specName = "EAS";
         }
+        if (res.getSpectraErr()!=null){
+            errorBars = true;
+        }
 
         int compNum = 0;
         double maxAmpl = 0;
-        if (jTBShowChohSpec.isSelected())
-            compNum = numberOfComponents+1;
-        else
+        if (jTBShowChohSpec.isSelected()) {
+            compNum = numberOfComponents + 1;
+        }
+        else {
             compNum = numberOfComponents;
+        }
 
-        XYSeriesCollection realSasCollection = new XYSeriesCollection();
-        XYSeriesCollection normSasCollection = new XYSeriesCollection();
-        XYSeriesCollection realDasCollection = new XYSeriesCollection();
-        XYSeriesCollection normDasCollection = new XYSeriesCollection();
-        XYSeries seria;
+        YIntervalSeriesCollection realSasCollection = new YIntervalSeriesCollection();
+        YIntervalSeriesCollection normSasCollection = new YIntervalSeriesCollection();
+        YIntervalSeriesCollection realDasCollection = new YIntervalSeriesCollection();
+        YIntervalSeriesCollection normDasCollection = new YIntervalSeriesCollection();
+        YIntervalSeries seria;
+//        XYSeries seria;
 //create collection of real sas and normalizes all of them to max or abs(max) and creates collection with normSAS
 //TODO create collection of real das and normalizes all of them to max and creates collection with normDAS
         for (int j = 0; j < compNum; j++) {
-            seria = new XYSeries(specName + (j + 1));
+            seria =new YIntervalSeries(specName + (j + 1));// new XYSeries(specName + (j + 1));
             maxAmpl = 0;
             for (int i = 0; i < res.getX2().length; i++) {
-                seria.add(res.getX2()[i], res.getSpectra().get(j, i));
+                seria.add(res.getX2()[i], res.getSpectra().get(j, i),
+                        res.getSpectra().get(j, i)-res.getSpectraErr().get(j,i),
+                        res.getSpectra().get(j, i)+res.getSpectraErr().get(j,i));
                 if (jTBNormToMax.isSelected()){
                     if (maxAmpl<(res.getSpectra().get(j, i))){
                         maxAmpl=(res.getSpectra().get(j, i));
@@ -1481,9 +1501,12 @@ public final class SpecResultsTopComponent extends TopComponent implements Chart
                 }
             }
             realSasCollection.addSeries(seria);
-            seria = new XYSeries("Norm"+specName + (j + 1));
+            seria = new YIntervalSeries("Norm"+specName + (j + 1));
             for (int i = 0; i < res.getX2().length; i++) {
-                seria.add(res.getX2()[i], res.getSpectra().get(j, i)/maxAmpl);
+                seria.add(res.getX2()[i], res.getSpectra().get(j, i)/maxAmpl,
+                        res.getSpectra().get(j, i)/maxAmpl-res.getSpectraErr().get(j,i)/maxAmpl,
+                        res.getSpectra().get(j, i)/maxAmpl+res.getSpectraErr().get(j,i)/maxAmpl);
+//                seria.add(res.getX2()[i], res.getSpectra().get(j, i)/maxAmpl,0,0);
             }
             normSasCollection.addSeries(seria);
         }
@@ -1497,14 +1520,8 @@ public final class SpecResultsTopComponent extends TopComponent implements Chart
                 false,
                 false,
                 false);
-        tracechart.setBackgroundPaint(JFreeChart.DEFAULT_BACKGROUND_PAINT);
         tracechart.getXYPlot().getDomainAxis().setUpperBound(res.getX2()[res.getX2().length - 1]);
-        tracechart.getXYPlot().setRangeZeroBaselineVisible(true);
-        for (int i = 0; i < compNum; i++)
-            tracechart.getXYPlot().getRenderer().setSeriesPaint(i, ((AbstractRenderer) tracechart.getXYPlot().getRenderer()).lookupSeriesPaint(i));
-        GraphPanel chpan = new GraphPanel(tracechart);
-//        chpan.getChartRenderingInfo().setEntityCollection(null);
-//        chpan.setSize(jPSAS.getSize());
+        GraphPanel chpan = new GraphPanel(tracechart, errorBars);
         jPSAS.removeAll();
         jPSAS.add(chpan);
 
@@ -1517,13 +1534,9 @@ public final class SpecResultsTopComponent extends TopComponent implements Chart
                 false,
                 false,
                 false);
-        tracechart.setBackgroundPaint(JFreeChart.DEFAULT_BACKGROUND_PAINT);
         tracechart.getXYPlot().getDomainAxis().setUpperBound(res.getX2()[res.getX2().length - 1]);
-        tracechart.getXYPlot().setRangeZeroBaselineVisible(true);
-        for (int i = 0; i < compNum; i++)
-            tracechart.getXYPlot().getRenderer().setSeriesPaint(i, ((AbstractRenderer) tracechart.getXYPlot().getRenderer()).lookupSeriesPaint(i));
-        chpan = new GraphPanel(tracechart);
-//        chpan.setSize(jPSASnorm.getSize());
+        
+        chpan = new GraphPanel(tracechart, errorBars);
         jPSASnorm.removeAll();
         jPSASnorm.add(chpan);
 
@@ -1541,7 +1554,7 @@ public final class SpecResultsTopComponent extends TopComponent implements Chart
         tracechart.getXYPlot().setRangeZeroBaselineVisible(true);
 //        for (int i = 0; i < numberOfComponents; i++)
 //            tracechart.getXYPlot().getRenderer().setSeriesPaint(i, ((AbstractRenderer) tracechart.getXYPlot().getRenderer()).lookupSeriesPaint(i));
-        chpan = new GraphPanel(tracechart);
+        chpan = new GraphPanel(tracechart, errorBars);
 //        chpan.setSize(jPDAS.getSize());
         jPDAS.removeAll();
         jPDAS.add(chpan);
@@ -1560,7 +1573,7 @@ public final class SpecResultsTopComponent extends TopComponent implements Chart
         tracechart.getXYPlot().setRangeZeroBaselineVisible(true);
 //        for (int i = 0; i < compNum; i++)
 //            tracechart.getXYPlot().getRenderer().setSeriesPaint(i, ((AbstractRenderer) tracechart.getXYPlot().getRenderer()).lookupSeriesPaint(i));
-        chpan = new GraphPanel(tracechart);
+        chpan = new GraphPanel(tracechart, errorBars);
 //        chpan.setSize(jPDASnorm.getSize());
         jPDASnorm.removeAll();
         jPDASnorm.add(chpan);
@@ -1848,7 +1861,7 @@ public final class SpecResultsTopComponent extends TopComponent implements Chart
          for (int i = 0; i<2; i++){
             tracechart.getXYPlot().getRenderer().setSeriesPaint(i, ((AbstractRenderer) tracechart.getXYPlot().getRenderer()).lookupSeriesPaint(i));
         }
-        ChartPanel chpan = new GraphPanel(tracechart);
+        ChartPanel chpan = new GraphPanel(tracechart, false);
 //add chart with 2 LSV to JPannel
         jPLSV.removeAll();
         jPLSV.add(chpan);
@@ -1872,7 +1885,7 @@ public final class SpecResultsTopComponent extends TopComponent implements Chart
         tracechart.getXYPlot().getDomainAxis().setLowerMargin(0.0);
         tracechart.getXYPlot().getDomainAxis().setAutoRange(false);
         tracechart.getXYPlot().setRangeZeroBaselineVisible(true);
-        chpan = new GraphPanel(tracechart);
+        chpan = new GraphPanel(tracechart, false);
 //add chart with 2 RSV to JPannel
         jPRSV.removeAll();
         jPRSV.add(chpan);
@@ -1906,7 +1919,7 @@ public final class SpecResultsTopComponent extends TopComponent implements Chart
         tracechart.getTitle().setFont(new Font(tracechart.getTitle().getFont().getFontName(), Font.PLAIN, 12));
         tracechart.setBackgroundPaint(JFreeChart.DEFAULT_BACKGROUND_PAINT);
 
-        chpan = new GraphPanel(tracechart);
+        chpan = new GraphPanel(tracechart, false);
 //add chart with 2 RSV to JPannel
         jPSV.removeAll();
         jPSV.add(chpan);
@@ -1919,8 +1932,9 @@ public final class SpecResultsTopComponent extends TopComponent implements Chart
         while (res.getX()[index]<timeZero+portion){
             index++;
         }
-        if (index == 0)
+        if (index == 0) {
             index = 1;
+        }
         XYSeriesCollection trace = CommonTools.createFitRawTraceCollection(xIndex, 0, index,res);
         XYSeriesCollection resid = CommonTools.createResidTraceCollection(xIndex, 0, index,res);
         ChartPanel linTime = CommonTools.makeLinTimeTraceResidChart(trace, resid, new NumberAxis("Time"), null);

@@ -477,7 +477,15 @@ public class AnalysisWorker implements Runnable {
                     result = result + "thresh = " + String.valueOf(modelDifferences.getThreshold());
                 }
             }
+            
             tempString = getModelDiffsLinkCLP(modelDifferences.getLinkCLP());
+             if (!tempString.isEmpty()) {
+                if (!result.isEmpty()) {
+                    result = result + ", ";
+                }
+                result = result + tempString;
+            }
+            tempString = "";
 
             tempString = getModelDiffsFree(modelDifferences.getDifferences());
             if (!tempString.isEmpty()) {
@@ -587,6 +595,9 @@ public class AnalysisWorker implements Runnable {
 
     private String getModelDiffsDScal(GtaModelDifferences modelDiffs) {
         String result = "";
+        if (modelDiffs.getThreshold()<0){
+            return result;
+        }
         int datasetNum = modelDiffs.getLinkCLP().size();
 
         ArrayList<ArrayList<Integer>> groups = new ArrayList<ArrayList<Integer>>();

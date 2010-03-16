@@ -13,7 +13,6 @@ import org.glotaran.jfreechartcustom.GraphPanel;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.plot.PlotOrientation;
-import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.YIntervalSeries;
 import org.jfree.data.xy.YIntervalSeriesCollection;
 import org.openide.util.NbBundle;
@@ -30,15 +29,38 @@ import org.openide.windows.CloneableTopComponent;
 autostore = false)
 public final class GlobalSpecResultsDisplayerTopComponent extends CloneableTopComponent {
 
+    private class RelationTo {
+        public Integer indexTo;
+        public Double valueTo;
+        public RelationTo(Integer index, Double value){
+            indexTo = index;
+            valueTo = value;
+        }
+    };
+
+    private class RelationFrom {
+        public Integer indexFrom;
+        public ArrayList<RelationTo> scaledDatasets;
+        public RelationFrom(Integer index){
+            indexFrom = index;
+            scaledDatasets = new ArrayList<RelationTo>();
+        }
+    };
+
+
     private static GlobalSpecResultsDisplayerTopComponent instance;
     private final static long serialVersionUID = 1L;
     /** path to the icon used by the component and its open action */
 //    static final String ICON_PATH = "SET/PATH/TO/ICON/HERE";
     private static final String PREFERRED_ID = "GlobalSpecResultsDisplayerTopComponent";
 
-    private ArrayList<String> groups = new ArrayList<String>();
-    private List<TimpResultDataset> results = null;
-//    private List<TimpResultDataset> results = null;
+    private ArrayList<String> datasetsID = new ArrayList<String>();
+    private List<TimpResultDataset> resultDatasets = null;
+    private GtaResult gtaResultObj;
+
+    private ArrayList<RelationFrom> relationGroups = new ArrayList <RelationFrom>();
+
+
 
     public GlobalSpecResultsDisplayerTopComponent() {
         initComponents();
@@ -50,14 +72,17 @@ public final class GlobalSpecResultsDisplayerTopComponent extends CloneableTopCo
 
     public GlobalSpecResultsDisplayerTopComponent(List<TimpResultDataset> results, GtaResult gtaResult) {
         initComponents();
+        this.resultDatasets = results;
+        this.gtaResultObj = gtaResult;
         setName(NbBundle.getMessage(GlobalSpecResultsDisplayerTopComponent.class, "CTL_GlobalSpecResultsDisplayerTopComponent"));
         setToolTipText(NbBundle.getMessage(GlobalSpecResultsDisplayerTopComponent.class, "HINT_GlobalSpecResultsDisplayerTopComponent"));
 //        setIcon(ImageUtilities.loadImage(ICON_PATH, true));
-        if (gtaResult !=null){
+        
+        if (gtaResultObj !=null){
             for (int i = 0; i < results.size(); i++ ){
                 for (int j = 0; j < gtaResult.getDatasets().size(); j++){
                     if (gtaResult.getDatasets().get(j).getResultFile().getFilename().equals(results.get(i).getDatasetName())){
-                        groups.add(gtaResult.getDatasets().get(j).getId());
+                        datasetsID.add(gtaResult.getDatasets().get(j).getId());
                     }
                 }
             }
@@ -65,19 +90,35 @@ public final class GlobalSpecResultsDisplayerTopComponent extends CloneableTopCo
 //"to" is the dataset whish should be scalled
 //"from" is the dataset with weight 1
 //"values" linear relations - for now it is only one number;
-                for (int j = 0; j < groups.size(); j++) {
+                for (int j = 0; j < datasetsID.size(); j++) {
                     for (int i = 0; i < gtaResult.getDatasetRelations().size(); i++) {
-                        if (gtaResult.getDatasetRelations().get(i).getTo().equals(groups.get(j))) {
-//TODO something with relations and somehow sort them out
+                        if (gtaResult.getDatasetRelations().get(i).getFrom().equals(datasetsID.get(j))) {
+                            relationGroups.add(new RelationFrom(j));
+                            for (int k = 0; k < datasetsID.size(); k++) {
+                                if (gtaResult.getDatasetRelations().get(i).getTo().equals(datasetsID.get(k))){
+                                    relationGroups.get(relationGroups.size()-1).scaledDatasets.add(new RelationTo(k,gtaResult.getDatasetRelations().get(i).getValues().get(0)));
+                                }
+                            }
                         }
                     }
                 }
-//
             }
-            plotSpectra(results.get(0));
+// relationGroups complex list with groups of all relations
+            if (!relationGroups.isEmpty()){
+//for every relations group create tab with comparions spectra coming from "from dataset"
+                for (int i = 0; i < relationGroups.size(); i++){
+//create spectra from "from dataset"
+                    jPSpectra.removeAll();
+                    jPSpectra.add(plotSpectra(results.get(relationGroups.get(i).indexFrom)));
+//initialise slider from "from dataset"
+                    
+
+                }
+            }
+            
         }
         else {
-            plotSpectra(results.get(0));
+//            plotSpectra(results.get(0));
 
         }
     }
@@ -96,7 +137,7 @@ public final class GlobalSpecResultsDisplayerTopComponent extends CloneableTopCo
         jPSpectra = new javax.swing.JPanel();
         jPanel9 = new javax.swing.JPanel();
         jPanel10 = new javax.swing.JPanel();
-        jSlider1 = new javax.swing.JSlider();
+        jSWavelengths = new javax.swing.JSlider();
         jPSpectraTab = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
         jPanel1 = new javax.swing.JPanel();
@@ -132,7 +173,7 @@ public final class GlobalSpecResultsDisplayerTopComponent extends CloneableTopCo
         jPMultiTraces.add(jPanel9, gridBagConstraints);
 
         jPanel10.setLayout(new java.awt.BorderLayout());
-        jPanel10.add(jSlider1, java.awt.BorderLayout.CENTER);
+        jPanel10.add(jSWavelengths, java.awt.BorderLayout.CENTER);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -250,7 +291,7 @@ public final class GlobalSpecResultsDisplayerTopComponent extends CloneableTopCo
     private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel7;
     private javax.swing.JPanel jPanel9;
-    private javax.swing.JSlider jSlider1;
+    private javax.swing.JSlider jSWavelengths;
     private javax.swing.JTabbedPane jTabbedPane1;
     // End of variables declaration//GEN-END:variables
     /**
@@ -324,7 +365,7 @@ public final class GlobalSpecResultsDisplayerTopComponent extends CloneableTopCo
         return PREFERRED_ID;
     }
 
-    private void plotSpectra(TimpResultDataset dataset) {
+    private GraphPanel plotSpectra(TimpResultDataset dataset) {
 
         String specName = dataset.getJvec()!=null ? "SAS" : "EAS";
         boolean errorBars = dataset.getSpectraErr()!=null ? true : false;
@@ -374,9 +415,6 @@ public final class GlobalSpecResultsDisplayerTopComponent extends CloneableTopCo
                 false,
                 false);
         tracechart.getXYPlot().getDomainAxis().setUpperBound(dataset.getX2()[dataset.getX2().length - 1]);
-        GraphPanel chpan = new GraphPanel(tracechart, errorBars);
-        jPSpectra.removeAll();
-        jPSpectra.add(chpan);
-
+        return new GraphPanel(tracechart, errorBars);
     }
 }

@@ -34,6 +34,7 @@ import org.glotaran.core.models.results.OutputFile;
 import org.glotaran.core.models.results.Summary;
 import org.glotaran.core.models.tgm.Tgm;
 import org.glotaran.tgmfilesupport.TgmDataObject;
+import org.netbeans.api.progress.ProgressHandle;
 import org.openide.DialogDisplayer;
 import org.openide.NotifyDescriptor;
 import org.openide.filesystems.FileObject;
@@ -65,21 +66,24 @@ public class AnalysisWorker implements Runnable {
     private String fitModelCall;
     private int numIterations;
     private ArrayList<Double[]> relationsList = new ArrayList<Double[]>();
+    public ProgressHandle ph;
 
-    public AnalysisWorker(TGProject currentProject, GtaOutput gtaOutput, GtaDatasetContainer gtaDatasetContainer, GtaModelReference gtaModelReference, GtaModelDifferences gtaModelDifferences) {
+    public AnalysisWorker(TGProject currentProject, GtaOutput gtaOutput, GtaDatasetContainer gtaDatasetContainer, GtaModelReference gtaModelReference, GtaModelDifferences gtaModelDifferences, ProgressHandle progressHandle) {
         this.output = gtaOutput;
         this.datasetContainer = gtaDatasetContainer;
         this.modelReference = gtaModelReference;
         this.modelDifferences = gtaModelDifferences;
         this.project = currentProject;
+        this.ph = progressHandle;
     }
 
-    public AnalysisWorker(TGProject currentProject, GtaOutput gtaOutput, GtaDatasetContainer gtaDatasetContainer, GtaModelReference gtaModelReference) {
+    public AnalysisWorker(TGProject currentProject, GtaOutput gtaOutput, GtaDatasetContainer gtaDatasetContainer, GtaModelReference gtaModelReference, ProgressHandle progressHandle) {
         this.output = gtaOutput;
         this.datasetContainer = gtaDatasetContainer;
         this.modelReference = gtaModelReference;
         this.modelDifferences = null;
         this.project = currentProject;
+        this.ph = progressHandle;
     }
 
     private DatasetTimp[] getDatasets(GtaDatasetContainer gtaDatasetContainer) {
@@ -238,9 +242,9 @@ public class AnalysisWorker implements Runnable {
                     result = result + "thresh = " + String.valueOf(modelDifferences.getThreshold());
                 }
             }
-            
+
             tempString = getModelDiffsLinkCLP(modelDifferences.getLinkCLP());
-             if (!tempString.isEmpty()) {
+            if (!tempString.isEmpty()) {
                 if (!result.isEmpty()) {
                     result = result + ", ";
                 }
@@ -356,7 +360,7 @@ public class AnalysisWorker implements Runnable {
 
     private String getModelDiffsDScal(GtaModelDifferences modelDiffs) {
         String result = "";
-        if (modelDiffs.getThreshold()<0){
+        if (modelDiffs.getThreshold() < 0) {
             return result;
         }
         int datasetNum = modelDiffs.getLinkCLP().size();
@@ -461,37 +465,49 @@ public class AnalysisWorker implements Runnable {
     }
 
     public void run() {
+        try {
+            ph.start();
+            ph.switchToIndeterminate();
+            doAnalysis();
+            Thread.sleep(0);
+        } catch (InterruptedException ex) {
+            Exceptions.printStackTrace(ex);
+        }
+    }
 
+    private void doAnalysis() {
         if (project != null) {
-            if (!output.getIterations().isEmpty()) {
-                numIterations = Integer.parseInt(output.getIterations());
+            if (output.getIterations() != null) {
+                if (!output.getIterations().isEmpty()) {
+                    numIterations = Integer.parseInt(output.getIterations());
+                }
             } else {
                 numIterations = NO_OF_ITERATIONS;
             }
             if (output.getOutputPath() != null) {
                 String outputPath = project.getResultsFolder(true) + File.separator + output.getOutputPath();
                 File outputFolder = new File(outputPath);
-                if(outputFolder.exists()) {
+                if (outputFolder.exists()) {
                     resultsfolder = FileUtil.toFileObject(outputFolder);
-                    if (resultsfolder.getChildren().length>0) {
+                    if (resultsfolder.getChildren().length > 0) {
                         try {
                             resultsfolder = FileUtil.createFolder(resultsfolder.getParent(), FileUtil.findFreeFolderName(resultsfolder.getParent(), resultsfolder.getName()));
                         } catch (IOException ex) {
                             Exceptions.printStackTrace(ex);
                         }
-                    }                   
-                } else {                                
+                    }
+                } else {
                     try {
                         FileUtil.createFolder(outputFolder);
                         resultsfolder = outputFolder.exists() ? FileUtil.toFileObject(outputFolder) : null;
                     } catch (IOException ex) {
                         Exceptions.printStackTrace(ex);
-                    }                                        
+                    }
                 }
 
                 datasets = getDatasets(datasetContainer);
                 modelCalls.add(getModelCall(modelReference, 0));
-                
+
                 fitModelCall = getFitModelCall(datasets, modelCalls, modelDifferences, output, numIterations);
 
                 if (isValidAnalysis(datasets, modelReference)) {
@@ -582,7 +598,7 @@ public class AnalysisWorker implements Runnable {
                             //params = (double[]) results[i].getClass().getMethod(slots[k], new Class[]{results[i].getClass().getClass()}).invoke(results[i], new Object[]{results});
                             params = (double[]) results[i].getClass().getMethod(slots[k], null).invoke(results[i], null);
                             if (params != null) {
-                                if (i==0) {
+                                if (i == 0) {
                                     outputWriter.newLine();
                                     outputWriter.append("Estimated " + slotsName[k] + ": ");
                                 }
@@ -644,8 +660,8 @@ public class AnalysisWorker implements Runnable {
             resultsObject.getDatasetRelations().get(i).setFrom(String.valueOf((int) floor(relationsList.get(i)[1])));
             //TODO do this in a different way
             resultsObject.getDatasetRelations().get(i).getValues().add(relationsList.get(i)[2]);
-//            String cmd = timpcontroller.NAME_OF_RESULT_OBJECT + "$currTheta[["+ (int)floor(relationsList.get(i)[1]) +"]]@drel";
-//            resultsObject.getDatasetRelations().get(i).getValues().add(timpcontroller.getDouble(cmd));
+            String cmd = timpcontroller.NAME_OF_RESULT_OBJECT + "$currTheta[["+ (int)floor(relationsList.get(i)[1]) +"]]@drel";
+            resultsObject.getDatasetRelations().get(i).getValues().add(timpcontroller.getDouble(cmd));
         }
 
         createAnalysisResultsFile(resultsObject, FileUtil.toFile(newAnResFile));
@@ -722,7 +738,6 @@ public class AnalysisWorker implements Runnable {
             Exceptions.printStackTrace(ex);
         }
     }
-
 }
 
 

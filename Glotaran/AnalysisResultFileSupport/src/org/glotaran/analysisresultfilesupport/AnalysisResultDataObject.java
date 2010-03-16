@@ -6,6 +6,7 @@ package org.glotaran.analysisresultfilesupport;
 
 import java.awt.Image;
 import java.io.IOException;
+import org.glotaran.core.messages.CoreErrorMessages;
 import org.glotaran.core.models.results.GtaResult;
 import org.openide.filesystems.FileObject;
 import org.openide.filesystems.FileUtil;
@@ -29,6 +30,9 @@ public class AnalysisResultDataObject extends MultiDataObject {
         super(pf, loader);
         CookieSet cookies = getCookieSet();
         cookies.add((Node.Cookie) DataEditorSupport.create(this, getPrimaryEntry(), cookies));
+        if (!(FileUtil.toFile(this.getPrimaryFile()) == null)) {
+        getAnalysisResult();
+        }
     }
 
     @Override
@@ -58,6 +62,7 @@ public class AnalysisResultDataObject extends MultiDataObject {
             } catch (javax.xml.bind.JAXBException ex) {
                 // XXXTODO Handle exception
                 java.util.logging.Logger.getLogger("global").log(java.util.logging.Level.SEVERE, null, ex); //NOI18N
+                CoreErrorMessages.jaxbException();
             }
         }
         // Else simply return the object

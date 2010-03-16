@@ -4,10 +4,18 @@
  */
 package org.glotaran.core.resultdisplayers.global.spec;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 import org.glotaran.core.models.results.GtaResult;
 import org.glotaran.core.models.structures.TimpResultDataset;
+import org.glotaran.jfreechartcustom.GraphPanel;
+import org.jfree.chart.ChartFactory;
+import org.jfree.chart.JFreeChart;
+import org.jfree.chart.plot.PlotOrientation;
+import org.jfree.data.xy.XYSeries;
+import org.jfree.data.xy.YIntervalSeries;
+import org.jfree.data.xy.YIntervalSeriesCollection;
 import org.openide.util.NbBundle;
 import org.openide.windows.TopComponent;
 import org.openide.windows.WindowManager;
@@ -28,6 +36,10 @@ public final class GlobalSpecResultsDisplayerTopComponent extends CloneableTopCo
 //    static final String ICON_PATH = "SET/PATH/TO/ICON/HERE";
     private static final String PREFERRED_ID = "GlobalSpecResultsDisplayerTopComponent";
 
+    private ArrayList<String> groups = new ArrayList<String>();
+    private List<TimpResultDataset> results = null;
+//    private List<TimpResultDataset> results = null;
+
     public GlobalSpecResultsDisplayerTopComponent() {
         initComponents();
         setName(NbBundle.getMessage(GlobalSpecResultsDisplayerTopComponent.class, "CTL_GlobalSpecResultsDisplayerTopComponent"));
@@ -41,6 +53,33 @@ public final class GlobalSpecResultsDisplayerTopComponent extends CloneableTopCo
         setName(NbBundle.getMessage(GlobalSpecResultsDisplayerTopComponent.class, "CTL_GlobalSpecResultsDisplayerTopComponent"));
         setToolTipText(NbBundle.getMessage(GlobalSpecResultsDisplayerTopComponent.class, "HINT_GlobalSpecResultsDisplayerTopComponent"));
 //        setIcon(ImageUtilities.loadImage(ICON_PATH, true));
+        if (gtaResult !=null){
+            for (int i = 0; i < results.size(); i++ ){
+                for (int j = 0; j < gtaResult.getDatasets().size(); j++){
+                    if (gtaResult.getDatasets().get(j).getResultFile().getFilename().equals(results.get(i).getDatasetName())){
+                        groups.add(gtaResult.getDatasets().get(j).getId());
+                    }
+                }
+            }
+            if (gtaResult.getDatasetRelations()!=null){
+//"to" is the dataset whish should be scalled
+//"from" is the dataset with weight 1
+//"values" linear relations - for now it is only one number;
+                for (int j = 0; j < groups.size(); j++) {
+                    for (int i = 0; i < gtaResult.getDatasetRelations().size(); i++) {
+                        if (gtaResult.getDatasetRelations().get(i).getTo().equals(groups.get(j))) {
+//TODO something with relations and somehow sort them out
+                        }
+                    }
+                }
+//
+            }
+            plotSpectra(results.get(0));
+        }
+        else {
+            plotSpectra(results.get(0));
+
+        }
     }
 
     /** This method is called from within the constructor to
@@ -54,7 +93,7 @@ public final class GlobalSpecResultsDisplayerTopComponent extends CloneableTopCo
 
         jTabbedPane1 = new javax.swing.JTabbedPane();
         jPMultiTraces = new javax.swing.JPanel();
-        jPanel8 = new javax.swing.JPanel();
+        jPSpectra = new javax.swing.JPanel();
         jPanel9 = new javax.swing.JPanel();
         jPanel10 = new javax.swing.JPanel();
         jSlider1 = new javax.swing.JSlider();
@@ -70,19 +109,8 @@ public final class GlobalSpecResultsDisplayerTopComponent extends CloneableTopCo
 
         jPMultiTraces.setLayout(new java.awt.GridBagLayout());
 
-        jPanel8.setBackground(new java.awt.Color(255, 255, 255));
-
-        javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
-        jPanel8.setLayout(jPanel8Layout);
-        jPanel8Layout.setHorizontalGroup(
-            jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 476, Short.MAX_VALUE)
-        );
-        jPanel8Layout.setVerticalGroup(
-            jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 181, Short.MAX_VALUE)
-        );
-
+        jPSpectra.setBackground(new java.awt.Color(255, 255, 255));
+        jPSpectra.setLayout(new java.awt.BorderLayout());
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
@@ -90,21 +118,10 @@ public final class GlobalSpecResultsDisplayerTopComponent extends CloneableTopCo
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTH;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.weighty = 0.45;
-        jPMultiTraces.add(jPanel8, gridBagConstraints);
+        jPMultiTraces.add(jPSpectra, gridBagConstraints);
 
         jPanel9.setBackground(new java.awt.Color(255, 255, 255));
-
-        javax.swing.GroupLayout jPanel9Layout = new javax.swing.GroupLayout(jPanel9);
-        jPanel9.setLayout(jPanel9Layout);
-        jPanel9Layout.setHorizontalGroup(
-            jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 476, Short.MAX_VALUE)
-        );
-        jPanel9Layout.setVerticalGroup(
-            jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 221, Short.MAX_VALUE)
-        );
-
+        jPanel9.setLayout(new java.awt.BorderLayout());
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 2;
@@ -223,6 +240,7 @@ public final class GlobalSpecResultsDisplayerTopComponent extends CloneableTopCo
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel jPMultiTraces;
+    private javax.swing.JPanel jPSpectra;
     private javax.swing.JPanel jPSpectraTab;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel10;
@@ -231,7 +249,6 @@ public final class GlobalSpecResultsDisplayerTopComponent extends CloneableTopCo
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel7;
-    private javax.swing.JPanel jPanel8;
     private javax.swing.JPanel jPanel9;
     private javax.swing.JSlider jSlider1;
     private javax.swing.JTabbedPane jTabbedPane1;
@@ -305,5 +322,61 @@ public final class GlobalSpecResultsDisplayerTopComponent extends CloneableTopCo
     @Override
     protected String preferredID() {
         return PREFERRED_ID;
+    }
+
+    private void plotSpectra(TimpResultDataset dataset) {
+
+        String specName = dataset.getJvec()!=null ? "SAS" : "EAS";
+        boolean errorBars = dataset.getSpectraErr()!=null ? true : false;
+        int numberOfComponents = dataset.getJvec()!=null ? dataset.getJvec().length/2 : dataset.getKineticParameters().length / 2;
+        int compNum = 0;
+        double maxAmpl = 0;
+
+        int compNumFull = 0;
+//add remove coherentartifact
+        if (false) {
+            compNum = numberOfComponents + 1;
+        }
+        else {
+            compNum = numberOfComponents;
+        }
+
+        YIntervalSeriesCollection realSasCollection = new YIntervalSeriesCollection();
+        YIntervalSeriesCollection normSasCollection = new YIntervalSeriesCollection();
+        YIntervalSeries seria;
+
+//        XYSeries seria;
+//create collection of real sas(eas)
+        for (int j = 0; j < compNum; j++) {
+            seria =new YIntervalSeries(specName + (j + 1));// new XYSeries(specName + (j + 1));
+            maxAmpl = 0;
+            for (int i = 0; i < dataset.getX2().length; i++) {
+                if (errorBars) {
+                    seria.add(dataset.getX2()[i], dataset.getSpectra().get(j, i),
+                            dataset.getSpectra().get(j, i) - dataset.getSpectraErr().get(j, i),
+                            dataset.getSpectra().get(j, i) + dataset.getSpectraErr().get(j, i));
+                } else {
+                    seria.add(dataset.getX2()[i], dataset.getSpectra().get(j, i),
+                            dataset.getSpectra().get(j, i),
+                            dataset.getSpectra().get(j, i));
+                }
+            }
+            realSasCollection.addSeries(seria);
+        }
+
+        JFreeChart tracechart = ChartFactory.createXYLineChart(
+                null,
+                "Wavelength (nm)",
+                specName,
+                realSasCollection,
+                PlotOrientation.VERTICAL,
+                false,
+                false,
+                false);
+        tracechart.getXYPlot().getDomainAxis().setUpperBound(dataset.getX2()[dataset.getX2().length - 1]);
+        GraphPanel chpan = new GraphPanel(tracechart, errorBars);
+        jPSpectra.removeAll();
+        jPSpectra.add(chpan);
+
     }
 }

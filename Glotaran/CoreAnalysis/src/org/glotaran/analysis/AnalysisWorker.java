@@ -719,6 +719,7 @@ public class AnalysisWorker implements Runnable {
 
             try {
                 String freeFilename = FileUtil.findFreeFileName(resultsfolder, resultsfolder.getName() + "_d" + (i + 1) + "_" + timpResultDataset.getDatasetName(), "timpres");
+                timpResultDataset.setDatasetName(freeFilename);
                 writeTo = resultsfolder.createData(freeFilename, "timpres");
                 ObjectOutputStream stream = new ObjectOutputStream(writeTo.getOutputStream());
                 stream.writeObject(timpResultDataset);

@@ -558,7 +558,7 @@ public class TimpController implements TimpControllerInterface {
     }
 
     public ArrayList<Matrix> doSingularValueDecomposition(Matrix matrix) {
-        ArrayList<Matrix> result = new ArrayList();
+        ArrayList<Matrix> result = new ArrayList<Matrix>();
         //TODO: fix this
         connection.assign("tempMatrix", matrix.getColumnPackedCopy());
         int dimRow = matrix.getColumnDimension();

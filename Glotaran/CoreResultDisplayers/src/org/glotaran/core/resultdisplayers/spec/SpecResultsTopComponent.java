@@ -1522,17 +1522,22 @@ public final class SpecResultsTopComponent extends TopComponent implements Chart
         XYSeries dasSeria;
 //        XYSeries seria;
 //create collection of real sas and normalizes all of them to max or abs(max) and creates collection with normSAS
-//TODO create collection of real das and normalizes all of them to max and creates collection with normDAS
         for (int j = 0; j < compNum; j++) {
             seria =new YIntervalSeries(specName + (j + 1));// new XYSeries(specName + (j + 1));
             dasSeria = new XYSeries("DAS" + (j + 1));
             maxAmpl = 0;
             maxDasAmpl = 0;
             for (int i = 0; i < res.getX2().length; i++) {
-                seria.add(res.getX2()[i], res.getSpectra().get(j, i),
-                        res.getSpectra().get(j, i)-res.getSpectraErr().get(j,i),
-                        res.getSpectra().get(j, i)+res.getSpectraErr().get(j,i));
-                        dasSeria.add(res.getX2()[i], res.getSpectra().get(j+compNumFull, i));
+                if (res.getSpectraErr() != null) {
+                    seria.add(res.getX2()[i], res.getSpectra().get(j, i),
+                            res.getSpectra().get(j, i) - res.getSpectraErr().get(j, i),
+                            res.getSpectra().get(j, i) + res.getSpectraErr().get(j, i));
+                } else {
+                    seria.add(res.getX2()[i], res.getSpectra().get(j, i),
+                            res.getSpectra().get(j, i),
+                            res.getSpectra().get(j, i));
+                }
+                dasSeria.add(res.getX2()[i], res.getSpectra().get(j + compNumFull, i));
                 if (jTBNormToMax.isSelected()){
                     if (maxAmpl<(res.getSpectra().get(j, i))){
                         maxAmpl=(res.getSpectra().get(j, i));
@@ -1562,12 +1567,17 @@ public final class SpecResultsTopComponent extends TopComponent implements Chart
             seria = new YIntervalSeries("Norm"+specName + (j + 1));
             dasSeria = new XYSeries("NormDas" + (j + 1));
             for (int i = 0; i < res.getX2().length; i++) {
-                seria.add(res.getX2()[i], res.getSpectra().get(j, i)/maxAmpl,
+                if (res.getSpectraErr() != null) {
+                    seria.add(res.getX2()[i], res.getSpectra().get(j, i)/maxAmpl,
                         res.getSpectra().get(j, i)/maxAmpl-res.getSpectraErr().get(j,i)/maxAmpl,
                         res.getSpectra().get(j, i)/maxAmpl+res.getSpectraErr().get(j,i)/maxAmpl);
-                if (res.getSpectra().getRowDimension()>compNum){
-                    dasSeria.add(res.getX2()[i], res.getSpectra().get(j+compNumFull, i)/maxDasAmpl);
+                } else {
+                    seria.add(res.getX2()[i], res.getSpectra().get(j, i)/maxAmpl,
+                            res.getSpectra().get(j, i)/maxAmpl,
+                            res.getSpectra().get(j, i)/maxAmpl);
                 }
+
+                dasSeria.add(res.getX2()[i], res.getSpectra().get(j+compNumFull, i)/maxDasAmpl);
             }
             normSasCollection.addSeries(seria);
             if (j < numberOfComponents){

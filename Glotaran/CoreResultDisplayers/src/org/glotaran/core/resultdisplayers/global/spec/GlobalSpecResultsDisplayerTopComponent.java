@@ -4,17 +4,22 @@
  */
 package org.glotaran.core.resultdisplayers.global.spec;
 
+import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 import org.glotaran.core.models.results.GtaResult;
 import org.glotaran.core.models.structures.TimpResultDataset;
 import org.glotaran.jfreechartcustom.GraphPanel;
+import org.glotaran.jfreechartcustom.ImageCrosshairLabelGenerator;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.JFreeChart;
+import org.jfree.chart.panel.CrosshairOverlay;
+import org.jfree.chart.plot.Crosshair;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.data.xy.YIntervalSeries;
 import org.jfree.data.xy.YIntervalSeriesCollection;
+import org.jfree.ui.RectangleAnchor;
 import org.openide.util.NbBundle;
 import org.openide.windows.TopComponent;
 import org.openide.windows.WindowManager;
@@ -54,13 +59,15 @@ public final class GlobalSpecResultsDisplayerTopComponent extends CloneableTopCo
 //    static final String ICON_PATH = "SET/PATH/TO/ICON/HERE";
     private static final String PREFERRED_ID = "GlobalSpecResultsDisplayerTopComponent";
 
-    private ArrayList<String> datasetsID = new ArrayList<String>();
     private List<TimpResultDataset> resultDatasets = null;
     private GtaResult gtaResultObj;
 
     private ArrayList<RelationFrom> relationGroups = new ArrayList <RelationFrom>();
 
+    private GraphPanel spectraImage;
+    private Crosshair crosshair;
 
+    private TimpResultDataset fromDataset;
 
     public GlobalSpecResultsDisplayerTopComponent() {
         initComponents();
@@ -77,7 +84,7 @@ public final class GlobalSpecResultsDisplayerTopComponent extends CloneableTopCo
         setName(NbBundle.getMessage(GlobalSpecResultsDisplayerTopComponent.class, "CTL_GlobalSpecResultsDisplayerTopComponent"));
         setToolTipText(NbBundle.getMessage(GlobalSpecResultsDisplayerTopComponent.class, "HINT_GlobalSpecResultsDisplayerTopComponent"));
 //        setIcon(ImageUtilities.loadImage(ICON_PATH, true));
-        
+        ArrayList<String> datasetsID = new ArrayList<String>();
         if (gtaResultObj !=null){
             for (int i = 0; i < results.size(); i++ ){
                 for (int j = 0; j < gtaResult.getDatasets().size(); j++){
@@ -107,11 +114,27 @@ public final class GlobalSpecResultsDisplayerTopComponent extends CloneableTopCo
             if (!relationGroups.isEmpty()){
 //for every relations group create tab with comparions spectra coming from "from dataset"
                 for (int i = 0; i < relationGroups.size(); i++){
+                    fromDataset = results.get(relationGroups.get(i).indexFrom);
 //create spectra from "from dataset"
                     jPSpectra.removeAll();
-                    jPSpectra.add(plotSpectra(results.get(relationGroups.get(i).indexFrom)));
-//initialise slider from "from dataset"
+                    spectraImage = plotSpectra(fromDataset);
+                    jPSpectra.add(spectraImage);
+//add croshair to the image
+//                    ImageCrosshairLabelGenerator crossLabGen = new ImageCrosshairLabelGenerator(fromDataset.getX2(),false);
+                    CrosshairOverlay overlay = new CrosshairOverlay();
+                    crosshair = new Crosshair(fromDataset.getX2()[0]);
+                    crosshair.setPaint(Color.blue);
+//                    crosshair.setLabelGenerator(crossLabGen);
+                    crosshair.setLabelVisible(true);
+                    crosshair.setLabelAnchor(RectangleAnchor.BOTTOM_RIGHT);
+                    overlay.addDomainCrosshair(crosshair);
+                    overlay.addRangeCrosshair(crosshair);
+
+                    spectraImage.addOverlay(overlay);
                     
+//initialise slider from "from dataset"
+                    jSWavelengths.getModel().setRangeProperties(0, 1, 0, fromDataset.getX2().length-1, true);
+
 
                 }
             }
@@ -173,6 +196,13 @@ public final class GlobalSpecResultsDisplayerTopComponent extends CloneableTopCo
         jPMultiTraces.add(jPanel9, gridBagConstraints);
 
         jPanel10.setLayout(new java.awt.BorderLayout());
+
+        jSWavelengths.setValue(0);
+        jSWavelengths.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                jSWavelengthsStateChanged(evt);
+            }
+        });
         jPanel10.add(jSWavelengths, java.awt.BorderLayout.CENTER);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -278,6 +308,10 @@ public final class GlobalSpecResultsDisplayerTopComponent extends CloneableTopCo
 
         add(jTabbedPane1, java.awt.BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jSWavelengthsStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jSWavelengthsStateChanged
+        crosshair.setValue(fromDataset.getX2()[jSWavelengths.getValue()]);
+    }//GEN-LAST:event_jSWavelengthsStateChanged
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel jPMultiTraces;

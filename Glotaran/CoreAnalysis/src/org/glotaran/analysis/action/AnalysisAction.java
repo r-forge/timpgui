@@ -167,9 +167,13 @@ public final class AnalysisAction implements ActionListener {
 
     private ArrayList<GtaModelReference> getConnectedModelreferences(GtaDatasetContainer datasetContainer) {
         ArrayList<GtaModelReference> models = new ArrayList<GtaModelReference>();
+        GtaModelReference newModel;
         for (GtaConnection connection : scheme.getConnection()) {
             if (connection.getTargetID().equalsIgnoreCase(datasetContainer.getId())) {
-                models.add(getConnectedModelreference(connection.getSourceID()));
+                newModel = getConnectedModelreference(connection.getSourceID());
+                if (newModel != null) {
+                    models.add(newModel);
+                }
             }
         }
 

@@ -22,6 +22,7 @@ public interface TimpControllerInterface {
     TimpResultDataset[] runAnalysis(DatasetTimp[] datasets, Tgm[] models, int iterations);
     TimpResultDataset[] runAnalysis(DatasetTimp[] datasets, ArrayList<String> initModelCalls, String fitModelCall);
     ArrayList<Matrix> doSingularValueDecomposition(Matrix matrix);
+    void cleanup();
     double getDouble(String cmd);
     double[] getDoubleArray(String cmd);
 }

@@ -33,6 +33,12 @@ public class TimpController implements TimpControllerInterface {
         //connection = JRIConnectionFactory.getInstance().createTwoWayConnection(null);
     }
 
+    public void cleanup() {
+        connection.voidEval("try(rm(list=ls()))");
+        connection.voidEval("try(gc())");
+        System.gc();
+    }
+
     public TimpResultDataset[] runAnalysis(DatasetTimp[] datasets, Tgm[] models, int iterations) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
@@ -54,9 +60,7 @@ public class TimpController implements TimpControllerInterface {
             results = new TimpResultDataset[datasets.length];
             for (int i = 0; i < datasets.length; i++) {
                 results[i] = getTimpResultDataset(i);
-            }
-            connection.voidEval("try(rm(list=ls()))");
-            connection.voidEval("try(gc())");
+            }            
             //TODO: make sure this is possible
             //connection.close();
         }

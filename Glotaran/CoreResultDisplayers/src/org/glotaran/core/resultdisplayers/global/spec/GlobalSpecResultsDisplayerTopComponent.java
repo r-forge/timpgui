@@ -4,6 +4,7 @@
  */
 package org.glotaran.core.resultdisplayers.global.spec;
 
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Font;
 import java.util.ArrayList;
@@ -18,6 +19,7 @@ import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.axis.AxisLocation;
 import org.jfree.chart.axis.NumberAxis;
+import org.jfree.chart.axis.ValueAxis;
 import org.jfree.chart.panel.CrosshairOverlay;
 import org.jfree.chart.plot.CombinedDomainXYPlot;
 import org.jfree.chart.plot.Crosshair;
@@ -27,6 +29,7 @@ import org.jfree.data.xy.XYSeriesCollection;
 import org.jfree.data.xy.YIntervalSeries;
 import org.jfree.data.xy.YIntervalSeriesCollection;
 import org.jfree.ui.RectangleAnchor;
+import org.jfree.util.StrokeList;
 import org.openide.util.NbBundle;
 import org.openide.windows.TopComponent;
 import org.openide.windows.WindowManager;
@@ -77,6 +80,8 @@ public final class GlobalSpecResultsDisplayerTopComponent extends CloneableTopCo
     private JFreeChart subchartResidualsTime;
     
     private TimpResultDataset fromDataset;
+    private TimpResultDataset toDataset;
+    private double scaleValue;
 
     public GlobalSpecResultsDisplayerTopComponent() {
         initComponents();
@@ -124,6 +129,8 @@ public final class GlobalSpecResultsDisplayerTopComponent extends CloneableTopCo
 //for every relations group create tab with comparions spectra coming from "from dataset"
                 for (int i = 0; i < relationGroups.size(); i++){
                     fromDataset = results.get(relationGroups.get(i).indexFrom);
+                    toDataset = results.get(relationGroups.get(i).scaledDatasets.get(0).indexTo);
+                    scaleValue = relationGroups.get(i).scaledDatasets.get(0).valueTo;
 //create spectra from "from dataset"
                     jPSpectra.removeAll();
                     spectraImage = createSpectraPlot(fromDataset);
@@ -521,9 +528,31 @@ public final class GlobalSpecResultsDisplayerTopComponent extends CloneableTopCo
 
     private void updateTrace(int xIndex){
         if (true){
-            XYSeriesCollection trace = CommonTools.createFitRawTraceCollection(xIndex, 0, fromDataset.getX().length,fromDataset);
-            XYSeriesCollection resid = CommonTools.createResidTraceCollection(xIndex, 0, fromDataset.getX().length,fromDataset);
-            ChartPanel linTime =CommonTools.makeLinTimeTraceResidChart(trace, resid, new NumberAxis("Time"), null);
+            XYSeriesCollection traceFrom = CommonTools.createFitRawTraceCollection(xIndex, 0, fromDataset.getX().length,fromDataset);
+            XYSeriesCollection residFrom = CommonTools.createResidTraceCollection(xIndex, 0, fromDataset.getX().length,fromDataset);
+
+            XYSeriesCollection traceTo = CommonTools.createFitRawTraceCollection(xIndex, 0, toDataset.getX().length,toDataset);
+            XYSeriesCollection residTo = CommonTools.createResidTraceCollection(xIndex, 0, toDataset.getX().length,toDataset);
+
+
+            for (int i = 0; i < traceTo.getSeries(0).getItemCount(); i++){
+                traceTo.getSeries(0).getDataItem(i).setY(traceTo.getSeries(0).getDataItem(i).getYValue()*scaleValue);
+                traceTo.getSeries(1).getDataItem(i).setY(traceTo.getSeries(1).getDataItem(i).getYValue()*scaleValue);
+                residTo.getSeries(0).getDataItem(i).setY(residTo.getSeries(0).getDataItem(i).getYValue()*scaleValue);
+            }
+
+            XYSeriesCollection trace = new XYSeriesCollection();
+            XYSeriesCollection resid = new XYSeriesCollection();
+
+            trace.addSeries(traceTo.getSeries(0));
+            trace.addSeries(traceTo.getSeries(1));
+            trace.addSeries(traceFrom.getSeries(0));
+            trace.addSeries(traceFrom.getSeries(1));
+            resid.addSeries(residTo.getSeries(0));
+            resid.addSeries(residFrom.getSeries(0));
+
+            ChartPanel linTime = makeLinTimeTraceResidChart(trace, resid, new NumberAxis("Time"), null);
+
             jPTraces.removeAll();
             jPTraces.add(linTime);
             jPTraces.validate();
@@ -544,6 +573,75 @@ public final class GlobalSpecResultsDisplayerTopComponent extends CloneableTopCo
 //            }
         }
 
+    }
+
+    public static ChartPanel makeLinTimeTraceResidChart(XYSeriesCollection trace, XYSeriesCollection residuals, ValueAxis xAxis, String name){
+        JFreeChart subchartResiduals = ChartFactory.createXYLineChart(
+            null,
+            null,
+            null,
+            residuals,
+            PlotOrientation.VERTICAL,
+            false,
+            false,
+            false
+        );
+        JFreeChart subchartTrace = ChartFactory.createXYLineChart(
+            null,
+            null,
+            null,
+            trace,
+            PlotOrientation.VERTICAL,
+            false,
+            false,
+            false
+        );
+        XYPlot plot1_1 = subchartTrace.getXYPlot();
+        plot1_1.getDomainAxis().setLowerMargin(0.0);
+        plot1_1.getDomainAxis().setUpperMargin(0.0);
+        plot1_1.setDomainAxisLocation(AxisLocation.BOTTOM_OR_LEFT);
+        plot1_1.getDomainAxis().setInverted(true);
+        plot1_1.setRangeZeroBaselineVisible(true);
+        plot1_1.getRenderer().setSeriesPaint(0, Color.blue);
+        plot1_1.getRenderer().setSeriesPaint(1, Color.blue);
+        plot1_1.getRenderer().setSeriesPaint(2, Color.red);
+        plot1_1.getRenderer().setSeriesPaint(3, Color.red);
+
+        plot1_1.getRenderer().setSeriesStroke(0, new BasicStroke(1.0f));
+        plot1_1.getRenderer().setSeriesStroke(1,
+                new BasicStroke(1.0f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 10.0f, new float[]{10.0f}, 0.0f));
+
+        plot1_1.getRenderer().setSeriesStroke(2, new BasicStroke(1.0f));
+        plot1_1.getRenderer().setSeriesStroke(3,
+                new BasicStroke(1.0f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 10.0f, new float[]{10.0f}, 0.0f));
+
+        plot1_1.getRangeAxis().setAutoRange(true);
+
+
+        XYPlot plot1_2 = subchartResiduals.getXYPlot();
+        plot1_2.getDomainAxis().setLowerMargin(0.0);
+        plot1_2.getDomainAxis().setUpperMargin(0.0);
+        plot1_2.setDomainAxisLocation(AxisLocation.BOTTOM_OR_LEFT);
+        plot1_2.getDomainAxis().setInverted(true);
+        plot1_2.setRangeZeroBaselineVisible(true);
+        plot1_2.getRenderer().setSeriesPaint(0, Color.blue);
+        plot1_2.getRenderer().setSeriesPaint(1, Color.red);
+        plot1_2.getRangeAxis().setAutoRange(true);
+
+        CombinedDomainXYPlot plot = new CombinedDomainXYPlot(xAxis);
+        plot.setGap(5.0);
+        plot.add(plot1_1, 3);
+        plot.add(plot1_2, 1);
+        plot.setOrientation(PlotOrientation.VERTICAL);
+        plot.getDomainAxis().setLowerMargin(0.0);
+        plot.getDomainAxis().setUpperMargin(0.0);
+        Font titleFont = new Font(JFreeChart.DEFAULT_TITLE_FONT.getFontName(),JFreeChart.DEFAULT_TITLE_FONT.getStyle(),12);
+        JFreeChart tracechart = new JFreeChart(name, titleFont, plot, true);
+        tracechart.getLegend().setVisible(false);
+        ChartPanel chpan = new ChartPanel(tracechart,true);
+        chpan.setMinimumDrawHeight(0);
+        chpan.setMinimumDrawWidth(0);
+        return chpan;
     }
 
 }

@@ -67,10 +67,11 @@
         </folder>
     </folder>
     <folder name="Templates">
-        <folder name="Other">
+        <folder name="Glotaran">
             <file name="TgmTemplate.xml" url="TgmTemplate.xml">
                 <attr name="SystemFileSystem.localizingBundle" stringvalue="org.glotaran.tgmfilesupport.Bundle"/>
                 <attr name="template" boolvalue="true"/>
+                <attr name="templateWizardURL" urlvalue="nbresloc:/org/glotaran/tgmfilesupport/Description.html"/>
             </file>
         </folder>
     </folder>

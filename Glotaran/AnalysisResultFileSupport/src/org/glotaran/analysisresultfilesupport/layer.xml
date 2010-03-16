@@ -79,12 +79,4 @@
             </file>
         </folder>
     </folder>
-    <folder name="Templates">
-        <folder name="Other">
-            <file name="AnalysisResultTemplate.xml" url="AnalysisResultTemplate.xml">
-                <attr name="displayName" bundlevalue="org.glotaran.analysisresultfilesupport.Bundle#Templates/Other/AnalysisResultTemplate.xml"/>
-                <attr name="template" boolvalue="true"/>
-            </file>
-        </folder>
-    </folder>
 </filesystem>

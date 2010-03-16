@@ -48,10 +48,11 @@
         </folder>
     </folder>
     <folder name="Templates">
-        <folder name="Other">
+        <folder name="Glotaran">
             <file name="GtaTemplate.xml" url="GtaTemplate.xml">
-                <attr name="displayName" bundlevalue="org.glotaran.gtafilesupport.Bundle#Templates/Other/GtaTemplate.xml"/>
+                <attr name="displayName" bundlevalue="org.glotaran.gtafilesupport.Bundle#Templates/Glotaran/GtaTemplate.xml"/>
                 <attr name="template" boolvalue="true"/>
+                <attr name="templateWizardURL" urlvalue="nbresloc:/org/glotaran/gtafilesupport/Description.html"/>
             </file>
         </folder>
     </folder>

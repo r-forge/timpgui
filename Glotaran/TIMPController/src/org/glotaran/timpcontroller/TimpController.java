@@ -150,9 +150,10 @@ public class TimpController implements TimpControllerInterface {
 //        result.setPartau(getPartau(NAME_OF_RESULT_OBJECT, datasetNumber));
 
         if (result.getKineticParameters().length > 2) {
-            result.setConcentrations(getX(NAME_OF_RESULT_OBJECT, datasetNumber, false));
+            result.setConcentrations(getC(NAME_OF_RESULT_OBJECT, datasetNumber));
         } else {
-            result.setConcentrations(getX(NAME_OF_RESULT_OBJECT, datasetNumber, true));
+//            result.setConcentrations(getX(NAME_OF_RESULT_OBJECT, datasetNumber, true));
+            result.setConcentrations(getC(NAME_OF_RESULT_OBJECT, datasetNumber));
         }
         return result;
     }
@@ -234,6 +235,10 @@ public class TimpController implements TimpControllerInterface {
 
     public Matrix getX(String resultVariable, int index, boolean single) {
         return getX(resultVariable, 1, index, single);
+    }
+
+    public Matrix getC(String resultVariable, int index) {
+        return getTempMatrix("getC(" + resultVariable + ", dataset =" + index + ")");
     }
 
     public Matrix getX(String resultVariable, int group, int index, boolean single) {

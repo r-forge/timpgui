@@ -130,8 +130,8 @@ public final class SpecResultsTopComponent extends TopComponent implements Chart
 
         irfpar[res.getIrfpar().length/2] = "-----";
         irfpar[res.getIrfpar().length/2+1] = "RMS =" + (new Formatter().format("%g",res.getRms())).toString();
-        
-                jLSpectralParameters.setListData(irfpar);
+
+        jLSpectralParameters.setListData(irfpar);
                 
 //first tab
         double centrWave;
@@ -152,11 +152,18 @@ public final class SpecResultsTopComponent extends TopComponent implements Chart
         }
 
         calculateDispersionCurve(centrWave, dispParam, timeZero, dispParam.length/2);
-        if (res.getSpectra().getRowDimension()>numberOfComponents){
+        if (res.getSpectra().getRowDimension()>numberOfComponents*2){
             jTBShowChohSpec.setEnabled(true);
         }
         plotSpectrTrace();
-        GraphPanel conc = createLinTimePlot(res.getConcentrations(), res.getX());
+        GraphPanel conc = null;
+        if (numberOfComponents < res.getConcentrations().getColumnDimension()){
+            conc = createLinTimePlot(res.getConcentrations(), res.getX(), true);
+        }
+        else {
+            conc = createLinTimePlot(res.getConcentrations(), res.getX());
+        }
+
         jPConcentrations.removeAll();
         jPConcentrations.add(conc);
 
@@ -1419,6 +1426,30 @@ public final class SpecResultsTopComponent extends TopComponent implements Chart
     }
 
     private GraphPanel createLinTimePlot(Matrix data, double[] timesteps){
+        return createLinTimePlot(data,timesteps,false);
+    }
+
+    private GraphPanel createLinTimePlot(Matrix dataRaw, double[] timesteps, boolean conc){
+        Matrix data = dataRaw;
+        if (conc){
+            double maxComps = 0;
+            double maxCoh = 0;
+            for (int i = 0; i< data.getColumnDimension()-1; i++){
+                for (int j = 0; j<data.getRowDimension(); j++){
+                    if (maxComps < data.get(j,i)){
+                        maxComps = data.get(j,i);
+                    }
+                }
+            }
+            for (int j = 0; j<data.getRowDimension(); j++){
+                if (maxCoh < data.get(j,data.getColumnDimension()-1)){
+                    maxCoh = data.get(j,data.getColumnDimension()-1);
+                }
+            }
+            for (int j = 0; j<data.getRowDimension(); j++){
+                data.set(j, data.getColumnDimension()-1, dataRaw.get(j, data.getColumnDimension()-1)/maxCoh*maxComps);
+            }
+        }
         int traceNumber = data.getColumnDimension();
         XYSeriesCollection concCollection = new XYSeriesCollection();
         XYSeries seria;
@@ -1468,6 +1499,14 @@ public final class SpecResultsTopComponent extends TopComponent implements Chart
         int compNum = 0;
         double maxAmpl = 0;
         double maxDasAmpl = 0;
+        int compNumFull = 0;
+        if(jTBShowChohSpec.isEnabled()) {
+            compNumFull = numberOfComponents + 1;
+        }
+        else {
+            compNumFull = numberOfComponents;
+        }
+
         if (jTBShowChohSpec.isSelected()) {
             compNum = numberOfComponents + 1;
         }
@@ -1493,16 +1532,14 @@ public final class SpecResultsTopComponent extends TopComponent implements Chart
                 seria.add(res.getX2()[i], res.getSpectra().get(j, i),
                         res.getSpectra().get(j, i)-res.getSpectraErr().get(j,i),
                         res.getSpectra().get(j, i)+res.getSpectraErr().get(j,i));
-                if (res.getSpectra().getRowDimension()>compNum){
-                    dasSeria.add(res.getX2()[i], res.getSpectra().get(j+compNum, i));
-                }
+                        dasSeria.add(res.getX2()[i], res.getSpectra().get(j+compNumFull, i));
                 if (jTBNormToMax.isSelected()){
                     if (maxAmpl<(res.getSpectra().get(j, i))){
                         maxAmpl=(res.getSpectra().get(j, i));
                     }
                     if (res.getSpectra().getRowDimension()>compNum){
-                        if (maxDasAmpl<(res.getSpectra().get(j+compNum, i))){
-                            maxDasAmpl=(res.getSpectra().get(j+compNum, i));
+                        if (maxDasAmpl<(res.getSpectra().get(j+compNumFull, i))){
+                            maxDasAmpl=(res.getSpectra().get(j+compNumFull, i));
                         }
                     }
                 }
@@ -1511,14 +1548,16 @@ public final class SpecResultsTopComponent extends TopComponent implements Chart
                         maxAmpl=abs(res.getSpectra().get(j, i));
                     }
                     if (res.getSpectra().getRowDimension()>compNum){
-                        if (maxDasAmpl<abs(res.getSpectra().get(j+compNum, i))){
-                            maxDasAmpl=abs(res.getSpectra().get(j+compNum, i));
+                        if (maxDasAmpl<abs(res.getSpectra().get(j+compNumFull, i))){
+                            maxDasAmpl=abs(res.getSpectra().get(j+compNumFull, i));
                         }
                     }
                 }
             }
             realSasCollection.addSeries(seria);
-            realDasCollection.addSeries(dasSeria);
+            if (j < numberOfComponents){
+                realDasCollection.addSeries(dasSeria);
+            }
 
             seria = new YIntervalSeries("Norm"+specName + (j + 1));
             dasSeria = new XYSeries("NormDas" + (j + 1));
@@ -1527,11 +1566,13 @@ public final class SpecResultsTopComponent extends TopComponent implements Chart
                         res.getSpectra().get(j, i)/maxAmpl-res.getSpectraErr().get(j,i)/maxAmpl,
                         res.getSpectra().get(j, i)/maxAmpl+res.getSpectraErr().get(j,i)/maxAmpl);
                 if (res.getSpectra().getRowDimension()>compNum){
-                    dasSeria.add(res.getX2()[i], res.getSpectra().get(j+compNum, i)/maxDasAmpl);
+                    dasSeria.add(res.getX2()[i], res.getSpectra().get(j+compNumFull, i)/maxDasAmpl);
                 }
             }
             normSasCollection.addSeries(seria);
-            normDasCollection.addSeries(dasSeria);
+            if (j < numberOfComponents){
+                normDasCollection.addSeries(dasSeria);
+            }
         }
 
         JFreeChart tracechart = ChartFactory.createXYLineChart(
@@ -2005,8 +2046,9 @@ public final class SpecResultsTopComponent extends TopComponent implements Chart
         XYSeries curve = new XYSeries("dispersion");
         int k=0;
         for(int i = 0; i<res.getX2().length; i++){
-            while (t0Curve[i] > res.getX()[k])
+            while (t0Curve[i] > res.getX()[k]) {
                 k++;
+            }
             curve.add(i,res.getX().length-k);
         }
         XYDataset curveDataset = new XYSeriesCollection(curve);

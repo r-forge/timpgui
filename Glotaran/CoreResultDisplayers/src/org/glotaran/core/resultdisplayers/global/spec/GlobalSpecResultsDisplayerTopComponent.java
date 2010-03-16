@@ -5,18 +5,25 @@
 package org.glotaran.core.resultdisplayers.global.spec;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 import org.glotaran.core.models.results.GtaResult;
 import org.glotaran.core.models.structures.TimpResultDataset;
+import org.glotaran.core.resultdisplayers.common.panels.CommonTools;
 import org.glotaran.jfreechartcustom.GraphPanel;
-import org.glotaran.jfreechartcustom.ImageCrosshairLabelGenerator;
 import org.jfree.chart.ChartFactory;
+import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
+import org.jfree.chart.axis.AxisLocation;
+import org.jfree.chart.axis.NumberAxis;
 import org.jfree.chart.panel.CrosshairOverlay;
+import org.jfree.chart.plot.CombinedDomainXYPlot;
 import org.jfree.chart.plot.Crosshair;
 import org.jfree.chart.plot.PlotOrientation;
+import org.jfree.chart.plot.XYPlot;
+import org.jfree.data.xy.XYSeriesCollection;
 import org.jfree.data.xy.YIntervalSeries;
 import org.jfree.data.xy.YIntervalSeriesCollection;
 import org.jfree.ui.RectangleAnchor;
@@ -66,7 +73,9 @@ public final class GlobalSpecResultsDisplayerTopComponent extends CloneableTopCo
 
     private GraphPanel spectraImage;
     private Crosshair crosshair;
-
+    private JFreeChart subchartTimeTrace;
+    private JFreeChart subchartResidualsTime;
+    
     private TimpResultDataset fromDataset;
 
     public GlobalSpecResultsDisplayerTopComponent() {
@@ -117,7 +126,7 @@ public final class GlobalSpecResultsDisplayerTopComponent extends CloneableTopCo
                     fromDataset = results.get(relationGroups.get(i).indexFrom);
 //create spectra from "from dataset"
                     jPSpectra.removeAll();
-                    spectraImage = plotSpectra(fromDataset);
+                    spectraImage = createSpectraPlot(fromDataset);
                     jPSpectra.add(spectraImage);
 //add croshair to the image
 //                    ImageCrosshairLabelGenerator crossLabGen = new ImageCrosshairLabelGenerator(fromDataset.getX2(),false);
@@ -129,13 +138,13 @@ public final class GlobalSpecResultsDisplayerTopComponent extends CloneableTopCo
                     crosshair.setLabelAnchor(RectangleAnchor.BOTTOM_RIGHT);
                     overlay.addDomainCrosshair(crosshair);
                     overlay.addRangeCrosshair(crosshair);
-
                     spectraImage.addOverlay(overlay);
                     
 //initialise slider from "from dataset"
                     jSWavelengths.getModel().setRangeProperties(0, 1, 0, fromDataset.getX2().length-1, true);
-
-
+//create plot with curves from "from dataset";
+                    jPTraces.removeAll();
+                    jPTraces.add(makeTracesChart(fromDataset));
                 }
             }
             
@@ -158,7 +167,7 @@ public final class GlobalSpecResultsDisplayerTopComponent extends CloneableTopCo
         jTabbedPane1 = new javax.swing.JTabbedPane();
         jPMultiTraces = new javax.swing.JPanel();
         jPSpectra = new javax.swing.JPanel();
-        jPanel9 = new javax.swing.JPanel();
+        jPTraces = new javax.swing.JPanel();
         jPanel10 = new javax.swing.JPanel();
         jSWavelengths = new javax.swing.JSlider();
         jPSpectraTab = new javax.swing.JPanel();
@@ -184,8 +193,8 @@ public final class GlobalSpecResultsDisplayerTopComponent extends CloneableTopCo
         gridBagConstraints.weighty = 0.45;
         jPMultiTraces.add(jPSpectra, gridBagConstraints);
 
-        jPanel9.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel9.setLayout(new java.awt.BorderLayout());
+        jPTraces.setBackground(new java.awt.Color(255, 255, 255));
+        jPTraces.setLayout(new java.awt.BorderLayout());
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 2;
@@ -193,7 +202,7 @@ public final class GlobalSpecResultsDisplayerTopComponent extends CloneableTopCo
         gridBagConstraints.anchor = java.awt.GridBagConstraints.SOUTH;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.weighty = 0.55;
-        jPMultiTraces.add(jPanel9, gridBagConstraints);
+        jPMultiTraces.add(jPTraces, gridBagConstraints);
 
         jPanel10.setLayout(new java.awt.BorderLayout());
 
@@ -311,12 +320,14 @@ public final class GlobalSpecResultsDisplayerTopComponent extends CloneableTopCo
 
     private void jSWavelengthsStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jSWavelengthsStateChanged
         crosshair.setValue(fromDataset.getX2()[jSWavelengths.getValue()]);
+        updateTrace(jSWavelengths.getValue());
     }//GEN-LAST:event_jSWavelengthsStateChanged
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel jPMultiTraces;
     private javax.swing.JPanel jPSpectra;
     private javax.swing.JPanel jPSpectraTab;
+    private javax.swing.JPanel jPTraces;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel10;
     private javax.swing.JPanel jPanel3;
@@ -324,7 +335,6 @@ public final class GlobalSpecResultsDisplayerTopComponent extends CloneableTopCo
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel7;
-    private javax.swing.JPanel jPanel9;
     private javax.swing.JSlider jSWavelengths;
     private javax.swing.JTabbedPane jTabbedPane1;
     // End of variables declaration//GEN-END:variables
@@ -399,8 +409,7 @@ public final class GlobalSpecResultsDisplayerTopComponent extends CloneableTopCo
         return PREFERRED_ID;
     }
 
-    private GraphPanel plotSpectra(TimpResultDataset dataset) {
-
+    private GraphPanel createSpectraPlot(TimpResultDataset dataset) {
         String specName = dataset.getJvec()!=null ? "SAS" : "EAS";
         boolean errorBars = dataset.getSpectraErr()!=null ? true : false;
         int numberOfComponents = dataset.getJvec()!=null ? dataset.getJvec().length/2 : dataset.getKineticParameters().length / 2;
@@ -451,4 +460,90 @@ public final class GlobalSpecResultsDisplayerTopComponent extends CloneableTopCo
         tracechart.getXYPlot().getDomainAxis().setUpperBound(dataset.getX2()[dataset.getX2().length - 1]);
         return new GraphPanel(tracechart, errorBars);
     }
+
+    private ChartPanel makeTracesChart(TimpResultDataset res) {
+
+//make timetrace chart
+        XYSeriesCollection dataset1 = new XYSeriesCollection();
+        subchartResidualsTime = ChartFactory.createXYLineChart(
+            null,
+            null,
+            null,
+            dataset1,
+            PlotOrientation.VERTICAL,
+            false,
+            false,
+            false
+        );
+        subchartTimeTrace = ChartFactory.createXYLineChart(
+            null,
+            null,
+            null,
+            dataset1,
+            PlotOrientation.VERTICAL,
+            false,
+            false,
+            false
+        );
+        subchartTimeTrace.getXYPlot().getDomainAxis().setUpperBound(res.getX()[res.getX().length-1]);
+        subchartResidualsTime.getXYPlot().getDomainAxis().setUpperBound(res.getX()[res.getX().length-1]);
+
+        XYPlot plot1_1 = subchartTimeTrace.getXYPlot();
+        plot1_1.getDomainAxis().setLowerMargin(0.0);
+        plot1_1.getDomainAxis().setUpperMargin(0.0);
+        plot1_1.setDomainAxisLocation(AxisLocation.BOTTOM_OR_LEFT);
+        plot1_1.getDomainAxis().setInverted(true);
+        plot1_1.setRangeZeroBaselineVisible(true);
+
+        XYPlot plot1_2 = subchartResidualsTime.getXYPlot();
+        plot1_2.getDomainAxis().setLowerMargin(0.0);
+        plot1_2.getDomainAxis().setUpperMargin(0.0);
+        plot1_2.setDomainAxisLocation(AxisLocation.BOTTOM_OR_LEFT);
+        plot1_2.getDomainAxis().setInverted(true);
+        plot1_2.setRangeZeroBaselineVisible(true);
+
+        NumberAxis xAxis = new NumberAxis("Time");
+        xAxis.setRange(res.getX()[0], res.getX()[res.getX().length - 1]);
+        xAxis.setUpperBound(res.getX()[res.getX().length-1]);
+        CombinedDomainXYPlot plot = new CombinedDomainXYPlot(xAxis);
+        plot.setGap(10.0);
+        plot.add(plot1_1, 3);
+        plot.add(plot1_2, 1);
+        plot.setOrientation(PlotOrientation.VERTICAL);
+        JFreeChart tracechart = new JFreeChart(null, JFreeChart.DEFAULT_TITLE_FONT, plot, true);
+        tracechart.getLegend().setVisible(false);
+        ChartPanel chpan = new ChartPanel(tracechart,true);
+        chpan.setMinimumDrawHeight(0);
+        chpan.setMinimumDrawWidth(0);
+        return chpan;
+    }
+
+
+    private void updateTrace(int xIndex){
+        if (true){
+            XYSeriesCollection trace = CommonTools.createFitRawTraceCollection(xIndex, 0, fromDataset.getX().length,fromDataset);
+            XYSeriesCollection resid = CommonTools.createResidTraceCollection(xIndex, 0, fromDataset.getX().length,fromDataset);
+            ChartPanel linTime =CommonTools.makeLinTimeTraceResidChart(trace, resid, new NumberAxis("Time"), null);
+            jPTraces.removeAll();
+            jPTraces.add(linTime);
+            jPTraces.validate();
+        }
+        else {
+//            ChartPanel linLogTime = makeLinLogTimeTraceResidChart(xIndex);
+//            jPSelectedTimeTrace.removeAll();
+//            jPSelectedTimeTrace.add(linLogTime);
+//            jPSelectedTimeTrace.validate();
+//            if (leftSingVecPart!=null){
+//                double linPortion = Double.valueOf(jTFLinPartTraces.getText());
+//                ChartPanel lsv = createLinLogTimePlot(t0Curve[0], linPortion, leftSingVecPart, timePart);
+//                lsv.getChart().setTitle("Left singular vectors");
+//                lsv.getChart().getTitle().setFont(new Font(lsv.getChart().getTitle().getFont().getFontName(), Font.PLAIN, 12));
+//                jPLeftSingVectorsPart.removeAll();
+//                jPLeftSingVectorsPart.add(lsv);
+//                jPLeftSingVectorsPart.validate();
+//            }
+        }
+
+    }
+
 }

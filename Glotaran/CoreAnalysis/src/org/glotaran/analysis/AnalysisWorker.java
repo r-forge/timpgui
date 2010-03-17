@@ -727,7 +727,7 @@ public class AnalysisWorker implements Runnable {
 
                 newResultsObject.getDatasets().get(i).setResultFile(new OutputFile());
                 newResultsObject.getDatasets().get(i).getResultFile().setFilename(freeFilename);
-                newResultsObject.getDatasets().get(i).getResultFile().setPath(resultsfolder.getPath());
+                newResultsObject.getDatasets().get(i).getResultFile().setPath(FileUtil.getRelativePath(project.getProjectDirectory(), resultsfolder));
 
             } catch (IOException ex) {
                 Exceptions.printStackTrace(ex);

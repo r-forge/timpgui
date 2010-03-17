@@ -5,6 +5,7 @@ import java.io.IOException;
 import javax.xml.bind.Unmarshaller;
 import org.glotaran.core.messages.CoreErrorMessages;
 import org.glotaran.core.main.nodes.TgdDataNode;
+import org.openide.cookies.SaveCookie;
 import org.openide.filesystems.FileObject;
 import org.openide.filesystems.FileUtil;
 import org.openide.loaders.DataObjectExistsException;
@@ -15,8 +16,9 @@ import org.openide.nodes.Node;
 import org.openide.text.DataEditorSupport;
 import org.openide.util.Lookup;
 
-public class TgdDataObject extends InstanceDataObject {
+public class TgdDataObject extends InstanceDataObject implements SaveCookie {
     private Tgd tgd;
+    private final static long serialVersionUID = 1L;
 
     public TgdDataObject(FileObject pf, MultiFileLoader loader) throws DataObjectExistsException, IOException {
         super(pf, loader);
@@ -80,6 +82,20 @@ public class TgdDataObject extends InstanceDataObject {
                 CoreErrorMessages.jaxbException();
             }
 
+        }
+    }
+    public void save() throws IOException {
+        if (tgd == null) {
+            return;
+        }
+        try {
+            javax.xml.bind.JAXBContext jaxbCtx = javax.xml.bind.JAXBContext.newInstance(tgd.getClass().getPackage().getName());
+            javax.xml.bind.Marshaller marshaller = jaxbCtx.createMarshaller();
+            marshaller.setProperty(javax.xml.bind.Marshaller.JAXB_ENCODING, "UTF-8"); //NOI18N
+            marshaller.setProperty(javax.xml.bind.Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
+            marshaller.marshal(tgd, FileUtil.toFile(this.getPrimaryFile()));
+        } catch (javax.xml.bind.JAXBException ex) {
+            java.util.logging.Logger.getLogger("global").log(java.util.logging.Level.SEVERE, null, ex); //NOI18N
         }
     }
 

@@ -535,9 +535,9 @@ public final class GlobalSpecResultsDisplayerTopComponent extends CloneableTopCo
 
 
             for (int i = 0; i < traceTo.getSeries(0).getItemCount(); i++){
-                traceTo.getSeries(0).getDataItem(i).setY(traceTo.getSeries(0).getDataItem(i).getYValue()*scaleValue);
-                traceTo.getSeries(1).getDataItem(i).setY(traceTo.getSeries(1).getDataItem(i).getYValue()*scaleValue);
-                residTo.getSeries(0).getDataItem(i).setY(residTo.getSeries(0).getDataItem(i).getYValue()*scaleValue);
+                traceTo.getSeries(0).getDataItem(i).setY(traceTo.getSeries(0).getDataItem(i).getYValue()/scaleValue);
+                traceTo.getSeries(1).getDataItem(i).setY(traceTo.getSeries(1).getDataItem(i).getYValue()/scaleValue);
+                residTo.getSeries(0).getDataItem(i).setY(residTo.getSeries(0).getDataItem(i).getYValue()/scaleValue);
             }
 
             XYSeriesCollection trace = new XYSeriesCollection();

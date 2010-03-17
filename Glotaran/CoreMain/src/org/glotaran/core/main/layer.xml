@@ -8,11 +8,26 @@
             <file name="org-glotaran-core-main-nodes-actions-ShowTimpDataset.instance"/>
             <file name="org-glotaran-core-main-nodes-actions-OpenDataset.instance"/>
         </folder>
+        <folder name="File">
+            <file name="org-glotaran-core-main-nodes-actions-CacheTgdDataset.instance">
+                <attr name="delegate" methodvalue="org.openide.awt.Actions.inject"/>
+                <attr name="displayName" bundlevalue="org.glotaran.core.main.nodes.actions.Bundle#CTL_CacheTgdDataset"/>
+                <attr name="injectable" stringvalue="org.glotaran.core.main.nodes.actions.CacheTgdDataset"/>
+                <attr name="instanceCreate" methodvalue="org.openide.awt.Actions.context"/>
+                <attr name="noIconInMenu" boolvalue="false"/>
+                <attr name="selectionType" stringvalue="ANY"/>
+                <attr name="type" stringvalue="org.openide.loaders.DataObject"/>
+            </file>
+        </folder>
     </folder>
     <folder name="Loaders">
         <folder name="text">
             <folder name="tgd+xml">
                 <folder name="Actions">
+                    <file name="org-glotaran-core-main-nodes-actions-CacheTgdDataset.shadow">
+                        <attr name="originalFile" stringvalue="Actions/File/org-glotaran-core-main-nodes-actions-CacheTgdDataset.instance"/>
+                        <attr name="position" intvalue="100"/>
+                    </file>
                     <file name="org-openide-actions-CopyAction.instance">
                         <attr name="position" intvalue="400"/>
                     </file>

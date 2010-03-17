@@ -46,7 +46,9 @@ public class PaletteChildren  extends Index.ArrayChildren {
                 item.setImage(Utilities.loadImage(items[i][2]));
                 item.setImageLocation(items[i][2]);
                 item.setName(items[i][3]);
-                childrenNodes.add(new PaletteNode(item));
+                PaletteNode pn = new PaletteNode(item);
+                pn.setDisplayName(item.getName());
+                childrenNodes.add(pn);
             }
         }
         return childrenNodes;

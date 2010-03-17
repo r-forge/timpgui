@@ -17,7 +17,6 @@ import org.openide.nodes.PropertySupport;
 import org.openide.nodes.Sheet;
 import org.openide.util.Exceptions;
 import org.openide.util.ImageUtilities;
-import org.openide.util.WeakListeners;
 
 /**
  *
@@ -114,12 +113,6 @@ public class ModelDiffsNode  extends PropertiesAbstractNode{
         fireDisplayNameChange(null, getDisplayName());
         firePropertyChange("Number of components", new Integer(currCompNum), compNum);
     }
-
-//    @Override
-//    public void destroy() throws IOException {
-//        super.destroyNode();
-//        firePropertyChange("mainNodeDeleted", super.getDisplayName(), null);
-//    }
 
     public int getDatasetIndex() {
         return datasetIndex;

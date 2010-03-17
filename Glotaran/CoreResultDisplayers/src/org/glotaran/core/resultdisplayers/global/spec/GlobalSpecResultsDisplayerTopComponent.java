@@ -144,7 +144,6 @@ public final class GlobalSpecResultsDisplayerTopComponent extends CloneableTopCo
                     crosshair.setLabelVisible(true);
                     crosshair.setLabelAnchor(RectangleAnchor.BOTTOM_RIGHT);
                     overlay.addDomainCrosshair(crosshair);
-                    overlay.addRangeCrosshair(crosshair);
                     spectraImage.addOverlay(overlay);
                     
 //initialise slider from "from dataset"

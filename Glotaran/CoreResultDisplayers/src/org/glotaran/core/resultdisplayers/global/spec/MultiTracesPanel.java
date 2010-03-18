@@ -87,7 +87,7 @@ public class MultiTracesPanel extends javax.swing.JPanel {
         jPSpectra.add(spectraImage);
 //create plot with curves from "from dataset";
         jPTraces.removeAll();
-        jPTraces.add(makeTracesChart(fromDataset));
+        jPTraces.add(createTraceResidChart(fromDataset));
 
 //initialise slider from "from dataset"
         jSWavelengths.getModel().setRangeProperties(0, 1, 0, fromDataset.getX2().length - 1, true);
@@ -313,13 +313,10 @@ public class MultiTracesPanel extends javax.swing.JPanel {
         crosshair.setLabelAnchor(RectangleAnchor.BOTTOM_RIGHT);
     }
 
-
-
-    private ChartPanel makeTracesChart(TimpResultDataset res) {
+    private ChartPanel createTraceResidChart(TimpResultDataset res) {
 
 //make timetrace chart
         XYSeriesCollection dataset1 = new XYSeriesCollection();
-
         subchartResidualsTime = ChartFactory.createXYLineChart(
                 null,
                 null,
@@ -338,10 +335,9 @@ public class MultiTracesPanel extends javax.swing.JPanel {
                 false,
                 false,
                 false);
+
         subchartTimeTrace.getXYPlot().getDomainAxis().setUpperBound(res.getX()[res.getX().length - 1]);
         subchartResidualsTime.getXYPlot().getDomainAxis().setUpperBound(res.getX()[res.getX().length - 1]);
-
-
 
         XYPlot plot1_1 = subchartTimeTrace.getXYPlot();
         plot1_1.getDomainAxis().setLowerMargin(0.0);
@@ -358,8 +354,10 @@ public class MultiTracesPanel extends javax.swing.JPanel {
         plot1_2.setRangeZeroBaselineVisible(true);
 
         NumberAxis xAxis = new NumberAxis("Time");
+
         xAxis.setRange(res.getX()[0], res.getX()[res.getX().length - 1]);
         xAxis.setUpperBound(res.getX()[res.getX().length - 1]);
+
         CombinedDomainXYPlot plot = new CombinedDomainXYPlot(xAxis);
         plot.setGap(10.0);
         plot.add(plot1_1, 3);

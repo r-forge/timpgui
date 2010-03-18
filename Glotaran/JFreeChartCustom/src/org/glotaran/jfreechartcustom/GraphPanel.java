@@ -7,6 +7,7 @@ package org.glotaran.jfreechartcustom;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Paint;
 import java.awt.event.ActionEvent;
 import java.awt.geom.Rectangle2D;
 import java.io.BufferedWriter;
@@ -28,7 +29,11 @@ import org.apache.batik.svggen.SVGGraphics2D;
 import org.glotaran.core.messages.CoreErrorMessages;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
+import org.jfree.chart.plot.DatasetRenderingOrder;
+import org.jfree.chart.plot.DefaultDrawingSupplier;
+import org.jfree.chart.plot.DrawingSupplier;
 import org.jfree.chart.plot.PlotOrientation;
+import org.jfree.chart.plot.SeriesRenderingOrder;
 import org.jfree.chart.plot.XYPlot;
 import org.jfree.chart.renderer.AbstractRenderer;
 import org.jfree.chart.renderer.xy.XYErrorRenderer;
@@ -53,6 +58,7 @@ public class GraphPanel extends ChartPanel{
     private static final String SHOW_ERRORBARS = "SHOW_ERRORBARS";
     private boolean errorBars = false;
     private boolean errorBarsSown = false;
+    private Paint[] paintSequence = new Paint[]{Color.BLACK, Color.RED, Color.BLUE, Color.GREEN, Color.CYAN, Color.magenta, Color.ORANGE, Color.PINK, Color.DARK_GRAY};
 
     public GraphPanel(JFreeChart chart){
         this(chart, true, false, true, true, true, false);
@@ -171,10 +177,18 @@ public class GraphPanel extends ChartPanel{
             plot.setDomainGridlinePaint(Color.white);
             plot.setRangeGridlinePaint(Color.white);
             plot.setAxisOffset(RectangleInsets.ZERO_INSETS);
+            plot.getDomainAxis().setLowerMargin(0.0);
+            plot.getDomainAxis().setUpperMargin(0.0);
+            DrawingSupplier supplier = new DefaultDrawingSupplier(
+                paintSequence,
+                DefaultDrawingSupplier.DEFAULT_OUTLINE_PAINT_SEQUENCE,
+                DefaultDrawingSupplier.DEFAULT_STROKE_SEQUENCE,
+                DefaultDrawingSupplier.DEFAULT_OUTLINE_STROKE_SEQUENCE,
+                DefaultDrawingSupplier.DEFAULT_SHAPE_SEQUENCE);
+            plot.setDrawingSupplier(supplier);
+            plot.setDatasetRenderingOrder(DatasetRenderingOrder.FORWARD);
+            plot.setSeriesRenderingOrder(SeriesRenderingOrder.FORWARD);
             errorBarsSown = plot.getRenderer() instanceof XYErrorRenderer ? true : false;
-            for (int i = 0; i < this.getChart().getXYPlot().getSeriesCount(); i++) {
-                plot.getRenderer().setSeriesPaint(i, ((AbstractRenderer) plot.getRenderer()).lookupSeriesPaint(i));
-            }
         }
         setPannable();
     }

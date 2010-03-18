@@ -1474,13 +1474,7 @@ public final class SpecResultsTopComponent extends TopComponent implements Chart
         tracechart.setBackgroundPaint(JFreeChart.DEFAULT_BACKGROUND_PAINT);
         tracechart.getXYPlot().getDomainAxis().setUpperBound(res.getX()[res.getX().length - 1]);
         tracechart.getXYPlot().setRangeZeroBaselineVisible(true);
-
-        for (int i = 0; i < traceNumber; i++) {
-            tracechart.getXYPlot().getRenderer().setSeriesPaint(i, ((AbstractRenderer) tracechart.getXYPlot().getRenderer()).lookupSeriesPaint(i));
-        }
-
         GraphPanel chpan = new GraphPanel(tracechart, false);
-        chpan.getChartRenderingInfo().setEntityCollection(null);
         return chpan;
     }
 
@@ -1858,10 +1852,7 @@ public final class SpecResultsTopComponent extends TopComponent implements Chart
         tracechart.getXYPlot().getDomainAxis().setUpperMargin(0.0);
         tracechart.getXYPlot().getDomainAxis().setLowerMargin(0.0);
         tracechart.getXYPlot().setRangeZeroBaselineVisible(true);
-         for (int i = 0; i<2; i++){
-            tracechart.getXYPlot().getRenderer().setSeriesPaint(i, ((AbstractRenderer) tracechart.getXYPlot().getRenderer()).lookupSeriesPaint(i));
-        }
-        ChartPanel chpan = new GraphPanel(tracechart, false);
+        GraphPanel chpan = new GraphPanel(tracechart, false);
 //add chart with 2 LSV to JPannel
         jPLSV.removeAll();
         jPLSV.add(chpan);
@@ -1878,9 +1869,6 @@ public final class SpecResultsTopComponent extends TopComponent implements Chart
                     false);
         tracechart.getTitle().setFont(new Font(tracechart.getTitle().getFont().getFontName(), Font.PLAIN, 12));
         tracechart.setBackgroundPaint(JFreeChart.DEFAULT_BACKGROUND_PAINT);
-         for (int i = 0; i<2; i++){
-            tracechart.getXYPlot().getRenderer().setSeriesPaint(i, ((AbstractRenderer) tracechart.getXYPlot().getRenderer()).lookupSeriesPaint(i));
-        }
         tracechart.getXYPlot().getDomainAxis().setUpperMargin(0.0);
         tracechart.getXYPlot().getDomainAxis().setLowerMargin(0.0);
         tracechart.getXYPlot().getDomainAxis().setAutoRange(false);

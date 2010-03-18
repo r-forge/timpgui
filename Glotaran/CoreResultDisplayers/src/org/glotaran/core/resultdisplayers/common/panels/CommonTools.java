@@ -10,6 +10,7 @@ import java.awt.Font;
 import java.awt.GridLayout;
 import javax.swing.JPanel;
 import org.glotaran.core.models.structures.TimpResultDataset;
+import org.glotaran.jfreechartcustom.GraphPanel;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
@@ -18,6 +19,7 @@ import org.jfree.chart.axis.ValueAxis;
 import org.jfree.chart.plot.CombinedDomainXYPlot;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.plot.XYPlot;
+import org.jfree.data.xy.XYDataset;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 import static java.lang.Math.ceil;
@@ -120,5 +122,19 @@ public class CommonTools {
             series3.add(data.getX()[j], data.getTraces().get(j, xIndex)-data.getFittedTraces().get(j, xIndex));
         }
         return new XYSeriesCollection(series3);
+    }
+
+    public static GraphPanel createGraphPanel(XYDataset traceCollection, String name, String axeName, boolean errorBars, double upBound){
+        JFreeChart tracechart = ChartFactory.createXYLineChart(
+                null,
+                axeName,
+                name,
+                traceCollection,
+                PlotOrientation.VERTICAL,
+                false,
+                false,
+                false);
+        tracechart.getXYPlot().getDomainAxis().setUpperBound(upBound);
+        return new GraphPanel(tracechart, errorBars);
     }
 }

@@ -574,7 +574,7 @@
                                   <Component id="jPanel4" alignment="1" max="32767" attributes="1"/>
                               </Group>
                               <EmptySpace max="-2" attributes="0"/>
-                              <Component id="jPanel1" pref="571" max="32767" attributes="2"/>
+                              <Component id="jPanel1" pref="542" max="32767" attributes="2"/>
                           </Group>
                           <Component id="jPanel15" alignment="0" pref="995" max="32767" attributes="0"/>
                       </Group>
@@ -652,7 +652,7 @@
                         <DimensionLayout dim="0">
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Group type="102" alignment="0" attributes="0">
-                                  <Component id="jPSpecImage" pref="396" max="32767" attributes="1"/>
+                                  <Component id="jPSpecImage" pref="425" max="32767" attributes="1"/>
                                   <EmptySpace max="-2" attributes="0"/>
                                   <Component id="jSRow" min="-2" max="-2" attributes="0"/>
                               </Group>
@@ -749,7 +749,7 @@
                                       <Group type="102" alignment="0" attributes="0">
                                           <Component id="jLabel3" min="-2" max="-2" attributes="0"/>
                                           <EmptySpace max="-2" attributes="0"/>
-                                          <Component id="jTFCurvParam" pref="245" max="32767" attributes="0"/>
+                                          <Component id="jTFCurvParam" pref="250" max="32767" attributes="0"/>
                                       </Group>
                                   </Group>
                                   <EmptySpace max="-2" attributes="0"/>

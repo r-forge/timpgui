@@ -13,6 +13,8 @@ import java.util.logging.Logger;
 import org.glotaran.core.models.results.GtaResult;
 import org.glotaran.core.models.structures.TimpResultDataset;
 import org.glotaran.core.resultdisplayers.common.panels.CommonTools;
+import org.glotaran.core.resultdisplayers.common.panels.RelationFrom;
+import org.glotaran.core.resultdisplayers.common.panels.RelationTo;
 import org.glotaran.jfreechartcustom.GraphPanel;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
@@ -29,7 +31,6 @@ import org.jfree.data.xy.XYSeriesCollection;
 import org.jfree.data.xy.YIntervalSeries;
 import org.jfree.data.xy.YIntervalSeriesCollection;
 import org.jfree.ui.RectangleAnchor;
-import org.jfree.util.StrokeList;
 import org.openide.util.NbBundle;
 import org.openide.windows.TopComponent;
 import org.openide.windows.WindowManager;
@@ -44,25 +45,6 @@ import org.openide.windows.CloneableTopComponent;
 autostore = false)
 public final class GlobalSpecResultsDisplayerTopComponent extends CloneableTopComponent {
 
-    private class RelationTo {
-        public Integer indexTo;
-        public Double valueTo;
-        public RelationTo(Integer index, Double value){
-            indexTo = index;
-            valueTo = value;
-        }
-    };
-
-    private class RelationFrom {
-        public Integer indexFrom;
-        public ArrayList<RelationTo> scaledDatasets;
-        public RelationFrom(Integer index){
-            indexFrom = index;
-            scaledDatasets = new ArrayList<RelationTo>();
-        }
-    };
-
-
     private static GlobalSpecResultsDisplayerTopComponent instance;
     private final static long serialVersionUID = 1L;
     /** path to the icon used by the component and its open action */
@@ -71,7 +53,6 @@ public final class GlobalSpecResultsDisplayerTopComponent extends CloneableTopCo
 
     private List<TimpResultDataset> resultDatasets = null;
     private GtaResult gtaResultObj;
-
     private ArrayList<RelationFrom> relationGroups = new ArrayList <RelationFrom>();
 
     private GraphPanel spectraImage;
@@ -128,29 +109,32 @@ public final class GlobalSpecResultsDisplayerTopComponent extends CloneableTopCo
             if (!relationGroups.isEmpty()){
 //for every relations group create tab with comparions spectra coming from "from dataset"
                 for (int i = 0; i < relationGroups.size(); i++){
-                    fromDataset = results.get(relationGroups.get(i).indexFrom);
-                    toDataset = results.get(relationGroups.get(i).scaledDatasets.get(0).indexTo);
-                    scaleValue = relationGroups.get(i).scaledDatasets.get(0).valueTo;
-//create spectra from "from dataset"
-                    jPSpectra.removeAll();
-                    spectraImage = createSpectraPlot(fromDataset);
-                    jPSpectra.add(spectraImage);
-//add croshair to the image
-//                    ImageCrosshairLabelGenerator crossLabGen = new ImageCrosshairLabelGenerator(fromDataset.getX2(),false);
-                    CrosshairOverlay overlay = new CrosshairOverlay();
-                    crosshair = new Crosshair(fromDataset.getX2()[0]);
-                    crosshair.setPaint(Color.blue);
-//                    crosshair.setLabelGenerator(crossLabGen);
-                    crosshair.setLabelVisible(true);
-                    crosshair.setLabelAnchor(RectangleAnchor.BOTTOM_RIGHT);
-                    overlay.addDomainCrosshair(crosshair);
-                    spectraImage.addOverlay(overlay);
-                    
-//initialise slider from "from dataset"
-                    jSWavelengths.getModel().setRangeProperties(0, 1, 0, fromDataset.getX2().length-1, true);
-//create plot with curves from "from dataset";
-                    jPTraces.removeAll();
-                    jPTraces.add(makeTracesChart(fromDataset));
+                    jTabbedPane1.addTab("GroupCompare", new MultiTracesPanel(relationGroups.get(i), results));
+
+
+//                    fromDataset = results.get(relationGroups.get(i).indexFrom);
+//                    toDataset = results.get(relationGroups.get(i).scaledDatasets.get(0).indexTo);
+//                    scaleValue = relationGroups.get(i).scaledDatasets.get(0).valueTo;
+////create spectra from "from dataset"
+//                    jPSpectra.removeAll();
+////                    spectraImage = createSpectraPlot(fromDataset);
+//                    jPSpectra.add(spectraImage);
+////add croshair to the image
+////                    ImageCrosshairLabelGenerator crossLabGen = new ImageCrosshairLabelGenerator(fromDataset.getX2(),false);
+//                    CrosshairOverlay overlay = new CrosshairOverlay();
+//                    crosshair = new Crosshair(fromDataset.getX2()[0]);
+//                    crosshair.setPaint(Color.blue);
+////                    crosshair.setLabelGenerator(crossLabGen);
+//                    crosshair.setLabelVisible(true);
+//                    crosshair.setLabelAnchor(RectangleAnchor.BOTTOM_RIGHT);
+//                    overlay.addDomainCrosshair(crosshair);
+//                    spectraImage.addOverlay(overlay);
+//
+////initialise slider from "from dataset"
+//                    jSWavelengths.getModel().setRangeProperties(0, 1, 0, fromDataset.getX2().length-1, true);
+////create plot with curves from "from dataset";
+//                    jPTraces.removeAll();
+//                    jPTraces.add(makeTracesChart(fromDataset));
                 }
             }
             
@@ -413,58 +397,6 @@ public final class GlobalSpecResultsDisplayerTopComponent extends CloneableTopCo
     @Override
     protected String preferredID() {
         return PREFERRED_ID;
-    }
-
-    private GraphPanel createSpectraPlot(TimpResultDataset dataset) {
-        String specName = dataset.getJvec()!=null ? "SAS" : "EAS";
-        boolean errorBars = dataset.getSpectraErr()!=null ? true : false;
-        int numberOfComponents = dataset.getJvec()!=null ? dataset.getJvec().length/2 : dataset.getKineticParameters().length / 2;
-        int compNum = 0;
-        double maxAmpl = 0;
-
-        int compNumFull = 0;
-//add remove coherentartifact
-        if (false) {
-            compNum = numberOfComponents + 1;
-        }
-        else {
-            compNum = numberOfComponents;
-        }
-
-        YIntervalSeriesCollection realSasCollection = new YIntervalSeriesCollection();
-        YIntervalSeriesCollection normSasCollection = new YIntervalSeriesCollection();
-        YIntervalSeries seria;
-
-//        XYSeries seria;
-//create collection of real sas(eas)
-        for (int j = 0; j < compNum; j++) {
-            seria =new YIntervalSeries(specName + (j + 1));// new XYSeries(specName + (j + 1));
-            maxAmpl = 0;
-            for (int i = 0; i < dataset.getX2().length; i++) {
-                if (errorBars) {
-                    seria.add(dataset.getX2()[i], dataset.getSpectra().get(j, i),
-                            dataset.getSpectra().get(j, i) - dataset.getSpectraErr().get(j, i),
-                            dataset.getSpectra().get(j, i) + dataset.getSpectraErr().get(j, i));
-                } else {
-                    seria.add(dataset.getX2()[i], dataset.getSpectra().get(j, i),
-                            dataset.getSpectra().get(j, i),
-                            dataset.getSpectra().get(j, i));
-                }
-            }
-            realSasCollection.addSeries(seria);
-        }
-
-        JFreeChart tracechart = ChartFactory.createXYLineChart(
-                null,
-                "Wavelength (nm)",
-                specName,
-                realSasCollection,
-                PlotOrientation.VERTICAL,
-                false,
-                false,
-                false);
-        tracechart.getXYPlot().getDomainAxis().setUpperBound(dataset.getX2()[dataset.getX2().length - 1]);
-        return new GraphPanel(tracechart, errorBars);
     }
 
     private ChartPanel makeTracesChart(TimpResultDataset res) {

@@ -1485,42 +1485,19 @@ public final class SpecResultsTopComponent extends TopComponent implements Chart
     }
 
     private void plotSpectrTrace() {
-        String specName = null;
-        boolean errorBars = false;
-        if (res.getJvec()!=null){
-            specName = "SAS";
-        } else {
-            specName = "EAS";
-        }
-        if (res.getSpectraErr()!=null){
-            errorBars = true;
-        }
-
-        int compNum = 0;
+        String specName = res.getJvec()!=null ? "SAS" : "EAS";
+        boolean errorBars = res.getSpectraErr()!=null ? true : false;
+        int compNumFull = jTBShowChohSpec.isEnabled() ? numberOfComponents + 1 : numberOfComponents;
+        int compNum = jTBShowChohSpec.isSelected() ? numberOfComponents + 1 : numberOfComponents;
         double maxAmpl = 0;
         double maxDasAmpl = 0;
-        int compNumFull = 0;
-        if(jTBShowChohSpec.isEnabled()) {
-            compNumFull = numberOfComponents + 1;
-        }
-        else {
-            compNumFull = numberOfComponents;
-        }
-
-        if (jTBShowChohSpec.isSelected()) {
-            compNum = numberOfComponents + 1;
-        }
-        else {
-            compNum = numberOfComponents;
-        }
-
+    
         YIntervalSeriesCollection realSasCollection = new YIntervalSeriesCollection();
         YIntervalSeriesCollection normSasCollection = new YIntervalSeriesCollection();
         XYSeriesCollection realDasCollection = new XYSeriesCollection();
         XYSeriesCollection normDasCollection = new XYSeriesCollection();
         YIntervalSeries seria;
         XYSeries dasSeria;
-//        XYSeries seria;
 //create collection of real sas and normalizes all of them to max or abs(max) and creates collection with normSAS
         for (int j = 0; j < compNum; j++) {
             seria =new YIntervalSeries(specName + (j + 1));// new XYSeries(specName + (j + 1));
@@ -1585,60 +1562,19 @@ public final class SpecResultsTopComponent extends TopComponent implements Chart
             }
         }
 
-        JFreeChart tracechart = ChartFactory.createXYLineChart(
-                null,
-                "Wavelength (nm)",
-                specName,
-                realSasCollection,
-                PlotOrientation.VERTICAL,
-                false,
-                false,
-                false);
-        tracechart.getXYPlot().getDomainAxis().setUpperBound(res.getX2()[res.getX2().length - 1]);
-        GraphPanel chpan = new GraphPanel(tracechart, errorBars);
+        GraphPanel chpan = CommonTools.createGraphPanel(realSasCollection, specName,"Wavelength (nm)", errorBars, res.getX2()[res.getX2().length - 1]);
         jPSAS.removeAll();
         jPSAS.add(chpan);
 
-        tracechart = ChartFactory.createXYLineChart(
-                null,
-                "Wavelength (nm)",
-                "norm"+specName,
-                normSasCollection,
-                PlotOrientation.VERTICAL,
-                false,
-                false,
-                false);
-        tracechart.getXYPlot().getDomainAxis().setUpperBound(res.getX2()[res.getX2().length - 1]);
-        
-        chpan = new GraphPanel(tracechart, errorBars);
+        chpan = CommonTools.createGraphPanel(normSasCollection, "norm"+specName,"Wavelength (nm)", errorBars, res.getX2()[res.getX2().length - 1]);
         jPSASnorm.removeAll();
         jPSASnorm.add(chpan);
 
-        tracechart = ChartFactory.createXYLineChart(
-                null,
-                "Wavelength (nm)",
-                "DAS",
-                realDasCollection,
-                PlotOrientation.VERTICAL,
-                false,
-                false,
-                false);
-        tracechart.getXYPlot().getDomainAxis().setUpperBound(res.getX2()[res.getX2().length - 1]);
-        chpan = new GraphPanel(tracechart, false);
+        chpan = CommonTools.createGraphPanel(realDasCollection, "DAS", "Wavelength (nm)", false, res.getX2()[res.getX2().length - 1]);
         jPDAS.removeAll();
         jPDAS.add(chpan);
 
-        tracechart = ChartFactory.createXYLineChart(
-                null,
-                "Wavelength (nm)",
-                "normDAS",
-                normDasCollection,
-                PlotOrientation.VERTICAL,
-                false,
-                false,
-                false);
-        tracechart.getXYPlot().getDomainAxis().setUpperBound(res.getX2()[res.getX2().length - 1]);
-        chpan = new GraphPanel(tracechart, false);
+        chpan = CommonTools.createGraphPanel(normDasCollection, "normDAS", "Wavelength (nm)", false, res.getX2()[res.getX2().length - 1]);
         jPDASnorm.removeAll();
         jPDASnorm.add(chpan);
 

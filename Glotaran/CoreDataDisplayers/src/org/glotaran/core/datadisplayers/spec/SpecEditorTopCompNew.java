@@ -55,6 +55,7 @@ import org.jfree.ui.RectangleAnchor;
 import org.jfree.ui.RectangleEdge;
 import org.jfree.ui.RectangleInsets;
 import org.netbeans.api.project.FileOwnerQuery;
+import org.netbeans.api.project.Project;
 import org.openide.DialogDisplayer;
 import org.openide.NotifyDescriptor;
 import org.openide.filesystems.FileObject;
@@ -109,24 +110,25 @@ final public class SpecEditorTopCompNew extends CloneableTopComponent
     }
 
      public SpecEditorTopCompNew(TgdDataObject dataObj) {
-        String filename;
+        File tgdFile;
         dataObject = dataObj;
         initComponents();
         setName(dataObject.getTgd().getFilename());
-        filename = dataObject.getTgd().getPath();
-        filename = filename.concat("/").concat(dataObject.getTgd().getFilename());
 
-        File test = new File(filename);
-        if(!test.canRead()) {
-            filename = FileOwnerQuery.getOwner(dataObject.getPrimaryFile()).getProjectDirectory().getPath() + File.separator + dataObject.getTgd().getRelativePath();
+        //try to get the file from local cache
+        project = (TGProject) FileOwnerQuery.getOwner(dataObject.getPrimaryFile());
+        if(dataObject.getTgd().getRelativePath()!=null) {
+            tgdFile = new File(project.getProjectDirectory().getPath() + File.separator + dataObject.getTgd().getRelativePath());
+        } else { //try the orginal location
+            tgdFile = new File(dataObject.getTgd().getPath());
         }
 
-//        setName(NbBundle.getMessage(SpecEditorTopCompNew.class, "CTL_StreakLoaderTopComponent"));
+        // setName(NbBundle.getMessage(SpecEditorTopCompNew.class, "CTL_StreakLoaderTopComponent"));
         setToolTipText(NbBundle.getMessage(SpecEditorTopCompNew.class, "HINT_StreakLoaderTopComponent"));
-//        setIcon(Utilities.loadImage(ICON_PATH, true));
+        // setIcon(Utilities.loadImage(ICON_PATH, true));
         data = new DatasetTimp();
         try {
-            data = FormattedASCIIFileLoader.loadASCIIFile(new File(filename));//.loadASCIIFile(new File(filename));
+            data = FormattedASCIIFileLoader.loadASCIIFile(tgdFile);//.loadASCIIFile(new File(filename));
             MakeImageChart(MakeXYZDataset());
             updateFileInfo();
         } catch (FileNotFoundException ex) {

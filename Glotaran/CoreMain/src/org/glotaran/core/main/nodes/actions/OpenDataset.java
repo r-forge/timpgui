@@ -3,6 +3,7 @@ package org.glotaran.core.main.nodes.actions;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Collection;
 import org.glotaran.core.interfaces.TGDatasetInterface;
@@ -22,97 +23,37 @@ import org.openide.util.Lookup;
 import org.openide.util.NbBundle;
 import org.openide.util.actions.CookieAction;
 
-
 public final class OpenDataset extends CookieAction {
+
     private static final long serialVersionUID = 1;
-    private final Collection<? extends TGDatasetInterface> services;
+    private Collection<? extends TGDatasetInterface> services;
+    private TGProject project;
+    private DataObject dataObject;
 
     public OpenDataset() {
-        super();
-        services = Lookup.getDefault().lookupAll(TGDatasetInterface.class);
+        super();        
     }
 
     protected void performAction(Node[] activatedNodes) {
-        final DataObject dataObject = activatedNodes[0].getLookup().lookup(DataObject.class);
-
-//        final Project candidate;
-
+        services = Lookup.getDefault().lookupAll(TGDatasetInterface.class);
+        dataObject = activatedNodes[0].getLookup().lookup(DataObject.class);
         final JFileSourcePane pane = new JFileSourcePane();
         final ActionListener lst = new ActionListener() {
+
             public void actionPerformed(ActionEvent e) {
-                File[] files;                
+                File[] files;
                 if (e.getActionCommand().equalsIgnoreCase("Finish")) {
                     pane.setVisible(false);
                     files = pane.getSelectedFiles();
-                    for (File f : files) {
-                        for (final TGDatasetInterface service : services) {
-                           if (f.getName().endsWith(service.getExtention())) {
-                                    try {
-                                        if (service.Validator(f)) {
-                                            FileObject cachefolder = null;
-
-                                            final TGProject proj = (TGProject) FileOwnerQuery.getOwner(dataObject.getPrimaryFile());
-                                            if (proj!=null){
-                                                 cachefolder = proj.getCacheFolder(true);
-                                            } else {
-                                                CoreErrorMessages.noMainProjectFound();
-                                            }
-
-                                            //TODO create xml file.
-                                            Tgd tgd = new Tgd();
-                                            tgd.setFilename(f.getName());
-                                            tgd.setFiletype(service.getType(f));
-                                            tgd.setPath(f.getParent());
-                                            tgd.setRelativePath(FileUtil.getRelativePath( proj.getProjectDirectory(), FileUtil.toFileObject(f)));
-                                            // Get Dataset folder if exists, else recreate it.
-                                            FileObject d = dataObject.getPrimaryFile();
-
-                                            String filenamepath = FileUtil.toFile(d).getAbsolutePath();
-                                            String filename = FileUtil.toFileObject(f).getName().concat(".xml");
-
-                                            String foldername = filename.concat("_".concat(String.valueOf(System.currentTimeMillis())));
-                                            cachefolder.createFolder(foldername);
-                                            tgd.setCacheFolderName(foldername);
-
-                                            File out = new File(filenamepath, filename);
-                                            try {
-                                                javax.xml.bind.JAXBContext jaxbCtx = javax.xml.bind.JAXBContext.newInstance(tgd.getClass().getPackage().getName());
-                                                javax.xml.bind.Marshaller marshaller = jaxbCtx.createMarshaller();
-                                                marshaller.setProperty(javax.xml.bind.Marshaller.JAXB_ENCODING, "UTF-8"); //NOI18N
-                                                marshaller.setProperty(javax.xml.bind.Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
-                                                // We marshal the data to a new xml file
-                                                marshaller.marshal(tgd, out);
-                                            } catch (javax.xml.bind.JAXBException ex) {
-                                                // TODO Handle exception
-                                                java.util.logging.Logger.getLogger("global").log(java.util.logging.Level.SEVERE, null, ex); //NOI18N
-                                            }
-                                            //TODO: pick one of the two following options (first one may not work)
-                                            //cachefolder.getFileSystem().refresh(true);
-                                            FileUtil.refreshAll();
-
-                                        }
-                                    } catch (IOException ex) {
-                                        Exceptions.printStackTrace(ex);
-                                    } catch (IllegalAccessException ex) {
-                                        Exceptions.printStackTrace(ex);
-                                    } catch (InstantiationException ex) {
-                                        Exceptions.printStackTrace(ex);
-                                    }
-                            }
-                        }
-                    }
+                    openSelectedFiles(files);
                 }
             }
-
         };
         final WizardDescriptor wdesc = WizardUtilities.createSimplewWizard(
                 pane,
-                NbBundle.getBundle("org/glotaran/core/main/Bundle").getString("openFile")
-                );
-            wdesc.setButtonListener(lst);
-            DialogDisplayer.getDefault().notify(wdesc);
-
-
+                NbBundle.getBundle("org/glotaran/core/main/Bundle").getString("openFile"));
+        wdesc.setButtonListener(lst);
+        DialogDisplayer.getDefault().notify(wdesc);
     }
 
     protected int mode() {
@@ -141,6 +82,81 @@ public final class OpenDataset extends CookieAction {
     @Override
     protected boolean asynchronous() {
         return false;
+    }
+
+    private void openSelectedFiles(File[] files) {
+        for (File f : files) {
+            for (final TGDatasetInterface service : services) {
+                //TODO: eliminate extension requirement                        
+                if (f.getName().endsWith(service.getExtention())) {
+                    try {
+                        if (service.Validator(f)) {
+                            openDatasetFile(service, f);
+                            //TODO: pick one of the two following options (first one may not work)
+                            //cachefolder.getFileSystem().refresh(true);
+                            FileUtil.refreshAll();
+
+                        }
+                    } catch (IOException ex) {
+                        Exceptions.printStackTrace(ex);
+                    } catch (IllegalAccessException ex) {
+                        Exceptions.printStackTrace(ex);
+                    } catch (InstantiationException ex) {
+                        Exceptions.printStackTrace(ex);
+                    }
+                }
+            }
+        }
+    }
+
+    private void openDatasetFile(TGDatasetInterface service, File f) {
+        FileObject projectCacheFolder = null;
+        FileObject cacheSubFolder = null;
+        FileObject newFO = null;
+        FileObject originalFO = FileUtil.toFileObject(f);
+        String cacheFolderName = originalFO.getName() + "_" + String.valueOf(System.currentTimeMillis());
+
+        project = (TGProject) FileOwnerQuery.getOwner(dataObject.getPrimaryFile());
+        if (project != null) {
+            projectCacheFolder = project.getCacheFolder(true);
+        } else {
+            //TODO: allow user to select project to which files must be added
+            CoreErrorMessages.noMainProjectFound();
+        }
+        Tgd tgd = new Tgd();
+        tgd.setFilename(originalFO.getName());
+        tgd.setExtension(originalFO.getExt());
+        tgd.setPath(originalFO.getPath());
+        //try to find relative path for file to project folder root if it exists
+        tgd.setRelativePath(FileUtil.getRelativePath(project.getProjectDirectory(), originalFO));
+        try {
+            tgd.setFiletype(service.getType(f));
+        } catch (FileNotFoundException ex) {
+            Exceptions.printStackTrace(ex);
+        }
+        try {
+            //TODO: check if file exists
+            newFO = FileUtil.createData(dataObject.getPrimaryFile(), originalFO.getName().concat(".xml"));
+            cacheSubFolder = projectCacheFolder.createFolder(cacheFolderName);
+            tgd.setCacheFolderName(cacheSubFolder.getName());
+        } catch (IOException ex) {
+            Exceptions.printStackTrace(ex);
+        }
+
+        if (newFO != null) {
+            File out = FileUtil.toFile(newFO);
+            try {
+                javax.xml.bind.JAXBContext jaxbCtx = javax.xml.bind.JAXBContext.newInstance(tgd.getClass().getPackage().getName());
+                javax.xml.bind.Marshaller marshaller = jaxbCtx.createMarshaller();
+                marshaller.setProperty(javax.xml.bind.Marshaller.JAXB_ENCODING, "UTF-8"); //NOI18N
+                marshaller.setProperty(javax.xml.bind.Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
+                // We marshal the data to a new xml file
+                marshaller.marshal(tgd, out);
+            } catch (javax.xml.bind.JAXBException ex) {
+                // TODO Handle exception
+                java.util.logging.Logger.getLogger("global").log(java.util.logging.Level.SEVERE, null, ex); //NOI18N
+            }
+        }
     }
 }
 

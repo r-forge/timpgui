@@ -28,7 +28,7 @@ public class PaletteChildren  extends Index.ArrayChildren {
         {"1", "Model differences", "org/glotaran/core/ui/visualmodelling/resources/ChageParam_32.png", "ChangeParam"},
         {"2", "Model differences", "org/glotaran/core/ui/visualmodelling/resources/AddParam_32.png", "AddParam"},
         {"3", "Model differences", "org/glotaran/core/ui/visualmodelling/resources/RemoveParam_32.png", "RemoveParam"},
-        {"0", "Output", "org/glotaran/core/ui/visualmodelling/resources/RemoveParam_32.png", "StandardOutput"},
+        {"3", "Containers", "org/glotaran/core/ui/visualmodelling/resources/RemoveParam_32.png", "Output Container"},
     };
 
     public PaletteChildren(Category Category) {

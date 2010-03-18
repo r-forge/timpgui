@@ -12,8 +12,10 @@
                 <xsd:element name="datasetNames" type="xsd:string" maxOccurs="unbounded" nillable="true" minOccurs="0"></xsd:element>
                 <xsd:element name="cacheFolderName" type="xsd:string"/>
                 <xsd:element name="relativePath" nillable="true" type="xsd:string" minOccurs="1"/>
+                <xsd:element name="extension" nillable="true" type="xsd:string"/>
             </xsd:sequence>
         </xsd:complexType>
     </xsd:element>
 </xsd:schema>
+
 

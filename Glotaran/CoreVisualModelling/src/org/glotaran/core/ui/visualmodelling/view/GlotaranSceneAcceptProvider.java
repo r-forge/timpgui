@@ -76,7 +76,7 @@ public class GlotaranSceneAcceptProvider implements AcceptProvider {
                 newDatasetContainer.setLayout(widlayout);
                 newDatasetContainer.setId(String.valueOf(scene.getNewNodeCount()));
                 newWidget = scene.addNode(newDatasetContainer);
-            } else if (item.getName().equalsIgnoreCase("StandardOutput")) {
+            } else if (item.getName().equalsIgnoreCase("Output Container")) {
                 GtaOutput gtaOutput = new GtaOutput();
                 GtaLayout widlayout = new GtaLayout();
                 widlayout.setXposition(point.getX());

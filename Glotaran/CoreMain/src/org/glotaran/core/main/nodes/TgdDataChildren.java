@@ -47,7 +47,9 @@ public class TgdDataChildren extends Children.Keys {
                 Exceptions.printStackTrace(ex);
             }
             if (dObj!=null) {
-                datasets.add((TimpDatasetDataObject)dObj);
+                if (dObj instanceof TimpDatasetDataObject) {
+                    datasets.add((TimpDatasetDataObject)dObj);
+                }
             }
         }
 

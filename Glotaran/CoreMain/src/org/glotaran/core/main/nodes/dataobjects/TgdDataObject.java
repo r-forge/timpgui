@@ -17,6 +17,7 @@ import org.openide.text.DataEditorSupport;
 import org.openide.util.Lookup;
 
 public class TgdDataObject extends InstanceDataObject implements SaveCookie {
+
     private Tgd tgd;
     private final static long serialVersionUID = 1L;
 
@@ -25,19 +26,15 @@ public class TgdDataObject extends InstanceDataObject implements SaveCookie {
         CookieSet cookies = getCookieSet();
         cookies.add((Node.Cookie) DataEditorSupport.create(this, getPrimaryEntry(), cookies));
         if (!(FileUtil.toFile(this.getPrimaryFile()) == null)) {
-            try {
-                parseDocument();
-            } catch (IOException ex) {
-                System.out.println("ex=" + ex);
-            }
+            tgd = getTgd();
         }
+
     }
 
     @Override
     protected Node createNodeDelegate() {
-        return new TgdDataNode(this,getLookup()); // removed: getLookup()
+        return new TgdDataNode(this, getLookup()); // removed: getLookup()
     }
-
 
     @Override
     public Lookup getLookup() {
@@ -45,8 +42,6 @@ public class TgdDataObject extends InstanceDataObject implements SaveCookie {
     }
 
     public Tgd getTgd() {
-          // If the Object "tgd" doesn't exist yet, read in from file
-
         if (tgd == null) {
             tgd = new Tgd();
 
@@ -63,27 +58,6 @@ public class TgdDataObject extends InstanceDataObject implements SaveCookie {
         return tgd;
     }
 
-/**
-     *
-     * @throws IOException
-     */
-    private void parseDocument() throws IOException {
-        if (tgd == null) {
-            tgd = getTgd();
-        } else {
-            java.io.InputStream is = getPrimaryEntry().getFile().getInputStream();
-
-            try {
-                javax.xml.bind.JAXBContext jaxbCtx = javax.xml.bind.JAXBContext.newInstance(tgd.getClass().getPackage().getName());
-                Unmarshaller unmarshaller = jaxbCtx.createUnmarshaller();
-                tgd = (Tgd) unmarshaller.unmarshal(is); //NOI18N
-            } catch (javax.xml.bind.JAXBException ex) {
-                // XXXTODO Handle exception
-                CoreErrorMessages.jaxbException();
-            }
-
-        }
-    }
     public void save() throws IOException {
         if (tgd == null) {
             return;
@@ -98,5 +72,4 @@ public class TgdDataObject extends InstanceDataObject implements SaveCookie {
             java.util.logging.Logger.getLogger("global").log(java.util.logging.Level.SEVERE, null, ex); //NOI18N
         }
     }
-
 }

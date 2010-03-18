@@ -7,14 +7,17 @@ package org.glotaran.core.main.nodes.actions;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.io.File;
+import java.io.IOException;
 import java.util.List;
 import org.glotaran.core.main.nodes.dataobjects.TgdDataObject;
 import org.glotaran.core.main.project.TGProject;
+import org.glotaran.core.messages.CoreErrorMessages;
 import org.netbeans.api.project.FileOwnerQuery;
 import org.netbeans.api.project.Project;
 import org.openide.filesystems.FileObject;
 import org.openide.filesystems.FileUtil;
 import org.openide.loaders.DataObject;
+import org.openide.util.Exceptions;
 
 public final class CacheTgdDataset implements ActionListener {
 
@@ -29,17 +32,25 @@ public final class CacheTgdDataset implements ActionListener {
             // TODO use dataObject
             if (dataObject instanceof TgdDataObject) {
                 TgdDataObject tgdDataObject = ((TgdDataObject)dataObject);
-                TGProject project = (TGProject) FileOwnerQuery.getOwner(tgdDataObject.getPrimaryFile());
-
-//                File datasetFile = new File(tgdDataObject.getTgd().getPath() + File.separator + );
-//                if (datasetFile.exists()) {
-//                    FileObject datasetSourceFileObject = FileUtil.toFileObject(datasetFile);
-//                    if(datasetFileObject.canRead()){
-//                        FileUtil.copyFile(datasetFileObject, datasetFileObject);
-//                    }
-//                } else {
-//                    //TODO: warning file is not accesible on local computer
-//                }
+                TGProject project = (TGProject) FileOwnerQuery.getOwner(dataObject.getPrimaryFile());
+                File datasetFile = new File(tgdDataObject.getTgd().getPath());
+                if (datasetFile.exists()) {
+                    FileObject datasetFileObject = FileUtil.toFileObject(datasetFile);
+                    if(datasetFileObject.canRead()){                        
+                        FileObject cacheFolder = FileUtil.toFileObject(new File(project.getCacheFolder(true).getPath() + File.separator + tgdDataObject.getTgd().getCacheFolderName()));
+                        try {
+                            //TODO: fix the new extension workaround
+                            FileObject copy = FileUtil.copyFile(datasetFileObject, cacheFolder, tgdDataObject.getTgd().getFilename(),tgdDataObject.getTgd().getExtension());                                                                                    ;
+                            tgdDataObject.getTgd().setRelativePath(FileUtil.getRelativePath(project.getProjectDirectory(),copy));
+                            tgdDataObject.save();
+                        } catch (IOException ex) {
+                            CoreErrorMessages.fileNotFound();
+                            //Exceptions.printStackTrace(ex);
+                        }
+                    }
+                } else {
+                    CoreErrorMessages.fileNotFound();
+                }
 
             }
         }

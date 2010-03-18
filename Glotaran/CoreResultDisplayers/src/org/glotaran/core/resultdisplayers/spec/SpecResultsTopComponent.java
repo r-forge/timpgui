@@ -134,24 +134,8 @@ public final class SpecResultsTopComponent extends TopComponent implements Chart
         jLSpectralParameters.setListData(irfpar);
                 
 //first tab
-        double centrWave;
-        double[] dispParam;
-        double timeZero;
-        centrWave = res.getLamdac();
-        if (res.getParmu()!=null) {
-            dispParam = res.getParmu();
-        }
-        else {
-            dispParam = new double[]{0};
-        }
-        if (res.getIrfpar()!=null) {
-            timeZero = res.getIrfpar()[0];
-        }
-        else {
-            timeZero = 0;
-        }
 
-        calculateDispersionCurve(centrWave, dispParam, timeZero, dispParam.length/2);
+        t0Curve = CommonTools.calculateDispersionTrace(res);
         if (res.getSpectra().getRowDimension()>numberOfComponents*2){
             jTBShowChohSpec.setEnabled(true);
         }
@@ -1987,22 +1971,6 @@ public final class SpecResultsTopComponent extends TopComponent implements Chart
         }
         XYDataset curveDataset = new XYSeriesCollection(curve);
         return curveDataset;
-    }
-
-    private void calculateDispersionCurve(double centrW, double[] param, double time0, int order){
-        t0Curve = new double[res.getX2().length];
-        double point = 0;
-        int k=0;
-        for(int i = 0; i<res.getX2().length; i++){
-            point = 0;
-            for (int j = 0; j < order; j++){
-                point = point + param[j]*pow((res.getX2()[i]-centrW)/100,j+1);
-            }
-            k=0;
-            point = point + time0;
-            t0Curve[i] = point;
-        }
-
     }
 
     private void updateLinLogPlotSumary(){

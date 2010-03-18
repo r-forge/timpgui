@@ -23,6 +23,7 @@ import org.jfree.data.xy.XYDataset;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 import static java.lang.Math.ceil;
+import static java.lang.Math.pow;
 
 /**
  *
@@ -137,4 +138,26 @@ public class CommonTools {
         tracechart.getXYPlot().getDomainAxis().setUpperBound(upBound);
         return new GraphPanel(tracechart, errorBars);
     }
+
+    public static double[] calculateDispersionTrace(TimpResultDataset res){
+        double centrW = res.getLamdac();
+        double[] param = res.getParmu()!=null ? res.getParmu() : new double[]{0};
+        double timeZero = res.getIrfpar()!=null ? res.getIrfpar()[0] : 0;
+        int order = param.length/2;
+        double[] t0Curve = new double[res.getX2().length];
+        double point = 0;
+        int k=0;
+        for(int i = 0; i<res.getX2().length; i++){
+            point = 0;
+            for (int j = 0; j < order; j++){
+                point = point + param[j]*pow((res.getX2()[i]-centrW)/100,j+1);
+            }
+            k=0;
+            point = point + timeZero;
+            t0Curve[i] = point;
+        }
+        return t0Curve;
+    }
+
+
 }

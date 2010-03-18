@@ -50,6 +50,7 @@ public class MultiTracesPanel extends javax.swing.JPanel {
     private JFreeChart subchartTimeTrace;
     private JFreeChart subchartResidualsTime;
     private TimpResultDataset fromDataset;
+    private double[] t0curveFrom = null;
 
     private TimpResultDataset toDataset;
     private double toValue;
@@ -66,10 +67,10 @@ public class MultiTracesPanel extends javax.swing.JPanel {
         relation = relations;
         resultDatasets = results;
         fromDataset = results.get(relations.indexFrom);
+        t0curveFrom = CommonTools.calculateDispersionTrace(fromDataset);
 
         toDataset = results.get(relations.scaledDatasets.get(0).indexTo);
         toValue = relations.scaledDatasets.get(0).valueTo;
-
 
         numberOfComponents = fromDataset.getJvec() != null ? fromDataset.getJvec().length / 2 : fromDataset.getKineticParameters().length / 2;
         if (fromDataset.getSpectra().getRowDimension() > numberOfComponents * 2) {
@@ -312,11 +313,13 @@ public class MultiTracesPanel extends javax.swing.JPanel {
         crosshair.setLabelAnchor(RectangleAnchor.BOTTOM_RIGHT);
     }
 
-    private ChartPanel makeTracesChart(TimpResultDataset res) {
 
+
+    private ChartPanel makeTracesChart(TimpResultDataset res) {
 
 //make timetrace chart
         XYSeriesCollection dataset1 = new XYSeriesCollection();
+
         subchartResidualsTime = ChartFactory.createXYLineChart(
                 null,
                 null,

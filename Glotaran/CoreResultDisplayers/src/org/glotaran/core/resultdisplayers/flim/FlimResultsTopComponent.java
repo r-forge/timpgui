@@ -181,7 +181,7 @@ final public class FlimResultsTopComponent extends TopComponent implements Chart
         }
         tracesCollection = CommonTools.createFitRawTraceCollection(0, 0, res.getX().length, res);
         residuals = CommonTools.createResidTraceCollection(0, 0, res.getX().length, res);
-        ChartPanel chpanSelectedTrace = CommonTools.makeLinTimeTraceResidChart(tracesCollection, residuals, new NumberAxis("Time (ns)"), String.valueOf(res.getX2()[0]));
+        ChartPanel chpanSelectedTrace = CommonTools.makeLinTimeTraceResidChart(tracesCollection, residuals, new NumberAxis("Time (ns)"), String.valueOf(res.getX2()[0]),false);
         jPSelectedTrace.add(chpanSelectedTrace);
     }
 
@@ -819,7 +819,8 @@ private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
                             CommonTools.createFitRawTraceCollection(xIndex, 0, res.getX().length, res),
                             CommonTools.createResidTraceCollection(xIndex, 0, res.getX().length, res),
                             new NumberAxis("Time (ns)"),
-                            String.valueOf(res.getX2()[xIndex]));
+                            String.valueOf(res.getX2()[xIndex]),
+                            false);
 //                //add chartpanel
                 jPSelTimeTrCollection.add(chpan);
 //
@@ -986,7 +987,7 @@ private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
                     if (ind!=-1){
                         tracesCollection = CommonTools.createFitRawTraceCollection(ind, 0, res.getX().length, res);
                         residuals = CommonTools.createResidTraceCollection(ind, 0, res.getX().length, res);
-                        ChartPanel chpanSelectedTrace = CommonTools.makeLinTimeTraceResidChart(tracesCollection, residuals, new NumberAxis("Time (ns)"), String.valueOf(res.getX2()[ind]));
+                        ChartPanel chpanSelectedTrace = CommonTools.makeLinTimeTraceResidChart(tracesCollection, residuals, new NumberAxis("Time (ns)"), String.valueOf(res.getX2()[ind]),false);
                         jPSelectedTrace.removeAll();
                         jPSelectedTrace.add(chpanSelectedTrace);
                         jPSelectedTrace.validate();

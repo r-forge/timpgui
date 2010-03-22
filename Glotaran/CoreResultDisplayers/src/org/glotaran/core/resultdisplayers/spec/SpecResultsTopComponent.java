@@ -19,6 +19,7 @@ import org.glotaran.core.models.structures.TimpResultDataset;
 import org.glotaran.core.resultdisplayers.common.panels.CommonTools;
 import org.glotaran.core.resultdisplayers.common.panels.SelectTracesForPlot;
 import org.glotaran.jfreechartcustom.ColorCodedImageDataset;
+import org.glotaran.jfreechartcustom.GlotaranDrawingSupplier;
 import org.glotaran.jfreechartcustom.GraphPanel;
 import org.glotaran.jfreechartcustom.ImageCrosshairLabelGenerator;
 import org.glotaran.jfreechartcustom.ImageUtilities;
@@ -64,7 +65,6 @@ import org.openide.util.Lookup;
 import org.openide.util.NbBundle;
 import org.openide.windows.TopComponent;
 import org.openide.windows.WindowManager;
-import static java.lang.Math.pow;
 import static java.lang.Math.abs;
 /**
  * Top component which displays something.
@@ -955,7 +955,7 @@ public final class SpecResultsTopComponent extends TopComponent implements Chart
 
                         XYSeriesCollection trace = CommonTools.createFitRawTraceCollection(xIndex, 0, res.getX().length, res);
                         XYSeriesCollection resid = CommonTools.createResidTraceCollection(xIndex, 0, res.getX().length, res);
-                        ChartPanel linTime = CommonTools.makeLinTimeTraceResidChart(trace, resid, new NumberAxis("Time"), String.valueOf(res.getX2()[xIndex]));
+                        ChartPanel linTime = CommonTools.makeLinTimeTraceResidChart(trace, resid, new NumberAxis("Time"), String.valueOf(res.getX2()[xIndex]),false);
                         linTime.getChart().setTitle(String.valueOf(res.getX2()[xIndex]));
                         jPSelTimeTrCollection.add(linTime);
                     }
@@ -1015,7 +1015,8 @@ public final class SpecResultsTopComponent extends TopComponent implements Chart
                             trace,
                             new XYSeriesCollection(series3),
                             xAxis,
-                            String.valueOf(res.getX()[xIndex]).concat(" ps"));
+                            String.valueOf(res.getX()[xIndex]).concat(" ps"),
+                            false);
                     jPSelWavTrCollection.add(chpan);
 
                 }
@@ -1032,7 +1033,7 @@ public final class SpecResultsTopComponent extends TopComponent implements Chart
 
             XYSeriesCollection trace = CommonTools.createFitRawTraceCollection(jSColum.getValue(), 0, res.getX().length,res);
             XYSeriesCollection resid = CommonTools.createResidTraceCollection(jSColum.getValue(), 0, res.getX().length,res);
-            ChartPanel linTime = CommonTools.makeLinTimeTraceResidChart(trace, resid, new NumberAxis("Time"), String.valueOf(res.getX2()[jSColum.getValue()]));
+            ChartPanel linTime = CommonTools.makeLinTimeTraceResidChart(trace, resid, new NumberAxis("Time"), String.valueOf(res.getX2()[jSColum.getValue()]),false);
             jPSelTimeTrCollection.add(linTime);
         }
         else {
@@ -1696,7 +1697,8 @@ public final class SpecResultsTopComponent extends TopComponent implements Chart
         plot2_1.setDomainAxisLocation(AxisLocation.BOTTOM_OR_LEFT);
         plot2_1.setRangeAxisLocation(AxisLocation.BOTTOM_OR_LEFT);
         plot2_1.setRangeZeroBaselineVisible(true);
-
+        plot2_1.getRenderer().setSeriesPaint(0, Color.black);
+        plot2_1.getRenderer().setSeriesPaint(1,Color.red);
         XYPlot plot2_2 = (XYPlot) subchartResidualsWave.getPlot();
         plot2_2.getDomainAxis().setLowerMargin(0.0);
         plot2_2.getDomainAxis().setUpperMargin(0.0);
@@ -1704,6 +1706,7 @@ public final class SpecResultsTopComponent extends TopComponent implements Chart
         plot2_2.setDomainAxisLocation(AxisLocation.BOTTOM_OR_LEFT);
         plot2_2.setRangeAxisLocation(AxisLocation.BOTTOM_OR_LEFT);
         plot2_2.setRangeZeroBaselineVisible(true);
+        plot2_2.getRenderer().setSeriesPaint(0, Color.black);
 
         NumberAxis xAxisWave = new NumberAxis("Wavelength (ns)");
         xAxisWave.setAutoRangeIncludesZero(false);
@@ -1949,11 +1952,11 @@ public final class SpecResultsTopComponent extends TopComponent implements Chart
         }
         XYSeriesCollection trace = CommonTools.createFitRawTraceCollection(xIndex, 0, index,res);
         XYSeriesCollection resid = CommonTools.createResidTraceCollection(xIndex, 0, index,res);
-        ChartPanel linTime = CommonTools.makeLinTimeTraceResidChart(trace, resid, new NumberAxis("Time"), null);
+        ChartPanel linTime = CommonTools.makeLinTimeTraceResidChart(trace, resid, new NumberAxis("Time"), null, false);
 
         trace = CommonTools.createFitRawTraceCollection(xIndex, index-1, res.getX().length,res);
         resid = CommonTools.createResidTraceCollection(xIndex, index-1, res.getX().length,res);
-        ChartPanel logTime = CommonTools.makeLinTimeTraceResidChart(trace, resid, new LogAxis("log(Time)"), null);
+        ChartPanel logTime = CommonTools.makeLinTimeTraceResidChart(trace, resid, new LogAxis("log(Time)"), null, false);
 
         NumberAxis yAxis = new NumberAxis();
         yAxis.setVisible(false);
@@ -2038,7 +2041,7 @@ public final class SpecResultsTopComponent extends TopComponent implements Chart
         if (!jTBLinLogTraces.isSelected()){
             XYSeriesCollection trace = CommonTools.createFitRawTraceCollection(xIndex, 0, res.getX().length,res);
             XYSeriesCollection resid = CommonTools.createResidTraceCollection(xIndex, 0, res.getX().length,res);
-            ChartPanel linTime =CommonTools.makeLinTimeTraceResidChart(trace, resid, new NumberAxis("Time"), null);
+            ChartPanel linTime =CommonTools.makeLinTimeTraceResidChart(trace, resid, new NumberAxis("Time"), null, false);
             jPSelectedTimeTrace.removeAll();
             jPSelectedTimeTrace.add(linTime);
             jPSelectedTimeTrace.validate();

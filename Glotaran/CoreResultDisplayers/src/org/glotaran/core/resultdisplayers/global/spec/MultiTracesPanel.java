@@ -13,10 +13,12 @@ package org.glotaran.core.resultdisplayers.global.spec;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Font;
+import java.util.ArrayList;
 import java.util.List;
 import org.glotaran.core.models.structures.TimpResultDataset;
 import org.glotaran.core.resultdisplayers.common.panels.CommonTools;
 import org.glotaran.core.resultdisplayers.common.panels.RelationFrom;
+import org.glotaran.jfreechartcustom.GlotaranDrawingSupplier;
 import org.glotaran.jfreechartcustom.GraphPanel;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
@@ -27,8 +29,6 @@ import org.jfree.chart.axis.ValueAxis;
 import org.jfree.chart.panel.CrosshairOverlay;
 import org.jfree.chart.plot.CombinedDomainXYPlot;
 import org.jfree.chart.plot.Crosshair;
-import org.jfree.chart.plot.DefaultDrawingSupplier;
-import org.jfree.chart.plot.DrawingSupplier;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.plot.XYPlot;
 import org.jfree.data.xy.XYSeriesCollection;
@@ -51,9 +51,7 @@ public class MultiTracesPanel extends javax.swing.JPanel {
     private JFreeChart subchartResidualsTime;
     private TimpResultDataset fromDataset;
     private double[] t0curveFrom = null;
-
-    private TimpResultDataset toDataset;
-    private double toValue;
+    private ArrayList<double[]> t0curvesTo = new ArrayList<double[]>();
 
     int numberOfComponents;
 
@@ -68,9 +66,9 @@ public class MultiTracesPanel extends javax.swing.JPanel {
         resultDatasets = results;
         fromDataset = results.get(relations.indexFrom);
         t0curveFrom = CommonTools.calculateDispersionTrace(fromDataset);
-
-        toDataset = results.get(relations.scaledDatasets.get(0).indexTo);
-        toValue = relations.scaledDatasets.get(0).valueTo;
+        for (int i = 0; i < relation.scaledDatasets.size(); i++){
+            t0curvesTo.add(CommonTools.calculateDispersionTrace(results.get(relation.scaledDatasets.get(i).indexTo)));
+        }
 
         numberOfComponents = fromDataset.getJvec() != null ? fromDataset.getJvec().length / 2 : fromDataset.getKineticParameters().length / 2;
         if (fromDataset.getSpectra().getRowDimension() > numberOfComponents * 2) {
@@ -86,9 +84,8 @@ public class MultiTracesPanel extends javax.swing.JPanel {
 
         jPSpectra.add(spectraImage);
 //create plot with curves from "from dataset";
-        jPTraces.removeAll();
-        jPTraces.add(createTraceResidChart(fromDataset));
-
+        updateTrace(0);
+        
 //initialise slider from "from dataset"
         jSWavelengths.getModel().setRangeProperties(0, 1, 0, fromDataset.getX2().length - 1, true);
 
@@ -354,10 +351,8 @@ public class MultiTracesPanel extends javax.swing.JPanel {
         plot1_2.setRangeZeroBaselineVisible(true);
 
         NumberAxis xAxis = new NumberAxis("Time");
-
         xAxis.setRange(res.getX()[0], res.getX()[res.getX().length - 1]);
         xAxis.setUpperBound(res.getX()[res.getX().length - 1]);
-
         CombinedDomainXYPlot plot = new CombinedDomainXYPlot(xAxis);
         plot.setGap(10.0);
         plot.add(plot1_1, 3);
@@ -373,33 +368,26 @@ public class MultiTracesPanel extends javax.swing.JPanel {
 
     private void updateTrace(int xIndex) {
         if (true) {
-            XYSeriesCollection traceFrom = CommonTools.createFitRawTraceCollection(xIndex, 0, fromDataset.getX().length, fromDataset);
-            XYSeriesCollection residFrom = CommonTools.createResidTraceCollection(xIndex, 0, fromDataset.getX().length, fromDataset);
+            XYSeriesCollection trace = CommonTools.createFitRawTraceCollection(xIndex, 0, fromDataset.getX().length, fromDataset, t0curveFrom[xIndex],"From");
+            XYSeriesCollection resid = CommonTools.createResidTraceCollection(xIndex, 0, fromDataset.getX().length, fromDataset, t0curveFrom[xIndex],"From");
 
-            XYSeriesCollection traceTo = CommonTools.createFitRawTraceCollection(xIndex, 0, toDataset.getX().length,toDataset);
-            XYSeriesCollection residTo = CommonTools.createResidTraceCollection(xIndex, 0, toDataset.getX().length,toDataset);
-
-
-            for (int i = 0; i < traceTo.getSeries(0).getItemCount(); i++){
-                traceTo.getSeries(0).getDataItem(i).setY(traceTo.getSeries(0).getDataItem(i).getYValue()/toValue);
-                traceTo.getSeries(0).setKey("toTrace");
-                traceTo.getSeries(1).getDataItem(i).setY(traceTo.getSeries(1).getDataItem(i).getYValue()/toValue);
-                traceTo.getSeries(1).setKey("toFit");
-                residTo.getSeries(0).getDataItem(i).setY(residTo.getSeries(0).getDataItem(i).getYValue()/toValue);
-                residTo.getSeries(0).setKey("toResid");
+            XYSeriesCollection traceTo = null;
+            XYSeriesCollection residTo = null;
+            TimpResultDataset toDataset = null;
+            int indexTo = 0;
+            double toValue = 1;
+            for (int i = 0; i < relation.scaledDatasets.size(); i++){
+                indexTo = relation.scaledDatasets.get(i).indexTo;
+                toDataset = resultDatasets.get(indexTo);
+                toValue = relation.scaledDatasets.get(i).valueTo;
+                traceTo = CommonTools.createFitRawTraceCollection(xIndex, 0, toDataset.getX().length,toDataset, t0curvesTo.get(i)[xIndex], ("to"+i), toValue);
+                residTo = CommonTools.createResidTraceCollection(xIndex, 0, toDataset.getX().length,toDataset, t0curvesTo.get(i)[xIndex], ("to"+i), toValue);
+                trace.addSeries(traceTo.getSeries(0));
+                trace.addSeries(traceTo.getSeries(1));
+                resid.addSeries(residTo.getSeries(0));
             }
 
-            XYSeriesCollection trace = new XYSeriesCollection();
-            XYSeriesCollection resid = new XYSeriesCollection();
-
-            trace.addSeries(traceTo.getSeries(0));
-            trace.addSeries(traceTo.getSeries(1));
-            trace.addSeries(traceFrom.getSeries(0));
-            trace.addSeries(traceFrom.getSeries(1));
-            resid.addSeries(residTo.getSeries(0));
-            resid.addSeries(residFrom.getSeries(0));
-
-            ChartPanel linTime = makeLinTimeTraceResidChart(trace, resid, new NumberAxis("Time"), null);
+            ChartPanel linTime = CommonTools.makeLinTimeTraceResidChart(trace, resid, new NumberAxis("Time"), null, true);
 
             jPTraces.removeAll();
             jPTraces.add(linTime);
@@ -420,72 +408,5 @@ public class MultiTracesPanel extends javax.swing.JPanel {
 //            }
         }
 
-    }
-
-    public static ChartPanel makeLinTimeTraceResidChart(XYSeriesCollection trace, XYSeriesCollection residuals, ValueAxis xAxis, String name) {
-        JFreeChart subchartResiduals = ChartFactory.createXYLineChart(
-                null,
-                null,
-                null,
-                residuals,
-                PlotOrientation.VERTICAL,
-                false,
-                false,
-                false);
-        JFreeChart subchartTrace = ChartFactory.createXYLineChart(
-                null,
-                null,
-                null,
-                trace,
-                PlotOrientation.VERTICAL,
-                false,
-                false,
-                false);
-        XYPlot plot1_1 = subchartTrace.getXYPlot();
-        plot1_1.getDomainAxis().setLowerMargin(0.0);
-        plot1_1.getDomainAxis().setUpperMargin(0.0);
-        plot1_1.setDomainAxisLocation(AxisLocation.BOTTOM_OR_LEFT);
-        plot1_1.getDomainAxis().setInverted(true);
-        plot1_1.setRangeZeroBaselineVisible(true);
-        plot1_1.getRenderer().setSeriesPaint(0, Color.blue);
-        plot1_1.getRenderer().setSeriesPaint(1, Color.blue);
-        plot1_1.getRenderer().setSeriesPaint(2, Color.red);
-        plot1_1.getRenderer().setSeriesPaint(3, Color.red);
-
-        plot1_1.getRenderer().setSeriesStroke(0, new BasicStroke(1.0f));
-        plot1_1.getRenderer().setSeriesStroke(1,
-                new BasicStroke(1.0f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND, 3.0f, new float[] {10.0f, 10.0f}, 0.0f));
-
-        plot1_1.getRenderer().setSeriesStroke(2, new BasicStroke(1.0f));
-        plot1_1.getRenderer().setSeriesStroke(3,
-                new BasicStroke(1.0f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 10.0f, new float[]{10.0f}, 0.0f));
-
-        plot1_1.getRangeAxis().setAutoRange(true);
-
-
-        XYPlot plot1_2 = subchartResiduals.getXYPlot();
-        plot1_2.getDomainAxis().setLowerMargin(0.0);
-        plot1_2.getDomainAxis().setUpperMargin(0.0);
-        plot1_2.setDomainAxisLocation(AxisLocation.BOTTOM_OR_LEFT);
-        plot1_2.getDomainAxis().setInverted(true);
-        plot1_2.setRangeZeroBaselineVisible(true);
-        plot1_2.getRenderer().setSeriesPaint(0, Color.blue);
-        plot1_2.getRenderer().setSeriesPaint(1, Color.red);
-        plot1_2.getRangeAxis().setAutoRange(true);
-
-        CombinedDomainXYPlot plot = new CombinedDomainXYPlot(xAxis);
-        plot.setGap(5.0);
-        plot.add(plot1_1, 3);
-        plot.add(plot1_2, 1);
-        plot.setOrientation(PlotOrientation.VERTICAL);
-        plot.getDomainAxis().setLowerMargin(0.0);
-        plot.getDomainAxis().setUpperMargin(0.0);
-        Font titleFont = new Font(JFreeChart.DEFAULT_TITLE_FONT.getFontName(), JFreeChart.DEFAULT_TITLE_FONT.getStyle(), 12);
-        JFreeChart tracechart = new JFreeChart(name, titleFont, plot, true);
-        tracechart.getLegend().setVisible(false);
-        ChartPanel chpan = new ChartPanel(tracechart, true);
-        chpan.setMinimumDrawHeight(0);
-        chpan.setMinimumDrawWidth(0);
-        return chpan;
     }
 }

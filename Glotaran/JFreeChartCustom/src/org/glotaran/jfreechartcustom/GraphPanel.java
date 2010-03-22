@@ -35,7 +35,6 @@ import org.jfree.chart.plot.DrawingSupplier;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.plot.SeriesRenderingOrder;
 import org.jfree.chart.plot.XYPlot;
-import org.jfree.chart.renderer.AbstractRenderer;
 import org.jfree.chart.renderer.xy.XYErrorRenderer;
 import org.jfree.chart.renderer.xy.XYLineAndShapeRenderer;
 import org.jfree.data.xy.AbstractXYDataset;
@@ -179,13 +178,7 @@ public class GraphPanel extends ChartPanel{
             plot.setAxisOffset(RectangleInsets.ZERO_INSETS);
             plot.getDomainAxis().setLowerMargin(0.0);
             plot.getDomainAxis().setUpperMargin(0.0);
-            DrawingSupplier supplier = new DefaultDrawingSupplier(
-                paintSequence,
-                DefaultDrawingSupplier.DEFAULT_OUTLINE_PAINT_SEQUENCE,
-                DefaultDrawingSupplier.DEFAULT_STROKE_SEQUENCE,
-                DefaultDrawingSupplier.DEFAULT_OUTLINE_STROKE_SEQUENCE,
-                DefaultDrawingSupplier.DEFAULT_SHAPE_SEQUENCE);
-            plot.setDrawingSupplier(supplier);
+            plot.setDrawingSupplier(new GlotaranDrawingSupplier());
             plot.setDatasetRenderingOrder(DatasetRenderingOrder.FORWARD);
             plot.setSeriesRenderingOrder(SeriesRenderingOrder.FORWARD);
             errorBarsSown = plot.getRenderer() instanceof XYErrorRenderer ? true : false;

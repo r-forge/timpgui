@@ -10,6 +10,7 @@ import java.awt.Font;
 import java.awt.GridLayout;
 import javax.swing.JPanel;
 import org.glotaran.core.models.structures.TimpResultDataset;
+import org.glotaran.jfreechartcustom.GlotaranDrawingSupplier;
 import org.glotaran.jfreechartcustom.GraphPanel;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
@@ -51,41 +52,48 @@ public class CommonTools {
         panelToResize.setLayout(new GridLayout(2, 2));
     }
 
-    public static ChartPanel makeLinTimeTraceResidChart(XYSeriesCollection trace, XYSeriesCollection residuals, ValueAxis xAxis, String name){
+    public static ChartPanel makeLinTimeTraceResidChart(XYSeriesCollection trace, XYSeriesCollection residuals, ValueAxis xAxis, String name, boolean multy) {
+        GlotaranDrawingSupplier drawSuplTrace = multy ? new GlotaranDrawingSupplier(multy): new GlotaranDrawingSupplier();
+        GlotaranDrawingSupplier drawSuplResid = new GlotaranDrawingSupplier();
         JFreeChart subchartResiduals = ChartFactory.createXYLineChart(
-            null,
-            null,
-            null,
-            residuals,
-            PlotOrientation.VERTICAL,
-            false,
-            false,
-            false
-        );
+                null,
+                null,
+                null,
+                residuals,
+                PlotOrientation.VERTICAL,
+                false,
+                false,
+                false);
         JFreeChart subchartTrace = ChartFactory.createXYLineChart(
-            null,
-            null,
-            null,
-            trace,
-            PlotOrientation.VERTICAL,
-            false,
-            false,
-            false
-        );
+                null,
+                null,
+                null,
+                trace,
+                PlotOrientation.VERTICAL,
+                false,
+                false,
+                false);
         XYPlot plot1_1 = subchartTrace.getXYPlot();
         plot1_1.getDomainAxis().setLowerMargin(0.0);
         plot1_1.getDomainAxis().setUpperMargin(0.0);
         plot1_1.setDomainAxisLocation(AxisLocation.BOTTOM_OR_LEFT);
         plot1_1.getDomainAxis().setInverted(true);
         plot1_1.setRangeZeroBaselineVisible(true);
-
+        plot1_1.getRangeAxis().setAutoRange(true);
+        for (int i = 0; i < trace.getSeriesCount(); i++){
+            plot1_1.getRenderer().setSeriesPaint(i, drawSuplTrace.getNextPaint());
+            plot1_1.getRenderer().setSeriesStroke(i, drawSuplTrace.getNextStroke());
+        }
         XYPlot plot1_2 = subchartResiduals.getXYPlot();
         plot1_2.getDomainAxis().setLowerMargin(0.0);
         plot1_2.getDomainAxis().setUpperMargin(0.0);
         plot1_2.setDomainAxisLocation(AxisLocation.BOTTOM_OR_LEFT);
         plot1_2.getDomainAxis().setInverted(true);
         plot1_2.setRangeZeroBaselineVisible(true);
-        
+        plot1_2.getRangeAxis().setAutoRange(true);
+        for (int i = 0; i < residuals.getSeriesCount(); i++){
+            plot1_2.getRenderer().setSeriesPaint(i, drawSuplResid.getNextPaint());
+        }
         CombinedDomainXYPlot plot = new CombinedDomainXYPlot(xAxis);
         plot.setGap(5.0);
         plot.add(plot1_1, 3);
@@ -93,24 +101,81 @@ public class CommonTools {
         plot.setOrientation(PlotOrientation.VERTICAL);
         plot.getDomainAxis().setLowerMargin(0.0);
         plot.getDomainAxis().setUpperMargin(0.0);
-        Font titleFont = new Font(JFreeChart.DEFAULT_TITLE_FONT.getFontName(),JFreeChart.DEFAULT_TITLE_FONT.getStyle(),12);
+        Font titleFont = new Font(JFreeChart.DEFAULT_TITLE_FONT.getFontName(), JFreeChart.DEFAULT_TITLE_FONT.getStyle(), 12);
         JFreeChart tracechart = new JFreeChart(name, titleFont, plot, true);
         tracechart.getLegend().setVisible(false);
-        ChartPanel chpan = new ChartPanel(tracechart,true);
+        ChartPanel chpan = new ChartPanel(tracechart, true);
         chpan.setMinimumDrawHeight(0);
         chpan.setMinimumDrawWidth(0);
         return chpan;
     }
+//    public static ChartPanel makeLinTimeTraceResidChart(XYSeriesCollection trace, XYSeriesCollection residuals, ValueAxis xAxis, String name){
+//        JFreeChart subchartResiduals = ChartFactory.createXYLineChart(
+//            null,
+//            null,
+//            null,
+//            residuals,
+//            PlotOrientation.VERTICAL,
+//            false,
+//            false,
+//            false
+//        );
+//        JFreeChart subchartTrace = ChartFactory.createXYLineChart(
+//            null,
+//            null,
+//            null,
+//            trace,
+//            PlotOrientation.VERTICAL,
+//            false,
+//            false,
+//            false
+//        );
+//        XYPlot plot1_1 = subchartTrace.getXYPlot();
+//        plot1_1.getDomainAxis().setLowerMargin(0.0);
+//        plot1_1.getDomainAxis().setUpperMargin(0.0);
+//        plot1_1.setDomainAxisLocation(AxisLocation.BOTTOM_OR_LEFT);
+//        plot1_1.getDomainAxis().setInverted(true);
+//        plot1_1.setRangeZeroBaselineVisible(true);
+//
+//        XYPlot plot1_2 = subchartResiduals.getXYPlot();
+//        plot1_2.getDomainAxis().setLowerMargin(0.0);
+//        plot1_2.getDomainAxis().setUpperMargin(0.0);
+//        plot1_2.setDomainAxisLocation(AxisLocation.BOTTOM_OR_LEFT);
+//        plot1_2.getDomainAxis().setInverted(true);
+//        plot1_2.setRangeZeroBaselineVisible(true);
+//
+//        CombinedDomainXYPlot plot = new CombinedDomainXYPlot(xAxis);
+//        plot.setGap(5.0);
+//        plot.add(plot1_1, 3);
+//        plot.add(plot1_2, 1);
+//        plot.setOrientation(PlotOrientation.VERTICAL);
+//        plot.getDomainAxis().setLowerMargin(0.0);
+//        plot.getDomainAxis().setUpperMargin(0.0);
+//        Font titleFont = new Font(JFreeChart.DEFAULT_TITLE_FONT.getFontName(),JFreeChart.DEFAULT_TITLE_FONT.getStyle(),12);
+//        JFreeChart tracechart = new JFreeChart(name, titleFont, plot, true);
+//        tracechart.getLegend().setVisible(false);
+//        ChartPanel chpan = new ChartPanel(tracechart,true);
+//        chpan.setMinimumDrawHeight(0);
+//        chpan.setMinimumDrawWidth(0);
+//        return chpan;
+//    }
 
-      public static XYSeriesCollection createFitRawTraceCollection(int xIndex, int startInd, int stopInd, TimpResultDataset data){
+    public static XYSeriesCollection createFitRawTraceCollection(int xIndex, int startInd, int stopInd, TimpResultDataset data){
+        return createFitRawTraceCollection(xIndex,startInd,stopInd,data,0, "");
+    }
+    
+    public static XYSeriesCollection createFitRawTraceCollection(int xIndex, int startInd, int stopInd, TimpResultDataset data,double t0, String name){
+        return createFitRawTraceCollection(xIndex,startInd,stopInd,data,t0, name, 1);
+    }
+    public static XYSeriesCollection createFitRawTraceCollection(int xIndex, int startInd, int stopInd, TimpResultDataset data,double t0, String name, double scaleVal){
 
         XYSeriesCollection trace = new XYSeriesCollection();
-        XYSeries series1 = new XYSeries("Trace");
-        XYSeries series2 = new XYSeries("Fit");
+        XYSeries series1 = new XYSeries("Trace"+name);
+        XYSeries series2 = new XYSeries("Fit"+name);
 
         for (int j = startInd; j < stopInd; j++) {
-            series1.add(data.getX()[j], data.getTraces().get(j, xIndex));
-            series2.add(data.getX()[j], data.getFittedTraces().get(j, xIndex));
+            series1.add(data.getX()[j]-t0, data.getTraces().get(j, xIndex)/scaleVal);
+            series2.add(data.getX()[j]-t0, data.getFittedTraces().get(j, xIndex)/scaleVal);
         }
         trace.addSeries(series1);
         trace.addSeries(series2);
@@ -118,9 +183,17 @@ public class CommonTools {
     }
 
     public static XYSeriesCollection createResidTraceCollection(int xIndex, int startInd, int stopInd, TimpResultDataset data){
-        XYSeries series3 = new XYSeries("Residuals");
+        return createResidTraceCollection(xIndex,startInd,stopInd,data,0, "");
+    }
+    
+    public static XYSeriesCollection createResidTraceCollection(int xIndex, int startInd, int stopInd, TimpResultDataset data, double t0, String name){
+        return createResidTraceCollection(xIndex,startInd,stopInd,data,t0, name,1);
+    }
+
+    public static XYSeriesCollection createResidTraceCollection(int xIndex, int startInd, int stopInd, TimpResultDataset data, double t0, String name, double scaleVal){
+        XYSeries series3 = new XYSeries("Residuals"+name);
          for (int j = startInd; j < stopInd; j++) {
-            series3.add(data.getX()[j], data.getTraces().get(j, xIndex)-data.getFittedTraces().get(j, xIndex));
+            series3.add(data.getX()[j]-t0, (data.getTraces().get(j, xIndex)-data.getFittedTraces().get(j, xIndex))/scaleVal);
         }
         return new XYSeriesCollection(series3);
     }

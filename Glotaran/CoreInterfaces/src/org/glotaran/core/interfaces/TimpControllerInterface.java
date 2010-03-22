@@ -25,4 +25,6 @@ public interface TimpControllerInterface {
     void cleanup();
     double getDouble(String cmd);
     double[] getDoubleArray(String cmd);
+    String getString(String cmd);
+    String[] getStringArray(String cmd);
 }

@@ -86,6 +86,79 @@ public class AnalysisWorker implements Runnable {
         this.ph = progressHandle;
     }
 
+        public void run() {
+        try {
+            ph.start();
+            ph.switchToIndeterminate();
+            doAnalysis();
+            Thread.sleep(0);
+        } catch (InterruptedException ex) {
+            Exceptions.printStackTrace(ex);
+        }
+    }
+
+    private void doAnalysis() {
+        if (project != null) {
+            if (output.getIterations() != null) {
+                if (!output.getIterations().isEmpty()) {
+                    numIterations = Integer.parseInt(output.getIterations());
+                }
+            } else {
+                numIterations = NO_OF_ITERATIONS;
+            }
+            if (output.getOutputPath() != null) {
+                String nlsprogressResult = null;
+                String outputPath = project.getResultsFolder(true) + File.separator + output.getOutputPath();
+                File outputFolder = new File(outputPath);
+                if (outputFolder.exists()) {
+                    resultsfolder = FileUtil.toFileObject(outputFolder);
+                    if (resultsfolder.getChildren().length > 0) {
+                        try {
+                            resultsfolder = FileUtil.createFolder(resultsfolder.getParent(), FileUtil.findFreeFolderName(resultsfolder.getParent(), resultsfolder.getName()));
+                        } catch (IOException ex) {
+                            Exceptions.printStackTrace(ex);
+                        }
+                    }
+                } else {
+                    try {
+                        FileUtil.createFolder(outputFolder);
+                        resultsfolder = outputFolder.exists() ? FileUtil.toFileObject(outputFolder) : null;
+                    } catch (IOException ex) {
+                        Exceptions.printStackTrace(ex);
+                    }
+                }
+
+                datasets = getDatasets(datasetContainer);
+                modelCalls.add(getModelCall(modelReference, 0));
+
+                fitModelCall = getFitModelCall(datasets, modelCalls, modelDifferences, output, numIterations);
+
+                if (isValidAnalysis(datasets, modelReference)) {
+                    timpcontroller = Lookup.getDefault().lookup(TimpControllerInterface.class);
+                    if (timpcontroller != null) {
+                        results = timpcontroller.runAnalysis(datasets, modelCalls, fitModelCall);
+                        nlsprogressResult = timpcontroller.getString(TimpControllerInterface.NAME_OF_RESULT_OBJECT + "$nlsprogress");
+                    }
+                } else {
+                    //TODO: CoreErrorMessages warning
+                    return;
+                }
+
+                if (results != null) {
+                    writeResults(results, modelReference, nlsprogressResult);
+
+                } else {
+                    try {
+                        writeSummary(resultsfolder, FileUtil.findFreeFileName(resultsfolder, resultsfolder.getName() + "_errorlog", "summary"));
+                    } catch (IOException ex) {
+                        Exceptions.printStackTrace(ex);
+                    }
+                }
+                timpcontroller.cleanup();
+            }
+        }
+    }
+
     private DatasetTimp[] getDatasets(GtaDatasetContainer gtaDatasetContainer) {
         TimpDatasetDataObject timpDatasetDO = null;
         int numberOfDatasets = gtaDatasetContainer.getDatasets().size();
@@ -214,7 +287,7 @@ public class AnalysisWorker implements Runnable {
             result = result.concat(",");
             result = result.concat(optResult);
         }
-
+        result = result.concat(", lprogress = TRUE");
         result = result.concat(")");
         return result;
     }
@@ -464,77 +537,6 @@ public class AnalysisWorker implements Runnable {
         return run;
     }
 
-    public void run() {
-        try {
-            ph.start();
-            ph.switchToIndeterminate();
-            doAnalysis();
-            Thread.sleep(0);
-        } catch (InterruptedException ex) {
-            Exceptions.printStackTrace(ex);
-        }
-    }
-
-    private void doAnalysis() {
-        if (project != null) {
-            if (output.getIterations() != null) {
-                if (!output.getIterations().isEmpty()) {
-                    numIterations = Integer.parseInt(output.getIterations());
-                }
-            } else {
-                numIterations = NO_OF_ITERATIONS;
-            }
-            if (output.getOutputPath() != null) {
-                String outputPath = project.getResultsFolder(true) + File.separator + output.getOutputPath();
-                File outputFolder = new File(outputPath);
-                if (outputFolder.exists()) {
-                    resultsfolder = FileUtil.toFileObject(outputFolder);
-                    if (resultsfolder.getChildren().length > 0) {
-                        try {
-                            resultsfolder = FileUtil.createFolder(resultsfolder.getParent(), FileUtil.findFreeFolderName(resultsfolder.getParent(), resultsfolder.getName()));
-                        } catch (IOException ex) {
-                            Exceptions.printStackTrace(ex);
-                        }
-                    }
-                } else {
-                    try {
-                        FileUtil.createFolder(outputFolder);
-                        resultsfolder = outputFolder.exists() ? FileUtil.toFileObject(outputFolder) : null;
-                    } catch (IOException ex) {
-                        Exceptions.printStackTrace(ex);
-                    }
-                }
-
-                datasets = getDatasets(datasetContainer);
-                modelCalls.add(getModelCall(modelReference, 0));
-
-                fitModelCall = getFitModelCall(datasets, modelCalls, modelDifferences, output, numIterations);
-
-                if (isValidAnalysis(datasets, modelReference)) {
-                    timpcontroller = Lookup.getDefault().lookup(TimpControllerInterface.class);
-                    if (timpcontroller != null) {
-                        results = timpcontroller.runAnalysis(datasets, modelCalls, fitModelCall);
-                    }
-                } else {
-                    //TODO: CoreErrorMessages warning
-                    return;
-                }
-
-                if (results != null) {
-                    writeResults(results, modelReference);
-
-                } else {
-                    try {
-                        writeSummary(resultsfolder, FileUtil.findFreeFileName(resultsfolder, resultsfolder.getName() + "_errorlog", "summary"));
-                    } catch (IOException ex) {
-                        Exceptions.printStackTrace(ex);
-                    }
-                }
-                timpcontroller.cleanup();
-            }
-        }
-    }
-
     private void writeSummary(FileObject resultsfolder, String freeFilename) throws IOException {
         writeTo = resultsfolder.createData(freeFilename, "summary");
         BufferedWriter outputWriter = new BufferedWriter(new FileWriter(FileUtil.toFile(writeTo)));
@@ -683,7 +685,7 @@ public class AnalysisWorker implements Runnable {
         }
     }
 
-    private void writeResults(TimpResultDataset[] results, GtaModelReference modelReference) {
+    private void writeResults(TimpResultDataset[] results, GtaModelReference modelReference, String nlsprogressResult) {
         Tgm model = getModel(modelReference);
         GtaResult newResultsObject = new GtaResult();
         String freeResultsFilename = FileUtil.findFreeFileName(resultsfolder, resultsfolder.getName(), "summary");
@@ -691,6 +693,14 @@ public class AnalysisWorker implements Runnable {
             writeSummary(resultsfolder, freeResultsFilename);
         } catch (IOException ex) {
             Exceptions.printStackTrace(ex);
+        }
+
+        if (nlsprogressResult !=null) {
+            StringBuilder nlsProgressResultsString = new StringBuilder();
+            //for(int i=0; i<nlsprogressResult.length; i++) {
+                nlsProgressResultsString.append(nlsprogressResult);
+            //}
+            newResultsObject.setNlsprogress(nlsProgressResultsString.toString());
         }
 
         for (int i = 0; i < results.length; i++) {

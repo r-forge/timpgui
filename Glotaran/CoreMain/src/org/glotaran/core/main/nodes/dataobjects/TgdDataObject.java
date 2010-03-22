@@ -28,7 +28,6 @@ public class TgdDataObject extends InstanceDataObject implements SaveCookie {
         if (!(FileUtil.toFile(this.getPrimaryFile()) == null)) {
             tgd = getTgd();
         }
-
     }
 
     @Override
@@ -44,17 +43,14 @@ public class TgdDataObject extends InstanceDataObject implements SaveCookie {
     public Tgd getTgd() {
         if (tgd == null) {
             tgd = new Tgd();
-
             try {
                 javax.xml.bind.JAXBContext jaxbCtx = javax.xml.bind.JAXBContext.newInstance(tgd.getClass().getPackage().getName());
                 Unmarshaller unmarshaller = jaxbCtx.createUnmarshaller();
                 tgd = (Tgd) unmarshaller.unmarshal(FileUtil.toFile(this.getPrimaryFile()));
             } catch (javax.xml.bind.JAXBException ex) {
-                //TODO Handle exception
                 CoreErrorMessages.jaxbException();
             }
         }
-        // Else simply return the object
         return tgd;
     }
 

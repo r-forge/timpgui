@@ -31,17 +31,39 @@ public final class CacheTgdDataset implements ActionListener {
         for (DataObject dataObject : context) {
             // TODO use dataObject
             if (dataObject instanceof TgdDataObject) {
-                TgdDataObject tgdDataObject = ((TgdDataObject)dataObject);
+                TgdDataObject tgdDataObject = ((TgdDataObject) dataObject);
                 TGProject project = (TGProject) FileOwnerQuery.getOwner(dataObject.getPrimaryFile());
-                File datasetFile = new File(tgdDataObject.getTgd().getPath());
-                if (datasetFile.exists()) {
-                    FileObject datasetFileObject = FileUtil.toFileObject(datasetFile);
-                    if(datasetFileObject.canRead()){                        
+                File relPath = new File(project.getProjectDirectory() + File.separator + tgdDataObject.getTgd().getRelativePath());
+                if (relPath.exists()) {
+                    FileObject datasetFileObject = FileUtil.toFileObject(relPath);
+                    if (datasetFileObject.canRead()) {
+                        if (FileOwnerQuery.getOwner(datasetFileObject).equals(project)) {
+                            return;
+                        } else {
+                            FileObject cacheFolder = FileUtil.toFileObject(new File(project.getCacheFolder(true).getPath() + File.separator + tgdDataObject.getTgd().getCacheFolderName()));
+                             try {
+                            //TODO: fix the new extension workaround
+                            FileObject copy = FileUtil.copyFile(datasetFileObject, cacheFolder, tgdDataObject.getTgd().getFilename(), tgdDataObject.getTgd().getExtension());
+                            tgdDataObject.getTgd().setRelativePath(FileUtil.getRelativePath(project.getProjectDirectory(), copy));
+                            tgdDataObject.save();
+                            return;
+                        } catch (IOException ex) {
+                            CoreErrorMessages.fileNotFound();
+                            //Exceptions.printStackTrace(ex);
+                        }
+
+                        }
+                    }
+                }
+                File absPath = new File(tgdDataObject.getTgd().getPath());
+                if (absPath.exists()) {
+                    FileObject datasetFileObject = FileUtil.toFileObject(absPath);
+                    if (datasetFileObject.canRead()) {
                         FileObject cacheFolder = FileUtil.toFileObject(new File(project.getCacheFolder(true).getPath() + File.separator + tgdDataObject.getTgd().getCacheFolderName()));
                         try {
                             //TODO: fix the new extension workaround
-                            FileObject copy = FileUtil.copyFile(datasetFileObject, cacheFolder, tgdDataObject.getTgd().getFilename(),tgdDataObject.getTgd().getExtension());                                                                                    ;
-                            tgdDataObject.getTgd().setRelativePath(FileUtil.getRelativePath(project.getProjectDirectory(),copy));
+                            FileObject copy = FileUtil.copyFile(datasetFileObject, cacheFolder, tgdDataObject.getTgd().getFilename(), tgdDataObject.getTgd().getExtension());
+                            tgdDataObject.getTgd().setRelativePath(FileUtil.getRelativePath(project.getProjectDirectory(), copy));
                             tgdDataObject.save();
                         } catch (IOException ex) {
                             CoreErrorMessages.fileNotFound();

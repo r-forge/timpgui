@@ -18,6 +18,7 @@ import org.openide.util.Lookup;
 public class TgdDataNode extends DataNode {
 
     private final Image ICON = ImageUtilities.loadImage("org/glotaran/core/main/resources/Tgd-dataset-icon-16.png", true);
+    //private static Image BADGE_BAD = ImageUtilities.loadImage("org/glotaran/core/main/resources/error_badge.png");
     private TgdDataObject obj;
 
     public TgdDataNode(TgdDataObject obj) {
@@ -33,8 +34,12 @@ public class TgdDataNode extends DataNode {
     
      @Override
     public Image getIcon(int type) {
-        return ICON;
+        //DataFolder root = DataFolder.findFolder(Repository.getDefault().getDefaultFileSystem().getRoot());
+        //Image ICON = root.getNodeDelegate().getIcon(type);
+        //return ImageUtilities.mergeImages(ICON, BADGE_BAD, 7, 7);
+         return ICON;
     }
+
 
     @Override
     public Image getOpenedIcon(int type) {

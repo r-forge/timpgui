@@ -2,7 +2,7 @@
 
 <!--
     Document   : TgdSchema.xml
-    Created on : November 26, 2009, 2:56 PM
+    Created on : March 19, 2010, 3:39 PM
     Author     : jsg210
     Description:
         Purpose of the document follows.
@@ -15,6 +15,6 @@
     <ns0:path></ns0:path>
     <ns0:filetype></ns0:filetype>
     <ns0:cacheFolderName></ns0:cacheFolderName>
-    <ns0:relativeParth></ns0:relativeParth>
-
+    <ns0:relativePath></ns0:relativePath>
+    <ns0:extension></ns0:extension>
 </ns0:tgd>

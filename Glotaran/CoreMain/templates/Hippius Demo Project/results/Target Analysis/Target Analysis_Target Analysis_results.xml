@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<GtaResult xmlns="http://glotaran.org/schema/AnalysisResultsSchema">
+    <datasets>
+        <datasetFile>
+            <filename>dataset1</filename>
+            <path>cache/demo_data_Hippius_etal_JPCC2007_111_13988_Figs5_9.xml_1259249200254/dataset1.timpdataset</path>
+        </datasetFile>
+        <resultFile>
+            <filename>Target Analysis_d1_dataset0</filename>
+            <path>results/Target Analysis</path>
+        </resultFile>
+        <id>1</id>
+    </datasets>
+    <summary>
+        <initModelCall>gtaModel1 &lt;- initModel(mod_type = &quot;kin&quot;,kinpar = c(9.49943878184853,0.34981088325342874,0.0427195221803555,0.019998212351462565),kmat = array(c(0,1,1,0,0,0,0,2,0,0,0,3,0,0,0,4,0,1,2,0,0,0,0,0,0,0,0,0,0,0,0,0), dim = c(4,4,2)), jvec = c(1.0,0.0,0.0,0.0), kinscal = c(0.087,0.913),irfpar = c(1.208440919228712,0.06463047148771003),lambdac = 550.0, parmu = list(c(0.31288012476042404,-0.09813753067051055,0.012615041197631897)), dispmufun = &quot;poly&quot;,positivepar = c(&quot;kinpar&quot;),cohspec = list(type = &quot;irf&quot;) ,clpequspec = list(list(to=3,from=2,low=10.0,high=1000.0)),clpequ = c(1),weightpar = list(c(NA,NA,280.0,550.0,0.1),c(NA,NA,720.0,890.0,0.2)),fixed = list(kinpar=c(1), kinscal=c(1,2), jvec=c(1,2,3,4),clpequ=1:1),seqmod = TRUE)</initModelCall>
+        <fitModelCall>gtaFitResult &lt;- fitModel(data = list(gtaDataset1),modspec = list(gtaModel1),modeldiffs = list(linkclp = list(c(1))),opt = kinopt(iter = 5, stderrclp = TRUE, kinspecerr = TRUE, plot = FALSE))</fitModelCall>
+    </summary>
+</GtaResult>

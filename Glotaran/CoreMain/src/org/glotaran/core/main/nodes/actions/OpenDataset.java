@@ -92,10 +92,8 @@ public final class OpenDataset extends CookieAction {
                     try {
                         if (service.Validator(f)) {
                             openDatasetFile(service, f);
-                            //TODO: pick one of the two following options (first one may not work)
-                            //cachefolder.getFileSystem().refresh(true);
+                            //TODO: find out if this is the preferred way:
                             FileUtil.refreshAll();
-
                         }
                     } catch (IOException ex) {
                         Exceptions.printStackTrace(ex);
@@ -120,7 +118,7 @@ public final class OpenDataset extends CookieAction {
         if (project != null) {
             projectCacheFolder = project.getCacheFolder(true);
         } else {
-            //TODO: allow user to select project to which files must be added
+            //TODO: allow user to select project to which files must be added instead of displaying error message
             CoreErrorMessages.noMainProjectFound();
         }
         Tgd tgd = new Tgd();

@@ -30,6 +30,7 @@ import org.glotaran.core.models.gta.GtaOutput;
 import org.glotaran.core.models.results.Dataset;
 import org.glotaran.core.models.results.DatasetRelation;
 import org.glotaran.core.models.results.GtaResult;
+import org.glotaran.core.models.results.NlsProgress;
 import org.glotaran.core.models.results.OutputFile;
 import org.glotaran.core.models.results.Summary;
 import org.glotaran.core.models.tgm.Tgm;
@@ -652,10 +653,8 @@ public class AnalysisWorker implements Runnable {
         FileObject newAnResFile = resultsfolder.createData(newAnResFileName, "xml");
         resultsObject.setSummary(new Summary());
         resultsObject.getSummary().setFitModelCall(fitModelCall);
-//TODO resolve problem with multiple modelcalls        
+        //TODO resolve problem with multiple modelcalls
         resultsObject.getSummary().setInitModelCall(modelCalls.get(0));
-//TODO fill it used schema file        
-        resultsObject.getSummary().setUsedAnalysisSchema(null);
 
         for (int i = 0; i < relationsList.size(); i++) {
             resultsObject.getDatasetRelations().add(new DatasetRelation());
@@ -696,11 +695,11 @@ public class AnalysisWorker implements Runnable {
         }
 
         if (nlsprogressResult !=null) {
-            StringBuilder nlsProgressResultsString = new StringBuilder();
             for(int i=0; i<nlsprogressResult.length; i++) {
-                nlsProgressResultsString.append(nlsprogressResult).append("\n");
-            }
-            newResultsObject.setNlsprogress(nlsProgressResultsString.toString());
+                NlsProgress progress = new NlsProgress();
+                progress.setRss(nlsprogressResult[i]);
+                newResultsObject.getNlsprogress().add(progress);
+            }            
         }
 
         for (int i = 0; i < results.length; i++) {
@@ -711,6 +710,7 @@ public class AnalysisWorker implements Runnable {
             newResultsObject.getDatasets().get(i).setDatasetFile(new OutputFile());
             newResultsObject.getDatasets().get(i).getDatasetFile().setFilename(datasetContainer.getDatasets().get(i).getFilename());
             newResultsObject.getDatasets().get(i).getDatasetFile().setPath(datasetContainer.getDatasets().get(i).getPath());
+            newResultsObject.getDatasets().get(i).getDatasetFile().setFiletype(datasets[i].getType());
             newResultsObject.getDatasets().get(i).setId(String.valueOf(i + 1));
 
             if (model.getDat().getIrfparPanel().getLamda() != null) {

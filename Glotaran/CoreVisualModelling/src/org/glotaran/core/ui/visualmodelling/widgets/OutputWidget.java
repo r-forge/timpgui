@@ -36,7 +36,8 @@ public class OutputWidget extends Widget{
         setLayout(LayoutFactory.createOverlayLayout());
         setBorder(BorderFactory.createLineBorder());//createRoundedBorder(5, 5, Color.gray, Color.black));//
         getActions().addAction(scene.getConnectAction());
-        getActions().addAction(scene.getReconnectAction());
+        //TODO implement once reconnect is working
+        //getActions().addAction(scene.getReconnectAction());
         getActions().addAction(scene.getSelectAction());
         getActions().addAction(scene.getResizeAction());
         getActions().addAction(scene.getMoveAction());
@@ -45,7 +46,8 @@ public class OutputWidget extends Widget{
         label.setOpaque(true);
         label.setBackground(Color.LIGHT_GRAY);
         label.getActions().addAction(scene.getConnectAction());
-        label.getActions().addAction(scene.getReconnectAction());
+        //TODO implement once reconnect is working
+        //label.getActions().addAction(scene.getReconnectAction());
         addChild(0, label);
         ComponentWidget componentWidget = new ComponentWidget(scene, component);
         addChild(1, componentWidget);

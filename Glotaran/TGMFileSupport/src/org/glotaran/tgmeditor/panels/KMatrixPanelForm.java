@@ -35,6 +35,9 @@ public class KMatrixPanelForm extends JPanel implements TableModelListener{
     /** Creates new form KMatrixPanel */
     public KMatrixPanelForm(TgmDataObject dObj) {
         this.dObj = dObj;
+        if(dObj.getTgm().getDat().getKMatrixPanel()==null) {
+            dObj.getTgm().getDat().setKMatrixPanel(new KMatrixPanelModel());
+        }
         this.kMatrixPanelModel = dObj.getTgm().getDat().getKMatrixPanel();
         rowHeader1 = new RowHeader(30, 30);
         rowHeader2 = new RowHeader(30, 30);

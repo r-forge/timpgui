@@ -17,18 +17,17 @@ import javax.xml.bind.annotation.XmlType;
 
 
 /**
- * <p>Java class for DatasetRelation complex type.
+ * <p>Java class for NlsProgress complex type.
  * 
  * <p>The following schema fragment specifies the expected content contained within this class.
  * 
  * <pre>
- * &lt;complexType name="DatasetRelation">
+ * &lt;complexType name="NlsProgress">
  *   &lt;complexContent>
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
- *         &lt;element name="from" type="{http://www.w3.org/2001/XMLSchema}string"/>
- *         &lt;element name="to" type="{http://www.w3.org/2001/XMLSchema}string"/>
- *         &lt;element name="values" type="{http://www.w3.org/2001/XMLSchema}double" maxOccurs="unbounded"/>
+ *         &lt;element name="rss" type="{http://www.w3.org/2001/XMLSchema}string"/>
+ *         &lt;element name="paramValue" type="{http://www.w3.org/2001/XMLSchema}double" maxOccurs="unbounded" minOccurs="0"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
  *   &lt;/complexContent>
@@ -38,81 +37,54 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "DatasetRelation", propOrder = {
-    "from",
-    "to",
-    "values"
+@XmlType(name = "NlsProgress", propOrder = {
+    "rss",
+    "paramValue"
 })
-public class DatasetRelation {
+public class NlsProgress {
 
-    @XmlElement(required = true)
-    protected String from;
-    @XmlElement(required = true)
-    protected String to;
+    @XmlElement(required = true, nillable = true)
+    protected String rss;
     @XmlElement(type = Double.class)
-    protected List<Double> values;
+    protected List<Double> paramValue;
 
     /**
-     * Gets the value of the from property.
+     * Gets the value of the rss property.
      * 
      * @return
      *     possible object is
      *     {@link String }
      *     
      */
-    public String getFrom() {
-        return from;
+    public String getRss() {
+        return rss;
     }
 
     /**
-     * Sets the value of the from property.
+     * Sets the value of the rss property.
      * 
      * @param value
      *     allowed object is
      *     {@link String }
      *     
      */
-    public void setFrom(String value) {
-        this.from = value;
+    public void setRss(String value) {
+        this.rss = value;
     }
 
     /**
-     * Gets the value of the to property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getTo() {
-        return to;
-    }
-
-    /**
-     * Sets the value of the to property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setTo(String value) {
-        this.to = value;
-    }
-
-    /**
-     * Gets the value of the values property.
+     * Gets the value of the paramValue property.
      * 
      * <p>
      * This accessor method returns a reference to the live list,
      * not a snapshot. Therefore any modification you make to the
      * returned list will be present inside the JAXB object.
-     * This is why there is not a <CODE>set</CODE> method for the values property.
+     * This is why there is not a <CODE>set</CODE> method for the paramValue property.
      * 
      * <p>
      * For example, to add a new item, do as follows:
      * <pre>
-     *    getValues().add(newItem);
+     *    getParamValue().add(newItem);
      * </pre>
      * 
      * 
@@ -122,11 +94,11 @@ public class DatasetRelation {
      * 
      * 
      */
-    public List<Double> getValues() {
-        if (values == null) {
-            values = new ArrayList<Double>();
+    public List<Double> getParamValue() {
+        if (paramValue == null) {
+            paramValue = new ArrayList<Double>();
         }
-        return this.values;
+        return this.paramValue;
     }
 
 }

@@ -33,7 +33,8 @@ public class ModelContainerWidget extends Widget{
         setBorder(BorderFactory.createRoundedBorder(5, 5, Color.gray, Color.black));//createRoundedBorder(5, 5, Color.gray, Color.black));//
         getActions().addAction(scene.getResizeAction());
         getActions().addAction(scene.getConnectAction());
-        getActions().addAction(scene.getReconnectAction());
+        //TODO implement once reconnect is working
+        //getActions().addAction(scene.getReconnectAction());
         getActions().addAction(scene.getSelectAction());
         getActions().addAction(scene.getResizeAction());
         getActions().addAction(scene.getMoveAction());
@@ -42,7 +43,8 @@ public class ModelContainerWidget extends Widget{
         label.setOpaque(true);
         label.setBackground(Color.LIGHT_GRAY);
         label.getActions().addAction(scene.getConnectAction());
-        label.getActions().addAction(scene.getReconnectAction());
+        //TODO implement once reconnect is working
+        //label.getActions().addAction(scene.getReconnectAction());
         label.setPreferredBounds(new Rectangle(new Dimension(200, 20)));
         addChild(0, label);
         ComponentWidget componentWidget = new ComponentWidget(scene, component);

@@ -82,7 +82,8 @@ public class GlotaranGraphScene extends GraphScene<Object, Object> implements Pr
     private LayerWidget backgroundLayer = new LayerWidget(this);
     private Router router = RouterFactory.createFreeRouter();
     private WidgetAction connectAction = ActionFactory.createExtendedConnectAction(interractionLayer, new GlotaranConnectProvider(this));
-    private WidgetAction reconnectAction = ActionFactory.createReconnectAction(new GlotaranReconnectProvider(this));
+    //TODO enable once reconnect is working
+    //private WidgetAction reconnectAction = ActionFactory.createReconnectAction(new GlotaranReconnectProvider(this));
     private WidgetAction moveControlPointAction = ActionFactory.createFreeMoveControlPointAction();
     private WidgetAction selectAction = ActionFactory.createSelectAction(new ObjectSelectProvider());
     private WidgetAction sceneAcceptAction = ActionFactory.createAcceptAction(new GlotaranSceneAcceptProvider(this));
@@ -227,7 +228,8 @@ public class GlotaranGraphScene extends GraphScene<Object, Object> implements Pr
         connection.setControlPointShape(PointShape.SQUARE_FILLED_BIG);
         connection.setEndPointShape(PointShape.SQUARE_FILLED_BIG);
         connectionLayer.addChild(connection);
-        connection.getActions().addAction(reconnectAction);
+        //TODO implement once reconnect is working
+        //connection.getActions().addAction(reconnectAction);
         connection.getActions().addAction(createSelectAction());
         connection.getActions().addAction(ActionFactory.createAddRemoveControlPointAction());
         connection.getActions().addAction(moveControlPointAction);
@@ -437,9 +439,10 @@ public class GlotaranGraphScene extends GraphScene<Object, Object> implements Pr
         return moveAction;
     }
 
-    public WidgetAction getReconnectAction() {
-        return reconnectAction;
-    }
+    //TODO implement once reconnect is working
+//    public WidgetAction getReconnectAction() {
+//        return reconnectAction;
+//    }
 
     public WidgetAction getSelectAction() {
         return selectAction;

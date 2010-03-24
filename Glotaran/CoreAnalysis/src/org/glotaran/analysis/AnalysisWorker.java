@@ -107,7 +107,7 @@ public class AnalysisWorker implements Runnable {
                 numIterations = NO_OF_ITERATIONS;
             }
             if (output.getOutputPath() != null) {
-                String nlsprogressResult = null;
+                String[] nlsprogressResult = null;
                 String outputPath = project.getResultsFolder(true) + File.separator + output.getOutputPath();
                 File outputFolder = new File(outputPath);
                 if (outputFolder.exists()) {
@@ -137,7 +137,7 @@ public class AnalysisWorker implements Runnable {
                     timpcontroller = Lookup.getDefault().lookup(TimpControllerInterface.class);
                     if (timpcontroller != null) {
                         results = timpcontroller.runAnalysis(datasets, modelCalls, fitModelCall);
-                        nlsprogressResult = timpcontroller.getString(TimpControllerInterface.NAME_OF_RESULT_OBJECT + "$nlsprogress");
+                        nlsprogressResult = timpcontroller.getStringArray(TimpControllerInterface.NAME_OF_RESULT_OBJECT + "$nlsprogress");
                     }
                 } else {
                     //TODO: CoreErrorMessages warning
@@ -685,7 +685,7 @@ public class AnalysisWorker implements Runnable {
         }
     }
 
-    private void writeResults(TimpResultDataset[] results, GtaModelReference modelReference, String nlsprogressResult) {
+    private void writeResults(TimpResultDataset[] results, GtaModelReference modelReference, String[] nlsprogressResult) {
         Tgm model = getModel(modelReference);
         GtaResult newResultsObject = new GtaResult();
         String freeResultsFilename = FileUtil.findFreeFileName(resultsfolder, resultsfolder.getName(), "summary");
@@ -697,9 +697,9 @@ public class AnalysisWorker implements Runnable {
 
         if (nlsprogressResult !=null) {
             StringBuilder nlsProgressResultsString = new StringBuilder();
-            //for(int i=0; i<nlsprogressResult.length; i++) {
-                nlsProgressResultsString.append(nlsprogressResult);
-            //}
+            for(int i=0; i<nlsprogressResult.length; i++) {
+                nlsProgressResultsString.append(nlsprogressResult).append("\n");
+            }
             newResultsObject.setNlsprogress(nlsProgressResultsString.toString());
         }
 

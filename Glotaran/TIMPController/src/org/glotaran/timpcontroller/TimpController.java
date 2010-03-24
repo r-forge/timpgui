@@ -522,6 +522,11 @@ public class TimpController implements TimpControllerInterface {
     public String[] getStringArray(String cmd) {
         final IREXP ret = connection.eval(new StringBuffer().append(
                 "try(").append(cmd).append(")").toString());
+        String[] result = new String[1];
+        if(ret.getType()==ret.XT_STR) {
+            result[0] = ret.asString();
+        }
+        //return ret.getType()==ret.XT_ARRAY_STR ? ret.asStringArray() : null;
         return ret.getType()==ret.XT_ARRAY_STR ? ret.asStringArray() : null;
     }
 

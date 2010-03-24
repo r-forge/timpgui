@@ -1715,8 +1715,6 @@ public final class SpecResultsTopComponent extends TopComponent implements Chart
         subchart2Panel.setMinimumDrawHeight(0);
         subchart2Panel.setMinimumDrawWidth(0);
         jPSelectedWaveTrace.add(subchart2Panel);
-//        jPSelectedWaveTrace.repaint();
-
     }
 
     private JFreeChart createChart(XYDataset dataset1) {

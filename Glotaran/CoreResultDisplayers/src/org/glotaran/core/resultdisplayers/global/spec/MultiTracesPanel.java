@@ -10,27 +10,20 @@
  */
 package org.glotaran.core.resultdisplayers.global.spec;
 
-import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Font;
 import java.util.ArrayList;
 import java.util.List;
+import org.glotaran.core.messages.CoreErrorMessages;
 import org.glotaran.core.models.structures.TimpResultDataset;
 import org.glotaran.core.resultdisplayers.common.panels.CommonTools;
 import org.glotaran.core.resultdisplayers.common.panels.RelationFrom;
-import org.glotaran.jfreechartcustom.GlotaranDrawingSupplier;
 import org.glotaran.jfreechartcustom.GraphPanel;
-import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
-import org.jfree.chart.JFreeChart;
-import org.jfree.chart.axis.AxisLocation;
 import org.jfree.chart.axis.NumberAxis;
-import org.jfree.chart.axis.ValueAxis;
 import org.jfree.chart.panel.CrosshairOverlay;
-import org.jfree.chart.plot.CombinedDomainXYPlot;
 import org.jfree.chart.plot.Crosshair;
-import org.jfree.chart.plot.PlotOrientation;
-import org.jfree.chart.plot.XYPlot;
+import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 import org.jfree.data.xy.YIntervalSeries;
 import org.jfree.data.xy.YIntervalSeriesCollection;
@@ -46,11 +39,10 @@ public class MultiTracesPanel extends javax.swing.JPanel {
     private RelationFrom relation = null;
     private List<TimpResultDataset> resultDatasets = null;
     private GraphPanel spectraImage;
-    private Crosshair crosshair;
-    private JFreeChart subchartTimeTrace;
-    private JFreeChart subchartResidualsTime;
+    private Crosshair crosshair;    
     private TimpResultDataset fromDataset;
     private double[] t0curveFrom = null;
+    private double threshhold = 0;
     private ArrayList<double[]> t0curvesTo = new ArrayList<double[]>();
 
     int numberOfComponents;
@@ -60,12 +52,15 @@ public class MultiTracesPanel extends javax.swing.JPanel {
         initComponents();
     }
 
-    public MultiTracesPanel(RelationFrom relations, List<TimpResultDataset> results) {
+    public MultiTracesPanel(RelationFrom relations, List<TimpResultDataset> results, Double thresh) {
         initComponents();
         relation = relations;
         resultDatasets = results;
         fromDataset = results.get(relations.indexFrom);
         t0curveFrom = CommonTools.calculateDispersionTrace(fromDataset);
+        if (thresh != null){
+           threshhold =  thresh;
+        }
         for (int i = 0; i < relation.scaledDatasets.size(); i++){
             t0curvesTo.add(CommonTools.calculateDispersionTrace(results.get(relation.scaledDatasets.get(i).indexTo)));
         }
@@ -220,36 +215,26 @@ public class MultiTracesPanel extends javax.swing.JPanel {
 }//GEN-LAST:event_jSWavelengthsStateChanged
 
     private void jTBLinLogActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTBLinLogActionPerformed
-//        if (jTBLinLog.isSelected()){
-//            try {
-//                updateLinLogPlotSumary();
-//            } catch (Exception e) {
-//                CoreErrorMessages.updLinLogException();
-//                jTBLinLog.setSelected(false);
-//            }
-//        } else {
-//            ChartPanel conc = createLinTimePlot(res.getConcentrations(), res.getX());
-//            ChartPanel lsv =createLinTimePlot(leftSingVec, res.getX());
-//            lsv.getChart().setTitle("Left singular vectors");
-//            lsv.getChart().getTitle().setFont(new Font(lsv.getChart().getTitle().getFont().getFontName(), Font.PLAIN, 12));
-//            jPConcentrations.removeAll();
-//            //            conc.setSize(jPConcentrations.getSize());
-//            jPConcentrations.add(conc);
-//            jPConcentrations.validate();
-//            jPLeftSingVectors.removeAll();
-//            //            lsv.setSize(jPLeftSingVectors.getSize());
-//            jPLeftSingVectors.add(lsv);
-//            jPLeftSingVectors.validate();
-//            jBUpdLinLog.setEnabled(false);
-//        }
+        if (jTBLinLog.isSelected()){
+            try {
+                updateTrace(jSWavelengths.getValue());
+                jBUpdLinLog.setEnabled(true);
+            } catch (Exception e) {
+                CoreErrorMessages.updLinLogException();
+                jTBLinLog.setSelected(false);
+            }
+        } else {
+            updateTrace(jSWavelengths.getValue());
+            jBUpdLinLog.setEnabled(false);
+        }
 }//GEN-LAST:event_jTBLinLogActionPerformed
 
     private void jBUpdLinLogActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBUpdLinLogActionPerformed
-//        try {
-//            updateLinLogPlotSumary();
-//        } catch (Exception e) {
-//            CoreErrorMessages.updLinLogException();
-//        }
+        try {
+            updateTrace(jSWavelengths.getValue());
+        } catch (Exception e) {
+            CoreErrorMessages.updLinLogException();
+        }
 }//GEN-LAST:event_jBUpdLinLogActionPerformed
 
     private void jTBShowChohSpecActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTBShowChohSpecActionPerformed
@@ -279,7 +264,6 @@ public class MultiTracesPanel extends javax.swing.JPanel {
         YIntervalSeriesCollection realSasCollection = new YIntervalSeriesCollection();
         YIntervalSeries seria;
 
-//        XYSeries seria;
 //create collection of sas(eas)
         for (int j = 0; j < numComp; j++) {
             seria = new YIntervalSeries(specName + (j + 1));// new XYSeries(specName + (j + 1));
@@ -300,6 +284,8 @@ public class MultiTracesPanel extends javax.swing.JPanel {
         CrosshairOverlay overlay = new CrosshairOverlay();
         overlay.addDomainCrosshair(crosshair);
         chartPanel.addOverlay(overlay);
+        chartPanel.getChart().getXYPlot().getDomainAxis().setLowerMargin(0.0);
+        chartPanel.getChart().getXYPlot().getDomainAxis().setUpperMargin(0.0);
         return chartPanel;
     }
 
@@ -310,103 +296,121 @@ public class MultiTracesPanel extends javax.swing.JPanel {
         crosshair.setLabelAnchor(RectangleAnchor.BOTTOM_RIGHT);
     }
 
-    private ChartPanel createTraceResidChart(TimpResultDataset res) {
-
-//make timetrace chart
-        XYSeriesCollection dataset1 = new XYSeriesCollection();
-        subchartResidualsTime = ChartFactory.createXYLineChart(
-                null,
-                null,
-                null,
-                dataset1,
-                PlotOrientation.VERTICAL,
-                false,
-                false,
-                false);
-        subchartTimeTrace = ChartFactory.createXYLineChart(
-                null,
-                null,
-                null,
-                dataset1,
-                PlotOrientation.VERTICAL,
-                false,
-                false,
-                false);
-
-        subchartTimeTrace.getXYPlot().getDomainAxis().setUpperBound(res.getX()[res.getX().length - 1]);
-        subchartResidualsTime.getXYPlot().getDomainAxis().setUpperBound(res.getX()[res.getX().length - 1]);
-
-        XYPlot plot1_1 = subchartTimeTrace.getXYPlot();
-        plot1_1.getDomainAxis().setLowerMargin(0.0);
-        plot1_1.getDomainAxis().setUpperMargin(0.0);
-        plot1_1.setDomainAxisLocation(AxisLocation.BOTTOM_OR_LEFT);
-        plot1_1.getDomainAxis().setInverted(true);
-        plot1_1.setRangeZeroBaselineVisible(true);
-
-        XYPlot plot1_2 = subchartResidualsTime.getXYPlot();
-        plot1_2.getDomainAxis().setLowerMargin(0.0);
-        plot1_2.getDomainAxis().setUpperMargin(0.0);
-        plot1_2.setDomainAxisLocation(AxisLocation.BOTTOM_OR_LEFT);
-        plot1_2.getDomainAxis().setInverted(true);
-        plot1_2.setRangeZeroBaselineVisible(true);
-
-        NumberAxis xAxis = new NumberAxis("Time");
-        xAxis.setRange(res.getX()[0], res.getX()[res.getX().length - 1]);
-        xAxis.setUpperBound(res.getX()[res.getX().length - 1]);
-        CombinedDomainXYPlot plot = new CombinedDomainXYPlot(xAxis);
-        plot.setGap(10.0);
-        plot.add(plot1_1, 3);
-        plot.add(plot1_2, 1);
-        plot.setOrientation(PlotOrientation.VERTICAL);
-        JFreeChart tracechart = new JFreeChart(null, JFreeChart.DEFAULT_TITLE_FONT, plot, true);
-        tracechart.getLegend().setVisible(false);
-        ChartPanel chpan = new ChartPanel(tracechart, true);
-        chpan.setMinimumDrawHeight(0);
-        chpan.setMinimumDrawWidth(0);
-        return chpan;
-    }
-
     private void updateTrace(int xIndex) {
-        if (true) {
-            XYSeriesCollection trace = CommonTools.createFitRawTraceCollection(xIndex, 0, fromDataset.getX().length, fromDataset, t0curveFrom[xIndex],"From");
-            XYSeriesCollection resid = CommonTools.createResidTraceCollection(xIndex, 0, fromDataset.getX().length, fromDataset, t0curveFrom[xIndex],"From");
+        boolean linlog = jTBLinLog.isSelected();
+        XYSeriesCollection trace = null;
+        XYSeriesCollection resid = null;
+        XYSeriesCollection traceTo = null;
+        XYSeriesCollection residTo = null;
 
-            XYSeriesCollection traceTo = null;
-            XYSeriesCollection residTo = null;
-            TimpResultDataset toDataset = null;
-            int indexTo = 0;
-            double toValue = 1;
-            for (int i = 0; i < relation.scaledDatasets.size(); i++){
-                indexTo = relation.scaledDatasets.get(i).indexTo;
-                toDataset = resultDatasets.get(indexTo);
-                toValue = relation.scaledDatasets.get(i).valueTo;
-                traceTo = CommonTools.createFitRawTraceCollection(xIndex, 0, toDataset.getX().length,toDataset, t0curvesTo.get(i)[xIndex], ("to"+i), toValue);
-                residTo = CommonTools.createResidTraceCollection(xIndex, 0, toDataset.getX().length,toDataset, t0curvesTo.get(i)[xIndex], ("to"+i), toValue);
-                trace.addSeries(traceTo.getSeries(0));
-                trace.addSeries(traceTo.getSeries(1));
-                resid.addSeries(residTo.getSeries(0));
-            }
+        XYSeriesCollection traceLog = null;
+        XYSeriesCollection residLog = null;
+        XYSeriesCollection traceToLog = null;
+        XYSeriesCollection residToLog = null;
 
-            ChartPanel linTime = CommonTools.makeLinTimeTraceResidChart(trace, resid, new NumberAxis("Time"), null, true);
+        
+        XYSeries emptySer = new XYSeries("");
+        emptySer.add(0.0, 0.0);
+        TimpResultDataset toDataset = null;
+        int indexTo = 0;
+        double toValue = 1;
+        int toIndex;
 
-            jPTraces.removeAll();
-            jPTraces.add(linTime);
-            jPTraces.validate();
-        } else {
-//            ChartPanel linLogTime = makeLinLogTimeTraceResidChart(xIndex);
-//            jPSelectedTimeTrace.removeAll();
-//            jPSelectedTimeTrace.add(linLogTime);
-//            jPSelectedTimeTrace.validate();
-//            if (leftSingVecPart!=null){
-//                double linPortion = Double.valueOf(jTFLinPartTraces.getText());
-//                ChartPanel lsv = createLinLogTimePlot(t0Curve[0], linPortion, leftSingVecPart, timePart);
-//                lsv.getChart().setTitle("Left singular vectors");
-//                lsv.getChart().getTitle().setFont(new Font(lsv.getChart().getTitle().getFont().getFontName(), Font.PLAIN, 12));
-//                jPLeftSingVectorsPart.removeAll();
-//                jPLeftSingVectorsPart.add(lsv);
-//                jPLeftSingVectorsPart.validate();
-//            }
+        if (!linlog) {
+            trace = CommonTools.createFitRawTraceCollection(xIndex, 0, fromDataset.getX().length, fromDataset, t0curveFrom[xIndex],"From");
+            resid = CommonTools.createResidTraceCollection(xIndex, 0, fromDataset.getX().length, fromDataset, t0curveFrom[xIndex],"From");
         }
-
+        else {
+            double portion = Double.valueOf(jTFLinPart.getText());
+            int index = 0;
+            while (fromDataset.getX()[index] < t0curveFrom[xIndex] + portion) {
+                index++;
+            }
+                if (index == 0) {
+                index = 1;
+            }
+            trace = CommonTools.createFitRawTraceCollection(xIndex, 0, index, fromDataset, t0curveFrom[xIndex],"FromLin");
+            resid = CommonTools.createResidTraceCollection(xIndex, 0, index, fromDataset, t0curveFrom[xIndex],"FromLin");
+            traceLog = CommonTools.createFitRawTraceCollection(xIndex, index-1, fromDataset.getX().length, fromDataset, t0curveFrom[xIndex],"FromLog");
+            residLog = CommonTools.createResidTraceCollection(xIndex, index-1, fromDataset.getX().length, fromDataset, t0curveFrom[xIndex],"FromLog");
+        }
+            for (int i = 0; i < relation.scaledDatasets.size(); i++) {
+            indexTo = relation.scaledDatasets.get(i).indexTo;
+            toDataset = resultDatasets.get(indexTo);
+            toValue = relation.scaledDatasets.get(i).valueTo;
+            if (toDataset.getX2().length > xIndex) {
+                toIndex = CommonTools.findIndexForWave(fromDataset.getX2()[xIndex], threshhold, toDataset);
+                if (toIndex != -1) {
+                    if (!linlog) {
+                        traceTo = CommonTools.createFitRawTraceCollection(toIndex, 0, toDataset.getX().length, toDataset, t0curvesTo.get(i)[toIndex], ("to" + i), toValue);
+                        residTo = CommonTools.createResidTraceCollection(toIndex, 0, toDataset.getX().length, toDataset, t0curvesTo.get(i)[toIndex], ("to" + i), toValue);
+                        trace.addSeries(traceTo.getSeries(0));
+                        trace.addSeries(traceTo.getSeries(1));
+                        resid.addSeries(residTo.getSeries(0));
+                    } else {
+                        double portion = Double.valueOf(jTFLinPart.getText());
+                        int index = 0;
+                        while (toDataset.getX()[index] < t0curvesTo.get(i)[xIndex] + portion) {
+                            index++;
+                        }
+                        if (index == 0) {
+                            index = 1;
+                        }
+                        traceTo = CommonTools.createFitRawTraceCollection(toIndex, 0, index, toDataset, t0curvesTo.get(i)[toIndex], ("toLin" + i),toValue);
+                        residTo = CommonTools.createResidTraceCollection(toIndex, 0, index, toDataset, t0curvesTo.get(i)[toIndex], ("toLin"+ + i),toValue);
+                        traceToLog = CommonTools.createFitRawTraceCollection(toIndex, index-1, toDataset.getX().length, toDataset, t0curvesTo.get(i)[toIndex], ("toLog"+i),toValue);
+                        residToLog = CommonTools.createResidTraceCollection(toIndex, index-1, toDataset.getX().length, toDataset, t0curvesTo.get(i)[toIndex], ("toLog"+i),toValue);
+                                               
+                        trace.addSeries(traceTo.getSeries(0));
+                        trace.addSeries(traceTo.getSeries(1));
+                        resid.addSeries(residTo.getSeries(0));
+                        traceLog.addSeries(traceToLog.getSeries(0));
+                        traceLog.addSeries(traceToLog.getSeries(1));
+                        residLog.addSeries(residToLog.getSeries(0));
+                    }
+                } else {
+                    emptySer.setKey("EmptyTrace" + String.valueOf(i));
+                    trace.addSeries(emptySer);
+                    emptySer.setKey("EmptyFit" + String.valueOf(i));
+                    trace.addSeries(emptySer);
+                    emptySer.setKey("EmptyResid" + String.valueOf(i));
+                    resid.addSeries(emptySer);
+                    if (linlog){
+                        emptySer.setKey("EmptyTraceLog" + String.valueOf(i));
+                        traceLog.addSeries(emptySer);
+                        emptySer.setKey("EmptyFitLog" + String.valueOf(i));
+                        traceLog.addSeries(emptySer);
+                        emptySer.setKey("EmptyResidLog" + String.valueOf(i));
+                        residLog.addSeries(emptySer);
+                    }
+                }
+            } else {
+                emptySer.setKey("EmptyTrace" + String.valueOf(i));
+                trace.addSeries(emptySer);
+                emptySer.setKey("EmptyFit" + String.valueOf(i));
+                trace.addSeries(emptySer);
+                emptySer.setKey("EmptyResid" + String.valueOf(i));
+                resid.addSeries(emptySer);
+                if (linlog){
+                    emptySer.setKey("EmptyTraceLog" + String.valueOf(i));
+                    traceLog.addSeries(emptySer);
+                    emptySer.setKey("EmptyFitLog" + String.valueOf(i));
+                    traceLog.addSeries(emptySer);
+                    emptySer.setKey("EmptyResidLog" + String.valueOf(i));
+                    residLog.addSeries(emptySer);
+                }
+            }
+        }
+        
+        ChartPanel tracesPanel = null;
+        if (linlog){
+            tracesPanel = CommonTools.makeLinLogTimeTraceResidChart(trace, resid, traceLog, residLog, null, true);
+        }
+        else {
+            tracesPanel = CommonTools.makeLinTimeTraceResidChart(trace, resid, new NumberAxis("Time"), null, true);
+        }
+        jPTraces.removeAll();
+        jPTraces.add(tracesPanel);
+        jPTraces.validate();
     }
 }

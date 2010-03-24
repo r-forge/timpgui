@@ -83,10 +83,9 @@ public final class GlobalSpecResultsDisplayerTopComponent extends CloneableTopCo
             if (!relationGroups.isEmpty()){
 //for every relations group create tab with comparions spectra coming from "from dataset"
                 for (int i = 0; i < relationGroups.size(); i++){
-                    jTabbedPane1.addTab("GroupCompare", new MultiTracesPanel(relationGroups.get(i), results));
+                    jTabbedPane1.addTab("GroupCompare", new MultiTracesPanel(relationGroups.get(i), results, null));
                 }
             }
-            
         }
         else {
 

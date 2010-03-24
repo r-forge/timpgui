@@ -16,13 +16,20 @@ import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.axis.AxisLocation;
+import org.jfree.chart.axis.LogAxis;
+import org.jfree.chart.axis.NumberAxis;
 import org.jfree.chart.axis.ValueAxis;
 import org.jfree.chart.plot.CombinedDomainXYPlot;
+import org.jfree.chart.plot.CombinedRangeXYPlot;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.plot.XYPlot;
+import org.jfree.chart.renderer.AbstractRenderer;
+import org.jfree.chart.title.LegendTitle;
+import org.jfree.data.Range;
 import org.jfree.data.xy.XYDataset;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
+import org.jfree.ui.RectangleEdge;
 import static java.lang.Math.ceil;
 import static java.lang.Math.pow;
 
@@ -109,65 +116,50 @@ public class CommonTools {
         chpan.setMinimumDrawWidth(0);
         return chpan;
     }
-//    public static ChartPanel makeLinTimeTraceResidChart(XYSeriesCollection trace, XYSeriesCollection residuals, ValueAxis xAxis, String name){
-//        JFreeChart subchartResiduals = ChartFactory.createXYLineChart(
-//            null,
-//            null,
-//            null,
-//            residuals,
-//            PlotOrientation.VERTICAL,
-//            false,
-//            false,
-//            false
-//        );
-//        JFreeChart subchartTrace = ChartFactory.createXYLineChart(
-//            null,
-//            null,
-//            null,
-//            trace,
-//            PlotOrientation.VERTICAL,
-//            false,
-//            false,
-//            false
-//        );
-//        XYPlot plot1_1 = subchartTrace.getXYPlot();
-//        plot1_1.getDomainAxis().setLowerMargin(0.0);
-//        plot1_1.getDomainAxis().setUpperMargin(0.0);
-//        plot1_1.setDomainAxisLocation(AxisLocation.BOTTOM_OR_LEFT);
-//        plot1_1.getDomainAxis().setInverted(true);
-//        plot1_1.setRangeZeroBaselineVisible(true);
-//
-//        XYPlot plot1_2 = subchartResiduals.getXYPlot();
-//        plot1_2.getDomainAxis().setLowerMargin(0.0);
-//        plot1_2.getDomainAxis().setUpperMargin(0.0);
-//        plot1_2.setDomainAxisLocation(AxisLocation.BOTTOM_OR_LEFT);
-//        plot1_2.getDomainAxis().setInverted(true);
-//        plot1_2.setRangeZeroBaselineVisible(true);
-//
-//        CombinedDomainXYPlot plot = new CombinedDomainXYPlot(xAxis);
-//        plot.setGap(5.0);
-//        plot.add(plot1_1, 3);
-//        plot.add(plot1_2, 1);
-//        plot.setOrientation(PlotOrientation.VERTICAL);
-//        plot.getDomainAxis().setLowerMargin(0.0);
-//        plot.getDomainAxis().setUpperMargin(0.0);
-//        Font titleFont = new Font(JFreeChart.DEFAULT_TITLE_FONT.getFontName(),JFreeChart.DEFAULT_TITLE_FONT.getStyle(),12);
-//        JFreeChart tracechart = new JFreeChart(name, titleFont, plot, true);
-//        tracechart.getLegend().setVisible(false);
-//        ChartPanel chpan = new ChartPanel(tracechart,true);
-//        chpan.setMinimumDrawHeight(0);
-//        chpan.setMinimumDrawWidth(0);
-//        return chpan;
-//    }
+
+    public static ChartPanel makeLinLogTimeTraceResidChart(XYSeriesCollection trace, XYSeriesCollection resid, XYSeriesCollection traceLog, XYSeriesCollection residLog, String name, boolean multy) {
+        NumberAxis yAxis = new NumberAxis();
+        yAxis.setVisible(false);
+        ChartPanel linTime = CommonTools.makeLinTimeTraceResidChart(trace, resid, new NumberAxis("Time"), name, multy);
+        ChartPanel logTime = CommonTools.makeLinTimeTraceResidChart(traceLog, residLog, new LogAxis("log(Time)"), name, multy);
+        CombinedDomainXYPlot linPlot = (CombinedDomainXYPlot) linTime.getChart().getPlot();
+        CombinedDomainXYPlot logPlot = (CombinedDomainXYPlot) logTime.getChart().getPlot();
+
+        CombinedRangeXYPlot plot = new CombinedRangeXYPlot(yAxis);
+        plot.setGap(-8);
+        plot.add(linPlot);
+        plot.add(logPlot);
+
+        Range residRange = Range.combine(
+                ((XYPlot) linPlot.getSubplots().get(1)).getRangeAxis().getRange(),
+                ((XYPlot) logPlot.getSubplots().get(1)).getRangeAxis().getRange());
+
+        ((XYPlot) linPlot.getSubplots().get(0)).getRangeAxis().setRange(yAxis.getRange());
+        ((XYPlot) logPlot.getSubplots().get(0)).getRangeAxis().setRange(yAxis.getRange());
+        ((XYPlot) linPlot.getSubplots().get(1)).getRangeAxis().setRange(residRange);
+        ((XYPlot) logPlot.getSubplots().get(1)).getRangeAxis().setRange(residRange);
+        ((XYPlot) logPlot.getSubplots().get(0)).getRangeAxis().setVisible(false);
+        ((XYPlot) logPlot.getSubplots().get(1)).getRangeAxis().setVisible(false);
+
+        Font titleFont = new Font(JFreeChart.DEFAULT_TITLE_FONT.getFontName(), JFreeChart.DEFAULT_TITLE_FONT.getStyle(), 12);
+        JFreeChart tracechart = new JFreeChart(null, titleFont, plot, true);
+        LegendTitle legend = new LegendTitle(linPlot);
+        legend.setPosition(RectangleEdge.BOTTOM);
+        tracechart.removeLegend();
+        legend.setVisible(false);
+        tracechart.addLegend(legend);
+
+        return new ChartPanel(tracechart, true);
+    }
 
     public static XYSeriesCollection createFitRawTraceCollection(int xIndex, int startInd, int stopInd, TimpResultDataset data){
         return createFitRawTraceCollection(xIndex,startInd,stopInd,data,0, "");
     }
     
-    public static XYSeriesCollection createFitRawTraceCollection(int xIndex, int startInd, int stopInd, TimpResultDataset data,double t0, String name){
+    public static XYSeriesCollection createFitRawTraceCollection(int xIndex, int startInd, int stopInd, TimpResultDataset data, double t0, String name){
         return createFitRawTraceCollection(xIndex,startInd,stopInd,data,t0, name, 1);
     }
-    public static XYSeriesCollection createFitRawTraceCollection(int xIndex, int startInd, int stopInd, TimpResultDataset data,double t0, String name, double scaleVal){
+    public static XYSeriesCollection createFitRawTraceCollection(int xIndex, int startInd, int stopInd, TimpResultDataset data, double t0, String name, double scaleVal){
 
         XYSeriesCollection trace = new XYSeriesCollection();
         XYSeries series1 = new XYSeries("Trace"+name);
@@ -231,6 +223,31 @@ public class CommonTools {
         }
         return t0Curve;
     }
-
+    public static int findIndexForWave(double wave, double thresh, TimpResultDataset res){
+        int index = 0;
+        if (res.getX2()[0]<res.getX2()[1]){
+            //wavelengths
+            if (wave < res.getX2()[0]-thresh){
+                return -1;
+            }
+            else {
+                while (wave>res.getX2()[index]+thresh){
+                    index++;
+                }
+                return index;
+            }
+        } else {
+            //wavenambers
+            if (wave > res.getX2()[0]+thresh){
+                return -1;
+            }
+            else {
+                while (wave<res.getX2()[index]-thresh){
+                    index++;
+                }
+                return index;
+            }
+        }
+    }
 
 }

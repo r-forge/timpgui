@@ -2,7 +2,6 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package org.glotaran.core.ui.visualmodelling.nodes;
 
 import java.awt.Image;
@@ -22,15 +21,16 @@ import org.openide.util.lookup.Lookups;
  *
  * @author slapten
  */
-public class WeighParametersSubNode extends PropertiesAbstractNode implements PropertyChangeListener{
+public class WeighParametersSubNode extends PropertiesAbstractNode implements PropertyChangeListener {
+
     private final Image ICON = ImageUtilities.loadImage("org/glotaran/core/ui/visualmodelling/resources/Subnode_16.png", true);
 //    private NonLinearParameter dataObj;
 
-    public WeighParametersSubNode(WeightParameter data){
-        super("Weight parameter",Children.LEAF, Lookups.singleton(data));
+    public WeighParametersSubNode(WeightParameter data) {
+        super("Weight parameter", Children.LEAF, Lookups.singleton(data));
         data.addPropertyChangeListener(WeakListeners.propertyChange(this, data));
     }
-    
+
     @Override
     public Image getIcon(int type) {
         return ICON;
@@ -83,7 +83,7 @@ public class WeighParametersSubNode extends PropertiesAbstractNode implements Pr
 
     @Override
     public void destroy() throws IOException {
-        WeightParametersNode parent = (WeightParametersNode)getParentNode();
+        WeightParametersNode parent = (WeightParametersNode) getParentNode();
         int ind = 0;
         for (int i = 0; i < parent.getChildren().getNodes().length; i++) {
             if (this.equals(parent.getChildren().getNodes()[i])) {
@@ -102,7 +102,7 @@ public class WeighParametersSubNode extends PropertiesAbstractNode implements Pr
                 ind = i;
             }
         }
-        ((PropertiesAbstractNode)this.getParentNode()).fire(ind, evt);
+        ((PropertiesAbstractNode) this.getParentNode()).fire(ind, evt);
         this.fireDisplayNameChange(null, getDisplayName());
     }
 }

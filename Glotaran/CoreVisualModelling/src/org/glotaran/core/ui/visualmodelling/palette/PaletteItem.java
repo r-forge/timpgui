@@ -2,7 +2,6 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package org.glotaran.core.ui.visualmodelling.palette;
 
 import java.awt.Image;
@@ -23,7 +22,6 @@ public class PaletteItem {//implements Transferable {
     private Image image;
     private String imageLocation;
 //    public static final DataFlavor DATA_FLAVOR = new DataFlavor(PaletteItem.class, "PaletteItem");
-
 
     /** Creates a new instance of Instrument */
     public PaletteItem() {
@@ -84,6 +82,4 @@ public class PaletteItem {//implements Transferable {
 //            throw new UnsupportedFlavorException(flavor);
 //        }
 //    }
-
-
 }

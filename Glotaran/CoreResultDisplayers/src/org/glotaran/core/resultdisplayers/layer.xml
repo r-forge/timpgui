@@ -13,13 +13,6 @@
                 <attr name="type" stringvalue="org.openide.loaders.DataObject"/>
             </file>
         </folder>
-        <folder name="Window">
-            <file name="org-glotaran-core-resultdisplayers-global-spec-GlobalSpecResultsDisplayerAction.instance">
-                <attr name="component" methodvalue="org.glotaran.core.resultdisplayers.global.spec.GlobalSpecResultsDisplayerTopComponent.findInstance"/>
-                <attr name="displayName" bundlevalue="org.glotaran.core.resultdisplayers.global.spec.Bundle#CTL_GlobalSpecResultsDisplayerAction"/>
-                <attr name="instanceCreate" methodvalue="org.openide.windows.TopComponent.openAction"/>
-            </file>
-        </folder>
     </folder>
     <folder name="Loaders">
         <folder name="text">
@@ -38,15 +31,20 @@
             <file name="GlobalSpecResultsDisplayerAction.shadow">
                 <attr name="originalFile" stringvalue="Actions/Window/org-glotaran-core-resultdisplayers-global-spec-GlobalSpecResultsDisplayerAction.instance"/>
             </file>
+            <file name="ResultsSummarizerAction.shadow">
+                <attr name="originalFile" stringvalue="Actions/Window/org-glotaran-core-resultdisplayers-results-ResultsSummarizerAction.instance"/>
+            </file>
         </folder>
     </folder>
     <folder name="Windows2">
         <folder name="Components">
             <file name="GlobalSpecResultsDisplayerTopComponent.settings" url="GlobalSpecResultsDisplayerTopComponentSettings.xml"/>
+            <file name="ResultsSummarizerTopComponent.settings" url="ResultsSummarizerTopComponentSettings.xml"/>
         </folder>
         <folder name="Modes">
             <folder name="editor">
                 <file name="GlobalSpecResultsDisplayerTopComponent.wstcref" url="GlobalSpecResultsDisplayerTopComponentWstcref.xml"/>
+                <file name="ResultsSummarizerTopComponent.wstcref" url="ResultsSummarizerTopComponentWstcref.xml"/>
             </folder>
         </folder>
     </folder>

@@ -3,7 +3,6 @@
  *
  * Created on July 20, 2008, 11:19 PM
  */
-
 package org.glotaran.tgmeditor.panels;
 
 import javax.swing.JComponent;
@@ -17,17 +16,18 @@ import org.netbeans.modules.xml.multiview.ui.SectionView;
  * @author  joris
  */
 public class TgmPanel extends SectionInnerPanel {
+
     private TgmDataObject dObj;
     private Tgm tgm;
 
     /** Creates new form TgmPanel */
     public TgmPanel(SectionView view, TgmDataObject dObj, Tgm tgm) {
         super(view);
-        this.dObj=dObj;
-        this.tgm=tgm;
+        this.dObj = dObj;
+        this.tgm = tgm;
         initComponents();
         // Here is where we initialize the gui's components.
-        if (tgm.getDat().getModelName()==null) {
+        if (tgm.getDat().getModelName() == null) {
             tgm.getDat().setModelName("defaultModelName");
         }
     }
@@ -48,26 +48,15 @@ public class TgmPanel extends SectionInnerPanel {
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel1)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
+                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(layout.createSequentialGroup().addContainerGap().addComponent(jLabel1).addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)));
         layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel1)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
+                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(layout.createSequentialGroup().addContainerGap().addComponent(jLabel1).addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)));
     }// </editor-fold>//GEN-END:initComponents
 
     @Override
     public void setValue(JComponent source, Object value) {
-      
     }
-    
+
     @Override
     protected void endUIChange() { //signalUIChange() {
         dObj.modelUpdatedFromUI();
@@ -80,10 +69,7 @@ public class TgmPanel extends SectionInnerPanel {
     public JComponent getErrorComponent(String arg0) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
-
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
     // End of variables declaration//GEN-END:variables
-
 }

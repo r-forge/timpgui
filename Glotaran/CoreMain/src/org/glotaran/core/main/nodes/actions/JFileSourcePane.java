@@ -27,12 +27,13 @@ import org.glotaran.core.interfaces.TGDatasetInterface;
 import org.openide.util.Lookup;
 
 final class JFileSourcePane extends javax.swing.JPanel {
+
     private final Collection<? extends TGDatasetInterface> services;
 
     JFileSourcePane() {
-       this(null);
+        this(null);
     }
-      
+
     /** 
      * Creates new form panel, similar to a JFileChooser panel.
      * @param openPath : default path to open
@@ -44,11 +45,11 @@ final class JFileSourcePane extends javax.swing.JPanel {
 
         services = Lookup.getDefault().lookupAll(TGDatasetInterface.class);
 
-        for(final TGDatasetInterface service : services){
-            gui_choose.addChoosableFileFilter(new FileNameExtensionFilter(service.getFilterString(),service.getExtention()));
+        for (final TGDatasetInterface service : services) {
+            gui_choose.addChoosableFileFilter(new FileNameExtensionFilter(service.getFilterString(), service.getExtention()));
         }
-        
-        if(openPath != null){
+
+        if (openPath != null) {
             gui_choose.setCurrentDirectory(openPath);
         }
         gui_choose.setMultiSelectionEnabled(true);
@@ -57,17 +58,17 @@ final class JFileSourcePane extends javax.swing.JPanel {
     /**
      * Go to the given directory.
      */
-    final void setDirectory(final File directory){
+    final void setDirectory(final File directory) {
         gui_choose.setCurrentDirectory(directory);
     }
 
     /**
      * Get the current directory.
      */
-   final File getDirectory(){
+    final File getDirectory() {
         return gui_choose.getCurrentDirectory();
     }
-    
+
     /** This method is called from within the constructor to
      * initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is
@@ -83,15 +84,10 @@ final class JFileSourcePane extends javax.swing.JPanel {
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(gui_choose, javax.swing.GroupLayout.DEFAULT_SIZE, 614, Short.MAX_VALUE)
-        );
+                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addComponent(gui_choose, javax.swing.GroupLayout.DEFAULT_SIZE, 614, Short.MAX_VALUE));
         layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(gui_choose, javax.swing.GroupLayout.DEFAULT_SIZE, 407, Short.MAX_VALUE)
-        );
+                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addComponent(gui_choose, javax.swing.GroupLayout.DEFAULT_SIZE, 407, Short.MAX_VALUE));
     }// </editor-fold>//GEN-END:initComponents
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JFileChooser gui_choose;
     // End of variables declaration//GEN-END:variables

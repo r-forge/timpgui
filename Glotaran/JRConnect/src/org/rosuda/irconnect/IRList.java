@@ -9,11 +9,13 @@ package org.rosuda.irconnect;
 @Deprecated
 public interface IRList {
 
-	IREXP getBody();
-	IREXP getHead();
-	IREXP getTag();
-	String[] keys();
-	IREXP at(String string);
+    IREXP getBody();
 
+    IREXP getHead();
 
+    IREXP getTag();
+
+    String[] keys();
+
+    IREXP at(String string);
 }

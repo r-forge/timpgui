@@ -31,19 +31,20 @@ public class AnalysisResultDataObject extends MultiDataObject {
         CookieSet cookies = getCookieSet();
         cookies.add((Node.Cookie) DataEditorSupport.create(this, getPrimaryEntry(), cookies));
         if (!(FileUtil.toFile(this.getPrimaryFile()) == null)) {
-        getAnalysisResult();
+            getAnalysisResult();
         }
     }
 
     @Override
     protected Node createNodeDelegate() {
-        return new DataNode(this, Children.LEAF, getLookup()){
+        return new DataNode(this, Children.LEAF, getLookup()) {
+
             private final Image ICON = ImageUtilities.loadImage("org/glotaran/analysisresultfilesupport/AnalysisResultsObject16.png", true);
+
             @Override
             public Image getIcon(int type) {
                 return ICON;
             }
-
         };
     }
 

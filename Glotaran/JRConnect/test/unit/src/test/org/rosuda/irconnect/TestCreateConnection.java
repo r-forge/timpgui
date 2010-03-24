@@ -8,7 +8,7 @@ import org.rosuda.rengine.REngineConnectionFactory;
  *
  * @author Ralf
  */
-public class TestCreateConnection extends TestCase{
+public class TestCreateConnection extends TestCase {
 
     public void testCreateREngineConnection() {
         IRConnection irConnection = new REngineConnectionFactory().createRConnection(null);
@@ -30,5 +30,4 @@ public class TestCreateConnection extends TestCase{
         irConnection3.close();
         irConnection4.close();
     }
-
 }

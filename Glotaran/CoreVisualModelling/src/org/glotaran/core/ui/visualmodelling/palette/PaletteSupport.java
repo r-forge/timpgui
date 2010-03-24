@@ -2,7 +2,6 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package org.glotaran.core.ui.visualmodelling.palette;
 
 import java.awt.datatransfer.DataFlavor;
@@ -17,7 +16,6 @@ import org.openide.nodes.AbstractNode;
 import org.openide.util.Lookup;
 import org.openide.util.datatransfer.ExTransferable;
 
-
 /**
  *
  * @author dave
@@ -27,10 +25,11 @@ public class PaletteSupport {
     public static PaletteController createPalette() {
         AbstractNode paletteRoot = new AbstractNode(new CategoryChildren());
         paletteRoot.setName("Palette Root");
-        return PaletteFactory.createPalette( paletteRoot, new MyActions(), null, new MyDnDHandler() );
+        return PaletteFactory.createPalette(paletteRoot, new MyActions(), null, new MyDnDHandler());
     }
 
     private static class MyActions extends PaletteActions {
+
         public Action[] getImportActions() {
             return null;
         }
@@ -50,7 +49,6 @@ public class PaletteSupport {
         public Action getPreferredAction(Lookup lookup) {
             return null;
         }
-
     }
 
     private static class MyDnDHandler extends DragAndDropHandler {
@@ -58,16 +56,13 @@ public class PaletteSupport {
         public void customize(ExTransferable exTransferable, Lookup lookup) {
             final PaletteItem item = (PaletteItem) lookup.lookup(PaletteItem.class);
             //final Image image = (Image) node.getIcon(BeanInfo.ICON_COLOR_16x16);
-            exTransferable.put(new ExTransferable.Single (new DataFlavor(PaletteItem.class, "PaletteItem")) {
+            exTransferable.put(new ExTransferable.Single(new DataFlavor(PaletteItem.class, "PaletteItem")) {
 
                 protected PaletteItem getData() throws IOException, UnsupportedFlavorException {
                     return item;
                 }
-
             });
         }
-
     }
-
 }
 

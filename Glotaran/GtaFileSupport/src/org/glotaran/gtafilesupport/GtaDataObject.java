@@ -22,10 +22,11 @@ import org.openide.util.ImageUtilities;
 import org.openide.util.Lookup;
 
 public class GtaDataObject extends MultiDataObject implements SaveCookie {
+
     private GtaProjectScheme gtaScheme;
     private static final long serialVersionUID = 1;
-
     private final Image ICON = ImageUtilities.loadImage("org/glotaran/core/ui/visualmodelling/resources/schema-icon.png", true);
+
     public GtaDataObject(FileObject pf, MultiFileLoader loader) throws DataObjectExistsException, IOException {
         super(pf, loader);
         CookieSet cookies = getCookieSet();
@@ -37,7 +38,8 @@ public class GtaDataObject extends MultiDataObject implements SaveCookie {
 
     @Override
     protected Node createNodeDelegate() {
-        return new DataNode(this, Children.LEAF, getLookup()){
+        return new DataNode(this, Children.LEAF, getLookup()) {
+
             @Override
             public Image getIcon(int type) {
                 return ICON;
@@ -83,5 +85,4 @@ public class GtaDataObject extends MultiDataObject implements SaveCookie {
         // Else simply return the object
         return gtaScheme;
     }
-
 }

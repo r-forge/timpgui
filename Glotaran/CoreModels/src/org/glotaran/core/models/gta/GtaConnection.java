@@ -4,15 +4,12 @@
 // Any modifications to this file will be lost upon recompilation of the source schema. 
 // Generated on: 2010.03.11 at 04:25:05 PM CET 
 //
-
-
 package org.glotaran.core.models.gta;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
-
 
 /**
  * <p>Java class for GtaConnection complex type.
@@ -252,5 +249,4 @@ public class GtaConnection {
     public void setTargetType(String value) {
         this.targetType = value;
     }
-
 }

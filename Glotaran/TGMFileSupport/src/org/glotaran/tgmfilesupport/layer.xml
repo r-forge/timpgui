@@ -49,13 +49,13 @@
                         <attr name="position" intvalue="1100"/>
                     </file>
                 </folder>
-             <folder name="Factories">
+                <folder name="Factories">
                     <file name="TgmDataLoader.instance">
                         <attr name="dataObjectClass" stringvalue="org.glotaran.tgmfilesupport.TgmDataObject"/>
                         <attr name="instanceCreate" methodvalue="org.openide.loaders.DataLoaderPool.factory"/>
                         <attr name="mimeType" stringvalue="text/tgm+xml"/>
                     </file>
-               </folder>
+                </folder>
             </folder>
         </folder>
     </folder>

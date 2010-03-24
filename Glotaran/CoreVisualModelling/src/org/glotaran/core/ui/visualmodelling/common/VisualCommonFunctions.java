@@ -2,7 +2,6 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package org.glotaran.core.ui.visualmodelling.common;
 
 import java.awt.datatransfer.DataFlavor;
@@ -38,7 +37,8 @@ import static java.lang.Math.floor;
  * @author slapten
  */
 public class VisualCommonFunctions {
-    public static TgmDataNode createNewTgmFile(File file){
+
+    public static TgmDataNode createNewTgmFile(File file) {
         Tgm tgm = new Tgm();
         tgm.setDat(new Dat());
         tgm.getDat().setModType("ModelDifferences");
@@ -72,10 +72,10 @@ public class VisualCommonFunctions {
         return o instanceof PaletteItem ? (PaletteItem) o : null; //TODO: not null
     }
 
-    public static ArrayList<Double> strToParams(String paramStr){
+    public static ArrayList<Double> strToParams(String paramStr) {
         ArrayList<Double> paramList = new ArrayList<Double>();
         String[] paramStrArr = paramStr.split(",");
-        for (int i = 0; i < paramStrArr.length; i++){
+        for (int i = 0; i < paramStrArr.length; i++) {
             paramList.add(Double.parseDouble(paramStrArr[i]));
         }
 //        StringTools.getListFromCsv(paramStr);
@@ -84,7 +84,7 @@ public class VisualCommonFunctions {
 
     public static boolean modelParametersChange(Dat model, PropertyChangeEvent evt) {
         if (evt.getSource().getClass().equals(KineticParametersNode.class)) {
-            if (model.getKinparPanel()==null){
+            if (model.getKinparPanel() == null) {
                 model.setKinparPanel(new KinparPanelModel());
             }
             if (evt.getPropertyName().equalsIgnoreCase("Number of components")) {
@@ -109,10 +109,10 @@ public class VisualCommonFunctions {
                 model.getKinparPanel().setSeqmod((Boolean) evt.getNewValue());
             }
             if (evt.getPropertyName().equalsIgnoreCase("start")) {
-                model.getKinparPanel().getKinpar().get((int)floor((Double)evt.getOldValue())).setStart((Double) evt.getNewValue());
+                model.getKinparPanel().getKinpar().get((int) floor((Double) evt.getOldValue())).setStart((Double) evt.getNewValue());
             }
             if (evt.getPropertyName().equalsIgnoreCase("fixed")) {
-                model.getKinparPanel().getKinpar().get((int)floor((Double)evt.getOldValue())).setFixed((Boolean) evt.getNewValue());
+                model.getKinparPanel().getKinpar().get((int) floor((Double) evt.getOldValue())).setFixed((Boolean) evt.getNewValue());
             }
             if (evt.getPropertyName().equalsIgnoreCase("delete")) {
                 int index = (Integer) evt.getNewValue();
@@ -126,7 +126,7 @@ public class VisualCommonFunctions {
             return true;
         }
         if (evt.getSource().getClass().equals(IrfParametersNode.class)) {
-            if (model.getIrfparPanel()==null){
+            if (model.getIrfparPanel() == null) {
                 model.setIrfparPanel(new IrfparPanelModel());
             }
             if (evt.getPropertyName().equalsIgnoreCase("SetBackSweep")) {
@@ -144,25 +144,25 @@ public class VisualCommonFunctions {
                 model.getIrfparPanel().setMirf(Boolean.FALSE);
             }
             if (evt.getPropertyName().equalsIgnoreCase("SetIRFType")) {
-                setIrfType(model, evt, (IRFTypes)evt.getNewValue());
+                setIrfType(model, evt, (IRFTypes) evt.getNewValue());
             }
 
             if (evt.getPropertyName().equalsIgnoreCase("start")) {
-                if (model.getIrfparPanel().getIrf().isEmpty()){
-                    setIrfType(model, evt, ((IrfParametersNode)evt.getSource()).getIRFType());
+                if (model.getIrfparPanel().getIrf().isEmpty()) {
+                    setIrfType(model, evt, ((IrfParametersNode) evt.getSource()).getIRFType());
                 }
-                model.getIrfparPanel().getIrf().set((int)floor((Double)evt.getOldValue()), (Double) evt.getNewValue());
+                model.getIrfparPanel().getIrf().set((int) floor((Double) evt.getOldValue()), (Double) evt.getNewValue());
             }
             if (evt.getPropertyName().equalsIgnoreCase("fixed")) {
-                if (model.getIrfparPanel().getIrf().isEmpty()){
-                    setIrfType(model, evt, ((IrfParametersNode)evt.getSource()).getIRFType());
+                if (model.getIrfparPanel().getIrf().isEmpty()) {
+                    setIrfType(model, evt, ((IrfParametersNode) evt.getSource()).getIRFType());
                 }
-                model.getIrfparPanel().getFixed().set((int)floor((Double)evt.getOldValue()), (Boolean) evt.getNewValue());
+                model.getIrfparPanel().getFixed().set((int) floor((Double) evt.getOldValue()), (Boolean) evt.getNewValue());
             }
             return true;
         }
         if (evt.getSource().getClass().equals(CohSpecNode.class)) {
-            if (model.getCohspecPanel()==null){
+            if (model.getCohspecPanel() == null) {
                 model.setCohspecPanel(new CohspecPanelModel());
             }
             if (evt.getPropertyName().equalsIgnoreCase("setClpMax")) {
@@ -216,17 +216,17 @@ public class VisualCommonFunctions {
 
         }
         if (evt.getSource().getClass().equals(DispersionModelingNode.class)) {
-            if (model.getIrfparPanel()==null){
+            if (model.getIrfparPanel() == null) {
                 model.setIrfparPanel(new IrfparPanelModel());
             }
             boolean parMu = evt.getOldValue().equals(EnumTypes.DispersionTypes.PARMU);
             if (evt.getPropertyName().equalsIgnoreCase("mainNodeDeleted")) {
-                Children nodes = ((DispersionModelingNode)evt.getSource()).getParentNode().getChildren();
+                Children nodes = ((DispersionModelingNode) evt.getSource()).getParentNode().getChildren();
 
-                for (int i = 0; i < nodes.getNodesCount(); i++){
-                    if (nodes.getNodes()[i] instanceof DispersionModelingNode){
-                        ((DispersionModelingNode)nodes.getNodes()[i]).setSingle(true);
-                        ((DispersionModelingNode)nodes.getNodes()[i]).recreateSheet();
+                for (int i = 0; i < nodes.getNodesCount(); i++) {
+                    if (nodes.getNodes()[i] instanceof DispersionModelingNode) {
+                        ((DispersionModelingNode) nodes.getNodes()[i]).setSingle(true);
+                        ((DispersionModelingNode) nodes.getNodes()[i]).recreateSheet();
                     }
                 }
                 if (parMu) {
@@ -301,7 +301,7 @@ public class VisualCommonFunctions {
 
         }
         if (evt.getSource().getClass().equals(WeightParametersNode.class)) {
-            if (model.getWeightParPanel()==null){
+            if (model.getWeightParPanel() == null) {
                 model.setWeightParPanel(new WeightParPanelModel());
             }
             if (evt.getPropertyName().equalsIgnoreCase("Number of components")) {
@@ -320,19 +320,19 @@ public class VisualCommonFunctions {
                 model.getWeightParPanel().getWeightpar().clear();
             }
             if (evt.getPropertyName().equalsIgnoreCase("weight")) {
-                model.getWeightParPanel().getWeightpar().get((int)floor((Double)evt.getOldValue())).setWeight((Double) evt.getNewValue());
+                model.getWeightParPanel().getWeightpar().get((int) floor((Double) evt.getOldValue())).setWeight((Double) evt.getNewValue());
             }
             if (evt.getPropertyName().equalsIgnoreCase("setmin1")) {
-                model.getWeightParPanel().getWeightpar().get((int)floor((Double)evt.getOldValue())).setMin1((Double) evt.getNewValue());
+                model.getWeightParPanel().getWeightpar().get((int) floor((Double) evt.getOldValue())).setMin1((Double) evt.getNewValue());
             }
             if (evt.getPropertyName().equalsIgnoreCase("setmin2")) {
-                model.getWeightParPanel().getWeightpar().get((int)floor((Double)evt.getOldValue())).setMin2((Double) evt.getNewValue());
+                model.getWeightParPanel().getWeightpar().get((int) floor((Double) evt.getOldValue())).setMin2((Double) evt.getNewValue());
             }
             if (evt.getPropertyName().equalsIgnoreCase("setmax1")) {
-                model.getWeightParPanel().getWeightpar().get((int)floor((Double)evt.getOldValue())).setMax1((Double) evt.getNewValue());
+                model.getWeightParPanel().getWeightpar().get((int) floor((Double) evt.getOldValue())).setMax1((Double) evt.getNewValue());
             }
             if (evt.getPropertyName().equalsIgnoreCase("setmax2")) {
-                model.getWeightParPanel().getWeightpar().get((int)floor((Double)evt.getOldValue())).setMax2((Double) evt.getNewValue());
+                model.getWeightParPanel().getWeightpar().get((int) floor((Double) evt.getOldValue())).setMax2((Double) evt.getNewValue());
             }
             if (evt.getPropertyName().equalsIgnoreCase("delete")) {
                 int index = (Integer) evt.getNewValue();
@@ -343,7 +343,7 @@ public class VisualCommonFunctions {
         return false;
     }
 
-    private static void setIrfType(Dat model, PropertyChangeEvent evt, EnumTypes.IRFTypes type){
+    private static void setIrfType(Dat model, PropertyChangeEvent evt, EnumTypes.IRFTypes type) {
         EnumTypes.IRFTypes irfType = type;
         switch (irfType) {
             case GAUSSIAN: {
@@ -382,8 +382,4 @@ public class VisualCommonFunctions {
         }
 
     }
-
-
-
-
 }

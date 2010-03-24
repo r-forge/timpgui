@@ -4,6 +4,5 @@
 // Any modifications to this file will be lost upon recompilation of the source schema. 
 // Generated on: 2010.03.11 at 04:25:05 PM CET 
 //
-
 @javax.xml.bind.annotation.XmlSchema(namespace = "http://glotaran.org/schema/GlobalAndTargetAnalysisSchema", elementFormDefault = javax.xml.bind.annotation.XmlNsForm.QUALIFIED)
 package org.glotaran.core.models.gta;

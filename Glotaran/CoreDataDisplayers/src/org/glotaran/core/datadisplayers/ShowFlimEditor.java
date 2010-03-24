@@ -2,7 +2,6 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package org.glotaran.core.datadisplayers;
 
 import java.util.Set;
@@ -13,12 +12,11 @@ import org.glotaran.core.main.nodes.dataobjects.TimpDatasetDataObject;
 import org.openide.windows.TopComponent;
 import org.openide.windows.WindowManager;
 
-
 /**
  *
  * @author lsp
  */
-public class ShowFlimEditor implements  DatasetLoaderInterface{
+public class ShowFlimEditor implements DatasetLoaderInterface {
 
     public String getType() {
         return "FLIM";
@@ -29,7 +27,7 @@ public class ShowFlimEditor implements  DatasetLoaderInterface{
         for (TopComponent t : tset) {
             if (t instanceof SdtTopComponent) {
                 SdtTopComponent srtc = (SdtTopComponent) t;
-                if ((srtc.getDataObject().equals(dataObj))&&(srtc.getTimpDatasetObject()==null)) {
+                if ((srtc.getDataObject().equals(dataObj)) && (srtc.getTimpDatasetObject() == null)) {
                     srtc.requestActive();
                     return;
                 }
@@ -58,5 +56,4 @@ public class ShowFlimEditor implements  DatasetLoaderInterface{
         tc.open();
         tc.requestActive();
     }
-
 }

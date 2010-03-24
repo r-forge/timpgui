@@ -9,6 +9,7 @@ import org.openide.util.NbBundle;
  * @author Sergey
  */
 public class SelectTracesForPlot extends java.awt.Panel {
+
     private int numXCh, numYCh;
 
     public SelectTracesForPlot() {
@@ -35,6 +36,7 @@ public class SelectTracesForPlot extends java.awt.Panel {
         jTYnum.setText(org.openide.util.NbBundle.getMessage(SelectTracesForPlot.class, "SelectTracesForPlot.jTYnum.text")); // NOI18N
         jTYnum.setEnabled(false);
         jTYnum.addKeyListener(new java.awt.event.KeyAdapter() {
+
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 jTYnumKeyReleased(evt);
             }
@@ -44,6 +46,7 @@ public class SelectTracesForPlot extends java.awt.Panel {
         jTXnum.setText(org.openide.util.NbBundle.getMessage(SelectTracesForPlot.class, "SelectTracesForPlot.jTXnum.text")); // NOI18N
         jTXnum.setEnabled(false);
         jTXnum.addKeyListener(new java.awt.event.KeyAdapter() {
+
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 jTXnumKeyReleased(evt);
             }
@@ -52,6 +55,7 @@ public class SelectTracesForPlot extends java.awt.Panel {
         jCbTraceColY.setText(org.openide.util.NbBundle.getMessage(SelectTracesForPlot.class, "SelectTracesForPlot.jCbTraceColY.text")); // NOI18N
         jCbTraceColY.setActionCommand(org.openide.util.NbBundle.getMessage(SelectTracesForPlot.class, "SelectTracesForPlot.jCbTraceColY.actionCommand")); // NOI18N
         jCbTraceColY.addActionListener(new java.awt.event.ActionListener() {
+
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jCbTraceColYActionPerformed(evt);
             }
@@ -59,6 +63,7 @@ public class SelectTracesForPlot extends java.awt.Panel {
 
         jCbTraceColX.setText(org.openide.util.NbBundle.getMessage(SelectTracesForPlot.class, "SelectTracesForPlot.jCbTraceColX.text")); // NOI18N
         jCbTraceColX.addActionListener(new java.awt.event.ActionListener() {
+
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jCbTraceColXActionPerformed(evt);
             }
@@ -67,75 +72,41 @@ public class SelectTracesForPlot extends java.awt.Panel {
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jCbTraceColX)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                            .addGap(21, 21, 21)
-                            .addComponent(jLabel1)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                            .addComponent(jTYnum))
-                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                            .addGap(21, 21, 21)
-                            .addComponent(jLabel2)
-                            .addGap(18, 18, 18)
-                            .addComponent(jTXnum))
-                        .addComponent(jCbTraceColY, javax.swing.GroupLayout.Alignment.LEADING)))
-                .addGap(15, 15, 15))
-        );
+                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(layout.createSequentialGroup().addContainerGap().addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addComponent(jCbTraceColX).addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false).addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup().addGap(21, 21, 21).addComponent(jLabel1).addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED).addComponent(jTYnum)).addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup().addGap(21, 21, 21).addComponent(jLabel2).addGap(18, 18, 18).addComponent(jTXnum)).addComponent(jCbTraceColY, javax.swing.GroupLayout.Alignment.LEADING))).addGap(15, 15, 15)));
         layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addComponent(jCbTraceColX)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
-                    .addComponent(jTXnum, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jCbTraceColY)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(jTYnum, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
+                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup().addComponent(jCbTraceColX).addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED).addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE).addComponent(jLabel2).addComponent(jTXnum, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)).addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED).addComponent(jCbTraceColY).addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED).addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE).addComponent(jLabel1).addComponent(jTYnum, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)).addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)));
     }// </editor-fold>//GEN-END:initComponents
 
     private void jCbTraceColXActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCbTraceColXActionPerformed
         jTXnum.setEnabled(jCbTraceColX.isSelected());
         jLabel2.setEnabled(jCbTraceColX.isSelected());
-}//GEN-LAST:event_jCbTraceColXActionPerformed
+    }//GEN-LAST:event_jCbTraceColXActionPerformed
 
     private void jCbTraceColYActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCbTraceColYActionPerformed
         jTYnum.setEnabled(jCbTraceColY.isSelected());
         jLabel1.setEnabled(jCbTraceColY.isSelected());
-}//GEN-LAST:event_jCbTraceColYActionPerformed
+    }//GEN-LAST:event_jCbTraceColYActionPerformed
 
     private void jTXnumKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTXnumKeyReleased
-        if (Integer.parseInt(jTXnum.getText())>numXCh){
-            NotifyDescriptor errorMessage =new NotifyDescriptor.Exception(
-                    new Exception(NbBundle.getBundle("org/glotaran/core/main/Bundle").getString("set_correct_chanNum") +
-                    NbBundle.getBundle("org/glotaran/core/main/Bundle").getString("setLess")+ String.valueOf(numXCh)));
+        if (Integer.parseInt(jTXnum.getText()) > numXCh) {
+            NotifyDescriptor errorMessage = new NotifyDescriptor.Exception(
+                    new Exception(NbBundle.getBundle("org/glotaran/core/main/Bundle").getString("set_correct_chanNum")
+                    + NbBundle.getBundle("org/glotaran/core/main/Bundle").getString("setLess") + String.valueOf(numXCh)));
             DialogDisplayer.getDefault().notify(errorMessage);
             jTXnum.setText(String.valueOf(numXCh));
         }
     }//GEN-LAST:event_jTXnumKeyReleased
 
     private void jTYnumKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTYnumKeyReleased
-        if (Integer.parseInt(jTYnum.getText())>numYCh){
-            NotifyDescriptor errorMessage =new NotifyDescriptor.Exception(
-                    new Exception(NbBundle.getBundle("org/glotaran/core/main/Bundle").getString("set_correct_chanNum") +
-                    NbBundle.getBundle("org/glotaran/core/main/Bundle").getString("setLess")+ String.valueOf(numYCh)));
+        if (Integer.parseInt(jTYnum.getText()) > numYCh) {
+            NotifyDescriptor errorMessage = new NotifyDescriptor.Exception(
+                    new Exception(NbBundle.getBundle("org/glotaran/core/main/Bundle").getString("set_correct_chanNum")
+                    + NbBundle.getBundle("org/glotaran/core/main/Bundle").getString("setLess") + String.valueOf(numYCh)));
             DialogDisplayer.getDefault().notify(errorMessage);
             jTYnum.setText(String.valueOf(numYCh));
         }
 
     }//GEN-LAST:event_jTYnumKeyReleased
-
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JCheckBox jCbTraceColX;
     private javax.swing.JCheckBox jCbTraceColY;
@@ -145,33 +116,32 @@ public class SelectTracesForPlot extends java.awt.Panel {
     private javax.swing.JTextField jTYnum;
     // End of variables declaration//GEN-END:variables
 
-
-    public void setMaxNumbers(int x, int y){
+    public void setMaxNumbers(int x, int y) {
         numXCh = x;
         numYCh = y;
     }
 
-    public boolean getSelectXState(){
+    public boolean getSelectXState() {
         return jCbTraceColX.isSelected();
     }
 
-    public boolean getSelectYState(){
+    public boolean getSelectYState() {
         return jCbTraceColY.isSelected();
     }
 
-    public int getSelectXNum(){
+    public int getSelectXNum() {
         return Integer.parseInt(jTXnum.getText());
     }
 
-    public int getSelectYNum(){
+    public int getSelectYNum() {
         return Integer.parseInt(jTYnum.getText());
     }
 
-    public void setEnabledXDimension(boolean state){
+    public void setEnabledXDimension(boolean state) {
         jCbTraceColX.setEnabled(state);
     }
 
-    public void setEnabledYDimension(boolean state){
+    public void setEnabledYDimension(boolean state) {
         jCbTraceColY.setEnabled(state);
     }
 }

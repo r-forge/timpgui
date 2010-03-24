@@ -2,7 +2,6 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package org.glotaran.core.ui.visualmodelling.view;
 
 import java.awt.Point;
@@ -24,22 +23,20 @@ import org.netbeans.api.visual.widget.Widget;
 public class GlotaranAlignWithSupport {
 
     private static final int GRAVITY = 10;
-
     private AlignWithWidgetCollector collector;
     private LayerWidget interractionLayer;
     private AlignWithMoveDecorator decorator;
-
     private ConnectionWidget lineWidget1, lineWidget2;
 
-    public GlotaranAlignWithSupport (AlignWithWidgetCollector collector, LayerWidget interractionLayer, AlignWithMoveDecorator decorator) {
+    public GlotaranAlignWithSupport(AlignWithWidgetCollector collector, LayerWidget interractionLayer, AlignWithMoveDecorator decorator) {
         this.collector = collector;
         this.interractionLayer = interractionLayer;
         this.decorator = decorator;
     }
 
-    protected Point locationSuggested (Widget widget, Rectangle sceneWidgetBounds, Point suggestedLocation, boolean horizontal, boolean vertical, boolean bothSides, boolean snapHack) {
-        Point point = new Point (suggestedLocation);
-        Collection<Rectangle> regions = collector.getRegions (widget);
+    protected Point locationSuggested(Widget widget, Rectangle sceneWidgetBounds, Point suggestedLocation, boolean horizontal, boolean vertical, boolean bothSides, boolean snapHack) {
+        Point point = new Point(suggestedLocation);
+        Collection<Rectangle> regions = collector.getRegions(widget);
 
         if (horizontal) {
             boolean snap = false;
@@ -55,7 +52,7 @@ public class GlotaranAlignWithSupport {
                 int d;
                 boolean snapNow = false;
 
-                d = Math.abs (a1 - b1);
+                d = Math.abs(a1 - b1);
                 if ((snap && d < dx) || (!snap && d < GRAVITY)) {
                     snap = snapNow = true;
                     x = xs = a1;
@@ -63,7 +60,7 @@ public class GlotaranAlignWithSupport {
                 }
 
                 if (bothSides) {
-                    d = Math.abs (a1 - b2);
+                    d = Math.abs(a1 - b2);
                     if ((snap && d < dx) || (!snap && d < GRAVITY)) {
                         snap = snapNow = true;
                         x = a1;
@@ -72,7 +69,7 @@ public class GlotaranAlignWithSupport {
                     }
                 }
 
-                d = Math.abs (a2 - b1);
+                d = Math.abs(a2 - b1);
                 if ((snap && d < dx) || (!snap && d < GRAVITY)) {
                     snap = snapNow = true;
                     x = xs = a2;
@@ -80,7 +77,7 @@ public class GlotaranAlignWithSupport {
                 }
 
                 if (bothSides) {
-                    d = Math.abs (a2 - b2);
+                    d = Math.abs(a2 - b2);
                     if ((snap && d < dx) || (!snap && d < GRAVITY)) {
                         snap = snapNow = true;
                         x = a2;
@@ -122,14 +119,14 @@ public class GlotaranAlignWithSupport {
                 int d;
                 boolean snapNow = false;
 
-                d = Math.abs (a1 - b1);
+                d = Math.abs(a1 - b1);
                 if ((snap && d < dy) || (!snap && d < GRAVITY)) {
                     snap = snapNow = true;
                     y = ys = a1;
                     dy = d;
                 }
 
-                d = Math.abs (a1 - b2);
+                d = Math.abs(a1 - b2);
                 if ((snap && d < dy) || (!snap && d < GRAVITY)) {
                     snap = snapNow = true;
                     ys = a1 - sceneWidgetBounds.height;
@@ -137,14 +134,14 @@ public class GlotaranAlignWithSupport {
                     dy = d;
                 }
 
-                d = Math.abs (a2 - b1);
+                d = Math.abs(a2 - b1);
                 if ((snap && d < dy) || (!snap && d < GRAVITY)) {
                     snap = snapNow = true;
                     y = ys = a2;
                     dy = d;
                 }
 
-                d = Math.abs (a2 - b2);
+                d = Math.abs(a2 - b2);
                 if ((snap && d < dy) || (!snap && d < GRAVITY)) {
                     snap = snapNow = true;
                     ys = a2 - sceneWidgetBounds.height;
@@ -172,7 +169,7 @@ public class GlotaranAlignWithSupport {
         return point;
     }
 
-    public void show () {
+    public void show() {
         if (interractionLayer != null) {
             if (lineWidget1 == null) {
                 lineWidget1 = decorator.createLineWidget(interractionLayer.getScene());
@@ -180,17 +177,17 @@ public class GlotaranAlignWithSupport {
             if (lineWidget2 == null) {
                 lineWidget2 = decorator.createLineWidget(interractionLayer.getScene());
             }
-            interractionLayer.addChild (lineWidget1);
-            interractionLayer.addChild (lineWidget2);
-            lineWidget1.setControlPoints (Collections.<Point>emptySet (), true);
-            lineWidget2.setControlPoints (Collections.<Point>emptySet (), true);
+            interractionLayer.addChild(lineWidget1);
+            interractionLayer.addChild(lineWidget2);
+            lineWidget1.setControlPoints(Collections.<Point>emptySet(), true);
+            lineWidget2.setControlPoints(Collections.<Point>emptySet(), true);
         }
     }
 
-    public void hide () {
+    public void hide() {
         if (interractionLayer != null) {
-            interractionLayer.removeChild (lineWidget1);
-            interractionLayer.removeChild (lineWidget2);
+            interractionLayer.removeChild(lineWidget1);
+            interractionLayer.removeChild(lineWidget2);
         }
     }
 }

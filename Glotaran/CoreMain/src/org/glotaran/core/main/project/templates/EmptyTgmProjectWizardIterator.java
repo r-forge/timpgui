@@ -49,8 +49,7 @@ public class EmptyTgmProjectWizardIterator implements WizardDescriptor./*Progres
 
     private WizardDescriptor.Panel[] createPanels() {
         return new WizardDescriptor.Panel[]{
-                    new EmptyTgmProjectWizardPanel(),
-                };
+                    new EmptyTgmProjectWizardPanel(),};
     }
 
     private String[] createSteps() {

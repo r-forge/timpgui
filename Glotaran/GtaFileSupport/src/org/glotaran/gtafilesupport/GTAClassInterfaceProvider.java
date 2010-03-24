@@ -2,7 +2,6 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package org.glotaran.gtafilesupport;
 
 import org.glotaran.core.interfaces.SupportedXMLFilesInterface;
@@ -20,5 +19,4 @@ public class GTAClassInterfaceProvider implements SupportedXMLFilesInterface {
     public String getType() {
         return "GTADataObject";
     }
-
 }

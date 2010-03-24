@@ -2,7 +2,6 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package org.glotaran.core.ui.visualmodelling.nodes;
 
 import java.awt.Image;
@@ -23,15 +22,16 @@ import org.openide.util.lookup.Lookups;
  *
  * @author slapten
  */
-public class ParametersSubNode extends PropertiesAbstractNode implements PropertyChangeListener{
+public class ParametersSubNode extends PropertiesAbstractNode implements PropertyChangeListener {
+
     private final Image ICON = ImageUtilities.loadImage("org/glotaran/core/ui/visualmodelling/resources/Subnode_16.png", true);
 //    private NonLinearParameter dataObj;
 
-    public ParametersSubNode(NonLinearParameter data){
-        super("parameter",Children.LEAF, Lookups.singleton(data));
+    public ParametersSubNode(NonLinearParameter data) {
+        super("parameter", Children.LEAF, Lookups.singleton(data));
         data.addPropertyChangeListener(WeakListeners.propertyChange(this, data));
     }
-    
+
     @Override
     public Image getIcon(int type) {
         return ICON;
@@ -43,11 +43,11 @@ public class ParametersSubNode extends PropertiesAbstractNode implements Propert
 
     @Override
     public String getDisplayName() {
-        String name = new Formatter().format("%g",getLookup().lookup(NonLinearParameter.class).getStart()).toString();
-        if(getLookup().lookup(NonLinearParameter.class).isFixed()==null){
+        String name = new Formatter().format("%g", getLookup().lookup(NonLinearParameter.class).getStart()).toString();
+        if (getLookup().lookup(NonLinearParameter.class).isFixed() == null) {
             getLookup().lookup(NonLinearParameter.class).setFixed(false);
         }
-        if (getLookup().lookup(NonLinearParameter.class).isFixed()){
+        if (getLookup().lookup(NonLinearParameter.class).isFixed()) {
             name = name + " (f)";
         }
         return name;
@@ -67,8 +67,8 @@ public class ParametersSubNode extends PropertiesAbstractNode implements Propert
 
         try {
             startingValue = new PropertySupport.Reflection<Double>(obj, Double.class, "start");
-            fixedValue = new PropertySupport.Reflection<Boolean>(obj, Boolean.class, "isFixed","setFixed");
-            constrainedValue = new PropertySupport.Reflection<Boolean>(obj, Boolean.class, "isConstrained","setConstrained");
+            fixedValue = new PropertySupport.Reflection<Boolean>(obj, Boolean.class, "isFixed", "setFixed");
+            constrainedValue = new PropertySupport.Reflection<Boolean>(obj, Boolean.class, "isConstrained", "setConstrained");
             constrainedMin = new PropertySupport.Reflection<Double>(obj, Double.class, "minimum");
             constrainedMax = new PropertySupport.Reflection<Double>(obj, Double.class, "maximum");
         } catch (NoSuchMethodException ex) {
@@ -96,13 +96,13 @@ public class ParametersSubNode extends PropertiesAbstractNode implements Propert
                 ind = i;
             }
         }
-        ((PropertiesAbstractNode)this.getParentNode()).fire(ind, evt);
+        ((PropertiesAbstractNode) this.getParentNode()).fire(ind, evt);
         this.fireDisplayNameChange(null, getDisplayName());
     }
 
     @Override
     public void destroy() throws IOException {
-        PropertiesAbstractNode parent = (PropertiesAbstractNode)getParentNode();
+        PropertiesAbstractNode parent = (PropertiesAbstractNode) getParentNode();
         int ind = 0;
         for (int i = 0; i < parent.getChildren().getNodes().length; i++) {
             if (this.equals(parent.getChildren().getNodes()[i])) {

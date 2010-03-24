@@ -139,7 +139,7 @@ public class GlotaranGraphScene extends GraphScene<Object, Object> implements Pr
         edgeCount++;
         return edgeCount;
     }
-    
+
     public Object getNodeForID(String id) {
         Object returnNode = null;
         GtaDatasetContainer gdc = null;
@@ -209,10 +209,10 @@ public class GlotaranGraphScene extends GraphScene<Object, Object> implements Pr
         }
         if (node instanceof GtaOutput) {
             GtaOutput myNode = (GtaOutput) node;
-              if (myNode.getId() == null) {
+            if (myNode.getId() == null) {
                 myNode.setId(String.valueOf(getNewNodeCount()));
             }
-            FileObject resultsFolder = ((TGProject)FileOwnerQuery.getOwner(getDobj().getPrimaryFile())).getResultsFolder(true);
+            FileObject resultsFolder = ((TGProject) FileOwnerQuery.getOwner(getDobj().getPrimaryFile())).getResultsFolder(true);
             cw = new OutputWidget(this, new OutputPanel(myNode, resultsFolder, this), "Output" + myNode.getId());
             mainLayer.addChild(cw);
         }
@@ -251,16 +251,16 @@ public class GlotaranGraphScene extends GraphScene<Object, Object> implements Pr
 
     @Override
     protected void detachEdgeWidget(Object edge, Widget widget) {
-         GtaConnection connection = (GtaConnection)edge;
-         connection.setActive(false);
-         if (connection.getSourceType().equals(EnumTypes.ConnectionTypes.GTAMODELREFERENCE.toString()) &&
-                 connection.getTargetType().equals(EnumTypes.ConnectionTypes.GTADATASETCONTAINER.toString())) {
-             DatasetContainerWidget datasetWidget = (DatasetContainerWidget) findWidget(getNodeForID(connection.getTargetID()));
-             datasetWidget.setConnected(false);
-             datasetWidget.getContainerComponent().setConnectedModel(null);
-         } else {
-             getDobj().getProgectScheme().getConnection().remove(connection);
-         }
+        GtaConnection connection = (GtaConnection) edge;
+        connection.setActive(false);
+        if (connection.getSourceType().equals(EnumTypes.ConnectionTypes.GTAMODELREFERENCE.toString())
+                && connection.getTargetType().equals(EnumTypes.ConnectionTypes.GTADATASETCONTAINER.toString())) {
+            DatasetContainerWidget datasetWidget = (DatasetContainerWidget) findWidget(getNodeForID(connection.getTargetID()));
+            datasetWidget.setConnected(false);
+            datasetWidget.getContainerComponent().setConnectedModel(null);
+        } else {
+            getDobj().getProgectScheme().getConnection().remove(connection);
+        }
     }
 
     @Override
@@ -355,7 +355,7 @@ public class GlotaranGraphScene extends GraphScene<Object, Object> implements Pr
         }
         // </editor-fold>
 
-         // <editor-fold desc="GtaOutput">
+        // <editor-fold desc="GtaOutput">
         for (GtaOutput output : gtaScheme.getOutput()) {
             widget = addNode(output);
             location = new Point((int) Math.floor(output.getLayout().getXposition()), (int) Math.floor(output.getLayout().getYposition()));
@@ -375,9 +375,9 @@ public class GlotaranGraphScene extends GraphScene<Object, Object> implements Pr
                 setEdgeSource(connection, sourceNode);
                 setEdgeTarget(connection, targetNode);
                 if (findWidget(targetNode) instanceof DatasetContainerWidget) {
-                ((DatasetContainerWidget) findWidget(targetNode)).setConnected(true);
-                ((DatasetContainerWidget) findWidget(targetNode)).getContainerComponent().setConnectedModel(
-                        ((ModelContainerWidget) findWidget(sourceNode)).getModelTgm());
+                    ((DatasetContainerWidget) findWidget(targetNode)).setConnected(true);
+                    ((DatasetContainerWidget) findWidget(targetNode)).getContainerComponent().setConnectedModel(
+                            ((ModelContainerWidget) findWidget(sourceNode)).getModelTgm());
                 }
                 validate();
             }
@@ -443,7 +443,6 @@ public class GlotaranGraphScene extends GraphScene<Object, Object> implements Pr
 //    public WidgetAction getReconnectAction() {
 //        return reconnectAction;
 //    }
-
     public WidgetAction getSelectAction() {
         return selectAction;
     }

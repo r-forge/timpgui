@@ -6,8 +6,7 @@ package org.rosuda.irconnect;
  */
 public interface IRMap {
 
-	public abstract String[] keys();
+    public abstract String[] keys();
 
-	public abstract IREXP at(final String string);
-
+    public abstract IREXP at(final String string);
 }

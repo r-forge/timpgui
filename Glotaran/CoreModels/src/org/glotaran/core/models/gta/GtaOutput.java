@@ -4,15 +4,12 @@
 // Any modifications to this file will be lost upon recompilation of the source schema. 
 // Generated on: 2010.03.11 at 04:25:05 PM CET 
 //
-
-
 package org.glotaran.core.models.gta;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
-
 
 /**
  * <p>Java class for GtaOutput complex type.
@@ -177,5 +174,4 @@ public class GtaOutput {
     public void setGenerateErrorBars(Boolean value) {
         this.generateErrorBars = value;
     }
-
 }

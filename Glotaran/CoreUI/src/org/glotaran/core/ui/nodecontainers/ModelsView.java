@@ -2,7 +2,6 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package org.glotaran.core.ui.nodecontainers;
 
 import java.awt.dnd.DropTarget;
@@ -27,50 +26,49 @@ import org.openide.nodes.Node;
  */
 class ModelsView extends TreeTableView {
 
-       public ModelsView() {
-      setRootVisible(false);
-      setDropTarget();
-   }
+    public ModelsView() {
+        setRootVisible(false);
+        setDropTarget();
+    }
 
- public void setDefaultActionProcessor(final ActionListener action) {
-      setDefaultActionAllowed(false);
-      tree.addMouseListener(new MouseAdapter() {
+    public void setDefaultActionProcessor(final ActionListener action) {
+        setDefaultActionAllowed(false);
+        tree.addMouseListener(new MouseAdapter() {
 
-         @Override
-         public void mouseClicked(MouseEvent me) {
-            if (me.getClickCount() == 2) {
-               action.actionPerformed(null);
+            @Override
+            public void mouseClicked(MouseEvent me) {
+                if (me.getClickCount() == 2) {
+                    action.actionPerformed(null);
+                }
             }
-         }
-      });
+        });
 
-      treeTable.registerKeyboardAction(action,
-              KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0, false),
-              JComponent.WHEN_FOCUSED);
-   }
+        treeTable.registerKeyboardAction(action,
+                KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0, false),
+                JComponent.WHEN_FOCUSED);
+    }
 
-   private void setDropTarget() {
-      DropTarget dt = new DropTarget(this, new DropTargetAdapter() {
+    private void setDropTarget() {
+        DropTarget dt = new DropTarget(this, new DropTargetAdapter() {
 
-         @Override
-         public void dragEnter(DropTargetDragEvent dtde) {
-            if(!dtde.isDataFlavorSupported(TgmDataNode.DATA_FLAVOR)) {
-               dtde.rejectDrag();
+            @Override
+            public void dragEnter(DropTargetDragEvent dtde) {
+                if (!dtde.isDataFlavorSupported(TgmDataNode.DATA_FLAVOR)) {
+                    dtde.rejectDrag();
+                }
             }
-         }
 
-         public void drop(DropTargetDropEvent dtde) {
-            try {
-               TgmDataNode n = (TgmDataNode)dtde.getTransferable().getTransferData(TgmDataNode.DATA_FLAVOR);
-               ExplorerManager.find(getParent()).getRootContext().getChildren().add(new Node[]{n});
-            } catch(Exception e) {
-               CoreErrorMessages.dragDropException();
-               dtde.rejectDrop();
+            public void drop(DropTargetDropEvent dtde) {
+                try {
+                    TgmDataNode n = (TgmDataNode) dtde.getTransferable().getTransferData(TgmDataNode.DATA_FLAVOR);
+                    ExplorerManager.find(getParent()).getRootContext().getChildren().add(new Node[]{n});
+                } catch (Exception e) {
+                    CoreErrorMessages.dragDropException();
+                    dtde.rejectDrop();
+                }
             }
-         }
+        });
 
-      });
-
-      setDropTarget(dt);
-   }
+        setDropTarget(dt);
+    }
 }

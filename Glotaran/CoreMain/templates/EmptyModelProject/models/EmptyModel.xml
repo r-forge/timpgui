@@ -9,8 +9,8 @@
 -->
 
 <ns0:tgm  xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'
-   xmlns:ns0='http://www.nat.vu.nl/~jsnel/Schema/TgmSchema'
-   xsi:schemaLocation='http://www.nat.vu.nl/~jsnel/Schema/TgmSchema TgmSchema.xsd'>
+          xmlns:ns0='http://www.nat.vu.nl/~jsnel/Schema/TgmSchema'
+          xsi:schemaLocation='http://www.nat.vu.nl/~jsnel/Schema/TgmSchema TgmSchema.xsd'>
     <ns0:dat>
         <ns0:kinparPanel>
             <ns0:positivepar>false</ns0:positivepar>

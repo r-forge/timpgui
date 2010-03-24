@@ -11,33 +11,33 @@ import javax.swing.table.TableCellRenderer;
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-
 /**
  *
  * @author slapten
  */
-public class JVectorCellEditor extends  AbstractCellEditor implements TableCellEditor {
+public class JVectorCellEditor extends AbstractCellEditor implements TableCellEditor {
+
     JComponent jVecCell = new JVectorCellPanel();
 
     @Override
     public Object getCellEditorValue() {
-        JVectorValueClass cellVal = new JVectorValueClass(((JVectorCellPanel)jVecCell).getValueNumber(), ((JVectorCellPanel)jVecCell).isValueFixed());
+        JVectorValueClass cellVal = new JVectorValueClass(((JVectorCellPanel) jVecCell).getValueNumber(), ((JVectorCellPanel) jVecCell).isValueFixed());
         return cellVal;
     }
 
     @Override
     public Component getTableCellEditorComponent(JTable table, Object value, boolean isSelected, int row, int column) {
-    // 'value' is value contained in the cell located at (rowIndex, vColIndex)
-    if (isSelected) {
-        // cell (and perhaps other cells) are selected
-    }
-    // Configure the component with the specified value
-    ((JVectorCellPanel)jVecCell).setValueFixed(((JVectorValueClass)value).isFixed());
-    ((JVectorCellPanel)jVecCell).setValueNumber(((JVectorValueClass)value).getValue());
+        // 'value' is value contained in the cell located at (rowIndex, vColIndex)
+        if (isSelected) {
+            // cell (and perhaps other cells) are selected
+        }
+        // Configure the component with the specified value
+        ((JVectorCellPanel) jVecCell).setValueFixed(((JVectorValueClass) value).isFixed());
+        ((JVectorCellPanel) jVecCell).setValueNumber(((JVectorValueClass) value).getValue());
         // Return the configured component
-    return jVecCell;
+        return jVecCell;
     }
-    
+
     @Override
     public boolean stopCellEditing() {
 //TODO check if the values are correct        
@@ -52,12 +52,13 @@ public class JVectorCellEditor extends  AbstractCellEditor implements TableCellE
 }
 
 class JVectorCellRenderer extends JVectorCellPanel implements TableCellRenderer {
+
     @Override
     public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected,
-    boolean hasFocus, int rowIndex, int vColIndex) {
+            boolean hasFocus, int rowIndex, int vColIndex) {
 
-        if (value!=null){
-            JVectorValueClass val = (JVectorValueClass)value;
+        if (value != null) {
+            JVectorValueClass val = (JVectorValueClass) value;
             setValueNumber(val.getValue());
             setValueFixed(val.isFixed());
         } else {
@@ -66,6 +67,5 @@ class JVectorCellRenderer extends JVectorCellPanel implements TableCellRenderer 
         }
         return this;
     }
-
 }
 

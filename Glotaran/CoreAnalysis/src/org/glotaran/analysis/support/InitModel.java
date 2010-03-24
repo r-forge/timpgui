@@ -12,7 +12,6 @@ import org.glotaran.core.models.tgm.Tgm;
 import org.glotaran.core.models.tgm.WeightPar;
 import org.glotaran.core.models.tgm.WeightParPanelModel;
 
-
 /**
  *
  * @author Katharine Mullen
@@ -294,9 +293,9 @@ public class InitModel {
         String parmuStr = null;
         IrfparPanelModel irfPanel = tgm.getDat().getIrfparPanel();
         if (irfPanel.getLamda() != null) {
-        if (irfPanel.getLamda() > 0) {
-            parmuStr = "lambdac = " + String.valueOf(irfPanel.getLamda());
-        }
+            if (irfPanel.getLamda() > 0) {
+                parmuStr = "lambdac = " + String.valueOf(irfPanel.getLamda());
+            }
         }
 
         if (irfPanel.getParmu().trim().length() != 0) {
@@ -413,29 +412,29 @@ public class InitModel {
 
         if (irfPanel.getParmu() != null) {
             if (irfPanel.isParmufixed()) {
-            if (fixedStr != null) {
-                fixedStr = fixedStr + ", parmu=c(";
-            } else {
-                fixedStr = "fixed = list(parmu=c(";
-            }
+                if (fixedStr != null) {
+                    fixedStr = fixedStr + ", parmu=c(";
+                } else {
+                    fixedStr = "fixed = list(parmu=c(";
+                }
 
-            String[] doubles = irfPanel.getParmu().split(",");
-            fixedStr = fixedStr + "1:" + String.valueOf(doubles.length);
-            fixedStr = fixedStr + ")";
+                String[] doubles = irfPanel.getParmu().split(",");
+                fixedStr = fixedStr + "1:" + String.valueOf(doubles.length);
+                fixedStr = fixedStr + ")";
             }
         }
 
         if (irfPanel.getPartau() != null) {
             if (irfPanel.isPartaufixed()) {
-            if (fixedStr != null) {
-                fixedStr = fixedStr + ", partau=c(";
-            } else {
-                fixedStr = "fixed = list(partau=c(";
-            }
+                if (fixedStr != null) {
+                    fixedStr = fixedStr + ", partau=c(";
+                } else {
+                    fixedStr = "fixed = list(partau=c(";
+                }
 
-            String[] doubles = irfPanel.getPartau().split(",");
-            fixedStr = fixedStr + "1:" + String.valueOf(doubles.length);
-            fixedStr = fixedStr + ")";
+                String[] doubles = irfPanel.getPartau().split(",");
+                fixedStr = fixedStr + "1:" + String.valueOf(doubles.length);
+                fixedStr = fixedStr + ")";
             }
         }
 
@@ -468,13 +467,13 @@ public class InitModel {
             if (addToFixed != null) {
                 fixedStr = fixedStr + "," + addToFixed + ")";
             } else {
-                fixedStr = fixedStr +")";
+                fixedStr = fixedStr + ")";
             }
         } else {
             if (addToFixed != null) {
                 fixedStr = "fixed = list(" + addToFixed + ")";
             }
-            
+
         }
 
         return fixedStr;
@@ -556,36 +555,36 @@ public class InitModel {
                         clp0Call = clp0Call + ",";
                     }
 
-                    clp0Call = clp0Call + "list(low = " + Double.valueOf(min) + ", high =" +
-                            Double.valueOf(max) + ", comp = " + (i + 1) + ")";
+                    clp0Call = clp0Call + "list(low = " + Double.valueOf(min) + ", high ="
+                            + Double.valueOf(max) + ", comp = " + (i + 1) + ")";
                     count++;
                 }
             }
         }
-            if (tgm.getDat().getCohspecPanel().isClp0Enabled() != null) {
-                if (tgm.getDat().getCohspecPanel().isClp0Enabled()) {
-                    if (clp0Call != null) {
-                        clp0Call = clp0Call + ",";
-                    } else {
-                        clp0Call = "clp0 = list(";
-                    }
-                    if (kMatrix.getJVector()!=null) {
-                        if (kMatrix.getJVector().getVector().size()>0) {
-                            indexOfComponent = kMatrix.getJVector().getVector().size() + 1;
-                        } else {
-                        indexOfComponent = (tgm.getDat().getKinparPanel().getKinpar().size() + 1);
-                        }
-                    } else {
-                        indexOfComponent = (tgm.getDat().getKinparPanel().getKinpar().size() + 1);
-                    }
-                    clp0Call = clp0Call + "list(low = " + tgm.getDat().getCohspecPanel().getClp0Min() + ", high = " +
-                            tgm.getDat().getCohspecPanel().getClp0Max() + ", comp = " +
-                            indexOfComponent + ")";
+        if (tgm.getDat().getCohspecPanel().isClp0Enabled() != null) {
+            if (tgm.getDat().getCohspecPanel().isClp0Enabled()) {
+                if (clp0Call != null) {
+                    clp0Call = clp0Call + ",";
+                } else {
+                    clp0Call = "clp0 = list(";
                 }
+                if (kMatrix.getJVector() != null) {
+                    if (kMatrix.getJVector().getVector().size() > 0) {
+                        indexOfComponent = kMatrix.getJVector().getVector().size() + 1;
+                    } else {
+                        indexOfComponent = (tgm.getDat().getKinparPanel().getKinpar().size() + 1);
+                    }
+                } else {
+                    indexOfComponent = (tgm.getDat().getKinparPanel().getKinpar().size() + 1);
+                }
+                clp0Call = clp0Call + "list(low = " + tgm.getDat().getCohspecPanel().getClp0Min() + ", high = "
+                        + tgm.getDat().getCohspecPanel().getClp0Max() + ", comp = "
+                        + indexOfComponent + ")";
             }
-            if (clp0Call != null) {
-                clp0Call = clp0Call + ")";
-            }
+        }
+        if (clp0Call != null) {
+            clp0Call = clp0Call + ")";
+        }
         return clp0Call;
     }
 
@@ -608,11 +607,11 @@ public class InitModel {
                     if (count == 0) {
                         clpequspecCall = "clpequspec = list(";
                     }
-                    clpequspecCall = clpequspecCall + "list(" +
-                            "to=" + String.valueOf(i + 1) +
-                            ",from=" + String.valueOf(j + 1) +
-                            ",low=" + String.valueOf(min) +
-                            ",high=" + String.valueOf(max) + "),";
+                    clpequspecCall = clpequspecCall + "list("
+                            + "to=" + String.valueOf(i + 1)
+                            + ",from=" + String.valueOf(j + 1)
+                            + ",low=" + String.valueOf(min)
+                            + ",high=" + String.valueOf(max) + "),";
                     count++;
                 }
             }
@@ -672,8 +671,8 @@ public class InitModel {
                     } else {
                         relationsCall = relationsCall + ",";
                     }
-                    relationsCall = relationsCall + "list(what1=\"kinpar\", what2=\"kinpar\",ind1=" + (i + 1) +
-                            ", ind2=" + (j + 1) + ", start=c(" + c1 + "," + c0 + "))";
+                    relationsCall = relationsCall + "list(what1=\"kinpar\", what2=\"kinpar\",ind1=" + (i + 1)
+                            + ", ind2=" + (j + 1) + ", start=c(" + c1 + "," + c0 + "))";
 
                     if (fc1) {
                         if (fixed == null) {

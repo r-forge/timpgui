@@ -2,7 +2,6 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package org.glotaran.core.ui.visualmodelling.nodes;
 
 import java.awt.Image;
@@ -33,13 +32,14 @@ import org.openide.util.datatransfer.PasteType;
  *
  * @author slapten
  */
-public class ModelDiffsChangeNode extends PropertiesAbstractNode{
+public class ModelDiffsChangeNode extends PropertiesAbstractNode {
+
     private final Image CHANGE_ICON = ImageUtilities.loadImage("org/glotaran/core/ui/visualmodelling/resources/ChageParam_16.png", true);
     private PropertyChangeListener propListner;
     private int datasetIndex;
     private FileObject parentFolder = null;
 
-    public ModelDiffsChangeNode(String type, PropertyChangeListener listn , int datasetInd){
+    public ModelDiffsChangeNode(String type, PropertyChangeListener listn, int datasetInd) {
         super(type, new Index.ArrayChildren());
         propListner = listn;
         datasetIndex = datasetInd;
@@ -49,7 +49,7 @@ public class ModelDiffsChangeNode extends PropertiesAbstractNode{
     public ModelDiffsChangeNode(String type, int datasetInd, GtaChangesModel changes, FileObject schemaFolder, PropertyChangeListener listn) {
         super(type, new Index.ArrayChildren());
         propListner = listn;
-        datasetIndex = datasetInd+1;
+        datasetIndex = datasetInd + 1;
         parentFolder = schemaFolder;
         updateChangesNodes(changes);
         addPropertyChangeListener(WeakListeners.propertyChange(propListner, this));
@@ -62,10 +62,11 @@ public class ModelDiffsChangeNode extends PropertiesAbstractNode{
 
     @Override
     public PasteType getDropType(Transferable t, int action, int index) {
-        if (t.isDataFlavorSupported(PaletteNode.DATA_FLAVOR)){
+        if (t.isDataFlavorSupported(PaletteNode.DATA_FLAVOR)) {
             try {
-                final PaletteItem pi = (PaletteItem)t.getTransferData(PaletteNode.DATA_FLAVOR);
+                final PaletteItem pi = (PaletteItem) t.getTransferData(PaletteNode.DATA_FLAVOR);
                 return new PasteType() {
+
                     @Override
                     public Transferable paste() throws IOException {
                         boolean present = false;
@@ -169,27 +170,26 @@ public class ModelDiffsChangeNode extends PropertiesAbstractNode{
                 Exceptions.printStackTrace(ex);
             }
             return null;
-        }
-        else {
+        } else {
             return null;
         }
     }
 
-    private void updateChangesNodes(GtaChangesModel changes){
+    private void updateChangesNodes(GtaChangesModel changes) {
         String pathToSchemaFolder;
-        if (parentFolder!=null) {
-          pathToSchemaFolder = parentFolder.getPath();
-        } else if(getParentNode() != null) {
-          pathToSchemaFolder = ((DatasetsRootNode)getParentNode().getParentNode()).getContainerComponent().getSchemaFolder().getPath();
+        if (parentFolder != null) {
+            pathToSchemaFolder = parentFolder.getPath();
+        } else if (getParentNode() != null) {
+            pathToSchemaFolder = ((DatasetsRootNode) getParentNode().getParentNode()).getContainerComponent().getSchemaFolder().getPath();
         } else {
             pathToSchemaFolder = "";
         }
         FileObject tgmFO = FileUtil.toFileObject(new File(pathToSchemaFolder + File.separator + changes.getFilename()));
         Dat tgmDat = null;
         TgmDataObject tgmDO = null;
-        if (tgmFO!=null){
+        if (tgmFO != null) {
             try {
-                tgmDO = ((TgmDataObject)DataObject.find(tgmFO));
+                tgmDO = ((TgmDataObject) DataObject.find(tgmFO));
                 tgmDat = tgmDO.getTgm().getDat();
             } catch (DataObjectNotFoundException ex) {
                 CoreErrorMessages.fileLoadException("changes TGM");
@@ -232,12 +232,12 @@ public class ModelDiffsChangeNode extends PropertiesAbstractNode{
                 }
             }
 
-            if (tgmDat.getWeightParPanel()!=null) {
+            if (tgmDat.getWeightParPanel() != null) {
                 getChildren().add(
                         new Node[]{new WeightParametersNode(tgmDat.getWeightParPanel().getWeightpar(), propListner)});
             }
 
-            if (tgmDat.getCohspecPanel()!=null) {
+            if (tgmDat.getCohspecPanel() != null) {
                 getChildren().add(
                         new Node[]{new CohSpecNode(tgmDat.getCohspecPanel(), propListner)});
             }

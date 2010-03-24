@@ -20,7 +20,6 @@ import org.openide.nodes.AbstractNode;
 import org.openide.nodes.Children;
 import org.openide.nodes.Node;
 
-
 /**
  *
  * @author joris
@@ -30,7 +29,7 @@ public class TgmToolBarMVElement extends ToolBarMultiViewElement {
     private TgmDataObject dataObj;
     private TgmView view;
     private ToolBarDesignEditor comp;
-    private PanelFactory factory;    
+    private PanelFactory factory;
     private static final String IMAGE_ICON_BASE = "org/glotaran/core/main/resources/Model-icon-16.png";
 
     public TgmToolBarMVElement(TgmDataObject dObj) {
@@ -62,19 +61,19 @@ public class TgmToolBarMVElement extends ToolBarMultiViewElement {
         for (int i = 0; i < nodeArray.length; i++) {
             if (tgm.getPanelStates() != null) {
                 int size = tgm.getPanelStates().size();
-                if (size >0) {
-                    if (i<size) {
-                    state = dataObj.getTgm().getPanelStates().get(i);
+                if (size > 0) {
+                    if (i < size) {
+                        state = dataObj.getTgm().getPanelStates().get(i);
                     }
                 }
             }
-            if (state!=null) {
+            if (state != null) {
                 if (state.booleanValue()) {
-                view.getSection(nodeArray[i]).setActive(true);
-                view.getSection(nodeArray[i]).open();
+                    view.getSection(nodeArray[i]).setActive(true);
+                    view.getSection(nodeArray[i]).open();
                 }
             }
-        }        
+        }
         view.checkValidity();
     }
 
@@ -89,11 +88,10 @@ public class TgmToolBarMVElement extends ToolBarMultiViewElement {
         super.componentHidden();
         dataObj.getTgm().getPanelStates().clear();
         Node[] nodeArray = view.getNodeArray();
-        for (Node node : nodeArray) {        
+        for (Node node : nodeArray) {
             dataObj.getTgm().getPanelStates().add(view.getSection(node).isActive());
         }
     }
-
 
     private class TgmView extends SectionView {
 
@@ -144,7 +142,7 @@ public class TgmToolBarMVElement extends ToolBarMultiViewElement {
 
         public Node[] getNodeArray() {
             return nodeArray;
-    }
+        }
     }
 
     private class TgmNode extends org.openide.nodes.AbstractNode {
@@ -152,7 +150,7 @@ public class TgmToolBarMVElement extends ToolBarMultiViewElement {
         TgmNode(Tgm tgm) {
             super(org.openide.nodes.Children.LEAF);
             setDisplayName("Model Root Node:");
-        //setIconBase("org/netbeans/modules/web/dd/multiview/resources/class"); //NOI18N
+            //setIconBase("org/netbeans/modules/web/dd/multiview/resources/class"); //NOI18N
         }
     }
 
@@ -209,8 +207,6 @@ public class TgmToolBarMVElement extends ToolBarMultiViewElement {
             setIconBaseWithExtension(IMAGE_ICON_BASE); //NOI18N
         }
     }
-
-  
 }
 
 

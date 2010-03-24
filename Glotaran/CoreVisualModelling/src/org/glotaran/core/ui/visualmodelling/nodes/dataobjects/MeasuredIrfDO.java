@@ -2,7 +2,6 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package org.glotaran.core.ui.visualmodelling.nodes.dataobjects;
 
 /**
@@ -10,8 +9,10 @@ package org.glotaran.core.ui.visualmodelling.nodes.dataobjects;
  * @author slapten
  */
 public class MeasuredIrfDO {
+
     private String filepath;
-    public MeasuredIrfDO(){
+
+    public MeasuredIrfDO() {
         filepath = "Path to measured irf file";
     }
 
@@ -22,5 +23,4 @@ public class MeasuredIrfDO {
     public void setFilepath(String filepath) {
         this.filepath = filepath;
     }
-
 }

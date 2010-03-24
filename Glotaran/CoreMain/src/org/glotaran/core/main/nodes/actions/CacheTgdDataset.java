@@ -41,16 +41,16 @@ public final class CacheTgdDataset implements ActionListener {
                             return;
                         } else {
                             FileObject cacheFolder = FileUtil.toFileObject(new File(project.getCacheFolder(true).getPath() + File.separator + tgdDataObject.getTgd().getCacheFolderName()));
-                             try {
-                            //TODO: fix the new extension workaround
-                            FileObject copy = FileUtil.copyFile(datasetFileObject, cacheFolder, tgdDataObject.getTgd().getFilename(), tgdDataObject.getTgd().getExtension());
-                            tgdDataObject.getTgd().setRelativePath(FileUtil.getRelativePath(project.getProjectDirectory(), copy));
-                            tgdDataObject.save();
-                            return;
-                        } catch (IOException ex) {
-                            CoreErrorMessages.fileNotFound();
-                            //Exceptions.printStackTrace(ex);
-                        }
+                            try {
+                                //TODO: fix the new extension workaround
+                                FileObject copy = FileUtil.copyFile(datasetFileObject, cacheFolder, tgdDataObject.getTgd().getFilename(), tgdDataObject.getTgd().getExtension());
+                                tgdDataObject.getTgd().setRelativePath(FileUtil.getRelativePath(project.getProjectDirectory(), copy));
+                                tgdDataObject.save();
+                                return;
+                            } catch (IOException ex) {
+                                CoreErrorMessages.fileNotFound();
+                                //Exceptions.printStackTrace(ex);
+                            }
 
                         }
                     }

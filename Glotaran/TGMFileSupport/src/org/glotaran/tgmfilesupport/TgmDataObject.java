@@ -119,26 +119,24 @@ public class TgmDataObject extends XmlMultiViewDataObject implements SaveCookie 
             tgm = getTgm();
         } else {
             java.io.InputStream is = getEditorSupport().getInputStream();
-                Tgm newTgm = null;
-                try {
-                    JAXBContext jaxbCtx = JAXBContext.newInstance(tgm.getClass().getPackage().getName());
-                    Unmarshaller unmarshaller = jaxbCtx.createUnmarshaller();
-                    newTgm = (Tgm) unmarshaller.unmarshal(is); //NOI18N
-                } catch (javax.xml.bind.JAXBException ex) {
-                    // XXXTODO Handle exception
-                    java.util.logging.Logger.getLogger("global").log(java.util.logging.Level.SEVERE, null, ex); //NOI18N
-                } finally {
-                    is.close();
-                }
-                if (newTgm != null) {
-                    tgm = newTgm;
-                }
+            Tgm newTgm = null;
+            try {
+                JAXBContext jaxbCtx = JAXBContext.newInstance(tgm.getClass().getPackage().getName());
+                Unmarshaller unmarshaller = jaxbCtx.createUnmarshaller();
+                newTgm = (Tgm) unmarshaller.unmarshal(is); //NOI18N
+            } catch (javax.xml.bind.JAXBException ex) {
+                // XXXTODO Handle exception
+                java.util.logging.Logger.getLogger("global").log(java.util.logging.Level.SEVERE, null, ex); //NOI18N
+            } finally {
+                is.close();
+            }
+            if (newTgm != null) {
+                tgm = newTgm;
             }
         }
+    }
 
-    public
-
-     void save() throws IOException {
+    public void save() throws IOException {
 //        System.out.println("save");
         if (tgm == null) {
             return;

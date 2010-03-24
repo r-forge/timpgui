@@ -21,7 +21,7 @@ public class Installer extends ModuleInstall {
     public static final long serialVersionUID = 1;
     private Future<Integer> exitCode;
     //private String[] theCommandLineArguments = new String[]{"/usr/lib64/R/bin/Rserve", "--no-save"};
-    private String[] commands;    
+    private String[] commands;
 
     @Override
     public void restored() {
@@ -45,8 +45,8 @@ public class Installer extends ModuleInstall {
 
     @Override
     public void close() {
-        if (exitCode!=null) {
-        exitCode.cancel(true);
+        if (exitCode != null) {
+            exitCode.cancel(true);
         }
         super.close();
     }
@@ -67,7 +67,7 @@ public class Installer extends ModuleInstall {
         }
     }
 
-        /** check whether Rserve is currently running (on local machine and default port).
+    /** check whether Rserve is currently running (on local machine and default port).
     @return <code>true</code> if local Rserve instance is running, <code>false</code> otherwise
      */
     public static boolean isRserveRunning() {

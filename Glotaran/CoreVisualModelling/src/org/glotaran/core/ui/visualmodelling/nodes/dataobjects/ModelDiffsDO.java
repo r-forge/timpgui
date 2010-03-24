@@ -2,11 +2,9 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package org.glotaran.core.ui.visualmodelling.nodes.dataobjects;
 
 import org.glotaran.core.models.gta.GtaModelDiffDO;
-
 
 /**
  *
@@ -19,14 +17,14 @@ public class ModelDiffsDO extends AbstractParameterDO {
     private Integer dataset;
     private Double start;
 
-    public ModelDiffsDO(){
+    public ModelDiffsDO() {
         what = null;
         index = null;
         dataset = null;
         start = null;
     }
 
-    public ModelDiffsDO(int ind){
+    public ModelDiffsDO(int ind) {
         what = null;
         index = 0;
         dataset = ind;
@@ -35,7 +33,7 @@ public class ModelDiffsDO extends AbstractParameterDO {
 
     public ModelDiffsDO(GtaModelDiffDO gtaDO) {
         what = gtaDO.getWhat();
-        index = gtaDO.getIndex()-1;
+        index = gtaDO.getIndex() - 1;
         dataset = gtaDO.getDataset();
         start = gtaDO.getStart();
     }

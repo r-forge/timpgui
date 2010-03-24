@@ -16,8 +16,6 @@ import org.glotaran.core.models.tgm.KinPar;
 import org.glotaran.core.models.tgm.KinparPanelModel;
 import org.glotaran.tgmfilesupport.TgmDataObject;
 
-
-
 /**
  *
  * @author  Sergey
@@ -36,20 +34,20 @@ public class KinparPanel extends SectionInnerPanel implements TableModelListener
         this.dObj = dObj;
         this.kinparPanelModel = kinparPanelModel;
         initComponents();
-        
+
         jSNumOfComponents.setModel(new SpinnerNumberModel(kinparPanelModel.getKinpar().size(), 0, null, 1));
         model = new ParameterTableModel(0);
         rowHeader = new RowHeader(16, 20);
         for (int i = 0; i < kinparPanelModel.getKinpar().size(); i++) {
             newRow = new Object[]{
-                kinparPanelModel.getKinpar().get(i).getStart(),
-                kinparPanelModel.getKinpar().get(i).isFixed(),
-                kinparPanelModel.getKinpar().get(i).isConstrained(),
-                kinparPanelModel.getKinpar().get(i).getMin(),
-                kinparPanelModel.getKinpar().get(i).getMax()
-            };
+                        kinparPanelModel.getKinpar().get(i).getStart(),
+                        kinparPanelModel.getKinpar().get(i).isFixed(),
+                        kinparPanelModel.getKinpar().get(i).isConstrained(),
+                        kinparPanelModel.getKinpar().get(i).getMin(),
+                        kinparPanelModel.getKinpar().get(i).getMax()
+                    };
             model.addRow(newRow);
-            rowHeader.addRow(String.valueOf(i+1));
+            rowHeader.addRow(String.valueOf(i + 1));
         }
         jTKinParamTable.setModel(model);
         JScrollPane jscpane = (JScrollPane) jTKinParamTable.getParent().getParent();
@@ -58,43 +56,43 @@ public class KinparPanel extends SectionInnerPanel implements TableModelListener
 
         jCBSeqmod.setSelected(kinparPanelModel.isSeqmod());
         jCBPositivepar.setSelected(kinparPanelModel.isPositivepar());
-        
+
         // Add listerners
         jTKinParamTable.getModel().addTableModelListener(this);
     }
 
     @Override
     public void setValue(JComponent source, Object value) {
-        if (source ==jTKinParamTable) {
-        
-            if (model.getRowCount()>kinparPanelModel.getKinpar().size()) {
+        if (source == jTKinParamTable) {
+
+            if (model.getRowCount() > kinparPanelModel.getKinpar().size()) {
                 KinPar kp = new KinPar();
-                kp.setStart((Double)model.getValueAt((model.getRowCount()-1),0));
-                kp.setFixed((Boolean)model.getValueAt((model.getRowCount()-1),1));
-                kp.setConstrained((Boolean)model.getValueAt((model.getRowCount()-1),2));
-                kp.setMin((Double)model.getValueAt((model.getRowCount()-1),3));
-                kp.setMax((Double)model.getValueAt((model.getRowCount()-1),4));
+                kp.setStart((Double) model.getValueAt((model.getRowCount() - 1), 0));
+                kp.setFixed((Boolean) model.getValueAt((model.getRowCount() - 1), 1));
+                kp.setConstrained((Boolean) model.getValueAt((model.getRowCount() - 1), 2));
+                kp.setMin((Double) model.getValueAt((model.getRowCount() - 1), 3));
+                kp.setMax((Double) model.getValueAt((model.getRowCount() - 1), 4));
                 kinparPanelModel.getKinpar().add(kp);
-            } else if (model.getRowCount()<kinparPanelModel.getKinpar().size()) {
-                kinparPanelModel.getKinpar().remove(kinparPanelModel.getKinpar().size()-1);
+            } else if (model.getRowCount() < kinparPanelModel.getKinpar().size()) {
+                kinparPanelModel.getKinpar().remove(kinparPanelModel.getKinpar().size() - 1);
             }
             for (int i = 0; i < model.getRowCount(); i++) {
-                kinparPanelModel.getKinpar().get(i).setStart((Double)model.getValueAt(i,0));
-                kinparPanelModel.getKinpar().get(i).setFixed((Boolean)model.getValueAt(i,1));
-                kinparPanelModel.getKinpar().get(i).setConstrained((Boolean)model.getValueAt(i,2));
-                kinparPanelModel.getKinpar().get(i).setMin((Double)model.getValueAt(i,3));
-                kinparPanelModel.getKinpar().get(i).setMax((Double)model.getValueAt(i,4));
+                kinparPanelModel.getKinpar().get(i).setStart((Double) model.getValueAt(i, 0));
+                kinparPanelModel.getKinpar().get(i).setFixed((Boolean) model.getValueAt(i, 1));
+                kinparPanelModel.getKinpar().get(i).setConstrained((Boolean) model.getValueAt(i, 2));
+                kinparPanelModel.getKinpar().get(i).setMin((Double) model.getValueAt(i, 3));
+                kinparPanelModel.getKinpar().get(i).setMax((Double) model.getValueAt(i, 4));
             }
         }
         if (source == jCBPositivepar) {
-            kinparPanelModel.setPositivepar((Boolean)value);
+            kinparPanelModel.setPositivepar((Boolean) value);
         }
         if (source == jCBSeqmod) {
-            kinparPanelModel.setSeqmod((Boolean)value);
+            kinparPanelModel.setSeqmod((Boolean) value);
         }
         endUIChange();
     }
-    
+
     @Override
     protected void endUIChange() {// signalUIChange() is deprecated{
         dObj.modelUpdatedFromUI();
@@ -136,6 +134,7 @@ public class KinparPanel extends SectionInnerPanel implements TableModelListener
         jLabel1.setText("Number of components");
 
         jSNumOfComponents.addChangeListener(new javax.swing.event.ChangeListener() {
+
             public void stateChanged(javax.swing.event.ChangeEvent evt) {
                 jSNumOfComponentsStateChanged(evt);
             }
@@ -145,6 +144,7 @@ public class KinparPanel extends SectionInnerPanel implements TableModelListener
 
         jCBPositivepar.setText("Set Kinetic Parameters Positive");
         jCBPositivepar.addActionListener(new java.awt.event.ActionListener() {
+
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jCBPositiveparActionPerformed(evt);
             }
@@ -152,6 +152,7 @@ public class KinparPanel extends SectionInnerPanel implements TableModelListener
 
         jCBSeqmod.setText("Sequential analysis");
         jCBSeqmod.addActionListener(new java.awt.event.ActionListener() {
+
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jCBSeqmodActionPerformed(evt);
             }
@@ -160,62 +161,33 @@ public class KinparPanel extends SectionInnerPanel implements TableModelListener
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jCBSeqmod)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jCBPositivepar))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 632, Short.MAX_VALUE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(13, 13, 13)
-                        .addComponent(jLabel1)
-                        .addGap(28, 28, 28)
-                        .addComponent(jSNumOfComponents, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap())
-        );
+                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(layout.createSequentialGroup().addContainerGap().addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(layout.createSequentialGroup().addComponent(jCBSeqmod).addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED).addComponent(jCBPositivepar)).addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 632, Short.MAX_VALUE).addGroup(layout.createSequentialGroup().addGap(13, 13, 13).addComponent(jLabel1).addGap(28, 28, 28).addComponent(jSNumOfComponents, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE))).addContainerGap()));
         layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(jSNumOfComponents, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 136, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jCBSeqmod)
-                    .addComponent(jCBPositivepar))
-                .addContainerGap())
-        );
+                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(layout.createSequentialGroup().addContainerGap().addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE).addComponent(jLabel1).addComponent(jSNumOfComponents, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)).addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED).addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 136, Short.MAX_VALUE).addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED).addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE).addComponent(jCBSeqmod).addComponent(jCBPositivepar)).addContainerGap()));
     }// </editor-fold>//GEN-END:initComponents
 
-private void jSNumOfComponentsStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jSNumOfComponentsStateChanged
-    int oldRowCount = model.getRowCount();
-    if ((Integer) jSNumOfComponents.getValue() > oldRowCount) {
-        for (int i = 0; i < (Integer)jSNumOfComponents.getValue()-oldRowCount; i++){
-            model.addRow();
-            rowHeader.addRow(String.valueOf(model.getRowCount()));
+    private void jSNumOfComponentsStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jSNumOfComponentsStateChanged
+        int oldRowCount = model.getRowCount();
+        if ((Integer) jSNumOfComponents.getValue() > oldRowCount) {
+            for (int i = 0; i < (Integer) jSNumOfComponents.getValue() - oldRowCount; i++) {
+                model.addRow();
+                rowHeader.addRow(String.valueOf(model.getRowCount()));
+            }
+        } else {
+            for (int i = 0; i < oldRowCount - (Integer) jSNumOfComponents.getValue(); i++) {
+                rowHeader.removeRow(model.getRowCount() - 1);
+                model.removeRow(model.getRowCount() - 1);
+            }
         }
-    } else {
-        for (int i = 0; i < oldRowCount-(Integer)jSNumOfComponents.getValue(); i++){
-            rowHeader.removeRow(model.getRowCount() - 1);
-            model.removeRow(model.getRowCount() - 1);
-        }
-    }
-}//GEN-LAST:event_jSNumOfComponentsStateChanged
+    }//GEN-LAST:event_jSNumOfComponentsStateChanged
 
-private void jCBSeqmodActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCBSeqmodActionPerformed
-    setValue(jCBSeqmod, jCBSeqmod.isSelected());
-}//GEN-LAST:event_jCBSeqmodActionPerformed
+    private void jCBSeqmodActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCBSeqmodActionPerformed
+        setValue(jCBSeqmod, jCBSeqmod.isSelected());
+    }//GEN-LAST:event_jCBSeqmodActionPerformed
 
-private void jCBPositiveparActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCBPositiveparActionPerformed
-    setValue(jCBPositivepar, jCBPositivepar.isSelected());
-}//GEN-LAST:event_jCBPositiveparActionPerformed
-
+    private void jCBPositiveparActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCBPositiveparActionPerformed
+        setValue(jCBPositivepar, jCBPositivepar.isSelected());
+    }//GEN-LAST:event_jCBPositiveparActionPerformed
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JCheckBox jCBPositivepar;
     private javax.swing.JCheckBox jCBSeqmod;

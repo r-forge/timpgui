@@ -2,7 +2,6 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package org.glotaran.jfreechartcustom;
 
 import java.awt.Graphics2D;
@@ -16,7 +15,7 @@ import org.jfree.data.xy.XYSeriesCollection;
 /**
  *
  * @author lsp
-*/
+ */
 public abstract class ImageUtilities {
 
     /**
@@ -34,7 +33,7 @@ public abstract class ImageUtilities {
         XYSeries series = new XYSeries(seriesName);
         int cols = dataset.GetImageWidth();
         for (int c = 0; c < cols; c++) {
-            series.add(dataset.GetWaveValue(c), dataset.getZValue(1, row*cols+c));
+            series.add(dataset.GetWaveValue(c), dataset.getZValue(1, row * cols + c));
         }
         XYSeriesCollection result = new XYSeriesCollection(series);
         return result;
@@ -56,7 +55,7 @@ public abstract class ImageUtilities {
         int rows = dataset.GetImageHeigth();
         int cols = dataset.GetImageWidth();
         for (int r = 0; r < rows; r++) {
-            series.add(dataset.GetTimeValue(r), dataset.getZValue(1,column+r*cols));
+            series.add(dataset.GetTimeValue(r), dataset.getZValue(1, column + r * cols));
         }
         XYSeriesCollection result = new XYSeriesCollection(series);
         return result;
@@ -87,7 +86,7 @@ public abstract class ImageUtilities {
         Graphics2D g2 = image.createGraphics();
         for (int yIndex = 0; yIndex < yCount; yIndex++) {
             for (int xIndex = 0; xIndex < xCount; xIndex++) {
-                double z = dataset.getZValue(0,yIndex*xCount+xIndex);
+                double z = dataset.getZValue(0, yIndex * xCount + xIndex);
                 Paint p = paintScale.getPaint(z);
                 g2.setPaint(p);
                 g2.fillRect(xIndex, yIndex, 1, 1);
@@ -111,7 +110,7 @@ public abstract class ImageUtilities {
         Graphics2D g2 = image.createGraphics();
         for (int yIndex = 0; yIndex < yCount; yIndex++) {
             for (int xIndex = 0; xIndex < xCount; xIndex++) {
-                double z = dataset.getZValue(0,yIndex*xCount+xIndex);
+                double z = dataset.getZValue(0, yIndex * xCount + xIndex);
                 Paint p = paintScale.getPaint(z);
                 g2.setPaint(p);
                 g2.fillRect(xIndex, yIndex, 1, 1);

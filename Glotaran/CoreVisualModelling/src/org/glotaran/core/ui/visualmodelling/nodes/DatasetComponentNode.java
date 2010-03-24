@@ -2,7 +2,6 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package org.glotaran.core.ui.visualmodelling.nodes;
 
 import java.awt.Image;
@@ -30,7 +29,7 @@ import org.openide.util.datatransfer.PasteType;
  *
  * @author jsg210
  */
-public class DatasetComponentNode extends PropertiesAbstractNode implements Transferable{
+public class DatasetComponentNode extends PropertiesAbstractNode implements Transferable {
 
     private final Image ICON = ImageUtilities.loadImage("org/glotaran/core/main/resources/doc.png", true);
     public static final DataFlavor DATA_FLAVOR = new DataFlavor(DatasetComponentNode.class, "DatasetComponentNode");
@@ -38,7 +37,7 @@ public class DatasetComponentNode extends PropertiesAbstractNode implements Tran
     private PropertyChangeListener propListner;
     private Integer group = 0;
     private Double dscalValue = 1.0;
-    private String[] propNames = new String[]{"Name","Group Index","Scaling enabled","Scaling value"};
+    private String[] propNames = new String[]{"Name", "Group Index", "Scaling enabled", "Scaling value"};
 
     public DatasetComponentNode(String name, Children children) {
         super(name, children);
@@ -62,25 +61,25 @@ public class DatasetComponentNode extends PropertiesAbstractNode implements Tran
     @Override
     public String getDisplayName() {
         String name = super.getDisplayName();
-        if (isConnected()){
-            return name+" ["+String.valueOf(getGroup()+1)+"]";
+        if (isConnected()) {
+            return name + " [" + String.valueOf(getGroup() + 1) + "]";
         }
         return name;
     }
 
     public Integer getGroup() {
-        if (group >= getParentNode().getChildren().getNodesCount()){
-            setGroup(getParentNode().getChildren().getNodesCount()-1);
+        if (group >= getParentNode().getChildren().getNodesCount()) {
+            setGroup(getParentNode().getChildren().getNodesCount() - 1);
 //            CoreErrorMessages.selCorrChNum();
         }
         return group;
     }
 
     public void setGroup(Integer group) {
-        if (group < getParentNode().getChildren().getNodesCount()){
+        if (group < getParentNode().getChildren().getNodesCount()) {
             this.group = group;
             fireNameChange(null, getDisplayName());
-            firePropertyChange("groupIndexChanged", null, this.group+1);
+            firePropertyChange("groupIndexChanged", null, this.group + 1);
 //            System.out.println(String.valueOf(group));
         } else {
             CoreErrorMessages.selCorrChNum();
@@ -96,7 +95,6 @@ public class DatasetComponentNode extends PropertiesAbstractNode implements Tran
         firePropertyChange("dscalValue", null, dscalValue);
     }
 
-    
 //    public Boolean getScalEnabled() {
 //        return scalEnabled;
 //    }
@@ -119,7 +117,6 @@ public class DatasetComponentNode extends PropertiesAbstractNode implements Tran
 ////        firePropertyChange("SetBackSweep", null, backSweep);
 //
 //    }
-    
     @Override
     public Image getIcon(int type) {
         return ICON;
@@ -139,10 +136,11 @@ public class DatasetComponentNode extends PropertiesAbstractNode implements Tran
     protected Sheet createSheet() {
         Sheet sheet = Sheet.createDefault();
         Sheet.Set set = Sheet.createPropertiesSet();
-        Property<String> datasetNname= null;
+        Property<String> datasetNname = null;
 //        Property<Boolean> discalEnabled = null;
         Property<Double> discalVal = null;
         datasetNname = new PropertySupport.ReadOnly<String>(propNames[0], String.class, "Name", "Name of the dataset") {
+
             @Override
             public String getValue() throws IllegalAccessException, InvocationTargetException {
                 return tdn.getDisplayName();
@@ -157,67 +155,69 @@ public class DatasetComponentNode extends PropertiesAbstractNode implements Tran
             Exceptions.printStackTrace(ex);
         }
         set.put(datasetNname);
-        if (isConnected()){
+        if (isConnected()) {
             set.put(createGroupProperty());
-            if (enableDscalProperty()){
-                    set.put(discalVal);
+            if (enableDscalProperty()) {
+                set.put(discalVal);
             }
         }
         sheet.put(set);
         return sheet;
     }
 
-    private String[] craeteGroupList(){
+    private String[] craeteGroupList() {
         int count = getParentNode().getChildren().getNodesCount();
         String[] groupList = new String[count];
-        for (int i = 0; i < count; i++){
-            groupList[i] = "Group"+String.valueOf(i+1);
+        for (int i = 0; i < count; i++) {
+            groupList[i] = "Group" + String.valueOf(i + 1);
         }
         return groupList;
     }
 
-    private int[] craeteIndList(){
+    private int[] craeteIndList() {
         int count = getParentNode().getChildren().getNodesCount();
         int[] groupInd = new int[count];
-        for (int i = 0; i < count; i++){
+        for (int i = 0; i < count; i++) {
             groupInd[i] = i;
         }
         return groupInd;
     }
 
-    private Property<Integer> createGroupProperty(){
+    private Property<Integer> createGroupProperty() {
 
         Property<Integer> paramIndex = new Property<Integer>(Integer.class) {
+
             @Override
             public boolean canRead() {
                 return true;
             }
+
             @Override
             public Integer getValue() throws IllegalAccessException, InvocationTargetException {
                 return getGroup();
             }
+
             @Override
             public boolean canWrite() {
                 return true;
             }
+
             @Override
             public void setValue(Integer val) throws IllegalAccessException, IllegalArgumentException, InvocationTargetException {
                 setGroup(val);
             }
         };
-        paramIndex.setValue("intValues",craeteIndList());
-        paramIndex.setValue("stringKeys",craeteGroupList());
+        paramIndex.setValue("intValues", craeteIndList());
+        paramIndex.setValue("stringKeys", craeteGroupList());
         paramIndex.setName(propNames[1]);
         return paramIndex;
     }
 
     //TODO implement dscal property (only for datasets same group)
-
-
-    private boolean enableDscalProperty(){
+    private boolean enableDscalProperty() {
         int groupMembCount = 0;
         if (isConnected()) {
-            if (((DatasetsRootNode) getParentNode()).getContainerComponent().getModelDifferences().getThreshold()==null){
+            if (((DatasetsRootNode) getParentNode()).getContainerComponent().getModelDifferences().getThreshold() == null) {
                 ((DatasetsRootNode) getParentNode()).getContainerComponent().getModelDifferences().setThreshold(0.0);
             }
             if (((DatasetsRootNode) getParentNode()).getContainerComponent().getModelDifferences().getThreshold() >= 0) {
@@ -229,7 +229,7 @@ public class DatasetComponentNode extends PropertiesAbstractNode implements Tran
                 }
             }
         }
-        if (groupMembCount > 1){
+        if (groupMembCount > 1) {
 //            firePropertyChange("dscalEnabled", null, true);
             return true;
         }
@@ -237,83 +237,83 @@ public class DatasetComponentNode extends PropertiesAbstractNode implements Tran
         return false;
     }
 
-    public void updatePropSheet(){
+    public void updatePropSheet() {
         fireNameChange(null, getDisplayName());
         setSheet(createSheet());
     }
 
     @Override
-    public PasteType getDropType(Transferable t, int action, int index) {        
-        if (t.isDataFlavorSupported(PaletteNode.DATA_FLAVOR)){
+    public PasteType getDropType(Transferable t, int action, int index) {
+        if (t.isDataFlavorSupported(PaletteNode.DATA_FLAVOR)) {
             try {
-                final PaletteItem pi = (PaletteItem)t.getTransferData(PaletteNode.DATA_FLAVOR);
+                final PaletteItem pi = (PaletteItem) t.getTransferData(PaletteNode.DATA_FLAVOR);
                 return new PasteType() {
+
                     @Override
                     public Transferable paste() throws IOException {
-                        if (isConnected()){
+                        if (isConnected()) {
                             Boolean present = false;
-                            if (pi.getName().equals("FreeParam")){
+                            if (pi.getName().equals("FreeParam")) {
                                 for (int i = 0; i < getChildren().getNodesCount(); i++) {
-                                    if (getChildren().getNodes()[i] instanceof ModelDiffsNode &&
-                                            (((ModelDiffsNode)getChildren().getNodes()[i])).getType().equalsIgnoreCase("FreeParameter")){
+                                    if (getChildren().getNodes()[i] instanceof ModelDiffsNode
+                                            && (((ModelDiffsNode) getChildren().getNodes()[i])).getType().equalsIgnoreCase("FreeParameter")) {
                                         present = true;
                                     }
                                 }
-                                if (!present){
-                                    getChildren().add(new Node[]{new ModelDiffsNode("FreeParameter",propListner, getdatasetIndex())});
+                                if (!present) {
+                                    getChildren().add(new Node[]{new ModelDiffsNode("FreeParameter", propListner, getdatasetIndex())});
                                     return null;
                                 } else {
                                     CoreErrorMessages.parametersExists("Free Parameter");
                                 }
                             }
-                            
-                            if (pi.getName().equals("AddParam")){
+
+                            if (pi.getName().equals("AddParam")) {
                                 for (int i = 0; i < getChildren().getNodesCount(); i++) {
-                                    if (getChildren().getNodes()[i] instanceof ModelDiffsNode &&
-                                            (((ModelDiffsNode)getChildren().getNodes()[i])).getType().equalsIgnoreCase("AddParameter")){
+                                    if (getChildren().getNodes()[i] instanceof ModelDiffsNode
+                                            && (((ModelDiffsNode) getChildren().getNodes()[i])).getType().equalsIgnoreCase("AddParameter")) {
                                         present = true;
                                     }
                                 }
-                                if (!present){
-                                    getChildren().add(new Node[]{new ModelDiffsNode("AddParameter",propListner, getdatasetIndex())});
+                                if (!present) {
+                                    getChildren().add(new Node[]{new ModelDiffsNode("AddParameter", propListner, getdatasetIndex())});
                                     return null;
                                 } else {
                                     CoreErrorMessages.parametersExists("Add Parameter");
                                 }
                             }
-                            if (pi.getName().equals("RemoveParam")){
+                            if (pi.getName().equals("RemoveParam")) {
                                 for (int i = 0; i < getChildren().getNodesCount(); i++) {
-                                    if (getChildren().getNodes()[i] instanceof ModelDiffsNode &&
-                                            (((ModelDiffsNode)getChildren().getNodes()[i])).getType().equalsIgnoreCase("RemoveParameter")){
+                                    if (getChildren().getNodes()[i] instanceof ModelDiffsNode
+                                            && (((ModelDiffsNode) getChildren().getNodes()[i])).getType().equalsIgnoreCase("RemoveParameter")) {
                                         present = true;
                                     }
                                 }
-                                if (!present){
-                                    getChildren().add(new Node[]{new ModelDiffsNode("RemoveParameter",propListner, getdatasetIndex())});
+                                if (!present) {
+                                    getChildren().add(new Node[]{new ModelDiffsNode("RemoveParameter", propListner, getdatasetIndex())});
                                     return null;
                                 } else {
                                     CoreErrorMessages.parametersExists("Remove Parameter");
                                 }
                             }
-                        
-                            
-                            if (pi.getName().equals("ChangeParam")){
+
+
+                            if (pi.getName().equals("ChangeParam")) {
                                 for (int i = 0; i < getChildren().getNodesCount(); i++) {
                                     if (getChildren().getNodes()[i] instanceof ModelDiffsChangeNode) {
                                         present = true;
                                     }
                                 }
-                                if (!present){
-                                    getChildren().add(new Node[]{new ModelDiffsChangeNode("ChangeParameter",propListner, getdatasetIndex())});
-                                    firePropertyChange("ChangeParamAdded", getdatasetIndex(), null );
+                                if (!present) {
+                                    getChildren().add(new Node[]{new ModelDiffsChangeNode("ChangeParameter", propListner, getdatasetIndex())});
+                                    firePropertyChange("ChangeParamAdded", getdatasetIndex(), null);
                                     return null;
                                 } else {
                                     CoreErrorMessages.parametersExists("Change Parameter");
                                 }
                             }
 
-                        }
-                        else {
+                        } else {
                             CoreErrorMessages.containerNotConnected();
                         }
                         return null;
@@ -325,27 +325,26 @@ public class DatasetComponentNode extends PropertiesAbstractNode implements Tran
                 Exceptions.printStackTrace(ex);
             }
             return null;
-        }
-        else {
+        } else {
             return null;
         }
     }
 
     public DataFlavor[] getTransferDataFlavors() {
-      return(new DataFlavor[]{DATA_FLAVOR});
-   }
+        return (new DataFlavor[]{DATA_FLAVOR});
+    }
 
-   public boolean isDataFlavorSupported(DataFlavor flavor) {
-      return(flavor == DATA_FLAVOR);
-   }
+    public boolean isDataFlavorSupported(DataFlavor flavor) {
+        return (flavor == DATA_FLAVOR);
+    }
 
-   public Object getTransferData(DataFlavor flavor) throws UnsupportedFlavorException {
-      if(flavor == DATA_FLAVOR) {
-         return(this);
-      } else {
-         throw new UnsupportedFlavorException(flavor);
-      }
-   }
+    public Object getTransferData(DataFlavor flavor) throws UnsupportedFlavorException {
+        if (flavor == DATA_FLAVOR) {
+            return (this);
+        } else {
+            throw new UnsupportedFlavorException(flavor);
+        }
+    }
 
     public TimpDatasetNode getTdn() {
         return tdn;
@@ -359,14 +358,14 @@ public class DatasetComponentNode extends PropertiesAbstractNode implements Tran
         parNode.updateChildrensProperties();
     }
 
-    private boolean isConnected(){
-        return ((DatasetsRootNode)getParentNode()).getContainerComponent().isConnected();
+    private boolean isConnected() {
+        return ((DatasetsRootNode) getParentNode()).getContainerComponent().isConnected();
     }
 
-    public int getdatasetIndex(){
-        for (int i = 0; i < getParentNode().getChildren().getNodesCount(); i++){
-            if (getParentNode().getChildren().getNodes()[i].equals(this)){
-                return i+1;
+    public int getdatasetIndex() {
+        for (int i = 0; i < getParentNode().getChildren().getNodesCount(); i++) {
+            if (getParentNode().getChildren().getNodes()[i].equals(this)) {
+                return i + 1;
             }
         }
         return 1;

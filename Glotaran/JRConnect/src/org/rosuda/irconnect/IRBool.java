@@ -5,7 +5,10 @@ package org.rosuda.irconnect;
  * @author Ralf
  */
 public interface IRBool {
-	boolean isFALSE();
-	boolean isNA();
-	boolean isTRUE();
+
+    boolean isFALSE();
+
+    boolean isNA();
+
+    boolean isTRUE();
 }

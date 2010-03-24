@@ -110,7 +110,7 @@
                 <xsd:complexType>
                     <xsd:sequence>
                         <xsd:element name="weight" type="xsd:double">
-                                    </xsd:element>
+                        </xsd:element>
                         <xsd:element name="last_x2" type="xsd:double"/>
                         <xsd:element name="first_x2" type="xsd:double"/>
                         <xsd:element name="last_x" type="xsd:double"/>

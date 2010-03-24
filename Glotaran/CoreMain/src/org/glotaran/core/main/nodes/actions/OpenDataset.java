@@ -31,7 +31,7 @@ public final class OpenDataset extends CookieAction {
     private DataObject dataObject;
 
     public OpenDataset() {
-        super();        
+        super();
     }
 
     protected void performAction(Node[] activatedNodes) {

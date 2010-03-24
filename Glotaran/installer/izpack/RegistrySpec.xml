@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 <!-- 
-	ATTENTION!!! do not edit with an editor which do not handle UTF-8 in a right manner!!
-	Storing with a wrong editor can crash this file!
+        ATTENTION!!! do not edit with an editor which do not handle UTF-8 in a right manner!!
+        Storing with a wrong editor can crash this file!
     Registry definition file for IzPack Installation.
     $Id: RegistrySpec.xml 2163 2008-05-18 13:48:36Z jponge $
 -->
@@ -30,7 +30,7 @@
                root="HKLM"
                string="$APP_URL"/>
     </pack>
-   <!--
+    <!--
     <pack name="Documentation-HTML">
         <key keypath="SOFTWARE\IzForge\IzPack\$UNINSTALL_NAME\Documentation\HTML" root="HKLM"/>
     </pack>
@@ -49,6 +49,6 @@
     <pack name="Sources">
         <key keypath="SOFTWARE\IzForge\IzPack\$UNINSTALL_NAME\Sources" root="HKLM"/>
     </pack>
-     -->
+    -->
 </registry>
 

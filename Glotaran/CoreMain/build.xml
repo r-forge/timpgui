@@ -12,8 +12,8 @@
         <delete file="${basedir}/src/org/glotaran/main/EmptyProject.zip"/>
         <delete file="${basedir}/src/org/glotaran/main/HippiusDemoProject.zip"/>
         <zip compress="9" basedir="templates/Hippius Demo Project/"
-            zipfile="${basedir}/src/org/glotaran/core/main/HippiusDemoProject.zip"/>
+             zipfile="${basedir}/src/org/glotaran/core/main/HippiusDemoProject.zip"/>
         <zip compress="9" basedir="templates/EmptyModelProject/"
-            zipfile="${basedir}/src/org/glotaran/core/main/EmptyModelProject.zip"/>
+             zipfile="${basedir}/src/org/glotaran/core/main/EmptyModelProject.zip"/>
     </target>
 </project>

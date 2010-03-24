@@ -4,7 +4,6 @@ package org.glotaran.core.models.structures;
  *
  * @author Sergey
  */
-
 //import org.glotaran.core.main.interfaces.TimpResultInterface;
 import Jama.Matrix;
 import java.io.Serializable;

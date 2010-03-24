@@ -2,7 +2,6 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package org.glotaran.core.datadisplayers;
 
 import java.util.Set;
@@ -17,7 +16,7 @@ import org.openide.windows.WindowManager;
  *
  * @author lsp
  */
-public class ShowSpecEditor implements DatasetLoaderInterface{
+public class ShowSpecEditor implements DatasetLoaderInterface {
 
     public String getType() {
         return "spec";
@@ -46,7 +45,7 @@ public class ShowSpecEditor implements DatasetLoaderInterface{
         for (TopComponent t : tset) {
             if (t instanceof SpecEditorTopCompNew) {
                 SpecEditorTopCompNew srtc = (SpecEditorTopCompNew) t;
-                if (srtc.getDataObject2()!= null) {
+                if (srtc.getDataObject2() != null) {
                     if (srtc.getDataObject2().equals(dataObj)) {
                         srtc.requestActive();
                         return;

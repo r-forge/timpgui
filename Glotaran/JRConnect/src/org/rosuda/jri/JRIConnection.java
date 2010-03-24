@@ -2,17 +2,17 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package org.rosuda.jri;
 
 import org.rosuda.irconnect.IRConnection;
 import org.rosuda.irconnect.IREXP;
 import org.rosuda.JRI.Rengine;
+
 /**
  *
  * @author Ralf
  */
-public class JRIConnection implements IRConnection{
+public class JRIConnection implements IRConnection {
 
     final Rengine engine;
 
@@ -43,5 +43,4 @@ public class JRIConnection implements IRConnection{
     public void shutdown() {
         engine.end();
     }
-
 }

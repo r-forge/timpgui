@@ -2,7 +2,6 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package org.rosuda.jri;
 
 import java.util.Map.Entry;
@@ -18,43 +17,40 @@ import org.rosuda.irconnect.proxy.RConnectionProxy;
  *
  * @author Ralf
  */
-public class JRIConnectionFactory implements IConnectionFactory{
+public class JRIConnectionFactory implements IConnectionFactory {
 
-   private static IConnectionFactory instance = new JRIConnectionFactory();
-
+    private static IConnectionFactory instance = new JRIConnectionFactory();
     public static final String RUNMAINLOOL = "runMainLoop";
-
     private final RMainLoopCallbacks defaultCallback;
 
     public static IConnectionFactory getInstance() {
         return instance;
     }
-
     private StringBuffer console = new StringBuffer();
 
     protected JRIConnectionFactory() {
         instance = this;
         defaultCallback = new RMainLoopCallbacks() {
 
-    /**
-     * Write output from R into console (old R callback).
-     *
-     * @param re
-     *            used Rengine
-     * @param text
-     *            output
-     * @param addToHist
-     *            seems to be added in versions 1.5 (no documentation)
-     */
-    public void rWriteConsole(Rengine re, String text, int addToHist) {
-            throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-            public void rBusy(final Rengine engine, final int which)  {
+            /**
+             * Write output from R into console (old R callback).
+             *
+             * @param re
+             *            used Rengine
+             * @param text
+             *            output
+             * @param addToHist
+             *            seems to be added in versions 1.5 (no documentation)
+             */
+            public void rWriteConsole(Rengine re, String text, int addToHist) {
                 throw new UnsupportedOperationException("Not supported yet.");
             }
 
-            public String rReadConsole(final Rengine engine, final String prompt, final int addToHistory)  {
+            public void rBusy(final Rengine engine, final int which) {
+                throw new UnsupportedOperationException("Not supported yet.");
+            }
+
+            public String rReadConsole(final Rengine engine, final String prompt, final int addToHistory) {
                 throw new UnsupportedOperationException("Not supported yet.");
             }
 
@@ -89,14 +85,15 @@ public class JRIConnectionFactory implements IConnectionFactory{
         if (configuration != null) {
             rargs = new String[configuration.size()];
             int count = 0;
-            for (final Entry<Object,Object> entry: configuration.entrySet()) {
+            for (final Entry<Object, Object> entry : configuration.entrySet()) {
                 if (entry.getValue() instanceof String) {
                     rargs[count++] = (String) entry.getValue();
                 }
                 if (RUNMAINLOOL.equals(entry.getKey())) {
                     runMainLoop = Boolean.parseBoolean(entry.getValue().toString());
-                    if (callback == null)
+                    if (callback == null) {
                         callback = defaultCallback;
+                    }
                 }
                 if (entry.getValue() instanceof RMainLoopCallbacks) {
                     callback = (RMainLoopCallbacks) entry.getValue();
@@ -112,7 +109,5 @@ public class JRIConnectionFactory implements IConnectionFactory{
         final IRConnection irConnection = createRConnection(configuration);
         return RConnectionProxy.createProxy(irConnection, new JRIJava2RConnection(irConnection));
     }
-
-
 }
 

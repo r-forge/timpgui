@@ -2,7 +2,6 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package org.glotaran.core.ui.visualmodelling.nodes;
 
 import java.awt.Image;
@@ -27,31 +26,31 @@ import org.openide.util.ImageUtilities;
  * @author slapten
  */
 public class DispersionModelingNode extends PropertiesAbstractNode {
+
     private final Image ICON = ImageUtilities.loadImage("org/glotaran/core/ui/visualmodelling/resources/Dispersion_16.png", true);
     private EnumTypes.DispersionTypes disptype = EnumTypes.DispersionTypes.PARMU;
     private Double centralWave;
     private boolean single = true;
 
-    public DispersionModelingNode(PropertyChangeListener listn){
-         super("Dispersion", new NonLinearParametersKeys(0));
-         this.addPropertyChangeListener(listn);
+    public DispersionModelingNode(PropertyChangeListener listn) {
+        super("Dispersion", new NonLinearParametersKeys(0));
+        this.addPropertyChangeListener(listn);
     }
 
     public DispersionModelingNode(IrfparPanelModel irfparPanel, DispersionTypes dispersionTypes, PropertyChangeListener listn) {
         super("Dispersion", new NonLinearParametersKeys(0));
         NonLinearParametersKeys params = (NonLinearParametersKeys) getChildren();
-        ArrayList <Double> paramList;
+        ArrayList<Double> paramList;
         Boolean fixed;
-        if (dispersionTypes.equals(EnumTypes.DispersionTypes.PARMU)){
+        if (dispersionTypes.equals(EnumTypes.DispersionTypes.PARMU)) {
             paramList = VisualCommonFunctions.strToParams(irfparPanel.getParmu());
             fixed = irfparPanel.isParmufixed();
-        }
-        else {
+        } else {
             paramList = VisualCommonFunctions.strToParams(irfparPanel.getPartau());
             fixed = irfparPanel.isPartaufixed();
         }
-        for (int i = 0; i < paramList.size(); i++){
-            params.addObj(new NonLinearParameter(paramList.get(i),fixed));
+        for (int i = 0; i < paramList.size(); i++) {
+            params.addObj(new NonLinearParameter(paramList.get(i), fixed));
         }
         setDisptype(dispersionTypes);
         setCentralWave(irfparPanel.getLamda());
@@ -74,7 +73,7 @@ public class DispersionModelingNode extends PropertiesAbstractNode {
     @Override
     public String getDisplayName() {
         String name = super.getDisplayName();
-        name = name + " ("+disptype+")";
+        name = name + " (" + disptype + ")";
         return name;
     }
 
@@ -97,13 +96,13 @@ public class DispersionModelingNode extends PropertiesAbstractNode {
         Property<Double> lambdaC = null;
         PropertySupport.Reflection<EnumTypes.DispersionTypes> dispType = null;
         try {
-            dispType = (single) ?
-                new PropertySupport.Reflection<EnumTypes.DispersionTypes>(this, EnumTypes.DispersionTypes.class, "disptype") :
-                new PropertySupport.Reflection<EnumTypes.DispersionTypes>(this, EnumTypes.DispersionTypes.class, "getDisptype", null);
-            dispType.setPropertyEditorClass(EnumPropertyEditor.class); 
+            dispType = (single)
+                    ? new PropertySupport.Reflection<EnumTypes.DispersionTypes>(this, EnumTypes.DispersionTypes.class, "disptype")
+                    : new PropertySupport.Reflection<EnumTypes.DispersionTypes>(this, EnumTypes.DispersionTypes.class, "getDisptype", null);
+            dispType.setPropertyEditorClass(EnumPropertyEditor.class);
             numberOfComponents = new PropertySupport.Reflection<Integer>(this, Integer.class, "getCompNum", "setCompNum");
             name = new PropertySupport.Reflection<String>(this, String.class, "getDisplayName", null);
-            lambdaC = new PropertySupport.Reflection<Double>(this, Double.class,"centralWave");
+            lambdaC = new PropertySupport.Reflection<Double>(this, Double.class, "centralWave");
         } catch (NoSuchMethodException ex) {
             Exceptions.printStackTrace(ex);
         }
@@ -119,7 +118,7 @@ public class DispersionModelingNode extends PropertiesAbstractNode {
         return sheet;
     }
 
-    public void recreateSheet(){
+    public void recreateSheet() {
         setSheet(createSheet());
     }
 
@@ -127,17 +126,17 @@ public class DispersionModelingNode extends PropertiesAbstractNode {
         this.single = single;
     }
 
-    public Integer getCompNum(){
+    public Integer getCompNum() {
         return getChildren().getNodesCount();
     }
 
-    public void setCompNum(Integer compNum){
-        NonLinearParametersKeys childColection = (NonLinearParametersKeys)getChildren();
+    public void setCompNum(Integer compNum) {
+        NonLinearParametersKeys childColection = (NonLinearParametersKeys) getChildren();
         int currCompNum = childColection.getNodesCount();
-        if (currCompNum < compNum){
-            childColection.addDefaultObj(compNum-currCompNum);
+        if (currCompNum < compNum) {
+            childColection.addDefaultObj(compNum - currCompNum);
         } else {
-            childColection.removeParams(currCompNum-compNum);
+            childColection.removeParams(currCompNum - compNum);
         }
         fireDisplayNameChange(null, getDisplayName());
     }
@@ -162,7 +161,7 @@ public class DispersionModelingNode extends PropertiesAbstractNode {
     }
 
     @Override
-    public void fire(int index, PropertyChangeEvent evt){
+    public void fire(int index, PropertyChangeEvent evt) {
         if ("start".equals(evt.getPropertyName())) {
             firePropertyChange("start", disptype, evt.getNewValue());
         }

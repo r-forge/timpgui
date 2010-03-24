@@ -2,7 +2,6 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package org.glotaran.core.resultdisplayers.global.spec;
 
 import java.util.ArrayList;
@@ -21,5 +20,4 @@ public final class OpenGlobalSpecResultsDisplayer implements GlobalSpecResultsPr
         CloneableTopComponent tc = new GlobalSpecResultsDisplayerTopComponent(results, gtaResult);
         return tc;
     }
-
 }

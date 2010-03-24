@@ -4,6 +4,5 @@
 // Any modifications to this file will be lost upon recompilation of the source schema. 
 // Generated on: 2010.03.19 at 01:52:24 PM CET 
 //
-
 @javax.xml.bind.annotation.XmlSchema(namespace = "http://timpgui.org/Schema/TgdSchema", elementFormDefault = javax.xml.bind.annotation.XmlNsForm.QUALIFIED)
 package org.glotaran.core.models.tgd;

@@ -2,7 +2,6 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package org.glotaran.core.ui.visualmodelling.nodes;
 
 import java.awt.Image;
@@ -22,17 +21,18 @@ import org.openide.util.lookup.Lookups;
  *
  * @author slapten
  */
-public class KmatrixNode extends PropertiesAbstractNode{
+public class KmatrixNode extends PropertiesAbstractNode {
+
     private final Image ICON = ImageUtilities.loadImage("org/glotaran/core/ui/visualmodelling/resources/Kmatr_16.png", true);
     private TgmDataObject kMatr;
 
-    public KmatrixNode(PropertyChangeListener listn){
+    public KmatrixNode(PropertyChangeListener listn) {
         super("Kmatrix", Children.LEAF);
         this.addPropertyChangeListener(listn);
     }
 
     public KmatrixNode(TgmDataObject model, PropertyChangeListener listn) {
-        super("Kmatrix", Children.LEAF,Lookups.singleton(model));
+        super("Kmatrix", Children.LEAF, Lookups.singleton(model));
         this.addPropertyChangeListener(listn);
     }
 
@@ -46,12 +46,12 @@ public class KmatrixNode extends PropertiesAbstractNode{
         return getIcon(type);
     }
 
-        @Override
+    @Override
     protected Sheet createSheet() {
         Sheet sheet = Sheet.createDefault();
         Sheet.Set set = Sheet.createPropertiesSet();
         PropertySupport.Reflection kMatrix = null;
-       try {
+        try {
             kMatrix = new PropertySupport.Reflection(this, TgmDataObject.class, "getKmatrix", null);
             kMatrix.setPropertyEditorClass(KmatrixPropertyEditor.class);
         } catch (NoSuchMethodException ex) {
@@ -64,8 +64,7 @@ public class KmatrixNode extends PropertiesAbstractNode{
         return sheet;
     }
 
-    public TgmDataObject getKmatrix(){
+    public TgmDataObject getKmatrix() {
         return getLookup().lookup(TgmDataObject.class);
     }
-
 }

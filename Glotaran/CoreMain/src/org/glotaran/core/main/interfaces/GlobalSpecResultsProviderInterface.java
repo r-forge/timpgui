@@ -2,7 +2,6 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package org.glotaran.core.main.interfaces;
 
 import java.util.ArrayList;
@@ -16,6 +15,5 @@ import org.openide.windows.CloneableTopComponent;
  */
 public interface GlobalSpecResultsProviderInterface {
 
-   public CloneableTopComponent getCloneableTopComponent(ArrayList<TimpResultDataset> timpResultDatasets, GtaResult gtaResult);
-
+    public CloneableTopComponent getCloneableTopComponent(ArrayList<TimpResultDataset> timpResultDatasets, GtaResult gtaResult);
 }

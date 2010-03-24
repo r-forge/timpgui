@@ -4,8 +4,6 @@
 // Any modifications to this file will be lost upon recompilation of the source schema. 
 // Generated on: 2009.11.16 at 02:40:05 PM CET 
 //
-
-
 package org.glotaran.core.models.tgm;
 
 import java.util.ArrayList;
@@ -14,7 +12,6 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
-
 
 /**
  * <p>Java class for Double2BoolMatrix complex type.
@@ -85,7 +82,6 @@ public class Double2BoolMatrix {
         }
         return this.data;
     }
-
 
     /**
      * <p>Java class for anonymous complex type.
@@ -242,7 +238,5 @@ public class Double2BoolMatrix {
             }
             return this.c1Fixed;
         }
-
     }
-
 }

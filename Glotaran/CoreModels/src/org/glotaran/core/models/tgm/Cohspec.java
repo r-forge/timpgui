@@ -4,15 +4,12 @@
 // Any modifications to this file will be lost upon recompilation of the source schema. 
 // Generated on: 2009.11.16 at 02:40:05 PM CET 
 //
-
-
 package org.glotaran.core.models.tgm;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
-
 
 /**
  * <p>Java class for Cohspec complex type.
@@ -85,5 +82,4 @@ public class Cohspec {
     public void setSet(boolean value) {
         this.set = value;
     }
-
 }

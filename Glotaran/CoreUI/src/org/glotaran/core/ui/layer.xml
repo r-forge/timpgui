@@ -11,9 +11,9 @@
                 <attr name="instanceCreate" methodvalue="org.openide.awt.Actions.alwaysEnabled"/>
                 <attr name="noIconInMenu" stringvalue="false"/>
             </file>
-        </folder>       
+        </folder>
         <folder name="Window">
-             <file name="org-glotaran-core-ui-nodecontainers-ShowDatasetNodeContainer.instance">
+            <file name="org-glotaran-core-ui-nodecontainers-ShowDatasetNodeContainer.instance">
                 <attr name="SystemFileSystem.localizingBundle" stringvalue="org.glotaran.core.ui.nodecontainers.Bundle"/>
                 <attr name="delegate" newvalue="org.glotaran.core.ui.nodecontainers.ShowDatasetNodeContainer"/>
                 <attr name="displayName" bundlevalue="org.glotaran.core.ui.nodecontainers.Bundle#CTL_ShowDatasetNodeContainer"/>
@@ -41,14 +41,14 @@
             </file>
         </folder>
     </folder>
-     <folder name="Toolbars">
-            <folder name="Analysis">
-                <file name="org-glotaran-core-ui-StartAnalysis.shadow">
-                    <attr name="originalFile" stringvalue="Actions/Analysis/org-glotaran-core-ui-StartAnalysis.instance"/>
-                    <attr name="position" intvalue="500"/>
-                </file>
-            </folder>
+    <folder name="Toolbars">
+        <folder name="Analysis">
+            <file name="org-glotaran-core-ui-StartAnalysis.shadow">
+                <attr name="originalFile" stringvalue="Actions/Analysis/org-glotaran-core-ui-StartAnalysis.instance"/>
+                <attr name="position" intvalue="500"/>
+            </file>
         </folder>
+    </folder>
 
     <!-- Hides stuff -->
     <folder name="Toolbars">
@@ -117,7 +117,7 @@
             <file name="datasetContainerMode.wsmode" url="datasetContainerModeWsmode.xml"/>
             <folder name="datasetContainerMode">
                 <file name="SelectedDatasetsViewTopComponent.wstcref" url="SelectedDatasetsViewTopComponentWstcref.xml"/>
-             </folder>
+            </folder>
             <file name="modelContainerMode.wsmode" url="modelContainerModeWsmode.xml"/>
             <folder name="modelContainerMode">
                 <file name="SelectedModelsViewTopComponent.wstcref" url="SelectedModelsViewTopComponentWstcref.xml"/>

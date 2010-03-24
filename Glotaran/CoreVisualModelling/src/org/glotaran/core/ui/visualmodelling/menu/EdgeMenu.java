@@ -85,12 +85,12 @@ public class EdgeMenu implements PopupMenuProvider, ActionListener {
     public void actionPerformed(ActionEvent e) {
         if (e.getActionCommand().equals(ADD_REMOVE_CP_ACTION)) {
             addRemoveControlPoint(point);
-        } else if (e.getActionCommand().equals(DELETE_TRANSITION)) {          
+        } else if (e.getActionCommand().equals(DELETE_TRANSITION)) {
             removeConnection();
         }
     }
 
-    private void removeConnection(){
+    private void removeConnection() {
         GtaConnection connection = (GtaConnection) scene.findObject(edge);
 //        if (connection.getTargetType().equalsIgnoreCase(EnumTypes.ConnectionTypes.GTADATASETCONTAINER.toString())){
 //            DatasetsRootNode rootNode = (DatasetsRootNode) ((DatasetContainerWidget)scene.findWidget(scene.getNodeForID(connection.getTargetID()))).getContainerComponent().getExplorerManager().getRootContext();
@@ -101,7 +101,7 @@ public class EdgeMenu implements PopupMenuProvider, ActionListener {
 //        }
         scene.removeEdge((GtaConnection) scene.findObject(edge));
     }
-    
+
     private void addRemoveControlPoint(Point localLocation) {
         ArrayList<Point> list = new ArrayList<Point>(edge.getControlPoints());
         double createSensitivity = 1.00, deleteSensitivity = 5.00;

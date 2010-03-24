@@ -25,24 +25,21 @@ import org.openide.loaders.DataObject;
  * @author alex
  */
 public class SceneMainMenu implements PopupMenuProvider, ActionListener {
-    
+
     private static final String ADD_NEW_MODEL = "addNewModelAction"; // NOI18N
     private static final String ADD_NEW_DATASET_CONTAINER = "addNewDatasetContainerAction"; // NOI18N
     private static final String SAVE_SCENE = "saveSceneAction"; // NOI18N
     private static final String LOAD_SCENE = "loadSceneAction"; // NOI18N
-
     private GraphScene scene;
-
     private JPopupMenu menu;
     private Point point;
-    
-    private int nodeCount=3;
-    
+    private int nodeCount = 3;
+
     public SceneMainMenu(GraphScene scene) {
-        this.scene=scene;
+        this.scene = scene;
         menu = new JPopupMenu("Scene Menu");
         JMenuItem item;
-        
+
 //        item = new JMenuItem("Add New Model");
 //        item.setActionCommand(ADD_NEW_MODEL);
 //        item.addActionListener(this);
@@ -54,7 +51,7 @@ public class SceneMainMenu implements PopupMenuProvider, ActionListener {
         menu.add(item);
         menu.addSeparator();
 
-        item = new JMenuItem ("Save scene...");
+        item = new JMenuItem("Save scene...");
         item.setActionCommand(SAVE_SCENE);
         item.addActionListener(this);
         menu.add(item);
@@ -65,16 +62,16 @@ public class SceneMainMenu implements PopupMenuProvider, ActionListener {
 //        menu.add(item);
     }
 
-    public JPopupMenu getPopupMenu(Widget widget, Point point){
-        this.point=point;
+    public JPopupMenu getPopupMenu(Widget widget, Point point) {
+        this.point = point;
         return menu;
     }
 
-    public void actionPerformed(ActionEvent e) {        
-        if(ADD_NEW_MODEL.equals (e.getActionCommand ())) {
- //           TgmDataNode newNode = null;
+    public void actionPerformed(ActionEvent e) {
+        if (ADD_NEW_MODEL.equals(e.getActionCommand())) {
+            //           TgmDataNode newNode = null;
             Widget newWidget = null;
-            final TGProject proj = (TGProject)OpenProjects.getDefault().getMainProject();
+            final TGProject proj = (TGProject) OpenProjects.getDefault().getMainProject();
             if (proj != null) {
 //                newNode = VisualCommonFunctions.createNewTgmFile(proj.getModelsFolder(true));
 //                Action a = findAction("Actions/Project/org-netbeans-modules-project-ui-NewFile.instance");
@@ -82,21 +79,21 @@ public class SceneMainMenu implements PopupMenuProvider, ActionListener {
                 VisualAbstractNode newNode = new VisualAbstractNode("Model", "Containers", nodeCount++); //TODO: move Mynode and rename
                 newWidget = scene.addNode(newNode);
                 newWidget.setPreferredLocation(point);
-            }else{
+            } else {
                 CoreErrorMessages.noMainProjectFound();
             }
         }
-        if(ADD_NEW_DATASET_CONTAINER.equals (e.getActionCommand ())) {
+        if (ADD_NEW_DATASET_CONTAINER.equals(e.getActionCommand())) {
             Widget newWidget = null;
             GtaDatasetContainer container = new GtaDatasetContainer();
             newWidget = scene.addNode(container);
             scene.validate();
             newWidget.setPreferredLocation(point);
         }
-        if(SAVE_SCENE.equals (e.getActionCommand ())) {
+        if (SAVE_SCENE.equals(e.getActionCommand())) {
             save();
         }
-        if(LOAD_SCENE.equals (e.getActionCommand ())) {
+        if (LOAD_SCENE.equals(e.getActionCommand())) {
             load();
         }
         scene.validate();
@@ -123,28 +120,28 @@ public class SceneMainMenu implements PopupMenuProvider, ActionListener {
         return null;
     }
 
-    private void save () {
-        JFileChooser chooser = new JFileChooser ();
-        chooser.setDialogTitle ("Save Scene ...");
-        chooser.setMultiSelectionEnabled (false);
-        chooser.setFileSelectionMode (JFileChooser.FILES_ONLY);
-        if (chooser.showSaveDialog (scene.getView ()) == JFileChooser.APPROVE_OPTION) {
-           SceneSerializer.serialize ((GlotaranGraphScene) scene, chooser.getSelectedFile ());
+    private void save() {
+        JFileChooser chooser = new JFileChooser();
+        chooser.setDialogTitle("Save Scene ...");
+        chooser.setMultiSelectionEnabled(false);
+        chooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+        if (chooser.showSaveDialog(scene.getView()) == JFileChooser.APPROVE_OPTION) {
+            SceneSerializer.serialize((GlotaranGraphScene) scene, chooser.getSelectedFile());
         }
     }
 
-     private void load () {
-        JFileChooser chooser = new JFileChooser ();
-        chooser.setDialogTitle ("Load Scene ...");
-        chooser.setMultiSelectionEnabled (false);
-        chooser.setFileSelectionMode (JFileChooser.FILES_ONLY);
-        if (chooser.showOpenDialog (scene.getView ()) == JFileChooser.APPROVE_OPTION) {
+    private void load() {
+        JFileChooser chooser = new JFileChooser();
+        chooser.setDialogTitle("Load Scene ...");
+        chooser.setMultiSelectionEnabled(false);
+        chooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+        if (chooser.showOpenDialog(scene.getView()) == JFileChooser.APPROVE_OPTION) {
 //            for (String edge : new ArrayList<String> (scene.getEdges ()))
 //                scene.removeEdge (edge);
 //            for (String node : new ArrayList<String> (scene.getNodes ()))
 //                scene.removeNode (node);
-            SceneSerializer.deserialize ((GlotaranGraphScene) scene, chooser.getSelectedFile ());
-            scene.validate ();
+            SceneSerializer.deserialize((GlotaranGraphScene) scene, chooser.getSelectedFile());
+            scene.validate();
         }
     }
 }

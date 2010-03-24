@@ -24,7 +24,7 @@ public class TimpController implements TimpControllerInterface {
     private static ITwoWayConnection connection = null;
 
     public TimpController() {
-        if (connection==null) {
+        if (connection == null) {
             connection = new REngineConnectionFactory().createTwoWayConnection(null);
             if (connection.isConnected()) {
                 connection.voidEval("try(require(TIMP))");
@@ -44,7 +44,7 @@ public class TimpController implements TimpControllerInterface {
     }
 
     public TimpResultDataset[] runAnalysis(DatasetTimp[] datasets, ArrayList<String> initModelCalls, String fitModelCall) {
-        
+
         TimpResultDataset[] results = null;
 
         for (int i = 0; i < datasets.length; i++) {
@@ -55,12 +55,12 @@ public class TimpController implements TimpControllerInterface {
             sendModel(initModelCalls.get(i), i);
         }
 
-        connection.voidEval("try("+fitModelCall+")");
-        if (getBool("exists(\""+NAME_OF_RESULT_OBJECT+"\")")) {
+        connection.voidEval("try(" + fitModelCall + ")");
+        if (getBool("exists(\"" + NAME_OF_RESULT_OBJECT + "\")")) {
             results = new TimpResultDataset[datasets.length];
             for (int i = 0; i < datasets.length; i++) {
                 results[i] = getTimpResultDataset(i);
-            }            
+            }
             //TODO: make sure this is possible
             //connection.close();
         }
@@ -72,7 +72,7 @@ public class TimpController implements TimpControllerInterface {
         int[] dim = getIntArray("dim(temp)");
         //TODO: replace this with getDoubleArray
         IREXP ret = connection.eval("temp");
-        return ret.getType()==ret.XT_NULL ? null : new Matrix(ret.asDoubleArray(), dim[0]);
+        return ret.getType() == ret.XT_NULL ? null : new Matrix(ret.asDoubleArray(), dim[0]);
     }
 
     private void sendDataset(DatasetTimp dd, int index) {
@@ -80,8 +80,8 @@ public class TimpController implements TimpControllerInterface {
         connection.assign("psisim", dd.getPsisim());
         connection.assign("x", dd.getX());
         connection.assign("x2", dd.getX2());
-        connection.assign("nl", new int[] {dd.getNl()});
-        connection.assign("nt", new int[] {dd.getNt()});
+        connection.assign("nl", new int[]{dd.getNl()});
+        connection.assign("nt", new int[]{dd.getNt()});
         connection.assign("intenceIm", dd.getIntenceIm());
 
         connection.eval("psisim <- as.matrix(psisim)");
@@ -90,12 +90,12 @@ public class TimpController implements TimpControllerInterface {
         connection.eval("dim(psisim) <- c(nt, nl)");
 
 
-        connection.eval(NAME_OF_DATASET + String.valueOf(index) + " <- dat(psi.df = psisim, x = x, nt = nt, x2 = x2, nl = nl, " +
-                "inten = intenceIm)");
+        connection.eval(NAME_OF_DATASET + String.valueOf(index) + " <- dat(psi.df = psisim, x = x, nt = nt, x2 = x2, nl = nl, "
+                + "inten = intenceIm)");
     }
 
     private Boolean sendModel(String modelString, int index) {
-        String nameOfModel, modelCall;        
+        String nameOfModel, modelCall;
         nameOfModel = NAME_OF_MODEL + String.valueOf(index);
         modelCall = nameOfModel + " <- " + modelString;
 
@@ -103,16 +103,16 @@ public class TimpController implements TimpControllerInterface {
         try {
             connection.voidEval("try(" + modelCall + ")");
         } catch (Exception e) {
-           CoreErrorMessages.initModelException();
-                                return null;
+            CoreErrorMessages.initModelException();
+            return null;
         }
-        return getBool("exists(\""+nameOfModel+"\")");
+        return getBool("exists(\"" + nameOfModel + "\")");
     }
 
     private String getOptions(String modelType, int iterations) {
-        String result = "opt = " + modelType + "opt(" +
-                "iter = " + String.valueOf(iterations) +
-                ", plot=FALSE)";
+        String result = "opt = " + modelType + "opt("
+                + "iter = " + String.valueOf(iterations)
+                + ", plot=FALSE)";
         connection.eval(result);
         return result;
     }
@@ -126,7 +126,7 @@ public class TimpController implements TimpControllerInterface {
         result.setDatasetName(datasetName);
 //        result.setSpectra(getCLP(NAME_OF_RESULT_OBJECT, datasetNumber));
         result.setSpectra(getSpectra(NAME_OF_RESULT_OBJECT, datasetNumber));
-        result.setSpectraErr(getCLP(NAME_OF_RESULT_OBJECT, true,datasetNumber));
+        result.setSpectraErr(getCLP(NAME_OF_RESULT_OBJECT, true, datasetNumber));
         result.setX(getdim1(NAME_OF_RESULT_OBJECT, datasetNumber));
         result.setX2(getdim2(NAME_OF_RESULT_OBJECT, datasetNumber));
         result.setResiduals(getResiduals(NAME_OF_RESULT_OBJECT, datasetNumber));
@@ -135,19 +135,19 @@ public class TimpController implements TimpControllerInterface {
 
         result.setKineticParameters(getParEst(NAME_OF_RESULT_OBJECT, datasetNumber, "kinpar"));
         result.setSpectralParameters(getParEst(NAME_OF_RESULT_OBJECT, datasetNumber, "specpar"));
-        result.setIrfpar(getParEst(NAME_OF_RESULT_OBJECT, datasetNumber,"irfpar"));
+        result.setIrfpar(getParEst(NAME_OF_RESULT_OBJECT, datasetNumber, "irfpar"));
 //        result.setIrfpar(getIrfpar(NAME_OF_RESULT_OBJECT, datasetNumber));
-        result.setParmu(getParEst(NAME_OF_RESULT_OBJECT, datasetNumber,"parmu"));
+        result.setParmu(getParEst(NAME_OF_RESULT_OBJECT, datasetNumber, "parmu"));
 //        result.setParmu(getParmu(NAME_OF_RESULT_OBJECT, datasetNumber));
         result.setSpecdisppar(getParEst(NAME_OF_RESULT_OBJECT, datasetNumber, "specdisppar"));
 //        result.setSpecdisppar(getSpecdisppar(NAME_OF_RESULT_OBJECT, datasetNumber));
-        result.setJvec(getParEst(NAME_OF_RESULT_OBJECT, datasetNumber,"jvec"));
+        result.setJvec(getParEst(NAME_OF_RESULT_OBJECT, datasetNumber, "jvec"));
 //        result.setJvec(getJvec(NAME_OF_RESULT_OBJECT, datasetNumber));
-        result.setClpequ(getParEst(NAME_OF_RESULT_OBJECT, datasetNumber,"clpequ"));
+        result.setClpequ(getParEst(NAME_OF_RESULT_OBJECT, datasetNumber, "clpequ"));
 //        result.setClpequ(getClpeq(NAME_OF_RESULT_OBJECT, datasetNumber));
         result.setKinscal(getParEst(NAME_OF_RESULT_OBJECT, datasetNumber, "kinscal"));
 //        result.setKinscal(getKinscal(NAME_OF_RESULT_OBJECT, datasetNumber));
-        result.setPrel(getParEst(NAME_OF_RESULT_OBJECT, datasetNumber,"prel"));
+        result.setPrel(getParEst(NAME_OF_RESULT_OBJECT, datasetNumber, "prel"));
 //        result.setPrel(getPrel(NAME_OF_RESULT_OBJECT, datasetNumber));
         result.setRms(getRMS(NAME_OF_RESULT_OBJECT, datasetNumber));
         result.setPartau(getParEst(NAME_OF_RESULT_OBJECT, datasetNumber, "partau"));
@@ -164,63 +164,63 @@ public class TimpController implements TimpControllerInterface {
 
     // TIMP specific functions
     public double[] getIrfpar(String resultVariable, int dataset) {
-        return getDoubleArray(resultVariable + "$currTheta[[" +
-                dataset + "]]@irfpar");
+        return getDoubleArray(resultVariable + "$currTheta[["
+                + dataset + "]]@irfpar");
     }
 
     public double[] getParmu(String resultVariable, int dataset) {
-        return getDoubleArray("as.vector(matrix(unlist(" + resultVariable +
-                "$currTheta[[" + dataset + "]]@parmu),nrow=1))");
+        return getDoubleArray("as.vector(matrix(unlist(" + resultVariable
+                + "$currTheta[[" + dataset + "]]@parmu),nrow=1))");
     }
 
     public double[] getPartau(String resultVariable, int dataset) {
-        return getDoubleArray(resultVariable + "$currTheta[[" +
-                dataset + "]]@partau");
+        return getDoubleArray(resultVariable + "$currTheta[["
+                + dataset + "]]@partau");
     }
 
     public double[] getClpeq(String resultVariable, int dataset) {
-        return getDoubleArray(resultVariable + "$currTheta[[" +
-                dataset + "]]@clpequ");
+        return getDoubleArray(resultVariable + "$currTheta[["
+                + dataset + "]]@clpequ");
     }
 
     public double[] getKinscal(String resultVariable, int dataset) {
-        return getDoubleArray(resultVariable + "$currTheta[[" +
-                dataset + "]]@kinscal");
+        return getDoubleArray(resultVariable + "$currTheta[["
+                + dataset + "]]@kinscal");
     }
 
     public double[] getPrel(String resultVariable, int dataset) {
-        return getDoubleArray(resultVariable + "$currTheta[[" +
-                dataset + "]]@prel");
+        return getDoubleArray(resultVariable + "$currTheta[["
+                + dataset + "]]@prel");
     }
 
     public double[] getSpecdisppar(String resultVariable, int dataset) {
-        return getDoubleArray(resultVariable + "$currTheta[[" +
-                dataset + "]]@specdisppar");
+        return getDoubleArray(resultVariable + "$currTheta[["
+                + dataset + "]]@specdisppar");
     }
 
     public double[] getJvec(String resultVariable, int dataset) {
-        return getDoubleArray(resultVariable + "$currTheta[[" +
-                dataset + "]]@jvec");
+        return getDoubleArray(resultVariable + "$currTheta[["
+                + dataset + "]]@jvec");
     }
 
     public double getLamdac(String resultVariable, int dataset) {
-        return getDouble(resultVariable + "$currTheta[["+dataset    +"]]@lamdac");
+        return getDouble(resultVariable + "$currTheta[[" + dataset + "]]@lamdac");
     }
 
     public double getRMS(String resultVariable, int dataset) {
-        return getDouble("onls("+resultVariable+")$m$deviance()");
+        return getDouble("onls(" + resultVariable + ")$m$deviance()");
     }
 
     public double[] getParEst(String resultVariable, int dataset,
             String param) {
         return getDoubleArray(
-                new StringBuffer().append("" +
-                "unlist(" +
-                "parEst(" +
-                resultVariable + ", " +
-                "param = \"" + param + "\"" +
-                ",dataset = " + dataset +
-                "))").toString());
+                new StringBuffer().append(""
+                + "unlist("
+                + "parEst("
+                + resultVariable + ", "
+                + "param = \"" + param + "\""
+                + ",dataset = " + dataset
+                + "))").toString());
     }
 
     public List<Matrix> getXList(String resultVariable, boolean single) {
@@ -283,13 +283,13 @@ public class TimpController implements TimpControllerInterface {
     public Matrix getSpectra(String resultVariable, int dataset) {
         Matrix sas = getCLP(resultVariable, false, dataset);
         Matrix das = getDAS(resultVariable, dataset);
-        Matrix results = new Matrix(sas.getRowDimension()*2, sas.getColumnDimension());
-        results.setMatrix(0, sas.getRowDimension()-1, 0, sas.getColumnDimension()-1, sas);
-        results.setMatrix(sas.getRowDimension(), sas.getRowDimension()*2-1, 0, sas.getColumnDimension()-1, das);
+        Matrix results = new Matrix(sas.getRowDimension() * 2, sas.getColumnDimension());
+        results.setMatrix(0, sas.getRowDimension() - 1, 0, sas.getColumnDimension() - 1, sas);
+        results.setMatrix(sas.getRowDimension(), sas.getRowDimension() * 2 - 1, 0, sas.getColumnDimension() - 1, das);
         return results;
     }
 
-    private Matrix getDAS(String resultVariable, int dataset){
+    private Matrix getDAS(String resultVariable, int dataset) {
         //TODO: Have Ralf fix this bug related to asMatrix not working.
         //return getDoubleMatrix("t(getCLP(" + resultVariable + ", getclperr = " + getclperrStr + ", dataset =" + dataset + "))");
         String cmd = "t(getDAS(" + resultVariable + ", dataset =" + dataset + "))";
@@ -305,8 +305,8 @@ public class TimpController implements TimpControllerInterface {
         String getclperrStr;
         if (getclperr) {
             getclperrStr = "TRUE";
-            boolean clperr = getBool(resultVariable+"$currModel@stderrclp");
-            if (!clperr){
+            boolean clperr = getBool(resultVariable + "$currModel@stderrclp");
+            if (!clperr) {
                 return null;
             }
         } else {
@@ -413,8 +413,8 @@ public class TimpController implements TimpControllerInterface {
         return connection.eval("getdim1(" + resultVariable + ")").asDoubleArray();
     }
 
-    public double[] getdim1(String resultVariable, int datasetIndex){
-        return connection.eval("getdim1(" + resultVariable + ", dataset = " + String.valueOf(datasetIndex) +")").asDoubleArray();
+    public double[] getdim1(String resultVariable, int datasetIndex) {
+        return connection.eval("getdim1(" + resultVariable + ", dataset = " + String.valueOf(datasetIndex) + ")").asDoubleArray();
     }
 
     public double[] getdim2(String resultVariable) {
@@ -424,7 +424,7 @@ public class TimpController implements TimpControllerInterface {
 
     public double[] getdim2(String resultVariable, int datasetIndex) {
         //getdim2(cmd)
-        return connection.eval("getdim2(" + resultVariable + ", dataset = " + String.valueOf(datasetIndex)  + ")").asDoubleArray();
+        return connection.eval("getdim2(" + resultVariable + ", dataset = " + String.valueOf(datasetIndex) + ")").asDoubleArray();
     }
 
     public boolean existsInR(String varname) {
@@ -441,13 +441,12 @@ public class TimpController implements TimpControllerInterface {
     }
 
     public static void fitModel(int[] datasetIndices, int modelIndex, int optionIndex, String resultsName) {
-
     }
 
     public boolean getBool(String cmd) {
         final IREXP ret = connection.eval(new StringBuffer().append(
                 "try(").append(cmd).append(")").toString());
-        return ret.getType()==ret.XT_BOOL ? ret.asBool().isTRUE() : null;
+        return ret.getType() == ret.XT_BOOL ? ret.asBool().isTRUE() : null;
     }
 
     public void getBoolArray(String cmd) {
@@ -457,15 +456,14 @@ public class TimpController implements TimpControllerInterface {
     public double getDouble(String cmd) {
         final IREXP ret = connection.eval(new StringBuffer().append(
                 "try(").append(cmd).append(")").toString());
-        return ret.getType()==ret.XT_DOUBLE ? ret.asDouble() : null;
+        return ret.getType() == ret.XT_DOUBLE ? ret.asDouble() : null;
     }
 
     public double[] getDoubleArray(String cmd) {
-       final IREXP ret = connection.eval(new StringBuffer().append(
-               "try(").append(cmd).append(")").toString());
-       return ret.getType()==ret.XT_ARRAY_DOUBLE ? ret.asDoubleArray() : null;
-   }
-
+        final IREXP ret = connection.eval(new StringBuffer().append(
+                "try(").append(cmd).append(")").toString());
+        return ret.getType() == ret.XT_ARRAY_DOUBLE ? ret.asDoubleArray() : null;
+    }
 
     public void getFactor(String cmd) {
         throw new UnsupportedOperationException("Not yet implemented");
@@ -474,19 +472,19 @@ public class TimpController implements TimpControllerInterface {
     public int getInt(String cmd) {
         final IREXP ret = connection.eval(new StringBuffer().append(
                 "try(").append(cmd).append(")").toString());
-        return ret.getType()==ret.XT_INT ? ret.asInt() : null;
+        return ret.getType() == ret.XT_INT ? ret.asInt() : null;
     }
 
     public int[] getIntArray(String cmd) {
         final IREXP ret = connection.eval(new StringBuffer().append(
                 "try(").append(cmd).append(")").toString());
-        return ret.getType()==ret.XT_ARRAY_INT ? ret.asIntArray() : null;
+        return ret.getType() == ret.XT_ARRAY_INT ? ret.asIntArray() : null;
     }
 
     public IRMatrix getIRMatrix(String cmd) {
         final IREXP ret = connection.eval(new StringBuffer().append(
                 "try(").append(cmd).append(")").toString());
-        return ret.getType()==ret.XT_MATRIX ? ret.asMatrix() : null;
+        return ret.getType() == ret.XT_MATRIX ? ret.asMatrix() : null;
     }
 
     public Matrix getDoubleMatrix(String cmd) {
@@ -516,30 +514,30 @@ public class TimpController implements TimpControllerInterface {
     public String getString(String cmd) {
         final IREXP ret = connection.eval(new StringBuffer().append(
                 "try(").append(cmd).append(")").toString());
-        return ret.getType()==ret.XT_STR ? ret.asString() : null;
+        return ret.getType() == ret.XT_STR ? ret.asString() : null;
     }
 
     public String[] getStringArray(String cmd) {
         final IREXP ret = connection.eval(new StringBuffer().append(
                 "try(").append(cmd).append(")").toString());
         String[] result = new String[1];
-        if(ret.getType()==ret.XT_STR) {
+        if (ret.getType() == ret.XT_STR) {
             result[0] = ret.asString();
         }
         //return ret.getType()==ret.XT_ARRAY_STR ? ret.asStringArray() : null;
-        return ret.getType()==ret.XT_ARRAY_STR ? ret.asStringArray() : null;
+        return ret.getType() == ret.XT_ARRAY_STR ? ret.asStringArray() : null;
     }
 
     public IRList getIRList(String cmd) {
         final IREXP ret = connection.eval(new StringBuffer().append(
                 "try(").append(cmd).append(")").toString());
-        return ret.getType()==ret.XT_LIST ? ret.asList() : null;
+        return ret.getType() == ret.XT_LIST ? ret.asList() : null;
     }
 
     public IRMap getIRMap(String cmd) {
         final IREXP ret = connection.eval(new StringBuffer().append(
                 "try(").append(cmd).append(")").toString());
-        return ret.getType()==ret.XT_MAP ? ret.asMap() : null;
+        return ret.getType() == ret.XT_MAP ? ret.asMap() : null;
     }
 
     public List<?> getList(String cmd) {
@@ -568,7 +566,7 @@ public class TimpController implements TimpControllerInterface {
         connection.assign("tempMatrix", matrix.getColumnPackedCopy());
         int dimRow = matrix.getColumnDimension();
         int dimCol = matrix.getRowDimension();
-        connection.voidEval("dim(tempMatrix) <- c("+ dimCol +","+dimRow+")");
+        connection.voidEval("dim(tempMatrix) <- c(" + dimCol + "," + dimRow + ")");
         connection.voidEval("resSVD <- svd(as.matrix(tempMatrix))");
         Matrix values = getTempMatrix("as.matrix(resSVD$d)");
         Matrix left = getTempMatrix("as.matrix(resSVD$u)");
@@ -578,5 +576,4 @@ public class TimpController implements TimpControllerInterface {
         result.add(right);
         return result;
     }
-
 }

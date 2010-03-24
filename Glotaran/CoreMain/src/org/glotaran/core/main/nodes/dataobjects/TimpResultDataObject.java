@@ -20,8 +20,7 @@ import org.openide.nodes.CookieSet;
 import org.openide.nodes.Node;
 import org.openide.util.Lookup;
 
-
-public class TimpResultDataObject extends InstanceDataObject  {
+public class TimpResultDataObject extends InstanceDataObject {
 
     private TimpResultDataset obj;
 

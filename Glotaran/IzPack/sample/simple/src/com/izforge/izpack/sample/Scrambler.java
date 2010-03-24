@@ -18,10 +18,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package com.izforge.izpack.sample;
 
-package   com.izforge.izpack.sample;
-
-import    com.izforge.izpack.panels.*;
+import com.izforge.izpack.panels.*;
 
 /*---------------------------------------------------------------------------*/
 /**
@@ -33,32 +32,29 @@ import    com.izforge.izpack.panels.*;
  * @author   Elmar Grom
  */
 /*---------------------------------------------------------------------------*/
-public class Scrambler implements Processor
-{
- /*--------------------------------------------------------------------------*/
- /**
-  * Rearranges the input fields and concatenates the result, separating
-  * individual fields with a '*'.
-  *
-  * @param     client   the client object using the services of this encryptor.
-  *
-  * @return    the encryption result.
-  */
- /*--------------------------------------------------------------------------*/
-  public String process (ProcessingClient client)
-  {
-    StringBuffer buffer = new StringBuffer ();
-    
-    for (int i = client.getNumFields () - 1; i > -1; i--)
-    {
-      buffer.append (client.getFieldContents (i));
-      if (i > 0)
-      {
-        buffer.append ('*');
-      }
+public class Scrambler implements Processor {
+    /*--------------------------------------------------------------------------*/
+
+    /**
+     * Rearranges the input fields and concatenates the result, separating
+     * individual fields with a '*'.
+     *
+     * @param     client   the client object using the services of this encryptor.
+     *
+     * @return    the encryption result.
+     */
+    /*--------------------------------------------------------------------------*/
+    public String process(ProcessingClient client) {
+        StringBuffer buffer = new StringBuffer();
+
+        for (int i = client.getNumFields() - 1; i > -1; i--) {
+            buffer.append(client.getFieldContents(i));
+            if (i > 0) {
+                buffer.append('*');
+            }
+        }
+
+        return (buffer.toString());
     }
-    
-    return (buffer.toString ());
-  }
 }
 /*---------------------------------------------------------------------------*/

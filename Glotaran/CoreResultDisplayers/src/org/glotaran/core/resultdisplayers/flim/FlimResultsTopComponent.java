@@ -63,7 +63,6 @@ import static java.lang.Math.max;
 import static java.lang.Math.abs;
 import static java.lang.Math.floor;
 
-
 final public class FlimResultsTopComponent extends TopComponent implements ChartMouseListener {
 
     private static FlimResultsTopComponent instance;
@@ -74,7 +73,7 @@ final public class FlimResultsTopComponent extends TopComponent implements Chart
     private double minAveLifetime;
     private double[] aveLifetimes;
     private Matrix normAmpl;
-    private XYSeriesCollection tracesCollection,  residuals;
+    private XYSeriesCollection tracesCollection, residuals;
     private TimpResultDataset res;
     private int selectedietm;
     private int numberOfComponents;
@@ -92,7 +91,7 @@ final public class FlimResultsTopComponent extends TopComponent implements Chart
         this.dataObject = dataObj;
         res = dataObject.getTimpResultDataset();
 //        res.calcRangeInt();
-        numberOfComponents = res.getKineticParameters().length/2;
+        numberOfComponents = res.getKineticParameters().length / 2;
         double errTau;
         double tau;
         selectedTimeTraces = new ArrayList<Integer>();
@@ -102,45 +101,45 @@ final public class FlimResultsTopComponent extends TopComponent implements Chart
         Object[] lifetimes = new Object[res.getKineticParameters().length];
         for (int i = 0; i < numberOfComponents; i++) {
             tau = 1 / res.getKineticParameters()[i];
-            lifetimes[2*i] = "Tau" + (i + 1) + "=" + new Formatter().format("%g",tau) + " ns";
-            errTau = max(abs(tau-(1 /(res.getKineticParameters()[i]+res.getKineticParameters()[i+numberOfComponents]))),
-                          abs(tau-(1 /(res.getKineticParameters()[i]-res.getKineticParameters()[i+numberOfComponents]))));
-            lifetimes[2*i+1] = "er_tau"+ (i + 1) + "=" + new Formatter().format("%g",errTau) + " ns";
+            lifetimes[2 * i] = "Tau" + (i + 1) + "=" + new Formatter().format("%g", tau) + " ns";
+            errTau = max(abs(tau - (1 / (res.getKineticParameters()[i] + res.getKineticParameters()[i + numberOfComponents]))),
+                    abs(tau - (1 / (res.getKineticParameters()[i] - res.getKineticParameters()[i + numberOfComponents]))));
+            lifetimes[2 * i + 1] = "er_tau" + (i + 1) + "=" + new Formatter().format("%g", errTau) + " ns";
         }
         jLEstimatedLifetimes.setListData(lifetimes);
 
 //find rectangle for selected image
-        int firstLine = (int) floor(res.getX2()[0]/res.getOrwidth());
-        int lastLine = (int) floor(res.getX2()[res.getX2().length-1]/res.getOrwidth());
-        int firstCol = res.getX2().length-1;
+        int firstLine = (int) floor(res.getX2()[0] / res.getOrwidth());
+        int lastLine = (int) floor(res.getX2()[res.getX2().length - 1] / res.getOrwidth());
+        int firstCol = res.getX2().length - 1;
         int lastCol = 0;
         int tempnum;
-        for (int i = 0; i < res.getX2().length; i++){
-            tempnum = (int)(res.getX2()[i] - floor(res.getX2()[i] / res.getOrwidth()) * res.getOrwidth());
-            if (tempnum<firstCol){
+        for (int i = 0; i < res.getX2().length; i++) {
+            tempnum = (int) (res.getX2()[i] - floor(res.getX2()[i] / res.getOrwidth()) * res.getOrwidth());
+            if (tempnum < firstCol) {
                 firstCol = tempnum;
             }
-            if (tempnum>lastCol){
+            if (tempnum > lastCol) {
                 lastCol = tempnum;
             }
         }
-        selImWidth = lastCol - firstCol+1;
-        selImHeight = lastLine - firstLine+1;
+        selImWidth = lastCol - firstCol + 1;
+        selImHeight = lastLine - firstLine + 1;
         selImInd = new int[res.getX2().length];
         int indX, indY;
-        for (int i = 0; i< res.getX2().length; i++){
-            indY = (int) floor(res.getX2()[i]/res.getOrwidth())-firstLine;
-            indX = (int)(res.getX2()[i] - floor(res.getX2()[i] / res.getOrwidth()) * res.getOrwidth())-firstCol;
-            selImInd[i] = selImWidth*indY+indX;
+        for (int i = 0; i < res.getX2().length; i++) {
+            indY = (int) floor(res.getX2()[i] / res.getOrwidth()) - firstLine;
+            indX = (int) (res.getX2()[i] - floor(res.getX2()[i] / res.getOrwidth()) * res.getOrwidth()) - firstCol;
+            selImInd[i] = selImWidth * indY + indX;
         }
 
 //create intence image with selected pixels
-        intensutyImageDataset = new IntensImageDataset(res.getOrwidth(),res.getOrheigh(),res.getIntenceIm());
-        for (int i = 0; i < res.getX2().length; i++){
-            intensutyImageDataset.SetValue((int)res.getX2()[i], -1);
+        intensutyImageDataset = new IntensImageDataset(res.getOrwidth(), res.getOrheigh(), res.getIntenceIm());
+        for (int i = 0; i < res.getX2().length; i++) {
+            intensutyImageDataset.SetValue((int) res.getX2()[i], -1);
         }
         PaintScale ps = new GrayPaintScalePlus(res.getMinInt(), res.getMaxInt(), -1);
-        JFreeChart intIm = createScatChart(ImageUtilities.createColorCodedImage(intensutyImageDataset, ps), ps,res.getOrwidth(),res.getOrheigh());
+        JFreeChart intIm = createScatChart(ImageUtilities.createColorCodedImage(intensutyImageDataset, ps), ps, res.getOrwidth(), res.getOrheigh());
         ChartPanel intImPanel = new ChartPanel(intIm);
         intImPanel.setFillZoomRectangle(true);
         intImPanel.setMouseWheelEnabled(true);
@@ -150,18 +149,18 @@ final public class FlimResultsTopComponent extends TopComponent implements Chart
 
 //create lifetime image
         aveLifetimes = MakeFlimImage(res.getKineticParameters(), res.getSpectra(), res.getX2().length);
-        IntensImageDataset aveLifetimeDataset = new IntensImageDataset(selImHeight,selImWidth,new double[selImWidth*selImHeight]);
-        for (int i = 0; i < res.getX2().length; i++){
+        IntensImageDataset aveLifetimeDataset = new IntensImageDataset(selImHeight, selImWidth, new double[selImWidth * selImHeight]);
+        for (int i = 0; i < res.getX2().length; i++) {
             aveLifetimeDataset.SetValue(selImInd[i], aveLifetimes[i]);
         }
         ps = new RainbowPaintScale(0.0000001, maxAveLifetime);
-        JFreeChart aveLifetimeChart = createScatChart(ImageUtilities.createColorCodedImage(aveLifetimeDataset, ps), ps,selImWidth,selImHeight);
+        JFreeChart aveLifetimeChart = createScatChart(ImageUtilities.createColorCodedImage(aveLifetimeDataset, ps), ps, selImWidth, selImHeight);
         ChartPanel aveLifetimePanel = new ChartPanel(aveLifetimeChart);
         aveLifetimePanel.setFillZoomRectangle(true);
         aveLifetimePanel.setMouseWheelEnabled(true);
         jPImage.add(aveLifetimePanel);
         jTFMinLifetime.setText("0");
-        jTFMaxLifetime.setText((new Formatter().format("%g",maxAveLifetime)).toString()); //valueOf(maxAveLifetime));
+        jTFMaxLifetime.setText((new Formatter().format("%g", maxAveLifetime)).toString()); //valueOf(maxAveLifetime));
 
 // create and plot histogram of average lifetimes
         jPHist.add(updateHistPanel(aveLifetimes, minAveLifetime, maxAveLifetime, 20));
@@ -172,16 +171,16 @@ final public class FlimResultsTopComponent extends TopComponent implements Chart
 //================tab 2=================
         for (int i = 0; i < numberOfComponents; i++) {
             jPComponents.add(new ImageHistPanel(
-                "Normalized amplitude comp"+String.valueOf(i+1)+" tau="+
-                new Formatter().format("%g", 1 / res.getKineticParameters()[i]) + "ns",
-                normAmpl.getArray()[i], selImInd,
-                selImHeight, selImWidth,
-                0.0, 1.0,
-                this));
+                    "Normalized amplitude comp" + String.valueOf(i + 1) + " tau="
+                    + new Formatter().format("%g", 1 / res.getKineticParameters()[i]) + "ns",
+                    normAmpl.getArray()[i], selImInd,
+                    selImHeight, selImWidth,
+                    0.0, 1.0,
+                    this));
         }
         tracesCollection = CommonTools.createFitRawTraceCollection(0, 0, res.getX().length, res);
         residuals = CommonTools.createResidTraceCollection(0, 0, res.getX().length, res);
-        ChartPanel chpanSelectedTrace = CommonTools.makeLinTimeTraceResidChart(tracesCollection, residuals, new NumberAxis("Time (ns)"), String.valueOf(res.getX2()[0]),false);
+        ChartPanel chpanSelectedTrace = CommonTools.makeLinTimeTraceResidChart(tracesCollection, residuals, new NumberAxis("Time (ns)"), String.valueOf(res.getX2()[0]), false);
         jPSelectedTrace.add(chpanSelectedTrace);
     }
 
@@ -310,35 +309,16 @@ final public class FlimResultsTopComponent extends TopComponent implements Chart
         javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
         jPanel8.setLayout(jPanel8Layout);
         jPanel8Layout.setHorizontalGroup(
-            jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel8Layout.createSequentialGroup()
-                .addComponent(jPLeftSingVectors, javax.swing.GroupLayout.PREFERRED_SIZE, 364, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPSingValues, javax.swing.GroupLayout.PREFERRED_SIZE, 169, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPRightSingVectors, javax.swing.GroupLayout.DEFAULT_SIZE, 464, Short.MAX_VALUE))
-        );
+                jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(jPanel8Layout.createSequentialGroup().addComponent(jPLeftSingVectors, javax.swing.GroupLayout.PREFERRED_SIZE, 364, javax.swing.GroupLayout.PREFERRED_SIZE).addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED).addComponent(jPSingValues, javax.swing.GroupLayout.PREFERRED_SIZE, 169, javax.swing.GroupLayout.PREFERRED_SIZE).addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED).addComponent(jPRightSingVectors, javax.swing.GroupLayout.DEFAULT_SIZE, 464, Short.MAX_VALUE)));
         jPanel8Layout.setVerticalGroup(
-            jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPLeftSingVectors, javax.swing.GroupLayout.DEFAULT_SIZE, 227, Short.MAX_VALUE)
-            .addComponent(jPSingValues, javax.swing.GroupLayout.DEFAULT_SIZE, 227, Short.MAX_VALUE)
-            .addComponent(jPRightSingVectors, javax.swing.GroupLayout.DEFAULT_SIZE, 227, Short.MAX_VALUE)
-        );
+                jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addComponent(jPLeftSingVectors, javax.swing.GroupLayout.DEFAULT_SIZE, 227, Short.MAX_VALUE).addComponent(jPSingValues, javax.swing.GroupLayout.DEFAULT_SIZE, 227, Short.MAX_VALUE).addComponent(jPRightSingVectors, javax.swing.GroupLayout.DEFAULT_SIZE, 227, Short.MAX_VALUE));
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
         jPanel5Layout.setHorizontalGroup(
-            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel9, javax.swing.GroupLayout.DEFAULT_SIZE, 1009, Short.MAX_VALUE)
-            .addComponent(jPanel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
+                jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addComponent(jPanel9, javax.swing.GroupLayout.DEFAULT_SIZE, 1009, Short.MAX_VALUE).addComponent(jPanel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE));
         jPanel5Layout.setVerticalGroup(
-            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel5Layout.createSequentialGroup()
-                .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
+                jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(jPanel5Layout.createSequentialGroup().addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE).addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED).addComponent(jPanel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)));
 
         jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         org.openide.awt.Mnemonics.setLocalizedText(jLabel6, org.openide.util.NbBundle.getMessage(FlimResultsTopComponent.class, "FlimResultsTopComponent.jLabel6.text")); // NOI18N
@@ -358,6 +338,7 @@ final public class FlimResultsTopComponent extends TopComponent implements Chart
         jButton1.setIconTextGap(2);
         jButton1.setMargin(new java.awt.Insets(2, 2, 2, 2));
         jButton1.addActionListener(new java.awt.event.ActionListener() {
+
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
             }
@@ -372,52 +353,22 @@ final public class FlimResultsTopComponent extends TopComponent implements Chart
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel4Layout.createSequentialGroup()
-                .addComponent(jLabel2)
-                .addGap(11, 11, 11)
-                .addComponent(jTFMinIntence, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jLabel7)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTFMaxIntence, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jButton1)
-                .addContainerGap(20, Short.MAX_VALUE))
-        );
+                jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(jPanel4Layout.createSequentialGroup().addComponent(jLabel2).addGap(11, 11, 11).addComponent(jTFMinIntence, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE).addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED).addComponent(jLabel7).addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED).addComponent(jTFMaxIntence, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE).addGap(18, 18, 18).addComponent(jButton1).addContainerGap(20, Short.MAX_VALUE)));
         jPanel4Layout.setVerticalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
-                .addComponent(jLabel2)
-                .addComponent(jTFMinIntence, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addComponent(jTFMaxIntence, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addComponent(jLabel7)
-                .addComponent(jButton1))
-        );
+                jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER).addComponent(jLabel2).addComponent(jTFMinIntence, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE).addComponent(jTFMaxIntence, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE).addComponent(jLabel7).addComponent(jButton1)));
 
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
         jPanel6Layout.setHorizontalGroup(
-            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, 302, Short.MAX_VALUE)
-            .addComponent(jPanel4, 0, 302, Short.MAX_VALUE)
-            .addComponent(jPIntenceImage, javax.swing.GroupLayout.PREFERRED_SIZE, 302, Short.MAX_VALUE)
-        );
+                jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, 302, Short.MAX_VALUE).addComponent(jPanel4, 0, 302, Short.MAX_VALUE).addComponent(jPIntenceImage, javax.swing.GroupLayout.PREFERRED_SIZE, 302, Short.MAX_VALUE));
         jPanel6Layout.setVerticalGroup(
-            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel6Layout.createSequentialGroup()
-                .addComponent(jLabel6)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPIntenceImage, javax.swing.GroupLayout.PREFERRED_SIZE, 243, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
-        );
+                jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(jPanel6Layout.createSequentialGroup().addComponent(jLabel6).addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED).addComponent(jPIntenceImage, javax.swing.GroupLayout.PREFERRED_SIZE, 243, javax.swing.GroupLayout.PREFERRED_SIZE).addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED).addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE).addContainerGap()));
 
         jPImage.setBackground(new java.awt.Color(0, 0, 0));
         jPImage.setMaximumSize(new java.awt.Dimension(450, 350));
         jPImage.setMinimumSize(new java.awt.Dimension(450, 350));
         jPImage.addMouseListener(new java.awt.event.MouseAdapter() {
+
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jPImageMouseClicked(evt);
             }
@@ -435,6 +386,7 @@ final public class FlimResultsTopComponent extends TopComponent implements Chart
         jButton2.setIconTextGap(2);
         jButton2.setMargin(new java.awt.Insets(2, 2, 2, 2));
         jButton2.addActionListener(new java.awt.event.ActionListener() {
+
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton2ActionPerformed(evt);
             }
@@ -449,50 +401,16 @@ final public class FlimResultsTopComponent extends TopComponent implements Chart
         javax.swing.GroupLayout jPanel10Layout = new javax.swing.GroupLayout(jPanel10);
         jPanel10.setLayout(jPanel10Layout);
         jPanel10Layout.setHorizontalGroup(
-            jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel10Layout.createSequentialGroup()
-                .addComponent(jLabel8)
-                .addGap(11, 11, 11)
-                .addComponent(jTFMinLifetime, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel9)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTFMaxLifetime, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 23, Short.MAX_VALUE)
-                .addComponent(jButton2)
-                .addContainerGap())
-        );
+                jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(jPanel10Layout.createSequentialGroup().addComponent(jLabel8).addGap(11, 11, 11).addComponent(jTFMinLifetime, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE).addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED).addComponent(jLabel9).addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED).addComponent(jTFMaxLifetime, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE).addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 23, Short.MAX_VALUE).addComponent(jButton2).addContainerGap()));
         jPanel10Layout.setVerticalGroup(
-            jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
-                .addComponent(jLabel8)
-                .addComponent(jTFMinLifetime, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addComponent(jTFMaxLifetime, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addComponent(jLabel9)
-                .addComponent(jButton2))
-        );
+                jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER).addComponent(jLabel8).addComponent(jTFMinLifetime, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE).addComponent(jTFMaxLifetime, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE).addComponent(jLabel9).addComponent(jButton2)));
 
         javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
         jPanel7.setLayout(jPanel7Layout);
         jPanel7Layout.setHorizontalGroup(
-            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel7Layout.createSequentialGroup()
-                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 290, Short.MAX_VALUE)
-                    .addComponent(jPImage, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 290, Short.MAX_VALUE)
-                    .addComponent(jPanel10, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap())
-        );
+                jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel7Layout.createSequentialGroup().addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING).addComponent(jLabel1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 290, Short.MAX_VALUE).addComponent(jPImage, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 290, Short.MAX_VALUE).addComponent(jPanel10, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)).addContainerGap()));
         jPanel7Layout.setVerticalGroup(
-            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel7Layout.createSequentialGroup()
-                .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPImage, javax.swing.GroupLayout.PREFERRED_SIZE, 243, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
-        );
+                jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(jPanel7Layout.createSequentialGroup().addComponent(jLabel1).addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED).addComponent(jPImage, javax.swing.GroupLayout.PREFERRED_SIZE, 243, javax.swing.GroupLayout.PREFERRED_SIZE).addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED).addComponent(jPanel10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE).addContainerGap()));
 
         jPHist.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         jPHist.setLayout(new java.awt.BorderLayout());
@@ -506,6 +424,7 @@ final public class FlimResultsTopComponent extends TopComponent implements Chart
         jButton5.setIconTextGap(2);
         jButton5.setMargin(new java.awt.Insets(2, 2, 2, 2));
         jButton5.addActionListener(new java.awt.event.ActionListener() {
+
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton5ActionPerformed(evt);
             }
@@ -517,71 +436,23 @@ final public class FlimResultsTopComponent extends TopComponent implements Chart
         javax.swing.GroupLayout jPanel14Layout = new javax.swing.GroupLayout(jPanel14);
         jPanel14.setLayout(jPanel14Layout);
         jPanel14Layout.setHorizontalGroup(
-            jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel14Layout.createSequentialGroup()
-                .addComponent(jLabel15, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(6, 6, 6)
-                .addComponent(jTFChNumHist, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButton5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(21, 21, 21))
-        );
+                jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel14Layout.createSequentialGroup().addComponent(jLabel15, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE).addGap(6, 6, 6).addComponent(jTFChNumHist, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE).addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED).addComponent(jButton5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE).addGap(21, 21, 21)));
         jPanel14Layout.setVerticalGroup(
-            jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
-                .addComponent(jLabel15)
-                .addComponent(jTFChNumHist, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addComponent(jButton5))
-        );
+                jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER).addComponent(jLabel15).addComponent(jTFChNumHist, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE).addComponent(jButton5)));
 
         javax.swing.GroupLayout jPanel11Layout = new javax.swing.GroupLayout(jPanel11);
         jPanel11.setLayout(jPanel11Layout);
         jPanel11Layout.setHorizontalGroup(
-            jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, 224, Short.MAX_VALUE)
-            .addComponent(jPHist, javax.swing.GroupLayout.DEFAULT_SIZE, 224, Short.MAX_VALUE)
-            .addComponent(jPanel14, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
+                jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, 224, Short.MAX_VALUE).addComponent(jPHist, javax.swing.GroupLayout.DEFAULT_SIZE, 224, Short.MAX_VALUE).addComponent(jPanel14, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE));
         jPanel11Layout.setVerticalGroup(
-            jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel11Layout.createSequentialGroup()
-                .addComponent(jLabel3)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPHist, javax.swing.GroupLayout.PREFERRED_SIZE, 242, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel14, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-        );
+                jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(jPanel11Layout.createSequentialGroup().addComponent(jLabel3).addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED).addComponent(jPHist, javax.swing.GroupLayout.PREFERRED_SIZE, 242, javax.swing.GroupLayout.PREFERRED_SIZE).addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED).addComponent(jPanel14, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)));
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(jPanel5, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createSequentialGroup()
-                        .addComponent(jPanel12, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, 290, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, 291, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jPanel11, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(187, Short.MAX_VALUE))
-        );
+                jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(jPanel2Layout.createSequentialGroup().addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false).addComponent(jPanel5, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE).addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createSequentialGroup().addComponent(jPanel12, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE).addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED).addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, 290, javax.swing.GroupLayout.PREFERRED_SIZE).addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED).addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, 291, javax.swing.GroupLayout.PREFERRED_SIZE).addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED).addComponent(jPanel11, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))).addContainerGap(187, Short.MAX_VALUE)));
         jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addComponent(jPanel7, javax.swing.GroupLayout.Alignment.LEADING, 0, 297, Short.MAX_VALUE)
-                        .addComponent(jPanel6, javax.swing.GroupLayout.Alignment.LEADING, 0, 297, Short.MAX_VALUE)
-                        .addComponent(jPanel12, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 297, Short.MAX_VALUE))
-                    .addComponent(jPanel11, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(136, Short.MAX_VALUE))
-        );
+                jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(jPanel2Layout.createSequentialGroup().addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false).addComponent(jPanel7, javax.swing.GroupLayout.Alignment.LEADING, 0, 297, Short.MAX_VALUE).addComponent(jPanel6, javax.swing.GroupLayout.Alignment.LEADING, 0, 297, Short.MAX_VALUE).addComponent(jPanel12, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 297, Short.MAX_VALUE)).addComponent(jPanel11, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)).addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED).addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE).addContainerGap(136, Short.MAX_VALUE)));
 
         jScrollPane1.setViewportView(jPanel2);
 
@@ -611,6 +482,7 @@ final public class FlimResultsTopComponent extends TopComponent implements Chart
         jButton3.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jButton3.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         jButton3.addActionListener(new java.awt.event.ActionListener() {
+
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton3ActionPerformed(evt);
             }
@@ -622,6 +494,7 @@ final public class FlimResultsTopComponent extends TopComponent implements Chart
         jButton4.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jButton4.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         jButton4.addActionListener(new java.awt.event.ActionListener() {
+
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton4ActionPerformed(evt);
             }
@@ -631,25 +504,9 @@ final public class FlimResultsTopComponent extends TopComponent implements Chart
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPSelectedTrace, javax.swing.GroupLayout.DEFAULT_SIZE, 657, Short.MAX_VALUE)
-                .addContainerGap())
-            .addComponent(jToolBar2, javax.swing.GroupLayout.DEFAULT_SIZE, 1203, Short.MAX_VALUE)
-        );
+                jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(jPanel3Layout.createSequentialGroup().addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE).addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED).addComponent(jPSelectedTrace, javax.swing.GroupLayout.DEFAULT_SIZE, 657, Short.MAX_VALUE).addContainerGap()).addComponent(jToolBar2, javax.swing.GroupLayout.DEFAULT_SIZE, 1203, Short.MAX_VALUE));
         jPanel3Layout.setVerticalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addComponent(jToolBar2, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addComponent(jPSelectedTrace, javax.swing.GroupLayout.PREFERRED_SIZE, 305, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap())
-                    .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 669, Short.MAX_VALUE)))
-        );
+                jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(jPanel3Layout.createSequentialGroup().addComponent(jToolBar2, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE).addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED).addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(jPanel3Layout.createSequentialGroup().addComponent(jPSelectedTrace, javax.swing.GroupLayout.PREFERRED_SIZE, 305, javax.swing.GroupLayout.PREFERRED_SIZE).addContainerGap()).addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 669, Short.MAX_VALUE))));
 
         jTabbedPane1.addTab(org.openide.util.NbBundle.getMessage(FlimResultsTopComponent.class, "FlimResultsTopComponent.jPanel3.TabConstraints.tabTitle"), jPanel3); // NOI18N
 
@@ -667,6 +524,7 @@ final public class FlimResultsTopComponent extends TopComponent implements Chart
         jButton6.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jButton6.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         jButton6.addActionListener(new java.awt.event.ActionListener() {
+
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton6ActionPerformed(evt);
             }
@@ -682,17 +540,9 @@ final public class FlimResultsTopComponent extends TopComponent implements Chart
         javax.swing.GroupLayout jPSelTimeTrCollectionTopLayout = new javax.swing.GroupLayout(jPSelTimeTrCollectionTop);
         jPSelTimeTrCollectionTop.setLayout(jPSelTimeTrCollectionTopLayout);
         jPSelTimeTrCollectionTopLayout.setHorizontalGroup(
-            jPSelTimeTrCollectionTopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jToolBar3, javax.swing.GroupLayout.DEFAULT_SIZE, 1185, Short.MAX_VALUE)
-            .addComponent(jPSelTimeTrCollection, javax.swing.GroupLayout.DEFAULT_SIZE, 1185, Short.MAX_VALUE)
-        );
+                jPSelTimeTrCollectionTopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addComponent(jToolBar3, javax.swing.GroupLayout.DEFAULT_SIZE, 1185, Short.MAX_VALUE).addComponent(jPSelTimeTrCollection, javax.swing.GroupLayout.DEFAULT_SIZE, 1185, Short.MAX_VALUE));
         jPSelTimeTrCollectionTopLayout.setVerticalGroup(
-            jPSelTimeTrCollectionTopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPSelTimeTrCollectionTopLayout.createSequentialGroup()
-                .addComponent(jToolBar3, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPSelTimeTrCollection, javax.swing.GroupLayout.DEFAULT_SIZE, 969, Short.MAX_VALUE))
-        );
+                jPSelTimeTrCollectionTopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(jPSelTimeTrCollectionTopLayout.createSequentialGroup().addComponent(jToolBar3, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE).addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED).addComponent(jPSelTimeTrCollection, javax.swing.GroupLayout.DEFAULT_SIZE, 969, Short.MAX_VALUE)));
 
         jScrollPane7.setViewportView(jPSelTimeTrCollectionTop);
 
@@ -701,140 +551,138 @@ final public class FlimResultsTopComponent extends TopComponent implements Chart
         add(jTabbedPane1, java.awt.BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents
 
-private void jPImageMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPImageMouseClicked
+    private void jPImageMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPImageMouseClicked
+    }//GEN-LAST:event_jPImageMouseClicked
 
-}//GEN-LAST:event_jPImageMouseClicked
-
-private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
-    int newNumChHish;
-    try {
-        newNumChHish = Integer.parseInt(jTFChNumHist.getText());
-        if (newNumChHish < 1){
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+        int newNumChHish;
+        try {
+            newNumChHish = Integer.parseInt(jTFChNumHist.getText());
+            if (newNumChHish < 1) {
+                CoreErrorMessages.selCorrChNum();
+                return;
+            }
+            jPHist.removeAll();
+            ChartPanel chpanHist = updateHistPanel(aveLifetimes, minAveLifetime, maxAveLifetime, newNumChHish);
+            chpanHist.setSize(jPHist.getSize());
+            jPHist.add(chpanHist);
+            jPHist.repaint();
+        } catch (NumberFormatException ex) {
             CoreErrorMessages.selCorrChNum();
-            return;
         }
-        jPHist.removeAll();
-        ChartPanel chpanHist = updateHistPanel(aveLifetimes, minAveLifetime, maxAveLifetime, newNumChHish);
-        chpanHist.setSize(jPHist.getSize());
-        jPHist.add(chpanHist);
-        jPHist.repaint();
-    }catch(NumberFormatException ex) {
-        CoreErrorMessages.selCorrChNum();
-    }
-}//GEN-LAST:event_jButton5ActionPerformed
+    }//GEN-LAST:event_jButton5ActionPerformed
 
-private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-    double newMinAmpl, newMaxAmpl;
-    try {
-        newMinAmpl = Double.parseDouble(jTFMinIntence.getText());
-        newMaxAmpl = Double.parseDouble(jTFMaxIntence.getText());
-        PaintScale ps = new GrayPaintScalePlus(newMinAmpl, newMaxAmpl, -1);
-        JFreeChart intIm = createScatChart(ImageUtilities.createColorCodedImage(intensutyImageDataset, ps), ps,res.getOrwidth(),res.getOrheigh());
-        ChartPanel intImPanel = new ChartPanel(intIm);
-        intImPanel.setFillZoomRectangle(true);
-        intImPanel.setMouseWheelEnabled(true);
-        jPIntenceImage.removeAll();
-        intImPanel.setSize(jPIntenceImage.getSize());
-        jPIntenceImage.add(intImPanel);
-        jPIntenceImage.repaint();
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        double newMinAmpl, newMaxAmpl;
+        try {
+            newMinAmpl = Double.parseDouble(jTFMinIntence.getText());
+            newMaxAmpl = Double.parseDouble(jTFMaxIntence.getText());
+            PaintScale ps = new GrayPaintScalePlus(newMinAmpl, newMaxAmpl, -1);
+            JFreeChart intIm = createScatChart(ImageUtilities.createColorCodedImage(intensutyImageDataset, ps), ps, res.getOrwidth(), res.getOrheigh());
+            ChartPanel intImPanel = new ChartPanel(intIm);
+            intImPanel.setFillZoomRectangle(true);
+            intImPanel.setMouseWheelEnabled(true);
+            jPIntenceImage.removeAll();
+            intImPanel.setSize(jPIntenceImage.getSize());
+            jPIntenceImage.add(intImPanel);
+            jPIntenceImage.repaint();
 
-    }catch(NumberFormatException ex) {
-        CoreErrorMessages.selCorrChNum();
-    }
-}//GEN-LAST:event_jButton1ActionPerformed
-
-private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-double newMinLifetime, newMaxLifetime;
-    try {
-        newMinLifetime = Double.parseDouble(jTFMinLifetime.getText());
-        newMaxLifetime = Double.parseDouble(jTFMaxLifetime.getText());
-
-        IntensImageDataset aveLifetimeDataset = new IntensImageDataset(selImHeight,selImWidth,new double[selImWidth*selImHeight]);
-        for (int i = 0; i < res.getX2().length; i++){
-            aveLifetimeDataset.SetValue(selImInd[i], aveLifetimes[i]);
+        } catch (NumberFormatException ex) {
+            CoreErrorMessages.selCorrChNum();
         }
-        PaintScale ps = new RainbowPaintScale(newMinLifetime, newMaxLifetime);
-        JFreeChart aveLifetimeChart = createScatChart(ImageUtilities.createColorCodedImage(aveLifetimeDataset, ps), ps,selImWidth,selImHeight);
-        ChartPanel aveLifetimePanel = new ChartPanel(aveLifetimeChart);
-        aveLifetimePanel.setFillZoomRectangle(true);
-        aveLifetimePanel.setMouseWheelEnabled(true);
-        jPImage.removeAll();
-        aveLifetimePanel.setSize(jPImage.getSize());
-        jPImage.add(aveLifetimePanel);
-        jPImage.repaint();
-    }catch(NumberFormatException ex) {
-        CoreErrorMessages.selCorrChNum();
-    }
-}//GEN-LAST:event_jButton2ActionPerformed
+    }//GEN-LAST:event_jButton1ActionPerformed
 
-private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-    selectedTimeTraces.add(selectedietm);
-    JFreeChart tracechart = null;
-    CombinedDomainXYPlot plot = new CombinedDomainXYPlot();
-    try {
-        tracechart = new JFreeChart((XYPlot)subchartTimeTrace.getXYPlot().clone());
-        tracechart.removeLegend();
-        ChartPanel chpan = new ChartPanel(tracechart,true);
-        chpan.setMinimumDrawHeight(0);
-        chpan.setMinimumDrawWidth(0);
-        jPSelTimeTrCollection.add(chpan);
-    } catch (CloneNotSupportedException ex) {
-        Exceptions.printStackTrace(ex);
-    }
-    plot.setOrientation(PlotOrientation.VERTICAL);
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        double newMinLifetime, newMaxLifetime;
+        try {
+            newMinLifetime = Double.parseDouble(jTFMinLifetime.getText());
+            newMaxLifetime = Double.parseDouble(jTFMaxLifetime.getText());
 
-    CommonTools.checkPanelSize(jPSelTimeTrCollection, selectedTimeTraces.size());
+            IntensImageDataset aveLifetimeDataset = new IntensImageDataset(selImHeight, selImWidth, new double[selImWidth * selImHeight]);
+            for (int i = 0; i < res.getX2().length; i++) {
+                aveLifetimeDataset.SetValue(selImInd[i], aveLifetimes[i]);
+            }
+            PaintScale ps = new RainbowPaintScale(newMinLifetime, newMaxLifetime);
+            JFreeChart aveLifetimeChart = createScatChart(ImageUtilities.createColorCodedImage(aveLifetimeDataset, ps), ps, selImWidth, selImHeight);
+            ChartPanel aveLifetimePanel = new ChartPanel(aveLifetimeChart);
+            aveLifetimePanel.setFillZoomRectangle(true);
+            aveLifetimePanel.setMouseWheelEnabled(true);
+            jPImage.removeAll();
+            aveLifetimePanel.setSize(jPImage.getSize());
+            jPImage.add(aveLifetimePanel);
+            jPImage.repaint();
+        } catch (NumberFormatException ex) {
+            CoreErrorMessages.selCorrChNum();
+        }
+    }//GEN-LAST:event_jButton2ActionPerformed
 
-}//GEN-LAST:event_jButton3ActionPerformed
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        selectedTimeTraces.add(selectedietm);
+        JFreeChart tracechart = null;
+        CombinedDomainXYPlot plot = new CombinedDomainXYPlot();
+        try {
+            tracechart = new JFreeChart((XYPlot) subchartTimeTrace.getXYPlot().clone());
+            tracechart.removeLegend();
+            ChartPanel chpan = new ChartPanel(tracechart, true);
+            chpan.setMinimumDrawHeight(0);
+            chpan.setMinimumDrawWidth(0);
+            jPSelTimeTrCollection.add(chpan);
+        } catch (CloneNotSupportedException ex) {
+            Exceptions.printStackTrace(ex);
+        }
+        plot.setOrientation(PlotOrientation.VERTICAL);
 
-private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-    //create dialog
-    SelectTracesForPlot selTracePanel = new SelectTracesForPlot();
-    selTracePanel.setMaxNumbers(res.getX().length, res.getX2().length);
-    selTracePanel.setEnabledYDimension(false);
+        CommonTools.checkPanelSize(jPSelTimeTrCollection, selectedTimeTraces.size());
 
-    NotifyDescriptor selTracesDialog = new NotifyDescriptor(
-            selTracePanel,
-            NbBundle.getBundle("org/glotaran/core/main/Bundle").getString("selTracesForReport"),
-            NotifyDescriptor.OK_CANCEL_OPTION,
-            NotifyDescriptor.PLAIN_MESSAGE,
-            null,
-            NotifyDescriptor.OK_OPTION);
-    //show dialog
-    if (DialogDisplayer.getDefault().notify(selTracesDialog).equals(NotifyDescriptor.OK_OPTION)){
-        //create time traces collection
-        if (selTracePanel.getSelectXState()){
-            int numSelTraces = selTracePanel.getSelectXNum();
-            int w = res.getX2().length/numSelTraces;
-            int xIndex;
-            ChartPanel chpan;
-            CommonTools.restorePanelSize(jPSelTimeTrCollection);
-            CommonTools.checkPanelSize(jPSelTimeTrCollection, numSelTraces);
-            for (int i = 0; i < numSelTraces; i++) {
-                xIndex = i*w;
-                //Add index ot selected trace into list
-                selectedTimeTraces.add(xIndex);
-                //create ChartPanel using xydatasets from above
-                chpan = CommonTools.makeLinTimeTraceResidChart(
+    }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        //create dialog
+        SelectTracesForPlot selTracePanel = new SelectTracesForPlot();
+        selTracePanel.setMaxNumbers(res.getX().length, res.getX2().length);
+        selTracePanel.setEnabledYDimension(false);
+
+        NotifyDescriptor selTracesDialog = new NotifyDescriptor(
+                selTracePanel,
+                NbBundle.getBundle("org/glotaran/core/main/Bundle").getString("selTracesForReport"),
+                NotifyDescriptor.OK_CANCEL_OPTION,
+                NotifyDescriptor.PLAIN_MESSAGE,
+                null,
+                NotifyDescriptor.OK_OPTION);
+        //show dialog
+        if (DialogDisplayer.getDefault().notify(selTracesDialog).equals(NotifyDescriptor.OK_OPTION)) {
+            //create time traces collection
+            if (selTracePanel.getSelectXState()) {
+                int numSelTraces = selTracePanel.getSelectXNum();
+                int w = res.getX2().length / numSelTraces;
+                int xIndex;
+                ChartPanel chpan;
+                CommonTools.restorePanelSize(jPSelTimeTrCollection);
+                CommonTools.checkPanelSize(jPSelTimeTrCollection, numSelTraces);
+                for (int i = 0; i < numSelTraces; i++) {
+                    xIndex = i * w;
+                    //Add index ot selected trace into list
+                    selectedTimeTraces.add(xIndex);
+                    //create ChartPanel using xydatasets from above
+                    chpan = CommonTools.makeLinTimeTraceResidChart(
                             CommonTools.createFitRawTraceCollection(xIndex, 0, res.getX().length, res),
                             CommonTools.createResidTraceCollection(xIndex, 0, res.getX().length, res),
                             new NumberAxis("Time (ns)"),
                             String.valueOf(res.getX2()[xIndex]),
                             false);
 //                //add chartpanel
-                jPSelTimeTrCollection.add(chpan);
+                    jPSelTimeTrCollection.add(chpan);
 //
+                }
             }
         }
-    }
-}//GEN-LAST:event_jButton4ActionPerformed
+    }//GEN-LAST:event_jButton4ActionPerformed
 
-private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
-    jPSelTimeTrCollection.removeAll();
-    CommonTools.restorePanelSize(jPSelTimeTrCollection);
-    jPSelTimeTrCollection.repaint();
-}//GEN-LAST:event_jButton6ActionPerformed
-
+    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
+        jPSelTimeTrCollection.removeAll();
+        CommonTools.restorePanelSize(jPSelTimeTrCollection);
+        jPSelTimeTrCollection.repaint();
+    }//GEN-LAST:event_jButton6ActionPerformed
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
@@ -891,6 +739,7 @@ private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
     private javax.swing.JToolBar jToolBar2;
     private javax.swing.JToolBar jToolBar3;
     // End of variables declaration//GEN-END:variables
+
     /**
      * Gets default instance. Do not use directly: reserved for *.settings files only,
      * i.e. deserialization routines; otherwise you could get a non-deserialized instance.
@@ -917,8 +766,8 @@ private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
             return (FlimResultsTopComponent) win;
         }
         Logger.getLogger(FlimResultsTopComponent.class.getName()).warning(
-                "There seem to be multiple components with the '" + PREFERRED_ID +
-                "' ID. That is a potential source of errors and unexpected behavior.");
+                "There seem to be multiple components with the '" + PREFERRED_ID
+                + "' ID. That is a potential source of errors and unexpected behavior.");
         return getDefault();
     }
 
@@ -929,12 +778,10 @@ private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
 
     @Override
     public void componentOpened() {
-
     }
 
     @Override
     public void componentClosed() {
-
     }
 
     /** replaces this in object stream */
@@ -971,29 +818,30 @@ private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
         RectangleEdge domainAxisEdge = plot.getDomainAxisEdge();
         ValueAxis rangeAxis = plot.getRangeAxis();
         RectangleEdge rangeAxisEdge = plot.getRangeAxisEdge();
-        int chartX = (int) floor(domainAxis.java2DToValue(p.getX(), dataArea,domainAxisEdge));
+        int chartX = (int) floor(domainAxis.java2DToValue(p.getX(), dataArea, domainAxisEdge));
         int chartY = (int) floor(rangeAxis.java2DToValue(p.getY(), dataArea, rangeAxisEdge));
 
         int ind = -1;
-        if ((chartX<selImWidth)&&(chartY<selImHeight)) {
-            index = chartY*selImWidth+chartX;
-            if (index>-1){
-                for (int i=0; i<selImInd.length; i++)
-                    if (index==selImInd[i]){
+        if ((chartX < selImWidth) && (chartY < selImHeight)) {
+            index = chartY * selImWidth + chartX;
+            if (index > -1) {
+                for (int i = 0; i < selImInd.length; i++) {
+                    if (index == selImInd[i]) {
                         ind = i;
 
                     }
-                    selectedietm = ind;
-                    if (ind!=-1){
-                        tracesCollection = CommonTools.createFitRawTraceCollection(ind, 0, res.getX().length, res);
-                        residuals = CommonTools.createResidTraceCollection(ind, 0, res.getX().length, res);
-                        ChartPanel chpanSelectedTrace = CommonTools.makeLinTimeTraceResidChart(tracesCollection, residuals, new NumberAxis("Time (ns)"), String.valueOf(res.getX2()[ind]),false);
-                        jPSelectedTrace.removeAll();
-                        jPSelectedTrace.add(chpanSelectedTrace);
-                        jPSelectedTrace.validate();
-                    }
+                }
+                selectedietm = ind;
+                if (ind != -1) {
+                    tracesCollection = CommonTools.createFitRawTraceCollection(ind, 0, res.getX().length, res);
+                    residuals = CommonTools.createResidTraceCollection(ind, 0, res.getX().length, res);
+                    ChartPanel chpanSelectedTrace = CommonTools.makeLinTimeTraceResidChart(tracesCollection, residuals, new NumberAxis("Time (ns)"), String.valueOf(res.getX2()[ind]), false);
+                    jPSelectedTrace.removeAll();
+                    jPSelectedTrace.add(chpanSelectedTrace);
+                    jPSelectedTrace.validate();
                 }
             }
+        }
     }
 
     public void chartMouseMoved(ChartMouseEvent event) {
@@ -1004,36 +852,35 @@ private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
         HistogramDataset datasetHist = new HistogramDataset();
         datasetHist.addSeries("seria1", data, numPockets, minAveLifetime, maxAveLifetime);
         JFreeChart charthist = ChartFactory.createHistogram(
-            null,
-            null,
-            null,
-            datasetHist,
-            PlotOrientation.VERTICAL,
-            false,
-            true,
-            false
-        );
+                null,
+                null,
+                null,
+                datasetHist,
+                PlotOrientation.VERTICAL,
+                false,
+                true,
+                false);
         XYPlot plot = (XYPlot) charthist.getPlot();
         plot.setForegroundAlpha(0.85f);
         XYBarRenderer renderer = (XYBarRenderer) plot.getRenderer();
         renderer.setDrawBarOutline(false);
         return new GraphPanel(charthist);
     }
-    
-    private double[] MakeFlimImage(double[] kinpar, Matrix amplitudes, int numOfSelPix){
+
+    private double[] MakeFlimImage(double[] kinpar, Matrix amplitudes, int numOfSelPix) {
         minAveLifetime = Double.MAX_VALUE;
         double[] aveLifeTimes = new double[numOfSelPix];
         normAmpl = new Matrix(numberOfComponents, numOfSelPix);
         double sumOfConc;
-        for (int i=0; i<numOfSelPix; i++){
+        for (int i = 0; i < numOfSelPix; i++) {
             aveLifeTimes[i] = 0;
             sumOfConc = 0;
-            for (int k = 0; k < numberOfComponents; k++){
-                sumOfConc=sumOfConc+amplitudes.get(k, i);
+            for (int k = 0; k < numberOfComponents; k++) {
+                sumOfConc = sumOfConc + amplitudes.get(k, i);
             }
-            for (int j=0; j<numberOfComponents; j++){
-                aveLifeTimes[i]=aveLifeTimes[i]+1/kinpar[j]*amplitudes.get(j, i)/sumOfConc; 
-                normAmpl.set(j, i, amplitudes.get(j, i)/sumOfConc);
+            for (int j = 0; j < numberOfComponents; j++) {
+                aveLifeTimes[i] = aveLifeTimes[i] + 1 / kinpar[j] * amplitudes.get(j, i) / sumOfConc;
+                normAmpl.set(j, i, amplitudes.get(j, i) / sumOfConc);
             }
             if (maxAveLifetime < aveLifeTimes[i]) {
                 maxAveLifetime = aveLifeTimes[i];
@@ -1045,7 +892,7 @@ private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
         return aveLifeTimes;
     }
 
-    private void calculateSVDResiduals(){
+    private void calculateSVDResiduals() {
         int n = 2;
 //do SVD
 
@@ -1073,14 +920,14 @@ private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
 
 //creare chart for 2 LSV
         JFreeChart tracechart = ChartFactory.createXYLineChart(
-                    "Left singular vectors",
-                    "Time (ns)",
-                    null,
-                    lSVCollection,
-                    PlotOrientation.VERTICAL,
-                    false,
-                    false,
-                    false);
+                "Left singular vectors",
+                "Time (ns)",
+                null,
+                lSVCollection,
+                PlotOrientation.VERTICAL,
+                false,
+                false,
+                false);
         tracechart.getTitle().setFont(new Font(tracechart.getTitle().getFont().getFontName(), Font.PLAIN, 12));
         tracechart.setBackgroundPaint(JFreeChart.DEFAULT_BACKGROUND_PAINT);
         tracechart.getXYPlot().getDomainAxis().setUpperBound(res.getX()[res.getX().length - 1]);
@@ -1097,28 +944,30 @@ private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
         double maxVal = 0;
         for (int j = 0; j < n; j++) {
 //            seria = new XYSeries("RSV" + (j + 1));
-            tempRsingVec = new double[selImWidth*selImHeight];
+            tempRsingVec = new double[selImWidth * selImHeight];
             minVal = svdResult.get(2).get(0, j);
             maxVal = svdResult.get(2).get(0, j);
             for (int i = 0; i < res.getX2().length; i++) {
                 tempRsingVec[selImInd[i]] = svdResult.get(2).get(i, j);
-                if (tempRsingVec[i] < minVal)
+                if (tempRsingVec[i] < minVal) {
                     minVal = tempRsingVec[i];
-                if (tempRsingVec[i] > maxVal)
+                }
+                if (tempRsingVec[i] > maxVal) {
                     maxVal = tempRsingVec[i];
+                }
             }
 
-            IntensImageDataset rSingVec = new IntensImageDataset(selImHeight,selImWidth,tempRsingVec);
+            IntensImageDataset rSingVec = new IntensImageDataset(selImHeight, selImWidth, tempRsingVec);
             PaintScale ps = new RainbowPaintScale(minVal, maxVal);
-            JFreeChart rSingVect = createScatChart(ImageUtilities.createColorCodedImage(rSingVec, ps), ps,selImWidth,selImHeight);
-            rSingVect.setTitle("R Singular vector "+String.valueOf(j+1));
+            JFreeChart rSingVect = createScatChart(ImageUtilities.createColorCodedImage(rSingVec, ps), ps, selImWidth, selImHeight);
+            rSingVect.setTitle("R Singular vector " + String.valueOf(j + 1));
             rSingVect.getTitle().setFont(new Font(tracechart.getTitle().getFont().getFontName(), Font.PLAIN, 12));
             ChartPanel rSingVectPanel = new ChartPanel(rSingVect);
             rSingVectPanel.setFillZoomRectangle(true);
             rSingVectPanel.setMouseWheelEnabled(true);
             jPRightSingVectors.add(rSingVectPanel);
         }
-        
+
 //creare collection with singular values
         XYSeriesCollection sVCollection = new XYSeriesCollection();
         seria = new XYSeries("SV");
@@ -1129,14 +978,14 @@ private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
 
 //creare chart for singular values
         tracechart = ChartFactory.createXYLineChart(
-                    "Screeplot",
-                    "Number of factors (#)",
-                    null,
-                    sVCollection,
-                    PlotOrientation.VERTICAL,
-                    false,
-                    false,
-                    false);
+                "Screeplot",
+                "Number of factors (#)",
+                null,
+                sVCollection,
+                PlotOrientation.VERTICAL,
+                false,
+                false,
+                false);
         tracechart.getXYPlot().setRangeAxis(new LogAxis("Log(SV)"));
         tracechart.getTitle().setFont(new Font(tracechart.getTitle().getFont().getFontName(), Font.PLAIN, 12));
         XYLineAndShapeRenderer renderer = (XYLineAndShapeRenderer) tracechart.getXYPlot().getRenderer();
@@ -1157,12 +1006,12 @@ private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
         jPSingValues.add(chpan);
     }
 
-    private JFreeChart createScatChart(BufferedImage image, PaintScale ps, int plotWidth, int plotHeigh){
+    private JFreeChart createScatChart(BufferedImage image, PaintScale ps, int plotWidth, int plotHeigh) {
         JFreeChart chart_temp = ChartFactory.createScatterPlot(null,
                 null, null, new XYSeriesCollection(), PlotOrientation.VERTICAL, false, false,
                 false);
         chart_temp.setBackgroundPaint(JFreeChart.DEFAULT_BACKGROUND_PAINT);
-        XYDataImageAnnotation ann = new XYDataImageAnnotation(image, 0,0,
+        XYDataImageAnnotation ann = new XYDataImageAnnotation(image, 0, 0,
                 plotWidth, plotHeigh, true);
         XYPlot plot = (XYPlot) chart_temp.getPlot();
         plot.setDomainPannable(true);
@@ -1182,9 +1031,9 @@ private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
         NumberAxis scaleAxis = new NumberAxis();
         scaleAxis.setAxisLinePaint(Color.black);
         scaleAxis.setTickMarkPaint(Color.black);
-        scaleAxis.setRange(ps.getLowerBound(),ps.getUpperBound());
+        scaleAxis.setRange(ps.getLowerBound(), ps.getUpperBound());
         scaleAxis.setTickLabelFont(new Font("Dialog", Font.PLAIN, 9));
-        PaintScaleLegend legend = new PaintScaleLegend(ps,scaleAxis);
+        PaintScaleLegend legend = new PaintScaleLegend(ps, scaleAxis);
         legend.setAxisLocation(AxisLocation.BOTTOM_OR_RIGHT);
         legend.setMargin(new RectangleInsets(5, 5, 5, 5));
         legend.setStripWidth(10);
@@ -1194,5 +1043,4 @@ private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
 
         return chart_temp;
     }
-
 }

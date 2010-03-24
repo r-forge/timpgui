@@ -130,25 +130,23 @@ public class GlotaranConnectProvider implements ConnectProvider {
                     }
                 }
             }
+        }
     }
-}
 
-private GtaConnection
-
-getExistingConnection(GtaProjectScheme gtaProjectScheme, String sourceId, String targetId) {
+    private GtaConnection getExistingConnection(GtaProjectScheme gtaProjectScheme, String sourceId, String targetId) {
         GtaConnection connection = null;
 
 
-for (GtaConnection testConnection : gtaProjectScheme.getConnection()) {
+        for (GtaConnection testConnection : gtaProjectScheme.getConnection()) {
             if (testConnection.getSourceID() != null && testConnection.getTargetID() != null) {
                 if (testConnection.getSourceID().equalsIgnoreCase(sourceId) && testConnection.getTargetID().equalsIgnoreCase(targetId)) {
                     connection = testConnection;
 
 
-}
+                }
             }
         }
         return connection;
 
-}
+    }
 }

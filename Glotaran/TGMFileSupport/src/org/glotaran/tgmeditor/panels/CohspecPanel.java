@@ -12,39 +12,43 @@ import org.netbeans.modules.xml.multiview.ui.SectionInnerPanel;
  */
 import org.netbeans.modules.xml.multiview.ui.SectionView;
 
-
-
 /**
  *
  * @author  kate
  */
 public class CohspecPanel extends SectionInnerPanel {
+
     private TgmDataObject dObj;
     private CohspecPanelModel cohspecPanelModel;
-        
+
     /** Creates new form CohspecPanel */
-    public CohspecPanel(SectionView view, TgmDataObject dObj, CohspecPanelModel cohspecPanelModel){
-        super(view);    
-        this.dObj=dObj;
-        this.cohspecPanelModel=cohspecPanelModel;
+    public CohspecPanel(SectionView view, TgmDataObject dObj, CohspecPanelModel cohspecPanelModel) {
+        super(view);
+        this.dObj = dObj;
+        this.cohspecPanelModel = cohspecPanelModel;
         initComponents();
         if (cohspecPanelModel.getCohspec().isSet()) {
-           if (cohspecPanelModel.getCohspec().getType().compareTo("irf")==0) {
-               jRBCohspecIrf.setSelected(true);}
-           if (cohspecPanelModel.getCohspec().getType().compareTo("freeirfdisp")==0) {
-               jRBCohspecFreeirfdisp.setSelected(true);}
-           if (cohspecPanelModel.getCohspec().getType().compareTo("irfmulti")==0) {
-               cohspec_irfmulti.setSelected(true);}
-           if (cohspecPanelModel.getCohspec().getType().compareTo("seq")==0) {
-               jRBCohspecSeq.setSelected(true);}
-           if (cohspecPanelModel.getCohspec().getType().compareTo("mix")==0) {
-               cohspec_mix.setSelected(true);}
+            if (cohspecPanelModel.getCohspec().getType().compareTo("irf") == 0) {
+                jRBCohspecIrf.setSelected(true);
+            }
+            if (cohspecPanelModel.getCohspec().getType().compareTo("freeirfdisp") == 0) {
+                jRBCohspecFreeirfdisp.setSelected(true);
+            }
+            if (cohspecPanelModel.getCohspec().getType().compareTo("irfmulti") == 0) {
+                cohspec_irfmulti.setSelected(true);
+            }
+            if (cohspecPanelModel.getCohspec().getType().compareTo("seq") == 0) {
+                jRBCohspecSeq.setSelected(true);
+            }
+            if (cohspecPanelModel.getCohspec().getType().compareTo("mix") == 0) {
+                cohspec_mix.setSelected(true);
+            }
         } else {
             jRBCohspecNo.setSelected(true);
         }
         cohspec_start.setText(cohspecPanelModel.getCoh()); //comma separated list of doubles, f.i.: "1,2,3,80,99"
 
-        if (cohspecPanelModel.isClp0Enabled()!=null){
+        if (cohspecPanelModel.isClp0Enabled() != null) {
             jCBCohSpec0.setSelected(cohspecPanelModel.isClp0Enabled());
             updateEnabled(cohspecPanelModel.isClp0Enabled());
             jTFCohSpec0From.setText(String.valueOf(cohspecPanelModel.getClp0Min()));
@@ -60,10 +64,9 @@ public class CohspecPanel extends SectionInnerPanel {
         addModifier(cohspec_mix);
         addModifier(jCBCohSpec0);
         addModifier(jTFCohSpec0From);
-        addModifier(jTFCohSpec0To);  
+        addModifier(jTFCohSpec0To);
     }
-    
-    
+
     /** This method is called from within the constructor to
      * initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is
@@ -96,11 +99,13 @@ public class CohspecPanel extends SectionInnerPanel {
         jRBCohspecNo.setText("None");
         jRBCohspecNo.setToolTipText("<html>\n<b>TIMP function</b>: cohspec<br>\n<b>Description</b>: if this option is selected then no coherent artifact will be modelled (<i>default</i>)\n</html>");
         jRBCohspecNo.addChangeListener(new javax.swing.event.ChangeListener() {
+
             public void stateChanged(javax.swing.event.ChangeEvent evt) {
                 jRBCohspecNoStateChanged(evt);
             }
         });
         jRBCohspecNo.addActionListener(new java.awt.event.ActionListener() {
+
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jRBCohspecNoActionPerformed(evt);
             }
@@ -122,6 +127,7 @@ public class CohspecPanel extends SectionInnerPanel {
         jRBCohspecSeq.setText("Sequential");
         jRBCohspecSeq.setToolTipText("<html>\n<b>TIMP function</b>: \"cohspec\"<br>\n<b>Argument</b>: type=\"seq\"<br>\n<b>Description</b>: if this options is used, then a sequential exponential decay model <br>\nis applied, whose starting value are contained in an additional list element start. This often <br>\nmodels oscillating behavior well, where the number of oscillations is the number of <br>\nparameter starting values given in start. The starting values after optimization will be<br>\nfound in the slot coh of the object of class theta corresponding to each dataset modeled.\n<b>Comments</b>: required additional argument <i>start</i> to be set.\n</html>");
         jRBCohspecSeq.addActionListener(new java.awt.event.ActionListener() {
+
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jRBCohspecSeqActionPerformed(evt);
             }
@@ -141,6 +147,7 @@ public class CohspecPanel extends SectionInnerPanel {
 
         jCBCohSpec0.setText("set amplitude of the coherent artifact/scatter to 0");
         jCBCohSpec0.addActionListener(new java.awt.event.ActionListener() {
+
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jCBCohSpec0ActionPerformed(evt);
             }
@@ -156,72 +163,9 @@ public class CohspecPanel extends SectionInnerPanel {
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(21, 21, 21)
-                        .addComponent(jLabel4)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTFCohSpec0From, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(28, 28, 28)
-                        .addComponent(jLabel5)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTFCohSpec0To, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jCBCohSpec0)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jRBCohspecNo)
-                            .addComponent(jRBCohspecIrf))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jRBCohspecFreeirfdisp)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(1, 1, 1)
-                                .addComponent(cohspec_irfmulti)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(cohspec_mix)
-                            .addComponent(jRBCohspecSeq)))
-                    .addComponent(jLabel1)
-                    .addComponent(jLabel2)
-                    .addComponent(cohspec_start, javax.swing.GroupLayout.PREFERRED_SIZE, 293, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
+                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(layout.createSequentialGroup().addContainerGap().addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(layout.createSequentialGroup().addGap(21, 21, 21).addComponent(jLabel4).addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED).addComponent(jTFCohSpec0From, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE).addGap(28, 28, 28).addComponent(jLabel5).addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED).addComponent(jTFCohSpec0To, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)).addComponent(jCBCohSpec0).addGroup(layout.createSequentialGroup().addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addComponent(jRBCohspecNo).addComponent(jRBCohspecIrf)).addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED).addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addComponent(jRBCohspecFreeirfdisp).addGroup(layout.createSequentialGroup().addGap(1, 1, 1).addComponent(cohspec_irfmulti))).addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED).addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addComponent(cohspec_mix).addComponent(jRBCohspecSeq))).addComponent(jLabel1).addComponent(jLabel2).addComponent(cohspec_start, javax.swing.GroupLayout.PREFERRED_SIZE, 293, javax.swing.GroupLayout.PREFERRED_SIZE)).addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)));
         layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jRBCohspecNo)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jRBCohspecIrf))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jRBCohspecFreeirfdisp)
-                            .addComponent(jRBCohspecSeq))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(cohspec_mix)
-                            .addComponent(cohspec_irfmulti))))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jLabel2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(cohspec_start, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jCBCohSpec0)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel4)
-                    .addComponent(jTFCohSpec0From, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel5)
-                    .addComponent(jTFCohSpec0To, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(14, Short.MAX_VALUE))
-        );
+                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(layout.createSequentialGroup().addContainerGap().addComponent(jLabel1).addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED).addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(layout.createSequentialGroup().addComponent(jRBCohspecNo).addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED).addComponent(jRBCohspecIrf)).addGroup(layout.createSequentialGroup().addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE).addComponent(jRBCohspecFreeirfdisp).addComponent(jRBCohspecSeq)).addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED).addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE).addComponent(cohspec_mix).addComponent(cohspec_irfmulti)))).addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED).addComponent(jLabel2).addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED).addComponent(cohspec_start, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE).addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED).addComponent(jCBCohSpec0).addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED).addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE).addComponent(jLabel4).addComponent(jTFCohSpec0From, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE).addComponent(jLabel5).addComponent(jTFCohSpec0To, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)).addContainerGap(14, Short.MAX_VALUE)));
     }// </editor-fold>//GEN-END:initComponents
 
     private void jCBCohSpec0ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCBCohSpec0ActionPerformed
@@ -230,19 +174,13 @@ public class CohspecPanel extends SectionInnerPanel {
     }//GEN-LAST:event_jCBCohSpec0ActionPerformed
 
     private void jRBCohspecNoStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jRBCohspecNoStateChanged
-        
-        
     }//GEN-LAST:event_jRBCohspecNoStateChanged
 
     private void jRBCohspecNoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRBCohspecNoActionPerformed
-       
     }//GEN-LAST:event_jRBCohspecNoActionPerformed
 
     private void jRBCohspecSeqActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRBCohspecSeqActionPerformed
-        
     }//GEN-LAST:event_jRBCohspecSeqActionPerformed
-
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup cohspec_buttonGroup;
     private javax.swing.JRadioButton cohspec_irfmulti;
@@ -263,48 +201,48 @@ public class CohspecPanel extends SectionInnerPanel {
 
     @Override
     public void setValue(JComponent source, Object value) {
-        if (source==jRBCohspecNo) {
-            cohspecPanelModel.getCohspec().setSet(!(Boolean)value);
+        if (source == jRBCohspecNo) {
+            cohspecPanelModel.getCohspec().setSet(!(Boolean) value);
         }
-        if (source==jRBCohspecIrf) {
+        if (source == jRBCohspecIrf) {
             cohspecPanelModel.getCohspec().setType("irf");
             cohspecPanelModel.getCohspec().setSet(true);
         }
-        if (source==jRBCohspecFreeirfdisp) {
+        if (source == jRBCohspecFreeirfdisp) {
             cohspecPanelModel.getCohspec().setType("freeirfdisp");
             cohspecPanelModel.getCohspec().setSet(true);
         }
-        if (source==cohspec_irfmulti) {
+        if (source == cohspec_irfmulti) {
             cohspecPanelModel.getCohspec().setType("irfmulti");
             cohspecPanelModel.getCohspec().setSet(true);
         }
-        if (source==jRBCohspecSeq) {
+        if (source == jRBCohspecSeq) {
             cohspecPanelModel.getCohspec().setType("seq");
             cohspecPanelModel.getCohspec().setSet(true);
         }
-        if (source==cohspec_mix) {
+        if (source == cohspec_mix) {
             cohspecPanelModel.getCohspec().setType("mix");
             cohspecPanelModel.getCohspec().setSet(true);
         }
-        if (source==cohspec_start) {
-            cohspecPanelModel.setCoh((String)value);
+        if (source == cohspec_start) {
+            cohspecPanelModel.setCoh((String) value);
         }
 
-        if (source==jCBCohSpec0) {
+        if (source == jCBCohSpec0) {
             cohspecPanelModel.setClp0Enabled(jCBCohSpec0.isSelected());
         }
 
-        if (source==jTFCohSpec0From) {
-            cohspecPanelModel.setClp0Min(Double.valueOf((String)value));
+        if (source == jTFCohSpec0From) {
+            cohspecPanelModel.setClp0Min(Double.valueOf((String) value));
         }
-        if (source==jTFCohSpec0To) {
-            cohspecPanelModel.setClp0Max(Double.valueOf((String)value));
+        if (source == jTFCohSpec0To) {
+            cohspecPanelModel.setClp0Max(Double.valueOf((String) value));
         }
 
 
         endUIChange();
     }
-    
+
     @Override
     protected void endUIChange() {// signalUIChange() is deprecated{
         dObj.modelUpdatedFromUI();
@@ -320,7 +258,7 @@ public class CohspecPanel extends SectionInnerPanel {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
-    private void updateEnabled(boolean setEnabl){
+    private void updateEnabled(boolean setEnabl) {
         jLabel4.setEnabled(setEnabl);
         jLabel5.setEnabled(setEnabl);
         jTFCohSpec0From.setEnabled(setEnabl);

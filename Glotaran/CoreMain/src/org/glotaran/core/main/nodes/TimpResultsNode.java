@@ -2,7 +2,6 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package org.glotaran.core.main.nodes;
 
 import java.awt.Image;
@@ -20,26 +19,25 @@ import org.openide.util.Lookup;
  *
  * @author lsp
  */
-public class TimpResultsNode extends DataNode implements Transferable{
+public class TimpResultsNode extends DataNode implements Transferable {
 
     private TimpResultDataObject obj;
     private final Image ICON = ImageUtilities.loadImage("org/glotaran/core/main/resources/Result-dataset-16.png", true);
     public static final DataFlavor DATA_FLAVOR = new DataFlavor(TimpResultsNode.class, "TimpResultsNode");
 
-
     public TimpResultsNode(TimpResultDataObject obj) {
         super(obj, Children.LEAF);
-        this.obj=obj;
+        this.obj = obj;
     }
 
     TimpResultsNode(TimpResultDataObject obj, Lookup lookup) {
         super(obj, Children.LEAF, lookup);
-        this.obj=obj;
+        this.obj = obj;
     }
 
-   public TimpResultDataObject getObject(){
-       return obj;
-   }
+    public TimpResultDataObject getObject() {
+        return obj;
+    }
 
     @Override
     public Image getIcon(int type) {
@@ -57,11 +55,11 @@ public class TimpResultsNode extends DataNode implements Transferable{
     }
 
     public DataFlavor[] getTransferDataFlavors() {
-        return(new DataFlavor[]{DATA_FLAVOR});
+        return (new DataFlavor[]{DATA_FLAVOR});
     }
 
     public boolean isDataFlavorSupported(DataFlavor flavor) {
-        return(flavor == DATA_FLAVOR);
+        return (flavor == DATA_FLAVOR);
     }
 
     public Object getTransferData(DataFlavor flavor) throws UnsupportedFlavorException, IOException {
@@ -76,5 +74,4 @@ public class TimpResultsNode extends DataNode implements Transferable{
     public Transferable drag() throws IOException {
         return this;
     }
-
 }

@@ -2,12 +2,12 @@
 <!DOCTYPE installation PUBLIC "" "file:///P:/IzPack_HEAD/izpack-src/src/dtd/installation.dtd" >
 
 <!-- 
-	@author  Klaus Bartz
+        @author  Klaus Bartz
 -->
 
 <installation version="1.0">
 
-    <!-- 
+    <!--
         The info section.
         The meaning of the tags should be natural ...
     -->
@@ -20,13 +20,13 @@
         <url>http://www.myCompany.com/</url>
     </info>
 
-    <!-- 
+    <!--
         The gui preferences indication.
         Sets the installer window to 640x480. It will not be able to change the size.
     -->
     <guiprefs width="640" height="480" resizable="no"/>
 
-    <!-- 
+    <!--
         The locale section.
         Asks here to include the English and German langpacks.
     -->
@@ -35,7 +35,7 @@
         <langpack iso3="deu"/>
     </locale>
 
-    <!-- 
+    <!--
         The panels section.
         We indicate here which panels we want to use. The order will be respected.
     -->
@@ -50,7 +50,7 @@
         <listener compiler="ChmodCompilerListener" installer="ChmodInstallerListener">
         </listener>
     </listeners>
-    <!-- 
+    <!--
         The packs section.
         We specify here our packs.
     -->

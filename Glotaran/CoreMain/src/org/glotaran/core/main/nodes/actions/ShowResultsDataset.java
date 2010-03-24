@@ -12,7 +12,6 @@ import org.openide.util.Lookup;
 import org.openide.util.NbBundle;
 import org.openide.util.actions.CookieAction;
 
-
 public final class ShowResultsDataset extends CookieAction {
 
     private final Collection<? extends ResultsLoaderInterface> services;

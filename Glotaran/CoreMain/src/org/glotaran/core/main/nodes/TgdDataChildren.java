@@ -2,9 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package org.glotaran.core.main.nodes;
-
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,12 +21,10 @@ import org.openide.util.Exceptions;
  *
  * @author lsp
  */
-
 public class TgdDataChildren extends Children.Keys {
 
 //    private TgdDataObject obj;
-
-    private final List <TimpDatasetDataObject> datasets = new ArrayList<TimpDatasetDataObject>();
+    private final List<TimpDatasetDataObject> datasets = new ArrayList<TimpDatasetDataObject>();
     private FileObject cachefolder;
     private FileObject datasetfolder;
     private FileObject[] files;
@@ -46,9 +42,9 @@ public class TgdDataChildren extends Children.Keys {
             } catch (DataObjectNotFoundException ex) {
                 Exceptions.printStackTrace(ex);
             }
-            if (dObj!=null) {
+            if (dObj != null) {
                 if (dObj instanceof TimpDatasetDataObject) {
-                    datasets.add((TimpDatasetDataObject)dObj);
+                    datasets.add((TimpDatasetDataObject) dObj);
                 }
             }
         }
@@ -56,9 +52,9 @@ public class TgdDataChildren extends Children.Keys {
 
     }
 
-    public void addObj(TimpDatasetDataObject objToAdd){
-        if (datasets!=null){
-             datasets.add(objToAdd);
+    public void addObj(TimpDatasetDataObject objToAdd) {
+        if (datasets != null) {
+            datasets.add(objToAdd);
         }
         setKeys(datasets);
     }
@@ -70,20 +66,18 @@ public class TgdDataChildren extends Children.Keys {
 
     @Override
     protected Node[] createNodes(Object key) {
-       TimpDatasetDataObject datasetObject = (TimpDatasetDataObject) key;
-       //TimpDatasetNode tn = (TimpDatasetNode) datasetObject.getNodeDelegate();//new TimpDatasetNode(datasetObject);
-       return new Node[] {datasetObject.getNodeDelegate()};
+        TimpDatasetDataObject datasetObject = (TimpDatasetDataObject) key;
+        //TimpDatasetNode tn = (TimpDatasetNode) datasetObject.getNodeDelegate();//new TimpDatasetNode(datasetObject);
+        return new Node[]{datasetObject.getNodeDelegate()};
     }
 
     @Override
     public boolean remove(Node[] arg0) {
-        for (int i = 0; i<arg0.length; i++){
-            TimpDatasetNode node = (TimpDatasetNode)arg0[i];
+        for (int i = 0; i < arg0.length; i++) {
+            TimpDatasetNode node = (TimpDatasetNode) arg0[i];
             datasets.remove(node.getObject());
             setKeys(datasets);
         }
         return true;
     }
-
-
 }

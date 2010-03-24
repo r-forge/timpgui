@@ -3,7 +3,6 @@
  * <strong>host</strong> and <strong>port</strong> from the properties file
  *
  */
-
 package org.rosuda.irconnect;
 
 import java.util.Properties;
@@ -13,14 +12,14 @@ import org.rosuda.irconnect.proxy.RConnectionProxy;
  *
  * @author Ralf
  */
-public abstract class AConnectionFactory implements IConnectionFactory{
+public abstract class AConnectionFactory implements IConnectionFactory {
 
     private static IConnectionFactory instance;
 
     public static IConnectionFactory getInstance() {
         return instance;
     }
-    
+
     protected AConnectionFactory() {
         instance = this;
     }
@@ -36,8 +35,9 @@ public abstract class AConnectionFactory implements IConnectionFactory{
     }
 
     private final IRConnection createARConnection(final Properties configuration) {
-        if (configuration == null)
+        if (configuration == null) {
             return handleCreateConnection(default_host, default_port);
+        }
         String host = default_host;
         int port = default_port;
         if (configuration.containsKey(IConnectionFactory.HOST)) {

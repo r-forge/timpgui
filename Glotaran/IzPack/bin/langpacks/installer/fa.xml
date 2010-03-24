@@ -225,7 +225,7 @@
     <!-- Strings for the loggin/reporting system (Messenger) -->
 
     <!-- This string defines the time stamp format in the installation report.
-         The format details are documented in 
+         The format details are documented in
     java.text.SimpleDateFormat -->
     <str id="log.timeStamp" txt="MM-dd-yyyy [HH:mm:ss] zzzz"/>
 

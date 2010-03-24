@@ -17,7 +17,6 @@ public class REngineConnectionFactory extends AConnectionFactory {
         if (!(con instanceof REngineRConnection)) {
             throw new IllegalArgumentException("Unsupported type:" + con);
         }
-        return new REngineJava2RConnection((REngineRConnection)con);
+        return new REngineJava2RConnection((REngineRConnection) con);
     }
-
 }

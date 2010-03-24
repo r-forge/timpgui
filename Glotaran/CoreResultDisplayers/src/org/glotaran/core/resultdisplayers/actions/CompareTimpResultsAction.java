@@ -63,7 +63,7 @@ public final class CompareTimpResultsAction implements ActionListener {
                 for (int i = 0; i < folder.getChildren().length; i++) {
                     try {
                         DataObject test = DataObject.find(folder.getChildren()[i]);
-                        if(test.getClass().equals(service.getDataObjectClass())) {
+                        if (test.getClass().equals(service.getDataObjectClass())) {
                             gtaResult = (GtaResult) analysisResultFileSupport.getContent(FileUtil.toFile(folder.getChildren()[i]));
                         }
                     } catch (DataObjectNotFoundException ex) {
@@ -81,7 +81,7 @@ public final class CompareTimpResultsAction implements ActionListener {
     private GtaResult getUniqueGtaResult(ArrayList<GtaResult> listOfAnalysisResults) {
         GtaResult result = null;
         for (int i = 1; i < listOfAnalysisResults.size(); i++) {
-            if(!listOfAnalysisResults.get(i-1).equals(listOfAnalysisResults.get(i))) {
+            if (!listOfAnalysisResults.get(i - 1).equals(listOfAnalysisResults.get(i))) {
                 return null;
             }
             result = listOfAnalysisResults.get(i);

@@ -83,7 +83,7 @@ public class FitModel {
     private static String getModelDiffsChange(GtaModelDiffContainer diffContainer) {
         String result = "";
 
-         TgmDataObject tgmDO;
+        TgmDataObject tgmDO;
         Tgm model = null;
         if (diffContainer != null) {
             if (diffContainer.getChanges() != null) {
@@ -93,11 +93,8 @@ public class FitModel {
             }
 
         }
-        
-        
+
+
         return result;
     }
-
-
-
 }

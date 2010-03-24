@@ -2,7 +2,6 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package org.glotaran.core.ui.visualmodelling.nodes;
 
 import java.awt.Image;
@@ -21,13 +20,14 @@ import org.openide.util.ImageUtilities;
  * @author slapten
  */
 public class IrfParametersNode extends PropertiesAbstractNode {
+
     private final Image ICON = ImageUtilities.loadImage("org/glotaran/core/ui/visualmodelling/resources/IRFpar_16.png", true);
     private EnumTypes.IRFTypes irfTypeProperty = EnumTypes.IRFTypes.GAUSSIAN;
     private Boolean backSweep = false;
     private Double sweepPeriod = null;
-    private String[] propNames = new String[]{"Name","Type","Use backsweep","Sweep period"};
+    private String[] propNames = new String[]{"Name", "Type", "Use backsweep", "Sweep period"};
 
-    public IrfParametersNode(PropertyChangeListener listn){
+    public IrfParametersNode(PropertyChangeListener listn) {
         super("IRFPar", new IrfParametersKeys(2));
         setIRFType(irfTypeProperty);
         addPropertyChangeListener(listn);
@@ -41,14 +41,13 @@ public class IrfParametersNode extends PropertiesAbstractNode {
                 sweepPeriod = irfparPanel.getBacksweepPeriod();
             }
         }
-        if (irfparPanel.isMirf()){
+        if (irfparPanel.isMirf()) {
             setIRFType(EnumTypes.IRFTypes.MEASURED_IRF);
 //============ todo finish measured irf =================
         } else {
-            if (irfparPanel.getIrf().size()==2){
+            if (irfparPanel.getIrf().size() == 2) {
                 setIRFType(EnumTypes.IRFTypes.GAUSSIAN);
-            }
-            else {
+            } else {
                 setIRFType(EnumTypes.IRFTypes.DOUBLE_GAUSSIAN);
             }
         }
@@ -69,8 +68,7 @@ public class IrfParametersNode extends PropertiesAbstractNode {
             } catch (NoSuchMethodException ex) {
                 Exceptions.printStackTrace(ex);
             }
-        }
-        else {
+        } else {
             getSheet().get(Sheet.PROPERTIES).remove(propNames[3]);
         }
         firePropertyChange("SetBackSweep", null, backSweep);
@@ -88,7 +86,7 @@ public class IrfParametersNode extends PropertiesAbstractNode {
     @Override
     public String getDisplayName() {
         String name = super.getDisplayName();
-        name = name + " ("+irfTypeProperty.toString()+")";
+        name = name + " (" + irfTypeProperty.toString() + ")";
         return name;
     }
 
@@ -96,7 +94,6 @@ public class IrfParametersNode extends PropertiesAbstractNode {
     public Image getIcon(int type) {
         return ICON;
     }
-
 
     @Override
     public Image getOpenedIcon(int type) {
@@ -110,7 +107,7 @@ public class IrfParametersNode extends PropertiesAbstractNode {
         PropertySupport.Reflection<EnumTypes.IRFTypes> irfType = null;
         Property<String> name = null;
         Property<Boolean> sweep = null;
-       try {
+        try {
             irfType = new PropertySupport.Reflection<EnumTypes.IRFTypes>(this, EnumTypes.IRFTypes.class, "getIRFType", "setIRFType");
             irfType.setPropertyEditorClass(EnumPropertyEditor.class);
             name = new PropertySupport.Reflection<String>(this, String.class, "getDisplayName", null);
@@ -121,7 +118,7 @@ public class IrfParametersNode extends PropertiesAbstractNode {
         irfType.setName(propNames[1]);
         name.setName(propNames[0]);
         sweep.setName(propNames[2]);
-    
+
         set.put(name);
         set.put(irfType);
         set.put(sweep);
@@ -130,12 +127,12 @@ public class IrfParametersNode extends PropertiesAbstractNode {
     }
 
     public void setIRFType(EnumTypes.IRFTypes irfType) {
-        IrfParametersKeys childColection = (IrfParametersKeys)getChildren();
+        IrfParametersKeys childColection = (IrfParametersKeys) getChildren();
         int currCompNum = childColection.getNodesCount();
         if (irfType.equals(EnumTypes.IRFTypes.GAUSSIAN)) {
-            if (currCompNum==1){
+            if (currCompNum == 1) {
                 childColection.backFromMeasuredIrf();
-                childColection = (IrfParametersKeys)getChildren();
+                childColection = (IrfParametersKeys) getChildren();
                 currCompNum = childColection.getNodesCount();
             }
             if (currCompNum < 2) {
@@ -146,9 +143,9 @@ public class IrfParametersNode extends PropertiesAbstractNode {
             addStreackProp();
         }
         if (irfType.equals(EnumTypes.IRFTypes.DOUBLE_GAUSSIAN)) {
-            if (currCompNum==1){
+            if (currCompNum == 1) {
                 childColection.backFromMeasuredIrf();
-                childColection = (IrfParametersKeys)getChildren();
+                childColection = (IrfParametersKeys) getChildren();
                 currCompNum = childColection.getNodesCount();
             }
             if (currCompNum < 4) {
@@ -160,7 +157,7 @@ public class IrfParametersNode extends PropertiesAbstractNode {
         }
         if (irfType.equals(EnumTypes.IRFTypes.MEASURED_IRF)) {
             childColection.setMeasuredIrf();
-            if (backSweep){
+            if (backSweep) {
                 getSheet().get(Sheet.PROPERTIES).remove(propNames[3]);
             }
             getSheet().get(Sheet.PROPERTIES).remove(propNames[2]);
@@ -174,7 +171,7 @@ public class IrfParametersNode extends PropertiesAbstractNode {
         return irfTypeProperty;
     }
 
-    private void addStreackProp(){
+    private void addStreackProp() {
         try {
             Property<Boolean> sweep = new PropertySupport.Reflection<Boolean>(this, Boolean.class, "backSweep");
             sweep.setName(propNames[2]);
@@ -193,7 +190,6 @@ public class IrfParametersNode extends PropertiesAbstractNode {
             }
         }
     }
-
 //    @Override
 //    public void fire(int index, PropertyChangeEvent evt){
 //        if ("start".equals(evt.getPropertyName())) {
@@ -204,5 +200,4 @@ public class IrfParametersNode extends PropertiesAbstractNode {
 //        }
 //    }
 //
-
 }

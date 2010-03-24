@@ -5,7 +5,7 @@
 <!--
 
  Caution for configuration manager!
- 
+
  This text file contains Japanese, many of which characters' value
  could be in 8 bits. So if you are not using 8-bit through environment,
  please handle this file as a binary file, otherwise, this file will

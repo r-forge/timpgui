@@ -17,38 +17,39 @@ import org.jfree.chart.renderer.GrayPaintScale;
  * default is lower - blue;
  *  
  */
-public class RainbowPaintScale extends GrayPaintScale{
+public class RainbowPaintScale extends GrayPaintScale {
+
     /** The lower bound. */
     private double lowerBound;
-/** The upper bound. */
+    /** The upper bound. */
     private double upperBound;
-/** if true than blue is a color for lower bound else 
- * red is a color for lower bound  */
+    /** if true than blue is a color for lower bound else
+     * red is a color for lower bound  */
     private boolean colormode;
-/** if true than values from out of bounds will be black*/
+    /** if true than values from out of bounds will be black*/
     private boolean mode;
-    
-    public RainbowPaintScale(){
+
+    public RainbowPaintScale() {
         super(0.0, 1.0);
         this.lowerBound = 0.0;
         this.upperBound = 1.0;
         this.colormode = true;
         this.mode = true;
     }
-    
-    public RainbowPaintScale(double lowerBound, double upperBound) 
-            throws IllegalArgumentException{
-        super(lowerBound,upperBound);
+
+    public RainbowPaintScale(double lowerBound, double upperBound)
+            throws IllegalArgumentException {
+        super(lowerBound, upperBound);
         this.lowerBound = lowerBound;
         this.upperBound = upperBound;
         this.colormode = true;
         this.mode = true;
 
     }
-    
-    public RainbowPaintScale(double lowerBound, double upperBound, boolean colormode, boolean  mode) 
-            throws IllegalArgumentException{
-        super(lowerBound,upperBound);
+
+    public RainbowPaintScale(double lowerBound, double upperBound, boolean colormode, boolean mode)
+            throws IllegalArgumentException {
+        super(lowerBound, upperBound);
         this.lowerBound = lowerBound;
         this.upperBound = upperBound;
         this.colormode = colormode;
@@ -58,23 +59,21 @@ public class RainbowPaintScale extends GrayPaintScale{
     @Override
     public Paint getPaint(double value) {
         float hue;
-        if (((value<this.lowerBound)||(value>this.upperBound))&&mode) {
+        if (((value < this.lowerBound) || (value > this.upperBound)) && mode) {
             return Color.black;
-        }
-        else{
+        } else {
             value = Math.max(value, this.lowerBound);
             value = Math.min(value, this.upperBound);
-            
-            if (colormode){
-                hue = (float)((this.upperBound - value) / (this.upperBound - this.lowerBound)*0.666667);
-            }
-            else {
-                hue = (float)((value - this.lowerBound) / (this.upperBound - this.lowerBound)*0.666667);
+
+            if (colormode) {
+                hue = (float) ((this.upperBound - value) / (this.upperBound - this.lowerBound) * 0.666667);
+            } else {
+                hue = (float) ((value - this.lowerBound) / (this.upperBound - this.lowerBound) * 0.666667);
             }
         }
-        return new Color(Color.HSBtoRGB(hue,(float)1.0, (float)1.0));
+        return new Color(Color.HSBtoRGB(hue, (float) 1.0, (float) 1.0));
     }
-       
+
     @Override
     public boolean equals(Object obj) {
         if (obj == this) {
@@ -90,7 +89,6 @@ public class RainbowPaintScale extends GrayPaintScale{
         if (this.upperBound != that.upperBound) {
             return false;
         }
-        return true;    
+        return true;
     }
-    
 }

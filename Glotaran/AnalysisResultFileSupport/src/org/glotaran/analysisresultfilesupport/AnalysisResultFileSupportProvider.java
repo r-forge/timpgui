@@ -2,7 +2,6 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package org.glotaran.analysisresultfilesupport;
 
 import java.io.File;
@@ -19,7 +18,7 @@ import org.openide.util.Exceptions;
  * @author jsg210
  */
 public class AnalysisResultFileSupportProvider implements AnalysisResultFileSupportInterface {
-   
+
     public Object getContent(File file) {
         GtaResult result = null;
         FileObject fo = FileUtil.toFileObject(file);
@@ -29,10 +28,9 @@ public class AnalysisResultFileSupportProvider implements AnalysisResultFileSupp
         } catch (DataObjectNotFoundException ex) {
             Exceptions.printStackTrace(ex);
         }
-        if(dataObj instanceof AnalysisResultDataObject){
-            result = ((AnalysisResultDataObject)dataObj).getAnalysisResult();
+        if (dataObj instanceof AnalysisResultDataObject) {
+            result = ((AnalysisResultDataObject) dataObj).getAnalysisResult();
         }
         return result;
     }
-
 }

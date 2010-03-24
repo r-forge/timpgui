@@ -2,7 +2,6 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package org.glotaran.core.ui.nodecontainers;
 
 import java.awt.dnd.DropTarget;
@@ -22,56 +21,55 @@ import org.openide.explorer.ExplorerManager;
 import org.openide.explorer.view.TreeTableView;
 import org.openide.nodes.Node;
 
-
 /**
  *
  * @author jsg210
  */
 public class DatasetView extends TreeTableView {
 
-      public DatasetView() {
-      setRootVisible(false);
-      setDropTarget();
-   }
+    public DatasetView() {
+        setRootVisible(false);
+        setDropTarget();
+    }
 
- public void setDefaultActionProcessor(final ActionListener action) {
-      setDefaultActionAllowed(false);
-      tree.addMouseListener(new MouseAdapter() {
+    public void setDefaultActionProcessor(final ActionListener action) {
+        setDefaultActionAllowed(false);
+        tree.addMouseListener(new MouseAdapter() {
 
-         @Override
-         public void mouseClicked(MouseEvent me) {
-            if (me.getClickCount() == 2) {
-               action.actionPerformed(null);
+            @Override
+            public void mouseClicked(MouseEvent me) {
+                if (me.getClickCount() == 2) {
+                    action.actionPerformed(null);
+                }
             }
-         }
-      });
+        });
 
-      treeTable.registerKeyboardAction(action,
-              KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0, false),
-              JComponent.WHEN_FOCUSED);
-   }
+        treeTable.registerKeyboardAction(action,
+                KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0, false),
+                JComponent.WHEN_FOCUSED);
+    }
 
-   private void setDropTarget() {
-      DropTarget dt = new DropTarget(this, new DropTargetAdapter() {
+    private void setDropTarget() {
+        DropTarget dt = new DropTarget(this, new DropTargetAdapter() {
 
-         @Override
-         public void dragEnter(DropTargetDragEvent dtde) {
-            if(!dtde.isDataFlavorSupported(TimpDatasetNode.DATA_FLAVOR)) {
-               dtde.rejectDrag();
+            @Override
+            public void dragEnter(DropTargetDragEvent dtde) {
+                if (!dtde.isDataFlavorSupported(TimpDatasetNode.DATA_FLAVOR)) {
+                    dtde.rejectDrag();
+                }
             }
-         }
 
-         public void drop(DropTargetDropEvent dtde) {
-            try {
-               TimpDatasetNode n = (TimpDatasetNode)dtde.getTransferable().getTransferData(TimpDatasetNode.DATA_FLAVOR);
-               //   TopComponent currentTopComponent = (TopComponent)Utilities.actionsGlobalContext().lookup(TopComponent.class);
-               // ExplorerManager.find(currentTopComponent).getRootContext().getChildren().add(new Node[]{n});
-               ExplorerManager.find(getParent()).getRootContext().getChildren().add(new Node[]{new TimpDatasetNode((TimpDatasetDataObject)n.getDataObject())});
-            } catch(Exception e) {
-               CoreErrorMessages.dragDropException();
+            public void drop(DropTargetDropEvent dtde) {
+                try {
+                    TimpDatasetNode n = (TimpDatasetNode) dtde.getTransferable().getTransferData(TimpDatasetNode.DATA_FLAVOR);
+                    //   TopComponent currentTopComponent = (TopComponent)Utilities.actionsGlobalContext().lookup(TopComponent.class);
+                    // ExplorerManager.find(currentTopComponent).getRootContext().getChildren().add(new Node[]{n});
+                    ExplorerManager.find(getParent()).getRootContext().getChildren().add(new Node[]{new TimpDatasetNode((TimpDatasetDataObject) n.getDataObject())});
+                } catch (Exception e) {
+                    CoreErrorMessages.dragDropException();
+                }
             }
-         }
-      });
-      setDropTarget(dt);
-   }
+        });
+        setDropTarget(dt);
+    }
 }

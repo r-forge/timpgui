@@ -4,12 +4,9 @@
 // Any modifications to this file will be lost upon recompilation of the source schema. 
 // Generated on: 2010.03.24 at 12:12:25 PM CET 
 //
-
-
 package org.glotaran.core.models.results;
 
 import javax.xml.bind.annotation.XmlRegistry;
-
 
 /**
  * This object contains factory methods for each 
@@ -27,7 +24,6 @@ import javax.xml.bind.annotation.XmlRegistry;
  */
 @XmlRegistry
 public class ObjectFactory {
-
 
     /**
      * Create a new ObjectFactory that can be used to create new instances of schema derived classes for package: org.glotaran.core.model.results
@@ -91,5 +87,4 @@ public class ObjectFactory {
     public Summary createSummary() {
         return new Summary();
     }
-
 }

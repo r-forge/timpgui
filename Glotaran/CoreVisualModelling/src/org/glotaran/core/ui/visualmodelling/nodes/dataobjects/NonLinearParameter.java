@@ -2,7 +2,6 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package org.glotaran.core.ui.visualmodelling.nodes.dataobjects;
 
 import org.glotaran.core.models.tgm.KinPar;
@@ -11,7 +10,7 @@ import org.glotaran.core.models.tgm.KinPar;
  *
  * @author lsp
  */
-public class NonLinearParameter extends AbstractParameterDO{
+public class NonLinearParameter extends AbstractParameterDO {
 
     private Double start;
     private Boolean fixed;
@@ -19,7 +18,7 @@ public class NonLinearParameter extends AbstractParameterDO{
     private Double maximum;
     private Double minimum;
 
-    public NonLinearParameter(){
+    public NonLinearParameter() {
         start = new Double(0.0);
         fixed = new Boolean(false);
         constrained = new Boolean(false);
@@ -28,7 +27,7 @@ public class NonLinearParameter extends AbstractParameterDO{
 
     }
 
-    public NonLinearParameter(Double irfPar, Boolean fixedPar){
+    public NonLinearParameter(Double irfPar, Boolean fixedPar) {
         start = irfPar;
         fixed = fixedPar;
         constrained = new Boolean(false);
@@ -37,7 +36,7 @@ public class NonLinearParameter extends AbstractParameterDO{
 
     }
 
-    public NonLinearParameter(KinPar param){
+    public NonLinearParameter(KinPar param) {
         start = param.getStart();
         fixed = param.isFixed();
         constrained = param.isConstrained();

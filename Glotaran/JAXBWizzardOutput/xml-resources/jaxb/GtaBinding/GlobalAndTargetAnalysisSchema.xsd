@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
-    targetNamespace="http://glotaran.org/schema/GlobalAndTargetAnalysisSchema"
-    xmlns:tns="http://glotaran.org/schema/GlobalAndTargetAnalysisSchema"
-    elementFormDefault="qualified">
+            targetNamespace="http://glotaran.org/schema/GlobalAndTargetAnalysisSchema"
+            xmlns:tns="http://glotaran.org/schema/GlobalAndTargetAnalysisSchema"
+            elementFormDefault="qualified">
     <xsd:complexType name="GtaDatasetContainer">
         <xsd:sequence>
             <xsd:element name="layout" type="tns:GtaLayout"/>
@@ -47,7 +47,7 @@
         </xsd:sequence>
     </xsd:complexType>
     <xsd:complexType name="GtaModelDifferences">
-        <xsd:sequence>            
+        <xsd:sequence>
             <xsd:element name="linkCLP" type="tns:GtaLinkCLP" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
             <xsd:element name="dscal" type="tns:GtaDatasetScaling" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
             <xsd:element name="threshold" type="xsd:double" nillable="true"/>

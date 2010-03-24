@@ -2,7 +2,6 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package org.glotaran.core.ui.visualmodelling.nodes;
 
 import java.awt.datatransfer.Transferable;
@@ -26,21 +25,22 @@ import org.openide.util.lookup.Lookups;
  *
  * @author slapten
  */
-public class DatasetsRootNode extends AbstractNode{
-    public DatasetsRootNode(Children children){
+public class DatasetsRootNode extends AbstractNode {
+
+    public DatasetsRootNode(Children children) {
         super(children);
     }
 
-    public DatasetsRootNode(Children children, DatasetContainerComponent comp){
+    public DatasetsRootNode(Children children, DatasetContainerComponent comp) {
         super(children, Lookups.singleton(comp));
         addPropertyChangeListener(comp);
     }
 
-    public DatasetContainerComponent getContainerComponent(){
+    public DatasetContainerComponent getContainerComponent() {
         return getLookup().lookup(DatasetContainerComponent.class);
     }
 
-    private GtaDataset createDatasetRef(TimpDatasetNode tdsNode){
+    private GtaDataset createDatasetRef(TimpDatasetNode tdsNode) {
         FileObject fo = tdsNode.getObject().getPrimaryFile();
         GtaDataset gtaDataset = new GtaDataset();
         gtaDataset.setPath(FileUtil.getRelativePath(OpenProjects.getDefault().getMainProject().getProjectDirectory(), fo));
@@ -49,23 +49,24 @@ public class DatasetsRootNode extends AbstractNode{
         return gtaDataset;
     }
 
-    public void updateChildrensProperties(){
-        for(Node child : getChildren().getNodes()){
-            ((DatasetComponentNode)child).updatePropSheet();
+    public void updateChildrensProperties() {
+        for (Node child : getChildren().getNodes()) {
+            ((DatasetComponentNode) child).updatePropSheet();
         }
     }
 
     @Override
     public PasteType getDropType(final Transferable t, int action, int index) {
-        if (t.isDataFlavorSupported(TimpDatasetNode.DATA_FLAVOR)){
+        if (t.isDataFlavorSupported(TimpDatasetNode.DATA_FLAVOR)) {
             return new PasteType() {
+
                 @Override
                 public Transferable paste() throws IOException {
                     try {
-                        TimpDatasetNode timpDataNode = (TimpDatasetNode)t.getTransferData(TimpDatasetNode.DATA_FLAVOR);
+                        TimpDatasetNode timpDataNode = (TimpDatasetNode) t.getTransferData(TimpDatasetNode.DATA_FLAVOR);
                         GtaDataset addedDataset = createDatasetRef(timpDataNode);
                         getChildren().add(new Node[]{
-                            new DatasetComponentNode(
+                                    new DatasetComponentNode(
                                     timpDataNode,
                                     new Index.ArrayChildren(),
                                     Lookups.singleton(addedDataset),
@@ -78,8 +79,7 @@ public class DatasetsRootNode extends AbstractNode{
                     return null;
                 }
             };
-        }
-        else {
+        } else {
             return null;
         }
 

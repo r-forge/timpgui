@@ -2,7 +2,6 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package org.glotaran.jfreechartcustom;
 
 import java.awt.image.BufferedImage;
@@ -21,7 +20,8 @@ import org.jfree.ui.Layer;
  *
  * @author lsp
  */
-public class ImageChartScatPlot{
+public class ImageChartScatPlot {
+
     private JFreeChart chart;
     private PaintScale ps;
     double maxInt, minInt;
@@ -29,17 +29,15 @@ public class ImageChartScatPlot{
     private XYZDataset dataset;
     private BufferedImage image;
 
-
-    public ImageChartScatPlot(){
-
+    public ImageChartScatPlot() {
     }
 
-    private JFreeChart createScatChart(BufferedImage image, int plotWidth, int plotHeigh){
+    private JFreeChart createScatChart(BufferedImage image, int plotWidth, int plotHeigh) {
         JFreeChart chart_temp = ChartFactory.createScatterPlot(null,
                 null, null, new XYSeriesCollection(), PlotOrientation.VERTICAL, false, false,
                 false);
 
-        XYDataImageAnnotation ann = new XYDataImageAnnotation(image, 0,0,
+        XYDataImageAnnotation ann = new XYDataImageAnnotation(image, 0, 0,
                 plotWidth, plotHeigh, true);
         XYPlot plot = (XYPlot) chart.getPlot();
         plot.setDomainPannable(true);
@@ -58,5 +56,4 @@ public class ImageChartScatPlot{
         return chart_temp;
 
     }
-
 }

@@ -4,15 +4,12 @@
 // Any modifications to this file will be lost upon recompilation of the source schema. 
 // Generated on: 2010.03.24 at 12:12:25 PM CET 
 //
-
-
 package org.glotaran.core.models.results;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
-
 
 /**
  * <p>Java class for OutputFile complex type.
@@ -177,5 +174,4 @@ public class OutputFile {
     public void setExtension(String value) {
         this.extension = value;
     }
-
 }

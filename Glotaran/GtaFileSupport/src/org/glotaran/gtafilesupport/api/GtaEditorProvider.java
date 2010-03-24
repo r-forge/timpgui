@@ -2,13 +2,10 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package org.glotaran.gtafilesupport.api;
-
 
 import org.glotaran.gtafilesupport.GtaDataObject;
 import org.openide.windows.CloneableTopComponent;
-
 
 /**
  *
@@ -16,6 +13,5 @@ import org.openide.windows.CloneableTopComponent;
  */
 public interface GtaEditorProvider {
 
-   public CloneableTopComponent getCloneableTopComponent(GtaDataObject entry);
-
+    public CloneableTopComponent getCloneableTopComponent(GtaDataObject entry);
 }

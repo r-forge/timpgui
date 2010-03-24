@@ -4,15 +4,12 @@
 // Any modifications to this file will be lost upon recompilation of the source schema. 
 // Generated on: 2010.03.19 at 01:52:24 PM CET 
 //
-
-
 package org.glotaran.core.models.tgd;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
-
 
 /**
  * <p>Java class for TgdDatasetEntry complex type.
@@ -103,5 +100,4 @@ public class TgdDatasetEntry {
     public void setThresholdMin(double value) {
         this.thresholdMin = value;
     }
-
 }

@@ -8,39 +8,39 @@ import org.jfree.chart.renderer.GrayPaintScale;
  *
  * @author Sergey
  */
-public class GrayPaintScalePlus extends GrayPaintScale{
-/** The lower bound. */
+public class GrayPaintScalePlus extends GrayPaintScale {
+
+    /** The lower bound. */
     private double lowerBound;
-    
-/** The upper bound. */
+    /** The upper bound. */
     private double upperBound;
- 
-/** Value which will be colored in green color instead of grayscale; */
+    /** Value which will be colored in green color instead of grayscale; */
     private double additionValue;
-    
-    public GrayPaintScalePlus(){
+
+    public GrayPaintScalePlus() {
         super(0.0, 1.0);
         this.additionValue = -1;
     }
-    
-    public GrayPaintScalePlus(double lowerBound, double upperBound, double additionvalue) 
-            throws IllegalArgumentException{
-        super(lowerBound,upperBound);
+
+    public GrayPaintScalePlus(double lowerBound, double upperBound, double additionvalue)
+            throws IllegalArgumentException {
+        super(lowerBound, upperBound);
         this.additionValue = additionvalue;
     }
-    
-    public double GetAdditionValue(){
+
+    public double GetAdditionValue() {
         return this.additionValue;
     }
-    
+
     @Override
     public Paint getPaint(double value) {
-        if(value !=  this.additionValue)
+        if (value != this.additionValue) {
             return super.getPaint(value);
-        else
+        } else {
             return Color.green;
-    }        
-       
+        }
+    }
+
     @Override
     public boolean equals(Object obj) {
         if (obj == this) {
@@ -56,11 +56,9 @@ public class GrayPaintScalePlus extends GrayPaintScale{
         if (this.upperBound != that.upperBound) {
             return false;
         }
-        if (this.additionValue != that.additionValue){
+        if (this.additionValue != that.additionValue) {
             return false;
         }
-        return true;    
+        return true;
     }
-    
-
 }

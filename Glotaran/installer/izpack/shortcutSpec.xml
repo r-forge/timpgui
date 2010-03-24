@@ -6,7 +6,7 @@
 
     <programGroup defaultName="Glotaran" location="applications"/>
 
-        <shortcut
+    <shortcut
         name="Glotaran $APP-VERSION"
         programGroup="yes"
         desktop="yes"
@@ -68,17 +68,17 @@
     </shortcut>
     -->
     <shortcut
-            name="Glotaran@ver@ Uninstaller"
-            programGroup="yes"
-            desktop="no"
-            applications="no"
-            startMenu="no"
-            startup="no"
-            target="$INSTALL_PATH\Uninstaller\uninstaller.jar"
-            commandLine=""
-            iconFile="%SystemRoot%\system32\SHELL32.dll"
-            iconIndex="31"
-            description="This uninstalls Glotaran @build.number@">
+        name="Glotaran@ver@ Uninstaller"
+        programGroup="yes"
+        desktop="no"
+        applications="no"
+        startMenu="no"
+        startup="no"
+        target="$INSTALL_PATH\Uninstaller\uninstaller.jar"
+        commandLine=""
+        iconFile="%SystemRoot%\system32\SHELL32.dll"
+        iconIndex="31"
+        description="This uninstalls Glotaran @build.number@">
 
         <createForPack name="Core"/>
 

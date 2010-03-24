@@ -2,7 +2,6 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package org.glotaran.jfreechartcustom;
 
 import org.jfree.chart.axis.StandardTickUnitSource;
@@ -35,7 +34,5 @@ public class VectorTickUnitSource implements TickUnitSource {
             return true;
         }
         return (obj instanceof StandardTickUnitSource);
-      }
-
-
+    }
 }

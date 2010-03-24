@@ -8,7 +8,6 @@ import org.openide.util.Lookup;
 import org.openide.util.lookup.AbstractLookup;
 import org.openide.util.lookup.InstanceContent;
 
-
 /**
  * @author  Sergey
  * @author  Joris
@@ -19,32 +18,29 @@ public abstract class TGDataset {
     protected final InstanceContent content = new InstanceContent();
     protected final Lookup lookup;
 
-
-    protected TGDataset(){
+    protected TGDataset() {
         lookup = new AbstractLookup(content);
     }
 
-    public Lookup getLookup(){
+    public Lookup getLookup() {
         return lookup;
     }
-    
+
     public abstract Image getIcon(int type);
 
-    public void addPropertyChangeListener(PropertyChangeListener listener){
-         propertySupport.addPropertyChangeListener(listener);
-     }
+    public void addPropertyChangeListener(PropertyChangeListener listener) {
+        propertySupport.addPropertyChangeListener(listener);
+    }
 
-    public void addPropertyChangeListener(String propName, PropertyChangeListener listener){
-         propertySupport.addPropertyChangeListener(propName,listener);
-     }
+    public void addPropertyChangeListener(String propName, PropertyChangeListener listener) {
+        propertySupport.addPropertyChangeListener(propName, listener);
+    }
 
-    public void removePropertyChangeListener(PropertyChangeListener listener){
-         propertySupport.removePropertyChangeListener(listener);
-     }
+    public void removePropertyChangeListener(PropertyChangeListener listener) {
+        propertySupport.removePropertyChangeListener(listener);
+    }
 
-    public void removePropertyChangeListener(String propName, PropertyChangeListener listener){
-         propertySupport.removePropertyChangeListener(propName,listener);
-     }
-
- 
+    public void removePropertyChangeListener(String propName, PropertyChangeListener listener) {
+        propertySupport.removePropertyChangeListener(propName, listener);
+    }
 }

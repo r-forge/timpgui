@@ -11,124 +11,124 @@
 
 
     <target name="build-portable-zip" description="Create Portable Zip" depends="build-zip">
-    <echo message=" "/>
-    <echo message="Setting property and task for installer creation" />
-    <property name="nbdist.dir" value="dist"/>
-    <property name="nbdist-app.dir" value="${nbdist.dir}/${app.name}"/>
-    <property name="nbdist-app-noarch-zip" value="${app.name}-${app.version.dash}-noarch.zip"/>
+        <echo message=" "/>
+        <echo message="Setting property and task for installer creation" />
+        <property name="nbdist.dir" value="dist"/>
+        <property name="nbdist-app.dir" value="${nbdist.dir}/${app.name}"/>
+        <property name="nbdist-app-noarch-zip" value="${app.name}-${app.version.dash}-noarch.zip"/>
 
-    <echo message=" "/>
-    <echo message="Preparing ...." />
+        <echo message=" "/>
+        <echo message="Preparing ...." />
 
-    <unzip src="${nbdist.dir}/${app.name}.zip" dest="${nbdist.dir}"/>
+        <unzip src="${nbdist.dir}/${app.name}.zip" dest="${nbdist.dir}"/>
 
-    <copy todir="${nbdist-app.dir}/legal">
-        <fileset dir="legal"/>
-    </copy>
+        <copy todir="${nbdist-app.dir}/legal">
+            <fileset dir="legal"/>
+        </copy>
 
-    <copy todir="${nbdist-app.dir}/${app.name}">
-        <fileset dir="installer/icons" />
-    </copy>
+        <copy todir="${nbdist-app.dir}/${app.name}">
+            <fileset dir="installer/icons" />
+        </copy>
 
-    <copy file="installer/readme.html" todir="${nbdist-app.dir}"/>
-    <replace file="${nbdist-app.dir}/readme.html">
-        <replacefilter token="${app.version}" value="${app.version}" />
-    </replace>
+        <copy file="installer/readme.html" todir="${nbdist-app.dir}"/>
+        <replace file="${nbdist-app.dir}/readme.html">
+            <replacefilter token="${app.version}" value="${app.version}" />
+        </replace>
 
-    <replace file="${nbdist-app.dir}/etc/${app.name}.conf">
-        <replacefilter token="/dev" value="/${app.version}" />
-        <replacefilter token="-J-Xms24m -J-Xmx64m" value="${run.args.extra}" />
-    </replace>
+        <replace file="${nbdist-app.dir}/etc/${app.name}.conf">
+            <replacefilter token="/dev" value="/${app.version}" />
+            <replacefilter token="-J-Xms24m -J-Xmx64m" value="${run.args.extra}" />
+        </replace>
 
-    <echo message=" "/>
-    <echo message="create the release ${nbdist-app-noarch-zip}"/>
-    <zip destfile="${nbdist.dir}/${nbdist-app-noarch-zip}">
-        <zipfileset dir="${nbdist-app.dir}">
-        </zipfileset>
-    </zip>
+        <echo message=" "/>
+        <echo message="create the release ${nbdist-app-noarch-zip}"/>
+        <zip destfile="${nbdist.dir}/${nbdist-app-noarch-zip}">
+            <zipfileset dir="${nbdist-app.dir}">
+            </zipfileset>
+        </zip>
 
-    <echo message=" "/>
-    <echo message="cleaning and finalizing release" />
-    <delete dir="${nbdist-app.dir}"/>
+        <echo message=" "/>
+        <echo message="cleaning and finalizing release" />
+        <delete dir="${nbdist-app.dir}"/>
 
-    <echo message=" "/>
-    <echo message="release: ${nbdist-app-noarch-zip}" />
+        <echo message=" "/>
+        <echo message="release: ${nbdist-app-noarch-zip}" />
     </target>
 
 
     <target name="build-installer" description="Create Installer" depends="build-zip">
-    <echo message=" "/>
-    <echo message="Setting property and task for installer creation" />
-    <property name="nbdist.dir" value="dist"/>
-    <property name="nbdist-app.dir" value="${nbdist.dir}/${app.name}"/>
-    <property name="nbdist-app-installer" value="${app.name}-${app.version.dash}.zip"/>
-    <property name="izpack-installer" value="setup.jar"/>
-    <property name="izpack.dir" value="${basedir}/IzPack"/>
-    <taskdef name="izpack" classpath="${izpack.dir}/lib/compiler.jar"
-             classname="com.izforge.izpack.ant.IzPackTask"/>
+        <echo message=" "/>
+        <echo message="Setting property and task for installer creation" />
+        <property name="nbdist.dir" value="dist"/>
+        <property name="nbdist-app.dir" value="${nbdist.dir}/${app.name}"/>
+        <property name="nbdist-app-installer" value="${app.name}-${app.version.dash}.zip"/>
+        <property name="izpack-installer" value="setup.jar"/>
+        <property name="izpack.dir" value="${basedir}/IzPack"/>
+        <taskdef name="izpack" classpath="${izpack.dir}/lib/compiler.jar"
+                 classname="com.izforge.izpack.ant.IzPackTask"/>
 
-    <echo message=" "/>
-    <echo message="Preparing ...." />
+        <echo message=" "/>
+        <echo message="Preparing ...." />
 
-    <unzip src="${nbdist.dir}/${app.name}.zip" dest="${nbdist.dir}"/>
+        <unzip src="${nbdist.dir}/${app.name}.zip" dest="${nbdist.dir}"/>
 
-    <copy todir="${nbdist-app.dir}/legal">
-        <fileset dir="legal"/>
-    </copy>
+        <copy todir="${nbdist-app.dir}/legal">
+            <fileset dir="legal"/>
+        </copy>
 
-    <copy todir="${nbdist-app.dir}/${app.name}">
-        <fileset dir="installer/icons" />
-    </copy>
+        <copy todir="${nbdist-app.dir}/${app.name}">
+            <fileset dir="installer/icons" />
+        </copy>
 
-    <copy file="installer/readme.html" todir="${nbdist-app.dir}"/>
-    <replace file="${nbdist-app.dir}/readme.html">
-        <replacefilter token="$${app.version}" value="${app.version}" />
-    </replace>
+        <copy file="installer/readme.html" todir="${nbdist-app.dir}"/>
+        <replace file="${nbdist-app.dir}/readme.html">
+            <replacefilter token="$${app.version}" value="${app.version}" />
+        </replace>
 
-    <copy todir="${nbdist-app.dir}">
-        <fileset dir="installer/izpack" />
-    </copy>
-    <replace file="${nbdist-app.dir}/izpack-install-script.xml">
-        <replacefilter token="$APP-NAME" value="${app.title.full}" />
-        <replacefilter token="$APP-VERSION" value="${app.version}" />
-        <replacefilter token="$APP-PATH" value="${app.title}-${app.version.dash}" />
-    </replace>
-    <replace file="${nbdist-app.dir}/shortcutSpec.xml">
-        <replacefilter token="$APP-VERSION" value="${app.version}" />
-    </replace>
+        <copy todir="${nbdist-app.dir}">
+            <fileset dir="installer/izpack" />
+        </copy>
+        <replace file="${nbdist-app.dir}/izpack-install-script.xml">
+            <replacefilter token="$APP-NAME" value="${app.title.full}" />
+            <replacefilter token="$APP-VERSION" value="${app.version}" />
+            <replacefilter token="$APP-PATH" value="${app.title}-${app.version.dash}" />
+        </replace>
+        <replace file="${nbdist-app.dir}/shortcutSpec.xml">
+            <replacefilter token="$APP-VERSION" value="${app.version}" />
+        </replace>
 
-    <replace file="${nbdist-app.dir}/etc/${app.name}.conf">
-        <replacefilter token="/dev" value="/${app.version}" />
-        <replacefilter token="-J-Xms24m -J-Xmx64m" value="${run.args.extra}" />
-    </replace>
+        <replace file="${nbdist-app.dir}/etc/${app.name}.conf">
+            <replacefilter token="/dev" value="/${app.version}" />
+            <replacefilter token="-J-Xms24m -J-Xmx64m" value="${run.args.extra}" />
+        </replace>
 
-    <echo message=" "/>
-    <echo message="Makes the installer using IzPack to ${izpack-installer}"/>
-    <izpack input="${basedir}/${nbdist-app.dir}/izpack-install-script.xml"
-            output="${basedir}/${nbdist-app.dir}/${izpack-installer}"
-            installerType="standard"
-            basedir="${basedir}/${nbdist-app.dir}"
-            izPackDir="${izpack.dir}/"/>
+        <echo message=" "/>
+        <echo message="Makes the installer using IzPack to ${izpack-installer}"/>
+        <izpack input="${basedir}/${nbdist-app.dir}/izpack-install-script.xml"
+                output="${basedir}/${nbdist-app.dir}/${izpack-installer}"
+                installerType="standard"
+                basedir="${basedir}/${nbdist-app.dir}"
+                izPackDir="${izpack.dir}/"/>
 
-    <echo message=" "/>
-    <echo message="create the release ${nbdist-app-installer}"/>
-    <zip destfile="${nbdist.dir}/${nbdist-app-installer}">
-        <zipfileset dir="${nbdist-app.dir}">
-            <include name="readme.html"/>
-            <include name="setup.exe"/>
-            <include name="${izpack-installer}"/>
-        </zipfileset>
-        <zipfileset dir="${nbdist-app.dir}" filemode="755">
-            <include name="setup"/>
-        </zipfileset>
-    </zip>
+        <echo message=" "/>
+        <echo message="create the release ${nbdist-app-installer}"/>
+        <zip destfile="${nbdist.dir}/${nbdist-app-installer}">
+            <zipfileset dir="${nbdist-app.dir}">
+                <include name="readme.html"/>
+                <include name="setup.exe"/>
+                <include name="${izpack-installer}"/>
+            </zipfileset>
+            <zipfileset dir="${nbdist-app.dir}" filemode="755">
+                <include name="setup"/>
+            </zipfileset>
+        </zip>
 
-    <echo message=" "/>
-    <echo message="cleaning and finalizing release" />
-    <delete dir="${nbdist-app.dir}"/>
+        <echo message=" "/>
+        <echo message="cleaning and finalizing release" />
+        <delete dir="${nbdist-app.dir}"/>
 
-    <echo message=" "/>
-    <echo message="release: ${nbdist-app-installer}" />
+        <echo message=" "/>
+        <echo message="release: ${nbdist-app-installer}" />
 
-</target>
+    </target>
 </project>

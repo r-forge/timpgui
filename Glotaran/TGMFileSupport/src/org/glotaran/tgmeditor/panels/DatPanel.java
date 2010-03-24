@@ -3,7 +3,6 @@
  *
  * Created on July 27, 2008, 2:10 AM
  */
-
 package org.glotaran.tgmeditor.panels;
 
 import javax.swing.JComponent;
@@ -17,26 +16,33 @@ import org.netbeans.modules.xml.multiview.ui.SectionView;
  * @author  joris
  */
 public class DatPanel extends SectionInnerPanel {
+
     private TgmDataObject dObj;
     private Dat dat;
 
     /** Creates new form DatPanel */
     public DatPanel(SectionView view, TgmDataObject dObj, Dat dat) {
         super(view);
-        this.dObj=dObj;
-        this.dat=dat;
+        this.dObj = dObj;
+        this.dat = dat;
         initComponents();
-        if (dat.getModType().compareTo("kin")==0) {jComboBox1.setSelectedIndex(0);
-        } else if (dat.getModType().compareTo("spec")==0) {jComboBox1.setSelectedIndex(1);
-        } else if (dat.getModType().compareTo("mass")==0) {jComboBox1.setSelectedIndex(2);}
-          else { jComboBox1.setSelectedIndex(0); dat.setModType("kin"); endUIChange();
+        if (dat.getModType().compareTo("kin") == 0) {
+            jComboBox1.setSelectedIndex(0);
+        } else if (dat.getModType().compareTo("spec") == 0) {
+            jComboBox1.setSelectedIndex(1);
+        } else if (dat.getModType().compareTo("mass") == 0) {
+            jComboBox1.setSelectedIndex(2);
+        } else {
+            jComboBox1.setSelectedIndex(0);
+            dat.setModType("kin");
+            endUIChange();
         }
         //jTModelNameTextField.setText(dat.getModelName());
         jTModelNameTextField.setText(dObj.getPrimaryFile().getName());
-        
+
         addModifier(jComboBox1);
         //addModifier(jTModelNameTextField);
-                
+
     }
 
     /** This method is called from within the constructor to
@@ -60,42 +66,20 @@ public class DatPanel extends SectionInnerPanel {
 
         jLabel4.setText(org.openide.util.NbBundle.getMessage(DatPanel.class, "DatPanel.jLabel4.text")); // NOI18N
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "kin", "spec", "mass" }));
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[]{"kin", "spec", "mass"}));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel3)
-                    .addComponent(jLabel4))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jTModelNameTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 320, Short.MAX_VALUE)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap())
-        );
+                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(layout.createSequentialGroup().addContainerGap().addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addComponent(jLabel3).addComponent(jLabel4)).addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED).addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addComponent(jTModelNameTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 320, Short.MAX_VALUE).addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)).addContainerGap()));
         layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(11, 11, 11)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel3)
-                    .addComponent(jTModelNameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel4)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
+                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(layout.createSequentialGroup().addGap(11, 11, 11).addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE).addComponent(jLabel3).addComponent(jTModelNameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)).addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED).addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE).addComponent(jLabel4).addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)).addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)));
     }// </editor-fold>//GEN-END:initComponents
 
     @Override
     public void setValue(JComponent source, Object value) {
         if (source == jComboBox1) {
-            dat.setModType((String)value);
+            dat.setModType((String) value);
         }
 //        if (source == jTModelNameTextField) {
 //        dat.setModelName((String)value);
@@ -111,18 +95,15 @@ public class DatPanel extends SectionInnerPanel {
     public JComponent getErrorComponent(String arg0) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
-    
+
     @Override
     protected void endUIChange() {// signalUIChange() is deprecated{
         dObj.modelUpdatedFromUI();
     }
-
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox jComboBox1;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JTextField jTModelNameTextField;
     // End of variables declaration//GEN-END:variables
-
 }

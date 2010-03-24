@@ -59,13 +59,11 @@ public class TGProject implements Project {
         return projectDir;
     }
 
-
     @Override
     public Lookup getLookup() {
         return lookUp;
     }
 
-  
     public FileObject getDatasetsFolder(boolean create) {
         FileObject result = projectDir.getFileObject(DATASETS_DIR);
 
@@ -125,7 +123,7 @@ public class TGProject implements Project {
             try {
                 result = projectDir.createFolder(OPTIONS_DIR);
             } catch (IOException ioe) {
-               CoreErrorMessages.createFolderException(OPTIONS_DIR);
+                CoreErrorMessages.createFolderException(OPTIONS_DIR);
             }
         }
         return result;
@@ -158,8 +156,8 @@ public class TGProject implements Project {
     }
 
     private Properties loadProperties() {
-        FileObject fob = projectDir.getFileObject(TGProjectFactory.PROJECT_DIR +
-                "/" + TGProjectFactory.PROJECT_PROPFILE);
+        FileObject fob = projectDir.getFileObject(TGProjectFactory.PROJECT_DIR
+                + "/" + TGProjectFactory.PROJECT_PROPFILE);
         Properties properties = new NotifyProperties(state);
         if (fob != null) {
             try {
@@ -185,8 +183,8 @@ public class TGProject implements Project {
         @Override
         public Object put(Object key, Object val) {
             Object result = super.put(key, val);
-            if (((result == null) != (val == null)) || (result != null &&
-                    val != null && !val.equals(result))) {
+            if (((result == null) != (val == null)) || (result != null
+                    && val != null && !val.equals(result))) {
                 state.markModified();
             }
             return result;

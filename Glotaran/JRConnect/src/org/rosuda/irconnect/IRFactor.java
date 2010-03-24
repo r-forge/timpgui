@@ -5,7 +5,10 @@ package org.rosuda.irconnect;
  * @author Ralf
  */
 public interface IRFactor {
-	void add(java.lang.String v);
-	java.lang.String at(int i);
-	int size();
+
+    void add(java.lang.String v);
+
+    java.lang.String at(int i);
+
+    int size();
 }

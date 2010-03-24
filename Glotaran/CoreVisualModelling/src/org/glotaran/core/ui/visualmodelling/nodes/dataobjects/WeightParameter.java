@@ -2,7 +2,6 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package org.glotaran.core.ui.visualmodelling.nodes.dataobjects;
 
 import org.glotaran.core.models.tgm.WeightPar;
@@ -11,18 +10,19 @@ import org.glotaran.core.models.tgm.WeightPar;
  *
  * @author lsp
  */
-public class WeightParameter extends AbstractParameterDO{
+public class WeightParameter extends AbstractParameterDO {
+
     private Double min1;
     private Double min2;
     private Double max1;
     private Double max2;
     private Double weight;
 
-    public WeightParameter(){
-        min1=null;
-        min2=null;
-        max1=null;
-        max2=null;
+    public WeightParameter() {
+        min1 = null;
+        min2 = null;
+        max1 = null;
+        max2 = null;
         weight = null;
     }
 

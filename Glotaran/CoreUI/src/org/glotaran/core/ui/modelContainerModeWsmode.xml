@@ -2,14 +2,14 @@
 
 <mode version="2.3">
     <name unique="modelContainerMode" />
-  <kind type="view" />
-  <state type="joined" />
-  <constraints>
-    <path orientation="horizontal" number="20" weight="0.3"/>
-    <path orientation="vertical" number="22" weight="0.2697616060225847"/>
-  </constraints>
-  <bounds x="0" y="0" width="0" height="0" />
-  <frame state="0"/>
+    <kind type="view" />
+    <state type="joined" />
+    <constraints>
+        <path orientation="horizontal" number="20" weight="0.3"/>
+        <path orientation="vertical" number="22" weight="0.2697616060225847"/>
+    </constraints>
+    <bounds x="0" y="0" width="0" height="0" />
+    <frame state="0"/>
     <active-tc  id="SelectedModelsViewTopComponent" />
     <empty-behavior permanent="false"/>
 </mode>

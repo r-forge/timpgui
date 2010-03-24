@@ -8,7 +8,6 @@
  *
  * Created on Sep 3, 2009, 3:53:09 PM
  */
-
 package org.glotaran.core.resultdisplayers.flim;
 
 import java.awt.Color;
@@ -44,7 +43,7 @@ import org.jfree.ui.RectangleInsets;
  */
 public class ImageHistPanel extends javax.swing.JPanel {
 
-    private int imHeight,imWidth;
+    private int imHeight, imWidth;
     private double minValue, maxValue;
     private double[] dataValues;
     private int[] selImInd;
@@ -74,12 +73,12 @@ public class ImageHistPanel extends javax.swing.JPanel {
 
         jPHist.add(updateHistPanel(data, minValue, maxValue, numChHist));
 
-        IntensImageDataset dataValuesDataset = new IntensImageDataset(imHeight,imWidth,new double[imWidth*imHeight]);
-        for (int i = 0; i < dataValues.length; i++){
+        IntensImageDataset dataValuesDataset = new IntensImageDataset(imHeight, imWidth, new double[imWidth * imHeight]);
+        for (int i = 0; i < dataValues.length; i++) {
             dataValuesDataset.SetValue(selImInd[i], dataValues[i]);
         }
         PaintScale ps = new RainbowPaintScale(0.001, maxValue);
-        JFreeChart aveLifetimeChart = createScatChart(ImageUtilities.createColorCodedImage(dataValuesDataset, ps), ps,imWidth,imHeight);
+        JFreeChart aveLifetimeChart = createScatChart(ImageUtilities.createColorCodedImage(dataValuesDataset, ps), ps, imWidth, imHeight);
         ChartPanel aveLifetimePanel = new ChartPanel(aveLifetimeChart);
         aveLifetimePanel.setFillZoomRectangle(true);
         aveLifetimePanel.setMouseWheelEnabled(true);
@@ -125,6 +124,7 @@ public class ImageHistPanel extends javax.swing.JPanel {
         jButton5.setIconTextGap(2);
         jButton5.setMargin(new java.awt.Insets(2, 2, 2, 2));
         jButton5.addActionListener(new java.awt.event.ActionListener() {
+
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton5ActionPerformed(evt);
             }
@@ -136,46 +136,22 @@ public class ImageHistPanel extends javax.swing.JPanel {
         javax.swing.GroupLayout jPanel14Layout = new javax.swing.GroupLayout(jPanel14);
         jPanel14.setLayout(jPanel14Layout);
         jPanel14Layout.setHorizontalGroup(
-            jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel14Layout.createSequentialGroup()
-                .addComponent(jLabel15, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(6, 6, 6)
-                .addComponent(jTFChNumHist, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(23, 23, 23)
-                .addComponent(jButton5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
-        );
+                jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel14Layout.createSequentialGroup().addComponent(jLabel15, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE).addGap(6, 6, 6).addComponent(jTFChNumHist, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE).addGap(23, 23, 23).addComponent(jButton5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE).addContainerGap()));
         jPanel14Layout.setVerticalGroup(
-            jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
-                .addComponent(jTFChNumHist, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addComponent(jButton5)
-                .addComponent(jLabel15))
-        );
+                jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER).addComponent(jTFChNumHist, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE).addComponent(jButton5).addComponent(jLabel15)));
 
         javax.swing.GroupLayout jPanel11Layout = new javax.swing.GroupLayout(jPanel11);
         jPanel11.setLayout(jPanel11Layout);
         jPanel11Layout.setHorizontalGroup(
-            jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, 226, Short.MAX_VALUE)
-            .addComponent(jPanel14, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jPHist, javax.swing.GroupLayout.DEFAULT_SIZE, 226, Short.MAX_VALUE)
-        );
+                jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, 226, Short.MAX_VALUE).addComponent(jPanel14, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE).addComponent(jPHist, javax.swing.GroupLayout.DEFAULT_SIZE, 226, Short.MAX_VALUE));
         jPanel11Layout.setVerticalGroup(
-            jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel11Layout.createSequentialGroup()
-                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 15, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPHist, javax.swing.GroupLayout.PREFERRED_SIZE, 224, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel14, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(10, Short.MAX_VALUE))
-        );
+                jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(jPanel11Layout.createSequentialGroup().addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 15, javax.swing.GroupLayout.PREFERRED_SIZE).addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED).addComponent(jPHist, javax.swing.GroupLayout.PREFERRED_SIZE, 224, javax.swing.GroupLayout.PREFERRED_SIZE).addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED).addComponent(jPanel14, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE).addContainerGap(10, Short.MAX_VALUE)));
 
         jPImage.setBackground(new java.awt.Color(0, 0, 0));
         jPImage.setMaximumSize(new java.awt.Dimension(450, 350));
         jPImage.setMinimumSize(new java.awt.Dimension(450, 350));
         jPImage.addMouseListener(new java.awt.event.MouseAdapter() {
+
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jPImageMouseClicked(evt);
             }
@@ -193,6 +169,7 @@ public class ImageHistPanel extends javax.swing.JPanel {
         jButton2.setIconTextGap(2);
         jButton2.setMargin(new java.awt.Insets(2, 2, 2, 2));
         jButton2.addActionListener(new java.awt.event.ActionListener() {
+
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton2ActionPerformed(evt);
             }
@@ -207,46 +184,16 @@ public class ImageHistPanel extends javax.swing.JPanel {
         javax.swing.GroupLayout jPanel10Layout = new javax.swing.GroupLayout(jPanel10);
         jPanel10.setLayout(jPanel10Layout);
         jPanel10Layout.setHorizontalGroup(
-            jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel10Layout.createSequentialGroup()
-                .addComponent(jLabel8)
-                .addGap(11, 11, 11)
-                .addComponent(jTFMinValue, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 27, Short.MAX_VALUE)
-                .addComponent(jLabel9)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTFMaxValue, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jButton2))
-        );
+                jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(jPanel10Layout.createSequentialGroup().addComponent(jLabel8).addGap(11, 11, 11).addComponent(jTFMinValue, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE).addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 27, Short.MAX_VALUE).addComponent(jLabel9).addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED).addComponent(jTFMaxValue, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE).addGap(18, 18, 18).addComponent(jButton2)));
         jPanel10Layout.setVerticalGroup(
-            jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
-                .addComponent(jLabel8)
-                .addComponent(jTFMinValue, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addComponent(jButton2)
-                .addComponent(jTFMaxValue, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addComponent(jLabel9))
-        );
+                jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER).addComponent(jLabel8).addComponent(jTFMinValue, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE).addComponent(jButton2).addComponent(jTFMaxValue, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE).addComponent(jLabel9)));
 
         javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
         jPanel7.setLayout(jPanel7Layout);
         jPanel7Layout.setHorizontalGroup(
-            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 256, Short.MAX_VALUE)
-            .addComponent(jPanel10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jPImage, javax.swing.GroupLayout.PREFERRED_SIZE, 256, Short.MAX_VALUE)
-        );
+                jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 256, Short.MAX_VALUE).addComponent(jPanel10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE).addComponent(jPImage, javax.swing.GroupLayout.PREFERRED_SIZE, 256, Short.MAX_VALUE));
         jPanel7Layout.setVerticalGroup(
-            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel7Layout.createSequentialGroup()
-                .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPImage, javax.swing.GroupLayout.PREFERRED_SIZE, 222, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
-        );
+                jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(jPanel7Layout.createSequentialGroup().addComponent(jLabel1).addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED).addComponent(jPImage, javax.swing.GroupLayout.PREFERRED_SIZE, 222, javax.swing.GroupLayout.PREFERRED_SIZE).addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED).addComponent(jPanel10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE).addContainerGap()));
 
         jLName.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLName.setText(org.openide.util.NbBundle.getMessage(ImageHistPanel.class, "ImageHistPanel.jLName.text")); // NOI18N
@@ -254,28 +201,13 @@ public class ImageHistPanel extends javax.swing.JPanel {
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLName, javax.swing.GroupLayout.DEFAULT_SIZE, 500, Short.MAX_VALUE)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel11, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
-        );
+                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addComponent(jLName, javax.swing.GroupLayout.DEFAULT_SIZE, 500, Short.MAX_VALUE).addGroup(layout.createSequentialGroup().addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE).addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED).addComponent(jPanel11, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE).addContainerGap()));
         layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jLName, javax.swing.GroupLayout.PREFERRED_SIZE, 15, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jPanel11, 0, 286, Short.MAX_VALUE)
-                    .addComponent(jPanel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-        );
+                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(layout.createSequentialGroup().addComponent(jLName, javax.swing.GroupLayout.PREFERRED_SIZE, 15, javax.swing.GroupLayout.PREFERRED_SIZE).addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED).addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false).addComponent(jPanel11, 0, 286, Short.MAX_VALUE).addComponent(jPanel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))));
     }// </editor-fold>//GEN-END:initComponents
 
     private void jPImageMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPImageMouseClicked
-        
-}//GEN-LAST:event_jPImageMouseClicked
+    }//GEN-LAST:event_jPImageMouseClicked
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         double newMinLifetime, newMaxLifetime;
@@ -283,12 +215,12 @@ public class ImageHistPanel extends javax.swing.JPanel {
             newMinLifetime = Double.parseDouble(jTFMinValue.getText());
             newMaxLifetime = Double.parseDouble(jTFMaxValue.getText());
 
-            IntensImageDataset dataValuesDataset = new IntensImageDataset(imHeight,imWidth,new double[imWidth*imHeight]);
-            for (int i = 0; i < dataValues.length; i++){
+            IntensImageDataset dataValuesDataset = new IntensImageDataset(imHeight, imWidth, new double[imWidth * imHeight]);
+            for (int i = 0; i < dataValues.length; i++) {
                 dataValuesDataset.SetValue(selImInd[i], dataValues[i]);
             }
             PaintScale ps = new RainbowPaintScale(newMinLifetime, newMaxLifetime);
-            JFreeChart aveLifetimeChart = createScatChart(ImageUtilities.createColorCodedImage(dataValuesDataset, ps), ps,imWidth,imHeight);
+            JFreeChart aveLifetimeChart = createScatChart(ImageUtilities.createColorCodedImage(dataValuesDataset, ps), ps, imWidth, imHeight);
             aveLifetimeChart.getXYPlot().getRangeAxis().setInverted(true);
             ChartPanel aveLifetimePanel = new ChartPanel(aveLifetimeChart);
             aveLifetimePanel.setFillZoomRectangle(true);
@@ -298,10 +230,10 @@ public class ImageHistPanel extends javax.swing.JPanel {
             aveLifetimePanel.addChartMouseListener(listener);
             jPImage.add(aveLifetimePanel);
             jPImage.repaint();
-        }catch(NumberFormatException ex) {
+        } catch (NumberFormatException ex) {
             CoreErrorMessages.selCorrChNum();
         }
-}//GEN-LAST:event_jButton2ActionPerformed
+    }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
         int newNumChHish;
@@ -312,12 +244,10 @@ public class ImageHistPanel extends javax.swing.JPanel {
             chpanHist.setSize(jPHist.getSize());
             jPHist.add(chpanHist);
             jPHist.repaint();
-        }catch(NumberFormatException ex) {
+        } catch (NumberFormatException ex) {
             CoreErrorMessages.selCorrChNum();
         }
-}//GEN-LAST:event_jButton5ActionPerformed
-
-
+    }//GEN-LAST:event_jButton5ActionPerformed
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton5;
@@ -340,19 +270,19 @@ public class ImageHistPanel extends javax.swing.JPanel {
 
     private ChartPanel updateHistPanel(double[] data, double minVal, double maxVal, int numPockets) {
         HistogramDataset datasetHist = new HistogramDataset();
-        if(numPockets < 1)
+        if (numPockets < 1) {
             numPockets = 20;
+        }
         datasetHist.addSeries("seria1", data, numPockets, minVal, maxVal);
         JFreeChart charthist = ChartFactory.createHistogram(
-            null,
-            null,
-            null,
-            datasetHist,
-            PlotOrientation.VERTICAL,
-            false,
-            true,
-            false
-        );
+                null,
+                null,
+                null,
+                datasetHist,
+                PlotOrientation.VERTICAL,
+                false,
+                true,
+                false);
         charthist.setBackgroundPaint(JFreeChart.DEFAULT_BACKGROUND_PAINT);
         XYPlot plot = (XYPlot) charthist.getPlot();
         plot.setForegroundAlpha(0.85f);
@@ -361,13 +291,13 @@ public class ImageHistPanel extends javax.swing.JPanel {
         return new GraphPanel(charthist);
     }
 
-    private JFreeChart createScatChart(BufferedImage image, PaintScale ps, int plotWidth, int plotHeigh){
+    private JFreeChart createScatChart(BufferedImage image, PaintScale ps, int plotWidth, int plotHeigh) {
         JFreeChart chart_temp = ChartFactory.createScatterPlot(null,
                 null, null, new XYSeriesCollection(), PlotOrientation.VERTICAL, false, false,
                 false);
         chart_temp.getXYPlot().getRangeAxis().setInverted(true);
         chart_temp.setBackgroundPaint(JFreeChart.DEFAULT_BACKGROUND_PAINT);
-        XYDataImageAnnotation ann = new XYDataImageAnnotation(image, 0,0,
+        XYDataImageAnnotation ann = new XYDataImageAnnotation(image, 0, 0,
                 plotWidth, plotHeigh, true);
         XYPlot plot = (XYPlot) chart_temp.getPlot();
         plot.setDomainPannable(true);
@@ -387,9 +317,9 @@ public class ImageHistPanel extends javax.swing.JPanel {
         NumberAxis scaleAxis = new NumberAxis();
         scaleAxis.setAxisLinePaint(Color.black);
         scaleAxis.setTickMarkPaint(Color.black);
-        scaleAxis.setRange(ps.getLowerBound(),ps.getUpperBound());
+        scaleAxis.setRange(ps.getLowerBound(), ps.getUpperBound());
         scaleAxis.setTickLabelFont(new Font("Dialog", Font.PLAIN, 9));
-        PaintScaleLegend legend = new PaintScaleLegend(ps,scaleAxis);
+        PaintScaleLegend legend = new PaintScaleLegend(ps, scaleAxis);
         legend.setAxisLocation(AxisLocation.BOTTOM_OR_RIGHT);
         legend.setMargin(new RectangleInsets(5, 5, 5, 5));
         legend.setStripWidth(10);

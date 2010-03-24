@@ -2,7 +2,6 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package org.glotaran.core.ui.nodecontainers;
 
 import java.awt.BorderLayout;
@@ -21,27 +20,25 @@ import org.openide.windows.WindowManager;
 /**
  * Top component which displays something.
  */
-public final class SelectedDatasetsViewTopComponent extends TopComponent implements ExplorerManager.Provider, PropertyChangeListener{
+public final class SelectedDatasetsViewTopComponent extends TopComponent implements ExplorerManager.Provider, PropertyChangeListener {
 
     private static SelectedDatasetsViewTopComponent instance;
     /** path to the icon used by the component and its open action */
 //    static final String ICON_PATH = "SET/PATH/TO/ICON/HERE";
-
     private static final String PREFERRED_ID = "SelectedDatasetsViewTopComponent";
-
-   private ExplorerManager manager   = new ExplorerManager();
-   private DatasetView    datasetView  = new DatasetView();
-   private DatasetNodeContainer   container = new DatasetNodeContainer();
+    private ExplorerManager manager = new ExplorerManager();
+    private DatasetView datasetView = new DatasetView();
+    private DatasetNodeContainer container = new DatasetNodeContainer();
 
     public SelectedDatasetsViewTopComponent() {
         initComponents();
         setName(NbBundle.getBundle("org/glotaran/core/ui/nodecontainers/Bundle").getString("CTL_SelectedDatasetsViewTopComponent"));
         setToolTipText(NbBundle.getBundle("org/glotaran/core/ui/nodecontainers/Bundle").getString("HINT_SelectedDatasetsViewTopComponent"));
-        manager.setRootContext(new AbstractNode(container,ExplorerUtils.createLookup(manager, getActionMap())));
+        manager.setRootContext(new AbstractNode(container, ExplorerUtils.createLookup(manager, getActionMap())));
         //setIcon(Utilities.loadImage(ICON_PATH, true));
         //manager.setRootContext(new AbstractNode(container,ExplorerUtils.createLookup(manager, getActionMap())) );
         //associateLookup(ExplorerUtils.createLookup(manager, getActionMap()));
-        
+
     }
 
     /** This method is called from within the constructor to
@@ -67,6 +64,7 @@ public final class SelectedDatasetsViewTopComponent extends TopComponent impleme
         remove.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         remove.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         remove.addActionListener(new java.awt.event.ActionListener() {
+
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 removeActionPerformed(evt);
             }
@@ -79,29 +77,20 @@ public final class SelectedDatasetsViewTopComponent extends TopComponent impleme
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(panel, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
-            .addComponent(toolbar, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
-        );
+                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addComponent(panel, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE).addComponent(toolbar, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE));
         layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(toolbar, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(panel, javax.swing.GroupLayout.DEFAULT_SIZE, 69, Short.MAX_VALUE))
-        );
+                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(layout.createSequentialGroup().addComponent(toolbar, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE).addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED).addComponent(panel, javax.swing.GroupLayout.DEFAULT_SIZE, 69, Short.MAX_VALUE)));
     }// </editor-fold>//GEN-END:initComponents
 
     private void removeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeActionPerformed
         container.remove(manager.getSelectedNodes());
-}//GEN-LAST:event_removeActionPerformed
-
-
+    }//GEN-LAST:event_removeActionPerformed
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel panel;
     private javax.swing.JButton remove;
     private javax.swing.JToolBar toolbar;
     // End of variables declaration//GEN-END:variables
+
     /**
      * Gets default instance. Do not use directly: reserved for *.settings files only,
      * i.e. deserialization routines; otherwise you could get a non-deserialized instance.
@@ -128,8 +117,8 @@ public final class SelectedDatasetsViewTopComponent extends TopComponent impleme
             return (SelectedDatasetsViewTopComponent) win;
         }
         Logger.getLogger(SelectedDatasetsViewTopComponent.class.getName()).warning(
-                "There seem to be multiple components with the '" + PREFERRED_ID +
-                "' ID. That is a potential source of errors and unexpected behavior.");
+                "There seem to be multiple components with the '" + PREFERRED_ID
+                + "' ID. That is a potential source of errors and unexpected behavior.");
         return getDefault();
     }
 
@@ -163,9 +152,9 @@ public final class SelectedDatasetsViewTopComponent extends TopComponent impleme
         return manager;
     }
 
-   public void propertyChange(PropertyChangeEvent evt) {
-        if (evt.getSource() == manager &&
-                ExplorerManager.PROP_SELECTED_NODES.equals(evt.getPropertyName())) {
+    public void propertyChange(PropertyChangeEvent evt) {
+        if (evt.getSource() == manager
+                && ExplorerManager.PROP_SELECTED_NODES.equals(evt.getPropertyName())) {
             setActivatedNodes(manager.getSelectedNodes());
         }
     }

@@ -8,14 +8,13 @@
  *
  * Created on Sep 25, 2009, 11:47:08 AM
  */
-
 package org.glotaran.tgmeditor.panels;
 
 /**
  *
  * @author slapten
  */
-public class RelationCellPanel extends javax.swing.JPanel{
+public class RelationCellPanel extends javax.swing.JPanel {
 
     /** Creates new form JVectorCell */
     public RelationCellPanel() {
@@ -26,17 +25,15 @@ public class RelationCellPanel extends javax.swing.JPanel{
         initComponents();
         jCheckBox1.setEnabled(relVal.isFixedC0());
         jCheckBox2.setEnabled(relVal.isFixedC1());
-        if (relVal.getC1()!=Double.NaN) {
+        if (relVal.getC1() != Double.NaN) {
             jTextField1.setText(String.valueOf(relVal.getC1()));
-        }
-        else {
+        } else {
             jTextField1.setText("");
         }
 
-        if (relVal.getC1()!=Double.NaN) {
+        if (relVal.getC1() != Double.NaN) {
             jTextField2.setText(String.valueOf(relVal.getC1()));
-        }
-        else {
+        } else {
             jTextField2.setText("");
         }
     }
@@ -104,8 +101,6 @@ public class RelationCellPanel extends javax.swing.JPanel{
         gridBagConstraints.weightx = 0.2;
         add(jCheckBox2, gridBagConstraints);
     }// </editor-fold>//GEN-END:initComponents
-
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JCheckBox jCheckBox1;
     private javax.swing.JCheckBox jCheckBox2;
@@ -140,10 +135,11 @@ public class RelationCellPanel extends javax.swing.JPanel{
     }
 
     public void setC0Value(double val) {
-        if (val!=Double.NaN)
+        if (val != Double.NaN) {
             jTextField1.setText(String.valueOf(val));
-        else
+        } else {
             jTextField1.setText("");
+        }
     }
 
     public Double getC1Value() {
@@ -157,9 +153,10 @@ public class RelationCellPanel extends javax.swing.JPanel{
     }
 
     public void setC1Value(double val) {
-        if (val!=Double.NaN)
+        if (val != Double.NaN) {
             jTextField2.setText(String.valueOf(val));
-        else
+        } else {
             jTextField2.setText("");
+        }
     }
 }

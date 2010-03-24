@@ -1,4 +1,3 @@
-
 package org.glotaran.core.main.nodes;
 
 import java.awt.Image;
@@ -15,6 +14,7 @@ public class TGResultsNode extends FilterNode {
 
     private final Image ICON_ROOT = ImageUtilities.loadImage("org/glotaran/core/main/resources/Folder-results-icon-16.png", true);
     private final Image ICON_LEAF = ImageUtilities.loadImage("org/glotaran/core/main/resources/Results-name-16.png", true);
+
     /**
      * Constructor.
      * @param   node      The {@code Node} describing the folder.
@@ -25,7 +25,7 @@ public class TGResultsNode extends FilterNode {
 
     @Override
     public Image getIcon(int type) {
-        if (this.getParentNode() instanceof TGResultsNode){
+        if (this.getParentNode() instanceof TGResultsNode) {
             return ICON_LEAF;
         }
         return ICON_ROOT;
@@ -38,7 +38,7 @@ public class TGResultsNode extends FilterNode {
 
     @Override
     public String getDisplayName() {
-        if (this.getParentNode() instanceof TGResultsNode){
+        if (this.getParentNode() instanceof TGResultsNode) {
             return this.getName();
         }
         return NbBundle.getBundle("org/glotaran/core/main/Bundle").getString("results");
@@ -46,13 +46,14 @@ public class TGResultsNode extends FilterNode {
 
     @Override
     public boolean canRename() {
-        if (this.getParentNode() instanceof TGResultsNode){
+        if (this.getParentNode() instanceof TGResultsNode) {
             return true;
         }
         return false;
     }
 
-        private static class TGResultsChildrenNode extends FilterNode.Children {
+    private static class TGResultsChildrenNode extends FilterNode.Children {
+
         TGResultsChildrenNode(Node node) {
             super(node);
         }
@@ -73,5 +74,4 @@ public class TGResultsNode extends FilterNode {
             return new Node[]{new FilterNode(n)};
         }
     }
-
 }

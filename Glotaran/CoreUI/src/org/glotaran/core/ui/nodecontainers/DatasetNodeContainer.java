@@ -2,7 +2,6 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package org.glotaran.core.ui.nodecontainers;
 
 import org.openide.nodes.Index;
@@ -18,32 +17,28 @@ import org.glotaran.core.main.nodes.TimpDatasetNode;
  *
  * @author jsg210
  */
-
 public final class DatasetNodeContainer extends Index.ArrayChildren {
 
-   private static final Logger LOG = Logger.getLogger(DatasetNodeContainer.class.getName());
-   private ArrayList<Node> list = new ArrayList<Node>();
+    private static final Logger LOG = Logger.getLogger(DatasetNodeContainer.class.getName());
+    private ArrayList<Node> list = new ArrayList<Node>();
 
-   public DatasetNodeContainer() {
+    public DatasetNodeContainer() {
+    }
 
-   }
+    @Override
+    protected List<Node> initCollection() {
+        return list;
+    }
 
-   @Override
-   protected List<Node> initCollection() {
-      return list;
-   }
+    public ListIterator<TimpDatasetNode> getRemaining(Node current) {
+        Vector<TimpDatasetNode> v = new Vector<TimpDatasetNode>();
+        for (Node n : list.subList(indexOf(current), list.size())) {
+            v.add(n.getLookup().lookup(TimpDatasetNode.class));
+        }
+        return (v.listIterator());
+    }
 
-   public ListIterator<TimpDatasetNode> getRemaining(Node current) {
-      Vector<TimpDatasetNode> v = new Vector<TimpDatasetNode>();
-      for (Node n : list.subList(indexOf(current), list.size())) {
-         v.add(n.getLookup().lookup(TimpDatasetNode.class));
-      }
-      return(v.listIterator());
-   }
-
-   public void add(Node n) {
-      add(new Node[]{n});
-   }
-
-
+    public void add(Node n) {
+        add(new Node[]{n});
+    }
 }

@@ -74,7 +74,7 @@
 
     <!-- InfoPanel strings -->
     <str id="InfoPanel.info" txt="Ole hyvä ja lue seuraavat tiedotteet: "/>
-    
+
     <!-- PathInputPanel strings -->
     <str id="PathInputPanel.required" txt="Valitun hakemiston on oltava olemassa."/>
     <str id="PathInputPanel.required.forModificationInstallation" txt="Valitun hakemiston on oltava olemassa."/>
@@ -88,7 +88,7 @@
     <str id="TargetPanel.createdir" txt="Luodaan asennushakemisto: "/>
     <str id="TargetPanel.nodir" txt="Valittu tiedosto ei ole hakemisto! Ole hyvä ja valitse hakemisto!"/>
     <str id="TargetPanel.notwritable" txt="Hakemistoon ei voi kirjoittaa! Ole hyvä ja valitse toinen hakemisto!"/>
-    
+
     <!-- JDKPathPanel strings -->
     <str id="JDKPathPanel.extendedIntro" txt="Asennettu ohjelmisto tarvitsee JDK:n (Java Development Kit), jonka version on oltava ${JDKPathPanel.minVersion}...${JDKPathPanel.maxVersion}. Javan ajonaikainen ympäristö (Java runtime environment; JRE) ei riitä."/>
     <str id="JDKPathPanel.intro" txt="Asennettu sovellus tarvitsee JDK:n (Java Development Kit). Javan ajonaikainen ympäristö (Java runtime environment; JRE) ei riitä."/>
@@ -194,7 +194,7 @@
     <str id="UserInputPanel.search.browse" txt="Selaa..."/>
     <str id="UserInputPanel.search.wrongselection.message" txt="Valitsemasi tiedosto tai hakemisto ei ole olemassa tai ei ole käyttökelpoinen."/>
     <str id="UserInputPanel.search.wrongselection.caption" txt="Väärä valinta."/>
-    
+
     <!-- UserPathPanel strings -->
     <str id="UserPathPanel.required" txt="Valitun hakemiston on oltava olemassa."/>
     <str id="UserPathPanel.info" txt="Valitse polku: "/>
@@ -228,7 +228,7 @@
 
     <!-- ProcessPanel strings -->
     <str id="ProcessPanel.heading" txt="Käsittely menossa..."/>
-    
+
     <!-- SummaryPanel strings -->
     <str id="SummaryPanel.info" txt="Valmis asennukseen. Tärkeät tiedot on listattu alla. Paina &quot;Seuraava&quot; aloittaaksesi asennuksen."/>
     <str id="TargetPanel.summaryCaption" txt="Asennuspolku"/>
@@ -238,15 +238,15 @@
     <str id="TreePacksPanel.summaryCaption" txt="Valitut asennuspaketit"/>
     <str id="UserPathPanel.summaryCaption" txt="Valittu polku"/>
     <str id="DefaultTargetPanel.summaryCaption" txt="Asennuspolku"/>
-    
+
     <!-- Strings for the Registry -->
     <str id="functionFailed.RegOpenKeyEx" txt="Ei voida avata rekisteriavainta {0}\\{1}."/>
-    
+
     <!-- CheckedHelloPanel strings -->
     <str id="CheckedHelloPanel.productAlreadyExist0" txt="Tämä tuote on jo asennettu tähän koneeseen polun "/>
     <str id="CheckedHelloPanel.productAlreadyExist1" txt=" alle. Oletko varma, että haluat asentaa toisen kopion?"/>
     <str id="CheckedHelloPanel.infoOverUninstallKey" txt="Poistoavain on nimeltään: "/>
-    
+
     <!-- Next Media Strings -->
     <str id="nextmedia.title" txt="Seuraava asennusmedia"/>
     <str id="nextmedia.msg" txt="Valitse seuraava asennusmedia."/>

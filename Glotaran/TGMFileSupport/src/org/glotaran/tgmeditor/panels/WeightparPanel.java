@@ -43,14 +43,14 @@ public class WeightparPanel extends SectionInnerPanel {
         model = new WeightparTableModel(colNames, 0);
 
         int weightparSize = weightparPanelModel.getWeightpar().size();
-         for (int i = 0; i < weightparSize; i++) {
+        for (int i = 0; i < weightparSize; i++) {
             newRow = new Object[]{
-                weightparPanelModel.getWeightpar().get(i).getMin1(),
-                weightparPanelModel.getWeightpar().get(i).getMax1(),
-                weightparPanelModel.getWeightpar().get(i).getMin2(),
-                weightparPanelModel.getWeightpar().get(i).getMax2(),
-                weightparPanelModel.getWeightpar().get(i).getWeight()
-            };
+                        weightparPanelModel.getWeightpar().get(i).getMin1(),
+                        weightparPanelModel.getWeightpar().get(i).getMax1(),
+                        weightparPanelModel.getWeightpar().get(i).getMin2(),
+                        weightparPanelModel.getWeightpar().get(i).getMax2(),
+                        weightparPanelModel.getWeightpar().get(i).getWeight()
+                    };
             model.addRow(newRow);
 
         }
@@ -62,29 +62,29 @@ public class WeightparPanel extends SectionInnerPanel {
     @Override
     public void setValue(JComponent source, Object value) {
 
-          if (source ==jTKinParamTable) {
-          int weightparSize = weightparPanelModel.getWeightpar().size();
-            if (model.getRowCount()>weightparSize) {
+        if (source == jTKinParamTable) {
+            int weightparSize = weightparPanelModel.getWeightpar().size();
+            if (model.getRowCount() > weightparSize) {
                 WeightPar wp = new WeightPar();
-                wp.setMin1((Double)model.getValueAt((model.getRowCount()-1),0));
-                wp.setMax1((Double)model.getValueAt((model.getRowCount()-1),1));
-                wp.setMin2((Double)model.getValueAt((model.getRowCount()-1),2));
-                wp.setMax2((Double)model.getValueAt((model.getRowCount()-1),3));
-                wp.setWeight((Double)model.getValueAt((model.getRowCount()-1),4));
+                wp.setMin1((Double) model.getValueAt((model.getRowCount() - 1), 0));
+                wp.setMax1((Double) model.getValueAt((model.getRowCount() - 1), 1));
+                wp.setMin2((Double) model.getValueAt((model.getRowCount() - 1), 2));
+                wp.setMax2((Double) model.getValueAt((model.getRowCount() - 1), 3));
+                wp.setWeight((Double) model.getValueAt((model.getRowCount() - 1), 4));
                 weightparPanelModel.getWeightpar().add(wp);
-            } else if (model.getRowCount()<weightparSize) {
-                weightparPanelModel.getWeightpar().remove(weightparSize-1);
+            } else if (model.getRowCount() < weightparSize) {
+                weightparPanelModel.getWeightpar().remove(weightparSize - 1);
             }
 
-        for (int i = 0; i < model.getRowCount(); i++) {
-                weightparPanelModel.getWeightpar().get(i).setMin1((Double)model.getValueAt(i,0));
-                weightparPanelModel.getWeightpar().get(i).setMax1((Double)model.getValueAt(i,1));
-                weightparPanelModel.getWeightpar().get(i).setMin2((Double)model.getValueAt(i,2));
-                weightparPanelModel.getWeightpar().get(i).setMax2((Double)model.getValueAt(i,3));
-                weightparPanelModel.getWeightpar().get(i).setWeight((Double)model.getValueAt(i,4));
+            for (int i = 0; i < model.getRowCount(); i++) {
+                weightparPanelModel.getWeightpar().get(i).setMin1((Double) model.getValueAt(i, 0));
+                weightparPanelModel.getWeightpar().get(i).setMax1((Double) model.getValueAt(i, 1));
+                weightparPanelModel.getWeightpar().get(i).setMin2((Double) model.getValueAt(i, 2));
+                weightparPanelModel.getWeightpar().get(i).setMax2((Double) model.getValueAt(i, 3));
+                weightparPanelModel.getWeightpar().get(i).setWeight((Double) model.getValueAt(i, 4));
             }
         }
-      
+
 
         endUIChange();
     }
@@ -102,9 +102,9 @@ public class WeightparPanel extends SectionInnerPanel {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
-class WeightparTableModel extends DefaultTableModel implements TableModelListener {
+    class WeightparTableModel extends DefaultTableModel implements TableModelListener {
 
-        private Class[] types = new Class[]{Double.class, Double.class, Double.class,Double.class, Double.class};
+        private Class[] types = new Class[]{Double.class, Double.class, Double.class, Double.class, Double.class};
 
         private WeightparTableModel() {
             super();
@@ -124,7 +124,7 @@ class WeightparTableModel extends DefaultTableModel implements TableModelListene
             //if (jTKinParamTable.isValid()) {
             setValue(jTKinParamTable, this);
             endUIChange();
-           // }
+            // }
         }
     }
 
@@ -145,6 +145,7 @@ class WeightparTableModel extends DefaultTableModel implements TableModelListene
         jLabel1.setText("Number of weighting paramters");
 
         jSNumOfComponents.addChangeListener(new javax.swing.event.ChangeListener() {
+
             public void stateChanged(javax.swing.event.ChangeEvent evt) {
                 jSNumOfComponentsStateChanged(evt);
             }
@@ -155,41 +156,20 @@ class WeightparTableModel extends DefaultTableModel implements TableModelListene
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 632, Short.MAX_VALUE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(13, 13, 13)
-                        .addComponent(jLabel1)
-                        .addGap(28, 28, 28)
-                        .addComponent(jSNumOfComponents, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap())
-        );
+                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(layout.createSequentialGroup().addContainerGap().addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 632, Short.MAX_VALUE).addGroup(layout.createSequentialGroup().addGap(13, 13, 13).addComponent(jLabel1).addGap(28, 28, 28).addComponent(jSNumOfComponents, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE))).addContainerGap()));
         layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(jSNumOfComponents, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 136, Short.MAX_VALUE)
-                .addContainerGap())
-        );
+                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(layout.createSequentialGroup().addContainerGap().addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE).addComponent(jLabel1).addComponent(jSNumOfComponents, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)).addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED).addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 136, Short.MAX_VALUE).addContainerGap()));
     }// </editor-fold>//GEN-END:initComponents
 
-private void jSNumOfComponentsStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jSNumOfComponentsStateChanged
+    private void jSNumOfComponentsStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jSNumOfComponentsStateChanged
 // TODO add your handling code here:]
-    if ((Integer) jSNumOfComponents.getValue() > model.getRowCount()) {
-        model.addRow(defRow);
-    } else {
-        model.removeRow(model.getRowCount() - 1);
-    }
-    endUIChange();
-}//GEN-LAST:event_jSNumOfComponentsStateChanged
-
+        if ((Integer) jSNumOfComponents.getValue() > model.getRowCount()) {
+            model.addRow(defRow);
+        } else {
+            model.removeRow(model.getRowCount() - 1);
+        }
+        endUIChange();
+    }//GEN-LAST:event_jSNumOfComponentsStateChanged
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
     private javax.swing.JSpinner jSNumOfComponents;

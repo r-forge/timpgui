@@ -2,7 +2,6 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package org.glotaran.core.ui.visualmodelling.nodes;
 
 import java.awt.Image;
@@ -18,12 +17,13 @@ import org.openide.util.ImageUtilities;
  *
  * @author slapten
  */
-public class KineticParametersNode extends PropertiesAbstractNode{
+public class KineticParametersNode extends PropertiesAbstractNode {
+
     private final Image ICON = ImageUtilities.loadImage("org/glotaran/core/ui/visualmodelling/resources/Kinpar_16.png", true);
     Boolean positiveKinpar = false;
     Boolean seqModel = false;
 
-    public KineticParametersNode(PropertyChangeListener listn){
+    public KineticParametersNode(PropertyChangeListener listn) {
         super("KinPar", new NonLinearParametersKeys(0));
         this.addPropertyChangeListener(listn);
     }
@@ -38,7 +38,7 @@ public class KineticParametersNode extends PropertiesAbstractNode{
     @Override
     public String getDisplayName() {
         String name = super.getDisplayName();
-        name = name + " ("+String.valueOf(getChildren().getNodesCount())+")";
+        name = name + " (" + String.valueOf(getChildren().getNodesCount()) + ")";
         return name;
     }
 
@@ -80,17 +80,17 @@ public class KineticParametersNode extends PropertiesAbstractNode{
         return sheet;
     }
 
-    public Integer getCompNum(){
+    public Integer getCompNum() {
         return getChildren().getNodesCount();
     }
 
-    public void setCompNum(Integer compNum){
-        NonLinearParametersKeys childColection = (NonLinearParametersKeys)getChildren();
+    public void setCompNum(Integer compNum) {
+        NonLinearParametersKeys childColection = (NonLinearParametersKeys) getChildren();
         int currCompNum = childColection.getNodesCount();
-        if (currCompNum < compNum){
-            childColection.addDefaultObj(compNum-currCompNum);
+        if (currCompNum < compNum) {
+            childColection.addDefaultObj(compNum - currCompNum);
         } else {
-            childColection.removeParams(currCompNum-compNum);
+            childColection.removeParams(currCompNum - compNum);
         }
         fireDisplayNameChange(null, getDisplayName());
 //        propListner.propertyChange(new PropertyChangeEvent(this, "Number of components", new Integer(currCompNum), compNum));

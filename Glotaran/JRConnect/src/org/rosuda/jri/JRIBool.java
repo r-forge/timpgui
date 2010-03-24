@@ -2,7 +2,6 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package org.rosuda.jri;
 
 import org.rosuda.JRI.RBool;
@@ -15,7 +14,7 @@ import org.rosuda.irconnect.IRBool;
 public class JRIBool implements IRBool {
 
     private RBool boolValue;
-    
+
     JRIBool(final RBool bool) {
         this.boolValue = bool;
     }
@@ -31,5 +30,4 @@ public class JRIBool implements IRBool {
     public boolean isTRUE() {
         return boolValue.isTRUE();
     }
-
 }

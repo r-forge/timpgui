@@ -18,10 +18,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package com.izforge.izpack.sample;
 
-package   com.izforge.izpack.sample;
-
-import    com.izforge.izpack.panels.*;
+import com.izforge.izpack.panels.*;
 
 /*---------------------------------------------------------------------------*/
 /**
@@ -33,42 +32,38 @@ import    com.izforge.izpack.panels.*;
  * @author   Elmar Grom
  */
 /*---------------------------------------------------------------------------*/
-public class PWDValidator implements Validator
-{
- /*--------------------------------------------------------------------------*/
- /**
-  * Validates the contend of multiple password fields. The test 
-  *
-  * @param     client   the client object using the services of this validator.
-  *
-  * @return    <code>true</code> if the validation passes, otherwise <code>false</code>.
-  */
- /*--------------------------------------------------------------------------*/
-  public boolean validate (ProcessingClient client)
-  {
-    int numFields = client.getNumFields ();
-    
-    // ----------------------------------------------------
-    // verify that there is more than one field. If there
-    // is only one field we have to return true.
-    // ----------------------------------------------------
-    if (numFields < 2)
-    {
-      return (true);
+public class PWDValidator implements Validator {
+    /*--------------------------------------------------------------------------*/
+
+    /**
+     * Validates the contend of multiple password fields. The test
+     *
+     * @param     client   the client object using the services of this validator.
+     *
+     * @return    <code>true</code> if the validation passes, otherwise <code>false</code>.
+     */
+    /*--------------------------------------------------------------------------*/
+    public boolean validate(ProcessingClient client) {
+        int numFields = client.getNumFields();
+
+        // ----------------------------------------------------
+        // verify that there is more than one field. If there
+        // is only one field we have to return true.
+        // ----------------------------------------------------
+        if (numFields < 2) {
+            return (true);
+        }
+
+        boolean match = true;
+        String content = client.getFieldContents(0);
+
+        for (int i = 1; i < numFields; i++) {
+            if (!content.equals(client.getFieldContents(i))) {
+                match = false;
+            }
+        }
+
+        return (match);
     }
-    
-    boolean match   = true;
-    String  content = client.getFieldContents (0);
-    
-    for (int i = 1; i < numFields; i++)
-    {
-      if (!content.equals (client.getFieldContents (i)))
-      {
-        match = false;
-      }      
-    }
-    
-    return (match);
-  }
 }
 /*---------------------------------------------------------------------------*/

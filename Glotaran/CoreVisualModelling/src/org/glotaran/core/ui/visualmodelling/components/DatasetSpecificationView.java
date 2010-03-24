@@ -17,8 +17,7 @@ public class DatasetSpecificationView extends BeanTreeView {
         super();
         setRootVisible(false);
         //setAllowedDragActions(DnDConstants.ACTION_COPY_OR_MOVE);
-       // setAllowedDropActions(DnDConstants.ACTION_COPY_OR_MOVE);
+        // setAllowedDropActions(DnDConstants.ACTION_COPY_OR_MOVE);
         setDropTarget(true);
     }
-
 }

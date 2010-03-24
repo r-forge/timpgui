@@ -2,7 +2,6 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package org.glotaran.tgmeditor.panels;
 
 /**
@@ -10,15 +9,16 @@ package org.glotaran.tgmeditor.panels;
  * @author slapten
  */
 public class JVectorValueClass {
+
     private double value;
     private boolean fixed;
 
-    JVectorValueClass(){
+    JVectorValueClass() {
         value = 0;
         fixed = true;
     }
 
-    JVectorValueClass(double val, boolean fix){
+    JVectorValueClass(double val, boolean fix) {
         value = val;
         fixed = fix;
     }
@@ -38,5 +38,4 @@ public class JVectorValueClass {
     public void setValue(double value) {
         this.value = value;
     }
-
 }

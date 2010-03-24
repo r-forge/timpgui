@@ -11,21 +11,23 @@ import org.netbeans.spi.project.ProjectState;
 import org.openide.filesystems.FileObject;
 import org.openide.filesystems.FileUtil;
 
-public class TGProjectFactory implements ProjectFactory{
-    
+public class TGProjectFactory implements ProjectFactory {
+
     public static final String PROJECT_DIR = "tgproject";
     public static final String PROJECT_PROPFILE = "project.properties";
-    
+
     @Override
     public boolean isProject(FileObject file) {
         FileObject folder = file.getFileObject(PROJECT_DIR);
-        if(folder == null) return false;
+        if (folder == null) {
+            return false;
+        }
         return folder.getFileObject(PROJECT_PROPFILE) != null;
     }
 
     @Override
     public Project loadProject(FileObject dir, ProjectState state) throws IOException {
-        return isProject (dir) ? new TGProject (dir, state) : null;
+        return isProject(dir) ? new TGProject(dir, state) : null;
     }
 
     @Override
@@ -46,10 +48,9 @@ public class TGProjectFactory implements ProjectFactory{
             propertiesFile = projectRoot.createData(propsPath);
         }
 
-        Properties properties = project.getLookup().lookup (Properties.class);
+        Properties properties = project.getLookup().lookup(Properties.class);
 
         File f = FileUtil.toFile(propertiesFile);
         properties.store(new FileOutputStream(f), "TG Project Properties");
     }
-    
 }

@@ -68,7 +68,7 @@ public class SceneSerializer {
                 layout.setYposition(location.getY());
                 layout.setHeight(widget.getBounds().getHeight());
                 layout.setWidth(widget.getBounds().getWidth());
-                modelRef.setLayout(layout);                
+                modelRef.setLayout(layout);
                 gtaScheme.getModel().add(modelRef);
             }
             // Iterate over all dataset containers
@@ -105,8 +105,8 @@ public class SceneSerializer {
                 }
             }
             if (node instanceof GtaOutput) {
-            gtaScheme.getOutput().add((GtaOutput)node);
-        }
+                gtaScheme.getOutput().add((GtaOutput) node);
+            }
 
         }
         for (Object edge : scene.getEdges()) {

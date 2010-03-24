@@ -39,12 +39,11 @@ public class MultiTracesPanel extends javax.swing.JPanel {
     private RelationFrom relation = null;
     private List<TimpResultDataset> resultDatasets = null;
     private GraphPanel spectraImage;
-    private Crosshair crosshair;    
+    private Crosshair crosshair;
     private TimpResultDataset fromDataset;
     private double[] t0curveFrom = null;
     private double threshhold = 0;
     private ArrayList<double[]> t0curvesTo = new ArrayList<double[]>();
-
     int numberOfComponents;
 
     /** Creates new form MultiTracesPanel */
@@ -58,10 +57,10 @@ public class MultiTracesPanel extends javax.swing.JPanel {
         resultDatasets = results;
         fromDataset = results.get(relations.indexFrom);
         t0curveFrom = CommonTools.calculateDispersionTrace(fromDataset);
-        if (thresh != null){
-           threshhold =  thresh;
+        if (thresh != null) {
+            threshhold = thresh;
         }
-        for (int i = 0; i < relation.scaledDatasets.size(); i++){
+        for (int i = 0; i < relation.scaledDatasets.size(); i++) {
             t0curvesTo.add(CommonTools.calculateDispersionTrace(results.get(relation.scaledDatasets.get(i).indexTo)));
         }
 
@@ -80,7 +79,7 @@ public class MultiTracesPanel extends javax.swing.JPanel {
         jPSpectra.add(spectraImage);
 //create plot with curves from "from dataset";
         updateTrace(0);
-        
+
 //initialise slider from "from dataset"
         jSWavelengths.getModel().setRangeProperties(0, 1, 0, fromDataset.getX2().length - 1, true);
 
@@ -136,6 +135,7 @@ public class MultiTracesPanel extends javax.swing.JPanel {
 
         jSWavelengths.setValue(0);
         jSWavelengths.addChangeListener(new javax.swing.event.ChangeListener() {
+
             public void stateChanged(javax.swing.event.ChangeEvent evt) {
                 jSWavelengthsStateChanged(evt);
             }
@@ -159,6 +159,7 @@ public class MultiTracesPanel extends javax.swing.JPanel {
         jTBLinLog.setMinimumSize(new java.awt.Dimension(59, 21));
         jTBLinLog.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         jTBLinLog.addActionListener(new java.awt.event.ActionListener() {
+
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTBLinLogActionPerformed(evt);
             }
@@ -179,6 +180,7 @@ public class MultiTracesPanel extends javax.swing.JPanel {
         jBUpdLinLog.setMinimumSize(new java.awt.Dimension(64, 21));
         jBUpdLinLog.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         jBUpdLinLog.addActionListener(new java.awt.event.ActionListener() {
+
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jBUpdLinLogActionPerformed(evt);
             }
@@ -194,6 +196,7 @@ public class MultiTracesPanel extends javax.swing.JPanel {
         jTBShowChohSpec.setMinimumSize(new java.awt.Dimension(112, 21));
         jTBShowChohSpec.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         jTBShowChohSpec.addActionListener(new java.awt.event.ActionListener() {
+
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTBShowChohSpecActionPerformed(evt);
             }
@@ -212,10 +215,10 @@ public class MultiTracesPanel extends javax.swing.JPanel {
     private void jSWavelengthsStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jSWavelengthsStateChanged
         crosshair.setValue(fromDataset.getX2()[jSWavelengths.getValue()]);
         updateTrace(jSWavelengths.getValue());
-}//GEN-LAST:event_jSWavelengthsStateChanged
+    }//GEN-LAST:event_jSWavelengthsStateChanged
 
     private void jTBLinLogActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTBLinLogActionPerformed
-        if (jTBLinLog.isSelected()){
+        if (jTBLinLog.isSelected()) {
             try {
                 updateTrace(jSWavelengths.getValue());
                 jBUpdLinLog.setEnabled(true);
@@ -227,7 +230,7 @@ public class MultiTracesPanel extends javax.swing.JPanel {
             updateTrace(jSWavelengths.getValue());
             jBUpdLinLog.setEnabled(false);
         }
-}//GEN-LAST:event_jTBLinLogActionPerformed
+    }//GEN-LAST:event_jTBLinLogActionPerformed
 
     private void jBUpdLinLogActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBUpdLinLogActionPerformed
         try {
@@ -235,14 +238,14 @@ public class MultiTracesPanel extends javax.swing.JPanel {
         } catch (Exception e) {
             CoreErrorMessages.updLinLogException();
         }
-}//GEN-LAST:event_jBUpdLinLogActionPerformed
+    }//GEN-LAST:event_jBUpdLinLogActionPerformed
 
     private void jTBShowChohSpecActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTBShowChohSpecActionPerformed
         jPSpectra.removeAll();
         spectraImage = createSpectraPlot(fromDataset);
         jPSpectra.add(spectraImage);
         jPSpectra.validate();
-}//GEN-LAST:event_jTBShowChohSpecActionPerformed
+    }//GEN-LAST:event_jTBShowChohSpecActionPerformed
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jBUpdLinLog;
     private javax.swing.JPanel jPSpectra;
@@ -308,7 +311,7 @@ public class MultiTracesPanel extends javax.swing.JPanel {
         XYSeriesCollection traceToLog = null;
         XYSeriesCollection residToLog = null;
 
-        
+
         XYSeries emptySer = new XYSeries("");
         emptySer.add(0.0, 0.0);
         TimpResultDataset toDataset = null;
@@ -317,24 +320,23 @@ public class MultiTracesPanel extends javax.swing.JPanel {
         int toIndex;
 
         if (!linlog) {
-            trace = CommonTools.createFitRawTraceCollection(xIndex, 0, fromDataset.getX().length, fromDataset, t0curveFrom[xIndex],"From");
-            resid = CommonTools.createResidTraceCollection(xIndex, 0, fromDataset.getX().length, fromDataset, t0curveFrom[xIndex],"From");
-        }
-        else {
+            trace = CommonTools.createFitRawTraceCollection(xIndex, 0, fromDataset.getX().length, fromDataset, t0curveFrom[xIndex], "From");
+            resid = CommonTools.createResidTraceCollection(xIndex, 0, fromDataset.getX().length, fromDataset, t0curveFrom[xIndex], "From");
+        } else {
             double portion = Double.valueOf(jTFLinPart.getText());
             int index = 0;
             while (fromDataset.getX()[index] < t0curveFrom[xIndex] + portion) {
                 index++;
             }
-                if (index == 0) {
+            if (index == 0) {
                 index = 1;
             }
-            trace = CommonTools.createFitRawTraceCollection(xIndex, 0, index, fromDataset, t0curveFrom[xIndex],"FromLin");
-            resid = CommonTools.createResidTraceCollection(xIndex, 0, index, fromDataset, t0curveFrom[xIndex],"FromLin");
-            traceLog = CommonTools.createFitRawTraceCollection(xIndex, index-1, fromDataset.getX().length, fromDataset, t0curveFrom[xIndex],"FromLog");
-            residLog = CommonTools.createResidTraceCollection(xIndex, index-1, fromDataset.getX().length, fromDataset, t0curveFrom[xIndex],"FromLog");
+            trace = CommonTools.createFitRawTraceCollection(xIndex, 0, index, fromDataset, t0curveFrom[xIndex], "FromLin");
+            resid = CommonTools.createResidTraceCollection(xIndex, 0, index, fromDataset, t0curveFrom[xIndex], "FromLin");
+            traceLog = CommonTools.createFitRawTraceCollection(xIndex, index - 1, fromDataset.getX().length, fromDataset, t0curveFrom[xIndex], "FromLog");
+            residLog = CommonTools.createResidTraceCollection(xIndex, index - 1, fromDataset.getX().length, fromDataset, t0curveFrom[xIndex], "FromLog");
         }
-            for (int i = 0; i < relation.scaledDatasets.size(); i++) {
+        for (int i = 0; i < relation.scaledDatasets.size(); i++) {
             indexTo = relation.scaledDatasets.get(i).indexTo;
             toDataset = resultDatasets.get(indexTo);
             toValue = relation.scaledDatasets.get(i).valueTo;
@@ -356,11 +358,11 @@ public class MultiTracesPanel extends javax.swing.JPanel {
                         if (index == 0) {
                             index = 1;
                         }
-                        traceTo = CommonTools.createFitRawTraceCollection(toIndex, 0, index, toDataset, t0curvesTo.get(i)[toIndex], ("toLin" + i),toValue);
-                        residTo = CommonTools.createResidTraceCollection(toIndex, 0, index, toDataset, t0curvesTo.get(i)[toIndex], ("toLin"+ + i),toValue);
-                        traceToLog = CommonTools.createFitRawTraceCollection(toIndex, index-1, toDataset.getX().length, toDataset, t0curvesTo.get(i)[toIndex], ("toLog"+i),toValue);
-                        residToLog = CommonTools.createResidTraceCollection(toIndex, index-1, toDataset.getX().length, toDataset, t0curvesTo.get(i)[toIndex], ("toLog"+i),toValue);
-                                               
+                        traceTo = CommonTools.createFitRawTraceCollection(toIndex, 0, index, toDataset, t0curvesTo.get(i)[toIndex], ("toLin" + i), toValue);
+                        residTo = CommonTools.createResidTraceCollection(toIndex, 0, index, toDataset, t0curvesTo.get(i)[toIndex], ("toLin" + +i), toValue);
+                        traceToLog = CommonTools.createFitRawTraceCollection(toIndex, index - 1, toDataset.getX().length, toDataset, t0curvesTo.get(i)[toIndex], ("toLog" + i), toValue);
+                        residToLog = CommonTools.createResidTraceCollection(toIndex, index - 1, toDataset.getX().length, toDataset, t0curvesTo.get(i)[toIndex], ("toLog" + i), toValue);
+
                         trace.addSeries(traceTo.getSeries(0));
                         trace.addSeries(traceTo.getSeries(1));
                         resid.addSeries(residTo.getSeries(0));
@@ -375,7 +377,7 @@ public class MultiTracesPanel extends javax.swing.JPanel {
                     trace.addSeries(emptySer);
                     emptySer.setKey("EmptyResid" + String.valueOf(i));
                     resid.addSeries(emptySer);
-                    if (linlog){
+                    if (linlog) {
                         emptySer.setKey("EmptyTraceLog" + String.valueOf(i));
                         traceLog.addSeries(emptySer);
                         emptySer.setKey("EmptyFitLog" + String.valueOf(i));
@@ -391,7 +393,7 @@ public class MultiTracesPanel extends javax.swing.JPanel {
                 trace.addSeries(emptySer);
                 emptySer.setKey("EmptyResid" + String.valueOf(i));
                 resid.addSeries(emptySer);
-                if (linlog){
+                if (linlog) {
                     emptySer.setKey("EmptyTraceLog" + String.valueOf(i));
                     traceLog.addSeries(emptySer);
                     emptySer.setKey("EmptyFitLog" + String.valueOf(i));
@@ -401,12 +403,11 @@ public class MultiTracesPanel extends javax.swing.JPanel {
                 }
             }
         }
-        
+
         ChartPanel tracesPanel = null;
-        if (linlog){
+        if (linlog) {
             tracesPanel = CommonTools.makeLinLogTimeTraceResidChart(trace, resid, traceLog, residLog, null, true);
-        }
-        else {
+        } else {
             tracesPanel = CommonTools.makeLinTimeTraceResidChart(trace, resid, new NumberAxis("Time"), null, true);
         }
         jPTraces.removeAll();

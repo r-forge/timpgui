@@ -22,7 +22,7 @@ public class TgdDataNode extends DataNode {
     private TgdDataObject obj;
 
     public TgdDataNode(TgdDataObject obj) {
-        super(obj,new TgdDataChildren(obj));
+        super(obj, new TgdDataChildren(obj));
         this.obj = obj;
 
     }
@@ -31,15 +31,14 @@ public class TgdDataNode extends DataNode {
         super(obj, new TgdDataChildren(obj), lookup);
         this.obj = obj;
     }
-    
-     @Override
+
+    @Override
     public Image getIcon(int type) {
         //DataFolder root = DataFolder.findFolder(Repository.getDefault().getDefaultFileSystem().getRoot());
         //Image ICON = root.getNodeDelegate().getIcon(type);
         //return ImageUtilities.mergeImages(ICON, BADGE_BAD, 7, 7);
-         return ICON;
+        return ICON;
     }
-
 
     @Override
     public Image getOpenedIcon(int type) {
@@ -49,8 +48,8 @@ public class TgdDataNode extends DataNode {
     @Override
     public void destroy() throws IOException {
         TGProject project = findProject();
-        if (this.getChildren().getNodesCount()>0){
-            for (int i = 0; i<this.getChildren().getNodesCount(); i++){
+        if (this.getChildren().getNodesCount() > 0) {
+            for (int i = 0; i < this.getChildren().getNodesCount(); i++) {
                 this.getChildren().getNodes()[i].destroy();
             }
         }
@@ -58,8 +57,7 @@ public class TgdDataNode extends DataNode {
         super.destroy();
     }
 
-    public TGProject findProject(){
+    public TGProject findProject() {
         return (TGProject) FileOwnerQuery.getOwner(obj.getPrimaryFile());
     }
-        
 }

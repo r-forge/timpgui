@@ -4,6 +4,5 @@
 // Any modifications to this file will be lost upon recompilation of the source schema. 
 // Generated on: 2010.03.24 at 12:12:25 PM CET 
 //
-
 @javax.xml.bind.annotation.XmlSchema(namespace = "http://glotaran.org/schema/AnalysisResultsSchema", elementFormDefault = javax.xml.bind.annotation.XmlNsForm.QUALIFIED)
 package org.glotaran.core.models.results;

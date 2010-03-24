@@ -2,7 +2,6 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package org.rosuda.jri;
 
 import org.rosuda.JRI.RFactor;
@@ -12,7 +11,7 @@ import org.rosuda.irconnect.IRFactor;
  *
  * @author Ralf
  */
-public class JRIFactor implements IRFactor{
+public class JRIFactor implements IRFactor {
 
     private final RFactor delegate;
 
@@ -20,6 +19,7 @@ public class JRIFactor implements IRFactor{
         this.delegate = delegate;
 
     }
+
     public void add(final String v) {
         throw new UnsupportedOperationException();
     }
@@ -31,5 +31,4 @@ public class JRIFactor implements IRFactor{
     public int size() {
         return delegate.size();
     }
-
 }

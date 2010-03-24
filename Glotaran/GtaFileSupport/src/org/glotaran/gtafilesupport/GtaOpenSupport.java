@@ -6,7 +6,6 @@ import org.openide.loaders.OpenSupport;
 import org.openide.util.Lookup;
 import org.openide.windows.CloneableTopComponent;
 
-
 class GtaOpenSupport extends OpenSupport implements OpenCookie {
 
     public GtaOpenSupport(GtaDataObject.Entry entry) {
@@ -20,5 +19,4 @@ class GtaOpenSupport extends OpenSupport implements OpenCookie {
         tc.setDisplayName(dobj.getName());
         return tc;
     }
-
 }

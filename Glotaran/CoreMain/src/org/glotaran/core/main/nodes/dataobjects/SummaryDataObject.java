@@ -33,6 +33,4 @@ public class SummaryDataObject extends MultiDataObject {
     public Lookup getLookup() {
         return getCookieSet().getLookup();
     }
-
-
 }

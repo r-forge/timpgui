@@ -1,4 +1,3 @@
-
 package org.glotaran.core.main.nodes;
 
 import java.awt.Image;
@@ -11,6 +10,7 @@ import org.openide.util.NbBundle;
 /**
  */
 public class TGSchemaNode extends FilterNode {
+
     private final Image ICON = ImageUtilities.loadImage("org/glotaran/core/main/resources/Folder-scheme-icon.png", true);
 
     /**
@@ -33,7 +33,7 @@ public class TGSchemaNode extends FilterNode {
 
     @Override
     public String getDisplayName() {
-        if (this.getParentNode() instanceof TGSchemaNode){
+        if (this.getParentNode() instanceof TGSchemaNode) {
             return this.getName();
         }
         return NbBundle.getBundle("org/glotaran/core/main/Bundle").getString("schema");
@@ -41,13 +41,13 @@ public class TGSchemaNode extends FilterNode {
 
     @Override
     public boolean canRename() {
-        if (this.getParentNode() instanceof TGSchemaNode){
+        if (this.getParentNode() instanceof TGSchemaNode) {
             return true;
         }
         return false;
     }
 
-     private static class TGSchemaChildrenNode extends FilterNode.Children {
+    private static class TGSchemaChildrenNode extends FilterNode.Children {
 
         TGSchemaChildrenNode(Node node) {
             super(node);

@@ -25,32 +25,33 @@ import org.openide.util.Lookup;
 import org.openide.util.NbBundle;
 import org.openide.util.datatransfer.PasteType;
 
+public class TgmDataNode extends DataNode implements Transferable {
 
-public class TgmDataNode extends DataNode implements Transferable{
     private final Image ICON_ROOT = ImageUtilities.loadImage("org/glotaran/tgmfilesupport/resources/Model-icon-16.png", true);
     public static final DataFlavor DATA_FLAVOR = new DataFlavor(TgmDataNode.class, "TgmDataNode");
     private TgmDataObject obj;
 
     public TgmDataNode(TgmDataObject obj) {
         super(obj, Children.LEAF);
-        this.obj=obj;
+        this.obj = obj;
 //        setIconBaseWithExtension(IMAGE_ICON_BASE);
- //       setDropTarget();
+        //       setDropTarget();
         getCookieSet();
     }
 
     TgmDataNode(TgmDataObject obj, Lookup lookup) {
         super(obj, Children.LEAF, lookup);
-        this.obj=obj;
- //       setIconBaseWithExtension(IMAGE_ICON_BASE);
-    //    setDropTarget();
+        this.obj = obj;
+        //       setIconBaseWithExtension(IMAGE_ICON_BASE);
+        //    setDropTarget();
         getCookieSet();
     }
-    
-   @Override
+
+    @Override
     public Image getIcon(int type) {
         return ICON_ROOT;
     }
+
     /** Creates a property sheet. */
 //    @Override
 //    protected Sheet createSheet() {
@@ -86,67 +87,71 @@ public class TgmDataNode extends DataNode implements Transferable{
 
     @Override
     public PasteType getDropType(final Transferable arg0, final int arg1, int arg2) {
-        if(arg0.isDataFlavorSupported(TimpResultsNode.DATA_FLAVOR)) {
-        return new PasteType() {
-                    @Override
-                    public Transferable paste() throws IOException {
-                        try {
-                            TimpResultDataset results = ((TimpResultsNode)arg0.getTransferData(TimpResultsNode.DATA_FLAVOR)).getObject().getTimpResultDataset();
-                            final UpdateModelParameters updParamPanel = new UpdateModelParameters();
-                            NotifyDescriptor detParamToUpdateDialog = new NotifyDescriptor(
-                            updParamPanel,
-                            NbBundle.getBundle("org/glotaran/tgmfilesupport/Bundle").getString("selParamForUpdate"),
-                            NotifyDescriptor.OK_CANCEL_OPTION,
-                            NotifyDescriptor.PLAIN_MESSAGE,
-                            null,
-                            NotifyDescriptor.OK_OPTION);
+        if (arg0.isDataFlavorSupported(TimpResultsNode.DATA_FLAVOR)) {
+            return new PasteType() {
 
-                            if (DialogDisplayer.getDefault().notify(detParamToUpdateDialog).equals(NotifyDescriptor.OK_OPTION)){
+                @Override
+                public Transferable paste() throws IOException {
+                    try {
+                        TimpResultDataset results = ((TimpResultsNode) arg0.getTransferData(TimpResultsNode.DATA_FLAVOR)).getObject().getTimpResultDataset();
+                        final UpdateModelParameters updParamPanel = new UpdateModelParameters();
+                        NotifyDescriptor detParamToUpdateDialog = new NotifyDescriptor(
+                                updParamPanel,
+                                NbBundle.getBundle("org/glotaran/tgmfilesupport/Bundle").getString("selParamForUpdate"),
+                                NotifyDescriptor.OK_CANCEL_OPTION,
+                                NotifyDescriptor.PLAIN_MESSAGE,
+                                null,
+                                NotifyDescriptor.OK_OPTION);
+
+                        if (DialogDisplayer.getDefault().notify(detParamToUpdateDialog).equals(NotifyDescriptor.OK_OPTION)) {
 //update kinpar if necessary, new model will have same number of kinpars as result object;
-                                if (updParamPanel.isKinParSelected()){
-                                    if (obj.tgm.getDat().getKinparPanel().getKinpar().size() == results.getKineticParameters().length/2){
-                                        for (int i = 0; i < results.getKineticParameters().length/2; i++)
-                                            obj.tgm.getDat().getKinparPanel().getKinpar().get(i).setStart(results.getKineticParameters()[i]);
-                                    } else {
-                                        obj.tgm.getDat().getKinparPanel().getKinpar().clear();
-                                        for (int i = 0; i < results.getKineticParameters().length/2; i++){
-                                            KinPar kp = new KinPar();
-                                            kp.setStart((Double)results.getKineticParameters()[i]);
-                                            kp.setFixed(false);
-                                            kp.setConstrained(false);
-                                            kp.setMin(new Double(0));
-                                            kp.setMax(new Double(0));
-                                            obj.tgm.getDat().getKinparPanel().getKinpar().add(kp);
-                                        }
+                            if (updParamPanel.isKinParSelected()) {
+                                if (obj.tgm.getDat().getKinparPanel().getKinpar().size() == results.getKineticParameters().length / 2) {
+                                    for (int i = 0; i < results.getKineticParameters().length / 2; i++) {
+                                        obj.tgm.getDat().getKinparPanel().getKinpar().get(i).setStart(results.getKineticParameters()[i]);
+                                    }
+                                } else {
+                                    obj.tgm.getDat().getKinparPanel().getKinpar().clear();
+                                    for (int i = 0; i < results.getKineticParameters().length / 2; i++) {
+                                        KinPar kp = new KinPar();
+                                        kp.setStart((Double) results.getKineticParameters()[i]);
+                                        kp.setFixed(false);
+                                        kp.setConstrained(false);
+                                        kp.setMin(new Double(0));
+                                        kp.setMax(new Double(0));
+                                        obj.tgm.getDat().getKinparPanel().getKinpar().add(kp);
                                     }
                                 }
+                            }
 
 //update irfpar if necessary, new model will have same number of irfpar as result object;
-                                if (updParamPanel.isIrfParSelected()){
-                                    if (obj.tgm.getDat().getIrfparPanel().getIrf().size() == results.getIrfpar().length/2){
-                                        for (int i = 0; i < results.getIrfpar().length/2; i++)
-                                            obj.tgm.getDat().getIrfparPanel().getIrf().set(i, results.getIrfpar()[i]);
-                                    } else {
-                                        obj.tgm.getDat().getIrfparPanel().getIrf().clear();
-                                        for (int i = 0; i < results.getIrfpar().length/2; i++){
-                                            obj.tgm.getDat().getIrfparPanel().getIrf().add(results.getIrfpar()[i]);
-                                            obj.tgm.getDat().getIrfparPanel().getFixed().add(false);
-                                        }
+                            if (updParamPanel.isIrfParSelected()) {
+                                if (obj.tgm.getDat().getIrfparPanel().getIrf().size() == results.getIrfpar().length / 2) {
+                                    for (int i = 0; i < results.getIrfpar().length / 2; i++) {
+                                        obj.tgm.getDat().getIrfparPanel().getIrf().set(i, results.getIrfpar()[i]);
+                                    }
+                                } else {
+                                    obj.tgm.getDat().getIrfparPanel().getIrf().clear();
+                                    for (int i = 0; i < results.getIrfpar().length / 2; i++) {
+                                        obj.tgm.getDat().getIrfparPanel().getIrf().add(results.getIrfpar()[i]);
+                                        obj.tgm.getDat().getIrfparPanel().getFixed().add(false);
                                     }
                                 }
+                            }
 
 //update parmu if necessary, new model will have same parmu as result object;
-                                if (updParamPanel.isParMuSelected()){
-                                    String parmuStr = "";
-                                    for (int i = 0; i < results.getParmu().length/2; i++){
-                                        if (i>0)
-                                            parmuStr = parmuStr + ",";
-                                        parmuStr = parmuStr+String.valueOf(results.getParmu()[i]);
+                            if (updParamPanel.isParMuSelected()) {
+                                String parmuStr = "";
+                                for (int i = 0; i < results.getParmu().length / 2; i++) {
+                                    if (i > 0) {
+                                        parmuStr = parmuStr + ",";
                                     }
-                                    obj.tgm.getDat().getIrfparPanel().setParmu(parmuStr);
-                                    obj.tgm.getDat().getIrfparPanel().setLamda(results.getLamdac());
-                                    obj.tgm.getDat().getIrfparPanel().setDispmufun("poly");
+                                    parmuStr = parmuStr + String.valueOf(results.getParmu()[i]);
                                 }
+                                obj.tgm.getDat().getIrfparPanel().setParmu(parmuStr);
+                                obj.tgm.getDat().getIrfparPanel().setLamda(results.getLamdac());
+                                obj.tgm.getDat().getIrfparPanel().setDispmufun("poly");
+                            }
 
 //update partau if necessary, new model will have same parmu as result object;
 //TODO IMPLEMENT IT
@@ -162,18 +167,19 @@ public class TgmDataNode extends DataNode implements Transferable{
 
 
 
-                                obj.modelUpdatedFromUI();
-                            }
-                        } catch (UnsupportedFlavorException ex) {
-                            Exceptions.printStackTrace(ex);
-                        } catch (IOException ex) {
-                            Exceptions.printStackTrace(ex);
+                            obj.modelUpdatedFromUI();
                         }
-                        return null;
+                    } catch (UnsupportedFlavorException ex) {
+                        Exceptions.printStackTrace(ex);
+                    } catch (IOException ex) {
+                        Exceptions.printStackTrace(ex);
                     }
-                };
-        } else
+                    return null;
+                }
+            };
+        } else {
             return null;
+        }
     }
 
     @Override

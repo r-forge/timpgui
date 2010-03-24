@@ -2,7 +2,6 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package org.glotaran.core.ui.visualmodelling.widgets;
 
 import java.awt.Color;
@@ -26,12 +25,12 @@ import org.netbeans.api.visual.widget.Widget;
  *
  * @author slapten
  */
-public class OutputWidget extends Widget{
+public class OutputWidget extends Widget {
 
     private boolean connected = false;
     private List listeners = Collections.synchronizedList(new LinkedList());
 
-    public OutputWidget(GlotaranGraphScene scene, JComponent component, String name){
+    public OutputWidget(GlotaranGraphScene scene, JComponent component, String name) {
         super(scene);
         setLayout(LayoutFactory.createOverlayLayout());
         setBorder(BorderFactory.createLineBorder());//createRoundedBorder(5, 5, Color.gray, Color.black));//
@@ -41,7 +40,7 @@ public class OutputWidget extends Widget{
         getActions().addAction(scene.getSelectAction());
         getActions().addAction(scene.getResizeAction());
         getActions().addAction(scene.getMoveAction());
-        setBorder (BorderFactory.createResizeBorder (4));
+        setBorder(BorderFactory.createResizeBorder(4));
         LabelWidget label = new LabelWidget(scene, name);
         label.setOpaque(true);
         label.setBackground(Color.LIGHT_GRAY);
@@ -55,8 +54,8 @@ public class OutputWidget extends Widget{
         //addPropertyChangeListener(component);
     }
 
-    public OutputPanel getContainerComponent(){
-        return (OutputPanel)((ComponentWidget)getChildren().get(1)).getComponent();
+    public OutputPanel getContainerComponent() {
+        return (OutputPanel) ((ComponentWidget) getChildren().get(1)).getComponent();
     }
 
     public boolean isConnected() {
@@ -65,7 +64,6 @@ public class OutputWidget extends Widget{
 
     public void setConnected(boolean connected) {
         //TODO: implementation code here
-     
     }
 
     public void addPropertyChangeListener(PropertyChangeListener pcl) {
@@ -83,5 +81,4 @@ public class OutputWidget extends Widget{
             pcls[i].propertyChange(new PropertyChangeEvent(this, propertyName, old, nue));
         }
     }
-
 }

@@ -2,7 +2,6 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package org.glotaran.tgmeditor.panels;
 
 import java.awt.Component;
@@ -24,28 +23,28 @@ import javax.swing.table.JTableHeader;
  *
  * @author slapten
  */
-public class RowHeader extends JTable{
+public class RowHeader extends JTable {
 
     private DefaultTableModel dataTableModel;
-    
-    RowHeader(){
+
+    RowHeader() {
         super(new DefaultTableModel(0, 1));
 //        this.rowHeader= new JTable(rowHeaderModel);
 //        rowHeader.setIntercellSpacing(new Dimension(0, 0));
-        
+
         setDefaultRenderer(Object.class, new RowHeaderRenderer());
         JTableHeader corner = getTableHeader();
         corner.setReorderingAllowed(false);
         corner.setResizingAllowed(false);
         LookAndFeel.installColorsAndFont(this,
-                "TableHeader.background", 
-                "TableHeader.foreground", 
+                "TableHeader.background",
+                "TableHeader.foreground",
                 "TableHeader.font");
         setIntercellSpacing(new Dimension(0, 0));
         dataTableModel = (DefaultTableModel) dataModel;
     }
-    
-    RowHeader(int heigh, int width){
+
+    RowHeader(int heigh, int width) {
         super(new DefaultTableModel(0, 1));
         setIntercellSpacing(new Dimension(0, 0));
         Dimension d = getPreferredScrollableViewportSize();
@@ -56,58 +55,51 @@ public class RowHeader extends JTable{
         tableHeader.setReorderingAllowed(false);
         tableHeader.setResizingAllowed(false);
         LookAndFeel.installColorsAndFont(this,
-                "TableHeader.background", 
-                "TableHeader.foreground", 
+                "TableHeader.background",
+                "TableHeader.foreground",
                 "TableHeader.font");
         dataTableModel = (DefaultTableModel) dataModel;
     }
 
-    public void addRow(String name){
+    public void addRow(String name) {
         dataTableModel.addRow(new Object[]{name});
 //        dataTableModel.fireTableRowsInserted(dataTableModel.getRowCount(), dataTableModel.getRowCount());
     }
 
-    public void removeRow(int index){
+    public void removeRow(int index) {
         dataTableModel.removeRow(index);
     }
 
+    class RowHeaderRenderer extends DefaultTableCellRenderer implements ListCellRenderer {
 
-    class RowHeaderRenderer extends DefaultTableCellRenderer implements ListCellRenderer{
         protected Border noFocBorder, focusBorder;
-        public RowHeaderRenderer()
-        {
+
+        public RowHeaderRenderer() {
             setOpaque(true);
             setBorder(noFocBorder);
         }
 
         @Override
-        public void updateUI()
-        {
+        public void updateUI() {
             super.updateUI();
             Border cell = UIManager.getBorder("TableHeader.cellBorder");
             Border focus = UIManager.getBorder("Table.focusCellHighlightBorder");
             focusBorder = new BorderUIResource.CompoundBorderUIResource(cell, focus);
             Insets i = focus.getBorderInsets(this);
-            noFocBorder = new BorderUIResource.CompoundBorderUIResource
-                 (cell, BorderFactory.createEmptyBorder(i.top, i.left, i.bottom, i.right));
+            noFocBorder = new BorderUIResource.CompoundBorderUIResource(cell, BorderFactory.createEmptyBorder(i.top, i.left, i.bottom, i.right));
             /* Alternatively, if focus shouldn't be supported:
             focusBorder = noFocusBorder = cell;
-            */
+             */
         }
 
-            @Override
-        public Component getListCellRendererComponent(JList list, Object value, 
-            int index, boolean selected, boolean focused) 
-        {
-            if (list != null)
-            {
-                if (selected)
-                {
+        @Override
+        public Component getListCellRendererComponent(JList list, Object value,
+                int index, boolean selected, boolean focused) {
+            if (list != null) {
+                if (selected) {
                     setBackground(list.getSelectionBackground());
                     setForeground(list.getSelectionForeground());
-                }
-                else
-                {
+                } else {
                     setBackground(list.getBackground());
                     setForeground(list.getForeground());
                 }
@@ -115,19 +107,18 @@ public class RowHeader extends JTable{
                 setFont(list.getFont());
 
                 setEnabled(list.isEnabled());
-            }
-            else
-            {
+            } else {
                 setBackground(UIManager.getColor("TableHeader.background"));
                 setForeground(UIManager.getColor("TableHeader.foreground"));
                 setFont(UIManager.getFont("TableHeader.font"));
                 setEnabled(true);
             }
 
-            if (focused)
+            if (focused) {
                 setBorder(focusBorder);
-            else
+            } else {
                 setBorder(noFocusBorder);
+            }
 
             setValue(value);
 
@@ -136,17 +127,12 @@ public class RowHeader extends JTable{
 
         @Override
         public Component getTableCellRendererComponent(JTable table, Object value,
-                           boolean selected, boolean focused, int row, int column)
-        {
-            if (table != null)
-            {
-                if (selected)
-                {
+                boolean selected, boolean focused, int row, int column) {
+            if (table != null) {
+                if (selected) {
                     setBackground(table.getSelectionBackground());
                     setForeground(table.getSelectionForeground());
-                }
-                else
-                {
+                } else {
                     setBackground(table.getBackground());
                     setForeground(table.getForeground());
                 }
@@ -154,19 +140,18 @@ public class RowHeader extends JTable{
                 setFont(table.getFont());
 
                 setEnabled(table.isEnabled());
-            }
-            else
-            {
+            } else {
                 setBackground(UIManager.getColor("TableHeader.background"));
                 setForeground(UIManager.getColor("TableHeader.foreground"));
                 setFont(UIManager.getFont("TableHeader.font"));
                 setEnabled(true);
             }
 
-            if (focused)
+            if (focused) {
                 setBorder(focusBorder);
-            else
+            } else {
                 setBorder(noFocusBorder);
+            }
 
             setValue(value);
 

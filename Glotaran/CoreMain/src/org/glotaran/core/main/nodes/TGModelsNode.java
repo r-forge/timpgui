@@ -1,4 +1,3 @@
-
 package org.glotaran.core.main.nodes;
 
 import java.awt.Image;
@@ -11,6 +10,7 @@ import org.openide.util.NbBundle;
 /**
  */
 public class TGModelsNode extends FilterNode {
+
     private final Image ICON = ImageUtilities.loadImage("org/glotaran/core/main/resources/Folder-models-icon-16.png", true);
 
     /**
@@ -33,7 +33,7 @@ public class TGModelsNode extends FilterNode {
 
     @Override
     public String getDisplayName() {
-        if (this.getParentNode() instanceof TGModelsNode){
+        if (this.getParentNode() instanceof TGModelsNode) {
             return this.getName();
         }
         return NbBundle.getBundle("org/glotaran/core/main/Bundle").getString("models");
@@ -41,13 +41,13 @@ public class TGModelsNode extends FilterNode {
 
     @Override
     public boolean canRename() {
-        if (this.getParentNode() instanceof TGModelsNode){
+        if (this.getParentNode() instanceof TGModelsNode) {
             return true;
         }
         return false;
     }
 
-     private static class TGModelsChildrenNode extends FilterNode.Children {
+    private static class TGModelsChildrenNode extends FilterNode.Children {
 
         TGModelsChildrenNode(Node node) {
             super(node);

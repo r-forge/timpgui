@@ -18,10 +18,8 @@ public interface IConnectionFactory {
     public static final String PORT = "port";
     public static final String USER = "user";
     public static final String PASSWORD = "pass";
-
-    public static final String default_host="localhost";
-
-    public static final int default_port=6311;
+    public static final String default_host = "localhost";
+    public static final int default_port = 6311;
 
     /**
      * implement this method if you'd like another type of wrapped normalized
@@ -29,7 +27,7 @@ public interface IConnectionFactory {
      * @param configuration
      * @return
      */
-	public IRConnection createRConnection(final Properties configuration);
+    public IRConnection createRConnection(final Properties configuration);
 
     /**
      * implement this method if you'd like another type of wrapped normalized

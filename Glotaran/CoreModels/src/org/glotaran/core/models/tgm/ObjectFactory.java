@@ -4,12 +4,9 @@
 // Any modifications to this file will be lost upon recompilation of the source schema. 
 // Generated on: 2009.11.16 at 02:40:05 PM CET 
 //
-
-
 package org.glotaran.core.models.tgm;
 
 import javax.xml.bind.annotation.XmlRegistry;
-
 
 /**
  * This object contains factory methods for each 
@@ -27,7 +24,6 @@ import javax.xml.bind.annotation.XmlRegistry;
  */
 @XmlRegistry
 public class ObjectFactory {
-
 
     /**
      * Create a new ObjectFactory that can be used to create new instances of schema derived classes for package: org.glotaran.core.models.tgm
@@ -179,5 +175,4 @@ public class ObjectFactory {
     public JVector createJVector() {
         return new JVector();
     }
-
 }

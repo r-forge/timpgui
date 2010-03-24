@@ -2,7 +2,6 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package org.glotaran.jfreechartcustom;
 
 /**
@@ -53,7 +52,6 @@ package org.glotaran.jfreechartcustom;
  * 22-Apr-2008 : Implemented PublicCloneable (DG);
  *
  */
-
 import java.awt.BasicStroke;
 import java.awt.Graphics2D;
 import java.awt.Paint;
@@ -93,24 +91,19 @@ public class XYBlockRenderer extends AbstractXYItemRenderer
      * The block width (defaults to 1.0).
      */
     private double blockWidth = 1.0;
-
     /**
      * The block height (defaults to 1.0).
      */
-    private double blockHeight =1.0;
-
+    private double blockHeight = 1.0;
     /**
      * The anchor point used to align each block to its (x, y) location.  The
      * default value is <code>RectangleAnchor.CENTER</code>.
      */
     private RectangleAnchor blockAnchor = RectangleAnchor.CENTER;
-
     /** Temporary storage for the x-offset used to align the block anchor. */
     private double xOffset;
-
     /** Temporary storage for the y-offset used to align the block anchor. */
     private double yOffset;
-
     /** The paint scale. */
     private PaintScale paintScale;
 
@@ -250,36 +243,28 @@ public class XYBlockRenderer extends AbstractXYItemRenderer
         if (this.blockAnchor.equals(RectangleAnchor.BOTTOM_LEFT)) {
             this.xOffset = 0.0;
             this.yOffset = 0.0;
-        }
-        else if (this.blockAnchor.equals(RectangleAnchor.BOTTOM)) {
+        } else if (this.blockAnchor.equals(RectangleAnchor.BOTTOM)) {
             this.xOffset = -this.blockWidth / 2.0;
             this.yOffset = 0.0;
-        }
-        else if (this.blockAnchor.equals(RectangleAnchor.BOTTOM_RIGHT)) {
+        } else if (this.blockAnchor.equals(RectangleAnchor.BOTTOM_RIGHT)) {
             this.xOffset = -this.blockWidth;
             this.yOffset = 0.0;
-        }
-        else if (this.blockAnchor.equals(RectangleAnchor.LEFT)) {
+        } else if (this.blockAnchor.equals(RectangleAnchor.LEFT)) {
             this.xOffset = 0.0;
             this.yOffset = -this.blockHeight / 2.0;
-        }
-        else if (this.blockAnchor.equals(RectangleAnchor.CENTER)) {
+        } else if (this.blockAnchor.equals(RectangleAnchor.CENTER)) {
             this.xOffset = -this.blockWidth / 2.0;
             this.yOffset = -this.blockHeight / 2.0;
-        }
-        else if (this.blockAnchor.equals(RectangleAnchor.RIGHT)) {
+        } else if (this.blockAnchor.equals(RectangleAnchor.RIGHT)) {
             this.xOffset = -this.blockWidth;
             this.yOffset = -this.blockHeight / 2.0;
-        }
-        else if (this.blockAnchor.equals(RectangleAnchor.TOP_LEFT)) {
+        } else if (this.blockAnchor.equals(RectangleAnchor.TOP_LEFT)) {
             this.xOffset = 0.0;
             this.yOffset = -this.blockHeight;
-        }
-        else if (this.blockAnchor.equals(RectangleAnchor.TOP)) {
+        } else if (this.blockAnchor.equals(RectangleAnchor.TOP)) {
             this.xOffset = -this.blockWidth / 2.0;
             this.yOffset = -this.blockHeight;
-        }
-        else if (this.blockAnchor.equals(RectangleAnchor.TOP_RIGHT)) {
+        } else if (this.blockAnchor.equals(RectangleAnchor.TOP_RIGHT)) {
             this.xOffset = -this.blockWidth;
             this.yOffset = -this.blockHeight;
         }
@@ -302,13 +287,11 @@ public class XYBlockRenderer extends AbstractXYItemRenderer
             Range r = DatasetUtilities.findDomainBounds(dataset, false);
             if (r == null) {
                 return null;
-            }
-            else {
+            } else {
                 return new Range(r.getLowerBound() + this.xOffset,
                         r.getUpperBound() + this.blockWidth + this.xOffset);
             }
-        }
-        else {
+        } else {
             return null;
         }
     }
@@ -329,28 +312,26 @@ public class XYBlockRenderer extends AbstractXYItemRenderer
             Range r = DatasetUtilities.findRangeBounds(dataset, false);
             if (r == null) {
                 return null;
-            }
-            else {
+            } else {
                 return new Range(r.getLowerBound() + this.yOffset,
                         r.getUpperBound() + this.blockHeight + this.yOffset);
             }
-        }
-        else {
+        } else {
             return null;
         }
     }
-    
+
     @Override
-     public XYItemRendererState initialise(Graphics2D g2,
-         Rectangle2D dataArea,
-         XYPlot plot,
-         XYDataset data,
-         PlotRenderingInfo info) {
-         final XYItemRendererState state =
-             super.initialise(g2, dataArea, plot, data, info);
-         state.setProcessVisibleItemsOnly(false);
-         return state;
-       }                  
+    public XYItemRendererState initialise(Graphics2D g2,
+            Rectangle2D dataArea,
+            XYPlot plot,
+            XYDataset data,
+            PlotRenderingInfo info) {
+        final XYItemRendererState state =
+                super.initialise(g2, dataArea, plot, data, info);
+        state.setProcessVisibleItemsOnly(false);
+        return state;
+    }
 
     /**
      * Draws the block representing the specified item.
@@ -372,7 +353,7 @@ public class XYBlockRenderer extends AbstractXYItemRenderer
             Rectangle2D dataArea, PlotRenderingInfo info, XYPlot plot,
             ValueAxis domainAxis, ValueAxis rangeAxis, XYDataset dataset,
             int series, int item, CrosshairState crosshairState, int pass) {
-        
+
         boolean bAddEntity = false;
 
         double x = dataset.getXValue(series, item);
@@ -396,8 +377,7 @@ public class XYBlockRenderer extends AbstractXYItemRenderer
             block = new Rectangle2D.Double(Math.min(yy0, yy1),
                     Math.min(xx0, xx1), Math.abs(yy1 - yy0),
                     Math.abs(xx0 - xx1));
-        }
-        else {
+        } else {
             // Detect if Rectangle is smaller than 2 by 2 pixels 
             block = new Rectangle2D.Double(Math.min(xx0, xx1),
                     Math.min(yy0, yy1), Math.abs(xx1 - xx0),
@@ -467,5 +447,4 @@ public class XYBlockRenderer extends AbstractXYItemRenderer
         }
         return clone;
     }
-
 }

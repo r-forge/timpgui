@@ -7,7 +7,7 @@
     <info>
         <appname>$APP-NAME</appname>
         <appversion>$APP-VERSION</appversion>
-        <appsubpath>$APP-PATH</appsubpath>        
+        <appsubpath>$APP-PATH</appsubpath>
         <authors>
             <author email="j.snellenburg@few.vu.nl" name="Joris Snellenburg"/>
             <author email="s.laptenok@few.vu.nl" name="Sergey Laptenok"/>
@@ -144,7 +144,7 @@
             <file targetdir="$INSTALL_PATH" src="glotaran" override="true" />
             <file targetdir="$INSTALL_PATH" src="legal" override="true" />
             <file targetdir="$INSTALL_PATH" src="readme.html" override="true" />
-           <!-- <file targetdir="$INSTALL_PATH/Uninstaller" src="uninstaller.jar" override="true" /> -->
+            <!-- <file targetdir="$INSTALL_PATH/Uninstaller" src="uninstaller.jar" override="true" /> -->
             <!-- <file targetdir="$INSTALL_PATH/Uninstaller" src="uninstaller" override="true" /> -->
             <executable targetfile="$INSTALL_PATH/bin/glotaran" stage="never"/>
             <!-- <executable targetfile="$INSTALL_PATH/Uninstaller/uninstaller" stage="never"/> -->
@@ -174,11 +174,11 @@
         -->
     </packs>
 
- <!-- The native libraries to add -->
+    <!-- The native libraries to add -->
     <native type="izpack" name="ShellLink.dll"/>
     <native type="izpack" name="ShellLink_x64.dll"/>
     <native type="3rdparty" name="COIOSHelper.dll" stage="both">
         <os family="windows"/>
     </native>
-    
+
 </installation>

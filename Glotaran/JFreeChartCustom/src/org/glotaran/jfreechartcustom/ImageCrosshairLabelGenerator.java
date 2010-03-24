@@ -2,7 +2,6 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package org.glotaran.jfreechartcustom;
 
 import java.text.MessageFormat;
@@ -14,15 +13,13 @@ import org.jfree.chart.plot.Crosshair;
  *
  * @author lsp
  */
-public class ImageCrosshairLabelGenerator implements CrosshairLabelGenerator{
+public class ImageCrosshairLabelGenerator implements CrosshairLabelGenerator {
     /*The array with labels*/
+
     private double[] labels;
-
     private boolean inverted;
-
     /** The label format string. */
     private String labelTemplate;
-
     /** A number formatter for the value. */
     private NumberFormat numberFormat;
 
@@ -32,13 +29,13 @@ public class ImageCrosshairLabelGenerator implements CrosshairLabelGenerator{
 //    public ImageCrosshairLabelGenerator() {
 //        this("{0}", NumberFormat.getNumberInstance());
 //    }
-
     public ImageCrosshairLabelGenerator(double[] val, boolean inv) {
         this("{0}", NumberFormat.getNumberInstance());
         this.labels = new double[val.length];
         this.labels = val;
         this.inverted = inv;
     }
+
     /**
      * Creates a new instance with the specified attributes.
      *
@@ -64,7 +61,6 @@ public class ImageCrosshairLabelGenerator implements CrosshairLabelGenerator{
         inverted = true;
     }
 
-
     public String getLabelTemplate() {
         return this.labelTemplate;
     }
@@ -73,14 +69,15 @@ public class ImageCrosshairLabelGenerator implements CrosshairLabelGenerator{
         return this.numberFormat;
     }
 
-    public double[] getLabels(){
+    public double[] getLabels() {
         return this.labels;
     }
 
-    public void setLabels(double[] val){
+    public void setLabels(double[] val) {
         this.labels = new double[val.length];
         labels = val;
     }
+
     /**
      * Returns a string that can be used as the label for a crosshair.
      *
@@ -90,16 +87,15 @@ public class ImageCrosshairLabelGenerator implements CrosshairLabelGenerator{
      */
     public String generateLabel(Crosshair crosshair) {
         Object[] v;
-        if (inverted){
-            v = new Object[] { this.numberFormat.format(
-                    labels[labels.length-(int)crosshair.getValue()]) };
+        if (inverted) {
+            v = new Object[]{this.numberFormat.format(
+                        labels[labels.length - (int) crosshair.getValue()])};
         } else {
-            v = new Object[] { this.numberFormat.format(
-                    labels[(int)crosshair.getValue()]) };
+            v = new Object[]{this.numberFormat.format(
+                        labels[(int) crosshair.getValue()])};
         }
 
         String result = MessageFormat.format(this.labelTemplate, v);
         return result;
     }
-
 }

@@ -2,7 +2,6 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package org.glotaran.core.resultdisplayers.common.panels;
 
 import java.awt.Dimension;
@@ -38,19 +37,20 @@ import static java.lang.Math.pow;
  * @author slapten
  */
 public class CommonTools {
+
     private static final int CHART_SIZE = 200;
     private static final int LAYOUT_GAP = 2;
     private static final int REPORT_PANEL_DEFAULT_WIDTH = 900;
     private static final int REPORT_PANEL_DEFAULT_HEIGHT = 810;
 
     public static void checkPanelSize(JPanel panelToResize, int numSelTraces) {
-        int rowNum = (int)ceil((double)numSelTraces/4);
-        if (rowNum > 4){
-            panelToResize.setPreferredSize(new Dimension(REPORT_PANEL_DEFAULT_WIDTH,rowNum*CHART_SIZE+LAYOUT_GAP*(rowNum+1)));
+        int rowNum = (int) ceil((double) numSelTraces / 4);
+        if (rowNum > 4) {
+            panelToResize.setPreferredSize(new Dimension(REPORT_PANEL_DEFAULT_WIDTH, rowNum * CHART_SIZE + LAYOUT_GAP * (rowNum + 1)));
         }
-        GridLayout gl = (GridLayout)panelToResize.getLayout();
-        if (numSelTraces/4>=gl.getRows()){
-            panelToResize.setLayout(new GridLayout(rowNum, 4,LAYOUT_GAP,LAYOUT_GAP));
+        GridLayout gl = (GridLayout) panelToResize.getLayout();
+        if (numSelTraces / 4 >= gl.getRows()) {
+            panelToResize.setLayout(new GridLayout(rowNum, 4, LAYOUT_GAP, LAYOUT_GAP));
         }
     }
 
@@ -60,7 +60,7 @@ public class CommonTools {
     }
 
     public static ChartPanel makeLinTimeTraceResidChart(XYSeriesCollection trace, XYSeriesCollection residuals, ValueAxis xAxis, String name, boolean multy) {
-        GlotaranDrawingSupplier drawSuplTrace = multy ? new GlotaranDrawingSupplier(multy): new GlotaranDrawingSupplier();
+        GlotaranDrawingSupplier drawSuplTrace = multy ? new GlotaranDrawingSupplier(multy) : new GlotaranDrawingSupplier();
         GlotaranDrawingSupplier drawSuplResid = new GlotaranDrawingSupplier();
         JFreeChart subchartResiduals = ChartFactory.createXYLineChart(
                 null,
@@ -87,7 +87,7 @@ public class CommonTools {
         plot1_1.getDomainAxis().setInverted(true);
         plot1_1.setRangeZeroBaselineVisible(true);
         plot1_1.getRangeAxis().setAutoRange(true);
-        for (int i = 0; i < trace.getSeriesCount(); i++){
+        for (int i = 0; i < trace.getSeriesCount(); i++) {
             plot1_1.getRenderer().setSeriesPaint(i, drawSuplTrace.getNextPaint());
             plot1_1.getRenderer().setSeriesStroke(i, drawSuplTrace.getNextStroke());
         }
@@ -98,7 +98,7 @@ public class CommonTools {
         plot1_2.getDomainAxis().setInverted(true);
         plot1_2.setRangeZeroBaselineVisible(true);
         plot1_2.getRangeAxis().setAutoRange(true);
-        for (int i = 0; i < residuals.getSeriesCount(); i++){
+        for (int i = 0; i < residuals.getSeriesCount(); i++) {
             plot1_2.getRenderer().setSeriesPaint(i, drawSuplResid.getNextPaint());
         }
         CombinedDomainXYPlot plot = new CombinedDomainXYPlot(xAxis);
@@ -152,45 +152,46 @@ public class CommonTools {
         return new ChartPanel(tracechart, true);
     }
 
-    public static XYSeriesCollection createFitRawTraceCollection(int xIndex, int startInd, int stopInd, TimpResultDataset data){
-        return createFitRawTraceCollection(xIndex,startInd,stopInd,data,0, "");
+    public static XYSeriesCollection createFitRawTraceCollection(int xIndex, int startInd, int stopInd, TimpResultDataset data) {
+        return createFitRawTraceCollection(xIndex, startInd, stopInd, data, 0, "");
     }
-    
-    public static XYSeriesCollection createFitRawTraceCollection(int xIndex, int startInd, int stopInd, TimpResultDataset data, double t0, String name){
-        return createFitRawTraceCollection(xIndex,startInd,stopInd,data,t0, name, 1);
+
+    public static XYSeriesCollection createFitRawTraceCollection(int xIndex, int startInd, int stopInd, TimpResultDataset data, double t0, String name) {
+        return createFitRawTraceCollection(xIndex, startInd, stopInd, data, t0, name, 1);
     }
-    public static XYSeriesCollection createFitRawTraceCollection(int xIndex, int startInd, int stopInd, TimpResultDataset data, double t0, String name, double scaleVal){
+
+    public static XYSeriesCollection createFitRawTraceCollection(int xIndex, int startInd, int stopInd, TimpResultDataset data, double t0, String name, double scaleVal) {
 
         XYSeriesCollection trace = new XYSeriesCollection();
-        XYSeries series1 = new XYSeries("Trace"+name);
-        XYSeries series2 = new XYSeries("Fit"+name);
+        XYSeries series1 = new XYSeries("Trace" + name);
+        XYSeries series2 = new XYSeries("Fit" + name);
 
         for (int j = startInd; j < stopInd; j++) {
-            series1.add(data.getX()[j]-t0, data.getTraces().get(j, xIndex)/scaleVal);
-            series2.add(data.getX()[j]-t0, data.getFittedTraces().get(j, xIndex)/scaleVal);
+            series1.add(data.getX()[j] - t0, data.getTraces().get(j, xIndex) / scaleVal);
+            series2.add(data.getX()[j] - t0, data.getFittedTraces().get(j, xIndex) / scaleVal);
         }
         trace.addSeries(series1);
         trace.addSeries(series2);
         return trace;
     }
 
-    public static XYSeriesCollection createResidTraceCollection(int xIndex, int startInd, int stopInd, TimpResultDataset data){
-        return createResidTraceCollection(xIndex,startInd,stopInd,data,0, "");
-    }
-    
-    public static XYSeriesCollection createResidTraceCollection(int xIndex, int startInd, int stopInd, TimpResultDataset data, double t0, String name){
-        return createResidTraceCollection(xIndex,startInd,stopInd,data,t0, name,1);
+    public static XYSeriesCollection createResidTraceCollection(int xIndex, int startInd, int stopInd, TimpResultDataset data) {
+        return createResidTraceCollection(xIndex, startInd, stopInd, data, 0, "");
     }
 
-    public static XYSeriesCollection createResidTraceCollection(int xIndex, int startInd, int stopInd, TimpResultDataset data, double t0, String name, double scaleVal){
-        XYSeries series3 = new XYSeries("Residuals"+name);
-         for (int j = startInd; j < stopInd; j++) {
-            series3.add(data.getX()[j]-t0, (data.getTraces().get(j, xIndex)-data.getFittedTraces().get(j, xIndex))/scaleVal);
+    public static XYSeriesCollection createResidTraceCollection(int xIndex, int startInd, int stopInd, TimpResultDataset data, double t0, String name) {
+        return createResidTraceCollection(xIndex, startInd, stopInd, data, t0, name, 1);
+    }
+
+    public static XYSeriesCollection createResidTraceCollection(int xIndex, int startInd, int stopInd, TimpResultDataset data, double t0, String name, double scaleVal) {
+        XYSeries series3 = new XYSeries("Residuals" + name);
+        for (int j = startInd; j < stopInd; j++) {
+            series3.add(data.getX()[j] - t0, (data.getTraces().get(j, xIndex) - data.getFittedTraces().get(j, xIndex)) / scaleVal);
         }
         return new XYSeriesCollection(series3);
     }
 
-    public static GraphPanel createGraphPanel(XYDataset traceCollection, String name, String axeName, boolean errorBars){
+    public static GraphPanel createGraphPanel(XYDataset traceCollection, String name, String axeName, boolean errorBars) {
         JFreeChart tracechart = ChartFactory.createXYLineChart(
                 null,
                 axeName,
@@ -203,50 +204,48 @@ public class CommonTools {
         return new GraphPanel(tracechart, errorBars);
     }
 
-    public static double[] calculateDispersionTrace(TimpResultDataset res){
+    public static double[] calculateDispersionTrace(TimpResultDataset res) {
         double centrW = res.getLamdac();
-        double[] param = res.getParmu()!=null ? res.getParmu() : new double[]{0};
-        double timeZero = res.getIrfpar()!=null ? res.getIrfpar()[0] : 0;
-        int order = param.length/2;
+        double[] param = res.getParmu() != null ? res.getParmu() : new double[]{0};
+        double timeZero = res.getIrfpar() != null ? res.getIrfpar()[0] : 0;
+        int order = param.length / 2;
         double[] t0Curve = new double[res.getX2().length];
         double point = 0;
-        int k=0;
-        for(int i = 0; i<res.getX2().length; i++){
+        int k = 0;
+        for (int i = 0; i < res.getX2().length; i++) {
             point = 0;
-            for (int j = 0; j < order; j++){
-                point = point + param[j]*pow((res.getX2()[i]-centrW)/100,j+1);
+            for (int j = 0; j < order; j++) {
+                point = point + param[j] * pow((res.getX2()[i] - centrW) / 100, j + 1);
             }
-            k=0;
+            k = 0;
             point = point + timeZero;
             t0Curve[i] = point;
         }
         return t0Curve;
     }
-    public static int findIndexForWave(double wave, double thresh, TimpResultDataset res){
+
+    public static int findIndexForWave(double wave, double thresh, TimpResultDataset res) {
         int index = 0;
-        if (res.getX2()[0]<res.getX2()[1]){
+        if (res.getX2()[0] < res.getX2()[1]) {
             //wavelengths
-            if (wave < res.getX2()[0]-thresh){
+            if (wave < res.getX2()[0] - thresh) {
                 return -1;
-            }
-            else {
-                while (wave>res.getX2()[index]+thresh){
+            } else {
+                while (wave > res.getX2()[index] + thresh) {
                     index++;
                 }
                 return index;
             }
         } else {
             //wavenambers
-            if (wave > res.getX2()[0]+thresh){
+            if (wave > res.getX2()[0] + thresh) {
                 return -1;
-            }
-            else {
-                while (wave<res.getX2()[index]-thresh){
+            } else {
+                while (wave < res.getX2()[index] - thresh) {
                     index++;
                 }
                 return index;
             }
         }
     }
-
 }

@@ -8,7 +8,6 @@
  *
  * Created on Jul 15, 2009, 10:18:18 AM
  */
-
 package org.glotaran.core.ui.visualmodelling.components;
 
 import java.awt.BorderLayout;
@@ -42,46 +41,45 @@ import org.openide.windows.WindowManager;
  *
  * @author slk230
  */
-public class ModelContainer 
+public class ModelContainer
         extends javax.swing.JPanel
         implements ExplorerManager.Provider, Lookup.Provider, PropertyChangeListener {
 
-
-/** path to the icon used by the component and its open action */
+    /** path to the icon used by the component and its open action */
 //    static final String ICON_PATH = "SET/PATH/TO/ICON/HERE";
-
     private static final String PREFERRED_ID = "ModelSpecificationView";
     private static final long serialVersionUID = 1;
     private ExplorerManager manager = new ExplorerManager();
-    private ModelSpecificationView    modelSpecificationView  = new ModelSpecificationView();
-    private ModelSpecificationNodeContainer   container = new ModelSpecificationNodeContainer();
+    private ModelSpecificationView modelSpecificationView = new ModelSpecificationView();
+    private ModelSpecificationNodeContainer container = new ModelSpecificationNodeContainer();
     private Lookup lookup;
     private TgmDataObject model;
+
     /** Creates new form DatasetContainer */
     public ModelContainer() {
         initComponents();
-        manager.setRootContext(new PropertiesAbstractNode("Model specification",container));//,ExplorerUtils.createLookup(manager, null)));
+        manager.setRootContext(new PropertiesAbstractNode("Model specification", container));//,ExplorerUtils.createLookup(manager, null)));
         manager.addPropertyChangeListener(this);
-        ActionMap map = this.getActionMap ();
+        ActionMap map = this.getActionMap();
         map.put("delete", ExplorerUtils.actionDelete(manager, true)); // or false
         InputMap keys = getInputMap(JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
         keys.put(KeyStroke.getKeyStroke("DELETE"), "delete");
         // following line tells the top component which lookup should be associated with it
-        lookup = ExplorerUtils.createLookup (manager, map);
+        lookup = ExplorerUtils.createLookup(manager, map);
     }
 
     public ModelContainer(TgmDataObject object) {
         initComponents();
-        manager.setRootContext(new PropertiesAbstractNode(object.getName(),container, lookup, this));//,ExplorerUtils.createLookup(manager, null)));
+        manager.setRootContext(new PropertiesAbstractNode(object.getName(), container, lookup, this));//,ExplorerUtils.createLookup(manager, null)));
         manager.addPropertyChangeListener(this);
         modelSpecificationView.addPropertyChangeListener(this);
         model = object;
-        ActionMap map = this.getActionMap ();
+        ActionMap map = this.getActionMap();
         map.put("delete", ExplorerUtils.actionDelete(manager, true)); // or false
         InputMap keys = getInputMap(JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
         keys.put(KeyStroke.getKeyStroke("DELETE"), "delete");
         // following line tells the top component which lookup should be associated with it
-        lookup = ExplorerUtils.createLookup (manager, map);
+        lookup = ExplorerUtils.createLookup(manager, map);
         fillInModel();
     }
 
@@ -129,6 +127,7 @@ public class ModelContainer
         jBRemove.setMinimumSize(new java.awt.Dimension(26, 26));
         jBRemove.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         jBRemove.addActionListener(new java.awt.event.ActionListener() {
+
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jBRemoveActionPerformed(evt);
             }
@@ -151,6 +150,7 @@ public class ModelContainer
         jBRefreshModel.setMinimumSize(new java.awt.Dimension(26, 26));
         jBRefreshModel.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         jBRefreshModel.addActionListener(new java.awt.event.ActionListener() {
+
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jBRefreshModelActionPerformed(evt);
             }
@@ -172,6 +172,7 @@ public class ModelContainer
         jBSaveModel.setMinimumSize(new java.awt.Dimension(26, 26));
         jBSaveModel.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         jBSaveModel.addActionListener(new java.awt.event.ActionListener() {
+
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jBSaveModelActionPerformed(evt);
             }
@@ -196,7 +197,7 @@ public class ModelContainer
     private void jBRemoveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBRemoveActionPerformed
         container.remove(manager.getSelectedNodes());
         model.setModified(true);
-}//GEN-LAST:event_jBRemoveActionPerformed
+    }//GEN-LAST:event_jBRemoveActionPerformed
 
     private void jBRefreshModelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBRefreshModelActionPerformed
         manager.getRootContext().removePropertyChangeListener(this);
@@ -207,7 +208,7 @@ public class ModelContainer
     }//GEN-LAST:event_jBRefreshModelActionPerformed
 
     private void jBSaveModelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBSaveModelActionPerformed
-        if (model.getCookie(SaveCookie.class)!=null){
+        if (model.getCookie(SaveCookie.class) != null) {
             try {
                 model.getCookie(SaveCookie.class).save();
             } catch (IOException ex) {
@@ -215,8 +216,6 @@ public class ModelContainer
             }
         }
     }//GEN-LAST:event_jBSaveModelActionPerformed
-
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jBRefreshModel;
     private javax.swing.JButton jBRemove;
@@ -225,45 +224,44 @@ public class ModelContainer
     private javax.swing.JPanel panel;
     // End of variables declaration//GEN-END:variables
 
-    public Tgm getModel(){
+    public Tgm getModel() {
         return model.getTgm();
     }
 
-    private void fillInModel(){
+    private void fillInModel() {
 //==============filling up parameters ============
-        if (!model.getTgm().getDat().getKMatrixPanel().getJVector().getVector().isEmpty()){
+        if (!model.getTgm().getDat().getKMatrixPanel().getJVector().getVector().isEmpty()) {
             manager.getRootContext().getChildren().add(
                     new Node[]{new KmatrixNode(model, this)});
-        }
-        else {
-            if (!model.getTgm().getDat().getKinparPanel().getKinpar().isEmpty()){
+        } else {
+            if (!model.getTgm().getDat().getKinparPanel().getKinpar().isEmpty()) {
                 manager.getRootContext().getChildren().add(
                         new Node[]{new KineticParametersNode(model.getTgm().getDat().getKinparPanel(), this)});
             }
         }
 
-        if (!model.getTgm().getDat().getIrfparPanel().getIrf().isEmpty()&&
-                (!model.getTgm().getDat().getIrfparPanel().isMirf())){
+        if (!model.getTgm().getDat().getIrfparPanel().getIrf().isEmpty()
+                && (!model.getTgm().getDat().getIrfparPanel().isMirf())) {
             manager.getRootContext().getChildren().add(
                     new Node[]{new IrfParametersNode(model.getTgm().getDat().getIrfparPanel(), this)});
         }
 
-        if (model.getTgm().getDat().getIrfparPanel().getParmu().length()!=0){
+        if (model.getTgm().getDat().getIrfparPanel().getParmu().length() != 0) {
             manager.getRootContext().getChildren().add(
                     new Node[]{new DispersionModelingNode(model.getTgm().getDat().getIrfparPanel(), EnumTypes.DispersionTypes.PARMU, this)});
         }
 
-        if (model.getTgm().getDat().getIrfparPanel().getPartau().length()!=0){
+        if (model.getTgm().getDat().getIrfparPanel().getPartau().length() != 0) {
             manager.getRootContext().getChildren().add(
                     new Node[]{new DispersionModelingNode(model.getTgm().getDat().getIrfparPanel(), EnumTypes.DispersionTypes.PARTAU, this)});
         }
 
-        if (!model.getTgm().getDat().getWeightParPanel().getWeightpar().isEmpty()){
+        if (!model.getTgm().getDat().getWeightParPanel().getWeightpar().isEmpty()) {
             manager.getRootContext().getChildren().add(
                     new Node[]{new WeightParametersNode(model.getTgm().getDat().getWeightParPanel().getWeightpar(), this)});
         }
 
-        if (model.getTgm().getDat().getCohspecPanel().getCohspec().isSet()){
+        if (model.getTgm().getDat().getCohspecPanel().getCohspec().isSet()) {
             manager.getRootContext().getChildren().add(
                     new Node[]{new CohSpecNode(model.getTgm().getDat().getCohspecPanel(), this)});
         }
@@ -276,11 +274,11 @@ public class ModelContainer
     public Lookup getLookup() {
         return lookup;
     }
-    
+
     @SuppressWarnings("element-type-mismatch")
     public void propertyChange(PropertyChangeEvent evt) {
-        if (evt.getSource() == manager &&
-                ExplorerManager.PROP_SELECTED_NODES.equals(evt.getPropertyName())) {
+        if (evt.getSource() == manager
+                && ExplorerManager.PROP_SELECTED_NODES.equals(evt.getPropertyName())) {
             WindowManager.getDefault().getRegistry().getActivated().setActivatedNodes(manager.getSelectedNodes());
             return;
         }

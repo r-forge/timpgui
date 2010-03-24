@@ -3,6 +3,7 @@ package org.glotaran.core.ui.visualmodelling.common;
 import java.beans.PropertyEditorSupport;
 
 public class EnumPropertyEditor extends PropertyEditorSupport {
+
     public EnumPropertyEditor() {
         super();
     }

@@ -2,7 +2,6 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package org.glotaran.core.ui.visualmodelling.components;
 
 /**
@@ -37,12 +36,13 @@ public class DummyChildFactory extends ChildFactory<String> {
 
     @Override
     protected Node createNodeForKey(String name) {
-        Node node = new AbstractNode(Children.LEAF){
+        Node node = new AbstractNode(Children.LEAF) {
 
             @Override
             public PasteType getDropType(Transferable t, int arg1, int arg2) {
                 final Node node = NodeTransfer.node(t, arg1);
                 return new PasteType() {
+
                     @Override
                     public Transferable paste() throws IOException {
                         names.add(node.getDisplayName());
@@ -56,5 +56,4 @@ public class DummyChildFactory extends ChildFactory<String> {
         node.setDisplayName(name);
         return node;
     }
-
 }

@@ -100,7 +100,7 @@ public class IrfparPanel extends SectionInnerPanel {
         }
         jParmuTextfield.setText(irfparPanelModel.getParmu());
 
-        if (irfparPanelModel.getDisptaufun()!=null) {
+        if (irfparPanelModel.getDisptaufun() != null) {
             if (irfparPanelModel.getDisptaufun().compareTo("poly") == 0) {
                 jRDisptaufun_poly.setSelected(true);
             }
@@ -117,9 +117,9 @@ public class IrfparPanel extends SectionInnerPanel {
         jTFLaserPeriod.setEnabled(jCBStreak.isSelected());
         jLabel2.setEnabled(jCBStreak.isSelected());
 
-        if (irfparPanelModel.isParmufixed()!=null) {
-        jCBParmuFixed.setSelected(irfparPanelModel.isParmufixed());
-        jCBParmuFixedShift.setSelected(irfparPanelModel.isParmufixed());
+        if (irfparPanelModel.isParmufixed() != null) {
+            jCBParmuFixed.setSelected(irfparPanelModel.isParmufixed());
+            jCBParmuFixedShift.setSelected(irfparPanelModel.isParmufixed());
 
         } else {
             irfparPanelModel.setParmufixed(Boolean.FALSE);
@@ -127,38 +127,38 @@ public class IrfparPanel extends SectionInnerPanel {
             jCBParmuFixedShift.setSelected(false);
         }
 
-        if (irfparPanelModel.isPartaufixed()!=null) {
-        jCBPartauFixed.setSelected(irfparPanelModel.isPartaufixed());
+        if (irfparPanelModel.isPartaufixed() != null) {
+            jCBPartauFixed.setSelected(irfparPanelModel.isPartaufixed());
         } else {
             irfparPanelModel.setPartaufixed(Boolean.FALSE);
             jCBPartauFixed.setSelected(false);
-        }        
+        }
 
 //=====================measuredIRF
-        if(irfparPanelModel.isMirf()!=null) {
-        jCBMeasuredIRF.setSelected(irfparPanelModel.isMirf());
+        if (irfparPanelModel.isMirf() != null) {
+            jCBMeasuredIRF.setSelected(irfparPanelModel.isMirf());
         } else {
             jCBMeasuredIRF.setSelected(false);
             irfparPanelModel.setMirf(Boolean.FALSE);
         }
-        if(irfparPanelModel.getConvalg()!=null) {
-        switch (irfparPanelModel.getConvalg()) {
-            case 1:
-                jRBScatterConv.setSelected(true);
-                break;
-            case 2:
-                jRBScatterConv.setSelected(true);
-                break;
-            case 3:
-                jRBReferConv.setSelected(true);
-                break;
-            default: {
-                jRBScatterConv.setSelected(true);
-                irfparPanelModel.setConvalg(2);
-                break;
-            }
-        } //end switch
-        } else if(irfparPanelModel.isMirf()){
+        if (irfparPanelModel.getConvalg() != null) {
+            switch (irfparPanelModel.getConvalg()) {
+                case 1:
+                    jRBScatterConv.setSelected(true);
+                    break;
+                case 2:
+                    jRBScatterConv.setSelected(true);
+                    break;
+                case 3:
+                    jRBReferConv.setSelected(true);
+                    break;
+                default: {
+                    jRBScatterConv.setSelected(true);
+                    irfparPanelModel.setConvalg(2);
+                    break;
+                }
+            } //end switch
+        } else if (irfparPanelModel.isMirf()) {
             irfparPanelModel.setConvalg(2);
         }
         jTRefLifetime.setText(String.valueOf(irfparPanelModel.getReftau()));
@@ -166,17 +166,17 @@ public class IrfparPanel extends SectionInnerPanel {
         jTFIrfShiftParameter.setText(irfparPanelModel.getParmu());
         if (irfparPanelModel.getMeasuredIrf() != null) {
             if (!irfparPanelModel.getMeasuredIrf().isEmpty()) {
-            String[] doubles = irfparPanelModel.getMeasuredIrf().split(",");
-            XYSeries refSeria = new XYSeries("Reference");
-            refArray = new double[doubles.length];
-            for (int i = 0; i < doubles.length; i++) {
-                refArray[i] = Double.parseDouble(doubles[i]);
-                refSeria.add(i, refArray[i]);
+                String[] doubles = irfparPanelModel.getMeasuredIrf().split(",");
+                XYSeries refSeria = new XYSeries("Reference");
+                refArray = new double[doubles.length];
+                for (int i = 0; i < doubles.length; i++) {
+                    refArray[i] = Double.parseDouble(doubles[i]);
+                    refSeria.add(i, refArray[i]);
 
+                }
+                refSerColl.addSeries(refSeria);
+                MakeChart(refSerColl);
             }
-            refSerColl.addSeries(refSeria);
-            MakeChart(refSerColl);
-        }
         }
 
 
@@ -284,9 +284,11 @@ public class IrfparPanel extends SectionInnerPanel {
 
         jPanel6.setPreferredSize(new java.awt.Dimension(0, 0));
         jPanel6.addComponentListener(new java.awt.event.ComponentAdapter() {
+
             public void componentHidden(java.awt.event.ComponentEvent evt) {
                 jPanel6ComponentHidden(evt);
             }
+
             public void componentShown(java.awt.event.ComponentEvent evt) {
                 jPanel6ComponentShown(evt);
             }
@@ -295,6 +297,7 @@ public class IrfparPanel extends SectionInnerPanel {
         jLabel4.setText("Number of IRF parameters");
 
         jSNumOfIrfParameters.addChangeListener(new javax.swing.event.ChangeListener() {
+
             public void stateChanged(javax.swing.event.ChangeEvent evt) {
                 jSNumOfIrfParametersStateChanged(evt);
             }
@@ -329,6 +332,7 @@ public class IrfparPanel extends SectionInnerPanel {
 
         jCBParmuFixed.setText("Fix");
         jCBParmuFixed.addActionListener(new java.awt.event.ActionListener() {
+
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jCBParmuFixedActionPerformed(evt);
             }
@@ -337,44 +341,9 @@ public class IrfparPanel extends SectionInnerPanel {
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jRDispmufun_poly)
-                    .addComponent(jRDispmufun_discrete)
-                    .addComponent(jRDispmufun_no)
-                    .addComponent(jLabel3)
-                    .addComponent(jLabel8)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(jParmuTextfield, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel5, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 32, Short.MAX_VALUE)
-                        .addComponent(jCBParmuFixed)))
-                .addContainerGap())
-        );
+                jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(jPanel2Layout.createSequentialGroup().addContainerGap().addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addComponent(jRDispmufun_poly).addComponent(jRDispmufun_discrete).addComponent(jRDispmufun_no).addComponent(jLabel3).addComponent(jLabel8).addGroup(jPanel2Layout.createSequentialGroup().addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false).addComponent(jParmuTextfield, javax.swing.GroupLayout.Alignment.LEADING).addComponent(jLabel5, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)).addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 32, Short.MAX_VALUE).addComponent(jCBParmuFixed))).addContainerGap()));
         jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel3)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jRDispmufun_no)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jRDispmufun_poly)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jRDispmufun_discrete)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel5)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel8)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jParmuTextfield, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jCBParmuFixed))
-                .addContainerGap())
-        );
+                jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(jPanel2Layout.createSequentialGroup().addContainerGap().addComponent(jLabel3).addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED).addComponent(jRDispmufun_no).addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED).addComponent(jRDispmufun_poly).addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED).addComponent(jRDispmufun_discrete).addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED).addComponent(jLabel5).addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE).addComponent(jLabel8).addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED).addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE).addComponent(jParmuTextfield, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE).addComponent(jCBParmuFixed)).addContainerGap()));
 
         jLabel6.setText("model dispersion of IRF width?");
 
@@ -400,48 +369,9 @@ public class IrfparPanel extends SectionInnerPanel {
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jRDisptaufun_poly)
-                    .addComponent(jRDisptaufun_no)
-                    .addComponent(jLabel6)
-                    .addComponent(jRDisptaufun_discrete, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jPartauTextfield, javax.swing.GroupLayout.PREFERRED_SIZE, 267, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel9))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jCBPartauFixed)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
+                jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(jPanel1Layout.createSequentialGroup().addContainerGap().addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false).addComponent(jRDisptaufun_poly).addComponent(jRDisptaufun_no).addComponent(jLabel6).addComponent(jRDisptaufun_discrete, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE).addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE).addGroup(jPanel1Layout.createSequentialGroup().addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addComponent(jPartauTextfield, javax.swing.GroupLayout.PREFERRED_SIZE, 267, javax.swing.GroupLayout.PREFERRED_SIZE).addComponent(jLabel9)).addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE).addComponent(jCBPartauFixed))).addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)));
         jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel6)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jRDisptaufun_no)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jRDisptaufun_poly)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jRDisptaufun_discrete)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel7)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jLabel9)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jPartauTextfield, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap())
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(18, 18, 18)
-                        .addComponent(jCBPartauFixed)
-                        .addContainerGap())))
-        );
+                jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(jPanel1Layout.createSequentialGroup().addContainerGap().addComponent(jLabel6).addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED).addComponent(jRDisptaufun_no).addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED).addComponent(jRDisptaufun_poly).addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED).addComponent(jRDisptaufun_discrete).addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED).addComponent(jLabel7).addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(jPanel1Layout.createSequentialGroup().addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE).addComponent(jLabel9).addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED).addComponent(jPartauTextfield, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE).addContainerGap()).addGroup(jPanel1Layout.createSequentialGroup().addGap(18, 18, 18).addComponent(jCBPartauFixed).addContainerGap()))));
 
         jLabel1.setText("Center wavelength for polynomial dispersion");
 
@@ -450,37 +380,15 @@ public class IrfparPanel extends SectionInnerPanel {
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jLabel1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTPolyDispersion, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
+                jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(jPanel3Layout.createSequentialGroup().addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(jPanel3Layout.createSequentialGroup().addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE).addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED).addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)).addGroup(jPanel3Layout.createSequentialGroup().addContainerGap().addComponent(jLabel1).addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED).addComponent(jTPolyDispersion, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE))).addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)));
         jPanel3Layout.setVerticalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(jTPolyDispersion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(41, 41, 41))
-        );
+                jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(jPanel3Layout.createSequentialGroup().addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE).addComponent(jPanel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)).addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED).addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE).addComponent(jLabel1).addComponent(jTPolyDispersion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)).addGap(41, 41, 41)));
 
         jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder("Parameters for a streak images analysis"));
 
         jCBStreak.setText("Include backsweep into model");
         jCBStreak.addActionListener(new java.awt.event.ActionListener() {
+
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jCBStreakActionPerformed(evt);
             }
@@ -494,29 +402,13 @@ public class IrfparPanel extends SectionInnerPanel {
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel4Layout.createSequentialGroup()
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jCBStreak)
-                    .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addGap(21, 21, 21)
-                        .addComponent(jLabel2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTFLaserPeriod, javax.swing.GroupLayout.DEFAULT_SIZE, 153, Short.MAX_VALUE)))
-                .addContainerGap())
-        );
+                jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(jPanel4Layout.createSequentialGroup().addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addComponent(jCBStreak).addGroup(jPanel4Layout.createSequentialGroup().addGap(21, 21, 21).addComponent(jLabel2).addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED).addComponent(jTFLaserPeriod, javax.swing.GroupLayout.DEFAULT_SIZE, 153, Short.MAX_VALUE))).addContainerGap()));
         jPanel4Layout.setVerticalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel4Layout.createSequentialGroup()
-                .addComponent(jCBStreak)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
-                    .addComponent(jTFLaserPeriod, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-        );
+                jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(jPanel4Layout.createSequentialGroup().addComponent(jCBStreak).addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED).addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE).addComponent(jLabel2).addComponent(jTFLaserPeriod, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))));
 
         jCBMeasuredIRF.setText("Measured IRF");
         jCBMeasuredIRF.addActionListener(new java.awt.event.ActionListener() {
+
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jCBMeasuredIRFActionPerformed(evt);
             }
@@ -525,45 +417,19 @@ public class IrfparPanel extends SectionInnerPanel {
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
         jPanel6Layout.setHorizontalGroup(
-            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel6Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jCBMeasuredIRF)
-                    .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 385, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(jPanel6Layout.createSequentialGroup()
-                        .addComponent(jLabel4)
-                        .addGap(25, 25, 25)
-                        .addComponent(jSNumOfIrfParameters, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
+                jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(jPanel6Layout.createSequentialGroup().addContainerGap().addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE).addComponent(jCBMeasuredIRF).addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE).addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 385, javax.swing.GroupLayout.PREFERRED_SIZE).addGroup(jPanel6Layout.createSequentialGroup().addComponent(jLabel4).addGap(25, 25, 25).addComponent(jSNumOfIrfParameters, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))).addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)));
         jPanel6Layout.setVerticalGroup(
-            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel6Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jCBMeasuredIRF)
-                .addGap(24, 24, 24)
-                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jSNumOfIrfParameters, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel4))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(199, 199, 199))
-        );
+                jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(jPanel6Layout.createSequentialGroup().addContainerGap().addComponent(jCBMeasuredIRF).addGap(24, 24, 24).addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING).addComponent(jSNumOfIrfParameters, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE).addComponent(jLabel4)).addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED).addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE).addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED).addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE).addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED).addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE).addGap(199, 199, 199)));
 
         jTabbedPane1.addTab("IRF Settings", jPanel6);
 
         jPanel7.setPreferredSize(new java.awt.Dimension(0, 0));
         jPanel7.addComponentListener(new java.awt.event.ComponentAdapter() {
+
             public void componentHidden(java.awt.event.ComponentEvent evt) {
                 jPanel7ComponentHidden(evt);
             }
+
             public void componentShown(java.awt.event.ComponentEvent evt) {
                 jPanel7ComponentShown(evt);
             }
@@ -579,6 +445,7 @@ public class IrfparPanel extends SectionInnerPanel {
 
         Bloadref.setText(org.openide.util.NbBundle.getMessage(IrfparPanel.class, "MeasuredIrfTopComponent.Bloadref.text")); // NOI18N
         Bloadref.addActionListener(new java.awt.event.ActionListener() {
+
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 BloadrefActionPerformed(evt);
             }
@@ -586,6 +453,7 @@ public class IrfparPanel extends SectionInnerPanel {
 
         jPanel9.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         jPanel9.addComponentListener(new java.awt.event.ComponentAdapter() {
+
             public void componentResized(java.awt.event.ComponentEvent evt) {
                 jPanel9ComponentResized(evt);
             }
@@ -595,6 +463,7 @@ public class IrfparPanel extends SectionInnerPanel {
         jCBEstimateBG.setText(org.openide.util.NbBundle.getMessage(IrfparPanel.class, "MeasuredIrfTopComponent.jCBEstimateBG.text")); // NOI18N
         jCBEstimateBG.setEnabled(false);
         jCBEstimateBG.addActionListener(new java.awt.event.ActionListener() {
+
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jCBEstimateBGActionPerformed(evt);
             }
@@ -602,6 +471,7 @@ public class IrfparPanel extends SectionInnerPanel {
 
         jSFrom.setEnabled(false);
         jSFrom.addChangeListener(new javax.swing.event.ChangeListener() {
+
             public void stateChanged(javax.swing.event.ChangeEvent evt) {
                 jSFromStateChanged(evt);
             }
@@ -609,6 +479,7 @@ public class IrfparPanel extends SectionInnerPanel {
 
         jSTill.setEnabled(false);
         jSTill.addChangeListener(new javax.swing.event.ChangeListener() {
+
             public void stateChanged(javax.swing.event.ChangeEvent evt) {
                 jSTillStateChanged(evt);
             }
@@ -620,6 +491,7 @@ public class IrfparPanel extends SectionInnerPanel {
         jBSubtrBG.setText(org.openide.util.NbBundle.getMessage(IrfparPanel.class, "MeasuredIrfTopComponent.jBSubtrBG.text")); // NOI18N
         jBSubtrBG.setEnabled(false);
         jBSubtrBG.addActionListener(new java.awt.event.ActionListener() {
+
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jBSubtrBGActionPerformed(evt);
             }
@@ -637,6 +509,7 @@ public class IrfparPanel extends SectionInnerPanel {
         jBCalculateBG.setText(org.openide.util.NbBundle.getMessage(IrfparPanel.class, "MeasuredIrfTopComponent.jBCalculateBG.text")); // NOI18N
         jBCalculateBG.setEnabled(false);
         jBCalculateBG.addActionListener(new java.awt.event.ActionListener() {
+
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jBCalculateBGActionPerformed(evt);
             }
@@ -649,65 +522,9 @@ public class IrfparPanel extends SectionInnerPanel {
         javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
         jPanel8.setLayout(jPanel8Layout);
         jPanel8Layout.setHorizontalGroup(
-            jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel8Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jPanel9, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 651, Short.MAX_VALUE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel8Layout.createSequentialGroup()
-                        .addComponent(jCBEstimateBG, javax.swing.GroupLayout.PREFERRED_SIZE, 148, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jLabel12)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jSFrom, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel13)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jSTill, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jBCalculateBG)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jLabel14)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTFBGvalue, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel8Layout.createSequentialGroup()
-                        .addComponent(jLabel11)
-                        .addGap(10, 10, 10)
-                        .addComponent(tFRefFilename, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel8Layout.createSequentialGroup()
-                        .addComponent(Bloadref, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 272, Short.MAX_VALUE)
-                        .addComponent(jCBNegToZer)
-                        .addGap(18, 18, 18)
-                        .addComponent(jBSubtrBG)))
-                .addContainerGap())
-        );
+                jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel8Layout.createSequentialGroup().addContainerGap().addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING).addComponent(jPanel9, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 651, Short.MAX_VALUE).addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel8Layout.createSequentialGroup().addComponent(jCBEstimateBG, javax.swing.GroupLayout.PREFERRED_SIZE, 148, javax.swing.GroupLayout.PREFERRED_SIZE).addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED).addComponent(jLabel12).addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED).addComponent(jSFrom, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE).addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED).addComponent(jLabel13).addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED).addComponent(jSTill, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE).addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE).addComponent(jBCalculateBG).addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED).addComponent(jLabel14).addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED).addComponent(jTFBGvalue, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)).addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel8Layout.createSequentialGroup().addComponent(jLabel11).addGap(10, 10, 10).addComponent(tFRefFilename, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)).addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel8Layout.createSequentialGroup().addComponent(Bloadref, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE).addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 272, Short.MAX_VALUE).addComponent(jCBNegToZer).addGap(18, 18, 18).addComponent(jBSubtrBG))).addContainerGap()));
         jPanel8Layout.setVerticalGroup(
-            jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel8Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel11)
-                    .addComponent(tFRefFilename, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(Bloadref)
-                    .addComponent(jBSubtrBG)
-                    .addComponent(jCBNegToZer))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, 298, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel14)
-                    .addComponent(jTFBGvalue, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jBCalculateBG)
-                    .addComponent(jLabel12)
-                    .addComponent(jSFrom, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel13)
-                    .addComponent(jSTill, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jCBEstimateBG))
-                .addContainerGap())
-        );
+                jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(jPanel8Layout.createSequentialGroup().addContainerGap().addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE).addComponent(jLabel11).addComponent(tFRefFilename, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)).addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED).addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE).addComponent(Bloadref).addComponent(jBSubtrBG).addComponent(jCBNegToZer)).addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED).addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, 298, javax.swing.GroupLayout.PREFERRED_SIZE).addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE).addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE).addComponent(jLabel14).addComponent(jTFBGvalue, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE).addComponent(jBCalculateBG).addComponent(jLabel12).addComponent(jSFrom, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE).addComponent(jLabel13).addComponent(jSTill, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE).addComponent(jCBEstimateBG)).addContainerGap()));
 
         jPanel5.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
         jPanel5.setEnabled(false);
@@ -728,30 +545,9 @@ public class IrfparPanel extends SectionInnerPanel {
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
         jPanel5Layout.setHorizontalGroup(
-            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel5Layout.createSequentialGroup()
-                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jRBReferConv)
-                    .addGroup(jPanel5Layout.createSequentialGroup()
-                        .addGap(21, 21, 21)
-                        .addComponent(jLabel10)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTRefLifetime, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jRBScatterConv))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
+                jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(jPanel5Layout.createSequentialGroup().addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addComponent(jRBReferConv).addGroup(jPanel5Layout.createSequentialGroup().addGap(21, 21, 21).addComponent(jLabel10).addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED).addComponent(jTRefLifetime, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)).addComponent(jRBScatterConv)).addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)));
         jPanel5Layout.setVerticalGroup(
-            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel5Layout.createSequentialGroup()
-                .addComponent(jRBReferConv)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel10)
-                    .addComponent(jTRefLifetime, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jRBScatterConv)
-                .addContainerGap(10, Short.MAX_VALUE))
-        );
+                jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(jPanel5Layout.createSequentialGroup().addComponent(jRBReferConv).addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED).addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE).addComponent(jLabel10).addComponent(jTRefLifetime, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)).addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED).addComponent(jRBScatterConv).addContainerGap(10, Short.MAX_VALUE)));
 
         jPanel10.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
@@ -759,6 +555,7 @@ public class IrfparPanel extends SectionInnerPanel {
 
         jCBParmuFixedShift.setText("Fix");
         jCBParmuFixedShift.addActionListener(new java.awt.event.ActionListener() {
+
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jCBParmuFixedShiftActionPerformed(evt);
             }
@@ -767,258 +564,207 @@ public class IrfparPanel extends SectionInnerPanel {
         javax.swing.GroupLayout jPanel10Layout = new javax.swing.GroupLayout(jPanel10);
         jPanel10.setLayout(jPanel10Layout);
         jPanel10Layout.setHorizontalGroup(
-            jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel10Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel15)
-                    .addGroup(jPanel10Layout.createSequentialGroup()
-                        .addComponent(jTFIrfShiftParameter, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jCBParmuFixedShift)))
-                .addContainerGap(110, Short.MAX_VALUE))
-        );
+                jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(jPanel10Layout.createSequentialGroup().addContainerGap().addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addComponent(jLabel15).addGroup(jPanel10Layout.createSequentialGroup().addComponent(jTFIrfShiftParameter, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE).addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED).addComponent(jCBParmuFixedShift))).addContainerGap(110, Short.MAX_VALUE)));
         jPanel10Layout.setVerticalGroup(
-            jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel10Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel15)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTFIrfShiftParameter, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jCBParmuFixedShift))
-                .addContainerGap(37, Short.MAX_VALUE))
-        );
+                jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(jPanel10Layout.createSequentialGroup().addContainerGap().addComponent(jLabel15).addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED).addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE).addComponent(jTFIrfShiftParameter, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE).addComponent(jCBParmuFixedShift)).addContainerGap(37, Short.MAX_VALUE)));
 
         javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
         jPanel7.setLayout(jPanel7Layout);
         jPanel7Layout.setHorizontalGroup(
-            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel7Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel7Layout.createSequentialGroup()
-                        .addComponent(jPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap())
-                    .addGroup(jPanel7Layout.createSequentialGroup()
-                        .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jPanel10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(1031, 1031, 1031))))
-        );
+                jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(jPanel7Layout.createSequentialGroup().addContainerGap().addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(jPanel7Layout.createSequentialGroup().addComponent(jPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE).addContainerGap()).addGroup(jPanel7Layout.createSequentialGroup().addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE).addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE).addComponent(jPanel10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE).addGap(1031, 1031, 1031)))));
         jPanel7Layout.setVerticalGroup(
-            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel7Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jPanel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jPanel10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(452, 452, 452))
-        );
+                jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel7Layout.createSequentialGroup().addContainerGap().addComponent(jPanel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE).addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED).addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false).addComponent(jPanel10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE).addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)).addGap(452, 452, 452)));
 
         jTabbedPane1.addTab("Measured IRF", jPanel7);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 832, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
+                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(layout.createSequentialGroup().addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 832, javax.swing.GroupLayout.PREFERRED_SIZE).addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)));
         layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 558, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
+                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(layout.createSequentialGroup().addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 558, javax.swing.GroupLayout.PREFERRED_SIZE).addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)));
     }// </editor-fold>//GEN-END:initComponents
 
-private void jSNumOfIrfParametersStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jSNumOfIrfParametersStateChanged
+    private void jSNumOfIrfParametersStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jSNumOfIrfParametersStateChanged
 // TODO add your handling code here:]
-    if ((Integer) jSNumOfIrfParameters.getValue() > model.getRowCount()) {
-        model.addRow(defRow);
-        model.addRow(defRow);
-        rowHeader.addRow(rowNames[(Integer) jSNumOfIrfParameters.getValue() - 2]);
-        rowHeader.addRow(rowNames[(Integer) jSNumOfIrfParameters.getValue() - 1]);
-    } else {
-        model.removeRow(model.getRowCount() - 1);
-        model.removeRow(model.getRowCount() - 1);
-        rowHeader.removeRow(rowHeader.getRowCount() - 1);
-        rowHeader.removeRow(rowHeader.getRowCount() - 1);
+        if ((Integer) jSNumOfIrfParameters.getValue() > model.getRowCount()) {
+            model.addRow(defRow);
+            model.addRow(defRow);
+            rowHeader.addRow(rowNames[(Integer) jSNumOfIrfParameters.getValue() - 2]);
+            rowHeader.addRow(rowNames[(Integer) jSNumOfIrfParameters.getValue() - 1]);
+        } else {
+            model.removeRow(model.getRowCount() - 1);
+            model.removeRow(model.getRowCount() - 1);
+            rowHeader.removeRow(rowHeader.getRowCount() - 1);
+            rowHeader.removeRow(rowHeader.getRowCount() - 1);
 
-    }
-//    jTIrfparTable.setModel(model);
-    setValue(jTIrfparTable, this);
-}//GEN-LAST:event_jSNumOfIrfParametersStateChanged
-
-private void jCBStreakActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCBStreakActionPerformed
-    jTFLaserPeriod.setEnabled(jCBStreak.isSelected());
-    jLabel2.setEnabled(jCBStreak.isSelected());
-
-}//GEN-LAST:event_jCBStreakActionPerformed
-
-private void jCBMeasuredIRFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCBMeasuredIRFActionPerformed
-    updateEnabled(jCBMeasuredIRF.isSelected());
-
-}//GEN-LAST:event_jCBMeasuredIRFActionPerformed
-
-private void BloadrefActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BloadrefActionPerformed
-    int returnVal = fc.showOpenDialog(this);
-    Vector refVector = new Vector();
-    File file = null;
-    if (returnVal == JFileChooser.APPROVE_OPTION) {
-        file = fc.getSelectedFile();
-        tFRefFilename.setText(fc.getName(file));
-
-        try {
-            Scanner sc = new Scanner(file);
-            while (sc.hasNext()) {
-                refVector.addElement(sc.nextFloat());
-            }
-        } catch (Exception e) {
-            CoreErrorMessages.fileLoadException("IRF");
         }
-        int i = 0;
-        float num;
-        XYSeries refSeria = new XYSeries("Reference");
-        length = refVector.size();
-        refArray = new double[length];
-        for (Enumeration e = refVector.elements(); e.hasMoreElements();) {
-            Float temp = (Float) e.nextElement();
-            num = (float) temp;
-            refSeria.add(i, num);
-            if (num > maxInt) {
-                maxInt = num;
+//    jTIrfparTable.setModel(model);
+        setValue(jTIrfparTable, this);
+    }//GEN-LAST:event_jSNumOfIrfParametersStateChanged
+
+    private void jCBStreakActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCBStreakActionPerformed
+        jTFLaserPeriod.setEnabled(jCBStreak.isSelected());
+        jLabel2.setEnabled(jCBStreak.isSelected());
+
+    }//GEN-LAST:event_jCBStreakActionPerformed
+
+    private void jCBMeasuredIRFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCBMeasuredIRFActionPerformed
+        updateEnabled(jCBMeasuredIRF.isSelected());
+
+    }//GEN-LAST:event_jCBMeasuredIRFActionPerformed
+
+    private void BloadrefActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BloadrefActionPerformed
+        int returnVal = fc.showOpenDialog(this);
+        Vector refVector = new Vector();
+        File file = null;
+        if (returnVal == JFileChooser.APPROVE_OPTION) {
+            file = fc.getSelectedFile();
+            tFRefFilename.setText(fc.getName(file));
+
+            try {
+                Scanner sc = new Scanner(file);
+                while (sc.hasNext()) {
+                    refVector.addElement(sc.nextFloat());
+                }
+            } catch (Exception e) {
+                CoreErrorMessages.fileLoadException("IRF");
             }
-            refArray[i] = num;
-            i++;
+            int i = 0;
+            float num;
+            XYSeries refSeria = new XYSeries("Reference");
+            length = refVector.size();
+            refArray = new double[length];
+            for (Enumeration e = refVector.elements(); e.hasMoreElements();) {
+                Float temp = (Float) e.nextElement();
+                num = (float) temp;
+                refSeria.add(i, num);
+                if (num > maxInt) {
+                    maxInt = num;
+                }
+                refArray[i] = num;
+                i++;
+            }
+            if (refSerColl.getSeries().size() > 0) {
+                refSerColl.removeAllSeries();
+            }
+            refSerColl.addSeries(refSeria);
+            MakeChart(refSerColl);
+            from = 0;
+            till = length;
+            marker = new IntervalMarker(from, till);
+            marker.setPaint(new Color(222, 222, 255, 128));
+
+            jBSubtrBG.setEnabled(true);
+            jLabel4.setEnabled(true);
+            jCBEstimateBG.setEnabled(true);
+            jTFBGvalue.setEnabled(true);
+            jCBNegToZer.setEnabled(true);
+
+            jSFrom.setModel(new SpinnerNumberModel(from, 0, length, 1));
+            jSTill.setModel(new SpinnerNumberModel(till, 0, length, 1));
+            //        System.out.println(refVector);
+            setValue(jPanel9, refArray);
+        }
+    }//GEN-LAST:event_BloadrefActionPerformed
+
+    private void jPanel9ComponentResized(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_jPanel9ComponentResized
+        if (chpan != null) {
+            chpan.setSize(jPanel2.getSize());
+        }
+    }//GEN-LAST:event_jPanel9ComponentResized
+
+    private void jCBEstimateBGActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCBEstimateBGActionPerformed
+        jTFBGvalue.setEditable(!jTFBGvalue.isEditable());
+        jLabel1.setEnabled(!jLabel1.isEnabled());
+        jLabel3.setEnabled(!jLabel3.isEnabled());
+        jSFrom.setEnabled(!jSFrom.isEnabled());
+        jSTill.setEnabled(!jSTill.isEnabled());
+        jBCalculateBG.setEnabled(!jBCalculateBG.isEnabled());
+        if (jCBEstimateBG.isSelected()) {
+            chart.getXYPlot().addDomainMarker(marker);
+        } else {
+            chart.getXYPlot().clearDomainMarkers(0);
+        }
+    }//GEN-LAST:event_jCBEstimateBGActionPerformed
+
+    private void jSFromStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jSFromStateChanged
+        Integer fr = (Integer) jSFrom.getValue();
+        Integer tl = (Integer) jSTill.getValue();
+        from = (int) fr;
+        till = (int) tl;
+        if (from >= till) {
+            jSTill.setValue(jSFrom.getValue());
+            till = from;
+        }
+        marker.setStartValue(from);
+        marker.setEndValue(till);
+    }//GEN-LAST:event_jSFromStateChanged
+
+    private void jSTillStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jSTillStateChanged
+        Integer fr = (Integer) jSFrom.getValue();
+        Integer tl = (Integer) jSTill.getValue();
+        from = (int) fr;
+        till = (int) tl;
+
+        if (from >= till) {
+            jSFrom.setValue(jSTill.getValue());
+            from = till;
+        }
+        marker.setStartValue(from);
+        marker.setEndValue(till);
+    }//GEN-LAST:event_jSTillStateChanged
+
+    private void jBSubtrBGActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBSubtrBGActionPerformed
+        float val = 0;
+        try {
+            val = Float.parseFloat(jTFBGvalue.getText());
+        } catch (NumberFormatException ex) {
+            CoreErrorMessages.numberFormatException();
         }
         if (refSerColl.getSeries().size() > 0) {
-            refSerColl.removeAllSeries();
+            refSerColl.getSeries().clear();
+            for (int i = 0; i < length; i++) {
+                refArray[i] -= val;
+                if (jCBNegToZer.isSelected() && (refArray[i] < 0)) {
+                    refArray[i] = 0;
+                }
+                refSerColl.getSeries(0).add(i, refArray[i]);
+            }
+            setValue(jPanel9, refArray);
         }
-        refSerColl.addSeries(refSeria);
-        MakeChart(refSerColl);
-        from = 0;
-        till = length;
-        marker = new IntervalMarker(from, till);
-        marker.setPaint(new Color(222, 222, 255, 128));
+    }//GEN-LAST:event_jBSubtrBGActionPerformed
 
-        jBSubtrBG.setEnabled(true);
-        jLabel4.setEnabled(true);
-        jCBEstimateBG.setEnabled(true);
-        jTFBGvalue.setEnabled(true);
-        jCBNegToZer.setEnabled(true);
-
-        jSFrom.setModel(new SpinnerNumberModel(from, 0, length, 1));
-        jSTill.setModel(new SpinnerNumberModel(till, 0, length, 1));
-        //        System.out.println(refVector);
-        setValue(jPanel9, refArray);
-    }
-}//GEN-LAST:event_BloadrefActionPerformed
-
-private void jPanel9ComponentResized(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_jPanel9ComponentResized
-    if (chpan != null) {
-        chpan.setSize(jPanel2.getSize());
-    }
-}//GEN-LAST:event_jPanel9ComponentResized
-
-private void jCBEstimateBGActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCBEstimateBGActionPerformed
-    jTFBGvalue.setEditable(!jTFBGvalue.isEditable());
-    jLabel1.setEnabled(!jLabel1.isEnabled());
-    jLabel3.setEnabled(!jLabel3.isEnabled());
-    jSFrom.setEnabled(!jSFrom.isEnabled());
-    jSTill.setEnabled(!jSTill.isEnabled());
-    jBCalculateBG.setEnabled(!jBCalculateBG.isEnabled());
-    if (jCBEstimateBG.isSelected()) {
-        chart.getXYPlot().addDomainMarker(marker);
-    } else {
-        chart.getXYPlot().clearDomainMarkers(0);
-    }
-}//GEN-LAST:event_jCBEstimateBGActionPerformed
-
-private void jSFromStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jSFromStateChanged
-    Integer fr = (Integer) jSFrom.getValue();
-    Integer tl = (Integer) jSTill.getValue();
-    from = (int) fr;
-    till = (int) tl;
-    if (from >= till) {
-        jSTill.setValue(jSFrom.getValue());
-        till = from;
-    }
-    marker.setStartValue(from);
-    marker.setEndValue(till);
-}//GEN-LAST:event_jSFromStateChanged
-
-private void jSTillStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jSTillStateChanged
-    Integer fr = (Integer) jSFrom.getValue();
-    Integer tl = (Integer) jSTill.getValue();
-    from = (int) fr;
-    till = (int) tl;
-
-    if (from >= till) {
-        jSFrom.setValue(jSTill.getValue());
-        from = till;
-    }
-    marker.setStartValue(from);
-    marker.setEndValue(till);
-}//GEN-LAST:event_jSTillStateChanged
-
-private void jBSubtrBGActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBSubtrBGActionPerformed
-    float val = 0;
-    try {
-        val = Float.parseFloat(jTFBGvalue.getText());
-    } catch (NumberFormatException ex) {
-        CoreErrorMessages.numberFormatException();
-    }
-    if (refSerColl.getSeries().size() > 0 ) {
-    refSerColl.getSeries().clear();
-    for (int i = 0; i < length; i++) {
-        refArray[i] -= val;
-        if (jCBNegToZer.isSelected() && (refArray[i] < 0)) {
-            refArray[i] = 0;
+    private void jBCalculateBGActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBCalculateBGActionPerformed
+        float sum = 0;
+        for (int i = from; i < till; i++) {
+            sum += refArray[i];
         }
-        refSerColl.getSeries(0).add(i, refArray[i]);
-    }
-    setValue(jPanel9, refArray);
-    }
-}//GEN-LAST:event_jBSubtrBGActionPerformed
+        Float val = sum / (till - from);
+        jTFBGvalue.setText(val.toString());
+    }//GEN-LAST:event_jBCalculateBGActionPerformed
 
-private void jBCalculateBGActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBCalculateBGActionPerformed
-    float sum = 0;
-    for (int i = from; i < till; i++) {
-        sum += refArray[i];
-    }
-    Float val = sum / (till - from);
-    jTFBGvalue.setText(val.toString());
-}//GEN-LAST:event_jBCalculateBGActionPerformed
+    private void jPanel6ComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_jPanel6ComponentShown
+        endUIChange();
+    }//GEN-LAST:event_jPanel6ComponentShown
 
-private void jPanel6ComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_jPanel6ComponentShown
-    endUIChange();
-}//GEN-LAST:event_jPanel6ComponentShown
+    private void jPanel7ComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_jPanel7ComponentShown
+        endUIChange();
+    }//GEN-LAST:event_jPanel7ComponentShown
 
-private void jPanel7ComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_jPanel7ComponentShown
-    endUIChange();
-}//GEN-LAST:event_jPanel7ComponentShown
+    private void jPanel6ComponentHidden(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_jPanel6ComponentHidden
+        endUIChange();
+    }//GEN-LAST:event_jPanel6ComponentHidden
 
-private void jPanel6ComponentHidden(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_jPanel6ComponentHidden
-    endUIChange();
-}//GEN-LAST:event_jPanel6ComponentHidden
+    private void jPanel7ComponentHidden(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_jPanel7ComponentHidden
+        endUIChange();
+    }//GEN-LAST:event_jPanel7ComponentHidden
 
-private void jPanel7ComponentHidden(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_jPanel7ComponentHidden
-    endUIChange();
-}//GEN-LAST:event_jPanel7ComponentHidden
+    private void jCBParmuFixedActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCBParmuFixedActionPerformed
+    }//GEN-LAST:event_jCBParmuFixedActionPerformed
 
-private void jCBParmuFixedActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCBParmuFixedActionPerformed
-    
-}//GEN-LAST:event_jCBParmuFixedActionPerformed
-
-private void jCBParmuFixedShiftActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCBParmuFixedShiftActionPerformed
-    
-}//GEN-LAST:event_jCBParmuFixedShiftActionPerformed
-
+    private void jCBParmuFixedShiftActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCBParmuFixedShiftActionPerformed
+    }//GEN-LAST:event_jCBParmuFixedShiftActionPerformed
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton Bloadref;
     private javax.swing.ButtonGroup buttonGroup1;
@@ -1098,7 +844,7 @@ private void jCBParmuFixedShiftActionPerformed(java.awt.event.ActionEvent evt) {
             irfparPanelModel.setDispmufun(null);
         }
 
-         if (source == jRDisptaufun_no) {
+        if (source == jRDisptaufun_no) {
             irfparPanelModel.setDisptaufun(null);
         }
 
@@ -1121,13 +867,13 @@ private void jCBParmuFixedShiftActionPerformed(java.awt.event.ActionEvent evt) {
             irfparPanelModel.setPartau((String) value);
         }
         if (source == jCBParmuFixed) {
-            irfparPanelModel.setParmufixed((Boolean)value);                        
+            irfparPanelModel.setParmufixed((Boolean) value);
         }
         if (source == jCBParmuFixedShift) {
-            irfparPanelModel.setParmufixed((Boolean)value);
+            irfparPanelModel.setParmufixed((Boolean) value);
         }
         if (source == jCBPartauFixed) {
-            irfparPanelModel.setPartaufixed((Boolean)value);                        
+            irfparPanelModel.setPartaufixed((Boolean) value);
         }
 
         if (source == jTPolyDispersion) {
@@ -1144,12 +890,12 @@ private void jCBParmuFixedShiftActionPerformed(java.awt.event.ActionEvent evt) {
         }
 
         if (source == jTFLaserPeriod) {
-           String newValue = (String) value;
+            String newValue = (String) value;
             if (!newValue.isEmpty()) {
                 irfparPanelModel.setBacksweepPeriod(Double.valueOf((String) value));
             } else {
                 irfparPanelModel.setBacksweepPeriod(null);
-            }       
+            }
         }
 
         if (source == jCBMeasuredIRF) {
@@ -1171,7 +917,7 @@ private void jCBParmuFixedShiftActionPerformed(java.awt.event.ActionEvent evt) {
                 irfparPanelModel.setReftau(Double.valueOf((String) value));
             } else {
                 irfparPanelModel.setReftau(null);
-            }           
+            }
         }
         if (source == jPanel9) { //measured IRF Changed
             StringBuilder result = new StringBuilder(String.valueOf(refArray[0]));

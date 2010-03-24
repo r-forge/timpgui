@@ -36,7 +36,7 @@ public final class ShowTimpDataset extends CookieAction {
 
             }
 
-        //filename = FileUtil.toFile(dataObject.getPrimaryFile()).getAbsolutePath();
+            //filename = FileUtil.toFile(dataObject.getPrimaryFile()).getAbsolutePath();
 //            filename = dataObject.getPrimaryFile().getPath().concat(dataObject. getPrimaryFile().getName());
 //            Confirmation msg = new NotifyDescriptor.Confirmation(filename, NotifyDescriptor.OK_CANCEL_OPTION);
 //                DialogDisplayer.getDefault().notify(msg);

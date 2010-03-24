@@ -1,4 +1,3 @@
-
 package org.glotaran.core.datadisplayers.spec;
 
 import Jama.Matrix;
@@ -67,20 +66,16 @@ import org.openide.windows.CloneableTopComponent;
 import org.openide.windows.TopComponent;
 import org.openide.windows.WindowManager;
 
-
-
 /**
  * Top component which displays something.
  */
-final public class SpecEditorTopCompNew extends CloneableTopComponent 
+final public class SpecEditorTopCompNew extends CloneableTopComponent
         implements ChartChangeListener { //implements ChartMouseListener {
 
     private static SpecEditorTopCompNew instance;
     /** path to the icon used by the component and its open action */
     //    static final String ICON_PATH = "SET/PATH/TO/ICON/HERE";
-
     private static final String PREFERRED_ID = "SpecEditorTopComponent";
-    
     private JFreeChart chartMain;
     private JFreeChart subchartTimeTrace;
     private JFreeChart subchartWaveTrace;
@@ -109,7 +104,7 @@ final public class SpecEditorTopCompNew extends CloneableTopComponent
 //        setIcon(Utilities.loadImage(ICON_PATH, true));
     }
 
-     public SpecEditorTopCompNew(TgdDataObject dataObj) {
+    public SpecEditorTopCompNew(TgdDataObject dataObj) {
         File tgdFile;
         dataObject = dataObj;
         initComponents();
@@ -117,7 +112,7 @@ final public class SpecEditorTopCompNew extends CloneableTopComponent
 
         //try to get the file from local cache
         project = (TGProject) FileOwnerQuery.getOwner(dataObject.getPrimaryFile());
-        if(dataObject.getTgd().getRelativePath()!=null) {
+        if (dataObject.getTgd().getRelativePath() != null) {
             tgdFile = new File(project.getProjectDirectory().getPath() + File.separator + dataObject.getTgd().getRelativePath());
         } else { //try the orginal location
             tgdFile = new File(dataObject.getTgd().getPath());
@@ -148,10 +143,10 @@ final public class SpecEditorTopCompNew extends CloneableTopComponent
         dataObject2 = dataObj;
         data = dataObj.getDatasetTimp();
         setName(data.getDatasetName());
-        setToolTipText(NbBundle.getMessage(SpecEditorTopCompNew.class, "HINT_StreakLoaderTopComponent"));        
+        setToolTipText(NbBundle.getMessage(SpecEditorTopCompNew.class, "HINT_StreakLoaderTopComponent"));
         MakeImageChart(MakeXYZDataset());
         updateFileInfo();
-        
+
     }
 
     public TgdDataObject getDataObject() {
@@ -230,31 +225,9 @@ final public class SpecEditorTopCompNew extends CloneableTopComponent
         javax.swing.GroupLayout jDialog1Layout = new javax.swing.GroupLayout(jDialog1.getContentPane());
         jDialog1.getContentPane().setLayout(jDialog1Layout);
         jDialog1Layout.setHorizontalGroup(
-            jDialog1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jDialog1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jDialog1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel1)
-                    .addGroup(jDialog1Layout.createSequentialGroup()
-                        .addComponent(jButton3)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 123, Short.MAX_VALUE)
-                        .addComponent(jButton4))
-                    .addComponent(inputDatasetName, javax.swing.GroupLayout.DEFAULT_SIZE, 273, Short.MAX_VALUE))
-                .addContainerGap())
-        );
+                jDialog1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(jDialog1Layout.createSequentialGroup().addContainerGap().addGroup(jDialog1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addComponent(jLabel1).addGroup(jDialog1Layout.createSequentialGroup().addComponent(jButton3).addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 123, Short.MAX_VALUE).addComponent(jButton4)).addComponent(inputDatasetName, javax.swing.GroupLayout.DEFAULT_SIZE, 273, Short.MAX_VALUE)).addContainerGap()));
         jDialog1Layout.setVerticalGroup(
-            jDialog1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jDialog1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel1)
-                .addGap(12, 12, 12)
-                .addComponent(inputDatasetName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jDialog1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButton3)
-                    .addComponent(jButton4))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
+                jDialog1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(jDialog1Layout.createSequentialGroup().addContainerGap().addComponent(jLabel1).addGap(12, 12, 12).addComponent(inputDatasetName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE).addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED).addGroup(jDialog1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addComponent(jButton3).addComponent(jButton4)).addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)));
 
         setAutoscrolls(true);
         setPreferredSize(new java.awt.Dimension(800, 600));
@@ -269,6 +242,7 @@ final public class SpecEditorTopCompNew extends CloneableTopComponent
         jTBZoomX.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jTBZoomX.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         jTBZoomX.addActionListener(new java.awt.event.ActionListener() {
+
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTBZoomXActionPerformed(evt);
             }
@@ -280,6 +254,7 @@ final public class SpecEditorTopCompNew extends CloneableTopComponent
         jTBZoomY.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jTBZoomY.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         jTBZoomY.addActionListener(new java.awt.event.ActionListener() {
+
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTBZoomYActionPerformed(evt);
             }
@@ -289,6 +264,7 @@ final public class SpecEditorTopCompNew extends CloneableTopComponent
 
         org.openide.awt.Mnemonics.setLocalizedText(jBAverage, org.openide.util.NbBundle.getMessage(SpecEditorTopCompNew.class, "SpecEditorTopCompNew.jBAverage.text")); // NOI18N
         jBAverage.addActionListener(new java.awt.event.ActionListener() {
+
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jBAverageActionPerformed(evt);
             }
@@ -300,6 +276,7 @@ final public class SpecEditorTopCompNew extends CloneableTopComponent
         jBResample.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jBResample.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         jBResample.addActionListener(new java.awt.event.ActionListener() {
+
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jBResampleActionPerformed(evt);
             }
@@ -309,6 +286,7 @@ final public class SpecEditorTopCompNew extends CloneableTopComponent
 
         org.openide.awt.Mnemonics.setLocalizedText(jBMakeDataset, org.openide.util.NbBundle.getMessage(SpecEditorTopCompNew.class, "SpecEditorTopCompNew.jBMakeDataset.text")); // NOI18N
         jBMakeDataset.addActionListener(new java.awt.event.ActionListener() {
+
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jBMakeDatasetActionPerformed(evt);
             }
@@ -340,6 +318,7 @@ final public class SpecEditorTopCompNew extends CloneableTopComponent
         jSColum.setMinimum(1);
         jSColum.setValue(1);
         jSColum.addChangeListener(new javax.swing.event.ChangeListener() {
+
             public void stateChanged(javax.swing.event.ChangeEvent evt) {
                 jSColumStateChanged(evt);
             }
@@ -350,6 +329,7 @@ final public class SpecEditorTopCompNew extends CloneableTopComponent
         jSRow.setValue(1);
         jSRow.setInverted(true);
         jSRow.addChangeListener(new javax.swing.event.ChangeListener() {
+
             public void stateChanged(javax.swing.event.ChangeEvent evt) {
                 jSRowStateChanged(evt);
             }
@@ -385,6 +365,7 @@ final public class SpecEditorTopCompNew extends CloneableTopComponent
         jButton1.setIconTextGap(2);
         jButton1.setMargin(new java.awt.Insets(2, 2, 2, 2));
         jButton1.addActionListener(new java.awt.event.ActionListener() {
+
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
             }
@@ -399,104 +380,36 @@ final public class SpecEditorTopCompNew extends CloneableTopComponent
         javax.swing.GroupLayout jPanel10Layout = new javax.swing.GroupLayout(jPanel10);
         jPanel10.setLayout(jPanel10Layout);
         jPanel10Layout.setHorizontalGroup(
-            jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel10Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel5)
-                    .addComponent(jLabel7))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jTFMaxIntence, javax.swing.GroupLayout.DEFAULT_SIZE, 135, Short.MAX_VALUE)
-                    .addComponent(jTFMinIntence, javax.swing.GroupLayout.DEFAULT_SIZE, 135, Short.MAX_VALUE))
-                .addGap(18, 18, 18)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
-        );
+                jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(jPanel10Layout.createSequentialGroup().addContainerGap().addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addComponent(jLabel5).addComponent(jLabel7)).addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED).addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addComponent(jTFMaxIntence, javax.swing.GroupLayout.DEFAULT_SIZE, 135, Short.MAX_VALUE).addComponent(jTFMinIntence, javax.swing.GroupLayout.DEFAULT_SIZE, 135, Short.MAX_VALUE)).addGap(18, 18, 18).addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE).addContainerGap()));
         jPanel10Layout.setVerticalGroup(
-            jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel10Layout.createSequentialGroup()
-                .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel10Layout.createSequentialGroup()
-                        .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jTFMinIntence, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel5))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel7)
-                            .addComponent(jTFMaxIntence, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(23, Short.MAX_VALUE))
-        );
+                jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(jPanel10Layout.createSequentialGroup().addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(jPanel10Layout.createSequentialGroup().addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addComponent(jTFMinIntence, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE).addComponent(jLabel5)).addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED).addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE).addComponent(jLabel7).addComponent(jTFMaxIntence, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))).addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)).addContainerGap(23, Short.MAX_VALUE)));
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jSColum, javax.swing.GroupLayout.PREFERRED_SIZE, 371, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(jPXTrace, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jPSpecImage, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 423, Short.MAX_VALUE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jSRow, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jPanel10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jScrollPane3)
-                    .addComponent(jPYTrace, javax.swing.GroupLayout.DEFAULT_SIZE, 277, Short.MAX_VALUE))
-                .addContainerGap(88, Short.MAX_VALUE))
-        );
+                jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(jPanel1Layout.createSequentialGroup().addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addComponent(jSColum, javax.swing.GroupLayout.PREFERRED_SIZE, 371, javax.swing.GroupLayout.PREFERRED_SIZE).addGroup(jPanel1Layout.createSequentialGroup().addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false).addComponent(jPXTrace, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE).addComponent(jPSpecImage, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 423, Short.MAX_VALUE)).addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED).addComponent(jSRow, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))).addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED).addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false).addComponent(jPanel10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE).addComponent(jScrollPane3).addComponent(jPYTrace, javax.swing.GroupLayout.DEFAULT_SIZE, 277, Short.MAX_VALUE)).addContainerGap(88, Short.MAX_VALUE)));
         jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(400, 400, 400)
-                                .addComponent(jSColum, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(jSRow, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jPSpecImage, javax.swing.GroupLayout.DEFAULT_SIZE, 394, Short.MAX_VALUE)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jPXTrace, javax.swing.GroupLayout.PREFERRED_SIZE, 232, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addComponent(jPYTrace, javax.swing.GroupLayout.DEFAULT_SIZE, 394, Short.MAX_VALUE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jPanel10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(218, 218, 218))
-        );
+                jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(jPanel1Layout.createSequentialGroup().addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(jPanel1Layout.createSequentialGroup().addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(jPanel1Layout.createSequentialGroup().addGap(400, 400, 400).addComponent(jSColum, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)).addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false).addComponent(jSRow, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE).addComponent(jPSpecImage, javax.swing.GroupLayout.DEFAULT_SIZE, 394, Short.MAX_VALUE))).addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED).addComponent(jPXTrace, javax.swing.GroupLayout.PREFERRED_SIZE, 232, javax.swing.GroupLayout.PREFERRED_SIZE)).addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup().addComponent(jPYTrace, javax.swing.GroupLayout.DEFAULT_SIZE, 394, Short.MAX_VALUE).addGap(18, 18, 18).addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE).addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED).addComponent(jPanel10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))).addGap(218, 218, 218)));
 
         jScrollPane4.setViewportView(jPanel1);
 
         javax.swing.GroupLayout jPanel11Layout = new javax.swing.GroupLayout(jPanel11);
         jPanel11.setLayout(jPanel11Layout);
         jPanel11Layout.setHorizontalGroup(
-            jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jToolBar1, javax.swing.GroupLayout.DEFAULT_SIZE, 795, Short.MAX_VALUE)
-            .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 795, Short.MAX_VALUE)
-        );
+                jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addComponent(jToolBar1, javax.swing.GroupLayout.DEFAULT_SIZE, 795, Short.MAX_VALUE).addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 795, Short.MAX_VALUE));
         jPanel11Layout.setVerticalGroup(
-            jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel11Layout.createSequentialGroup()
-                .addComponent(jToolBar1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 536, Short.MAX_VALUE))
-        );
+                jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(jPanel11Layout.createSequentialGroup().addComponent(jToolBar1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE).addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED).addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 536, Short.MAX_VALUE)));
 
         jTabbedPane1.addTab(org.openide.util.NbBundle.getMessage(SpecEditorTopCompNew.class, "SpecEditorTopCompNew.jPanel11.TabConstraints.tabTitle"), jPanel11); // NOI18N
 
         jPanel2.addComponentListener(new java.awt.event.ComponentAdapter() {
+
             public void componentShown(java.awt.event.ComponentEvent evt) {
                 jPanel2ComponentShown(evt);
             }
         });
         jPanel2.addFocusListener(new java.awt.event.FocusAdapter() {
+
             public void focusGained(java.awt.event.FocusEvent evt) {
                 jPanel2FocusGained(evt);
             }
@@ -512,6 +425,7 @@ final public class SpecEditorTopCompNew extends CloneableTopComponent
         org.openide.awt.Mnemonics.setLocalizedText(jLabel3, org.openide.util.NbBundle.getMessage(SpecEditorTopCompNew.class, "SpecEditorTopCompNew.jLabel3.text")); // NOI18N
 
         jSnumSV.addChangeListener(new javax.swing.event.ChangeListener() {
+
             public void stateChanged(javax.swing.event.ChangeEvent evt) {
                 jSnumSVStateChanged(evt);
             }
@@ -525,26 +439,9 @@ final public class SpecEditorTopCompNew extends CloneableTopComponent
         javax.swing.GroupLayout jPanel9Layout = new javax.swing.GroupLayout(jPanel9);
         jPanel9.setLayout(jPanel9Layout);
         jPanel9Layout.setHorizontalGroup(
-            jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel9Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel3)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jSnumSV, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jLabel4)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jTFtotalNumSV, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(298, Short.MAX_VALUE))
-        );
+                jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(jPanel9Layout.createSequentialGroup().addContainerGap().addComponent(jLabel3).addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED).addComponent(jSnumSV, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE).addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED).addComponent(jLabel4).addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED).addComponent(jTFtotalNumSV, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE).addContainerGap(298, Short.MAX_VALUE)));
         jPanel9Layout.setVerticalGroup(
-            jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                .addComponent(jSnumSV, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addComponent(jLabel4)
-                .addComponent(jTFtotalNumSV, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addComponent(jLabel3))
-        );
+                jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE).addComponent(jSnumSV, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE).addComponent(jLabel4).addComponent(jTFtotalNumSV, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE).addComponent(jLabel3)));
 
         jPSingValues.setBackground(new java.awt.Color(255, 255, 255));
         jPSingValues.setLayout(new java.awt.BorderLayout());
@@ -563,20 +460,9 @@ final public class SpecEditorTopCompNew extends CloneableTopComponent
         javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
         jPanel8.setLayout(jPanel8Layout);
         jPanel8Layout.setHorizontalGroup(
-            jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel8Layout.createSequentialGroup()
-                .addGap(279, 279, 279)
-                .addComponent(jPSingValues, javax.swing.GroupLayout.PREFERRED_SIZE, 365, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addComponent(jPanel7, javax.swing.GroupLayout.DEFAULT_SIZE, 967, Short.MAX_VALUE)
-        );
+                jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(jPanel8Layout.createSequentialGroup().addGap(279, 279, 279).addComponent(jPSingValues, javax.swing.GroupLayout.PREFERRED_SIZE, 365, javax.swing.GroupLayout.PREFERRED_SIZE)).addComponent(jPanel7, javax.swing.GroupLayout.DEFAULT_SIZE, 967, Short.MAX_VALUE));
         jPanel8Layout.setVerticalGroup(
-            jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel8Layout.createSequentialGroup()
-                .addComponent(jPSingValues, javax.swing.GroupLayout.PREFERRED_SIZE, 268, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, 268, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
-        );
+                jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(jPanel8Layout.createSequentialGroup().addComponent(jPSingValues, javax.swing.GroupLayout.PREFERRED_SIZE, 268, javax.swing.GroupLayout.PREFERRED_SIZE).addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED).addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, 268, javax.swing.GroupLayout.PREFERRED_SIZE).addContainerGap()));
 
         jLabel2.setFont(new java.awt.Font("Dialog", 1, 18));
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -586,54 +472,27 @@ final public class SpecEditorTopCompNew extends CloneableTopComponent
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jPanel9, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, 967, Short.MAX_VALUE)
-                    .addComponent(jPanel8, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(1062, 1062, 1062))
-        );
+                jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(jPanel3Layout.createSequentialGroup().addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING).addComponent(jPanel9, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE).addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, 967, Short.MAX_VALUE).addComponent(jPanel8, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)).addGap(1062, 1062, 1062)));
         jPanel3Layout.setVerticalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addComponent(jLabel2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, 537, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(100, Short.MAX_VALUE))
-        );
+                jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(jPanel3Layout.createSequentialGroup().addComponent(jLabel2).addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED).addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE).addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED).addComponent(jPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, 537, javax.swing.GroupLayout.PREFERRED_SIZE).addContainerGap(100, Short.MAX_VALUE)));
 
         jScrollPane1.setViewportView(jPanel3);
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jToolBar2, javax.swing.GroupLayout.DEFAULT_SIZE, 795, Short.MAX_VALUE)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 795, Short.MAX_VALUE)
-        );
+                jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addComponent(jToolBar2, javax.swing.GroupLayout.DEFAULT_SIZE, 795, Short.MAX_VALUE).addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 795, Short.MAX_VALUE));
         jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addComponent(jToolBar2, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 542, Short.MAX_VALUE))
-        );
+                jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(jPanel2Layout.createSequentialGroup().addComponent(jToolBar2, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE).addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED).addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 542, Short.MAX_VALUE)));
 
         jTabbedPane1.addTab(org.openide.util.NbBundle.getMessage(SpecEditorTopCompNew.class, "SpecEditorTopCompNew.jPanel2.TabConstraints.tabTitle_1"), jPanel2); // NOI18N
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 800, Short.MAX_VALUE)
-        );
+                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 800, Short.MAX_VALUE));
         layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 600, Short.MAX_VALUE)
-        );
+                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 600, Short.MAX_VALUE));
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
@@ -644,33 +503,33 @@ final public class SpecEditorTopCompNew extends CloneableTopComponent
             PaintScale ps = new RainbowPaintScale(newMinAmpl, newMaxAmpl);
 
             BufferedImage image = ImageUtilities.createColorCodedImage(this.dataset, ps);
-            XYDataImageAnnotation ann = new XYDataImageAnnotation(image, 0,0,
+            XYDataImageAnnotation ann = new XYDataImageAnnotation(image, 0, 0,
                     dataset.GetImageWidth(), dataset.GetImageHeigth(), true);
 
             XYPlot plot = (XYPlot) chartMain.getPlot();
             plot.getRenderer().removeAnnotations();
             plot.getRenderer().addAnnotation(ann, Layer.BACKGROUND);
 
-        }catch(NumberFormatException ex) {
-            NotifyDescriptor errorMessage =new NotifyDescriptor.Exception(
+        } catch (NumberFormatException ex) {
+            NotifyDescriptor errorMessage = new NotifyDescriptor.Exception(
                     new Exception(NbBundle.getBundle("org/glotaran/core/main/Bundle").getString("set_correct_chanNum")));
             DialogDisplayer.getDefault().notify(errorMessage);
         }
-}//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jSRowStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jSRowStateChanged
-        crosshair2.setValue(dataset.GetImageHeigth()-jSRow.getValue());
+        crosshair2.setValue(dataset.GetImageHeigth() - jSRow.getValue());
         int xIndex = jSRow.getValue();
         XYDataset d = ImageUtilities.extractRowFromImageDataset(dataset, xIndex, "Spec");
         subchartWaveTrace.getXYPlot().setDataset(d);
-}//GEN-LAST:event_jSRowStateChanged
+    }//GEN-LAST:event_jSRowStateChanged
 
     private void jSColumStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jSColumStateChanged
         crosshair1.setValue(jSColum.getValue());
         int xIndex = jSColum.getValue();
         XYDataset d = ImageUtilities.extractColumnFromImageDataset(dataset, xIndex, "Spec");
         subchartTimeTrace.getXYPlot().setDataset(d);
-}//GEN-LAST:event_jSColumStateChanged
+    }//GEN-LAST:event_jSColumStateChanged
 
     private void jBMakeDatasetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBMakeDatasetActionPerformed
 
@@ -682,37 +541,37 @@ final public class SpecEditorTopCompNew extends CloneableTopComponent
                 NbBundle.getBundle("org/glotaran/core/datadisplayers/Bundle").getString("spec_datasetname"));
         Object res = DialogDisplayer.getDefault().notify(datasetNameDialog);
 
-        if (res.equals(NotifyDescriptor.OK_OPTION)){
+        if (res.equals(NotifyDescriptor.OK_OPTION)) {
             DatasetTimp newdataset = new DatasetTimp(); //data;
             newdataset.setDatasetName(datasetNameDialog.getInputText());
             newdataset.setType("spec");
-            startX = (int)(this.lastXRange.getLowerBound());
-            endX = (int)(this.lastXRange.getUpperBound())-1;
-            startY = (int)(this.wholeYRange.getUpperBound() - this.lastYRange.getUpperBound());
-            endY = (int)(this.wholeYRange.getUpperBound() - this.lastYRange.getLowerBound())-1;
-            newWidth = endX - startX+1;
-            newHeight = endY - startY+1;
+            startX = (int) (this.lastXRange.getLowerBound());
+            endX = (int) (this.lastXRange.getUpperBound()) - 1;
+            startY = (int) (this.wholeYRange.getUpperBound() - this.lastYRange.getUpperBound());
+            endY = (int) (this.wholeYRange.getUpperBound() - this.lastYRange.getLowerBound()) - 1;
+            newWidth = endX - startX + 1;
+            newHeight = endY - startY + 1;
 
             double[] newvec = new double[newWidth];
 
-            for (int i = 0; i<newWidth; i++){
-                newvec[i]=data.getX2()[i+startX];
+            for (int i = 0; i < newWidth; i++) {
+                newvec[i] = data.getX2()[i + startX];
             }
             newdataset.setX2(newvec);
             newdataset.setNl(newWidth);
 
             newvec = new double[newHeight];
-            for (int i = 0; i<newHeight; i++){
-                newvec[i]=data.getX()[i+startY];
+            for (int i = 0; i < newHeight; i++) {
+                newvec[i] = data.getX()[i + startY];
             }
             newdataset.setX(newvec);
             newdataset.setNt(newHeight);
 
-            newvec = new double[newHeight*newWidth];
+            newvec = new double[newHeight * newWidth];
 
-            for (int i = 0; i < newWidth; i++){
-                for (int j = 0; j < newHeight; j++){
-                    newvec[(i)*newHeight+j] = data.getPsisim()[(startX+i)*data.getNt()+startY+j];
+            for (int i = 0; i < newWidth; i++) {
+                for (int j = 0; j < newHeight; j++) {
+                    newvec[(i) * newHeight + j] = data.getPsisim()[(startX + i) * data.getNt() + startY + j];
                 }
             }
             newdataset.setPsisim(newvec);
@@ -720,14 +579,14 @@ final public class SpecEditorTopCompNew extends CloneableTopComponent
 
             FileObject cachefolder = null;
 
-            if(dataObject!=null) {
+            if (dataObject != null) {
                 project = (TGProject) FileOwnerQuery.getOwner(dataObject.getPrimaryFile());
-            } else if (dataObject2!=null) {
+            } else if (dataObject2 != null) {
                 project = (TGProject) FileOwnerQuery.getOwner(dataObject2.getPrimaryFile());
             }
-            if (project!=null){
+            if (project != null) {
                 cachefolder = project.getCacheFolder(true);
-                if ((dataObject==null)&&(dataObject2!=null)){
+                if ((dataObject == null) && (dataObject2 != null)) {
                     cachefolder = dataObject2.getFolder().getPrimaryFile();
                 } else {
                     cachefolder = cachefolder.getFileObject(dataObject.getTgd().getCacheFolderName().toString());
@@ -740,7 +599,7 @@ final public class SpecEditorTopCompNew extends CloneableTopComponent
                     stream.close();
                     TimpDatasetDataObject dObj = (TimpDatasetDataObject) DataObject.find(writeTo);
                     TgdDataChildren chidrens;
-                    if ((dataObject==null)&&(dataObject2!=null)){
+                    if ((dataObject == null) && (dataObject2 != null)) {
                         chidrens = (TgdDataChildren) dataObject2.getNodeDelegate().getParentNode().getChildren();
                     } else {
                         chidrens = (TgdDataChildren) dataObject.getNodeDelegate().getChildren();
@@ -751,7 +610,7 @@ final public class SpecEditorTopCompNew extends CloneableTopComponent
                 }
 
             } else {
-                NotifyDescriptor errorMessage =new NotifyDescriptor.Exception(
+                NotifyDescriptor errorMessage = new NotifyDescriptor.Exception(
                         new Exception(NbBundle.getBundle("org/glotaran/core/main/Bundle").getString("selMainProj")));
                 DialogDisplayer.getDefault().notify(errorMessage);
             }
@@ -778,27 +637,29 @@ final public class SpecEditorTopCompNew extends CloneableTopComponent
         findataset.setNl(data.getNl());
         findataset.setNt(data.getNt());
 
-        if (DialogDisplayer.getDefault().notify(resampleDatasetDialod).equals(NotifyDescriptor.OK_OPTION)){
+        if (DialogDisplayer.getDefault().notify(resampleDatasetDialod).equals(NotifyDescriptor.OK_OPTION)) {
             DatasetTimp newdataset = new DatasetTimp(); //data;
-            if (resamplePanel.getResampleXState()){
+            if (resamplePanel.getResampleXState()) {
                 //resample x dimention
                 int num = resamplePanel.getResampleXNum();
                 int imwidth = findataset.getNl();
-                int imheight =findataset.getNt();
-                int w = findataset.getNl()/num;
+                int imheight = findataset.getNt();
+                int w = findataset.getNl() / num;
 
-                double[] temp = new double[num*imheight];
+                double[] temp = new double[num * imheight];
 
-                for (int i=0; i<imheight; i++){
-                    for (int j=0; j<num; j++)
-                        temp[i+j*imheight]=findataset.getPsisim()[i+(j*w)*imheight];
+                for (int i = 0; i < imheight; i++) {
+                    for (int j = 0; j < num; j++) {
+                        temp[i + j * imheight] = findataset.getPsisim()[i + (j * w) * imheight];
+                    }
                 }
 
                 newdataset.setPsisim(temp);
                 temp = new double[num];
 
-                for (int j=0; j<num; j++)
-                    temp[j]=findataset.getX2()[j*w];
+                for (int j = 0; j < num; j++) {
+                    temp[j] = findataset.getX2()[j * w];
+                }
 
                 newdataset.setX2(temp);
                 newdataset.setNl(num);
@@ -809,25 +670,27 @@ final public class SpecEditorTopCompNew extends CloneableTopComponent
                 findataset = newdataset;
             }
 
-            if (resamplePanel.getResampleYState()){
+            if (resamplePanel.getResampleYState()) {
                 //resample y dimention
                 newdataset = new DatasetTimp(); //data;
                 int num = resamplePanel.getResampleYNum();
                 int imwidth = findataset.getNl();
-                int imheight =findataset.getNt();
-                int w = findataset.getNt()/num;
+                int imheight = findataset.getNt();
+                int w = findataset.getNt() / num;
 
-                double[] temp = new double[num*imwidth];
-                for (int i = 0; i < imwidth; i++){
-                    for (int j = 0; j < num; j++)
-                        temp[i*num+j]=findataset.getPsisim()[i*imheight+j*w];
+                double[] temp = new double[num * imwidth];
+                for (int i = 0; i < imwidth; i++) {
+                    for (int j = 0; j < num; j++) {
+                        temp[i * num + j] = findataset.getPsisim()[i * imheight + j * w];
+                    }
                 }
 
                 newdataset.setPsisim(temp);
                 temp = new double[num];
 
-                for (int j=0; j<num; j++)
-                    temp[j]=findataset.getX()[j*w];
+                for (int j = 0; j < num; j++) {
+                    temp[j] = findataset.getX()[j * w];
+                }
 
                 newdataset.setX(temp);
                 newdataset.setNt(num);
@@ -839,23 +702,23 @@ final public class SpecEditorTopCompNew extends CloneableTopComponent
 
             }
 
-            if (resamplePanel.getNewDatasetState()){
+            if (resamplePanel.getNewDatasetState()) {
                 NotifyDescriptor.InputLine datasetNameDialod = new NotifyDescriptor.InputLine(
                         NbBundle.getBundle("org/glotaran/core/datadisplayers/Bundle").getString("dataset_name"),
                         NbBundle.getBundle("org/glotaran/core/datadisplayers/Bundle").getString("spec_datasetname"));
-                if (DialogDisplayer.getDefault().notify(datasetNameDialod).equals(NotifyDescriptor.OK_OPTION)){
+                if (DialogDisplayer.getDefault().notify(datasetNameDialod).equals(NotifyDescriptor.OK_OPTION)) {
                     findataset.setDatasetName(datasetNameDialod.getInputText());
                     FileObject cachefolder = null;
 
                     final TGProject proj = (TGProject) FileOwnerQuery.getOwner(dataObject.getPrimaryFile());
-                    if (proj!=null){
+                    if (proj != null) {
                         cachefolder = proj.getCacheFolder(true);
                     } else {
-                        NotifyDescriptor errorMessage =new NotifyDescriptor.Exception(
+                        NotifyDescriptor errorMessage = new NotifyDescriptor.Exception(
                                 new Exception(NbBundle.getBundle("org/glotaran/core/main/Bundle").getString("selMainProj")));
                         DialogDisplayer.getDefault().notify(errorMessage);
                     }
-                    if ((dataObject==null)&&(dataObject2!=null)){
+                    if ((dataObject == null) && (dataObject2 != null)) {
                         cachefolder = dataObject2.getFolder().getPrimaryFile();
                     } else {
                         cachefolder = cachefolder.getFileObject(dataObject.getTgd().getCacheFolderName().toString());
@@ -869,7 +732,7 @@ final public class SpecEditorTopCompNew extends CloneableTopComponent
                         stream.close();
                         TgdDataChildren chidrens;
                         TimpDatasetDataObject dObj = (TimpDatasetDataObject) DataObject.find(writeTo);
-                        if ((dataObject==null)&&(dataObject2!=null)){
+                        if ((dataObject == null) && (dataObject2 != null)) {
                             chidrens = (TgdDataChildren) dataObject2.getNodeDelegate().getParentNode().getChildren();
                         } else {
                             chidrens = (TgdDataChildren) dataObject.getNodeDelegate().getChildren();
@@ -880,14 +743,14 @@ final public class SpecEditorTopCompNew extends CloneableTopComponent
                     }
                 }
             } else {
-                data=findataset;
+                data = findataset;
                 data.calcRangeInt();
                 MakeImageChart(MakeXYZDataset());
                 updateFileInfo();
             }
             this.repaint();
         }
-}//GEN-LAST:event_jBResampleActionPerformed
+    }//GEN-LAST:event_jBResampleActionPerformed
 
     private void jBAverageActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBAverageActionPerformed
 
@@ -909,54 +772,55 @@ final public class SpecEditorTopCompNew extends CloneableTopComponent
         findataset.setNl(data.getNl());
         findataset.setNt(data.getNt());
 
-        if (DialogDisplayer.getDefault().notify(resampleDatasetDialod).equals(NotifyDescriptor.OK_OPTION)){
+        if (DialogDisplayer.getDefault().notify(resampleDatasetDialod).equals(NotifyDescriptor.OK_OPTION)) {
             DatasetTimp newdataset = new DatasetTimp(); //data;
-            if (averagePanel.getAverageXState()){
+            if (averagePanel.getAverageXState()) {
                 //resample x dimention
                 int num = averagePanel.getAverageXNum();
                 double sum;
                 int imwidth = findataset.getNl();
-                int imheight =findataset.getNt();
-                int w = findataset.getNl()/num;
+                int imheight = findataset.getNt();
+                int w = findataset.getNl() / num;
 
-                double[] temp = new double[num*imheight];
-                int count=0;
+                double[] temp = new double[num * imheight];
+                int count = 0;
 
-                for (int i=0; i<imheight; i++){
-                    for (int j=0; j<num-1; j++){
-                        sum=0;
-                        for (int k=0; k<w; k++)
-                            sum+=findataset.getPsisim()[i+(j*w+k)*imheight];
-                        temp[i+j*imheight]=sum/w;
+                for (int i = 0; i < imheight; i++) {
+                    for (int j = 0; j < num - 1; j++) {
+                        sum = 0;
+                        for (int k = 0; k < w; k++) {
+                            sum += findataset.getPsisim()[i + (j * w + k) * imheight];
+                        }
+                        temp[i + j * imheight] = sum / w;
                     }
 
-                    sum=0;
-                    count=0;
-                    for (int k=i+((num-1)*w)*imheight; k<i+(imwidth-1)*imheight; k=k+imheight){
-                        sum+=findataset.getPsisim()[k];
+                    sum = 0;
+                    count = 0;
+                    for (int k = i + ((num - 1) * w) * imheight; k < i + (imwidth - 1) * imheight; k = k + imheight) {
+                        sum += findataset.getPsisim()[k];
                         count++;
                     }
-                    temp[i+(num-1)*imheight]=sum/count;
+                    temp[i + (num - 1) * imheight] = sum / count;
                 }
 
                 newdataset.setPsisim(temp);
 
                 temp = new double[num];
 
-                for (int j=0; j<num-1; j++){
-                    sum=0;
-                    for (int k=j*w; k<(j+1)*w; k++){
-                        sum+=findataset.getX2()[k];
+                for (int j = 0; j < num - 1; j++) {
+                    sum = 0;
+                    for (int k = j * w; k < (j + 1) * w; k++) {
+                        sum += findataset.getX2()[k];
                     }
-                    temp[j]=sum/w;
+                    temp[j] = sum / w;
                 }
-                sum=0;
-                count=0;
-                for (int k=(num-1)*w; k<imwidth; k++){
-                    sum+=findataset.getX2()[k];
+                sum = 0;
+                count = 0;
+                for (int k = (num - 1) * w; k < imwidth; k++) {
+                    sum += findataset.getX2()[k];
                     count++;
                 }
-                temp[num-1]=sum/count;
+                temp[num - 1] = sum / count;
                 newdataset.setX2(temp);
                 newdataset.setNl(num);
                 newdataset.setNt(findataset.getNt());
@@ -966,53 +830,54 @@ final public class SpecEditorTopCompNew extends CloneableTopComponent
                 findataset = newdataset;
             }
 
-            if (averagePanel.getAverageYState()){
+            if (averagePanel.getAverageYState()) {
                 //resample y dimention
                 newdataset = new DatasetTimp(); //data;
                 int num = averagePanel.getAverageYNum();
                 double sum;
                 int imwidth = findataset.getNl();
-                int imheight =findataset.getNt();
-                int w = findataset.getNt()/num;
+                int imheight = findataset.getNt();
+                int w = findataset.getNt() / num;
 
-                double[] temp = new double[num*imwidth];
-                int count=0;
+                double[] temp = new double[num * imwidth];
+                int count = 0;
 
-                for (int i = 0; i < imwidth; i++){
-                    for (int j = 0; j < num-1; j++){
-                        sum=0;
-                        for (int k=0; k<w; k++)
-                            sum+=findataset.getPsisim()[i*imheight+j*w+k];
-                        temp[i*num+j]=sum/w;
+                for (int i = 0; i < imwidth; i++) {
+                    for (int j = 0; j < num - 1; j++) {
+                        sum = 0;
+                        for (int k = 0; k < w; k++) {
+                            sum += findataset.getPsisim()[i * imheight + j * w + k];
+                        }
+                        temp[i * num + j] = sum / w;
                     }
 
-                    sum=0;
-                    count=0;
-                    for (int k = i*imheight+(num-1)*w; k<(i+1)*imheight; k++){
-                        sum+=findataset.getPsisim()[k];
+                    sum = 0;
+                    count = 0;
+                    for (int k = i * imheight + (num - 1) * w; k < (i + 1) * imheight; k++) {
+                        sum += findataset.getPsisim()[k];
                         count++;
                     }
-                    temp[(i+1)*num-1]=sum/count;
+                    temp[(i + 1) * num - 1] = sum / count;
                 }
 
                 newdataset.setPsisim(temp);
 
                 temp = new double[num];
 
-                for (int j=0; j<num-1; j++){
-                    sum=0;
-                    for (int k=j*w; k<(j+1)*w; k++){
-                        sum+=findataset.getX()[k];
+                for (int j = 0; j < num - 1; j++) {
+                    sum = 0;
+                    for (int k = j * w; k < (j + 1) * w; k++) {
+                        sum += findataset.getX()[k];
                     }
-                    temp[j]=sum/w;
+                    temp[j] = sum / w;
                 }
-                sum=0;
-                count=0;
-                for (int k=(num-1)*w; k<imheight; k++){
-                    sum+=findataset.getX()[k];
+                sum = 0;
+                count = 0;
+                for (int k = (num - 1) * w; k < imheight; k++) {
+                    sum += findataset.getX()[k];
                     count++;
                 }
-                temp[num-1]=sum/count;
+                temp[num - 1] = sum / count;
 
                 newdataset.setX(temp);
                 newdataset.setNt(num);
@@ -1024,22 +889,22 @@ final public class SpecEditorTopCompNew extends CloneableTopComponent
 
             }
 
-            if (averagePanel.getNewDatasetState()){
+            if (averagePanel.getNewDatasetState()) {
                 NotifyDescriptor.InputLine datasetNameDialod = new NotifyDescriptor.InputLine(
                         NbBundle.getBundle("org/glotaran/core/datadisplayers/Bundle").getString("dataset_name"),
                         NbBundle.getBundle("org/glotaran/core/datadisplayers/Bundle").getString("spec_datasetname"));
-                if (DialogDisplayer.getDefault().notify(datasetNameDialod).equals(NotifyDescriptor.OK_OPTION)){
+                if (DialogDisplayer.getDefault().notify(datasetNameDialod).equals(NotifyDescriptor.OK_OPTION)) {
                     findataset.setDatasetName(datasetNameDialod.getInputText());
                     FileObject cachefolder = null;
                     final TGProject proj = (TGProject) FileOwnerQuery.getOwner(dataObject.getPrimaryFile());
-                    if (proj!=null){
+                    if (proj != null) {
                         cachefolder = proj.getCacheFolder(true);
                     } else {
-                        NotifyDescriptor errorMessage =new NotifyDescriptor.Exception(
+                        NotifyDescriptor errorMessage = new NotifyDescriptor.Exception(
                                 new Exception(NbBundle.getBundle("org/glotaran/core/main/Bundle").getString("selMainProj")));
                         DialogDisplayer.getDefault().notify(errorMessage);
                     }
-                    if ((dataObject==null)&&(dataObject2!=null)){
+                    if ((dataObject == null) && (dataObject2 != null)) {
                         cachefolder = dataObject2.getFolder().getPrimaryFile();
                     } else {
                         cachefolder = cachefolder.getFileObject(dataObject.getTgd().getCacheFolderName().toString());
@@ -1053,7 +918,7 @@ final public class SpecEditorTopCompNew extends CloneableTopComponent
                         stream.close();
                         TgdDataChildren chidrens;
                         TimpDatasetDataObject dObj = (TimpDatasetDataObject) DataObject.find(writeTo);
-                        if ((dataObject==null)&&(dataObject2!=null)){
+                        if ((dataObject == null) && (dataObject2 != null)) {
                             chidrens = (TgdDataChildren) dataObject2.getNodeDelegate().getParentNode().getChildren();
                         } else {
                             chidrens = (TgdDataChildren) dataObject.getNodeDelegate().getChildren();
@@ -1064,45 +929,45 @@ final public class SpecEditorTopCompNew extends CloneableTopComponent
                     }
                 }
             } else {
-                data=findataset;
+                data = findataset;
                 MakeImageChart(MakeXYZDataset());
                 updateFileInfo();
             }
             this.repaint();
         }
-}//GEN-LAST:event_jBAverageActionPerformed
+    }//GEN-LAST:event_jBAverageActionPerformed
 
     private void jTBZoomYActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTBZoomYActionPerformed
         jTBZoomX.setSelected(false);
-        if (jTBZoomY.isSelected()){
+        if (jTBZoomY.isSelected()) {
             chpanImage.setDomainZoomable(false);
             chpanImage.setRangeZoomable(true);
         } else {
             chpanImage.setDomainZoomable(true);
             chpanImage.setRangeZoomable(true);
         }
-}//GEN-LAST:event_jTBZoomYActionPerformed
+    }//GEN-LAST:event_jTBZoomYActionPerformed
 
     private void jTBZoomXActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTBZoomXActionPerformed
         jTBZoomY.setSelected(false);
-        if (jTBZoomX.isSelected()){
+        if (jTBZoomX.isSelected()) {
             chpanImage.setDomainZoomable(true);
             chpanImage.setRangeZoomable(false);
         } else {
             chpanImage.setDomainZoomable(true);
             chpanImage.setRangeZoomable(true);
         }
-}//GEN-LAST:event_jTBZoomXActionPerformed
+    }//GEN-LAST:event_jTBZoomXActionPerformed
 
     private void jSnumSVStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jSnumSVStateChanged
 
-        double n = (Double)jSnumSV.getModel().getValue();
+        double n = (Double) jSnumSV.getModel().getValue();
 
         //creare collection with first 2 LSV
         XYSeriesCollection lSVCollection = new XYSeriesCollection();
         XYSeries seria;
-        for (int j =0; j < n; j++){
-            seria = new XYSeries("LSV1"+j+1);
+        for (int j = 0; j < n; j++) {
+            seria = new XYSeries("LSV1" + j + 1);
             for (int i = 0; i < data.getX().length; i++) {
                 seria.add(data.getX()[i], svdResult.get(1).get(i, j));
             }
@@ -1127,18 +992,16 @@ final public class SpecEditorTopCompNew extends CloneableTopComponent
     }//GEN-LAST:event_jPanel2FocusGained
 
     private void jPanel2ComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_jPanel2ComponentShown
-        if (svdResult==null) {
+        if (svdResult == null) {
             try {
-            TopComponent.getRegistry().getActivated().setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-            calculateSVD();
-            jPanel2.revalidate();
+                TopComponent.getRegistry().getActivated().setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+                calculateSVD();
+                jPanel2.revalidate();
             } finally {
-            TopComponent.getRegistry().getActivated().setCursor(Cursor.getDefaultCursor());
+                TopComponent.getRegistry().getActivated().setCursor(Cursor.getDefaultCursor());
             }
         }
     }//GEN-LAST:event_jPanel2ComponentShown
-
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField inputDatasetName;
     private javax.swing.JButton jBAverage;
@@ -1189,6 +1052,7 @@ final public class SpecEditorTopCompNew extends CloneableTopComponent
     private javax.swing.JToolBar jToolBar1;
     private javax.swing.JToolBar jToolBar2;
     // End of variables declaration//GEN-END:variables
+
     /**
      * Gets default instance. Do not use directly: reserved for *.settings files only,
      * i.e. deserialization routines; otherwise you could get a non-deserialized instance.
@@ -1204,7 +1068,6 @@ final public class SpecEditorTopCompNew extends CloneableTopComponent
     /**
      * Obtain the StreakLoaderTopComponent instance. Never call {@link #getDefault} directly!
      */
-
     public static synchronized SpecEditorTopCompNew findInstance() {
         TopComponent win = WindowManager.getDefault().findTopComponent(PREFERRED_ID);
         if (win == null) {
@@ -1216,8 +1079,8 @@ final public class SpecEditorTopCompNew extends CloneableTopComponent
             return (SpecEditorTopCompNew) win;
         }
         Logger.getLogger(SpecEditorTopCompNew.class.getName()).warning(
-                "There seem to be multiple components with the '" + PREFERRED_ID +
-                "' ID. That is a potential source of errors and unexpected behavior.");
+                "There seem to be multiple components with the '" + PREFERRED_ID
+                + "' ID. That is a potential source of errors and unexpected behavior.");
         return getDefault();
     }
 
@@ -1228,12 +1091,10 @@ final public class SpecEditorTopCompNew extends CloneableTopComponent
 
     @Override
     public void componentOpened() {
-     
     }
 
     @Override
     public void componentClosed() {
-        
     }
 
     /** replaces this in object stream */
@@ -1370,15 +1231,14 @@ final public class SpecEditorTopCompNew extends CloneableTopComponent
             return SpecEditorTopCompNew.getDefault();
         }
     }
-    
-    
-    private ColorCodedImageDataset MakeXYZDataset(){
-        dataset = new ColorCodedImageDataset(data.getNl(),data.getNt(),
+
+    private ColorCodedImageDataset MakeXYZDataset() {
+        dataset = new ColorCodedImageDataset(data.getNl(), data.getNt(),
                 data.getPsisim(), data.getX2(), data.getX(), true);
         return dataset;
     }
 
-   public void chartChanged(ChartChangeEvent event) {
+    public void chartChanged(ChartChangeEvent event) {
         XYPlot plot = this.chartMain.getXYPlot();
         double lowBound = plot.getDomainAxis().getRange().getLowerBound();
         double upBound = plot.getDomainAxis().getRange().getUpperBound();
@@ -1387,28 +1247,28 @@ final public class SpecEditorTopCompNew extends CloneableTopComponent
 
         if (lowBound < wholeXRange.getLowerBound()) {
             lowBound = wholeXRange.getLowerBound();
-            recreate = true;            
+            recreate = true;
         }
         if (upBound > wholeXRange.getUpperBound()) {
             upBound = wholeXRange.getUpperBound();
-            recreate = true;                        
+            recreate = true;
         }
-        if (recreate){
+        if (recreate) {
             plot.getDomainAxis().setRange(new Range(lowBound, upBound));
 //            this.chartMain.getPlot().getDomainAxis().setRange(new Range(lowBound, upBound));
         }
-        recreate = false;   
+        recreate = false;
         lowBound = plot.getRangeAxis().getRange().getLowerBound();
         upBound = plot.getRangeAxis().getRange().getUpperBound();
         if (lowBound < wholeYRange.getLowerBound()) {
             lowBound = wholeYRange.getLowerBound();
-            recreate = true;            
+            recreate = true;
         }
         if (upBound > wholeYRange.getUpperBound()) {
             upBound = wholeYRange.getUpperBound();
-            recreate = true;                        
+            recreate = true;
         }
-        if (recreate){
+        if (recreate) {
             plot.getRangeAxis().setRange(new Range(lowBound, upBound));
 //            this.chartMain.getPlot().getDomainAxis().setRange(new Range(lowBound, upBound));
         }
@@ -1416,20 +1276,20 @@ final public class SpecEditorTopCompNew extends CloneableTopComponent
         if (!plot.getDomainAxis().getRange().equals(this.lastXRange)) {
             this.lastXRange = plot.getDomainAxis().getRange();
             XYPlot plot2 = (XYPlot) this.subchartWaveTrace.getPlot();
-            lowInd = (int)(this.lastXRange.getLowerBound());
-            upInd = (int)(this.lastXRange.getUpperBound()-1);
+            lowInd = (int) (this.lastXRange.getLowerBound());
+            upInd = (int) (this.lastXRange.getUpperBound() - 1);
 //            plot2.getDomainAxis().setRange(new Range(data.getX2()[lowInd],data.getX2()[upInd]));
             jSColum.setMinimum(lowInd);
             jSColum.setMaximum(upInd);
 
         }
 
-         if (!plot.getRangeAxis().getRange().equals(this.lastYRange)) {
+        if (!plot.getRangeAxis().getRange().equals(this.lastYRange)) {
             this.lastYRange = plot.getRangeAxis().getRange();
             XYPlot plot1 = (XYPlot) this.subchartTimeTrace.getPlot();
-            lowInd = (int)(this.wholeYRange.getUpperBound() - this.lastYRange.getUpperBound());
-            upInd = (int)(this.wholeYRange.getUpperBound() - this.lastYRange.getLowerBound()-1);
-            plot1.getDomainAxis().setRange(new Range(data.getX()[lowInd],data.getX()[upInd]));
+            lowInd = (int) (this.wholeYRange.getUpperBound() - this.lastYRange.getUpperBound());
+            upInd = (int) (this.wholeYRange.getUpperBound() - this.lastYRange.getLowerBound() - 1);
+            plot1.getDomainAxis().setRange(new Range(data.getX()[lowInd], data.getX()[upInd]));
             jSRow.setMinimum(lowInd);
             jSRow.setMaximum(upInd);
         }
@@ -1443,7 +1303,7 @@ final public class SpecEditorTopCompNew extends CloneableTopComponent
         PaintScale ps = new RainbowPaintScale(data.getMinInt(), data.getMaxInt());
         BufferedImage image = ImageUtilities.createColorCodedImage(this.dataset, ps);
 
-        XYDataImageAnnotation ann = new XYDataImageAnnotation(image, 0,0, 
+        XYDataImageAnnotation ann = new XYDataImageAnnotation(image, 0, 0,
                 dataset.GetImageWidth(), dataset.GetImageHeigth(), true);
         XYPlot plot = (XYPlot) chart_temp.getPlot();
         plot.setDomainPannable(true);
@@ -1461,13 +1321,13 @@ final public class SpecEditorTopCompNew extends CloneableTopComponent
         yAxis.setVisible(false);
         return chart_temp;
     }
-    
-    private void MakeImageChart(ColorCodedImageDataset dataset){
+
+    private void MakeImageChart(ColorCodedImageDataset dataset) {
         PaintScale ps = new RainbowPaintScale(data.getMinInt(), data.getMaxInt());
         this.chartMain = createChart(new XYSeriesCollection());
         this.chartMain.setBackgroundPaint(JFreeChart.DEFAULT_BACKGROUND_PAINT);
         this.chartMain.addChangeListener(this);
-        XYPlot tempPlot = (XYPlot)this.chartMain.getPlot();
+        XYPlot tempPlot = (XYPlot) this.chartMain.getPlot();
         this.wholeXRange = tempPlot.getDomainAxis().getRange();
         this.wholeYRange = tempPlot.getRangeAxis().getRange();
         chpanImage = new ChartPanel(chartMain);
@@ -1478,15 +1338,15 @@ final public class SpecEditorTopCompNew extends CloneableTopComponent
 //        chpanImage.setSize(jPSpecImage.getMaximumSize());
         jPSpecImage.setLayout(new BorderLayout());
 
-        ImageCrosshairLabelGenerator crossLabGen1 = new ImageCrosshairLabelGenerator(data.getX2(),false);
-        ImageCrosshairLabelGenerator crossLabGen2 = new ImageCrosshairLabelGenerator(data.getX(),true);
+        ImageCrosshairLabelGenerator crossLabGen1 = new ImageCrosshairLabelGenerator(data.getX2(), false);
+        ImageCrosshairLabelGenerator crossLabGen2 = new ImageCrosshairLabelGenerator(data.getX(), true);
 
         CrosshairOverlay overlay = new CrosshairOverlay();
         crosshair1 = new Crosshair(0.0);
         crosshair1.setPaint(Color.red);
         crosshair2 = new Crosshair(data.getNt());
         crosshair2.setPaint(Color.GRAY);
-        
+
         overlay.addDomainCrosshair(crosshair1);
         overlay.addRangeCrosshair(crosshair2);
 
@@ -1504,16 +1364,15 @@ final public class SpecEditorTopCompNew extends CloneableTopComponent
 
         XYSeriesCollection dataset1 = new XYSeriesCollection();
         subchartTimeTrace = ChartFactory.createXYLineChart(
-            null,
-            null,
-            null,
-            dataset1,
-            PlotOrientation.HORIZONTAL,
-            false,
-            false,
-            false
-        );
-        subchartTimeTrace.getXYPlot().getDomainAxis().setUpperBound(data.getX()[data.getX().length-1]);
+                null,
+                null,
+                null,
+                dataset1,
+                PlotOrientation.HORIZONTAL,
+                false,
+                false,
+                false);
+        subchartTimeTrace.getXYPlot().getDomainAxis().setUpperBound(data.getX()[data.getX().length - 1]);
         subchartTimeTrace.setBackgroundPaint(JFreeChart.DEFAULT_BACKGROUND_PAINT);
 ////        tracechart.getXYPlot().setDomainZeroBaselineVisible(true);
         GraphPanel chpan = new GraphPanel(subchartTimeTrace);
@@ -1532,22 +1391,20 @@ final public class SpecEditorTopCompNew extends CloneableTopComponent
 
         XYSeriesCollection dataset2 = new XYSeriesCollection();
         subchartWaveTrace = ChartFactory.createXYLineChart(
-            null,
-            null,
-            null,
-            dataset2,
-            PlotOrientation.VERTICAL,
-            false,
-            false,
-            false
-        );
-        if (data.getX2()[data.getX2().length-1]<data.getX2()[0]){
+                null,
+                null,
+                null,
+                dataset2,
+                PlotOrientation.VERTICAL,
+                false,
+                false,
+                false);
+        if (data.getX2()[data.getX2().length - 1] < data.getX2()[0]) {
             subchartWaveTrace.getXYPlot().getDomainAxis().setUpperBound(data.getX2()[0]);
             subchartWaveTrace.getXYPlot().getDomainAxis().setInverted(true);
-        }
-        else {
-            subchartWaveTrace.getXYPlot().getDomainAxis().setUpperBound(data.getX2()[data.getX2().length-1]);
-            
+        } else {
+            subchartWaveTrace.getXYPlot().getDomainAxis().setUpperBound(data.getX2()[data.getX2().length - 1]);
+
         }
 
         subchartWaveTrace.setBackgroundPaint(JFreeChart.DEFAULT_BACKGROUND_PAINT);
@@ -1555,7 +1412,7 @@ final public class SpecEditorTopCompNew extends CloneableTopComponent
         plot2.getDomainAxis().setLowerMargin(0.0);
         plot2.getDomainAxis().setUpperMargin(0.0);
         plot2.getDomainAxis().setAutoRange(true);
-  //      plot2.getDomainAxis().resizeRange(100);
+        //      plot2.getDomainAxis().resizeRange(100);
         plot2.getRenderer().setSeriesPaint(0, Color.blue);
         plot2.setDomainAxisLocation(AxisLocation.TOP_OR_RIGHT);
         plot2.setRangeAxisLocation(AxisLocation.TOP_OR_RIGHT);
@@ -1569,13 +1426,13 @@ final public class SpecEditorTopCompNew extends CloneableTopComponent
         jPXTrace.add(subchart2Panel);
 
         jSColum.setValueIsAdjusting(true);
-        jSColum.setMaximum(dataset.GetImageWidth()-1);
+        jSColum.setMaximum(dataset.GetImageWidth() - 1);
         jSColum.setMinimum(0);
         jSColum.setValue(0);
         jSColum.setValueIsAdjusting(false);
 
         jSRow.setValueIsAdjusting(true);
-        jSRow.setMaximum(dataset.GetImageHeigth()-1);
+        jSRow.setMaximum(dataset.GetImageHeigth() - 1);
         jSRow.setMinimum(0);
         jSRow.setValue(0);
         jSRow.setValueIsAdjusting(false);
@@ -1583,38 +1440,38 @@ final public class SpecEditorTopCompNew extends CloneableTopComponent
         NumberAxis scaleAxis = new NumberAxis();
         scaleAxis.setAxisLinePaint(Color.black);
         scaleAxis.setTickMarkPaint(Color.black);
-        scaleAxis.setRange(data.getMinInt(),data.getMaxInt());
+        scaleAxis.setRange(data.getMinInt(), data.getMaxInt());
         scaleAxis.setTickLabelFont(new Font("Dialog", Font.PLAIN, 9));
-        PaintScaleLegend legend = new PaintScaleLegend(ps,scaleAxis);
+        PaintScaleLegend legend = new PaintScaleLegend(ps, scaleAxis);
         legend.setAxisLocation(AxisLocation.BOTTOM_OR_RIGHT);
-    //        legend.setAxisOffset(5.0);
+        //        legend.setAxisOffset(5.0);
         legend.setMargin(new RectangleInsets(5, 5, 5, 5));
-    //        legend.setFrame(new BlockBorder(Color.red));
-    //        legend.setPadding(new RectangleInsets(5, 5, 5, 5));
+        //        legend.setFrame(new BlockBorder(Color.red));
+        //        legend.setPadding(new RectangleInsets(5, 5, 5, 5));
         legend.setStripWidth(15);
         legend.setPosition(RectangleEdge.RIGHT);
         legend.setBackgroundPaint(chartMain.getBackgroundPaint());
         chartMain.addSubtitle(legend);
-        
+
     }
 
-    protected void updateFileInfo(){
+    protected void updateFileInfo() {
         String tempString;
         jTAInfo.removeAll();
-        tempString = "File name: "+data.getDatasetName()+"\n";
+        tempString = "File name: " + data.getDatasetName() + "\n";
         jTAInfo.append(tempString);
-        tempString = "Time window: "+String.valueOf(data.getX()[data.getNt()-1]-data.getX()[0])+"\n";
+        tempString = "Time window: " + String.valueOf(data.getX()[data.getNt() - 1] - data.getX()[0]) + "\n";
         jTAInfo.append(tempString);
-        tempString = "Nuber of time steps: "+String.valueOf(data.getNt())+"\n";
+        tempString = "Nuber of time steps: " + String.valueOf(data.getNt()) + "\n";
         jTAInfo.append(tempString);
-        tempString = "Time step: "+String.valueOf(data.getX()[1]-data.getX()[0])+"\n";
+        tempString = "Time step: " + String.valueOf(data.getX()[1] - data.getX()[0]) + "\n";
         jTAInfo.append(tempString);
 
-        tempString = "Wave window: "+String.valueOf(data.getX2()[data.getNl()-1]-data.getX2()[0])+"\n";
+        tempString = "Wave window: " + String.valueOf(data.getX2()[data.getNl() - 1] - data.getX2()[0]) + "\n";
         jTAInfo.append(tempString);
-        tempString = "Nuber of wave steps: "+String.valueOf(data.getNl())+"\n";
+        tempString = "Nuber of wave steps: " + String.valueOf(data.getNl()) + "\n";
         jTAInfo.append(tempString);
-        tempString = "Wave step: "+String.valueOf(data.getX2()[1]-data.getX2()[0])+"\n";
+        tempString = "Wave step: " + String.valueOf(data.getX2()[1] - data.getX2()[0]) + "\n";
         jTAInfo.append(tempString);
 
         jTFMaxIntence.setText(String.valueOf(data.getMaxInt()));

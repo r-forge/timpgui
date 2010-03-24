@@ -9,6 +9,7 @@ import org.openide.util.NbBundle;
  * @author lsp
  */
 public class ResampleSpecDataset extends java.awt.Panel {
+
     private int numXCh, numYCh;
 
     /** Creates new form ResampleSpecDataset */
@@ -45,6 +46,7 @@ public class ResampleSpecDataset extends java.awt.Panel {
         jTYnum.setText(org.openide.util.NbBundle.getMessage(ResampleSpecDataset.class, "ResampleSpecDataset.jTYnum.text")); // NOI18N
         jTYnum.setEnabled(false);
         jTYnum.addKeyListener(new java.awt.event.KeyAdapter() {
+
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 jTYnumKeyReleased(evt);
             }
@@ -53,9 +55,11 @@ public class ResampleSpecDataset extends java.awt.Panel {
         jTXnum.setText(org.openide.util.NbBundle.getMessage(ResampleSpecDataset.class, "ResampleSpecDataset.jTXnum.text")); // NOI18N
         jTXnum.setEnabled(false);
         jTXnum.addKeyListener(new java.awt.event.KeyAdapter() {
+
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 jTXnumKeyReleased(evt);
             }
+
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 jTXnumKeyTyped(evt);
             }
@@ -63,6 +67,7 @@ public class ResampleSpecDataset extends java.awt.Panel {
 
         jCbResampleY.setText(org.openide.util.NbBundle.getMessage(ResampleSpecDataset.class, "ResampleSpecDataset.jCbResampleY.text")); // NOI18N
         jCbResampleY.addActionListener(new java.awt.event.ActionListener() {
+
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jCbResampleYActionPerformed(evt);
             }
@@ -70,6 +75,7 @@ public class ResampleSpecDataset extends java.awt.Panel {
 
         jCbResampleX.setText(org.openide.util.NbBundle.getMessage(ResampleSpecDataset.class, "ResampleSpecDataset.jCbResampleX.text")); // NOI18N
         jCbResampleX.addActionListener(new java.awt.event.ActionListener() {
+
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jCbResampleXActionPerformed(evt);
             }
@@ -80,52 +86,9 @@ public class ResampleSpecDataset extends java.awt.Panel {
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(21, 21, 21)
-                                .addComponent(jLabel1)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jTYnum, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(21, 21, 21)
-                                .addComponent(jLabel2)
-                                .addGap(18, 18, 18)
-                                .addComponent(jTXnum, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jCbResampleX)
-                            .addComponent(jCbResampleY))
-                        .addGap(44, 44, 44))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jCbAplyToSelArea)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 14, Short.MAX_VALUE)
-                        .addComponent(jCCreatNewDataset)
-                        .addContainerGap())))
-        );
+                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(layout.createSequentialGroup().addContainerGap().addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup().addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(layout.createSequentialGroup().addGap(21, 21, 21).addComponent(jLabel1).addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED).addComponent(jTYnum, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)).addGroup(layout.createSequentialGroup().addGap(21, 21, 21).addComponent(jLabel2).addGap(18, 18, 18).addComponent(jTXnum, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)).addComponent(jCbResampleX).addComponent(jCbResampleY)).addGap(44, 44, 44)).addGroup(layout.createSequentialGroup().addComponent(jCbAplyToSelArea).addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 14, Short.MAX_VALUE).addComponent(jCCreatNewDataset).addContainerGap()))));
         layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jCbResampleX)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
-                    .addComponent(jTXnum, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jCbResampleY)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(jTYnum, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jCbAplyToSelArea)
-                    .addComponent(jCCreatNewDataset))
-                .addContainerGap())
-        );
+                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup().addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE).addComponent(jCbResampleX).addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED).addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE).addComponent(jLabel2).addComponent(jTXnum, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)).addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED).addComponent(jCbResampleY).addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED).addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE).addComponent(jLabel1).addComponent(jTYnum, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)).addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED).addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE).addComponent(jCbAplyToSelArea).addComponent(jCCreatNewDataset)).addContainerGap()));
     }// </editor-fold>//GEN-END:initComponents
 
     private void jCbResampleXActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCbResampleXActionPerformed
@@ -144,10 +107,10 @@ public class ResampleSpecDataset extends java.awt.Panel {
 
     private void jTXnumKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTXnumKeyReleased
         // TODO add your handling code here:
-        if (Integer.parseInt(jTXnum.getText())>numXCh){
-            NotifyDescriptor errorMessage =new NotifyDescriptor.Exception(
-                    new Exception(NbBundle.getBundle("org/glotaran/core/main/Bundle").getString("set_correct_chanNum") +
-                    NbBundle.getBundle("org/glotaran/core/main/Bundle").getString("setLess")+ String.valueOf(numXCh)));
+        if (Integer.parseInt(jTXnum.getText()) > numXCh) {
+            NotifyDescriptor errorMessage = new NotifyDescriptor.Exception(
+                    new Exception(NbBundle.getBundle("org/glotaran/core/main/Bundle").getString("set_correct_chanNum")
+                    + NbBundle.getBundle("org/glotaran/core/main/Bundle").getString("setLess") + String.valueOf(numXCh)));
             DialogDisplayer.getDefault().notify(errorMessage);
             jTXnum.setText(String.valueOf(numXCh));
         }
@@ -155,17 +118,15 @@ public class ResampleSpecDataset extends java.awt.Panel {
 
     private void jTYnumKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTYnumKeyReleased
         // TODO add your handling code here:
-        if (Integer.parseInt(jTYnum.getText())>numYCh){
-            NotifyDescriptor errorMessage =new NotifyDescriptor.Exception(
-                    new Exception(NbBundle.getBundle("org/glotaran/core/main/Bundle").getString("set_correct_chanNum") +
-                    NbBundle.getBundle("org/glotaran/core/main/Bundle").getString("setLess") + String.valueOf(numYCh)));
+        if (Integer.parseInt(jTYnum.getText()) > numYCh) {
+            NotifyDescriptor errorMessage = new NotifyDescriptor.Exception(
+                    new Exception(NbBundle.getBundle("org/glotaran/core/main/Bundle").getString("set_correct_chanNum")
+                    + NbBundle.getBundle("org/glotaran/core/main/Bundle").getString("setLess") + String.valueOf(numYCh)));
             DialogDisplayer.getDefault().notify(errorMessage);
             jTYnum.setText(String.valueOf(numYCh));
         }
 
     }//GEN-LAST:event_jTYnumKeyReleased
-
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JCheckBox jCCreatNewDataset;
     private javax.swing.JCheckBox jCbAplyToSelArea;
@@ -177,36 +138,34 @@ public class ResampleSpecDataset extends java.awt.Panel {
     private javax.swing.JTextField jTYnum;
     // End of variables declaration//GEN-END:variables
 
-
-    public void setInitialNumbers(int x, int y){
+    public void setInitialNumbers(int x, int y) {
         jTXnum.setText(Integer.toString(x));
         jTYnum.setText(Integer.toString(y));
         numXCh = x;
         numYCh = y;
     }
 
-    public boolean getResampleXState(){
+    public boolean getResampleXState() {
         return jCbResampleX.isSelected();
     }
 
-    public boolean getResampleYState(){
+    public boolean getResampleYState() {
         return jCbResampleY.isSelected();
     }
 
-    public boolean getAplyToState(){
+    public boolean getAplyToState() {
         return jCbAplyToSelArea.isSelected();
     }
 
-    public int getResampleXNum(){
+    public int getResampleXNum() {
         return Integer.parseInt(jTXnum.getText());
     }
 
-    public int getResampleYNum(){
+    public int getResampleYNum() {
         return Integer.parseInt(jTYnum.getText());
     }
 
-    public boolean getNewDatasetState(){
+    public boolean getNewDatasetState() {
         return jCCreatNewDataset.isSelected();
     }
-
 }

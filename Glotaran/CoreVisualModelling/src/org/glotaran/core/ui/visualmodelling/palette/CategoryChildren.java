@@ -2,12 +2,10 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package org.glotaran.core.ui.visualmodelling.palette;
 
 import org.openide.nodes.FilterNode.Children;
 import org.openide.nodes.Node;
-
 
 /**
  *
@@ -16,14 +14,14 @@ import org.openide.nodes.Node;
 public class CategoryChildren extends Children.Keys {
 
     private String[] Categories = new String[]{
-        "Containers","Modelling","Model differences"};
+        "Containers", "Modelling", "Model differences"};
 
     public CategoryChildren() {
     }
 
     protected Node[] createNodes(Object key) {
         Category obj = (Category) key;
-        return new Node[] { new CategoryNode(obj) };
+        return new Node[]{new CategoryNode(obj)};
     }
 
     @Override
@@ -37,5 +35,4 @@ public class CategoryChildren extends Children.Keys {
         }
         setKeys(objs);
     }
-
 }

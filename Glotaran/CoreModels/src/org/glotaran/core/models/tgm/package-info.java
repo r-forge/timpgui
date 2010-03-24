@@ -4,6 +4,5 @@
 // Any modifications to this file will be lost upon recompilation of the source schema. 
 // Generated on: 2009.11.16 at 02:40:05 PM CET 
 //
-
 @javax.xml.bind.annotation.XmlSchema(namespace = "http://www.nat.vu.nl/~jsnel/Schema/TgmSchema", elementFormDefault = javax.xml.bind.annotation.XmlNsForm.QUALIFIED)
 package org.glotaran.core.models.tgm;

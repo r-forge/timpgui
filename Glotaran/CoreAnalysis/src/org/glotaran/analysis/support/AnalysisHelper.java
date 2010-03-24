@@ -2,7 +2,6 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package org.glotaran.analysis.support;
 
 /**
@@ -13,8 +12,6 @@ public class AnalysisHelper {
 
     public AnalysisHelper() {
     }
-
-
 //    public TimpResultDataset[] runAnalysis(DatasetTimp[] datasets, Tgm[] models, int iterations) {
 //
 //        TimpResultDataset[] result = null;
@@ -102,6 +99,4 @@ public class AnalysisHelper {
 //        }
 //        return timpResults;
 //    }
-
-
 }

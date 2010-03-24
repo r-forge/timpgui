@@ -1,47 +1,46 @@
 package org.rosuda.irconnect;
 
-public interface IREXP extends IREXPConstants{
+public interface IREXP extends IREXPConstants {
 
-	public abstract IRList asList();
-	
-	public abstract IRMap asMap();
+    public abstract IRList asList();
 
-	public abstract IRVector asVector();
+    public abstract IRMap asMap();
 
-	public abstract String asString();
+    public abstract IRVector asVector();
 
-	public abstract IRBool asBool();
+    public abstract String asString();
 
-	public abstract int getType();
+    public abstract IRBool asBool();
 
-	public abstract int asInt();
+    public abstract int getType();
 
-	public abstract int[] asIntArray();
+    public abstract int asInt();
 
-	public abstract double asDouble();
+    public abstract int[] asIntArray();
 
-	public abstract double[] asDoubleArray();
+    public abstract double asDouble();
 
-	public abstract IRFactor asFactor();
+    public abstract double[] asDoubleArray();
 
-	public abstract IREXP getAttribute();
+    public abstract IRFactor asFactor();
 
-	public abstract Object getContent();
+    public abstract IREXP getAttribute();
 
-	public abstract String[] asStringArray();
+    public abstract Object getContent();
 
-	public abstract int[] dim();
+    public abstract String[] asStringArray();
 
-	public abstract int length();
+    public abstract int[] dim();
 
-	public abstract IREXP asSymbol();
+    public abstract int length();
 
-	public abstract IRBool[] asBoolArray();
-	
-	public abstract IRMatrix asMatrix();
+    public abstract IREXP asSymbol();
 
-	public abstract boolean hasAttribute(final String attrName);
-	
-	public abstract IREXP getAttribute(final String attrName);
+    public abstract IRBool[] asBoolArray();
 
+    public abstract IRMatrix asMatrix();
+
+    public abstract boolean hasAttribute(final String attrName);
+
+    public abstract IREXP getAttribute(final String attrName);
 }

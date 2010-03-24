@@ -12,25 +12,24 @@ import org.openide.util.NbBundle;
 import org.openide.util.actions.CookieAction;
 
 public final class ShowDataset extends CookieAction {
-    
+
     private final Collection<? extends DatasetLoaderInterface> services;
 
-    public ShowDataset(){
+    public ShowDataset() {
         services = Lookup.getDefault().lookupAll(DatasetLoaderInterface.class);
     }
 
     protected void performAction(Node[] activatedNodes) {
         String filetype;
         TgdDataObject dataObject = activatedNodes[0].getLookup().lookup(TgdDataObject.class);
-        if (!(dataObject==null)){
+        if (!(dataObject == null)) {
             filetype = dataObject.getTgd().getFiletype();
             for (final DatasetLoaderInterface service : services) {
-                if (service.getType().equalsIgnoreCase(filetype)){
+                if (service.getType().equalsIgnoreCase(filetype)) {
                     service.openDatasetEditor(dataObject);
                 }
             }
-        }else
-        {
+        } else {
             CoreErrorMessages.somethingStrange();
         }
     }

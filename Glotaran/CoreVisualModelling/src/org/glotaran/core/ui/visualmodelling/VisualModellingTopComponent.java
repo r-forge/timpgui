@@ -71,11 +71,11 @@ final public class VisualModellingTopComponent extends CloneableTopComponent imp
         setFocusable(true);
         setFocusTraversalKeysEnabled(false);
         scene.addObjectSceneListener(this,
-        ObjectSceneEventType.OBJECT_ADDED,
-        ObjectSceneEventType.OBJECT_REMOVED);
+                ObjectSceneEventType.OBJECT_ADDED,
+                ObjectSceneEventType.OBJECT_REMOVED);
         associateLookup(Lookups.fixed(new Object[]{PaletteSupport.createPalette()}));
         TopComponent t = WindowManager.getDefault().findTopComponent("properties"); // NOI18N
-        if(null != t) {
+        if (null != t) {
             t.requestVisible();
             t.open();
         }
@@ -244,12 +244,11 @@ final public class VisualModellingTopComponent extends CloneableTopComponent imp
                 }
             }
         }
-        if (removedObject instanceof GtaOutput){
+        if (removedObject instanceof GtaOutput) {
             GtaOutput output = (GtaOutput) removedObject;
             dobj.getProgectScheme().getOutput().remove(output);
         }
         if (removedObject instanceof GtaConnection) {
-
         }
         dobj.setModified(true);
     }

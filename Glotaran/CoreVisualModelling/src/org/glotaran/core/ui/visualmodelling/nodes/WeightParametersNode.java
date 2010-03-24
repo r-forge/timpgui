@@ -2,7 +2,6 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package org.glotaran.core.ui.visualmodelling.nodes;
 
 import java.awt.Image;
@@ -19,10 +18,11 @@ import org.openide.util.ImageUtilities;
  *
  * @author slapten
  */
-public class WeightParametersNode extends PropertiesAbstractNode{
+public class WeightParametersNode extends PropertiesAbstractNode {
+
     private final Image ICON = ImageUtilities.loadImage("org/glotaran/core/ui/visualmodelling/resources/Weightpar_16.png", true);
 
-    public WeightParametersNode(PropertyChangeListener listn){
+    public WeightParametersNode(PropertyChangeListener listn) {
         super("WeightPar", new WeightParametersKeys(0));
         this.addPropertyChangeListener(listn);
     }
@@ -35,7 +35,7 @@ public class WeightParametersNode extends PropertiesAbstractNode{
     @Override
     public String getDisplayName() {
         String name = super.getDisplayName();
-        name = name + " ("+String.valueOf(getChildren().getNodesCount())+")";
+        name = name + " (" + String.valueOf(getChildren().getNodesCount()) + ")";
         return name;
     }
 
@@ -69,17 +69,17 @@ public class WeightParametersNode extends PropertiesAbstractNode{
         return sheet;
     }
 
-    public Integer getCompNum(){
+    public Integer getCompNum() {
         return getChildren().getNodesCount();
     }
 
-    public void setCompNum(Integer compNum){
-        WeightParametersKeys childColection = (WeightParametersKeys)getChildren();
+    public void setCompNum(Integer compNum) {
+        WeightParametersKeys childColection = (WeightParametersKeys) getChildren();
         int currCompNum = childColection.getNodesCount();
-        if (currCompNum < compNum){
-            childColection.addDefaultObj(compNum-currCompNum);
+        if (currCompNum < compNum) {
+            childColection.addDefaultObj(compNum - currCompNum);
         } else {
-            childColection.removeParams(currCompNum-compNum);
+            childColection.removeParams(currCompNum - compNum);
         }
         updateName();
         firePropertyChange("Number of components", new Integer(currCompNum), compNum);

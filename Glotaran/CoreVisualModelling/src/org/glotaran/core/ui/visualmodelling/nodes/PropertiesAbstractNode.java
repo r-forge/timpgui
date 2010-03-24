@@ -2,7 +2,6 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package org.glotaran.core.ui.visualmodelling.nodes;
 
 import java.awt.Image;
@@ -20,12 +19,12 @@ import org.openide.util.Lookup;
 import org.openide.util.WeakListeners;
 import org.openide.util.actions.SystemAction;
 
-
 /**
  *
  * @author jsg210
  */
 public class PropertiesAbstractNode extends AbstractNode {
+
     private String type;
 
     public PropertiesAbstractNode(String name, Children children) {
@@ -57,7 +56,7 @@ public class PropertiesAbstractNode extends AbstractNode {
     public PropertySet[] getPropertySets() {
         return getSheet().toArray();
     }
-    
+
     @Override
     public boolean canDestroy() {
         return true;
@@ -69,16 +68,16 @@ public class PropertiesAbstractNode extends AbstractNode {
         super.destroy();
     }
 
-    protected void destroyNode() throws IOException{
+    protected void destroyNode() throws IOException {
         super.destroy();
     }
 
     @Override
     public Action[] getActions(boolean context) {
-         List<Action> actions = new ArrayList<Action>(); //super.getActions(context);
-            actions.add(SystemAction.get(DeleteAction.class));
-            actions.add(SystemAction.get(PropertiesAction.class));
-            return actions.toArray(new Action[actions.size()]);
+        List<Action> actions = new ArrayList<Action>(); //super.getActions(context);
+        actions.add(SystemAction.get(DeleteAction.class));
+        actions.add(SystemAction.get(PropertiesAction.class));
+        return actions.toArray(new Action[actions.size()]);
     }
 
     @Override
@@ -86,12 +85,11 @@ public class PropertiesAbstractNode extends AbstractNode {
         return type;
     }
 
-    public void updateName(){
+    public void updateName() {
         fireNameChange(null, getDisplayName());
     }
 
-    public void fire(int index, PropertyChangeEvent evt){
+    public void fire(int index, PropertyChangeEvent evt) {
         firePropertyChange(evt.getPropertyName(), new Double(index), evt.getNewValue());
     }
-    
 }

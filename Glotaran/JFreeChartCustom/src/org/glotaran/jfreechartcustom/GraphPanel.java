@@ -2,7 +2,6 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package org.glotaran.jfreechartcustom;
 
 import java.awt.BorderLayout;
@@ -48,7 +47,8 @@ import org.w3c.dom.Document;
  *
  * @author slapten
  */
-public class GraphPanel extends ChartPanel{
+public class GraphPanel extends ChartPanel {
+
     private final static long serialVersionUID = 1L;
     private static final String SAVE_ASCII_COMMAND = "SAVE_ASCII";
     private static final String SAVE_SVG_COMMAND = "SAVE_SVG";
@@ -59,33 +59,33 @@ public class GraphPanel extends ChartPanel{
     private boolean errorBarsSown = false;
     private Paint[] paintSequence = new Paint[]{Color.BLACK, Color.RED, Color.BLUE, Color.GREEN, Color.CYAN, Color.magenta, Color.ORANGE, Color.PINK, Color.DARK_GRAY};
 
-    public GraphPanel(JFreeChart chart){
+    public GraphPanel(JFreeChart chart) {
         this(chart, true, false, true, true, true, false);
     }
 
-    public GraphPanel(JFreeChart chart, boolean errBars){
+    public GraphPanel(JFreeChart chart, boolean errBars) {
         this(chart, true, false, true, true, true, errBars);
-        
+
     }
 
     public GraphPanel(JFreeChart chart,
-                      boolean properties,
-                      boolean save,
-                      boolean print,
-                      boolean zoom,
-                      boolean tooltips,
-                      boolean errBars){
-         super(chart, properties, save, print, zoom, tooltips);
-         errorBars = errBars;
-         addCommandsToPopupMenu();
-         updateAppearance();
+            boolean properties,
+            boolean save,
+            boolean print,
+            boolean zoom,
+            boolean tooltips,
+            boolean errBars) {
+        super(chart, properties, save, print, zoom, tooltips);
+        errorBars = errBars;
+        addCommandsToPopupMenu();
+        updateAppearance();
     }
 
     @Override
     public void actionPerformed(ActionEvent event) {
         super.actionPerformed(event);
         String command = event.getActionCommand();
-        if (command.equals(OPEN_IN_NEW_WINDOW_COMMAND)){
+        if (command.equals(OPEN_IN_NEW_WINDOW_COMMAND)) {
             try {
                 doOpenInSeparateWindow();
             } catch (CloneNotSupportedException ex) {
@@ -93,7 +93,7 @@ public class GraphPanel extends ChartPanel{
             }
         }
 
-        if (command.equals(SAVE_ASCII_COMMAND)){
+        if (command.equals(SAVE_ASCII_COMMAND)) {
             try {
                 doSaveTracesToAscii();
             } catch (IOException ex) {
@@ -101,7 +101,7 @@ public class GraphPanel extends ChartPanel{
             }
         }
 
-        if (command.equals(SAVE_SVG_COMMAND)){
+        if (command.equals(SAVE_SVG_COMMAND)) {
             try {
                 doSaveChartToSVG();
             } catch (FileNotFoundException ex) {
@@ -111,7 +111,7 @@ public class GraphPanel extends ChartPanel{
             }
         }
 
-        if (command.equals(SAVE_PNG_COMMAND)){
+        if (command.equals(SAVE_PNG_COMMAND)) {
             try {
                 try {
                     doSaveChartToPNG();
@@ -123,53 +123,53 @@ public class GraphPanel extends ChartPanel{
             }
         }
 
-        if (command.equals(SHOW_ERRORBARS)){
+        if (command.equals(SHOW_ERRORBARS)) {
             doShowErrorBars();
         }
 
     }
 
-    private void addCommandsToPopupMenu(){
+    private void addCommandsToPopupMenu() {
         JPopupMenu popmenu;
         popmenu = getPopupMenu();
         JMenuItem saveToASCIIItem = new JMenuItem("Save data to ASCII");
         saveToASCIIItem.setActionCommand(SAVE_ASCII_COMMAND);
         saveToASCIIItem.addActionListener(this);
-        popmenu.insert(saveToASCIIItem,4);
+        popmenu.insert(saveToASCIIItem, 4);
 
         JMenuItem saveToPNGItem = new JMenuItem("Render chart to PNG");
         saveToPNGItem.setActionCommand(SAVE_PNG_COMMAND);
         saveToPNGItem.addActionListener(this);
-        popmenu.insert(saveToPNGItem,5);
+        popmenu.insert(saveToPNGItem, 5);
 
         JMenuItem saveToSVGItem = new JMenuItem("Render chart to SVG");
         saveToSVGItem.setActionCommand(SAVE_SVG_COMMAND);
         saveToSVGItem.addActionListener(this);
-        popmenu.insert(saveToSVGItem,6);
+        popmenu.insert(saveToSVGItem, 6);
 
         JMenuItem openInSepWindItem = new JMenuItem("Open in new window");
         openInSepWindItem.setActionCommand(OPEN_IN_NEW_WINDOW_COMMAND);
         openInSepWindItem.addActionListener(this);
-        popmenu.insert(openInSepWindItem,0); 
+        popmenu.insert(openInSepWindItem, 0);
 
         JMenuItem showErrorBars = new JMenuItem("Show error bars");
         showErrorBars.setActionCommand(SHOW_ERRORBARS);
         showErrorBars.addActionListener(this);
         showErrorBars.setEnabled(errorBars);
-        popmenu.insert(showErrorBars,1);
+        popmenu.insert(showErrorBars, 1);
 
-        popmenu.insert(new JPopupMenu.Separator(),2);
+        popmenu.insert(new JPopupMenu.Separator(), 2);
     }
 
-    private void updateAppearance(){
+    private void updateAppearance() {
         this.setFillZoomRectangle(true);
         this.setMouseWheelEnabled(true);
         this.setZoomFillPaint(new Color(68, 68, 78, 63));
-        if (this.getChart().getLegend() != null){
+        if (this.getChart().getLegend() != null) {
             this.getChart().getLegend().setVisible(false);
         }
         this.getChart().setBackgroundPaint(JFreeChart.DEFAULT_BACKGROUND_PAINT);
-        if (this.getChart().getXYPlot()!=null){
+        if (this.getChart().getXYPlot() != null) {
             XYPlot plot = this.getChart().getXYPlot();
             plot.setRangeZeroBaselineVisible(true);
             plot.setBackgroundPaint(Color.lightGray);
@@ -223,9 +223,10 @@ public class GraphPanel extends ChartPanel{
     }
 
     private void doOpenInSeparateWindow() throws CloneNotSupportedException {
-        TopComponent win = new TopComponent()
-        {
+        TopComponent win = new TopComponent() {
+
             private final static long serialVersionUID = 1L;
+
             @Override
             public int getPersistenceType() {
                 return TopComponent.PERSISTENCE_NEVER;
@@ -233,10 +234,10 @@ public class GraphPanel extends ChartPanel{
             }
         };
         win.setLayout(new BorderLayout());
-        win.setName((String)((this.getChart().getTitle() != null) ? this.getChart().getTitle() : "Single graph"));
+        win.setName((String) ((this.getChart().getTitle() != null) ? this.getChart().getTitle() : "Single graph"));
 
-        JFreeChart chart = (JFreeChart)this.getChart().clone();
-        if (this.getChart().getXYPlot()!=null){
+        JFreeChart chart = (JFreeChart) this.getChart().clone();
+        if (this.getChart().getXYPlot() != null) {
             chart.getXYPlot().setOrientation(PlotOrientation.VERTICAL);
             chart.getXYPlot().getDomainAxis().setInverted(false);
         }
@@ -251,7 +252,7 @@ public class GraphPanel extends ChartPanel{
         doSaveAs();
     }
 
-    private void doSaveChartToSVG() throws FileNotFoundException, IOException{
+    private void doSaveChartToSVG() throws FileNotFoundException, IOException {
         JFileChooser fileChooser = new JFileChooser();
         fileChooser.setCurrentDirectory(this.getDefaultDirectoryForSaveAs());
         ExtensionFileFilter filter = new ExtensionFileFilter("SVG graphics files", ".svg");
@@ -266,7 +267,7 @@ public class GraphPanel extends ChartPanel{
                 }
             }
             DOMImplementation domImpl =
-                GenericDOMImplementation.getDOMImplementation();
+                    GenericDOMImplementation.getDOMImplementation();
             Document document = domImpl.createDocument(null, "svg", null);
 
             // Create an instance of the SVG Generator
@@ -275,7 +276,7 @@ public class GraphPanel extends ChartPanel{
             svgGenerator.getGeneratorContext().setPrecision(6);
 
             // draw the chart in the SVG generator
-            getChart().draw(svgGenerator,  new Rectangle2D.Double(0, 0, 400, 300), null);
+            getChart().draw(svgGenerator, new Rectangle2D.Double(0, 0, 400, 300), null);
 
             // Write svg file
             Writer out = new OutputStreamWriter(
@@ -285,14 +286,14 @@ public class GraphPanel extends ChartPanel{
     }
 
     private void setPannable() {
-        if (this.getChart().getXYPlot()!=null){
+        if (this.getChart().getXYPlot() != null) {
             this.getChart().getXYPlot().setDomainPannable(true);
             this.getChart().getXYPlot().setRangePannable(true);
         }
     }
 
     private void doShowErrorBars() {
-        if (!errorBarsSown){
+        if (!errorBarsSown) {
             XYErrorRenderer renderer = new XYErrorRenderer();
             renderer.setBaseLinesVisible(true);
             renderer.setBaseShapesVisible(false);
@@ -304,8 +305,7 @@ public class GraphPanel extends ChartPanel{
             plot.setBackgroundPaint(JFreeChart.DEFAULT_BACKGROUND_PAINT);
             JFreeChart chart = new JFreeChart(plot);
             this.setChart(chart);
-        }
-        else {
+        } else {
             XYLineAndShapeRenderer renderer = new XYLineAndShapeRenderer();
             renderer.setBaseLinesVisible(true);
             renderer.setBaseShapesVisible(false);

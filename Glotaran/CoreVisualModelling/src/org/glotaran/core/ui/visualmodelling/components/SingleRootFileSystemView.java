@@ -2,7 +2,6 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package org.glotaran.core.ui.visualmodelling.components;
 
 /**
@@ -12,41 +11,36 @@ package org.glotaran.core.ui.visualmodelling.components;
 import java.io.*;
 import javax.swing.filechooser.*;
 
-public class SingleRootFileSystemView extends FileSystemView
-{
-	File root;
-	File[] roots = new File[1];
+public class SingleRootFileSystemView extends FileSystemView {
 
-	public SingleRootFileSystemView(File root)
-	{
-		super();
-		this.root = root;
-		roots[0] = root;
-	}
+    File root;
+    File[] roots = new File[1];
 
-	public File createNewFolder(File containingDir)
-	{
-		File folder = new File(containingDir, "New Folder");
-		folder.mkdir();
-		return folder;
-	}
+    public SingleRootFileSystemView(File root) {
+        super();
+        this.root = root;
+        roots[0] = root;
+    }
 
-        @Override
-	public File getDefaultDirectory()
-	{
-		return root;
-	}
+    public File createNewFolder(File containingDir) {
+        File folder = new File(containingDir, "New Folder");
+        folder.mkdir();
+        return folder;
+    }
 
-        @Override
-	public File getHomeDirectory()
-	{
-		return root;
-	}
+    @Override
+    public File getDefaultDirectory() {
+        return root;
+    }
 
-        @Override
-	public File[] getRoots()
-	{
-		return roots;
-	}
+    @Override
+    public File getHomeDirectory() {
+        return root;
+    }
+
+    @Override
+    public File[] getRoots() {
+        return roots;
+    }
 }
 

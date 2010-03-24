@@ -35,75 +35,70 @@ import org.glotaran.core.ui.visualmodelling.widgets.DatasetContainerWidget;
  * @author alex
  */
 public class GlotaranReconnectProvider implements ReconnectProvider {
-    
+
     private GtaConnection edge;
     private Object originalNode;
     private Object replacementNode;
-    
     private GlotaranGraphScene scene;
-    
-    public GlotaranReconnectProvider(GlotaranGraphScene scene){
-        this.scene=scene;
+
+    public GlotaranReconnectProvider(GlotaranGraphScene scene) {
+        this.scene = scene;
     }
-    
-    
+
     public void reconnectingStarted(ConnectionWidget connectionWidget, boolean reconnectingSource) {
-        if (!reconnectingSource){
-            Widget widget = scene.findWidget(scene.getNodeForID(((GtaConnection)scene.findObject(connectionWidget)).getTargetID()));
-            if (widget instanceof DatasetContainerWidget){
-                ((DatasetContainerWidget)widget).setConnected(false);
-                ((DatasetContainerWidget)widget).getContainerComponent().setConnectedModel(null);
+        if (!reconnectingSource) {
+            Widget widget = scene.findWidget(scene.getNodeForID(((GtaConnection) scene.findObject(connectionWidget)).getTargetID()));
+            if (widget instanceof DatasetContainerWidget) {
+                ((DatasetContainerWidget) widget).setConnected(false);
+                ((DatasetContainerWidget) widget).getContainerComponent().setConnectedModel(null);
             }
         }
     }
-    
-    public void reconnectingFinished(ConnectionWidget connectionWidget, boolean reconnectingSource) {
 
+    public void reconnectingFinished(ConnectionWidget connectionWidget, boolean reconnectingSource) {
     }
-    
+
     public boolean isSourceReconnectable(ConnectionWidget connectionWidget) {
         Object object = scene.findObject(connectionWidget);
         edge = scene.isEdge(object) ? (GtaConnection) object : null;
-        originalNode = edge != null ? scene.getEdgeSource(edge)  : null;
+        originalNode = edge != null ? scene.getEdgeSource(edge) : null;
         return originalNode != null;
     }
-    
+
     public boolean isTargetReconnectable(ConnectionWidget connectionWidget) {
         Object object = scene.findObject(connectionWidget);
         edge = scene.isEdge(object) ? (GtaConnection) object : null;
-        originalNode = edge != null ? scene.getEdgeTarget(edge)  : null;
+        originalNode = edge != null ? scene.getEdgeTarget(edge) : null;
         return originalNode != null;
     }
-    
+
     public ConnectorState isReplacementWidget(ConnectionWidget connectionWidget, Widget replacementWidget, boolean reconnectingSource) {
         Object object = scene.findObject(replacementWidget);
-        replacementNode = scene.isNode(object) ?  object : null;
-        if (reconnectingSource){
-            return (object!= null && object instanceof GtaModelReference) ?
-                ConnectorState.ACCEPT : ConnectorState.REJECT_AND_STOP;
-        }
-        else {
-            return (object!= null && object instanceof GtaDatasetContainer) ?
-                ConnectorState.ACCEPT : ConnectorState.REJECT_AND_STOP;
+        replacementNode = scene.isNode(object) ? object : null;
+        if (reconnectingSource) {
+            return (object != null && object instanceof GtaModelReference)
+                    ? ConnectorState.ACCEPT : ConnectorState.REJECT_AND_STOP;
+        } else {
+            return (object != null && object instanceof GtaDatasetContainer)
+                    ? ConnectorState.ACCEPT : ConnectorState.REJECT_AND_STOP;
         }
 //        return object != null ? ConnectorState.REJECT_AND_STOP : ConnectorState.REJECT;
     }
-    
+
     public boolean hasCustomReplacementWidgetResolver(Scene scene) {
         return false;
     }
-    
+
     public Widget resolveReplacementWidget(Scene scene, Point sceneLocation) {
         return null;
     }
-    
+
     public void reconnect(ConnectionWidget connectionWidget, Widget replacementWidget, boolean reconnectingSource) {
         if (replacementWidget == null) {
             scene.removeEdge(edge);
-        }
-        else if (reconnectingSource) {
+        } else if (reconnectingSource) {
             GtaConnection connection = (GtaConnection) scene.findObject(connectionWidget);
-            connection.setSourceID(((GtaModelReference)replacementNode).getId());
+            connection.setSourceID(((GtaModelReference) replacementNode).getId());
             scene.setEdgeSource(edge, replacementNode);
             scene.getDobj().setModified(true);
         } else {
@@ -111,20 +106,16 @@ public class GlotaranReconnectProvider implements ReconnectProvider {
                 if (!((DatasetContainerWidget) replacementWidget.getParentWidget()).isConnected()) {
                     ((DatasetContainerWidget) replacementWidget.getParentWidget()).setConnected(true);
                     GtaConnection connection = (GtaConnection) scene.findObject(connectionWidget);
-                    connection.setTargetID(((GtaDatasetContainer)replacementNode).getId());
+                    connection.setTargetID(((GtaDatasetContainer) replacementNode).getId());
                     scene.setEdgeTarget(edge, replacementNode);
                     scene.getDobj().setModified(true);
                     //TODO finish implementing
-                }
-                else {
-                    ((DatasetContainerWidget)scene.findWidget(scene.getNodeForID(edge.getTargetID()))).setConnected(true);
-                    CoreErrorMessages.containerConnected("","");
+                } else {
+                    ((DatasetContainerWidget) scene.findWidget(scene.getNodeForID(edge.getTargetID()))).setConnected(true);
+                    CoreErrorMessages.containerConnected("", "");
                 }
             }
         }
         scene.validate();
     }
-
-
-    
 }

@@ -2,7 +2,6 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package org.glotaran.core.ui.visualmodelling.nodes;
 
 import java.awt.Image;
@@ -22,6 +21,7 @@ import org.openide.util.ImageUtilities;
  * @author lsp
  */
 public class CohSpecNode extends PropertiesAbstractNode {
+
     private final Image ICON = ImageUtilities.loadImage("org/glotaran/core/ui/visualmodelling/resources/Cohspecpar_16.png", true);
     private EnumTypes.CohSpecTypes cohSpecType = EnumTypes.CohSpecTypes.IRF;
     private Boolean clpzero = Boolean.FALSE;
@@ -29,29 +29,29 @@ public class CohSpecNode extends PropertiesAbstractNode {
     private Double clpMax = 0.0;
     private String[] propNames = new String[]{"Name", "CohSpec model", "Set coh to 0", "Min vave", "Max vave"};
 
-    public CohSpecNode(PropertyChangeListener listn){
-         super("CohSpec", Children.LEAF);
-         this.addPropertyChangeListener(listn);
+    public CohSpecNode(PropertyChangeListener listn) {
+        super("CohSpec", Children.LEAF);
+        this.addPropertyChangeListener(listn);
     }
 
     public CohSpecNode(CohspecPanelModel cohspecPanel, PropertyChangeListener listn) {
-         super("CohSpec", Children.LEAF);
-         if (cohspecPanel.isClp0Enabled()!=null){
+        super("CohSpec", Children.LEAF);
+        if (cohspecPanel.isClp0Enabled() != null) {
             setClpzero(cohspecPanel.isClp0Enabled());
-         }
-         if (clpzero){
-             setClpMin(cohspecPanel.getClp0Min());
-             setClpMax(cohspecPanel.getClp0Max());
-         }
-         setCohSpecType(cohSpecType.setFromStr(cohspecPanel.getCohspec().getType()));
-         this.addPropertyChangeListener(listn);
+        }
+        if (clpzero) {
+            setClpMin(cohspecPanel.getClp0Min());
+            setClpMax(cohspecPanel.getClp0Max());
+        }
+        setCohSpecType(cohSpecType.setFromStr(cohspecPanel.getCohspec().getType()));
+        this.addPropertyChangeListener(listn);
 
     }
-    
+
     @Override
     public String getDisplayName() {
         String name = super.getDisplayName();
-        name = name + " ("+cohSpecType+")";
+        name = name + " (" + cohSpecType + ")";
         return name;
     }
 
@@ -70,7 +70,8 @@ public class CohSpecNode extends PropertiesAbstractNode {
     }
 
     public void setClpMax(Double clpMax) {
-        this.clpMax = clpMax;fireDisplayNameChange(null, getDisplayName());
+        this.clpMax = clpMax;
+        fireDisplayNameChange(null, getDisplayName());
         firePropertyChange("setClpMax", null, clpMax);
     }
 
@@ -100,8 +101,7 @@ public class CohSpecNode extends PropertiesAbstractNode {
             } catch (NoSuchMethodException ex) {
                 Exceptions.printStackTrace(ex);
             }
-        }
-        else {
+        } else {
             getSheet().get(Sheet.PROPERTIES).remove(propNames[3]);
             getSheet().get(Sheet.PROPERTIES).remove(propNames[4]);
         }
@@ -122,7 +122,7 @@ public class CohSpecNode extends PropertiesAbstractNode {
         firePropertyChange("setCohType", null, cohSpecType);
     }
 
-     @Override
+    @Override
     protected Sheet createSheet() {
         Sheet sheet = Sheet.createDefault();
         Sheet.Set set = Sheet.createPropertiesSet();
@@ -147,6 +147,4 @@ public class CohSpecNode extends PropertiesAbstractNode {
         sheet.put(set);
         return sheet;
     }
-
-
 }

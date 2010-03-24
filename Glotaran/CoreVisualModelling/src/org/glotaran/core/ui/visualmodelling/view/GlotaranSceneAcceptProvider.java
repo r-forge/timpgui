@@ -37,28 +37,28 @@ public class GlotaranSceneAcceptProvider implements AcceptProvider {
         this.scene = scene;
     }
 
-    public ConnectorState isAcceptable(Widget widget, Point point, Transferable transferable) {        
+    public ConnectorState isAcceptable(Widget widget, Point point, Transferable transferable) {
         ConnectorState accept = ConnectorState.REJECT;
         if (transferable.isDataFlavorSupported(TgmDataNode.DATA_FLAVOR)) {
             accept = ConnectorState.ACCEPT;
         } else if (transferable.isDataFlavorSupported(PaletteNode.DATA_FLAVOR)) {
-                PaletteItem item = null;
-                try {
-                    item = (PaletteItem) transferable.getTransferData(PaletteNode.DATA_FLAVOR);
-                } catch (UnsupportedFlavorException ex) {
-                    Exceptions.printStackTrace(ex);
-                } catch (IOException ex) {
-                    Exceptions.printStackTrace(ex);
-                }
-                if (item.getCategory().compareTo("Containers") == 0 ||
-                        item.getCategory().compareTo("Output") == 0) {
-                    accept = ConnectorState.ACCEPT;
-                } else { 
-                    accept = ConnectorState.REJECT;
-                }
+            PaletteItem item = null;
+            try {
+                item = (PaletteItem) transferable.getTransferData(PaletteNode.DATA_FLAVOR);
+            } catch (UnsupportedFlavorException ex) {
+                Exceptions.printStackTrace(ex);
+            } catch (IOException ex) {
+                Exceptions.printStackTrace(ex);
+            }
+            if (item.getCategory().compareTo("Containers") == 0
+                    || item.getCategory().compareTo("Output") == 0) {
+                accept = ConnectorState.ACCEPT;
             } else {
                 accept = ConnectorState.REJECT;
-            }        
+            }
+        } else {
+            accept = ConnectorState.REJECT;
+        }
         return accept;
     }
 
@@ -84,7 +84,7 @@ public class GlotaranSceneAcceptProvider implements AcceptProvider {
                 gtaOutput.setLayout(widlayout);
                 gtaOutput.setId(String.valueOf(scene.getNewNodeCount()));
                 newWidget = scene.addNode(gtaOutput);
-            }           
+            }
         }
 
         // A existing dataobject is dragged from within the platform onto the GraphScene

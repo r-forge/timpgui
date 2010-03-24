@@ -2,7 +2,6 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package org.glotaran.core.ui.visualmodelling.palette;
 
 import java.awt.datatransfer.DataFlavor;
@@ -14,24 +13,24 @@ import org.openide.nodes.AbstractNode;
 import org.openide.nodes.Children;
 import org.openide.util.lookup.Lookups;
 
-
 public class PaletteNode extends AbstractNode implements Transferable {
+
     /** Creates a new instance of InstrumentNode */
     public static final DataFlavor DATA_FLAVOR = new DataFlavor(PaletteNode.class, "VisualPaletteNode");
     private PaletteItem paletteItem;
 
     public PaletteNode(PaletteItem key) {
-        super(Children.LEAF, Lookups.fixed(new Object[] {key}));
+        super(Children.LEAF, Lookups.fixed(new Object[]{key}));
         this.paletteItem = key;
         setIconBaseWithExtension(key.getImageLocation());
     }
 
     public DataFlavor[] getTransferDataFlavors() {
-        return(new DataFlavor[]{DATA_FLAVOR});
+        return (new DataFlavor[]{DATA_FLAVOR});
     }
 
     public boolean isDataFlavorSupported(DataFlavor flavor) {
-        return(flavor == DATA_FLAVOR);
+        return (flavor == DATA_FLAVOR);
     }
 
     public Object getTransferData(DataFlavor flavor) throws UnsupportedFlavorException, IOException {
@@ -56,11 +55,8 @@ public class PaletteNode extends AbstractNode implements Transferable {
         return true;
     }
 
-
     @Override
     public Action getPreferredAction() {
         return super.getPreferredAction();
     }
-
-    
 }

@@ -28,7 +28,7 @@ public class TGDatasetNode extends FilterNode {
 
     @Override
     public void destroy() throws IOException {
-        if (this.getChildren().getNodesCount()>0){
+        if (this.getChildren().getNodesCount() > 0) {
             this.getChildren().remove(this.getChildren().getNodes());
         }
         super.destroy();
@@ -46,7 +46,7 @@ public class TGDatasetNode extends FilterNode {
 
     @Override
     public String getDisplayName() {
-        if (this.getParentNode() instanceof TGDatasetNode){
+        if (this.getParentNode() instanceof TGDatasetNode) {
             return this.getName();
         }
         return NbBundle.getBundle("org/glotaran/core/main/Bundle").getString("datasets");
@@ -55,7 +55,7 @@ public class TGDatasetNode extends FilterNode {
 
     @Override
     public boolean canRename() {
-        if (this.getParentNode() instanceof TGDatasetNode){
+        if (this.getParentNode() instanceof TGDatasetNode) {
             return true;
         }
         return false;
@@ -63,19 +63,19 @@ public class TGDatasetNode extends FilterNode {
 
     @Override
     public Action[] getActions(boolean arg0) {
-       Action[] actions = super.getActions(arg0);
+        Action[] actions = super.getActions(arg0);
 
         final DataObject obj = getLookup().lookup(DataObject.class);
         final Project proj = FileOwnerQuery.getOwner(obj.getPrimaryFile());
 
-        if(proj != null && proj instanceof TGProject){
+        if (proj != null && proj instanceof TGProject) {
             Action[] temp = actions;
-            actions = new Action[actions.length+1];
+            actions = new Action[actions.length + 1];
             actions[0] = new OpenDataset();
-            
+
 
             for (int i = 0; i < temp.length; i++) {
-                actions[i+1] = temp[i];
+                actions[i + 1] = temp[i];
 
             }
         }
@@ -83,8 +83,8 @@ public class TGDatasetNode extends FilterNode {
         return actions;
     }
 
-
     private static class TGDatasetChildrenNode extends FilterNode.Children {
+
         TGDatasetChildrenNode(Node node) {
             super(node);
         }
@@ -92,14 +92,14 @@ public class TGDatasetNode extends FilterNode {
         @Override
         protected Node[] createNodes(Node n) {
             if (n.getLookup().lookup(DataFolder.class) != null) {
-                return new Node[] {new TGDatasetNode(n)};
+                return new Node[]{new TGDatasetNode(n)};
             } else {
-                if (n.getLookup().lookup(TgdDataObject.class)!=null){
-                    return new Node[] {n.getLookup().lookup(TgdDataObject.class).getNodeDelegate()};
+                if (n.getLookup().lookup(TgdDataObject.class) != null) {
+                    return new Node[]{n.getLookup().lookup(TgdDataObject.class).getNodeDelegate()};
                 }
             }
             // best effort
-            return new Node[] {};
+            return new Node[]{};
         }
     }
 }

@@ -4,8 +4,6 @@
 // Any modifications to this file will be lost upon recompilation of the source schema. 
 // Generated on: 2010.03.24 at 12:12:25 PM CET 
 //
-
-
 package org.glotaran.core.models.results;
 
 import java.util.ArrayList;
@@ -15,7 +13,6 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
-
 
 /**
  * <p>Java class for anonymous complex type.
@@ -252,5 +249,4 @@ public class GtaResult {
     public void setSchemafile(OutputFile value) {
         this.schemafile = value;
     }
-
 }

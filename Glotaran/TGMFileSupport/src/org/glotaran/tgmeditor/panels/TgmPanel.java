@@ -28,7 +28,7 @@ public class TgmPanel extends SectionInnerPanel {
         initComponents();
         // Here is where we initialize the gui's components.
         if (tgm.getDat().getModelName()==null) {
-            tgm.getDat().setModelName("defaultModelName"); endUIChange();
+            tgm.getDat().setModelName("defaultModelName");
         }
     }
 

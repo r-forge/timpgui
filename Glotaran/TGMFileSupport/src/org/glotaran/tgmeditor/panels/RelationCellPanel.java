@@ -26,15 +26,19 @@ public class RelationCellPanel extends javax.swing.JPanel{
         initComponents();
         jCheckBox1.setEnabled(relVal.isFixedC0());
         jCheckBox2.setEnabled(relVal.isFixedC1());
-        if (relVal.getC1()!=Double.NaN)
+        if (relVal.getC1()!=Double.NaN) {
             jTextField1.setText(String.valueOf(relVal.getC1()));
-        else
+        }
+        else {
             jTextField1.setText("");
+        }
 
-        if (relVal.getC1()!=Double.NaN)
+        if (relVal.getC1()!=Double.NaN) {
             jTextField2.setText(String.valueOf(relVal.getC1()));
-        else
+        }
+        else {
             jTextField2.setText("");
+        }
     }
 
     /** This method is called from within the constructor to

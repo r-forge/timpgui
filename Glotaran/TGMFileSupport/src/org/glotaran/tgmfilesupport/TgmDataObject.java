@@ -5,7 +5,9 @@
 package org.glotaran.tgmfilesupport;
 
 import java.awt.Image;
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.StringWriter;
 import java.io.Writer;
 import javax.xml.bind.JAXBContext;
@@ -32,11 +34,12 @@ import org.openide.nodes.Node;
 import org.openide.util.ImageUtilities;
 import org.openide.util.Lookup;
 
-public class TgmDataObject extends XmlMultiViewDataObject implements SaveCookie{
+public class TgmDataObject extends XmlMultiViewDataObject implements SaveCookie {
     // Model synchronizer takes care of two way synchronization between the view and the XML file
+
     private ModelSynchronizer modelSynchronizer;    // Here we declare the variable, representing the type of design view, which will be discussed in some future installment of this series:
     private static final int TYPE_TOOLBAR = 0;
-    private static final long serialVersionUID = 1;
+    private static final long serialVersionUID = 1L;
     Tgm tgm;
 
     public TgmDataObject(FileObject pf, MultiFileLoader loader) throws DataObjectExistsException, IOException {
@@ -62,7 +65,7 @@ public class TgmDataObject extends XmlMultiViewDataObject implements SaveCookie{
     protected Node createNodeDelegate() {
         return new TgmDataNode(this); // removed: getLookup()
     }
-   
+
     @Override
     public Lookup getLookup() {
         return getCookieSet().getLookup();
@@ -116,22 +119,26 @@ public class TgmDataObject extends XmlMultiViewDataObject implements SaveCookie{
             tgm = getTgm();
         } else {
             java.io.InputStream is = getEditorSupport().getInputStream();
-            Tgm newTgm = null;
-            try {
-                JAXBContext jaxbCtx = JAXBContext.newInstance(tgm.getClass().getPackage().getName());
-                Unmarshaller unmarshaller = jaxbCtx.createUnmarshaller();
-                newTgm = (Tgm) unmarshaller.unmarshal(is); //NOI18N
-            } catch (javax.xml.bind.JAXBException ex) {
-                // XXXTODO Handle exception
-                java.util.logging.Logger.getLogger("global").log(java.util.logging.Level.SEVERE, null, ex); //NOI18N
-            }
-            if (newTgm != null) {
-                tgm = newTgm;
+                Tgm newTgm = null;
+                try {
+                    JAXBContext jaxbCtx = JAXBContext.newInstance(tgm.getClass().getPackage().getName());
+                    Unmarshaller unmarshaller = jaxbCtx.createUnmarshaller();
+                    newTgm = (Tgm) unmarshaller.unmarshal(is); //NOI18N
+                } catch (javax.xml.bind.JAXBException ex) {
+                    // XXXTODO Handle exception
+                    java.util.logging.Logger.getLogger("global").log(java.util.logging.Level.SEVERE, null, ex); //NOI18N
+                } finally {
+                    is.close();
+                }
+                if (newTgm != null) {
+                    tgm = newTgm;
+                }
             }
         }
-    }
 
-    public void save() throws IOException {
+    public
+
+     void save() throws IOException {
 //        System.out.println("save");
         if (tgm == null) {
             return;
@@ -158,8 +165,6 @@ public class TgmDataObject extends XmlMultiViewDataObject implements SaveCookie{
         setModified(false);
     }
 
-
-
     public Tgm getTgm() { //perhaps IOExeption?
         // If the Object "tgm" doesn't exist yet, read in from file
 
@@ -179,7 +184,8 @@ public class TgmDataObject extends XmlMultiViewDataObject implements SaveCookie{
     }
 
     public void modelUpdatedFromUI() {
-//        System.out.println("modelUpdatedFromUI");
+        //TODO remove the System.out statement
+        System.out.println("modelUpdatedFromUI");
         modelSynchronizer.requestUpdateData();
         setModified(true);
     }
@@ -187,8 +193,8 @@ public class TgmDataObject extends XmlMultiViewDataObject implements SaveCookie{
     private static class DesignView extends DesignMultiViewDesc {
         //Added becuase of:
         //WARNING [org.openide.util.io.NbObjectOutputStream]: Serializable class nl.vu.nat.tgmfilesupport.TgmDataObject$DesignView does not declare serialVersionUID field. Encountered while storing: [org.openide.windows.TopComponent$Replacer, java.lang.Short, java.lang.Number, org.openide.windows.CloneableOpenSupport$Listener, org.openide.windows.CloneableTopComponent$Ref, org.netbeans.modules.xml.multiview.XmlMultiViewEditorSupport$XmlEnv, org.openide.text.DataEditorSupport$Env, org.openide.loaders.OpenSupport$Env, org.openide.loaders.DataObject$Replace, org.netbeans.modules.masterfs.filebasedfs.fileobjects.ReplaceForSerialization, org.netbeans.modules.xml.multiview.XmlMultiViewEditorSupport$MyCloseHandler] See also http://www.netbeans.org/issues/show_bug.cgi?id=19915
-        private static final long serialVersionUID = 1L;
 
+        private static final long serialVersionUID = 1L;
         private int type;
 
         DesignView(TgmDataObject dObj, int type) {

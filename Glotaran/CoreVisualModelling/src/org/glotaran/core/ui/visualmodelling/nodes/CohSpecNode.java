@@ -45,6 +45,7 @@ public class CohSpecNode extends PropertiesAbstractNode {
          }
          setCohSpecType(cohSpecType.setFromStr(cohspecPanel.getCohspec().getType()));
          this.addPropertyChangeListener(listn);
+
     }
     
     @Override
@@ -90,8 +91,8 @@ public class CohSpecNode extends PropertiesAbstractNode {
         this.clpzero = clpzero;
         if (clpzero) {
             try {
-                Property clpminimum = new PropertySupport.Reflection(this, Double.class, "clpMin");
-                Property clpmaximum = new PropertySupport.Reflection(this, Double.class, "clpMax");
+                Property<Double> clpminimum = new PropertySupport.Reflection<Double>(this, Double.class, "clpMin");
+                Property<Double> clpmaximum = new PropertySupport.Reflection<Double>(this, Double.class, "clpMax");
                 clpminimum.setName(propNames[3]);
                 clpmaximum.setName(propNames[4]);
                 getSheet().get(Sheet.PROPERTIES).put(clpminimum);
@@ -117,19 +118,23 @@ public class CohSpecNode extends PropertiesAbstractNode {
         firePropertyChange("setCohType", null, cohSpecType);
     }
 
+    public void initialize() {
+        firePropertyChange("setCohType", null, cohSpecType);
+    }
+
      @Override
     protected Sheet createSheet() {
         Sheet sheet = Sheet.createDefault();
         Sheet.Set set = Sheet.createPropertiesSet();
-        Property clpzer = null;
-        Property name = null;
-        PropertySupport.Reflection cohType = null;
+        Property<Boolean> clpzer = null;
+        Property<String> name = null;
+        PropertySupport.Reflection<EnumTypes.CohSpecTypes> cohType = null;
 
         try {
-            cohType = new PropertySupport.Reflection(this, EnumTypes.CohSpecTypes.class, "cohSpecType");
+            cohType = new PropertySupport.Reflection<EnumTypes.CohSpecTypes>(this, EnumTypes.CohSpecTypes.class, "cohSpecType");
             cohType.setPropertyEditorClass(EnumPropertyEditor.class); //EnumPropertyEditor.class;
-            clpzer = new PropertySupport.Reflection(this, Boolean.class, "clpzero");
-            name = new PropertySupport.Reflection(this, String.class, "getDisplayName", null);
+            clpzer = new PropertySupport.Reflection<Boolean>(this, Boolean.class, "clpzero");
+            name = new PropertySupport.Reflection<String>(this, String.class, "getDisplayName", null);
         } catch (NoSuchMethodException ex) {
             Exceptions.printStackTrace(ex);
         }

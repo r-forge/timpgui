@@ -51,7 +51,7 @@ public class TgmToolBarMVElement extends ToolBarMultiViewElement {
     @Override
     public void componentShowing() {
         super.componentShowing();
-        this.dataObj.modelUpdatedFromUI();
+        //this.dataObj.modelUpdatedFromUI();
         view = new TgmView(this.dataObj);
         comp.setContentView(view);
         //This determines what view is opened by default:

@@ -280,7 +280,7 @@ public class MultiTracesPanel extends javax.swing.JPanel {
             }
             realSasCollection.addSeries(seria);
         }
-        GraphPanel chartPanel = CommonTools.createGraphPanel(realSasCollection, specName, "Wavelength (nm)", errorBars, dataset.getX2()[dataset.getX2().length - 1]);
+        GraphPanel chartPanel = CommonTools.createGraphPanel(realSasCollection, specName, "Wavelength (nm)", errorBars);
         CrosshairOverlay overlay = new CrosshairOverlay();
         overlay.addDomainCrosshair(crosshair);
         chartPanel.addOverlay(overlay);

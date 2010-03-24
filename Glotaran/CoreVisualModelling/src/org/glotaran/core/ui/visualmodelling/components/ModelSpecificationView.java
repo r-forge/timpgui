@@ -34,6 +34,7 @@ import org.openide.util.Exceptions;
  * @author jsg210
  */
 public class ModelSpecificationView extends TreeTableView {
+    private static final long serialVersionUID = 1L;
 
     public ModelSpecificationView() {
           setRootVisible(false);
@@ -139,6 +140,9 @@ public class ModelSpecificationView extends TreeTableView {
                                  }
                                  if (!present) {
                                      nodes.add(new Node[]{new CohSpecNode(listn)});
+                                     if(nodes.getNodeAt(nodes.getNodesCount()-1) instanceof CohSpecNode) {
+                                         ((CohSpecNode)nodes.getNodeAt(nodes.getNodesCount()-1)).initialize();
+                                     }
                                  } else {
                                      CoreErrorMessages.parametersExists("CohSpec parameters ");
                                  }

@@ -190,7 +190,7 @@ public class CommonTools {
         return new XYSeriesCollection(series3);
     }
 
-    public static GraphPanel createGraphPanel(XYDataset traceCollection, String name, String axeName, boolean errorBars, double upBound){
+    public static GraphPanel createGraphPanel(XYDataset traceCollection, String name, String axeName, boolean errorBars){
         JFreeChart tracechart = ChartFactory.createXYLineChart(
                 null,
                 axeName,
@@ -200,7 +200,6 @@ public class CommonTools {
                 false,
                 false,
                 false);
-        tracechart.getXYPlot().getDomainAxis().setUpperBound(upBound);
         return new GraphPanel(tracechart, errorBars);
     }
 

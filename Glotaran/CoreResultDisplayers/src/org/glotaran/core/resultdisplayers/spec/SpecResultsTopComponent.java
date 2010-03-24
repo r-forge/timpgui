@@ -1569,19 +1569,19 @@ public final class SpecResultsTopComponent extends TopComponent implements Chart
             }
         }
 
-        GraphPanel chpan = CommonTools.createGraphPanel(realSasCollection, specName, "Wavelength (nm)", errorBars, res.getX2()[res.getX2().length - 1]);
+        GraphPanel chpan = CommonTools.createGraphPanel(realSasCollection, specName, "Wavelength (nm)", errorBars);
         jPSAS.removeAll();
         jPSAS.add(chpan);
 
-        chpan = CommonTools.createGraphPanel(normSasCollection, "norm" + specName, "Wavelength (nm)", errorBars, res.getX2()[res.getX2().length - 1]);
+        chpan = CommonTools.createGraphPanel(normSasCollection, "norm" + specName, "Wavelength (nm)", errorBars);
         jPSASnorm.removeAll();
         jPSASnorm.add(chpan);
 
-        chpan = CommonTools.createGraphPanel(realDasCollection, "DAS", "Wavelength (nm)", false, res.getX2()[res.getX2().length - 1]);
+        chpan = CommonTools.createGraphPanel(realDasCollection, "DAS", "Wavelength (nm)", false);
         jPDAS.removeAll();
         jPDAS.add(chpan);
 
-        chpan = CommonTools.createGraphPanel(normDasCollection, "normDAS", "Wavelength (nm)", false, res.getX2()[res.getX2().length - 1]);
+        chpan = CommonTools.createGraphPanel(normDasCollection, "normDAS", "Wavelength (nm)", false);
         jPDASnorm.removeAll();
         jPDASnorm.add(chpan);
 

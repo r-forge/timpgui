@@ -10,10 +10,15 @@ import java.util.logging.Logger;
 import static java.lang.Math.abs;
 import org.glotaran.core.models.results.GtaResult;
 import org.glotaran.core.models.structures.TimpResultDataset;
-import org.glotaran.core.resultdisplayers.common.panels.CommonTools;
 import org.glotaran.core.resultdisplayers.common.panels.RelationFrom;
 import org.glotaran.core.resultdisplayers.common.panels.RelationTo;
+import org.glotaran.jfreechartcustom.GlotaranDrawingSupplier;
 import org.glotaran.jfreechartcustom.GraphPanel;
+import org.jfree.chart.ChartFactory;
+import org.jfree.chart.JFreeChart;
+import org.jfree.chart.plot.PlotOrientation;
+import org.jfree.chart.plot.XYPlot;
+import org.jfree.data.xy.XYDataset;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 import org.jfree.data.xy.YIntervalSeries;
@@ -91,7 +96,7 @@ public final class GlobalSpecResultsDisplayerTopComponent extends CloneableTopCo
             }
         }
 
-        plotSpectrTraces(results);
+        plotSpectrTraces(relationGroups);
 
     }
 
@@ -205,16 +210,16 @@ public final class GlobalSpecResultsDisplayerTopComponent extends CloneableTopCo
     }// </editor-fold>//GEN-END:initComponents
 
     private void jTBShowChohSpecActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTBShowChohSpecActionPerformed
-        plotSpectrTraces(resultDatasets);
-        jPDASPlot.validate();
+        plotSpectrTraces(relationGroups);
+        jPSASPlot.validate();
         jPDASPlot.validate();
         jPNormDasPlot.validate();
         jPNormSASPlot.validate();
     }//GEN-LAST:event_jTBShowChohSpecActionPerformed
 
     private void jTBNormToMaxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTBNormToMaxActionPerformed
-        plotSpectrTraces(resultDatasets);
-        jPDASPlot.validate();
+        plotSpectrTraces(relationGroups);
+        jPSASPlot.validate();
         jPDASPlot.validate();
         jPNormDasPlot.validate();
         jPNormSASPlot.validate();
@@ -304,8 +309,7 @@ public final class GlobalSpecResultsDisplayerTopComponent extends CloneableTopCo
         return PREFERRED_ID;
     }
 
-    private void plotSpectrTraces(List<TimpResultDataset> results) {
-
+    private void plotSpectrTraces(ArrayList<RelationFrom> groups) {
         YIntervalSeriesCollection realSasCollection = new YIntervalSeriesCollection();
         YIntervalSeriesCollection normSasCollection = new YIntervalSeriesCollection();
         XYSeriesCollection realDasCollection = new XYSeriesCollection();
@@ -313,58 +317,56 @@ public final class GlobalSpecResultsDisplayerTopComponent extends CloneableTopCo
         String specName = null;
         boolean errorBars = false;
         int numberOfComponents;
-        for (int k = 0; k < results.size(); k++) {
-            TimpResultDataset res = results.get(k);
+        TimpResultDataset fromDataset;
+        YIntervalSeries seria;
+        XYSeries dasSeria;
+        double maxAmpl = 0;
+        double maxDasAmpl = 0;
 
-            specName = res.getJvec() != null ? "SAS" : "EAS";
-            errorBars = res.getSpectraErr() != null ? true : false;
-            res.calcRangeInt();
-            if (res.getJvec() != null) {
-                numberOfComponents = res.getJvec().length / 2;
-            } else {
-                numberOfComponents = res.getKineticParameters().length / 2;
+        for (int g = 0; g < resultDatasets.size(); g++){
+            fromDataset = resultDatasets.get(g);
+            specName = fromDataset.getJvec() != null ? "SAS" : "EAS";
+            errorBars = fromDataset.getSpectraErr() != null ? true : false;
+            numberOfComponents = fromDataset.getJvec() != null ? fromDataset.getJvec().length / 2 : fromDataset.getKineticParameters().length / 2;
+            if (fromDataset.getSpectra().getRowDimension() > numberOfComponents * 2) {
+                jTBShowChohSpec.setEnabled(true);
             }
             int compNumFull = jTBShowChohSpec.isEnabled() ? numberOfComponents + 1 : numberOfComponents;
             int compNum = jTBShowChohSpec.isSelected() ? numberOfComponents + 1 : numberOfComponents;
-            double maxAmpl = 0;
-            double maxDasAmpl = 0;
-
-            YIntervalSeries seria;
-            XYSeries dasSeria;
-
-//create collection of real sas and normalizes all of them to max or abs(max) and creates collection with normSAS
+            maxAmpl = 0;
+            maxDasAmpl = 0;
             for (int j = 0; j < compNum; j++) {
-                seria = new YIntervalSeries(specName + k + "." + (j + 1));// new XYSeries(specName + (j + 1));
-                dasSeria = new XYSeries("DAS" + k + "." + (j + 1));
+                seria = new YIntervalSeries(specName + g + "." + (j + 1));// new XYSeries(specName + (j + 1));
+                dasSeria = new XYSeries("DAS" + g + "." + (j + 1));
                 maxAmpl = 0;
                 maxDasAmpl = 0;
-                for (int i = 0; i < res.getX2().length; i++) {
-                    if (res.getSpectraErr() != null) {
-                        seria.add(res.getX2()[i], res.getSpectra().get(j, i),
-                                res.getSpectra().get(j, i) - res.getSpectraErr().get(j, i),
-                                res.getSpectra().get(j, i) + res.getSpectraErr().get(j, i));
+                for (int i = 0; i < fromDataset.getX2().length; i++) {
+                    if (fromDataset.getSpectraErr() != null) {
+                        seria.add(fromDataset.getX2()[i], fromDataset.getSpectra().get(j, i),
+                                fromDataset.getSpectra().get(j, i) - fromDataset.getSpectraErr().get(j, i),
+                                fromDataset.getSpectra().get(j, i) + fromDataset.getSpectraErr().get(j, i));
                     } else {
-                        seria.add(res.getX2()[i], res.getSpectra().get(j, i),
-                                res.getSpectra().get(j, i),
-                                res.getSpectra().get(j, i));
+                        seria.add(fromDataset.getX2()[i], fromDataset.getSpectra().get(j, i),
+                                fromDataset.getSpectra().get(j, i),
+                                fromDataset.getSpectra().get(j, i));
                     }
-                    dasSeria.add(res.getX2()[i], res.getSpectra().get(j + compNumFull, i));
+                    dasSeria.add(fromDataset.getX2()[i], fromDataset.getSpectra().get(j + compNumFull, i));
                     if (jTBNormToMax.isSelected()) {
-                        if (maxAmpl < (res.getSpectra().get(j, i))) {
-                            maxAmpl = (res.getSpectra().get(j, i));
+                        if (maxAmpl < (fromDataset.getSpectra().get(j, i))) {
+                            maxAmpl = (fromDataset.getSpectra().get(j, i));
                         }
-                        if (res.getSpectra().getRowDimension() > compNum) {
-                            if (maxDasAmpl < (res.getSpectra().get(j + compNumFull, i))) {
-                                maxDasAmpl = (res.getSpectra().get(j + compNumFull, i));
+                        if (fromDataset.getSpectra().getRowDimension() > compNum) {
+                            if (maxDasAmpl < (fromDataset.getSpectra().get(j + compNumFull, i))) {
+                                maxDasAmpl = (fromDataset.getSpectra().get(j + compNumFull, i));
                             }
                         }
                     } else {
-                        if (maxAmpl < abs(res.getSpectra().get(j, i))) {
-                            maxAmpl = abs(res.getSpectra().get(j, i));
+                        if (maxAmpl < abs(fromDataset.getSpectra().get(j, i))) {
+                            maxAmpl = abs(fromDataset.getSpectra().get(j, i));
                         }
-                        if (res.getSpectra().getRowDimension() > compNum) {
-                            if (maxDasAmpl < abs(res.getSpectra().get(j + compNumFull, i))) {
-                                maxDasAmpl = abs(res.getSpectra().get(j + compNumFull, i));
+                        if (fromDataset.getSpectra().getRowDimension() > compNum) {
+                            if (maxDasAmpl < abs(fromDataset.getSpectra().get(j + compNumFull, i))) {
+                                maxDasAmpl = abs(fromDataset.getSpectra().get(j + compNumFull, i));
                             }
                         }
                     }
@@ -374,20 +376,20 @@ public final class GlobalSpecResultsDisplayerTopComponent extends CloneableTopCo
                     realDasCollection.addSeries(dasSeria);
                 }
 
-                seria = new YIntervalSeries("Norm" + specName + k + "." + (j + 1));
-                dasSeria = new XYSeries("NormDas" + k + "." + (j + 1));
-                for (int i = 0; i < res.getX2().length; i++) {
-                    if (res.getSpectraErr() != null) {
-                        seria.add(res.getX2()[i], res.getSpectra().get(j, i) / maxAmpl,
-                                res.getSpectra().get(j, i) / maxAmpl - res.getSpectraErr().get(j, i) / maxAmpl,
-                                res.getSpectra().get(j, i) / maxAmpl + res.getSpectraErr().get(j, i) / maxAmpl);
+                seria = new YIntervalSeries("Norm" + specName + g + "." + (j + 1));
+                dasSeria = new XYSeries("NormDas" + g + "." + (j + 1));
+                for (int i = 0; i < fromDataset.getX2().length; i++) {
+                    if (fromDataset.getSpectraErr() != null) {
+                        seria.add(fromDataset.getX2()[i], fromDataset.getSpectra().get(j, i) / maxAmpl,
+                                fromDataset.getSpectra().get(j, i) / maxAmpl - fromDataset.getSpectraErr().get(j, i) / maxAmpl,
+                                fromDataset.getSpectra().get(j, i) / maxAmpl + fromDataset.getSpectraErr().get(j, i) / maxAmpl);
                     } else {
-                        seria.add(res.getX2()[i], res.getSpectra().get(j, i) / maxAmpl,
-                                res.getSpectra().get(j, i) / maxAmpl,
-                                res.getSpectra().get(j, i) / maxAmpl);
+                        seria.add(fromDataset.getX2()[i], fromDataset.getSpectra().get(j, i) / maxAmpl,
+                                fromDataset.getSpectra().get(j, i) / maxAmpl,
+                                fromDataset.getSpectra().get(j, i) / maxAmpl);
                     }
 
-                    dasSeria.add(res.getX2()[i], res.getSpectra().get(j + compNumFull, i) / maxDasAmpl);
+                    dasSeria.add(fromDataset.getX2()[i], fromDataset.getSpectra().get(j + compNumFull, i) / maxDasAmpl);
                 }
                 normSasCollection.addSeries(seria);
                 if (j < numberOfComponents) {
@@ -395,23 +397,60 @@ public final class GlobalSpecResultsDisplayerTopComponent extends CloneableTopCo
                 }
             }
         }
+//create collection of real sas and normalizes all of them to max or abs(max) and creates collection with normSAS
 
-
-        GraphPanel chpan = CommonTools.createGraphPanel(realSasCollection, specName, "Wavelength (nm)", errorBars);
+        GraphPanel chpan = createSpecChart(realSasCollection, specName, errorBars, true);
         jPSASPlot.removeAll();
         jPSASPlot.add(chpan);
 
-        chpan = CommonTools.createGraphPanel(normSasCollection, "norm" + specName, "Wavelength (nm)", errorBars);
+        chpan = createSpecChart(normSasCollection, "norm" + specName, errorBars, true);
         jPNormSASPlot.removeAll();
         jPNormSASPlot.add(chpan);
 
-        chpan = CommonTools.createGraphPanel(realDasCollection, "DAS", "Wavelength (nm)", false);
+        chpan = createSpecChart(realDasCollection, "DAS", false, false);
         jPDASPlot.removeAll();
         jPDASPlot.add(chpan);
 
-        chpan = CommonTools.createGraphPanel(normDasCollection, "normDAS", "Wavelength (nm)", false);
+        chpan = createSpecChart(normDasCollection, "normDAS", false, false);
         jPNormDasPlot.removeAll();
         jPNormDasPlot.add(chpan);
 
     }
+    
+    private GraphPanel createSpecChart(XYDataset traceCollection, String name, boolean errorBars, boolean sas){
+        GlotaranDrawingSupplier drawSupl = null; 
+        JFreeChart tracechart = ChartFactory.createXYLineChart(
+                null,
+                "Wavelengths",
+                name,
+                traceCollection,
+                PlotOrientation.VERTICAL,
+                false,
+                false,
+                false);
+        XYPlot plot = tracechart.getXYPlot();
+        int k = 0;
+        for (int i = 0; i < resultDatasets.size(); i++){
+            drawSupl = new GlotaranDrawingSupplier();
+            TimpResultDataset fromDataset = resultDatasets.get(i);
+            int numberOfComponents = fromDataset.getJvec() != null ? fromDataset.getJvec().length / 2 : fromDataset.getKineticParameters().length / 2;    
+            if (fromDataset.getSpectra().getRowDimension() > numberOfComponents * 2) {    
+                jTBShowChohSpec.setEnabled(true);    
+            }    
+            if (sas){
+                numberOfComponents = jTBShowChohSpec.isSelected() ? numberOfComponents + 1 : numberOfComponents;
+            }
+            for (int j = 0; j < numberOfComponents; j++){
+                plot.getRenderer().setSeriesPaint(k,drawSupl.getNextPaint());
+                k++;
+            }
+            
+        }
+                
+        return new GraphPanel(tracechart, errorBars);
+
+        
+    }
+
+
 }

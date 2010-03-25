@@ -152,6 +152,66 @@ public class CommonTools {
         return new ChartPanel(tracechart, true);
     }
 
+    public static ChartPanel makeLinLogTimeTraceChart(XYSeriesCollection traceLin, XYSeriesCollection traceLog, String name, boolean multy) {
+        NumberAxis yAxis = new NumberAxis();
+        yAxis.setVisible(false);
+        GlotaranDrawingSupplier drawSuplLin = new GlotaranDrawingSupplier();
+        GlotaranDrawingSupplier drawSuplLog = new GlotaranDrawingSupplier();
+
+        JFreeChart linePart, logPart;
+
+        linePart = ChartFactory.createXYLineChart(
+                null,
+                "Time",
+                null,
+                traceLin,
+                PlotOrientation.VERTICAL,
+                false,
+                false,
+                false);
+        logPart = ChartFactory.createXYLineChart(
+                null,
+                "log(Time)",
+                null,
+                traceLog,
+                PlotOrientation.VERTICAL,
+                false,
+                false,
+                false);
+
+        XYPlot linPlot = linePart.getXYPlot();
+        linPlot.getDomainAxis().setLowerMargin(0.0);
+        linPlot.getDomainAxis().setUpperMargin(0.0);
+        linPlot.setRangeZeroBaselineVisible(true);
+
+        XYPlot logPlot = logPart.getXYPlot();
+
+        logPlot.setDomainAxis(new LogAxis("log(Time)"));
+        logPlot.getDomainAxis().setLabelFont(linPlot.getDomainAxis().getLabelFont());
+        logPlot.getDomainAxis().setLowerMargin(0.0);
+        logPlot.getDomainAxis().setUpperMargin(0.0);
+        logPlot.setRangeZeroBaselineVisible(true);
+        for (int i = 0; i < traceLog.getSeriesCount(); i++) {
+            linPlot.getRenderer().setSeriesPaint(i, drawSuplLin.getNextPaint());
+            logPlot.getRenderer().setSeriesPaint(i, drawSuplLog.getNextPaint());
+        }
+
+        CombinedRangeXYPlot plot = new CombinedRangeXYPlot(yAxis);
+        plot.setGap(-7.5);
+        plot.add(linPlot);
+        plot.add(logPlot);
+
+        JFreeChart tracechart = new JFreeChart(null, JFreeChart.DEFAULT_TITLE_FONT, plot, true);
+        LegendTitle legend = new LegendTitle(linPlot);
+        legend.setPosition(RectangleEdge.BOTTOM);
+        tracechart.removeLegend();
+        legend.setVisible(false);
+        tracechart.addLegend(legend);
+        return new ChartPanel(tracechart, true);
+    }
+
+
+
     public static XYSeriesCollection createFitRawTraceCollection(int xIndex, int startInd, int stopInd, TimpResultDataset data) {
         return createFitRawTraceCollection(xIndex, startInd, stopInd, data, 0, "");
     }

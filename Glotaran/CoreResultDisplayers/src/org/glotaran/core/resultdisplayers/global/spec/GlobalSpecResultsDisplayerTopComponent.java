@@ -4,6 +4,7 @@
  */
 package org.glotaran.core.resultdisplayers.global.spec;
 
+import java.awt.Stroke;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
@@ -13,6 +14,7 @@ import org.glotaran.core.models.structures.TimpResultDataset;
 import org.glotaran.core.resultdisplayers.common.panels.RelationFrom;
 import org.glotaran.core.resultdisplayers.common.panels.RelationTo;
 import org.glotaran.jfreechartcustom.GlotaranDrawingSupplier;
+import org.glotaran.jfreechartcustom.GlotaranStrokeSupplier;
 import org.glotaran.jfreechartcustom.GraphPanel;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.JFreeChart;
@@ -418,7 +420,9 @@ public final class GlobalSpecResultsDisplayerTopComponent extends CloneableTopCo
     }
     
     private GraphPanel createSpecChart(XYDataset traceCollection, String name, boolean errorBars, boolean sas){
-        GlotaranDrawingSupplier drawSupl = null; 
+        GlotaranDrawingSupplier drawSupl = null;
+        GlotaranStrokeSupplier strokeSupl = new GlotaranStrokeSupplier();
+        Stroke lineStroke;
         JFreeChart tracechart = ChartFactory.createXYLineChart(
                 null,
                 "Wavelengths",
@@ -440,8 +444,10 @@ public final class GlobalSpecResultsDisplayerTopComponent extends CloneableTopCo
             if (sas){
                 numberOfComponents = jTBShowChohSpec.isSelected() ? numberOfComponents + 1 : numberOfComponents;
             }
+            lineStroke = strokeSupl.getNextStroke();
             for (int j = 0; j < numberOfComponents; j++){
                 plot.getRenderer().setSeriesPaint(k,drawSupl.getNextPaint());
+                plot.getRenderer().setSeriesStroke(k, lineStroke);
                 k++;
             }
             

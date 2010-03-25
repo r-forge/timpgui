@@ -255,8 +255,8 @@ public final class StartAnalysis implements ActionListener {
         if (!tgm.getDat().getIrfparPanel().isMirf()) {
             if (tgm.getDat().getIrfparPanel().getParmu() != null || tgm.getDat().getIrfparPanel().getPartau() != null) {
                 if (!tgm.getDat().getIrfparPanel().getParmu().isEmpty() || !tgm.getDat().getIrfparPanel().getPartau().isEmpty()) {
-                    Double test = tgm.getDat().getIrfparPanel().getLamda();
-                    if (test == null || test.isNaN()) {
+                    Double testLamda = tgm.getDat().getIrfparPanel().getLamda();
+                    if (testLamda == null || testLamda.isNaN()) {
                         run = false;
                         feedback = "Parmu or Partau specified but no center wavelength was specified.";
                     }

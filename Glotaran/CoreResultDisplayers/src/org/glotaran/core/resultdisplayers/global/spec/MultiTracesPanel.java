@@ -10,14 +10,23 @@
  */
 package org.glotaran.core.resultdisplayers.global.spec;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Font;
+import java.awt.Dimension;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.GridLayout;
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTabbedPane;
+import net.miginfocom.swing.MigLayout;
 import org.glotaran.core.messages.CoreErrorMessages;
 import org.glotaran.core.models.structures.TimpResultDataset;
 import org.glotaran.core.resultdisplayers.common.panels.CommonTools;
 import org.glotaran.core.resultdisplayers.common.panels.RelationFrom;
+import org.glotaran.core.resultdisplayers.common.panels.SelectTracesForPlot;
 import org.glotaran.jfreechartcustom.GraphPanel;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.axis.NumberAxis;
@@ -28,6 +37,9 @@ import org.jfree.data.xy.XYSeriesCollection;
 import org.jfree.data.xy.YIntervalSeries;
 import org.jfree.data.xy.YIntervalSeriesCollection;
 import org.jfree.ui.RectangleAnchor;
+import org.openide.DialogDisplayer;
+import org.openide.NotifyDescriptor;
+import org.openide.util.NbBundle;
 
 /**
  *
@@ -45,6 +57,8 @@ public class MultiTracesPanel extends javax.swing.JPanel {
     private double threshhold = 0;
     private ArrayList<double[]> t0curvesTo = new ArrayList<double[]>();
     int numberOfComponents;
+    ArrayList<Integer> selectedTimeTraces = new ArrayList<Integer>();
+    ArrayList<Integer> selectedWaveTraces = new ArrayList<Integer>();
 
     /** Creates new form MultiTracesPanel */
     public MultiTracesPanel() {
@@ -105,6 +119,8 @@ public class MultiTracesPanel extends javax.swing.JPanel {
         jBUpdLinLog = new javax.swing.JButton();
         jSeparator1 = new javax.swing.JToolBar.Separator();
         jTBShowChohSpec = new javax.swing.JToggleButton();
+        jButton1 = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
 
         setLayout(new java.awt.GridBagLayout());
 
@@ -135,7 +151,6 @@ public class MultiTracesPanel extends javax.swing.JPanel {
 
         jSWavelengths.setValue(0);
         jSWavelengths.addChangeListener(new javax.swing.event.ChangeListener() {
-
             public void stateChanged(javax.swing.event.ChangeEvent evt) {
                 jSWavelengthsStateChanged(evt);
             }
@@ -159,7 +174,6 @@ public class MultiTracesPanel extends javax.swing.JPanel {
         jTBLinLog.setMinimumSize(new java.awt.Dimension(59, 21));
         jTBLinLog.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         jTBLinLog.addActionListener(new java.awt.event.ActionListener() {
-
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTBLinLogActionPerformed(evt);
             }
@@ -180,7 +194,6 @@ public class MultiTracesPanel extends javax.swing.JPanel {
         jBUpdLinLog.setMinimumSize(new java.awt.Dimension(64, 21));
         jBUpdLinLog.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         jBUpdLinLog.addActionListener(new java.awt.event.ActionListener() {
-
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jBUpdLinLogActionPerformed(evt);
             }
@@ -196,12 +209,33 @@ public class MultiTracesPanel extends javax.swing.JPanel {
         jTBShowChohSpec.setMinimumSize(new java.awt.Dimension(112, 21));
         jTBShowChohSpec.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         jTBShowChohSpec.addActionListener(new java.awt.event.ActionListener() {
-
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTBShowChohSpecActionPerformed(evt);
             }
         });
         jToolBar1.add(jTBShowChohSpec);
+
+        jButton1.setText(org.openide.util.NbBundle.getMessage(MultiTracesPanel.class, "MultiTracesPanel.jButton1.text")); // NOI18N
+        jButton1.setFocusable(false);
+        jButton1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jButton1.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+        jToolBar1.add(jButton1);
+
+        jButton2.setText(org.openide.util.NbBundle.getMessage(MultiTracesPanel.class, "MultiTracesPanel.jButton2.text")); // NOI18N
+        jButton2.setFocusable(false);
+        jButton2.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jButton2.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+        jToolBar1.add(jButton2);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -246,8 +280,56 @@ public class MultiTracesPanel extends javax.swing.JPanel {
         jPSpectra.add(spectraImage);
         jPSpectra.validate();
     }//GEN-LAST:event_jTBShowChohSpecActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        //create dialog
+        SelectedMultiTracesPanel selectedMultiTracesPanel = new SelectedMultiTracesPanel();
+        JPanel jPSelTimeTrCollection = selectedMultiTracesPanel.getjPSelectedTracesContainer();
+                
+        CommonTools.restorePanelSize(jPSelTimeTrCollection);
+
+        SelectTracesForPlot selTracePanel = new SelectTracesForPlot();
+        //TODO now the first dataset (fromDataset) is used as the 'base' for all
+        //plots, in the future we might want to be able to select tracers from
+        //all datasets rather than the first one:
+        selTracePanel.setMaxNumbers(fromDataset.getX().length, fromDataset.getX2().length);
+        NotifyDescriptor selTracesDialog = new NotifyDescriptor(
+                selTracePanel,
+                NbBundle.getBundle("org/glotaran/core/main/Bundle").getString("selTracesForReport"),
+                NotifyDescriptor.OK_CANCEL_OPTION,
+                NotifyDescriptor.PLAIN_MESSAGE,
+                null,
+                NotifyDescriptor.OK_OPTION);
+        //show dialog
+        if (DialogDisplayer.getDefault().notify(selTracesDialog).equals(NotifyDescriptor.OK_OPTION)) {
+            //create time traces collection
+            if (selTracePanel.getSelectXState()) {
+                int numSelTraces = selTracePanel.getSelectXNum();
+                int w = fromDataset.getX2().length / numSelTraces;
+                int xIndex = 0;
+                selectedTimeTraces.clear();
+                jPSelTimeTrCollection.removeAll();
+                                
+                for (int i = 0; i < numSelTraces; i++) {
+                    xIndex = i * w;                    
+                    //Add index ot selected trace into list
+                    jPSelTimeTrCollection.add(getChartForTrace(xIndex));
+                }
+                CommonTools.checkPanelSize(jPSelTimeTrCollection, numSelTraces);
+            }
+
+        }
+        ((JTabbedPane)getParent()).addTab("Time Traces", jPSelTimeTrCollection);
+}//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+
+}//GEN-LAST:event_jButton2ActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jBUpdLinLog;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
     private javax.swing.JPanel jPSpectra;
     private javax.swing.JPanel jPTraces;
     private javax.swing.JPanel jPanel10;
@@ -292,6 +374,23 @@ public class MultiTracesPanel extends javax.swing.JPanel {
         return chartPanel;
     }
 
+        private ChartPanel makeLinLogTimeTraceResidChart(int xIndex) {
+        double timeZero = t0curveFrom[xIndex];
+        double portion = Double.valueOf(jTFLinPart.getText());
+        int index = 0;
+        while (fromDataset.getX()[index] < timeZero + portion) {
+            index++;
+        }
+        if (index == 0) {
+            index = 1;
+        }
+        XYSeriesCollection trace = CommonTools.createFitRawTraceCollection(xIndex, 0, index, fromDataset);
+        XYSeriesCollection resid = CommonTools.createResidTraceCollection(xIndex, 0, index, fromDataset);
+        XYSeriesCollection traceLog = CommonTools.createFitRawTraceCollection(xIndex, index - 1, fromDataset.getX().length, fromDataset);
+        XYSeriesCollection residLog = CommonTools.createResidTraceCollection(xIndex, index - 1, fromDataset.getX().length, fromDataset);
+        return CommonTools.createLinLogTimeTraceResidChart(trace, resid, traceLog, residLog, null, false);
+    }
+
     public void createCroshair() {
         crosshair = new Crosshair(fromDataset.getX2()[jSWavelengths.getValue()]);
         crosshair.setPaint(Color.red);
@@ -300,6 +399,12 @@ public class MultiTracesPanel extends javax.swing.JPanel {
     }
 
     private void updateTrace(int xIndex) {
+        jPTraces.removeAll();
+        jPTraces.add(getChartForTrace(xIndex));
+        jPTraces.validate();
+    }
+
+    private ChartPanel getChartForTrace(int xIndex) {
         boolean linlog = jTBLinLog.isSelected();
         XYSeriesCollection trace = null;
         XYSeriesCollection resid = null;
@@ -406,14 +511,12 @@ public class MultiTracesPanel extends javax.swing.JPanel {
             }
         }
 
-        ChartPanel tracesPanel = null;
+      
         if (linlog) {
-            tracesPanel = CommonTools.makeLinLogTimeTraceResidChart(trace, resid, traceLog, residLog, null, true);
+            return CommonTools.createLinLogTimeTraceResidChart(trace, resid, traceLog, residLog, null, true);
         } else {
-            tracesPanel = CommonTools.makeLinTimeTraceResidChart(trace, resid, new NumberAxis("Time"), null, true);
+            return CommonTools.makeLinTimeTraceResidChart(trace, resid, new NumberAxis("Time"), null, true);
         }
-        jPTraces.removeAll();
-        jPTraces.add(tracesPanel);
-        jPTraces.validate();
+
     }
 }

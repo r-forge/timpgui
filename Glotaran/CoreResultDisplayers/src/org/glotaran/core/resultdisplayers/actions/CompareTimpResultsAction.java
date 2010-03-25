@@ -45,7 +45,7 @@ public final class CompareTimpResultsAction implements ActionListener {
         if (listOfTimpResultDatasets.size() > 1 && listOfAnalysisResults.size() > 1) {
             GlobalSpecResultsProviderInterface globalResultsProvider = Lookup.getDefault().lookup(GlobalSpecResultsProviderInterface.class);
             CloneableTopComponent tc = globalResultsProvider.getCloneableTopComponent(listOfTimpResultDatasets, getUniqueGtaResult(listOfAnalysisResults));
-            tc.setDisplayName("test");
+            tc.setDisplayName("Analysis Comparison");
             tc.open();
         } else {
             //TODO: display warning

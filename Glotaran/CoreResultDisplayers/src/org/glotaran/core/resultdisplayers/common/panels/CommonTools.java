@@ -116,7 +116,7 @@ public class CommonTools {
         return chpan;
     }
 
-    public static ChartPanel makeLinLogTimeTraceResidChart(XYSeriesCollection trace, XYSeriesCollection resid, XYSeriesCollection traceLog, XYSeriesCollection residLog, String name, boolean multy) {
+    public static ChartPanel createLinLogTimeTraceResidChart(XYSeriesCollection trace, XYSeriesCollection resid, XYSeriesCollection traceLog, XYSeriesCollection residLog, String name, boolean multy) {
         NumberAxis yAxis = new NumberAxis();
         yAxis.setVisible(false);
         ChartPanel linTime = CommonTools.makeLinTimeTraceResidChart(trace, resid, new NumberAxis("Time"), name, multy);
@@ -292,6 +292,9 @@ public class CommonTools {
             } else {
                 while (wave > res.getX2()[index] + thresh) {
                     index++;
+                    if(index >= res.getX2().length) {
+                        return -1;
+                    }
                 }
                 return index;
             }
@@ -302,6 +305,9 @@ public class CommonTools {
             } else {
                 while (wave < res.getX2()[index] - thresh) {
                     index++;
+                    if(index >= res.getX2().length) {
+                        return -1;
+                    }
                 }
                 return index;
             }

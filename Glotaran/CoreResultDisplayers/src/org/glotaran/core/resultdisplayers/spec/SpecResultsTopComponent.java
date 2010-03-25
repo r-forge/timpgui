@@ -1817,7 +1817,7 @@ public final class SpecResultsTopComponent extends TopComponent implements Chart
         XYSeriesCollection resid = CommonTools.createResidTraceCollection(xIndex, 0, index, res);
         XYSeriesCollection traceLog = CommonTools.createFitRawTraceCollection(xIndex, index - 1, res.getX().length, res);
         XYSeriesCollection residLog = CommonTools.createResidTraceCollection(xIndex, index - 1, res.getX().length, res);
-        return CommonTools.makeLinLogTimeTraceResidChart(trace, resid, traceLog, residLog, null, false);
+        return CommonTools.createLinLogTimeTraceResidChart(trace, resid, traceLog, residLog, null, false);
     }
 
     private XYDataset createDispersionCurve() {

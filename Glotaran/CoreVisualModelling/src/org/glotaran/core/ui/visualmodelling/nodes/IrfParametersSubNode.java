@@ -30,7 +30,7 @@ public class IrfParametersSubNode extends ParametersSubNode {
                 return name;
             }
         }
-        return "something wrong";
+        return "error";
     }
 
     @Override

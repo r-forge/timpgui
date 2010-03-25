@@ -992,6 +992,7 @@ final public class SpecEditorTopCompNew extends CloneableTopComponent
     }//GEN-LAST:event_jPanel2FocusGained
 
     private void jPanel2ComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_jPanel2ComponentShown
+        //TODO: run in a seperate thread
         if (svdResult == null) {
             try {
                 TopComponent.getRegistry().getActivated().setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));

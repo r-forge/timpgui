@@ -25,6 +25,7 @@ import org.openide.util.actions.CookieAction;
 
 public final class OpenDataset extends CookieAction {
 
+    static OpenDataset instance;
     private static final long serialVersionUID = 1;
     private Collection<? extends TGDatasetInterface> services;
     private TGProject project;
@@ -32,6 +33,13 @@ public final class OpenDataset extends CookieAction {
 
     public OpenDataset() {
         super();
+    }
+
+    public OpenDataset getInstance() {
+        if (instance == null) {
+            instance = new OpenDataset();
+        }
+        return instance;
     }
 
     protected void performAction(Node[] activatedNodes) {

@@ -129,6 +129,11 @@ public class GraphPanel extends ChartPanel {
 
     }
 
+    @Override
+    public void doEditChartProperties() {
+        super.doEditChartProperties();
+    }
+
     private void addCommandsToPopupMenu() {
         JPopupMenu popmenu;
         popmenu = getPopupMenu();

@@ -1315,9 +1315,9 @@ public final class SpecResultsTopComponent extends TopComponent implements Chart
     }
 
     private ChartPanel createLinLogTimePlot(double timeZero, double portion, Matrix data, double[] timesteps) {
-
         XYSeriesCollection linCollection = new XYSeriesCollection();
         XYSeries seria;
+
         int index = 0;
         int traceNumber = data.getColumnDimension();
         for (int j = 0; j < traceNumber; j++) {

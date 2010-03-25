@@ -565,9 +565,9 @@
                                   <Component id="jPanel4" alignment="1" max="32767" attributes="1"/>
                               </Group>
                               <EmptySpace max="-2" attributes="0"/>
-                              <Component id="jPanel1" pref="481" max="32767" attributes="2"/>
+                              <Component id="jPanel1" pref="460" max="32767" attributes="2"/>
                           </Group>
-                          <Component id="jPanel15" alignment="0" pref="946" max="32767" attributes="0"/>
+                          <Component id="jPanel15" alignment="0" pref="954" max="32767" attributes="0"/>
                       </Group>
                     </DimensionLayout>
                     <DimensionLayout dim="1">
@@ -643,7 +643,7 @@
                         <DimensionLayout dim="0">
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Group type="102" alignment="0" attributes="0">
-                                  <Component id="jPSpecImage" pref="437" max="32767" attributes="1"/>
+                                  <Component id="jPSpecImage" pref="466" max="32767" attributes="1"/>
                                   <EmptySpace max="-2" attributes="0"/>
                                   <Component id="jSRow" min="-2" max="-2" attributes="0"/>
                               </Group>
@@ -740,7 +740,7 @@
                                       <Group type="102" alignment="0" attributes="0">
                                           <Component id="jLabel3" min="-2" max="-2" attributes="0"/>
                                           <EmptySpace max="-2" attributes="0"/>
-                                          <Component id="jTFCurvParam" pref="286" max="32767" attributes="0"/>
+                                          <Component id="jTFCurvParam" pref="291" max="32767" attributes="0"/>
                                       </Group>
                                   </Group>
                                   <EmptySpace max="-2" attributes="0"/>

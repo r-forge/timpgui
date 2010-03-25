@@ -314,10 +314,12 @@ public class MultiTracesPanel extends javax.swing.JPanel {
 
         XYSeries emptySer = new XYSeries("");
         emptySer.add(0.0, 0.0);
+        XYSeries emptySer2 = new XYSeries("");
+        emptySer2.add(fromDataset.getX2()[fromDataset.getX2().length-1], 0.0);
         TimpResultDataset toDataset = null;
         int indexTo = 0;
         double toValue = 1;
-        int toIndex;
+        int toIndex = 0;
 
         if (!linlog) {
             trace = CommonTools.createFitRawTraceCollection(xIndex, 0, fromDataset.getX().length, fromDataset, t0curveFrom[xIndex], "From");
@@ -352,7 +354,7 @@ public class MultiTracesPanel extends javax.swing.JPanel {
                     } else {
                         double portion = Double.valueOf(jTFLinPart.getText());
                         int index = 0;
-                        while (toDataset.getX()[index] < t0curvesTo.get(i)[xIndex] + portion) {
+                        while (toDataset.getX()[index] < t0curvesTo.get(i)[toIndex] + portion) {
                             index++;
                         }
                         if (index == 0) {
@@ -378,12 +380,12 @@ public class MultiTracesPanel extends javax.swing.JPanel {
                     emptySer.setKey("EmptyResid" + String.valueOf(i));
                     resid.addSeries(emptySer);
                     if (linlog) {
-                        emptySer.setKey("EmptyTraceLog" + String.valueOf(i));
-                        traceLog.addSeries(emptySer);
-                        emptySer.setKey("EmptyFitLog" + String.valueOf(i));
-                        traceLog.addSeries(emptySer);
-                        emptySer.setKey("EmptyResidLog" + String.valueOf(i));
-                        residLog.addSeries(emptySer);
+                        emptySer2.setKey("EmptyTraceLog" + String.valueOf(i));
+                        traceLog.addSeries(emptySer2);
+                        emptySer2.setKey("EmptyFitLog" + String.valueOf(i));
+                        traceLog.addSeries(emptySer2);
+                        emptySer2.setKey("EmptyResidLog" + String.valueOf(i));
+                        residLog.addSeries(emptySer2);
                     }
                 }
             } else {
@@ -394,12 +396,12 @@ public class MultiTracesPanel extends javax.swing.JPanel {
                 emptySer.setKey("EmptyResid" + String.valueOf(i));
                 resid.addSeries(emptySer);
                 if (linlog) {
-                    emptySer.setKey("EmptyTraceLog" + String.valueOf(i));
-                    traceLog.addSeries(emptySer);
-                    emptySer.setKey("EmptyFitLog" + String.valueOf(i));
-                    traceLog.addSeries(emptySer);
-                    emptySer.setKey("EmptyResidLog" + String.valueOf(i));
-                    residLog.addSeries(emptySer);
+                    emptySer2.setKey("EmptyTraceLog" + String.valueOf(i));
+                    traceLog.addSeries(emptySer2);
+                    emptySer2.setKey("EmptyFitLog" + String.valueOf(i));
+                    traceLog.addSeries(emptySer2);
+                    emptySer2.setKey("EmptyResidLog" + String.valueOf(i));
+                    residLog.addSeries(emptySer2);
                 }
             }
         }

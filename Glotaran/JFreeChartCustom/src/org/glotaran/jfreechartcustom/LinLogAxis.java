@@ -44,6 +44,7 @@ import org.jfree.ui.TextAnchor;
  */
 public class LinLogAxis extends ValueAxis {
 
+    private final static long serialVersionUID = 1L;
     /** The logarithm base. */
     private double base = 10.0;
     /** The logarithm of the base value - cached for performance. */
@@ -55,7 +56,10 @@ public class LinLogAxis extends ValueAxis {
     /** The override number format. */
     private NumberFormat numberFormatOverride;
     /** The number at which the axis goes from linear to logarithmic*/
-    private double linearBoundValue;
+    private double leftLinearBoundValue, rightLinearBoundValue, centralLinearBoundValue;
+    private final double DEFAULT_CENTRAL_LINEAR_BOUND_VALUE = 0.0;
+    private final double DEFAULT_LEFT_LINEAR_BOUND_VALUE = Double.NEGATIVE_INFINITY;
+    private final double DEFAULT_RIGHT_LINEAR_BOUND_VALUE = Double.POSITIVE_INFINITY;
 
     /**
      * Creates a new <code>LogAxis</code> with no label.
@@ -73,21 +77,58 @@ public class LinLogAxis extends ValueAxis {
         super(label, createLogTickUnits(Locale.getDefault()));
         setDefaultAutoRange(new Range(0.01, 1.0));
         this.tickUnit = new NumberTickUnit(1.0, new DecimalFormat("0.#"), 9);
-        //this.linearBoundValue=Double.MAX_VALUE;
+        this.leftLinearBoundValue = DEFAULT_LEFT_LINEAR_BOUND_VALUE;
+        this.rightLinearBoundValue = DEFAULT_RIGHT_LINEAR_BOUND_VALUE;
+        this.centralLinearBoundValue = DEFAULT_CENTRAL_LINEAR_BOUND_VALUE;
     }
 
     /**
      * Creates a new <code>LogAxis</code> with the given label.
      *
      * @param label  the axis label (<code>null</code> permitted).
-     * @param linRange number at which the axis goes from linear to logarithmic
+     * @param linearBoundValue number at which the axis goes from linear to logarithmic
      * (<code>null</code> permitted).
      */
     public LinLogAxis(String label, double linearBoundValue) {
         super(label, createLogTickUnits(Locale.getDefault()));
         setDefaultAutoRange(new Range(0.01, 1.0));
         this.tickUnit = new NumberTickUnit(1.0, new DecimalFormat("0.#"), 9);
-        this.linearBoundValue = linearBoundValue;
+        this.leftLinearBoundValue = linearBoundValue;
+        this.rightLinearBoundValue = -linearBoundValue;
+    }
+
+    /**
+     * Creates a new <code>LogAxis</code> with the given label.
+     *
+     * @param label  the axis label (<code>null</code> permitted).
+     * @param rightLinearBoundValue number at which the axis goes from linear to logarithmic
+     * (<code>null</code> permitted).
+     * @param leftLinearBoundValue  number at which the axis goes from logarithmic to linear
+     */
+    public LinLogAxis(String label, double rightLinearBoundValue, double leftLinearBoundValue) {
+        super(label, createLogTickUnits(Locale.getDefault()));
+        setDefaultAutoRange(new Range(0.01, 1.0));
+        this.tickUnit = new NumberTickUnit(1.0, new DecimalFormat("0.#"), 9);
+        this.leftLinearBoundValue = leftLinearBoundValue;
+        this.rightLinearBoundValue = rightLinearBoundValue;
+        this.centralLinearBoundValue = DEFAULT_CENTRAL_LINEAR_BOUND_VALUE;
+    }
+
+       /**
+     * Creates a new <code>LogAxis</code> with the given label.
+     *
+     * @param label  the axis label (<code>null</code> permitted).
+     * @param rightLinearBoundValue number at which the axis goes from linear to logarithmic
+     * (<code>null</code> permitted).
+     * @param leftLinearBoundValue  number at which the axis goes from logarithmic to linear
+     */
+    public LinLogAxis(String label, double rightLinearBoundValue, double leftLinearBoundValue, double centralLinearBoundValue) {
+        super(label, createLogTickUnits(Locale.getDefault()));
+        setDefaultAutoRange(new Range(0.01, 1.0));
+        this.tickUnit = new NumberTickUnit(1.0, new DecimalFormat("0.#"), 9);
+        this.leftLinearBoundValue = leftLinearBoundValue;
+        this.rightLinearBoundValue = rightLinearBoundValue;
+        this.centralLinearBoundValue = centralLinearBoundValue;
     }
 
     /**
@@ -269,7 +310,7 @@ public class LinLogAxis extends ValueAxis {
             RectangleEdge edge) {
 
         Range range = getRange();
-        if (value < linearBoundValue) {
+        if (value < leftLinearBoundValue) {
             double axisMin = range.getLowerBound();
             double axisMax = range.getUpperBound();
 
@@ -289,8 +330,8 @@ public class LinLogAxis extends ValueAxis {
                 return min
                         + ((value - axisMin) / (axisMax - axisMin)) * (max - min);
             }
-        } else { //value >= linearBoundValue
-            double logAxisMin = calculateLog(Math.max(range.getLowerBound(), linearBoundValue));
+        } else { //value >= leftLinearBoundValue
+            double logAxisMin = calculateLog(Math.max(range.getLowerBound(), leftLinearBoundValue));
             double logAxisMax = calculateLog(range.getUpperBound());
 
             value = calculateLog(value);
@@ -328,7 +369,7 @@ public class LinLogAxis extends ValueAxis {
             RectangleEdge edge) {
 
         Range range = getRange();
-        if (java2DValue < linearBoundValue) {
+        if (java2DValue < leftLinearBoundValue) {
             double axisMin = range.getLowerBound();
             double axisMax = range.getUpperBound();
 
@@ -423,11 +464,11 @@ public class LinLogAxis extends ValueAxis {
                     }
                 }
                 double logLower, logUpper, logRange;
-                if (lower < linearBoundValue && upper > linearBoundValue) {
+                if (lower < leftLinearBoundValue && upper > leftLinearBoundValue) {
                     //linear range
                     lower = lower - getLowerMargin() * range;
                     upper = upper + getUpperMargin() * range;
-                } else if (lower >= linearBoundValue && upper >= linearBoundValue) {
+                } else if (lower >= leftLinearBoundValue && upper >= leftLinearBoundValue) {
                     //logarithmic range
                     logUpper = calculateLog(upper);
                     logLower = calculateLog(lower);
@@ -436,10 +477,10 @@ public class LinLogAxis extends ValueAxis {
                     logLower = logLower - getLowerMargin() * logRange;
                     upper = calculateValue(logUpper);
                     lower = calculateValue(logLower);
-                } else { //lower < linearBoundValue && upper >= linearBoundValue
+                } else { //lower < leftLinearBoundValue && upper >= leftLinearBoundValue
                     //Make a linlog range
                     logUpper = calculateLog(upper);
-                    logLower = calculateLog(linearBoundValue);
+                    logLower = calculateLog(leftLinearBoundValue);
                     logRange = logUpper - logLower;
                     logUpper = logUpper + getUpperMargin() * logRange;
                     logLower = logLower - getLowerMargin() * logRange;
@@ -477,7 +518,7 @@ public class LinLogAxis extends ValueAxis {
             state = new AxisState(cursor);
             // even though the axis is not visible, we need ticks for the
             // gridlines...
-            List ticks = refreshTicks(g2, state, dataArea, edge);
+            List<Tick> ticks = refreshTicks(g2, state, dataArea, edge);
             state.setTicks(ticks);
             return state;
         }
@@ -499,13 +540,12 @@ public class LinLogAxis extends ValueAxis {
      * @return A list of ticks.
      *
      */
-    public List refreshTicks(Graphics2D g2, AxisState state,
+    public List<Tick> refreshTicks(Graphics2D g2, AxisState state,
             Rectangle2D dataArea, RectangleEdge edge) {
 
-        List result = new java.util.ArrayList();
+        List<Tick> result = new java.util.ArrayList<Tick>();
         if (RectangleEdge.isTopOrBottom(edge)) {
-            //TODO fix this
-            //result = refreshTicksHorizontal(g2, dataArea, edge);
+            result = refreshTicksHorizontal(g2, dataArea, edge);
         } else if (RectangleEdge.isLeftOrRight(edge)) {
             result = refreshTicksVertical(g2, dataArea, edge);
         }
@@ -523,10 +563,10 @@ public class LinLogAxis extends ValueAxis {
      *
      * @return A list of ticks.
      */
-    protected List refreshLinTicksHorizontal(Graphics2D g2,
+    protected List<Tick> refreshTicksHorizontal(Graphics2D g2,
             Rectangle2D dataArea, RectangleEdge edge) {
 
-        List result = new java.util.ArrayList();
+        List<Tick> result = new java.util.ArrayList<Tick>();
 
         Font tickLabelFont = getTickLabelFont();
         g2.setFont(tickLabelFont);
@@ -614,11 +654,11 @@ public class LinLogAxis extends ValueAxis {
 
         double unit = getTickUnit().getSize();
         Range range = getRange();
-        return (int) (Math.min(Math.floor(linearBoundValue / unit),Math.floor(range.getUpperBound() / unit))
+        return (int) (Math.min(Math.floor(leftLinearBoundValue / unit), Math.floor(range.getUpperBound() / unit))
                 - Math.ceil(range.getLowerBound() / unit) + 1);
 
     }
-    
+
     /**
      * Calculates the value of the lowest visible tick on the axis.
      *
@@ -629,7 +669,7 @@ public class LinLogAxis extends ValueAxis {
     protected double calculateLowestVisibleTickValue() {
 
         double unit = getTickUnit().getSize();
-        double index = Math.min(Math.floor(linearBoundValue / unit),Math.floor(getRange().getUpperBound() / unit));
+        double index = Math.min(Math.floor(leftLinearBoundValue / unit), Math.floor(getRange().getUpperBound() / unit));
         return index * unit;
 
     }
@@ -643,11 +683,11 @@ public class LinLogAxis extends ValueAxis {
      *
      * @return A list of ticks.
      */
-    protected List refreshLogTicksHorizontal(Graphics2D g2, Rectangle2D dataArea,
+    protected List<Tick> refreshLogTicksHorizontal(Graphics2D g2, Rectangle2D dataArea,
             RectangleEdge edge) {
 
         Range range = getRange();
-        List ticks = new ArrayList();
+        List<Tick> ticks = new ArrayList<Tick>();
         Font tickLabelFont = getTickLabelFont();
         g2.setFont(tickLabelFont);
         TextAnchor textAnchor;
@@ -661,7 +701,7 @@ public class LinLogAxis extends ValueAxis {
             selectAutoTickUnit(g2, dataArea, edge);
         }
         int minorTickCount = this.tickUnit.getMinorTickCount();
-        double start = Math.floor(calculateLog(getLowerBound()));
+        double start = Math.floor(Math.max(calculateLog(getLowerBound()), calculateLog(leftLinearBoundValue)));
         double end = Math.ceil(calculateLog(getUpperBound()));
         double current = start;
         while (current <= end) {
@@ -694,11 +734,11 @@ public class LinLogAxis extends ValueAxis {
      *
      * @return A list of ticks.
      */
-    protected List refreshTicksVertical(Graphics2D g2, Rectangle2D dataArea,
+    protected List<Tick> refreshTicksVertical(Graphics2D g2, Rectangle2D dataArea,
             RectangleEdge edge) {
 
         Range range = getRange();
-        List ticks = new ArrayList();
+        List<Tick> ticks = new ArrayList<Tick>();
         Font tickLabelFont = getTickLabelFont();
         g2.setFont(tickLabelFont);
         TextAnchor textAnchor;
@@ -934,6 +974,7 @@ public class LinLogAxis extends ValueAxis {
      * @param lowerPercent  the new lower bound.
      * @param upperPercent  the new upper bound.
      */
+    @Override
     public void zoomRange(double lowerPercent, double upperPercent) {
         Range range = getRange();
         double start = range.getLowerBound();
@@ -961,6 +1002,7 @@ public class LinLogAxis extends ValueAxis {
      *
      * @since 1.0.13
      */
+    @Override
     public void pan(double percent) {
         Range range = getRange();
         double lower = range.getLowerBound();
@@ -999,6 +1041,7 @@ public class LinLogAxis extends ValueAxis {
      *
      * @return A boolean.
      */
+    @Override
     public boolean equals(Object obj) {
         if (obj == this) {
             return true;
@@ -1062,6 +1105,274 @@ public class LinLogAxis extends ValueAxis {
         units.add(new NumberTickUnit(8, numberFormat));
         units.add(new NumberTickUnit(9, numberFormat));
         units.add(new NumberTickUnit(10, numberFormat));
+        return units;
+    }
+
+    /**
+     * Creates the standard tick units.
+     * <P>
+     * If you don't like these defaults, create your own instance of TickUnits
+     * and then pass it to the setStandardTickUnits() method in the
+     * NumberAxis class.
+     *
+     * @return The standard tick units.
+     *
+     * @see #setStandardTickUnits(TickUnitSource)
+     * @see #createIntegerTickUnits()
+     */
+    public static TickUnitSource createStandardTickUnits() {
+
+        TickUnits units = new TickUnits();
+        DecimalFormat df0 = new DecimalFormat("0.00000000");
+        DecimalFormat df1 = new DecimalFormat("0.0000000");
+        DecimalFormat df2 = new DecimalFormat("0.000000");
+        DecimalFormat df3 = new DecimalFormat("0.00000");
+        DecimalFormat df4 = new DecimalFormat("0.0000");
+        DecimalFormat df5 = new DecimalFormat("0.000");
+        DecimalFormat df6 = new DecimalFormat("0.00");
+        DecimalFormat df7 = new DecimalFormat("0.0");
+        DecimalFormat df8 = new DecimalFormat("#,##0");
+        DecimalFormat df9 = new DecimalFormat("#,###,##0");
+        DecimalFormat df10 = new DecimalFormat("#,###,###,##0");
+
+        // we can add the units in any order, the TickUnits collection will
+        // sort them...
+        units.add(new NumberTickUnit(0.0000001, df1, 2));
+        units.add(new NumberTickUnit(0.000001, df2, 2));
+        units.add(new NumberTickUnit(0.00001, df3, 2));
+        units.add(new NumberTickUnit(0.0001, df4, 2));
+        units.add(new NumberTickUnit(0.001, df5, 2));
+        units.add(new NumberTickUnit(0.01, df6, 2));
+        units.add(new NumberTickUnit(0.1, df7, 2));
+        units.add(new NumberTickUnit(1, df8, 2));
+        units.add(new NumberTickUnit(10, df8, 2));
+        units.add(new NumberTickUnit(100, df8, 2));
+        units.add(new NumberTickUnit(1000, df8, 2));
+        units.add(new NumberTickUnit(10000, df8, 2));
+        units.add(new NumberTickUnit(100000, df8, 2));
+        units.add(new NumberTickUnit(1000000, df9, 2));
+        units.add(new NumberTickUnit(10000000, df9, 2));
+        units.add(new NumberTickUnit(100000000, df9, 2));
+        units.add(new NumberTickUnit(1000000000, df10, 2));
+        units.add(new NumberTickUnit(10000000000.0, df10, 2));
+        units.add(new NumberTickUnit(100000000000.0, df10, 2));
+
+        units.add(new NumberTickUnit(0.00000025, df0, 5));
+        units.add(new NumberTickUnit(0.0000025, df1, 5));
+        units.add(new NumberTickUnit(0.000025, df2, 5));
+        units.add(new NumberTickUnit(0.00025, df3, 5));
+        units.add(new NumberTickUnit(0.0025, df4, 5));
+        units.add(new NumberTickUnit(0.025, df5, 5));
+        units.add(new NumberTickUnit(0.25, df6, 5));
+        units.add(new NumberTickUnit(2.5, df7, 5));
+        units.add(new NumberTickUnit(25, df8, 5));
+        units.add(new NumberTickUnit(250, df8, 5));
+        units.add(new NumberTickUnit(2500, df8, 5));
+        units.add(new NumberTickUnit(25000, df8, 5));
+        units.add(new NumberTickUnit(250000, df8, 5));
+        units.add(new NumberTickUnit(2500000, df9, 5));
+        units.add(new NumberTickUnit(25000000, df9, 5));
+        units.add(new NumberTickUnit(250000000, df9, 5));
+        units.add(new NumberTickUnit(2500000000.0, df10, 5));
+        units.add(new NumberTickUnit(25000000000.0, df10, 5));
+        units.add(new NumberTickUnit(250000000000.0, df10, 5));
+
+        units.add(new NumberTickUnit(0.0000005, df1, 5));
+        units.add(new NumberTickUnit(0.000005, df2, 5));
+        units.add(new NumberTickUnit(0.00005, df3, 5));
+        units.add(new NumberTickUnit(0.0005, df4, 5));
+        units.add(new NumberTickUnit(0.005, df5, 5));
+        units.add(new NumberTickUnit(0.05, df6, 5));
+        units.add(new NumberTickUnit(0.5, df7, 5));
+        units.add(new NumberTickUnit(5L, df8, 5));
+        units.add(new NumberTickUnit(50L, df8, 5));
+        units.add(new NumberTickUnit(500L, df8, 5));
+        units.add(new NumberTickUnit(5000L, df8, 5));
+        units.add(new NumberTickUnit(50000L, df8, 5));
+        units.add(new NumberTickUnit(500000L, df8, 5));
+        units.add(new NumberTickUnit(5000000L, df9, 5));
+        units.add(new NumberTickUnit(50000000L, df9, 5));
+        units.add(new NumberTickUnit(500000000L, df9, 5));
+        units.add(new NumberTickUnit(5000000000L, df10, 5));
+        units.add(new NumberTickUnit(50000000000L, df10, 5));
+        units.add(new NumberTickUnit(500000000000L, df10, 5));
+
+        return units;
+
+    }
+
+    /**
+     * Returns a collection of tick units for integer values.
+     *
+     * @return A collection of tick units for integer values.
+     *
+     * @see #setStandardTickUnits(TickUnitSource)
+     * @see #createStandardTickUnits()
+     */
+    public static TickUnitSource createIntegerTickUnits() {
+        TickUnits units = new TickUnits();
+        DecimalFormat df0 = new DecimalFormat("0");
+        DecimalFormat df1 = new DecimalFormat("#,##0");
+        units.add(new NumberTickUnit(1, df0, 2));
+        units.add(new NumberTickUnit(2, df0, 2));
+        units.add(new NumberTickUnit(5, df0, 5));
+        units.add(new NumberTickUnit(10, df0, 2));
+        units.add(new NumberTickUnit(20, df0, 2));
+        units.add(new NumberTickUnit(50, df0, 5));
+        units.add(new NumberTickUnit(100, df0, 2));
+        units.add(new NumberTickUnit(200, df0, 2));
+        units.add(new NumberTickUnit(500, df0, 5));
+        units.add(new NumberTickUnit(1000, df1, 2));
+        units.add(new NumberTickUnit(2000, df1, 2));
+        units.add(new NumberTickUnit(5000, df1, 5));
+        units.add(new NumberTickUnit(10000, df1, 2));
+        units.add(new NumberTickUnit(20000, df1, 2));
+        units.add(new NumberTickUnit(50000, df1, 5));
+        units.add(new NumberTickUnit(100000, df1, 2));
+        units.add(new NumberTickUnit(200000, df1, 2));
+        units.add(new NumberTickUnit(500000, df1, 5));
+        units.add(new NumberTickUnit(1000000, df1, 2));
+        units.add(new NumberTickUnit(2000000, df1, 2));
+        units.add(new NumberTickUnit(5000000, df1, 5));
+        units.add(new NumberTickUnit(10000000, df1, 2));
+        units.add(new NumberTickUnit(20000000, df1, 2));
+        units.add(new NumberTickUnit(50000000, df1, 5));
+        units.add(new NumberTickUnit(100000000, df1, 2));
+        units.add(new NumberTickUnit(200000000, df1, 2));
+        units.add(new NumberTickUnit(500000000, df1, 5));
+        units.add(new NumberTickUnit(1000000000, df1, 2));
+        units.add(new NumberTickUnit(2000000000, df1, 2));
+        units.add(new NumberTickUnit(5000000000.0, df1, 5));
+        units.add(new NumberTickUnit(10000000000.0, df1, 2));
+        return units;
+    }
+
+    /**
+     * Creates a collection of standard tick units.  The supplied locale is
+     * used to create the number formatter (a localised instance of
+     * <code>NumberFormat</code>).
+     * <P>
+     * If you don't like these defaults, create your own instance of
+     * {@link TickUnits} and then pass it to the
+     * <code>setStandardTickUnits()</code> method.
+     *
+     * @param locale  the locale.
+     *
+     * @return A tick unit collection.
+     *
+     * @see #setStandardTickUnits(TickUnitSource)
+     */
+    public static TickUnitSource createStandardTickUnits(Locale locale) {
+
+        TickUnits units = new TickUnits();
+        NumberFormat numberFormat = NumberFormat.getNumberInstance(locale);
+        // we can add the units in any order, the TickUnits collection will
+        // sort them...
+        units.add(new NumberTickUnit(0.0000001, numberFormat, 2));
+        units.add(new NumberTickUnit(0.000001, numberFormat, 2));
+        units.add(new NumberTickUnit(0.00001, numberFormat, 2));
+        units.add(new NumberTickUnit(0.0001, numberFormat, 2));
+        units.add(new NumberTickUnit(0.001, numberFormat, 2));
+        units.add(new NumberTickUnit(0.01, numberFormat, 2));
+        units.add(new NumberTickUnit(0.1, numberFormat, 2));
+        units.add(new NumberTickUnit(1, numberFormat, 2));
+        units.add(new NumberTickUnit(10, numberFormat, 2));
+        units.add(new NumberTickUnit(100, numberFormat, 2));
+        units.add(new NumberTickUnit(1000, numberFormat, 2));
+        units.add(new NumberTickUnit(10000, numberFormat, 2));
+        units.add(new NumberTickUnit(100000, numberFormat, 2));
+        units.add(new NumberTickUnit(1000000, numberFormat, 2));
+        units.add(new NumberTickUnit(10000000, numberFormat, 2));
+        units.add(new NumberTickUnit(100000000, numberFormat, 2));
+        units.add(new NumberTickUnit(1000000000, numberFormat, 2));
+        units.add(new NumberTickUnit(10000000000.0, numberFormat, 2));
+
+        units.add(new NumberTickUnit(0.00000025, numberFormat, 5));
+        units.add(new NumberTickUnit(0.0000025, numberFormat, 5));
+        units.add(new NumberTickUnit(0.000025, numberFormat, 5));
+        units.add(new NumberTickUnit(0.00025, numberFormat, 5));
+        units.add(new NumberTickUnit(0.0025, numberFormat, 5));
+        units.add(new NumberTickUnit(0.025, numberFormat, 5));
+        units.add(new NumberTickUnit(0.25, numberFormat, 5));
+        units.add(new NumberTickUnit(2.5, numberFormat, 5));
+        units.add(new NumberTickUnit(25, numberFormat, 5));
+        units.add(new NumberTickUnit(250, numberFormat, 5));
+        units.add(new NumberTickUnit(2500, numberFormat, 5));
+        units.add(new NumberTickUnit(25000, numberFormat, 5));
+        units.add(new NumberTickUnit(250000, numberFormat, 5));
+        units.add(new NumberTickUnit(2500000, numberFormat, 5));
+        units.add(new NumberTickUnit(25000000, numberFormat, 5));
+        units.add(new NumberTickUnit(250000000, numberFormat, 5));
+        units.add(new NumberTickUnit(2500000000.0, numberFormat, 5));
+        units.add(new NumberTickUnit(25000000000.0, numberFormat, 5));
+
+        units.add(new NumberTickUnit(0.0000005, numberFormat, 5));
+        units.add(new NumberTickUnit(0.000005, numberFormat, 5));
+        units.add(new NumberTickUnit(0.00005, numberFormat, 5));
+        units.add(new NumberTickUnit(0.0005, numberFormat, 5));
+        units.add(new NumberTickUnit(0.005, numberFormat, 5));
+        units.add(new NumberTickUnit(0.05, numberFormat, 5));
+        units.add(new NumberTickUnit(0.5, numberFormat, 5));
+        units.add(new NumberTickUnit(5L, numberFormat, 5));
+        units.add(new NumberTickUnit(50L, numberFormat, 5));
+        units.add(new NumberTickUnit(500L, numberFormat, 5));
+        units.add(new NumberTickUnit(5000L, numberFormat, 5));
+        units.add(new NumberTickUnit(50000L, numberFormat, 5));
+        units.add(new NumberTickUnit(500000L, numberFormat, 5));
+        units.add(new NumberTickUnit(5000000L, numberFormat, 5));
+        units.add(new NumberTickUnit(50000000L, numberFormat, 5));
+        units.add(new NumberTickUnit(500000000L, numberFormat, 5));
+        units.add(new NumberTickUnit(5000000000L, numberFormat, 5));
+        units.add(new NumberTickUnit(50000000000L, numberFormat, 5));
+
+        return units;
+
+    }
+
+    /**
+     * Returns a collection of tick units for integer values.
+     * Uses a given Locale to create the DecimalFormats.
+     *
+     * @param locale the locale to use to represent Numbers.
+     *
+     * @return A collection of tick units for integer values.
+     *
+     * @see #setStandardTickUnits(TickUnitSource)
+     */
+    public static TickUnitSource createIntegerTickUnits(Locale locale) {
+        TickUnits units = new TickUnits();
+        NumberFormat numberFormat = NumberFormat.getNumberInstance(locale);
+        units.add(new NumberTickUnit(1, numberFormat, 2));
+        units.add(new NumberTickUnit(2, numberFormat, 2));
+        units.add(new NumberTickUnit(5, numberFormat, 5));
+        units.add(new NumberTickUnit(10, numberFormat, 2));
+        units.add(new NumberTickUnit(20, numberFormat, 2));
+        units.add(new NumberTickUnit(50, numberFormat, 5));
+        units.add(new NumberTickUnit(100, numberFormat, 2));
+        units.add(new NumberTickUnit(200, numberFormat, 2));
+        units.add(new NumberTickUnit(500, numberFormat, 5));
+        units.add(new NumberTickUnit(1000, numberFormat, 2));
+        units.add(new NumberTickUnit(2000, numberFormat, 2));
+        units.add(new NumberTickUnit(5000, numberFormat, 5));
+        units.add(new NumberTickUnit(10000, numberFormat, 2));
+        units.add(new NumberTickUnit(20000, numberFormat, 2));
+        units.add(new NumberTickUnit(50000, numberFormat, 5));
+        units.add(new NumberTickUnit(100000, numberFormat, 2));
+        units.add(new NumberTickUnit(200000, numberFormat, 2));
+        units.add(new NumberTickUnit(500000, numberFormat, 5));
+        units.add(new NumberTickUnit(1000000, numberFormat, 2));
+        units.add(new NumberTickUnit(2000000, numberFormat, 2));
+        units.add(new NumberTickUnit(5000000, numberFormat, 5));
+        units.add(new NumberTickUnit(10000000, numberFormat, 2));
+        units.add(new NumberTickUnit(20000000, numberFormat, 2));
+        units.add(new NumberTickUnit(50000000, numberFormat, 5));
+        units.add(new NumberTickUnit(100000000, numberFormat, 2));
+        units.add(new NumberTickUnit(200000000, numberFormat, 2));
+        units.add(new NumberTickUnit(500000000, numberFormat, 5));
+        units.add(new NumberTickUnit(1000000000, numberFormat, 2));
+        units.add(new NumberTickUnit(2000000000, numberFormat, 2));
+        units.add(new NumberTickUnit(5000000000.0, numberFormat, 5));
+        units.add(new NumberTickUnit(10000000000.0, numberFormat, 2));
         return units;
     }
 }

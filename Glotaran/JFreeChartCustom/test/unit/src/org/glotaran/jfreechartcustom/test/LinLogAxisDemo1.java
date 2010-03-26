@@ -71,7 +71,7 @@ public class LinLogAxisDemo1 extends ApplicationFrame {
         plot.setRangeMinorGridlinesVisible(true);
         plot.setDomainMinorGridlineStroke(new BasicStroke(0.1f));
         plot.setRangeMinorGridlineStroke(new BasicStroke(0.1f));
-        LinLogAxis xAxis = new LinLogAxis("X",3);
+        LinLogAxis xAxis = new LinLogAxis("X",3.0, -3.0, 0);
         NumberAxis yAxis = new NumberAxis("Y");
         plot.setDomainAxis(xAxis);
         plot.setRangeAxis(yAxis);

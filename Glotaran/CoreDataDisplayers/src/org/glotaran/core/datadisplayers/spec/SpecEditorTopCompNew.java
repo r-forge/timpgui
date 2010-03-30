@@ -54,7 +54,6 @@ import org.jfree.ui.RectangleAnchor;
 import org.jfree.ui.RectangleEdge;
 import org.jfree.ui.RectangleInsets;
 import org.netbeans.api.project.FileOwnerQuery;
-import org.netbeans.api.project.Project;
 import org.openide.DialogDisplayer;
 import org.openide.NotifyDescriptor;
 import org.openide.filesystems.FileObject;
@@ -71,7 +70,7 @@ import org.openide.windows.WindowManager;
  */
 final public class SpecEditorTopCompNew extends CloneableTopComponent
         implements ChartChangeListener { //implements ChartMouseListener {
-
+    private final static long serialVersionUID = 1L;
     private static SpecEditorTopCompNew instance;
     /** path to the icon used by the component and its open action */
     //    static final String ICON_PATH = "SET/PATH/TO/ICON/HERE";
@@ -1405,16 +1404,13 @@ final public class SpecEditorTopCompNew extends CloneableTopComponent
             subchartWaveTrace.getXYPlot().getDomainAxis().setInverted(true);
         } else {
             subchartWaveTrace.getXYPlot().getDomainAxis().setUpperBound(data.getX2()[data.getX2().length - 1]);
-
         }
 
-        subchartWaveTrace.setBackgroundPaint(JFreeChart.DEFAULT_BACKGROUND_PAINT);
         XYPlot plot2 = (XYPlot) subchartWaveTrace.getPlot();
         plot2.getDomainAxis().setLowerMargin(0.0);
         plot2.getDomainAxis().setUpperMargin(0.0);
         plot2.getDomainAxis().setAutoRange(true);
         //      plot2.getDomainAxis().resizeRange(100);
-        plot2.getRenderer().setSeriesPaint(0, Color.blue);
         plot2.setDomainAxisLocation(AxisLocation.TOP_OR_RIGHT);
         plot2.setRangeAxisLocation(AxisLocation.TOP_OR_RIGHT);
 

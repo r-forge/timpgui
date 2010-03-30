@@ -18,7 +18,7 @@ import org.openide.NotifyDescriptor;
  * @author lsp
  */
 public class AverageSpecDataset extends java.awt.Panel {
-
+    private final static long serialVersionUID = 1L;
     private int numXCh, numYCh;
 
     /** Creates new form ResampleSpecDataset */

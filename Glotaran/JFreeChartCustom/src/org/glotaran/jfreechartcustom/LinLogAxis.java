@@ -56,8 +56,8 @@ public class LinLogAxis extends ValueAxis {
     /** The override number format. */
     private NumberFormat numberFormatOverride;
     /** The number at which the axis goes from linear to logarithmic*/
-    private double leftLinearBoundValue, rightLinearBoundValue, centralLinearBoundValue;
-    private final double DEFAULT_CENTRAL_LINEAR_BOUND_VALUE = 0.0;
+    private double leftLinearBoundValue, rightLinearBoundValue, linearRangeScalingFactor;
+    private final double DEFAULT_LINEAR_RANGE_SCALING_VALUE = 0.2;
     private final double DEFAULT_LEFT_LINEAR_BOUND_VALUE = Double.NEGATIVE_INFINITY;
     private final double DEFAULT_RIGHT_LINEAR_BOUND_VALUE = Double.POSITIVE_INFINITY;
 
@@ -79,7 +79,7 @@ public class LinLogAxis extends ValueAxis {
         this.tickUnit = new NumberTickUnit(1.0, new DecimalFormat("0.#"), 9);
         this.leftLinearBoundValue = DEFAULT_LEFT_LINEAR_BOUND_VALUE;
         this.rightLinearBoundValue = DEFAULT_RIGHT_LINEAR_BOUND_VALUE;
-        this.centralLinearBoundValue = DEFAULT_CENTRAL_LINEAR_BOUND_VALUE;
+        this.linearRangeScalingFactor = DEFAULT_LINEAR_RANGE_SCALING_VALUE;
     }
 
     /**
@@ -95,6 +95,7 @@ public class LinLogAxis extends ValueAxis {
         this.tickUnit = new NumberTickUnit(1.0, new DecimalFormat("0.#"), 9);
         this.leftLinearBoundValue = linearBoundValue;
         this.rightLinearBoundValue = -linearBoundValue;
+        this.linearRangeScalingFactor = DEFAULT_LINEAR_RANGE_SCALING_VALUE;
     }
 
     /**
@@ -111,24 +112,29 @@ public class LinLogAxis extends ValueAxis {
         this.tickUnit = new NumberTickUnit(1.0, new DecimalFormat("0.#"), 9);
         this.leftLinearBoundValue = leftLinearBoundValue;
         this.rightLinearBoundValue = rightLinearBoundValue;
-        this.centralLinearBoundValue = DEFAULT_CENTRAL_LINEAR_BOUND_VALUE;
+        this.linearRangeScalingFactor = DEFAULT_LINEAR_RANGE_SCALING_VALUE;
     }
 
-       /**
+    /**
      * Creates a new <code>LogAxis</code> with the given label.
      *
      * @param label  the axis label (<code>null</code> permitted).
      * @param rightLinearBoundValue number at which the axis goes from linear to logarithmic
      * (<code>null</code> permitted).
      * @param leftLinearBoundValue  number at which the axis goes from logarithmic to linear
+     * @param linearRangeScalingFactor value between 0 and 1 to signify the scale of the linear part of the axis with respect to the logarithmic part, the default is 0.2 or 20% of the total axis is linear
      */
-    public LinLogAxis(String label, double rightLinearBoundValue, double leftLinearBoundValue, double centralLinearBoundValue) {
+    public LinLogAxis(String label, double rightLinearBoundValue, double leftLinearBoundValue, double linearRangeScalingFactor) {
         super(label, createLogTickUnits(Locale.getDefault()));
         setDefaultAutoRange(new Range(0.01, 1.0));
         this.tickUnit = new NumberTickUnit(1.0, new DecimalFormat("0.#"), 9);
         this.leftLinearBoundValue = leftLinearBoundValue;
         this.rightLinearBoundValue = rightLinearBoundValue;
-        this.centralLinearBoundValue = centralLinearBoundValue;
+        if (linearRangeScalingFactor >= 0 && linearRangeScalingFactor <= 1) {
+            this.linearRangeScalingFactor = linearRangeScalingFactor;
+        } else {
+            this.linearRangeScalingFactor = DEFAULT_LINEAR_RANGE_SCALING_VALUE;
+        }
     }
 
     /**
@@ -294,6 +300,51 @@ public class LinLogAxis extends ValueAxis {
     public double calculateValue(double log) {
         return Math.pow(this.base, log);
     }
+    
+    private double calculateJava2DValue(double value) {
+        double result = 0;
+        double leftRange = 0;
+        if(value < leftLinearBoundValue) {
+            result = calculateLog(value);
+        } else if (value >= leftLinearBoundValue && value < rightLinearBoundValue) {
+            result = leftRange + (value-leftLinearBoundValue)*linearRangeScalingFactor;
+        } else {
+            result = leftRange + (value-leftLinearBoundValue)*linearRangeScalingFactor + calculateLog(value - rightLinearBoundValue);            
+        }
+        return result;
+    }
+
+    private void calculateAxisLookup() {
+        Range range = getRange();
+        double lower = range.getLowerBound();
+        double upper = range.getUpperBound();
+        double totalRange;
+        //double leftRange, rightRange,totalRange;
+        if (lower < leftLinearBoundValue && upper > rightLinearBoundValue) {
+            double leftRange = calculateLog(Math.abs(leftLinearBoundValue - lower));
+            double linRange = Math.abs(rightLinearBoundValue - leftLinearBoundValue);
+            double rightRange = calculateLog(Math.abs(upper - rightLinearBoundValue));
+            totalRange = (leftRange + rightRange) * (1 - linearRangeScalingFactor) + linRange * linearRangeScalingFactor;
+        } else if (lower < leftLinearBoundValue && upper < rightLinearBoundValue && upper > leftLinearBoundValue) {
+            double leftRange = calculateLog(Math.abs(leftLinearBoundValue - lower));
+            double rightRange = Math.abs(upper - rightLinearBoundValue);
+            totalRange = (leftRange) * (1 - linearRangeScalingFactor) + rightRange * linearRangeScalingFactor;
+        } else if (lower < leftLinearBoundValue && upper < rightLinearBoundValue) {
+            double leftRange = calculateLog(Math.abs(leftLinearBoundValue - lower));
+            double rightRange = calculateLog(Math.abs(upper - leftLinearBoundValue));
+            totalRange = (leftRange - rightRange);
+        } else if (lower > leftLinearBoundValue && lower < rightLinearBoundValue && upper > rightLinearBoundValue) {
+            double leftRange = Math.abs(rightLinearBoundValue - lower);
+            double rightRange = calculateLog(Math.abs(upper - rightLinearBoundValue));
+            totalRange = leftRange * linearRangeScalingFactor + (rightRange) * (1 - linearRangeScalingFactor);
+        } else if (lower > leftLinearBoundValue && lower < rightLinearBoundValue && upper < rightLinearBoundValue && upper > leftLinearBoundValue) {
+            totalRange = upper - lower;
+        } else { //lower > rightLinearBoundValue && upper > rightLinearBoundValue
+            double leftRange = calculateLog(Math.abs(rightLinearBoundValue - lower));
+            double rightRange = calculateLog(Math.abs(upper - rightLinearBoundValue));
+            totalRange = (rightRange - leftRange);
+        }
+    }
 
     /**
      * Converts a value on the axis scale to a Java2D coordinate relative to
@@ -308,11 +359,24 @@ public class LinLogAxis extends ValueAxis {
      */
     public double valueToJava2D(double value, Rectangle2D area,
             RectangleEdge edge) {
-
         Range range = getRange();
-        if (value < leftLinearBoundValue) {
-            double axisMin = range.getLowerBound();
-            double axisMax = range.getUpperBound();
+
+
+        //Possible scenarios for lower and upper bound.
+        //*---|-------|---*  ||
+        //*---|---*---|----  ||
+        //*---|-------|---*  ||
+        //*-*-|-------|----  ||
+        //----|---*-*-|----  ||
+        //----|-------|-*-*  ||
+
+
+
+
+
+        if (value > leftLinearBoundValue && value < rightLinearBoundValue) {
+            double axisMin = Math.max(range.getLowerBound(), leftLinearBoundValue);
+            double axisMax = Math.min(range.getUpperBound(), rightLinearBoundValue);
 
             double min = 0.0;
             double max = 0.0;
@@ -330,11 +394,16 @@ public class LinLogAxis extends ValueAxis {
                 return min
                         + ((value - axisMin) / (axisMax - axisMin)) * (max - min);
             }
-        } else { //value >= leftLinearBoundValue
-            double logAxisMin = calculateLog(Math.max(range.getLowerBound(), leftLinearBoundValue));
+        } else {
+            //plot on a logarithmic scale
+            double logAxisMin = -calculateLog(Math.abs(range.getLowerBound()));
             double logAxisMax = calculateLog(range.getUpperBound());
 
-            value = calculateLog(value);
+            if (value > 0) {
+                value = calculateLog(value);
+            } else {
+                value = -calculateLog(Math.abs(value));
+            }
 
             double min = 0.0;
             double max = 0.0;
@@ -369,7 +438,9 @@ public class LinLogAxis extends ValueAxis {
             RectangleEdge edge) {
 
         Range range = getRange();
-        if (java2DValue < leftLinearBoundValue) {
+
+
+        if (java2DValue > leftLinearBoundValue && java2DValue < rightLinearBoundValue) {
             double axisMin = range.getLowerBound();
             double axisMax = range.getUpperBound();
 
@@ -446,52 +517,66 @@ public class LinLogAxis extends ValueAxis {
             double lower = r.getLowerBound();
             double range = upper - lower;
 
-            // if fixed auto range, then derive lower bound...
-            double fixedAutoRange = getFixedAutoRange();
-            if (fixedAutoRange > 0.0) {
-                lower = upper - fixedAutoRange;
-            } else {
-                // ensure the autorange is at least <minRange> in size...
-                double minRange = getAutoRangeMinimumSize();
-                if (range < minRange) {
-                    double expand = (minRange - range) / 2;
-                    upper = upper + expand;
-                    lower = lower - expand;
-                    if (lower == upper) { // see bug report 1549218
-                        double adjust = Math.abs(lower) / 10.0;
-                        lower = lower - adjust;
-                        upper = upper + adjust;
-                    }
-                }
-                double logLower, logUpper, logRange;
-                if (lower < leftLinearBoundValue && upper > leftLinearBoundValue) {
-                    //linear range
-                    lower = lower - getLowerMargin() * range;
-                    upper = upper + getUpperMargin() * range;
-                } else if (lower >= leftLinearBoundValue && upper >= leftLinearBoundValue) {
-                    //logarithmic range
-                    logUpper = calculateLog(upper);
-                    logLower = calculateLog(lower);
-                    logRange = logUpper - logLower;
-                    logUpper = logUpper + getUpperMargin() * logRange;
-                    logLower = logLower - getLowerMargin() * logRange;
-                    upper = calculateValue(logUpper);
-                    lower = calculateValue(logLower);
-                } else { //lower < leftLinearBoundValue && upper >= leftLinearBoundValue
-                    //Make a linlog range
-                    logUpper = calculateLog(upper);
-                    logLower = calculateLog(leftLinearBoundValue);
-                    logRange = logUpper - logLower;
-                    logUpper = logUpper + getUpperMargin() * logRange;
-                    logLower = logLower - getLowerMargin() * logRange;
-                    upper = calculateValue(logUpper);
-                    lower = lower - getLowerMargin() * range;
-
+            // ensure the autorange is at least <minRange> in size...
+            double minRange = getAutoRangeMinimumSize();
+            if (range < minRange) {
+                double expand = (minRange - range) / 2;
+                upper = upper + expand;
+                lower = lower - expand;
+                if (lower == upper) { // see bug report 1549218
+                    double adjust = Math.abs(lower) / 10.0;
+                    lower = lower - adjust;
+                    upper = upper + adjust;
                 }
             }
+            // We need to caluclate the total range of axis,
+            // composed of the linear and logarithmic parts and account for
+            // different cases:
+            //log(lb-l)+(rb-lb)+log(u-rb)
+            //log(lb-l)+(u-lb)
+            //log(lb-l)+log(u-lb)
+            //(rb-l)+log(u-rb)
+            //(rb-l)+(u-rb)
+            //log(rb-l)+log(u-rb)
+            if (lower < leftLinearBoundValue && upper > rightLinearBoundValue) {
+                double leftRange = calculateLog(Math.abs(leftLinearBoundValue - lower));
+                double linRange = Math.abs(rightLinearBoundValue - leftLinearBoundValue);
+                double rightRange = calculateLog(Math.abs(upper - rightLinearBoundValue));
+                double totalRange = (leftRange + rightRange) * (1 - linearRangeScalingFactor) + linRange * linearRangeScalingFactor;
+                upper = calculateValue(calculateLog(upper) + getUpperMargin() * totalRange);
+                lower = -calculateValue(calculateLog(Math.abs(lower)) + getLowerMargin() * totalRange);
+            } else if (lower < leftLinearBoundValue && upper < rightLinearBoundValue && upper > leftLinearBoundValue) {
+                double leftRange = calculateLog(Math.abs(leftLinearBoundValue - lower));
+                double rightRange = Math.abs(upper - rightLinearBoundValue);
+                double totalRange = (leftRange) * (1 - linearRangeScalingFactor) + rightRange * linearRangeScalingFactor;
+                upper = upper + getUpperMargin() * totalRange;
+                lower = lower - getLowerMargin() * totalRange;
+            } else if (lower < leftLinearBoundValue && upper < rightLinearBoundValue) {
+                double leftRange = calculateLog(Math.abs(leftLinearBoundValue - lower));
+                double rightRange = calculateLog(Math.abs(upper - leftLinearBoundValue));
+                double totalRange = (leftRange - rightRange);
+                upper = upper + getUpperMargin() * totalRange;
+                lower = lower - getLowerMargin() * totalRange;
+            } else if (lower > leftLinearBoundValue && lower < rightLinearBoundValue && upper > rightLinearBoundValue) {
+                double leftRange = Math.abs(rightLinearBoundValue - lower);
+                double rightRange = calculateLog(Math.abs(upper - rightLinearBoundValue));
+                double totalRange = leftRange * linearRangeScalingFactor + (rightRange) * (1 - linearRangeScalingFactor);
+                upper = upper + getUpperMargin() * totalRange;
+                lower = lower - getLowerMargin() * totalRange;
+            } else if (lower > leftLinearBoundValue && lower < rightLinearBoundValue && upper < rightLinearBoundValue && upper > leftLinearBoundValue) {
+                double totalRange = upper - lower;
+                upper = upper + getUpperMargin() * totalRange;
+                lower = lower - getLowerMargin() * totalRange;
+            } else { //lower > rightLinearBoundValue && upper > rightLinearBoundValue
+                double leftRange = calculateLog(Math.abs(rightLinearBoundValue - lower));
+                double rightRange = calculateLog(Math.abs(upper - rightLinearBoundValue));
+                double totalRange = (rightRange - leftRange);
+                upper = upper + getUpperMargin() * totalRange;
+                lower = lower - getLowerMargin() * totalRange;
+            }
+
             setRange(new Range(lower, upper), false, false);
         }
-
     }
 
     /**
@@ -514,18 +599,29 @@ public class LinLogAxis extends ValueAxis {
 
         AxisState state = null;
         // if the axis is not visible, don't draw it...
+
+
         if (!isVisible()) {
             state = new AxisState(cursor);
             // even though the axis is not visible, we need ticks for the
             // gridlines...
             List<Tick> ticks = refreshTicks(g2, state, dataArea, edge);
             state.setTicks(ticks);
+
+
             return state;
+
+
         }
         state = drawTickMarksAndLabels(g2, cursor, plotArea, dataArea, edge);
         state = drawLabel(getLabel(), g2, plotArea, dataArea, edge, state);
-        createAndAddEntity(cursor, state, dataArea, edge, plotState);
+        createAndAddEntity(
+                cursor, state, dataArea, edge, plotState);
+
+
         return state;
+
+
     }
 
     /**
@@ -544,12 +640,20 @@ public class LinLogAxis extends ValueAxis {
             Rectangle2D dataArea, RectangleEdge edge) {
 
         List<Tick> result = new java.util.ArrayList<Tick>();
+
+
         if (RectangleEdge.isTopOrBottom(edge)) {
             result = refreshTicksHorizontal(g2, dataArea, edge);
+
+
         } else if (RectangleEdge.isLeftOrRight(edge)) {
             result = refreshTicksVertical(g2, dataArea, edge);
+
+
         }
         return result;
+
+
 
     }
 
@@ -571,77 +675,130 @@ public class LinLogAxis extends ValueAxis {
         Font tickLabelFont = getTickLabelFont();
         g2.setFont(tickLabelFont);
 
+
+
         if (isAutoTickUnitSelection()) {
             selectAutoTickUnit(g2, dataArea, edge);
+
+
         }
 
         TickUnit tu = getTickUnit();
+
+
         double size = tu.getSize();
+
+
         int count = calculateVisibleTickCount();
+
+
         double lowestTickValue = calculateLowestVisibleTickValue();
+
+
 
         if (count <= ValueAxis.MAXIMUM_TICK_COUNT) {
             int minorTickSpaces = getMinorTickCount();
+
+
             if (minorTickSpaces <= 0) {
                 minorTickSpaces = tu.getMinorTickCount();
+
+
             }
-            for (int minorTick = 1; minorTick < minorTickSpaces; minorTick++) {
+            for (int minorTick = 1; minorTick
+                    < minorTickSpaces; minorTick++) {
                 double minorTickValue = lowestTickValue
                         - size * minorTick / minorTickSpaces;
+
+
                 if (getRange().contains(minorTickValue)) {
                     result.add(new NumberTick(TickType.MINOR, minorTickValue,
                             "", TextAnchor.TOP_CENTER, TextAnchor.CENTER,
                             0.0));
+
+
                 }
             }
-            for (int i = 0; i < count; i++) {
+            for (int i = 0; i
+                    < count; i++) {
                 double currentTickValue = lowestTickValue + (i * size);
                 String tickLabel;
                 NumberFormat formatter = getNumberFormatOverride();
+
+
                 if (formatter != null) {
                     tickLabel = formatter.format(currentTickValue);
+
+
                 } else {
                     tickLabel = getTickUnit().valueToString(currentTickValue);
+
+
                 }
                 TextAnchor anchor = null;
                 TextAnchor rotationAnchor = null;
+
+
                 double angle = 0.0;
+
+
                 if (isVerticalTickLabels()) {
                     anchor = TextAnchor.CENTER_RIGHT;
                     rotationAnchor = TextAnchor.CENTER_RIGHT;
+
+
                     if (edge == RectangleEdge.TOP) {
                         angle = Math.PI / 2.0;
+
+
                     } else {
                         angle = -Math.PI / 2.0;
+
+
                     }
                 } else {
                     if (edge == RectangleEdge.TOP) {
                         anchor = TextAnchor.BOTTOM_CENTER;
                         rotationAnchor = TextAnchor.BOTTOM_CENTER;
+
+
                     } else {
                         anchor = TextAnchor.TOP_CENTER;
                         rotationAnchor = TextAnchor.TOP_CENTER;
+
+
                     }
                 }
 
                 Tick tick = new NumberTick(new Double(currentTickValue),
                         tickLabel, anchor, rotationAnchor, angle);
                 result.add(tick);
+
+
                 double nextTickValue = lowestTickValue + ((i + 1) * size);
-                for (int minorTick = 1; minorTick < minorTickSpaces;
+
+
+                for (int minorTick = 1; minorTick
+                        < minorTickSpaces;
                         minorTick++) {
                     double minorTickValue = currentTickValue
                             + (nextTickValue - currentTickValue)
                             * minorTick / minorTickSpaces;
+
+
                     if (getRange().contains(minorTickValue)) {
                         result.add(new NumberTick(TickType.MINOR,
                                 minorTickValue, "", TextAnchor.TOP_CENTER,
                                 TextAnchor.CENTER, 0.0));
+
+
                     }
                 }
             }
         }
         return result;
+
+
 
     }
 
@@ -654,8 +811,12 @@ public class LinLogAxis extends ValueAxis {
 
         double unit = getTickUnit().getSize();
         Range range = getRange();
+
+
         return (int) (Math.min(Math.floor(leftLinearBoundValue / unit), Math.floor(range.getUpperBound() / unit))
                 - Math.ceil(range.getLowerBound() / unit) + 1);
+
+
 
     }
 
@@ -669,8 +830,14 @@ public class LinLogAxis extends ValueAxis {
     protected double calculateLowestVisibleTickValue() {
 
         double unit = getTickUnit().getSize();
+
+
         double index = Math.min(Math.floor(leftLinearBoundValue / unit), Math.floor(getRange().getUpperBound() / unit));
+
+
         return index * unit;
+
+
 
     }
 
@@ -691,38 +858,68 @@ public class LinLogAxis extends ValueAxis {
         Font tickLabelFont = getTickLabelFont();
         g2.setFont(tickLabelFont);
         TextAnchor textAnchor;
+
+
         if (edge == RectangleEdge.TOP) {
             textAnchor = TextAnchor.BOTTOM_CENTER;
+
+
         } else {
             textAnchor = TextAnchor.TOP_CENTER;
+
+
         }
 
         if (isAutoTickUnitSelection()) {
             selectAutoTickUnit(g2, dataArea, edge);
+
+
         }
         int minorTickCount = this.tickUnit.getMinorTickCount();
+
+
         double start = Math.floor(Math.max(calculateLog(getLowerBound()), calculateLog(leftLinearBoundValue)));
+
+
         double end = Math.ceil(calculateLog(getUpperBound()));
+
+
         double current = start;
+
+
         while (current <= end) {
             double v = calculateValue(current);
+
+
             if (range.contains(v)) {
                 ticks.add(new NumberTick(TickType.MAJOR, v, createTickLabel(v),
                         textAnchor, TextAnchor.CENTER, 0.0));
-            }
-            // add minor ticks (for gridlines)
+
+
+            } // add minor ticks (for gridlines)
             double next = Math.pow(this.base, current
                     + this.tickUnit.getSize());
-            for (int i = 1; i < minorTickCount; i++) {
+
+
+            for (int i = 1; i
+                    < minorTickCount; i++) {
                 double minorV = v + i * ((next - v) / minorTickCount);
+
+
                 if (range.contains(minorV)) {
                     ticks.add(new NumberTick(TickType.MINOR, minorV, "",
                             textAnchor, TextAnchor.CENTER, 0.0));
+
+
                 }
             }
             current = current + this.tickUnit.getSize();
+
+
         }
         return ticks;
+
+
     }
 
     /**
@@ -742,38 +939,68 @@ public class LinLogAxis extends ValueAxis {
         Font tickLabelFont = getTickLabelFont();
         g2.setFont(tickLabelFont);
         TextAnchor textAnchor;
+
+
         if (edge == RectangleEdge.RIGHT) {
             textAnchor = TextAnchor.CENTER_LEFT;
+
+
         } else {
             textAnchor = TextAnchor.CENTER_RIGHT;
+
+
         }
 
         if (isAutoTickUnitSelection()) {
             selectAutoTickUnit(g2, dataArea, edge);
+
+
         }
         int minorTickCount = this.tickUnit.getMinorTickCount();
+
+
         double start = Math.floor(calculateLog(getLowerBound()));
+
+
         double end = Math.ceil(calculateLog(getUpperBound()));
+
+
         double current = start;
+
+
         while (current <= end) {
             double v = calculateValue(current);
+
+
             if (range.contains(v)) {
                 ticks.add(new NumberTick(TickType.MAJOR, v, createTickLabel(v),
                         textAnchor, TextAnchor.CENTER, 0.0));
-            }
-            // add minor ticks (for gridlines)
+
+
+            } // add minor ticks (for gridlines)
             double next = Math.pow(this.base, current
                     + this.tickUnit.getSize());
-            for (int i = 1; i < minorTickCount; i++) {
+
+
+            for (int i = 1; i
+                    < minorTickCount; i++) {
                 double minorV = v + i * ((next - v) / minorTickCount);
+
+
                 if (range.contains(minorV)) {
                     ticks.add(new NumberTick(TickType.MINOR, minorV, "",
                             textAnchor, TextAnchor.CENTER, 0.0));
+
+
                 }
             }
             current = current + this.tickUnit.getSize();
+
+
         }
         return ticks;
+
+
     }
 
     /**
@@ -792,8 +1019,12 @@ public class LinLogAxis extends ValueAxis {
 
         if (RectangleEdge.isTopOrBottom(edge)) {
             selectHorizontalAutoTickUnit(g2, dataArea, edge);
+
+
         } else if (RectangleEdge.isLeftOrRight(edge)) {
             selectVerticalAutoTickUnit(g2, dataArea, edge);
+
+
         }
 
     }
@@ -818,22 +1049,34 @@ public class LinLogAxis extends ValueAxis {
         // start with the current tick unit...
         TickUnitSource tickUnits = getStandardTickUnits();
         TickUnit unit1 = tickUnits.getCeilingTickUnit(getTickUnit());
+
+
         double unit1Width = exponentLengthToJava2D(unit1.getSize(), dataArea,
                 edge);
 
         // then extrapolate...
+
+
         double guess = (tickLabelWidth / unit1Width) * unit1.getSize();
 
         NumberTickUnit unit2 = (NumberTickUnit) tickUnits.getCeilingTickUnit(guess);
+
+
         double unit2Width = exponentLengthToJava2D(unit2.getSize(), dataArea,
                 edge);
 
         tickLabelWidth = estimateMaximumTickLabelWidth(g2, unit2);
+
+
         if (tickLabelWidth > unit2Width) {
             unit2 = (NumberTickUnit) tickUnits.getLargerTickUnit(unit2);
+
+
         }
 
         setTickUnit(unit2, false, false);
+
+
 
     }
 
@@ -852,8 +1095,14 @@ public class LinLogAxis extends ValueAxis {
     public double exponentLengthToJava2D(double length, Rectangle2D area,
             RectangleEdge edge) {
         double one = valueToJava2D(calculateValue(1.0), area, edge);
+
+
         double l = valueToJava2D(calculateValue(length + 1.0), area, edge);
+
+
         return Math.abs(l - one);
+
+
     }
 
     /**
@@ -876,22 +1125,34 @@ public class LinLogAxis extends ValueAxis {
         // start with the current tick unit...
         TickUnitSource tickUnits = getStandardTickUnits();
         TickUnit unit1 = tickUnits.getCeilingTickUnit(getTickUnit());
+
+
         double unitHeight = exponentLengthToJava2D(unit1.getSize(), dataArea,
                 edge);
 
         // then extrapolate...
+
+
         double guess = (tickLabelHeight / unitHeight) * unit1.getSize();
 
         NumberTickUnit unit2 = (NumberTickUnit) tickUnits.getCeilingTickUnit(guess);
+
+
         double unit2Height = exponentLengthToJava2D(unit2.getSize(), dataArea,
                 edge);
 
         tickLabelHeight = estimateMaximumTickLabelHeight(g2);
+
+
         if (tickLabelHeight > unit2Height) {
             unit2 = (NumberTickUnit) tickUnits.getLargerTickUnit(unit2);
+
+
         }
 
         setTickUnit(unit2, false, false);
+
+
 
     }
 
@@ -907,12 +1168,18 @@ public class LinLogAxis extends ValueAxis {
     protected double estimateMaximumTickLabelHeight(Graphics2D g2) {
 
         RectangleInsets tickLabelInsets = getTickLabelInsets();
+
+
         double result = tickLabelInsets.getTop() + tickLabelInsets.getBottom();
 
         Font tickLabelFont = getTickLabelFont();
         FontRenderContext frc = g2.getFontRenderContext();
         result += tickLabelFont.getLineMetrics("123", frc).getHeight();
+
+
         return result;
+
+
 
     }
 
@@ -935,7 +1202,11 @@ public class LinLogAxis extends ValueAxis {
             TickUnit unit) {
 
         RectangleInsets tickLabelInsets = getTickLabelInsets();
+
+
         double result = tickLabelInsets.getLeft() + tickLabelInsets.getRight();
+
+
 
         if (isVerticalTickLabels()) {
             // all tick labels have the same width (equal to the height of the
@@ -943,28 +1214,46 @@ public class LinLogAxis extends ValueAxis {
             FontRenderContext frc = g2.getFontRenderContext();
             LineMetrics lm = getTickLabelFont().getLineMetrics("0", frc);
             result += lm.getHeight();
+
+
         } else {
             // look at lower and upper bounds...
             FontMetrics fm = g2.getFontMetrics(getTickLabelFont());
             Range range = getRange();
+
+
             double lower = range.getLowerBound();
+
+
             double upper = range.getUpperBound();
             String lowerStr = "";
             String upperStr = "";
             NumberFormat formatter = getNumberFormatOverride();
+
+
             if (formatter != null) {
                 lowerStr = formatter.format(lower);
                 upperStr = formatter.format(upper);
+
+
             } else {
                 lowerStr = unit.valueToString(lower);
                 upperStr = unit.valueToString(upper);
+
+
             }
             double w1 = fm.stringWidth(lowerStr);
+
+
             double w2 = fm.stringWidth(upperStr);
             result += Math.max(w1, w2);
+
+
         }
 
         return result;
+
+
 
     }
 
@@ -977,22 +1266,44 @@ public class LinLogAxis extends ValueAxis {
     @Override
     public void zoomRange(double lowerPercent, double upperPercent) {
         Range range = getRange();
+
+
         double start = range.getLowerBound();
+
+
         double end = range.getUpperBound();
+
+
         double log1 = calculateLog(start);
+
+
         double log2 = calculateLog(end);
+
+
         double length = log2 - log1;
         Range adjusted = null;
+
+
         if (isInverted()) {
             double logA = log1 + length * (1 - upperPercent);
+
+
             double logB = log1 + length * (1 - lowerPercent);
             adjusted = new Range(calculateValue(logA), calculateValue(logB));
+
+
         } else {
             double logA = log1 + length * lowerPercent;
+
+
             double logB = log1 + length * upperPercent;
             adjusted = new Range(calculateValue(logA), calculateValue(logB));
+
+
         }
         setRange(adjusted);
+
+
     }
 
     /**
@@ -1005,15 +1316,30 @@ public class LinLogAxis extends ValueAxis {
     @Override
     public void pan(double percent) {
         Range range = getRange();
+
+
         double lower = range.getLowerBound();
+
+
         double upper = range.getUpperBound();
+
+
         double log1 = calculateLog(lower);
+
+
         double log2 = calculateLog(upper);
+
+
         double length = log2 - log1;
+
+
         double adj = length * percent;
         log1 = log1 + adj;
         log2 = log2 + adj;
-        setRange(calculateValue(log1), calculateValue(log2));
+        setRange(
+                calculateValue(log1), calculateValue(log2));
+
+
     }
 
     /**
@@ -1029,8 +1355,12 @@ public class LinLogAxis extends ValueAxis {
     protected String createTickLabel(double value) {
         if (this.numberFormatOverride != null) {
             return this.numberFormatOverride.format(value);
+
+
         } else {
             return this.tickUnit.valueToString(value);
+
+
         }
     }
 
@@ -1045,18 +1375,30 @@ public class LinLogAxis extends ValueAxis {
     public boolean equals(Object obj) {
         if (obj == this) {
             return true;
+
+
         }
         if (!(obj instanceof LinLogAxis)) {
             return false;
+
+
         }
         LinLogAxis that = (LinLogAxis) obj;
+
+
         if (this.base != that.base) {
             return false;
+
+
         }
         if (this.smallestValue != that.smallestValue) {
             return false;
+
+
         }
         return super.equals(obj);
+
+
     }
 
     /**
@@ -1067,15 +1409,25 @@ public class LinLogAxis extends ValueAxis {
     @Override
     public int hashCode() {
         int result = 193;
+
+
         long temp = Double.doubleToLongBits(this.base);
         result = 37 * result + (int) (temp ^ (temp >>> 32));
         temp = Double.doubleToLongBits(this.smallestValue);
         result = 37 * result + (int) (temp ^ (temp >>> 32));
+
+
         if (this.numberFormatOverride != null) {
             result = 37 * result + this.numberFormatOverride.hashCode();
+
+
         }
         result = 37 * result + this.tickUnit.hashCode();
+
+
         return result;
+
+
     }
 
     /**
@@ -1105,7 +1457,11 @@ public class LinLogAxis extends ValueAxis {
         units.add(new NumberTickUnit(8, numberFormat));
         units.add(new NumberTickUnit(9, numberFormat));
         units.add(new NumberTickUnit(10, numberFormat));
+
+
         return units;
+
+
     }
 
     /**
@@ -1197,7 +1553,11 @@ public class LinLogAxis extends ValueAxis {
         units.add(new NumberTickUnit(50000000000L, df10, 5));
         units.add(new NumberTickUnit(500000000000L, df10, 5));
 
+
+
         return units;
+
+
 
     }
 
@@ -1244,7 +1604,11 @@ public class LinLogAxis extends ValueAxis {
         units.add(new NumberTickUnit(2000000000, df1, 2));
         units.add(new NumberTickUnit(5000000000.0, df1, 5));
         units.add(new NumberTickUnit(10000000000.0, df1, 2));
+
+
         return units;
+
+
     }
 
     /**
@@ -1325,7 +1689,11 @@ public class LinLogAxis extends ValueAxis {
         units.add(new NumberTickUnit(5000000000L, numberFormat, 5));
         units.add(new NumberTickUnit(50000000000L, numberFormat, 5));
 
+
+
         return units;
+
+
 
     }
 
@@ -1373,7 +1741,10 @@ public class LinLogAxis extends ValueAxis {
         units.add(new NumberTickUnit(2000000000, numberFormat, 2));
         units.add(new NumberTickUnit(5000000000.0, numberFormat, 5));
         units.add(new NumberTickUnit(10000000000.0, numberFormat, 2));
+
+
         return units;
+
     }
 }
 

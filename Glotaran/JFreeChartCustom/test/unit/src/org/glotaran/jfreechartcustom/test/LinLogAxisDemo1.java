@@ -71,7 +71,7 @@ public class LinLogAxisDemo1 extends ApplicationFrame {
         plot.setRangeMinorGridlinesVisible(true);
         plot.setDomainMinorGridlineStroke(new BasicStroke(0.1f));
         plot.setRangeMinorGridlineStroke(new BasicStroke(0.1f));
-        LinLogAxis xAxis = new LinLogAxis("X",3.0, -3.0, 0);
+        LinLogAxis xAxis = new LinLogAxis("X",3.0, -5.0);
         NumberAxis yAxis = new NumberAxis("Y");
         plot.setDomainAxis(xAxis);
         plot.setRangeAxis(yAxis);
@@ -87,26 +87,26 @@ public class LinLogAxisDemo1 extends ApplicationFrame {
      */
     private static XYDataset createDataset() {
         XYSeries series = new XYSeries("Random Data");
-        series.add(-1000,1);
-        series.add(-500,1);
-        series.add(-100,1);
-        series.add(-50,1);
-        series.add(-5,1);
-        series.add(-4,1);
-        series.add(-4,1);
-        series.add(-3,1);
-        series.add(-2,1);
-        series.add(-1,1);
-        series.add(0,1);
-        series.add(1.0,1);
-        series.add(2.0,1);
-        series.add(3.0,1);
-        series.add(10.0,2);
-        series.add(30.0,3);
-        series.add(100.0,4);
-        series.add(300,5);
-        series.add(1000,6);
-        series.add(3000,7);
+        series.add(-10000,1);    // #1
+        series.add(-1000,2);
+        series.add(-500,3);
+        series.add(-100,4);
+        series.add(-50,5);       // #5
+        series.add(-5,6);
+        series.add(-4,7);
+        series.add(-3,8);
+        series.add(-2,9);
+        series.add(-1,10);       // #10
+        series.add(0,11);
+        series.add(1.0,12);
+        series.add(2.0,13);
+        series.add(3.0,14);
+        series.add(10.0,15);     // #15
+        series.add(30.0,16);
+        series.add(100.0,17);
+        series.add(300,18);
+        series.add(1000,19);
+        series.add(3000,20);     // #20
         return new XYSeriesCollection(series);
     }
 
